@@ -1,0 +1,45 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: JarisCMS Ecommerce v1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-01-30 23:48-0400\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Jefferson González <jgonzalez@jegoyalu.com>\n"
+"Language-Team: JegoYalu <servicios@jegoyalu.com>\n"
+"Language: es_PR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-Basepath: ../../\n"
+"X-Poedit-KeywordsList: t\n"
+"X-Generator: Poedit 1.5.4\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: install.php:15
+msgid "A frequently asked questions page."
+msgstr "Una página de preguntas frecuentes."
+
+#: functions.php:29 functions.php:40 functions.php:74 functions.php:79
+msgid "Questions"
+msgstr "Preguntas"
+
+#: functions.php:32 functions.php:99 functions.php:127
+msgid "Question"
+msgstr "Pregunta"
+
+#: functions.php:33 functions.php:100 functions.php:128
+msgid "Answer"
+msgstr "Contestación"
+
+#: functions.php:51 functions.php:121
+msgid "Add Question"
+msgstr "Añadir Pregunta"
+
+#: info.php:13
+msgid "FAQ"
+msgstr ""
+
+#: info.php:14
+msgid "A Frequently asked questions module that uses jequery.simpleFAQ."
+msgstr "Un modulo de preguntas frecuentes que utiliza jequery.simpleFAQ."

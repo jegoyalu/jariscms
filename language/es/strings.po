@@ -1,0 +1,5122 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Jaris CMS v1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-04-05 22:28-0400\n"
+"PO-Revision-Date: 2016-04-05 22:31-0400\n"
+"Last-Translator: Jefferson González <jgonzalez@jegoyalu.com>\n"
+"Language-Team: Jaris CMS Translators\n"
+"Language: es_PR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: t\n"
+"X-Poedit-Basepath: ../..\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Generator: Poedit 1.8.7.1\n"
+"X-Poedit-SearchPath-0: system\n"
+"X-Poedit-SearchPath-1: src\n"
+
+#: include/data_managers/block_manager.php:566
+msgid "view more"
+msgstr "ver más"
+
+#: include/data_managers/block_manager.php:698 system/pages/admin/themes.php:71
+msgid "Default"
+msgstr "Predeterminado"
+
+#: include/data_managers/block_manager.php:699
+#: system/pages/admin/blocks.php:136 system/pages/admin/blocks/add.php:67
+#: system/pages/admin/blocks/edit.php:122
+#: system/pages/admin/pages/blocks.php:223
+#: system/pages/admin/pages/blocks/add.php:90
+#: system/pages/admin/pages/blocks/add/post.php:90
+#: system/pages/admin/pages/blocks/edit.php:182
+#: system/pages/admin/pages/blocks/edit/post.php:170
+msgid "Header"
+msgstr "Encabezado"
+
+#: include/data_managers/block_manager.php:700
+#: system/pages/admin/blocks.php:137 system/pages/admin/blocks/add.php:68
+#: system/pages/admin/blocks/edit.php:123
+#: system/pages/admin/pages/blocks.php:224
+#: system/pages/admin/pages/blocks/add.php:91
+#: system/pages/admin/pages/blocks/add/post.php:91
+#: system/pages/admin/pages/blocks/edit.php:183
+#: system/pages/admin/pages/blocks/edit/post.php:171
+msgid "Left"
+msgstr "Izquierda"
+
+#: include/data_managers/block_manager.php:701
+#: system/pages/admin/blocks.php:138 system/pages/admin/blocks/add.php:69
+#: system/pages/admin/blocks/edit.php:124
+#: system/pages/admin/pages/blocks.php:225
+#: system/pages/admin/pages/blocks/add.php:92
+#: system/pages/admin/pages/blocks/add/post.php:92
+#: system/pages/admin/pages/blocks/edit.php:184
+#: system/pages/admin/pages/blocks/edit/post.php:172
+msgid "Right"
+msgstr "Derecha"
+
+#: include/data_managers/block_manager.php:702
+#: system/pages/admin/blocks.php:139 system/pages/admin/blocks/add.php:70
+#: system/pages/admin/blocks/edit.php:125
+#: system/pages/admin/pages/blocks.php:226
+#: system/pages/admin/pages/blocks/add.php:93
+#: system/pages/admin/pages/blocks/add/post.php:93
+#: system/pages/admin/pages/blocks/edit.php:185
+#: system/pages/admin/pages/blocks/edit/post.php:173
+msgid "Center"
+msgstr "Centro"
+
+#: include/data_managers/block_manager.php:703
+#: system/pages/admin/blocks.php:140 system/pages/admin/blocks/add.php:71
+#: system/pages/admin/blocks/edit.php:126
+#: system/pages/admin/pages/blocks.php:227
+#: system/pages/admin/pages/blocks/add.php:94
+#: system/pages/admin/pages/blocks/add/post.php:94
+#: system/pages/admin/pages/blocks/edit.php:186
+#: system/pages/admin/pages/blocks/edit/post.php:174
+msgid "Footer"
+msgstr "Pie"
+
+#: include/data_managers/block_manager.php:704
+#: system/pages/admin/blocks.php:141 system/pages/admin/blocks/add.php:72
+#: system/pages/admin/blocks/edit.php:127
+#: system/pages/admin/pages/blocks.php:228
+#: system/pages/admin/pages/blocks/add.php:95
+#: system/pages/admin/pages/blocks/add/post.php:95
+#: system/pages/admin/pages/blocks/edit.php:187
+#: system/pages/admin/pages/blocks/edit/post.php:175
+#: system/pages/admin/pages/files.php:183
+#: system/pages/admin/pages/images.php:200
+#: system/pages/admin/pages/list.php:135
+msgid "None"
+msgstr "Desactivado"
+
+#: include/data_managers/category_manager.php:484
+msgid "-None Selected-"
+msgstr "-Nada Seleccionado-"
+
+#: include/data_managers/fields_manager.php:306
+#, php-format
+msgid "The amount of uploaded files for %s exceeded the maximum allowed of %d."
+msgstr ""
+"La cantidad de archivos subidos para %s excede la cantidad máxima permitida "
+"de %d."
+
+#: include/data_managers/fields_manager.php:334
+msgid "File size exceeded by"
+msgstr "El tamaño de archivo excedio por"
+
+#: include/data_managers/fields_manager.php:336
+msgid "Maximum size permitted is:"
+msgstr "Tamaño máximo permitido es:"
+
+#: include/data_managers/fields_manager.php:367
+msgid "Incorrect file type uploaded for"
+msgstr "Tipo de archivo incorrecto subido para:"
+
+#: include/data_managers/fields_manager.php:369
+msgid "Supported file formats are:"
+msgstr "Los formatos soportados son:"
+
+#: include/data_managers/fields_manager.php:438
+#, php-format
+msgid ""
+"The amount of uploaded images for %s exceeded the maximum allowed of %d."
+msgstr ""
+"La cantidad de imágenes subidas para %s excede la cantidad máxima permitida "
+"de %d."
+
+#: include/data_managers/fields_manager.php:474
+msgid "Incorrect image type uploaded for"
+msgstr "Tipo de imagen incorrecto subido para:"
+
+#: include/data_managers/fields_manager.php:476
+msgid "Supported image formats are: jpeg, png and gif"
+msgstr "Los formatos de imagen soportados son:"
+
+#: include/data_managers/fields_manager.php:958
+msgid "Allowed file types:"
+msgstr "Tipos de archivos permitidos:"
+
+#: include/data_managers/fields_manager.php:967
+msgid "all"
+msgstr "todo"
+
+#: include/data_managers/fields_manager.php:971
+#: include/data_managers/fields_manager.php:1071
+msgid "Maximum allowed size is:"
+msgstr "EL tamaño máximo permitido es:"
+
+#: include/data_managers/fields_manager.php:985
+msgid "Maximum amount of files allowed:"
+msgstr "Cantidad máxima de archivos permitidos: "
+
+#: include/data_managers/fields_manager.php:1041
+msgid "Current file:"
+msgstr "Archivo actual:"
+
+#: include/data_managers/fields_manager.php:1045
+msgid "Current files:"
+msgstr "Archivos actuales:"
+
+#: include/data_managers/fields_manager.php:1068
+msgid "Allowed image types: jpeg, png, gif"
+msgstr "Tipos de imágenes permitidas: jpeg, png, gif"
+
+#: include/data_managers/fields_manager.php:1077
+msgid "Maximum amount of images allowed:"
+msgstr "Cantidad máxima de imágenes permitidas: "
+
+#: include/data_managers/fields_manager.php:1134
+#: include/data_managers/fields_manager.php:1138
+msgid "Current images:"
+msgstr "Imágenes actuales:"
+
+#: include/data_managers/input_formats_manager.php:213
+msgid "Full HTML"
+msgstr "HTML Completo"
+
+#: include/data_managers/input_formats_manager.php:214
+msgid "Supports all html tags"
+msgstr "Soporta todas las etiquetas de html."
+
+#: include/data_managers/input_formats_manager.php:218
+msgid "PHP Code"
+msgstr "Código PHP"
+
+#: include/data_managers/input_formats_manager.php:219
+msgid "For executing php code with no filtering."
+msgstr "Para ejecutar código php sin filtraje."
+
+#: include/data_managers/types_manager.php:488
+#: system/pages/admin/blocks/add.php:98 system/pages/admin/blocks/edit.php:151
+#: system/pages/admin/categories/subcategories/add.php:77
+#: system/pages/admin/categories/subcategories/delete.php:72
+#: system/pages/admin/categories/subcategories/edit.php:125
+#: system/pages/admin/languages/translate.php:66
+#: system/pages/admin/languages/translate.php:85
+#: system/pages/admin/languages/translate.php:186
+#: system/pages/admin/menus/add-item.php:78
+#: system/pages/admin/menus/delete-item.php:59
+#: system/pages/admin/menus/edit-item.php:122
+#: system/pages/admin/pages/add.php:246
+#: system/pages/admin/pages/blocks/add.php:128
+#: system/pages/admin/pages/blocks/add/post.php:128
+#: system/pages/admin/pages/blocks/edit.php:210
+#: system/pages/admin/pages/blocks/edit/post.php:198
+#: system/pages/admin/pages/delete.php:122
+#: system/pages/admin/pages/edit.php:331 system/pages/admin/types/add.php:157
+#: system/pages/admin/types/edit.php:203
+msgid "Title:"
+msgstr "Título:"
+
+#: include/data_managers/types_manager.php:490
+msgid "Displayed on the web browser title bar and inside the website."
+msgstr "Mostrado en el título del navegador y dentro del contenido."
+
+#: include/data_managers/types_manager.php:492
+#: system/pages/admin/blocks/add.php:107 system/pages/admin/blocks/edit.php:161
+#: system/pages/admin/languages/translate.php:75
+#: system/pages/admin/languages/translate.php:196
+#: system/pages/admin/pages/blocks/add.php:137
+#: system/pages/admin/pages/blocks/edit.php:220
+#: system/pages/admin/types/add.php:181 system/pages/admin/types/edit.php:224
+msgid "Content:"
+msgstr "Contenido:"
+
+#: include/data_managers/user_manager.php:627
+#: system/pages/admin/users/list.php:175
+msgid "Active"
+msgstr "Activo"
+
+#: include/data_managers/user_manager.php:628
+msgid "Pending Approval"
+msgstr "Esperando Aprobación"
+
+#: include/data_managers/user_manager.php:629
+msgid "Blocked"
+msgstr "Bloqueado"
+
+#: include/data_managers/user_manager.php:753
+msgid "Edit My Account"
+msgstr "Editar Mi Cuenta"
+
+#: include/data_managers/user_manager.php:760
+msgid "View My Profile"
+msgstr "Ver Mi Perfil"
+
+#: include/data_managers/user_manager.php:765
+#: system/pages/admin/user/content.php:16
+msgid "My Content"
+msgstr "Mi Contenido"
+
+#: include/data_managers/user_manager.php:774 system/pages/admin/start.php:17
+msgid "Control Center"
+msgstr "Centro de Control"
+
+#: include/data_managers/user_manager.php:776
+msgid "Welcome Administrator!"
+msgstr "Bienvenido Administrador!"
+
+#: include/data_managers/user_manager.php:777
+msgid ""
+"Now that you are logged in you can start modifying the website as you need."
+msgstr "Ahora que iniciaste puedes comenzar a editar el sitio como gustes."
+
+#: include/data_managers/user_manager.php:782
+msgid "Welcome"
+msgstr "¡Bienvenid@"
+
+#: include/data_managers/user_manager.php:783
+msgid ""
+"Now that you are logged in you can enjoy the privileges of registered users "
+"on"
+msgstr ""
+"Ahora que iniciaste puedes disfrutas de los privilegios de usuarios "
+"registrados en"
+
+#: include/data_managers/user_manager.php:813
+msgid "Logout"
+msgstr "Desconectar"
+
+#: include/date.php:35 include/forms.php:912
+msgid "January"
+msgstr "Enero"
+
+#: include/date.php:36 include/forms.php:912
+msgid "February"
+msgstr "Febrero"
+
+#: include/date.php:37 include/forms.php:912
+msgid "March"
+msgstr "Marzo"
+
+#: include/date.php:38 include/forms.php:912
+msgid "April"
+msgstr "Abril"
+
+#: include/date.php:39 include/forms.php:912 include/forms.php:913
+msgid "May"
+msgstr "Mayo"
+
+#: include/date.php:40 include/forms.php:912
+msgid "June"
+msgstr "Junio"
+
+#: include/date.php:41 include/forms.php:912
+msgid "July"
+msgstr "Julio"
+
+#: include/date.php:42 include/forms.php:912
+msgid "August"
+msgstr "Agosto"
+
+#: include/date.php:43 include/forms.php:912
+msgid "September"
+msgstr "Septiembre"
+
+#: include/date.php:44 include/forms.php:912
+msgid "October"
+msgstr "Octubre"
+
+#: include/date.php:45 include/forms.php:912
+msgid "November"
+msgstr "Noviembre"
+
+#: include/date.php:46 include/forms.php:912
+msgid "December"
+msgstr "Diciembre"
+
+#: include/date.php:84
+msgid "0 seconds"
+msgstr "0 segundos"
+
+#: include/date.php:88
+msgid "year"
+msgstr "año"
+
+#: include/date.php:88
+msgid "years"
+msgstr "años"
+
+#: include/date.php:89
+msgid "month"
+msgstr "mes"
+
+#: include/date.php:89
+msgid "months"
+msgstr "meses"
+
+#: include/date.php:90
+msgid "day"
+msgstr "día"
+
+#: include/date.php:90
+msgid "days"
+msgstr "días"
+
+#: include/date.php:91
+msgid "hour"
+msgstr "hora"
+
+#: include/date.php:91
+msgid "hours"
+msgstr "horas"
+
+#: include/date.php:92
+msgid "minute"
+msgstr "minuto"
+
+#: include/date.php:92
+msgid "minutes"
+msgstr "minutos"
+
+#: include/date.php:93
+msgid "second"
+msgstr "segundo"
+
+#: include/date.php:93
+msgid "seconds"
+msgstr "segundos"
+
+#: include/date.php:112
+msgid "{time} {period} ago"
+msgstr "hace {time} {period}"
+
+#: include/forms.php:279
+msgid ""
+"You need to provide all the required fields, the ones marked with asterik."
+msgstr ""
+"Necesitas proveer todos los campos requeridos, los marcados con asterisco."
+
+#: include/forms.php:295
+msgid "The sum you entered is incorrect."
+msgstr "La suma que entraste es incorrecta."
+
+#: include/forms.php:507
+msgid "Form with required fields doesn't have a proper name."
+msgstr "Un formulario mostrado con campos requeridos no tiene un nombre."
+
+#: include/forms.php:553 include/forms.php:1110
+msgid "characters left"
+msgstr "caracteres restantes"
+
+#: include/forms.php:663
+msgid "Incorrect file type selected. The type should be:"
+msgstr "Tipo de archivo seleccionado incorrecto. El tipo debería ser:"
+
+#: include/forms.php:665
+msgid "Maximum amount of files allowed reached."
+msgstr "Cantidad máxima de archivos subidos alcanzada."
+
+#: include/forms.php:668
+msgid "description"
+msgstr "descripción"
+
+#: include/forms.php:701
+msgid "Enter address to locate"
+msgstr "Escribe una dirección para localizar"
+
+#: include/forms.php:702
+msgid "Locate"
+msgstr "Localizar"
+
+#: include/forms.php:913
+msgid "Jan"
+msgstr "Ene"
+
+#: include/forms.php:913
+msgid "Feb"
+msgstr "Feb"
+
+#: include/forms.php:913
+msgid "Mar"
+msgstr "Mar"
+
+#: include/forms.php:913
+msgid "Apr"
+msgstr "Abr"
+
+#: include/forms.php:913
+msgid "Jun"
+msgstr "Jun"
+
+#: include/forms.php:913
+msgid "Jul"
+msgstr "Jul"
+
+#: include/forms.php:913
+msgid "Aug"
+msgstr "Ago"
+
+#: include/forms.php:913
+msgid "Sep"
+msgstr "Sep"
+
+#: include/forms.php:913
+msgid "Oct"
+msgstr "Oct"
+
+#: include/forms.php:913
+msgid "Nov"
+msgstr "Nov"
+
+#: include/forms.php:913
+msgid "Dec"
+msgstr "Dic"
+
+#: include/forms.php:914
+msgid "SU"
+msgstr "DO"
+
+#: include/forms.php:914
+msgid "MO"
+msgstr "LU"
+
+#: include/forms.php:914
+msgid "TU"
+msgstr "MA"
+
+#: include/forms.php:914
+msgid "WE"
+msgstr "MI"
+
+#: include/forms.php:914
+msgid "TH"
+msgstr "JU"
+
+#: include/forms.php:914
+msgid "FR"
+msgstr "VI"
+
+#: include/forms.php:914
+msgid "SA"
+msgstr "SA"
+
+#: include/forms.php:915
+msgid "Selected date is out of range"
+msgstr "El día seleccionado está fuera de rango."
+
+#: include/forms.php:1128
+msgid "Enter the sum of"
+msgstr "Entra la suma de"
+
+#: include/language.php:592 system/pages/admin/pages/list.php:110
+msgid "Submit"
+msgstr "Enviar"
+
+#: include/language.php:612
+msgid "The language already exist."
+msgstr "El lenguaje ya existe."
+
+#: include/language.php:633
+msgid ""
+"Language could not be added, check your write permissions on the "
+"<b>language</b> directory."
+msgstr ""
+"El lenguaje no se pudo crear, verifica tus permisos de escritura en el "
+"directorio de <b>language</b>."
+
+#: include/login.php:153 system/pages/register.php:277
+msgid ""
+"Your registration is awaiting for approval. If the registration is approved "
+"you will receive an email notification."
+msgstr ""
+"Tu registración esta en proceso de aprobación. Si es aprobada recibirás una "
+"notificación por correo electrónico ."
+
+#: include/login.php:190
+msgid "The username or password you entered is incorrect."
+msgstr "El usuario o contraseña que escribio es incorrecto."
+
+#: include/login.php:421
+msgid "Enable login in offline mode"
+msgstr "Permitir inicio en modo fuera de servicio"
+
+#: include/login.php:425 include/login.php:434 include/login.php:444
+#: include/login.php:458 include/login.php:465 include/login.php:473
+#: include/login.php:488 include/login.php:495 include/login.php:502
+#: include/login.php:509 include/login.php:524 include/login.php:531
+#: include/login.php:547 include/login.php:554 include/system.php:461
+#: system/pages/admin/pages/blocks.php:96
+#: system/pages/admin/pages/blocks/post/settings.php:38
+#: system/pages/admin/pages/delete.php:45 system/pages/admin/pages/edit.php:254
+#: system/pages/admin/pages/files.php:90
+#: system/pages/admin/pages/images.php:106
+#: system/pages/admin/pages/translate.php:42
+#: system/pages/admin/users/list.php:113
+msgid "View"
+msgstr "Ver"
+
+#: include/login.php:426 include/login.php:435 include/login.php:445
+#: include/login.php:459 include/login.php:466 include/login.php:474
+#: include/login.php:489 include/login.php:496 include/login.php:503
+#: include/login.php:511 include/login.php:517 include/login.php:525
+#: include/login.php:532 include/login.php:548
+msgid "Create"
+msgstr "Crear"
+
+#: include/login.php:427 include/login.php:436 include/login.php:446
+#: include/login.php:460 include/login.php:467 include/login.php:475
+#: include/login.php:490 include/login.php:497 include/login.php:504
+#: include/login.php:512 include/login.php:518 include/login.php:526
+#: include/login.php:533 include/login.php:538 include/login.php:549
+#: include/system.php:459 system/pages/admin/blocks.php:215
+#: system/pages/admin/categories.php:135
+#: system/pages/admin/categories/subcategories.php:128
+#: system/pages/admin/groups.php:65 system/pages/admin/input-formats.php:66
+#: system/pages/admin/languages/edit.php:441
+#: system/pages/admin/languages/edit.php:488 system/pages/admin/menus.php:113
+#: system/pages/admin/pages/blocks.php:93
+#: system/pages/admin/pages/blocks.php:333
+#: system/pages/admin/pages/blocks/post/settings.php:37
+#: system/pages/admin/pages/delete.php:43 system/pages/admin/pages/edit.php:25
+#: system/pages/admin/pages/edit.php:252 system/pages/admin/pages/files.php:87
+#: system/pages/admin/pages/images.php:103
+#: system/pages/admin/pages/list.php:236
+#: system/pages/admin/pages/translate.php:39
+#: system/pages/admin/settings/api.php:68 system/pages/admin/types.php:130
+#: system/pages/admin/types/fields.php:148
+#: system/pages/admin/user/content.php:173
+#: system/pages/admin/users/delete.php:31 system/pages/admin/users/list.php:193
+msgid "Edit"
+msgstr "Editar"
+
+#: include/login.php:428 include/login.php:437 include/login.php:448
+#: include/login.php:461 include/login.php:468 include/login.php:476
+#: include/login.php:491 include/login.php:498 include/login.php:505
+#: include/login.php:513 include/login.php:519 include/login.php:527
+#: include/login.php:534 include/login.php:543 include/login.php:558
+#: system/pages/admin/blocks.php:225 system/pages/admin/blocks/edit.php:99
+#: system/pages/admin/blocks/translate.php:33
+#: system/pages/admin/categories.php:136
+#: system/pages/admin/categories/subcategories.php:138
+#: system/pages/admin/groups.php:67 system/pages/admin/input-formats.php:67
+#: system/pages/admin/languages/edit.php:453
+#: system/pages/admin/languages/edit.php:500 system/pages/admin/menus.php:124
+#: system/pages/admin/menus.php:254 system/pages/admin/modules.php:91
+#: system/pages/admin/pages/blocks.php:120
+#: system/pages/admin/pages/blocks.php:350
+#: system/pages/admin/pages/blocks/edit.php:141
+#: system/pages/admin/pages/blocks/edit/post.php:129
+#: system/pages/admin/pages/blocks/post/settings.php:43
+#: system/pages/admin/pages/delete.php:25
+#: system/pages/admin/pages/delete.php:64 system/pages/admin/pages/edit.php:273
+#: system/pages/admin/pages/files.php:114
+#: system/pages/admin/pages/files.php:249
+#: system/pages/admin/pages/images.php:130
+#: system/pages/admin/pages/images.php:289
+#: system/pages/admin/pages/list.php:237
+#: system/pages/admin/pages/translate.php:66
+#: system/pages/admin/settings/api.php:69
+#: system/pages/admin/settings/sqlite.php:60 system/pages/admin/types.php:132
+#: system/pages/admin/types/fields.php:149
+#: system/pages/admin/user/content.php:177
+#: system/pages/admin/users/edit.php:235 system/pages/admin/users/list.php:194
+msgid "Delete"
+msgstr "Borrar"
+
+#: include/login.php:429 include/login.php:439
+msgid "Return Code"
+msgstr "Código de Regreso"
+
+#: include/login.php:430 include/login.php:440 include/login.php:452
+msgid "Select input format"
+msgstr "Selecciona el formato de entrada"
+
+#: include/login.php:438
+msgid "Edit post settings"
+msgstr "Editar configuraciones de envio"
+
+#: include/login.php:447 include/system.php:466
+msgid "Duplicate"
+msgstr "Duplicar"
+
+#: include/login.php:449
+msgid "Select type"
+msgstr "Seleccionar el tipo"
+
+#: include/login.php:450
+msgid "Select groups"
+msgstr "Seleccionar los grupos"
+
+#: include/login.php:451
+msgid "Add/Edit Meta Tags"
+msgstr "Añadir/Editar Meta Tags"
+
+#: include/login.php:453
+msgid "Permit manually enter uri"
+msgstr "Permitir la entrada manual de uri"
+
+#: include/login.php:454
+msgid "Can edit all users content"
+msgstr "Puede editar el contenido de otros usuarios"
+
+#: include/login.php:469
+msgid "Edit upload width"
+msgstr "Editar ancho de subidas"
+
+#: include/login.php:510
+msgid "Configure"
+msgstr "Configurar"
+
+#: include/login.php:523
+msgid "Auto complete"
+msgstr "Auto completar"
+
+#: include/login.php:542 system/pages/admin/types/fields/add.php:145
+#: system/pages/admin/types/fields/edit.php:163
+msgid "Select"
+msgstr "Seleccionar"
+
+#: include/login.php:550 system/pages/admin/blocks/edit.php:101
+#: system/pages/admin/blocks/translate.php:35
+#: system/pages/admin/blocks/translate.php:68
+#: system/pages/admin/pages/blocks.php:115
+#: system/pages/admin/pages/blocks/post/settings.php:42
+#: system/pages/admin/pages/delete.php:60 system/pages/admin/pages/edit.php:269
+#: system/pages/admin/pages/files.php:109
+#: system/pages/admin/pages/images.php:125
+#: system/pages/admin/pages/translate.php:61
+#: system/pages/admin/pages/translate.php:99
+msgid "Translate"
+msgstr "Traducir"
+
+#: include/login.php:555 system/pages/admin/modules.php:80
+msgid "Install"
+msgstr "Instalar"
+
+#: include/login.php:556 system/pages/admin/modules.php:103
+msgid "Uninstall"
+msgstr "Desinstalar"
+
+#: include/login.php:557 system/pages/admin/modules.php:114
+msgid "Upgrade"
+msgstr "Actualizar"
+
+#: include/login.php:562
+msgid "View Keys"
+msgstr "Ver Llaves"
+
+#: include/login.php:563
+msgid "Add Keys"
+msgstr " Agregar Llaves"
+
+#: include/login.php:564
+msgid "Edit Keys"
+msgstr "Editar Llaves"
+
+#: include/login.php:565
+msgid "Delete Keys"
+msgstr "Eliminar Llaves"
+
+#: include/login.php:570 system/pages/admin/user.php:102
+#: system/skeleton/data/blocks/left.php:49
+msgid "Login"
+msgstr "Iniciar"
+
+#: include/login.php:571 include/system.php:735
+#: system/pages/admin/blocks.php:18 system/pages/admin/blocks/edit.php:100
+#: system/pages/admin/blocks/translate.php:34
+#: system/pages/admin/pages/blocks.php:100
+#: system/pages/admin/pages/blocks/edit.php:152
+#: system/pages/admin/pages/blocks/edit/post.php:140
+#: system/pages/admin/pages/blocks/post/settings.php:39
+#: system/pages/admin/pages/delete.php:48 system/pages/admin/pages/edit.php:257
+#: system/pages/admin/pages/files.php:94
+#: system/pages/admin/pages/images.php:110
+#: system/pages/admin/pages/translate.php:46
+msgid "Blocks"
+msgstr "Bloques"
+
+#: include/login.php:572
+msgid "Content Blocks"
+msgstr "Bloques de Contenido"
+
+#: include/login.php:573 include/system.php:705
+msgid "Content"
+msgstr "Contenido"
+
+#: include/login.php:574
+msgid "Content Types"
+msgstr "Tipo de Contenido"
+
+#: include/login.php:575 system/pages/admin/categories.php:17
+#: system/pages/admin/categories/subcategories.php:50
+#: system/pages/admin/pages/add.php:205 system/pages/admin/pages/edit.php:293
+#: system/pages/admin/types/add.php:115 system/pages/admin/types/edit.php:162
+#: system/pages/search.php:210
+msgid "Categories"
+msgstr "Categorías"
+
+#: include/login.php:576 system/pages/admin/pages/blocks.php:110
+#: system/pages/admin/pages/blocks/post/settings.php:41
+#: system/pages/admin/pages/delete.php:56 system/pages/admin/pages/edit.php:265
+#: system/pages/admin/pages/files.php:17 system/pages/admin/pages/files.php:104
+#: system/pages/admin/pages/images.php:120
+#: system/pages/admin/pages/translate.php:56
+msgid "Files"
+msgstr "Archivos"
+
+#: include/login.php:577 system/pages/admin/pages/blocks.php:105
+#: system/pages/admin/pages/blocks/post/settings.php:40
+#: system/pages/admin/pages/delete.php:52 system/pages/admin/pages/edit.php:261
+#: system/pages/admin/pages/files.php:99 system/pages/admin/pages/images.php:17
+#: system/pages/admin/pages/images.php:115
+#: system/pages/admin/pages/translate.php:51
+msgid "Images"
+msgstr "Imágenes"
+
+#: include/login.php:578 system/pages/admin/input-formats.php:17
+msgid "Input Formats"
+msgstr "Formatos de Entrada"
+
+#: include/login.php:579 system/pages/admin/categories.php:137
+#: system/pages/admin/categories/subcategories.php:17
+msgid "Subcategories"
+msgstr "Subcategorías"
+
+#: include/login.php:580 include/system.php:765 system/pages/admin/menus.php:17
+msgid "Menus"
+msgstr "Menus"
+
+#: include/login.php:581
+msgid "Menu Items"
+msgstr "Menu Items"
+
+#: include/login.php:582 include/system.php:795
+#: system/pages/admin/groups.php:24 system/pages/admin/users.php:17
+#: system/pages/admin/users.php:126
+msgid "Users"
+msgstr "Usuarios"
+
+#: include/login.php:583 include/system.php:825
+#: system/pages/admin/groups.php:17
+#: system/pages/admin/groups/permissions.php:29 system/pages/admin/users.php:30
+#: system/pages/admin/users.php:88 system/pages/admin/users/export.php:27
+#: system/pages/admin/users/list.php:27
+#: system/pages/admin/users/re-index.php:27
+msgid "Groups"
+msgstr "Grupos"
+
+#: include/login.php:584 system/pages/admin/settings.php:17
+msgid "Site Settings"
+msgstr "Configuraciones del Sitio"
+
+#: include/login.php:585 system/pages/admin/settings.php:24
+#: system/pages/admin/themes.php:17
+msgid "Themes"
+msgstr "Temas"
+
+#: include/login.php:586
+msgid "Types Access"
+msgstr "Acceso a los Tipos"
+
+#: include/login.php:587 include/system.php:927
+#: system/pages/admin/languages.php:17
+msgid "Languages"
+msgstr "Lenguajes"
+
+#: include/login.php:588 include/system.php:945
+#: system/pages/admin/modules.php:17
+msgid "Modules"
+msgstr "Módulos"
+
+#: include/mail.php:135
+msgid "Your password has been reset."
+msgstr "Tu contraseña fue reinicializada."
+
+#: include/mail.php:139
+msgid "Hi"
+msgstr "Hola"
+
+#: include/mail.php:140
+msgid "Your current username is:"
+msgstr "Tu nombre de usuario actual es:"
+
+#: include/mail.php:141
+msgid "The new password for your account is:"
+msgstr "La nueva contraseña para tu cuenta es:"
+
+#: include/mail.php:142
+msgid ""
+"Is recommended that you log in and change the password as soon as possible."
+msgstr ""
+"Es recomendable que inicies y cambies tu contraseña lo más pronto posible."
+
+#: include/mail.php:143
+msgid "To log in access the following url:"
+msgstr "Para iniciar puedes accesar el siguiente enlace:"
+
+#: include/mail.php:174
+msgid ""
+"A new account has been created and is pending for administration approval."
+msgstr ""
+"Una nueva cuenta a sido creado y esta esperando por aprobación de parte de "
+"los administradores."
+
+#: include/mail.php:175 system/pages/admin/users/add.php:199
+#: system/pages/register.php:312
+msgid "Fullname:"
+msgstr "Nombre completo:"
+
+#: include/mail.php:176 system/pages/admin/pages/list.php:109
+#: system/pages/admin/settings/api/add-key.php:85
+#: system/pages/admin/settings/api/edit-key.php:90
+#: system/pages/admin/settings/mailer.php:142
+#: system/pages/admin/users/add.php:211 system/pages/admin/users/delete.php:68
+#: system/pages/admin/users/edit.php:194 system/pages/forgot-password.php:69
+#: system/pages/register.php:323 system/skeleton/data/blocks/left.php:33
+msgid "Username:"
+msgstr "Usuario:"
+
+#: include/mail.php:177 system/pages/admin/languages/add.php:89
+#: system/pages/admin/languages/edit-info.php:96
+#: system/pages/admin/languages/info.php:63
+#: system/pages/admin/users/add.php:240 system/pages/forgot-password.php:82
+#: system/pages/register.php:351
+msgid "E-mail:"
+msgstr "Correo Electrónico:"
+
+#: include/mail.php:178
+msgid ""
+"For more details or approve this registration visit the users management "
+"page:"
+msgstr ""
+"Para más detalles o aprobar esta registración visita la sección de manejo de "
+"usuarios:"
+
+#: include/mail.php:186
+msgid "New registration pending for approval"
+msgstr "Nueva registración esperado por aprobación"
+
+#: include/module.php:361
+msgid "The following modules need to be installed first:"
+msgstr "Los siguientes módulos deben ser instalados primero:"
+
+#: include/module.php:534
+msgid "This module is a dependency and can't be uninstalled."
+msgstr "Este módulo es una dependencia y no puede ser desinstalado."
+
+#: include/search.php:856 include/system.php:1086
+#: system/pages/admin/languages/edit.php:380
+#: system/pages/admin/languages/edit.php:544
+msgid "Previous"
+msgstr "Anterior"
+
+#: include/search.php:929 include/system.php:1111
+#: system/pages/admin/languages/edit.php:392
+#: system/pages/admin/languages/edit.php:556
+msgid "Next"
+msgstr "Siguiente"
+
+#: include/system.php:22 system/pages/admin/settings.php:640
+msgid "Page not found"
+msgstr "Página no encontrada"
+
+#: include/system.php:23
+msgid "The page you was searching doesn't exists."
+msgstr "La página que estabas buscando no existe."
+
+#: include/system.php:47 system/pages/admin/pages.php:135
+#: system/pages/admin/pages/list.php:39
+msgid "Create Page"
+msgstr "Crear Página"
+
+#: include/system.php:304
+msgid "Check your write permissions on the data directory."
+msgstr "Verifica tus permisos de escritura en el directorio de data."
+
+#: include/system.php:307
+msgid "Check your write permissions on the language directory."
+msgstr "Verifica tus permisos de escritura en el directorio de language."
+
+#: include/system.php:310
+msgid ""
+"Translations could not be repositioned with the new uri. Check your write "
+"permissions on the language directory."
+msgstr ""
+"La traducción no pudo ser reposisionada al nuevo uri. Verifica tus permisos "
+"de escritura en el directorio de language."
+
+#: include/system.php:313
+msgid ""
+"Translations could not be deleted. Check your write permissions on the "
+"language directory."
+msgstr ""
+"La traducción no pudo ser borrada. Verifica tus permisos de escritura en el "
+"directorio de language."
+
+#: include/system.php:316
+msgid "The file type must be JPEG, PNG or GIF."
+msgstr "El tipo de archivo debe ser JPEG, PNG ó GIF."
+
+#: include/system.php:319
+msgid "The group machine name is already in use."
+msgstr "El nombre máquina del grupo esta ya en uso."
+
+#: include/system.php:322
+msgid "This is a system group and can not be deleted."
+msgstr "Esto es un grupo del sistema y no puede ser borrado."
+
+#: include/system.php:325
+msgid "This is a system group and its machine name can not be modified."
+msgstr ""
+"Esto es un grupo del sistema y su nombre máquina no puede ser cambiado."
+
+#: include/system.php:328
+msgid "The menu machine name is already in use."
+msgstr "El nombre máquina del menu ya esta en uso"
+
+#: include/system.php:331
+msgid "The type machine name is already in use."
+msgstr "El nombre máquina del tipo ya esta en uso."
+
+#: include/system.php:334
+msgid "The input format machine name is already in use."
+msgstr "El nombre máquina del formato de entrada ya esta en uso"
+
+#: include/system.php:337
+msgid "The category machine name is already in use."
+msgstr "El nombre máquina de la categoría ya esta en uso."
+
+#: include/system.php:340
+msgid "This is a system type and can not be deleted."
+msgstr "Esto es un tipo del sistema y no puede ser borrado."
+
+#: include/system.php:343
+msgid "The username is already in use."
+msgstr "El nombre de usuario ya esta en uso."
+
+#: include/system.php:346
+msgid "Theres no user that match your criteria on the system."
+msgstr "No hay ningun usuario en el sistema con los criterios que entro."
+
+#: include/system.php:349
+msgid "Operation could not be completed."
+msgstr "Operación no puede ser completada."
+
+#: include/system.php:542 system/pages/admin/settings/errors.php:110
+msgid "Error"
+msgstr "Error"
+
+#: include/system.php:543 system/pages/admin/modules/upload.php:31
+#: system/pages/admin/settings/errors.php:111
+#: system/pages/admin/settings/sqlite/upload.php:31
+#: system/pages/admin/themes/upload.php:31
+msgid "Warning"
+msgstr "Warning"
+
+#: include/system.php:544 system/pages/admin/settings/errors.php:112
+msgid "Parsing Error"
+msgstr "Parsing Error"
+
+#: include/system.php:545 system/pages/admin/settings/errors.php:113
+msgid "Notice"
+msgstr "Notice"
+
+#: include/system.php:546 system/pages/admin/settings/errors.php:114
+msgid "Core Error"
+msgstr "Core Error"
+
+#: include/system.php:547 system/pages/admin/settings/errors.php:115
+msgid "Core Warning"
+msgstr "Core Warning"
+
+#: include/system.php:548 system/pages/admin/settings/errors.php:116
+msgid "Compile Error"
+msgstr "Compile Error"
+
+#: include/system.php:549 system/pages/admin/settings/errors.php:117
+msgid "Compile Warning"
+msgstr "Compile Warning"
+
+#: include/system.php:550 system/pages/admin/settings/errors.php:118
+msgid "User Error"
+msgstr "User Error"
+
+#: include/system.php:551 system/pages/admin/settings/errors.php:119
+msgid "User Warning"
+msgstr "User Warning"
+
+#: include/system.php:552 system/pages/admin/settings/errors.php:120
+msgid "User Notice"
+msgstr "User Notice"
+
+#: include/system.php:553 system/pages/admin/settings/errors.php:121
+msgid "Runtime Notice"
+msgstr "Runtime Notice"
+
+#: include/system.php:554 system/pages/admin/settings/errors.php:122
+msgid "Catchable Fatal Error"
+msgstr "Catchable Fatal Error"
+
+#: include/system.php:557
+msgid "in"
+msgstr "in"
+
+#: include/system.php:558
+msgid "on line"
+msgstr "on line"
+
+#: include/system.php:632 include/system.php:716 include/system.php:746
+#: include/system.php:776 include/system.php:806 include/system.php:908
+#: system/pages/admin/pages/add.php:25 system/pages/admin/pages/types.php:74
+msgid "Add"
+msgstr "Agregar"
+
+#: include/system.php:634
+msgid "Create new content."
+msgstr "Crear nuevo contenido."
+
+#: include/system.php:641
+msgid "Navigate"
+msgstr "Navegar"
+
+#: include/system.php:643
+msgid "View and edit existing content."
+msgstr "Ver y editar contenido existente."
+
+#: include/system.php:650
+msgid "Add Type"
+msgstr " Agregar Tipo"
+
+#: include/system.php:652
+msgid "Create new content type."
+msgstr "Crear nuevo tipo de contenido."
+
+#: include/system.php:659 system/pages/admin/types/fields.php:56
+msgid "Manage Types"
+msgstr "Manejar Tipos"
+
+#: include/system.php:661
+msgid "View and edit existing content types."
+msgstr "Ver y editar tipos de contenido existente."
+
+#: include/system.php:668
+msgid "Add Input Format"
+msgstr "Añadir Formato de Entrada"
+
+#: include/system.php:670
+msgid "Create new content input format."
+msgstr "Crear nuevo formato de entrada de contenido."
+
+#: include/system.php:677
+msgid "Manage Input Formats"
+msgstr "Manejar Formatos de Entrada"
+
+#: include/system.php:679
+msgid "View and edit existing content input formats."
+msgstr "Ver y editar los formatos de entrada de contenido existente."
+
+#: include/system.php:686
+msgid "Add Category"
+msgstr "Agregar Categoría"
+
+#: include/system.php:688
+msgid "Create new content categories."
+msgstr "Crear nuevas categorías de contenido."
+
+#: include/system.php:695
+msgid "Manage Categories"
+msgstr "Manejar Categorías"
+
+#: include/system.php:697
+msgid "View and edit existing content categories."
+msgstr "Ver y editar tipos de categorías existente."
+
+#: include/system.php:718
+msgid "Create new blocks."
+msgstr "Crear nuevos bloques."
+
+#: include/system.php:725 include/system.php:755 include/system.php:785
+#: include/system.php:815 include/system.php:836 include/system.php:917
+#: include/system.php:938
+msgid "Manage"
+msgstr "Manejar"
+
+#: include/system.php:727
+msgid "View and edit existing blocks."
+msgstr "Ver y editar bloques existentes."
+
+#: include/system.php:748
+msgid "Create new menu."
+msgstr "Crear nuevo menu."
+
+#: include/system.php:757
+msgid "View and edit existing menus and its menu items."
+msgstr "Ver y editar menús y sus ítems existentes."
+
+#: include/system.php:778
+msgid "Create new user."
+msgstr "Crear nuevo usuario."
+
+#: include/system.php:787
+msgid "View and edit existing users."
+msgstr "Ver y editar usuarios existentes."
+
+#: include/system.php:808
+msgid "Create new group."
+msgstr "Crear nuevo grupo."
+
+#: include/system.php:817
+msgid "View and edit existing groups."
+msgstr "Ver y editar grupos existentes."
+
+#: include/system.php:838
+msgid "Modify site settings."
+msgstr "Modificar configuraciones del sitio."
+
+#: include/system.php:842
+msgid "Advanced"
+msgstr "Avanzado"
+
+#: include/system.php:844
+msgid "Modify the avanced system settings."
+msgstr "Modificar configuraciones avanzadas del sistema."
+
+#: include/system.php:851
+msgid "Search Engine"
+msgstr "Motor de búsqueda"
+
+#: include/system.php:853
+msgid "Change the settings of the search page."
+msgstr "Cambiar las configuraciones de la página de búsquedas."
+
+#: include/system.php:860
+msgid "Theme"
+msgstr "Temas"
+
+#: include/system.php:862
+msgid "View and choose site theme."
+msgstr "Ver y escoger tema para el sitio."
+
+#: include/system.php:869 system/pages/admin/settings/api.php:17
+msgid "Api Access"
+msgstr "Acceso a API"
+
+#: include/system.php:871
+msgid "View and manage api keys."
+msgstr "Ver y manejar las llaves del api."
+
+#: include/system.php:878 system/pages/admin/settings/errors.php:17
+msgid "Error Log"
+msgstr "Log de Errores"
+
+#: include/system.php:880
+msgid "View system registered errors."
+msgstr "Ver los errores registrados del sistema."
+
+#: include/system.php:887 system/pages/admin/settings/about.php:17
+msgid "About JarisCMS"
+msgstr "Acerca de JarisCMS"
+
+#: include/system.php:889
+msgid "View current jaris version and developer information."
+msgstr "Ver versión actual de JarisCMS e información del desarrollador."
+
+#: include/system.php:897
+msgid "Settings"
+msgstr "Configuraciones"
+
+#: include/system.php:910
+msgid "Add another language to the system."
+msgstr "Agregar otro lenguaje al sistema."
+
+#: include/system.php:919
+msgid "Manage available languages on the system."
+msgstr "Manejar lenguajes disponibles al sistema."
+
+#: include/system.php:940
+msgid "Install or uninstall modules to the system."
+msgstr "Instalar o desinstalar módulos al sistema."
+
+#: include/theme.php:133
+msgid "JarisCMS - Copyright JegoYalu.com. All rights reserved."
+msgstr "JarisCMS - Copyright JegoYalu.com. Todos los derechos reservervados."
+
+#: include/theme.php:302 include/theme.php:395
+msgid "edit"
+msgstr "editar"
+
+#: include/theme.php:782
+msgid "error:"
+msgstr "error:"
+
+#: system/pages/access-denied.php:17
+msgid "Access Denied"
+msgstr "Acceso Denegado"
+
+#: system/pages/access-denied.php:23
+msgid "You dont have sufficient permissions to access the page."
+msgstr "No tienes los permisos suficientes para accesar la página."
+
+#: system/pages/admin/blocks.php:78 system/pages/admin/pages/blocks.php:126
+#: system/pages/admin/pages/blocks/post/settings.php:45
+msgid "Create Block"
+msgstr "Crear Bloque"
+
+#: system/pages/admin/blocks.php:126 system/pages/admin/categories.php:82
+#: system/pages/admin/categories/edit.php:44
+#: system/pages/admin/categories/subcategories.php:213
+#: system/pages/admin/groups/edit.php:59
+#: system/pages/admin/input-formats/edit.php:54
+#: system/pages/admin/menus.php:203 system/pages/admin/pages/blocks.php:213
+#: system/pages/admin/pages/files.php:158
+#: system/pages/admin/pages/images.php:175 system/pages/admin/types.php:76
+#: system/pages/admin/types/edit.php:73 system/pages/admin/types/fields.php:94
+msgid "Your changes have been saved."
+msgstr "Tus cambios han sido guardados."
+
+#: system/pages/admin/blocks.php:167 system/pages/admin/categories.php:96
+#: system/pages/admin/categories/subcategories.php:258
+#: system/pages/admin/menus.php:271 system/pages/admin/pages/blocks.php:258
+#: system/pages/admin/pages/images.php:228 system/pages/admin/types.php:90
+#: system/pages/admin/types/fields.php:116
+msgid "Order"
+msgstr "Orden"
+
+#: system/pages/admin/blocks.php:168 system/pages/admin/categories.php:98
+#: system/pages/admin/groups.php:35 system/pages/admin/input-formats.php:37
+#: system/pages/admin/pages/blocks.php:259
+#: system/pages/admin/pages/files.php:210
+#: system/pages/admin/pages/images.php:230
+#: system/pages/admin/pages/types.php:33 system/pages/admin/settings.php:396
+#: system/pages/admin/settings/api.php:53 system/pages/admin/types.php:92
+#: system/pages/admin/types/fields.php:118
+msgid "Description"
+msgstr "Descripción"
+
+#: system/pages/admin/blocks.php:169 system/pages/admin/pages/blocks.php:260
+msgid "Position"
+msgstr "Posición"
+
+#: system/pages/admin/blocks.php:170 system/pages/admin/blocks/translate.php:45
+#: system/pages/admin/categories.php:99
+#: system/pages/admin/categories/subcategories.php:261
+#: system/pages/admin/groups.php:36 system/pages/admin/input-formats.php:44
+#: system/pages/admin/languages.php:34
+#: system/pages/admin/languages/edit.php:411 system/pages/admin/menus.php:274
+#: system/pages/admin/modules.php:32 system/pages/admin/pages/blocks.php:272
+#: system/pages/admin/pages/files.php:214
+#: system/pages/admin/pages/images.php:234
+#: system/pages/admin/pages/list.php:173
+#: system/pages/admin/pages/translate.php:77
+#: system/pages/admin/pages/types.php:34 system/pages/admin/settings/api.php:54
+#: system/pages/admin/settings/sqlite.php:33 system/pages/admin/types.php:93
+#: system/pages/admin/types/fields.php:119
+#: system/pages/admin/user/content.php:117
+#: system/pages/admin/users/list.php:158
+msgid "Operation"
+msgstr "Operación"
+
+#: system/pages/admin/blocks.php:240 system/pages/admin/pages/blocks.php:366
+msgid "No block available."
+msgstr "No hay bloques disponibles"
+
+#: system/pages/admin/blocks.php:253 system/pages/admin/blocks/add.php:194
+#: system/pages/admin/blocks/edit.php:263 system/pages/admin/categories.php:157
+#: system/pages/admin/categories/add.php:136
+#: system/pages/admin/categories/edit.php:148
+#: system/pages/admin/categories/subcategories.php:278
+#: system/pages/admin/categories/subcategories/add.php:117
+#: system/pages/admin/categories/subcategories/edit.php:153
+#: system/pages/admin/groups/add.php:92 system/pages/admin/groups/edit.php:120
+#: system/pages/admin/groups/permissions.php:114
+#: system/pages/admin/input-formats/add.php:169
+#: system/pages/admin/input-formats/edit.php:183
+#: system/pages/admin/languages/add.php:105
+#: system/pages/admin/languages/edit-info.php:113
+#: system/pages/admin/languages/edit.php:90
+#: system/pages/admin/languages/edit.php:173
+#: system/pages/admin/languages/translate.php:120
+#: system/pages/admin/languages/translate.php:207
+#: system/pages/admin/menus.php:299 system/pages/admin/menus/add-item.php:168
+#: system/pages/admin/menus/add.php:85
+#: system/pages/admin/menus/configuration.php:78
+#: system/pages/admin/menus/edit-item.php:203
+#: system/pages/admin/menus/rename.php:121 system/pages/admin/pages/add.php:398
+#: system/pages/admin/pages/blocks.php:379
+#: system/pages/admin/pages/blocks/add.php:199
+#: system/pages/admin/pages/blocks/add/post.php:201
+#: system/pages/admin/pages/blocks/edit.php:289
+#: system/pages/admin/pages/blocks/edit/post.php:276
+#: system/pages/admin/pages/blocks/post/settings.php:196
+#: system/pages/admin/pages/duplicate.php:157
+#: system/pages/admin/pages/edit.php:467 system/pages/admin/pages/files.php:268
+#: system/pages/admin/pages/files/add.php:126
+#: system/pages/admin/pages/images.php:310
+#: system/pages/admin/pages/images/add.php:201
+#: system/pages/admin/settings.php:649
+#: system/pages/admin/settings/advanced.php:424
+#: system/pages/admin/settings/api/add-key.php:136
+#: system/pages/admin/settings/api/edit-key.php:143
+#: system/pages/admin/settings/mailer.php:166
+#: system/pages/admin/settings/search.php:202 system/pages/admin/themes.php:123
+#: system/pages/admin/types.php:151 system/pages/admin/types/add.php:209
+#: system/pages/admin/types/edit.php:256
+#: system/pages/admin/types/fields.php:168
+#: system/pages/admin/types/fields/add.php:413
+#: system/pages/admin/types/fields/edit.php:474
+#: system/pages/admin/types/posts.php:103
+#: system/pages/admin/types/uploads.php:113
+#: system/pages/admin/users/edit.php:449
+msgid "Save"
+msgstr "Guardar"
+
+#: system/pages/admin/blocks.php:257 system/pages/admin/blocks/add.php:200
+#: system/pages/admin/blocks/edit.php:269 system/pages/admin/categories.php:161
+#: system/pages/admin/categories/add.php:142
+#: system/pages/admin/categories/edit.php:154
+#: system/pages/admin/categories/subcategories.php:282
+#: system/pages/admin/categories/subcategories/add.php:123
+#: system/pages/admin/categories/subcategories/edit.php:159
+#: system/pages/admin/groups/add.php:98 system/pages/admin/groups/edit.php:126
+#: system/pages/admin/groups/permissions.php:120
+#: system/pages/admin/input-formats/add.php:175
+#: system/pages/admin/input-formats/edit.php:189
+#: system/pages/admin/languages/add.php:111
+#: system/pages/admin/languages/edit-info.php:119
+#: system/pages/admin/languages/edit.php:96
+#: system/pages/admin/languages/edit.php:179
+#: system/pages/admin/languages/import.php:194
+#: system/pages/admin/languages/translate.php:126
+#: system/pages/admin/languages/translate.php:213
+#: system/pages/admin/menus.php:303 system/pages/admin/menus/add-item.php:174
+#: system/pages/admin/menus/add.php:91
+#: system/pages/admin/menus/configuration.php:84
+#: system/pages/admin/menus/edit-item.php:209
+#: system/pages/admin/menus/rename.php:127
+#: system/pages/admin/modules/upload.php:100
+#: system/pages/admin/pages/add.php:404 system/pages/admin/pages/blocks.php:383
+#: system/pages/admin/pages/blocks/add.php:205
+#: system/pages/admin/pages/blocks/add/post.php:207
+#: system/pages/admin/pages/blocks/edit.php:295
+#: system/pages/admin/pages/blocks/edit/post.php:282
+#: system/pages/admin/pages/blocks/post/settings.php:202
+#: system/pages/admin/pages/duplicate.php:163
+#: system/pages/admin/pages/edit.php:473 system/pages/admin/pages/files.php:272
+#: system/pages/admin/pages/files/add.php:132
+#: system/pages/admin/pages/images.php:314
+#: system/pages/admin/pages/images/add.php:207
+#: system/pages/admin/settings.php:655
+#: system/pages/admin/settings/advanced.php:430
+#: system/pages/admin/settings/api/add-key.php:142
+#: system/pages/admin/settings/api/edit-key.php:149
+#: system/pages/admin/settings/mailer.php:172
+#: system/pages/admin/settings/search.php:208
+#: system/pages/admin/settings/sqlite/upload.php:100
+#: system/pages/admin/themes.php:127 system/pages/admin/themes/upload.php:100
+#: system/pages/admin/types.php:155 system/pages/admin/types/add.php:215
+#: system/pages/admin/types/edit.php:262
+#: system/pages/admin/types/fields.php:172
+#: system/pages/admin/types/fields/add.php:419
+#: system/pages/admin/types/fields/edit.php:480
+#: system/pages/admin/types/posts.php:109
+#: system/pages/admin/types/uploads.php:119
+#: system/pages/admin/users/add.php:387 system/pages/admin/users/edit.php:455
+#: system/pages/forgot-password.php:96 system/pages/register.php:534
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: system/pages/admin/blocks/add.php:17
+msgid "Add Block"
+msgstr "Agregar Bloques"
+
+#: system/pages/admin/blocks/add.php:48
+msgid "The block was successfully created."
+msgstr "El bloque fue creado exitosamente."
+
+#: system/pages/admin/blocks/add.php:77 system/pages/admin/blocks/edit.php:132
+#: system/pages/admin/pages/blocks/add.php:106
+#: system/pages/admin/pages/blocks/add/post.php:106
+#: system/pages/admin/pages/blocks/edit.php:192
+#: system/pages/admin/pages/blocks/edit/post.php:180
+msgid "Position:"
+msgstr "Posición:"
+
+#: system/pages/admin/blocks/add.php:88 system/pages/admin/blocks/edit.php:142
+#: system/pages/admin/categories/add.php:86
+#: system/pages/admin/categories/edit.php:95
+#: system/pages/admin/categories/subcategories/add.php:87
+#: system/pages/admin/categories/subcategories/edit.php:134
+#: system/pages/admin/groups/add.php:83 system/pages/admin/groups/edit.php:111
+#: system/pages/admin/input-formats/add.php:87
+#: system/pages/admin/input-formats/edit.php:106
+#: system/pages/admin/languages/translate.php:95
+#: system/pages/admin/languages/translate.php:177
+#: system/pages/admin/menus/add-item.php:94
+#: system/pages/admin/menus/edit-item.php:140
+#: system/pages/admin/modules/view.php:47 system/pages/admin/pages/add.php:257
+#: system/pages/admin/pages/blocks/add.php:118
+#: system/pages/admin/pages/blocks/add/post.php:118
+#: system/pages/admin/pages/blocks/delete.php:79
+#: system/pages/admin/pages/blocks/edit.php:201
+#: system/pages/admin/pages/blocks/edit/post.php:189
+#: system/pages/admin/pages/edit.php:341
+#: system/pages/admin/settings/api/add-key.php:75
+#: system/pages/admin/settings/api/delete-key.php:54
+#: system/pages/admin/settings/api/edit-key.php:81
+#: system/pages/admin/themes/view.php:56 system/pages/admin/types/add.php:91
+#: system/pages/admin/types/edit.php:123
+#: system/pages/admin/types/fields/add.php:130
+#: system/pages/admin/types/fields/edit.php:148
+msgid "Description:"
+msgstr "Descripción:"
+
+#: system/pages/admin/blocks/add.php:131 system/pages/admin/blocks/edit.php:198
+#: system/pages/admin/pages/add.php:305
+#: system/pages/admin/pages/blocks/add.php:166
+#: system/pages/admin/pages/blocks/add/post.php:168
+#: system/pages/admin/pages/blocks/edit.php:256
+#: system/pages/admin/pages/blocks/edit/post.php:243
+#: system/pages/admin/pages/edit.php:387
+msgid "Input Format"
+msgstr "Formato de Entrada"
+
+#: system/pages/admin/blocks/add.php:137 system/pages/admin/blocks/edit.php:205
+#: system/pages/admin/pages/add.php:349
+#: system/pages/admin/pages/blocks/add.php:172
+#: system/pages/admin/pages/blocks/add/post.php:174
+#: system/pages/admin/pages/blocks/edit.php:262
+#: system/pages/admin/pages/blocks/edit/post.php:249
+#: system/pages/admin/pages/edit.php:427
+#: system/pages/admin/types/fields/add.php:404
+msgid "Users Access"
+msgstr "Acceso de Usuarios"
+
+#: system/pages/admin/blocks/add.php:140 system/pages/admin/blocks/edit.php:208
+#: system/pages/admin/pages/blocks/add.php:175
+#: system/pages/admin/pages/blocks/add/post.php:177
+#: system/pages/admin/pages/blocks/edit.php:265
+#: system/pages/admin/pages/blocks/edit/post.php:252
+msgid ""
+"Select the groups that can see the block. Don't select anything to display "
+"block to everyone."
+msgstr ""
+"Seleccione los grupos que pueden ver el bloque. No seleccione nada para "
+"mostrarlo a todos los grupos."
+
+#: system/pages/admin/blocks/add.php:145 system/pages/admin/blocks/edit.php:213
+msgid "Positions Per Theme"
+msgstr "Posiciones Por Tema"
+
+#: system/pages/admin/blocks/add.php:148 system/pages/admin/blocks/edit.php:216
+msgid "Select the position where the block is going to be displayed per theme."
+msgstr "Seleccione la posición donde el bloque se mostrará por cada tema."
+
+#: system/pages/admin/blocks/add.php:151 system/pages/admin/blocks/edit.php:219
+msgid "Display in all pages except the listed ones."
+msgstr "Mostrar en todas las páginas excepto en las que se listan."
+
+#: system/pages/admin/blocks/add.php:152 system/pages/admin/blocks/edit.php:221
+msgid "Just display on the listed pages."
+msgstr "Solo mostrar en las páginas listadas."
+
+#: system/pages/admin/blocks/add.php:165 system/pages/admin/blocks/edit.php:234
+msgid "Pages:"
+msgstr "Páginas:"
+
+#: system/pages/admin/blocks/add.php:172 system/pages/admin/blocks/edit.php:242
+msgid ""
+"List of uri's seperated by comma (,). Also supports the wildcard (*), for "
+"example: my-section/*"
+msgstr ""
+"Lista de uri separados por coma (,). Tambien soporta la expresion (*), por "
+"ejemplo: mi-seccion/*"
+
+#: system/pages/admin/blocks/add.php:185 system/pages/admin/blocks/edit.php:253
+#: system/pages/admin/pages/blocks/add.php:190
+#: system/pages/admin/pages/blocks/add/post.php:192
+#: system/pages/admin/pages/blocks/edit.php:279
+#: system/pages/admin/pages/blocks/edit/post.php:266
+msgid "Return Code:"
+msgstr "Código de Regreso:"
+
+#: system/pages/admin/blocks/add.php:187 system/pages/admin/blocks/edit.php:256
+#: system/pages/admin/pages/blocks/add.php:192
+#: system/pages/admin/pages/blocks/add/post.php:194
+#: system/pages/admin/pages/blocks/edit.php:282
+#: system/pages/admin/pages/blocks/edit/post.php:269
+msgid ""
+"PHP code enclosed with &lt;?php code ?&gt; to evaluate if block should "
+"display by printing true or false. for example: &lt;?php "
+"if(is_user_logged()) print \"true\"; else print \"false\"; ?&gt;"
+msgstr ""
+"Código php encerrado en &lt;?php code ?&gt; para evaluar si se debe mostrar "
+"haciendo print \"true\". por ejemplo: &lt;?php if(is_user_logged()) print "
+"\"true\"; else print \"false\"; ?&gt;"
+
+#: system/pages/admin/blocks/delete.php:17
+msgid "Delete Block"
+msgstr "Eliminar  Bloque"
+
+#: system/pages/admin/blocks/delete.php:33
+msgid "Can't delete system generated block."
+msgstr "No se puede borrar un bloque generado por el sistema."
+
+#: system/pages/admin/blocks/delete.php:41
+#: system/pages/admin/pages/blocks/delete.php:54
+msgid "Block successfully deleted."
+msgstr "Bloque eliminado exitosamente."
+
+#: system/pages/admin/blocks/delete.php:61
+#: system/pages/admin/pages/blocks/delete.php:76
+msgid "Are you sure you want to delete the block?"
+msgstr "Esta seguro que desea borrar el bloque?"
+
+#: system/pages/admin/blocks/delete.php:64
+msgid "Description: "
+msgstr "Descripción:"
+
+#: system/pages/admin/blocks/delete.php:71
+#: system/pages/admin/categories/delete.php:67
+#: system/pages/admin/categories/subcategories/delete.php:78
+#: system/pages/admin/groups/delete.php:70
+#: system/pages/admin/input-formats/delete.php:69
+#: system/pages/admin/languages/edit.php:285
+#: system/pages/admin/menus/delete-item.php:65
+#: system/pages/admin/menus/delete.php:102
+#: system/pages/admin/modules/delete.php:70
+#: system/pages/admin/pages/blocks/delete.php:85
+#: system/pages/admin/pages/delete.php:128
+#: system/pages/admin/pages/files/delete-selected.php:111
+#: system/pages/admin/pages/files/delete.php:72
+#: system/pages/admin/pages/images/delete-selected.php:107
+#: system/pages/admin/pages/images/delete.php:69
+#: system/pages/admin/pages/mass-delete.php:120
+#: system/pages/admin/settings/api/delete-key.php:67
+#: system/pages/admin/settings/clear-image-cache.php:50
+#: system/pages/admin/settings/clear-page-cache.php:52
+#: system/pages/admin/settings/cron.php:75
+#: system/pages/admin/settings/errors-clear.php:69
+#: system/pages/admin/settings/reindex-search.php:52
+#: system/pages/admin/settings/sqlite/delete.php:58
+#: system/pages/admin/themes/delete.php:70
+#: system/pages/admin/types/delete.php:67
+#: system/pages/admin/types/fields/delete.php:73
+#: system/pages/admin/users/delete.php:74
+#: system/pages/admin/users/export.php:93
+#: system/pages/admin/users/re-index.php:167
+msgid "Yes"
+msgstr "Si"
+
+#: system/pages/admin/blocks/delete.php:74
+#: system/pages/admin/categories/delete.php:70
+#: system/pages/admin/categories/subcategories/delete.php:81
+#: system/pages/admin/groups/delete.php:73
+#: system/pages/admin/input-formats/delete.php:72
+#: system/pages/admin/languages/edit.php:286
+#: system/pages/admin/menus/delete-item.php:68
+#: system/pages/admin/menus/delete.php:105
+#: system/pages/admin/modules/delete.php:73
+#: system/pages/admin/pages/blocks/delete.php:88
+#: system/pages/admin/pages/delete.php:131
+#: system/pages/admin/pages/files/delete-selected.php:114
+#: system/pages/admin/pages/files/delete.php:75
+#: system/pages/admin/pages/images/delete-selected.php:110
+#: system/pages/admin/pages/images/delete.php:72
+#: system/pages/admin/pages/mass-delete.php:123
+#: system/pages/admin/settings/api/delete-key.php:70
+#: system/pages/admin/settings/clear-image-cache.php:53
+#: system/pages/admin/settings/clear-page-cache.php:55
+#: system/pages/admin/settings/cron.php:78
+#: system/pages/admin/settings/errors-clear.php:72
+#: system/pages/admin/settings/reindex-search.php:55
+#: system/pages/admin/settings/sqlite/delete.php:61
+#: system/pages/admin/themes/delete.php:73
+#: system/pages/admin/types/delete.php:70
+#: system/pages/admin/types/fields/delete.php:76
+#: system/pages/admin/users/delete.php:77
+#: system/pages/admin/users/export.php:96
+#: system/pages/admin/users/re-index.php:170
+msgid "No"
+msgstr "No"
+
+#: system/pages/admin/blocks/edit.php:17
+msgid "Edit Block"
+msgstr "Editar Bloque"
+
+#: system/pages/admin/blocks/edit.php:77
+#: system/pages/admin/pages/blocks/edit.php:118
+#: system/pages/admin/pages/blocks/edit/post.php:106
+msgid "Your changes have been saved to the block."
+msgstr "Tus cambios han sido guardados en el bloque."
+
+#: system/pages/admin/blocks/translate.php:15
+msgid "Translate Block"
+msgstr "Traducir Bloque"
+
+#: system/pages/admin/blocks/translate.php:43
+#: system/pages/admin/languages.php:32
+#: system/pages/admin/pages/translate.php:75
+msgid "Code"
+msgstr "Código"
+
+#: system/pages/admin/blocks/translate.php:44
+#: system/pages/admin/categories.php:97 system/pages/admin/groups.php:34
+#: system/pages/admin/input-formats.php:36 system/pages/admin/languages.php:33
+#: system/pages/admin/modules.php:30 system/pages/admin/pages/files.php:209
+#: system/pages/admin/pages/translate.php:76
+#: system/pages/admin/pages/types.php:32 system/pages/admin/themes.php:69
+#: system/pages/admin/types.php:91 system/pages/admin/types/fields.php:117
+msgid "Name"
+msgstr "Nombre"
+
+#: system/pages/admin/categories.php:45
+#: system/pages/admin/categories/add.php:17
+msgid "Create Category"
+msgstr "Crear Categoría"
+
+#: system/pages/admin/categories/add.php:40
+msgid "The category has been successfully created."
+msgstr "La categoría fue creada exitosamente."
+
+#: system/pages/admin/categories/add.php:64
+#: system/pages/admin/categories/edit.php:76
+#: system/pages/admin/groups/add.php:61 system/pages/admin/groups/edit.php:91
+#: system/pages/admin/input-formats/add.php:65
+#: system/pages/admin/input-formats/edit.php:87
+#: system/pages/admin/types/add.php:69 system/pages/admin/types/edit.php:104
+msgid "Machine name:"
+msgstr "Nombre de máquina:"
+
+#: system/pages/admin/categories/add.php:67
+msgid "A readable machine name, like for example: my-category."
+msgstr "Un nombre de máquina leíble, por ejemplo: mi-categoria"
+
+#: system/pages/admin/categories/add.php:75
+#: system/pages/admin/categories/edit.php:85
+#: system/pages/admin/groups/add.php:72 system/pages/admin/groups/edit.php:101
+#: system/pages/admin/input-formats/add.php:76
+#: system/pages/admin/input-formats/edit.php:96
+#: system/pages/admin/languages/edit-info.php:78
+#: system/pages/admin/languages/info.php:48 system/pages/admin/menus/add.php:76
+#: system/pages/admin/menus/delete.php:96
+#: system/pages/admin/modules/view.php:39
+#: system/pages/admin/pages/files/delete.php:65
+#: system/pages/admin/themes/view.php:48 system/pages/admin/types/add.php:80
+#: system/pages/admin/types/edit.php:113
+#: system/pages/admin/types/fields/add.php:119
+#: system/pages/admin/types/fields/edit.php:135
+#: system/pages/admin/users/edit.php:259
+msgid "Name:"
+msgstr "Nombre:"
+
+#: system/pages/admin/categories/add.php:78
+#: system/pages/admin/categories/edit.php:88
+msgid "A human readable name like for example: My Category."
+msgstr "Un nombre leíble por ejemplo: Mi Categoría."
+
+#: system/pages/admin/categories/add.php:89
+#: system/pages/admin/categories/edit.php:98
+msgid "A brief description of the category."
+msgstr "Una descripción breve de la categoría."
+
+#: system/pages/admin/categories/add.php:97
+#: system/pages/admin/categories/edit.php:106
+msgid "Enable multiple selection?:"
+msgstr "Activar multiple selección?:"
+
+#: system/pages/admin/categories/add.php:103
+#: system/pages/admin/categories/edit.php:113
+msgid "Multiple"
+msgstr "Multiple"
+
+#: system/pages/admin/categories/add.php:109
+#: system/pages/admin/categories/edit.php:119
+msgid "Enable subcategory name sorting?:"
+msgstr "Habilitar ordenamiento de subcategorías por nombre?:"
+
+#: system/pages/admin/categories/add.php:115
+#: system/pages/admin/categories/edit.php:126
+msgid "Subcategory sorting"
+msgstr "Ordenar subcategoría"
+
+#: system/pages/admin/categories/add.php:116
+#: system/pages/admin/categories/edit.php:127
+msgid "To enable or disable automatic sorting."
+msgstr "Para habilitar o deshabilitar ordenamiento automático."
+
+#: system/pages/admin/categories/add.php:122
+#: system/pages/admin/categories/edit.php:133
+msgid "Display subcategories?:"
+msgstr "¿Mostrar subcategorías?"
+
+#: system/pages/admin/categories/add.php:123
+#: system/pages/admin/categories/edit.php:135
+msgid ""
+"Display all the subcategories on the generated menu, otherwise it will "
+"display only the root subcategories."
+msgstr ""
+"Mostrar todas las subcategorías en el menú generado, de lo contrario solo "
+"mostrar las subcategorías raíz."
+
+#: system/pages/admin/categories/add.php:129
+#: system/pages/admin/categories/edit.php:141
+msgid "Block options"
+msgstr "Opciones del bloque"
+
+#: system/pages/admin/categories/add.php:130
+#: system/pages/admin/categories/edit.php:142
+msgid "Options that apply to the generated menu block for this category."
+msgstr "Opciones que aplican al menú de bloque generado para esta categoría."
+
+#: system/pages/admin/categories/delete.php:17
+msgid "Delete Category"
+msgstr "Eliminar Categoría"
+
+#: system/pages/admin/categories/delete.php:35
+msgid "Category successfully deleted."
+msgstr "Categoría  borrada exitosamente."
+
+#: system/pages/admin/categories/delete.php:58
+msgid "Are you sure you want to delete the category?"
+msgstr "Estas seguro de querer borrar la categoría?"
+
+#: system/pages/admin/categories/delete.php:61
+msgid "Category:"
+msgstr "Categoría:"
+
+#: system/pages/admin/categories/edit.php:17
+msgid "Edit Category"
+msgstr "Editar categoría"
+
+#: system/pages/admin/categories/edit.php:78
+msgid "The machine name of the category."
+msgstr "El nombre máquina de la categoría."
+
+#: system/pages/admin/categories/subcategories.php:53
+msgid "Create Subcategory"
+msgstr "Crear Subcategoría"
+
+#: system/pages/admin/categories/subcategories.php:259
+#: system/pages/admin/menus.php:272 system/pages/admin/pages/list.php:169
+#: system/pages/admin/user/content.php:102 system/pages/user.php:103
+msgid "Title"
+msgstr "Título"
+
+#: system/pages/admin/categories/subcategories.php:260
+#: system/pages/admin/menus.php:273
+msgid "Parent"
+msgstr "Raíz"
+
+#: system/pages/admin/categories/subcategories.php:271
+msgid "No subcategories available."
+msgstr "No hay subcategorías disponible."
+
+#: system/pages/admin/categories/subcategories/add.php:17
+msgid "Add Subcategory"
+msgstr "Agregar Subcategoría"
+
+#: system/pages/admin/categories/subcategories/add.php:41
+msgid "The subcategory was successfully created."
+msgstr "La subcategoría fue creada exitosamente."
+
+#: system/pages/admin/categories/subcategories/add.php:107
+#: system/pages/admin/categories/subcategories/edit.php:143
+#: system/pages/admin/menus/add-item.php:132
+#: system/pages/admin/menus/edit-item.php:167
+msgid "Parent:"
+msgstr "Raíz:"
+
+#: system/pages/admin/categories/subcategories/delete.php:17
+msgid "Delete Subcategory"
+msgstr "Eliminar Subcategoría"
+
+#: system/pages/admin/categories/subcategories/delete.php:38
+msgid "Subcategory successfully deleted."
+msgstr "subcategoría borrada exitosamente."
+
+#: system/pages/admin/categories/subcategories/delete.php:69
+msgid "Are you sure you want to delete the subcategory?"
+msgstr "Estas seguro de querer borrar la subcategoría?"
+
+#: system/pages/admin/categories/subcategories/edit.php:17
+msgid "Edit Subcategory"
+msgstr "Editar Subcategoría"
+
+#: system/pages/admin/categories/subcategories/edit.php:73
+msgid "The subcategory was successfully edited."
+msgstr "La subcategoría fue editada exitosamente."
+
+#: system/pages/admin/groups.php:25 system/pages/admin/groups/add.php:17
+msgid "Create Group"
+msgstr "Crear Grupo"
+
+#: system/pages/admin/groups.php:66
+#: system/pages/admin/settings/api/add-key.php:103
+#: system/pages/admin/settings/api/edit-key.php:107
+msgid "Permissions"
+msgstr "Permisos"
+
+#: system/pages/admin/groups/add.php:36
+msgid "The group has been successfully created."
+msgstr "El grupo fue creado exitosamente."
+
+#: system/pages/admin/groups/add.php:64 system/pages/admin/groups/edit.php:94
+msgid "A readable machine name, like for example: my-group."
+msgstr "Un nombre de máquina leíble, por ejemplo: mi-grupo."
+
+#: system/pages/admin/groups/add.php:75 system/pages/admin/groups/edit.php:104
+msgid "A human readable name like for example: My Group."
+msgstr "Un nombre humanamente leíble por ejemplo: Mi Grupo."
+
+#: system/pages/admin/groups/add.php:86 system/pages/admin/groups/edit.php:114
+msgid "A brief description of the group."
+msgstr "Una breve descripción del grupo."
+
+#: system/pages/admin/groups/delete.php:17
+msgid "Delete Group"
+msgstr "Eliminar Grupo"
+
+#: system/pages/admin/groups/delete.php:37
+msgid "Group successfully deleted."
+msgstr "Grupo borrado exitosamente."
+
+#: system/pages/admin/groups/delete.php:61
+msgid "Are you sure you want to delete the group?"
+msgstr "Estar seguro de querer borrar este grupo?"
+
+#: system/pages/admin/groups/delete.php:64 system/pages/admin/users/add.php:357
+#: system/pages/admin/users/edit.php:426
+msgid "Group:"
+msgstr "Grupo:"
+
+#: system/pages/admin/groups/edit.php:17
+msgid "Edit Group"
+msgstr "Editar Grupo"
+
+#: system/pages/admin/groups/edit.php:46
+#: system/pages/admin/input-formats/edit.php:47
+#: system/pages/admin/types/edit.php:66
+msgid "You need to provide all the fields"
+msgstr "Debes proveer todos los campos."
+
+#: system/pages/admin/groups/permissions.php:17
+msgid "Group Permissions"
+msgstr "Permisos de Grupo"
+
+#: system/pages/admin/groups/permissions.php:57
+msgid "The changes have been successfully saved."
+msgstr "Los cambios fueron guardados exitosamente."
+
+#: system/pages/admin/input-formats.php:26
+#: system/pages/admin/input-formats/add.php:17
+msgid "Create Input Format"
+msgstr "Crear Formato de Entrada"
+
+#: system/pages/admin/input-formats.php:94
+msgid "No custom input formats available."
+msgstr "No hay formatos de entrada personalizados disponible."
+
+#: system/pages/admin/input-formats/add.php:41
+msgid "The input format has been successfully created."
+msgstr "El formato de entrada fue exitosamente creado."
+
+#: system/pages/admin/input-formats/add.php:68
+msgid "A readable machine name, like for example: my-input-format."
+msgstr "Un nombre de máquina leíble, por ejemplo: mi-formato-de-entrada"
+
+#: system/pages/admin/input-formats/add.php:79
+#: system/pages/admin/input-formats/edit.php:99
+msgid "A human readable name like for example: My Input Format."
+msgstr "Un nombre leíble por ejemplo: Mi Formato de Entrada."
+
+#: system/pages/admin/input-formats/add.php:90
+#: system/pages/admin/input-formats/edit.php:109
+msgid "A brief description of the input format."
+msgstr "Una descripción breve del formato de entrada."
+
+#: system/pages/admin/input-formats/add.php:98
+#: system/pages/admin/input-formats/edit.php:116
+msgid "Allowed tags:"
+msgstr "Etiquetas permitidas:"
+
+#: system/pages/admin/input-formats/add.php:100
+#: system/pages/admin/input-formats/edit.php:118
+msgid ""
+"A list of the allowed tags for this input format. Example: &lt;a&gt;&lt;"
+"img&gt;&lt;p&gt;&lt;h1&gt;&lt;h2&gt;&lt;h3&gt;&lt;h4&gt;&lt;h5&gt;&lt;h6&gt;"
+"&lt;address&gt;&lt;pre&gt;&lt;br&gt;&lt;b&gt;&lt;i&gt;&lt;strong&gt;&lt;"
+"em&gt;&lt;u&gt;&lt;ul&gt;&lt;ol&gt;&lt;li&gt;"
+msgstr ""
+"Una lista de las etiquetas permitidas para este formato de entrada. Ejemplo: "
+"&lt;a&gt;&lt;img&gt;&lt;p&gt;&lt;h1&gt;&lt;h2&gt;&lt;h3&gt;&lt;h4&gt;&lt;"
+"h5&gt;&lt;h6&gt;&lt;address&gt;&lt;pre&gt;&lt;br&gt;&lt;b&gt;&lt;i&gt;&lt;"
+"strong&gt;&lt;em&gt;&lt;u&gt;&lt;ul&gt;&lt;ol&gt;&lt;li&gt;"
+
+#: system/pages/admin/input-formats/add.php:108
+#: system/pages/admin/input-formats/edit.php:125
+msgid "Allowed attributes:"
+msgstr "Atributos permitidos:"
+
+#: system/pages/admin/input-formats/add.php:110
+#: system/pages/admin/input-formats/edit.php:127
+msgid ""
+"A list of the allowed attributes separated by comma. Example: href,src,alt,"
+"align,target"
+msgstr ""
+"Una lista de atributos permitidos para este formato de entrada. Ejemplo: "
+"href,src,alt,align,target"
+
+#: system/pages/admin/input-formats/add.php:115
+#: system/pages/admin/input-formats/edit.php:132
+#: system/pages/admin/pages/blocks/post/settings.php:87
+#: system/pages/admin/settings.php:327 system/pages/admin/settings.php:386
+#: system/pages/admin/settings.php:498 system/pages/admin/settings.php:541
+#: system/pages/admin/settings.php:568
+#: system/pages/admin/settings/advanced.php:142
+#: system/pages/admin/settings/advanced.php:161
+#: system/pages/admin/settings/advanced.php:180
+#: system/pages/admin/settings/advanced.php:217
+#: system/pages/admin/settings/advanced.php:346
+#: system/pages/admin/settings/advanced.php:365
+#: system/pages/admin/settings/advanced.php:384
+#: system/pages/admin/settings/advanced.php:403
+#: system/pages/admin/settings/mailer.php:103
+#: system/pages/admin/settings/search.php:75
+#: system/pages/admin/settings/search.php:94
+#: system/pages/admin/types/fields/add.php:185
+#: system/pages/admin/types/fields/edit.php:209
+msgid "Enable"
+msgstr "Activar"
+
+#: system/pages/admin/input-formats/add.php:116
+#: system/pages/admin/input-formats/edit.php:133
+#: system/pages/admin/pages/blocks/post/settings.php:88
+#: system/pages/admin/settings.php:328 system/pages/admin/settings.php:499
+#: system/pages/admin/settings.php:542 system/pages/admin/settings.php:569
+#: system/pages/admin/settings/advanced.php:143
+#: system/pages/admin/settings/advanced.php:162
+#: system/pages/admin/settings/advanced.php:181
+#: system/pages/admin/settings/advanced.php:218
+#: system/pages/admin/settings/advanced.php:347
+#: system/pages/admin/settings/advanced.php:366
+#: system/pages/admin/settings/advanced.php:385
+#: system/pages/admin/settings/advanced.php:404
+#: system/pages/admin/settings/mailer.php:104
+#: system/pages/admin/settings/search.php:76
+#: system/pages/admin/settings/search.php:95
+#: system/pages/admin/types/fields/add.php:186
+#: system/pages/admin/types/fields/edit.php:210
+msgid "Disable"
+msgstr "Desactivar"
+
+#: system/pages/admin/input-formats/add.php:128
+#: system/pages/admin/input-formats/edit.php:144
+msgid "Parse url's"
+msgstr "Conversión de los url"
+
+#: system/pages/admin/input-formats/add.php:131
+#: system/pages/admin/input-formats/edit.php:147
+msgid "To enable or disable parsing of url's."
+msgstr "Para activar o desactivar la conversión de los url."
+
+#: system/pages/admin/input-formats/add.php:144
+#: system/pages/admin/input-formats/edit.php:159
+msgid "Parse emails"
+msgstr "Conversión de correos electrónicos"
+
+#: system/pages/admin/input-formats/add.php:147
+#: system/pages/admin/input-formats/edit.php:162
+msgid "To enable or disable parsing of emails."
+msgstr "Para activar o desactivar la conversión de correos electrónicos."
+
+#: system/pages/admin/input-formats/add.php:160
+#: system/pages/admin/input-formats/edit.php:174
+msgid "Convert line breaks"
+msgstr "Convertir saltos de línea"
+
+#: system/pages/admin/input-formats/add.php:163
+#: system/pages/admin/input-formats/edit.php:177
+msgid "To enable or disable conversion of line breaks to &lt;br&gt; tag."
+msgstr ""
+"Para activar o desactivar la conversión de salots de línea a la etiqueta &lt;"
+"br&gt;."
+
+#: system/pages/admin/input-formats/delete.php:17
+msgid "Delete Input Format"
+msgstr "Borrar Formato de Entrada"
+
+#: system/pages/admin/input-formats/delete.php:37
+msgid "Input format successfully deleted."
+msgstr "El formato de entrada fue exitosamente borrado."
+
+#: system/pages/admin/input-formats/delete.php:60
+msgid "Are you sure you want to delete the input format?"
+msgstr "¿Esta seguro que desea borrar el formato de entrada?"
+
+#: system/pages/admin/input-formats/delete.php:63
+msgid "Input format:"
+msgstr "Formato de Entrada:"
+
+#: system/pages/admin/input-formats/edit.php:17
+msgid "Edit Input Format"
+msgstr "Editar Formato de Entrada"
+
+#: system/pages/admin/input-formats/edit.php:89
+msgid "The machine name of the input format."
+msgstr "El nombre máquina del formato de entrada."
+
+#: system/pages/admin/languages.php:24 system/pages/admin/languages/add.php:17
+msgid "Add Language"
+msgstr "Agregar Lenguaje"
+
+#: system/pages/admin/languages.php:38
+msgid "View language info."
+msgstr "Ver información del lenguaje."
+
+#: system/pages/admin/languages.php:62
+msgid "Edit strings"
+msgstr "Editar cadenas"
+
+#: system/pages/admin/languages/add.php:54
+msgid "The language was successfully created."
+msgstr "El lenguaje fue creado exitosamente"
+
+#: system/pages/admin/languages/add.php:72
+msgid "Language:"
+msgstr "Lenguaje:"
+
+#: system/pages/admin/languages/add.php:74
+msgid "Select the language you want to add to the system."
+msgstr "Selecciona el lenguaje que quieres agregar al sistema."
+
+#: system/pages/admin/languages/add.php:81
+#: system/pages/admin/languages/edit-info.php:87
+#: system/pages/admin/languages/info.php:58
+msgid "Translator:"
+msgstr "Traductor:"
+
+#: system/pages/admin/languages/add.php:83
+#: system/pages/admin/languages/edit-info.php:89
+msgid "Main translator for this language."
+msgstr "Traductor principal para este lenguaje."
+
+#: system/pages/admin/languages/add.php:91
+#: system/pages/admin/languages/edit-info.php:98
+msgid "E-mail of the main translator."
+msgstr "Correo electrónico del traductor primario."
+
+#: system/pages/admin/languages/add.php:97
+#: system/pages/admin/languages/edit-info.php:105
+#: system/pages/admin/languages/info.php:73
+msgid "Contributors:"
+msgstr "Colaboradores:"
+
+#: system/pages/admin/languages/add.php:99
+#: system/pages/admin/languages/edit-info.php:107
+msgid "A list of contributors seperated by a new line for this translation."
+msgstr ""
+"Una lista de colaboradores seperados por una nueva línea para esta "
+"traducción."
+
+#: system/pages/admin/languages/edit-info.php:17
+msgid "Edit Language Details"
+msgstr "Editar Detalles del Lenguaje"
+
+#: system/pages/admin/languages/edit-info.php:46
+msgid "The language was successfully modified."
+msgstr "El lenguaje fue modificado exitosamente."
+
+#: system/pages/admin/languages/edit-info.php:69
+#: system/pages/admin/languages/info.php:53
+msgid "Code:"
+msgstr "Código:"
+
+#: system/pages/admin/languages/edit.php:17
+msgid "Edit language strings"
+msgstr "Editar cadenas de lenguaje"
+
+#: system/pages/admin/languages/edit.php:71
+#: system/pages/admin/languages/edit.php:154
+msgid "Original text:"
+msgstr "Texto original"
+
+#: system/pages/admin/languages/edit.php:74
+#: system/pages/admin/languages/edit.php:157
+msgid "Original string to translate."
+msgstr "Cadena original a traducir."
+
+#: system/pages/admin/languages/edit.php:81
+#: system/pages/admin/languages/edit.php:165
+msgid "Translation:"
+msgstr "Traducción"
+
+#: system/pages/admin/languages/edit.php:84
+#: system/pages/admin/languages/edit.php:167
+msgid "Meaning of the original text in this language."
+msgstr "Significado del texto original en este lenguaje."
+
+#: system/pages/admin/languages/edit.php:201
+#: system/pages/admin/languages/edit.php:245 system/pages/admin/themes.php:55
+msgid "Changes successfully saved."
+msgstr "Cambios guardados exitosamente."
+
+#: system/pages/admin/languages/edit.php:206
+#: system/pages/admin/languages/edit.php:250
+#: system/pages/admin/languages/edit.php:318
+#: system/pages/admin/languages/translate.php:247
+#: system/pages/admin/languages/translate.php:285
+msgid "Check your write permissions on the <b>language</b> directory."
+msgstr ""
+"Verifica tus permisos de escritura en el directorio de <b>language</b>."
+
+#: system/pages/admin/languages/edit.php:282
+msgid "Are you sure you want to delete the string?"
+msgstr "Esta seguro que desea borrar la cadena?"
+
+#: system/pages/admin/languages/edit.php:283
+msgid "Original string:"
+msgstr "Texto original:"
+
+#: system/pages/admin/languages/edit.php:313
+msgid "String successfully removed."
+msgstr "Cadena exitosamente removida."
+
+#: system/pages/admin/languages/edit.php:332
+msgid "Add string"
+msgstr "Agregar cadena"
+
+#: system/pages/admin/languages/edit.php:338
+msgid "Import strings"
+msgstr "Importar cadenas"
+
+#: system/pages/admin/languages/edit.php:347
+msgid "Translated:"
+msgstr "Traducido:"
+
+#: system/pages/admin/languages/edit.php:349
+msgid "Total system strings:"
+msgstr "Total de cadenas en el sistema:"
+
+#: system/pages/admin/languages/edit.php:351
+msgid "Percent translated:"
+msgstr "Porciento traducido:"
+
+#: system/pages/admin/languages/edit.php:409
+msgid "Original"
+msgstr "Original"
+
+#: system/pages/admin/languages/edit.php:410
+msgid "Translation"
+msgstr "Traducción"
+
+#: system/pages/admin/languages/edit.php:518
+msgid "Goto Page:"
+msgstr "Ir a Página"
+
+#: system/pages/admin/languages/edit.php:532
+msgid "Go"
+msgstr "Ir"
+
+#: system/pages/admin/languages/import.php:17
+msgid "Import POT File"
+msgstr "Importar Archivo POT"
+
+#: system/pages/admin/languages/import.php:38
+msgid ""
+"Here you can update language strings by uploading a po translation file."
+msgstr ""
+"Aquí puedes actualizar las cadenas del lenguaje subiendo un archivo de "
+"traducción po."
+
+#: system/pages/admin/languages/import.php:86
+#: system/pages/admin/languages/import.php:113
+msgid "Imported a total of"
+msgstr "Importado un total de"
+
+#: system/pages/admin/languages/import.php:88
+msgid "new strings"
+msgstr "nuevas cadenas"
+
+#: system/pages/admin/languages/import.php:115
+msgid "new strings and updated a total of"
+msgstr "nuevas cadenas y actualizadas un total de"
+
+#: system/pages/admin/languages/import.php:117
+msgid "strings"
+msgstr "cadenas"
+
+#: system/pages/admin/languages/import.php:129
+msgid "The uploaded file is not supported."
+msgstr "El archivo subido no es soportado."
+
+#: system/pages/admin/languages/import.php:158
+msgid "PO file:"
+msgstr "Archivo PO:"
+
+#: system/pages/admin/languages/import.php:162
+msgid "A po translation file to import into current translations."
+msgstr "Un archivo de traducción po a importar a la traducción actual."
+
+#: system/pages/admin/languages/import.php:167
+msgid "Just insert new strings"
+msgstr "Solamente insertar nuevas cadenas"
+
+#: system/pages/admin/languages/import.php:168
+msgid "Update and insert new strings"
+msgstr "Insertar y actualizar las nuevas cadenas"
+
+#: system/pages/admin/languages/import.php:179
+msgid "Import method"
+msgstr "Método de importe"
+
+#: system/pages/admin/languages/import.php:188
+#: system/pages/admin/modules.php:24 system/pages/admin/modules/upload.php:94
+#: system/pages/admin/settings/sqlite/upload.php:94
+#: system/pages/admin/themes.php:24 system/pages/admin/themes/upload.php:94
+msgid "Upload"
+msgstr "Subir"
+
+#: system/pages/admin/languages/info.php:17
+msgid "Language Info"
+msgstr "Información del Lenguaje"
+
+#: system/pages/admin/languages/info.php:38
+msgid "Edit Info"
+msgstr "Editar Información"
+
+#: system/pages/admin/languages/translate.php:17
+msgid "Translate content"
+msgstr "Traducir contenido"
+
+#: system/pages/admin/languages/translate.php:88
+#: system/pages/admin/pages/add.php:249 system/pages/admin/pages/edit.php:334
+msgid ""
+"Overrides the original page title on search engine results. Leave blank for "
+"default."
+msgstr ""
+"Sobre escribe el título original de la página en los resultados de los "
+"motores de búsqueda. Dejar en blanco para usar predeterminado."
+
+#: system/pages/admin/languages/translate.php:98
+#: system/pages/admin/pages/add.php:260 system/pages/admin/pages/edit.php:344
+msgid ""
+"Used to generate the meta description for search engines. Leave blank for "
+"default."
+msgstr ""
+"Utilizado para la etiqueta meta de descripción para los motores de búsqueda. "
+"Dejar en blanco para usar predeterminado."
+
+#: system/pages/admin/languages/translate.php:105
+#: system/pages/admin/pages/add.php:268 system/pages/admin/pages/edit.php:351
+msgid "Keywords:"
+msgstr "Palabras claves:"
+
+#: system/pages/admin/languages/translate.php:107
+#: system/pages/admin/pages/add.php:270 system/pages/admin/pages/edit.php:353
+msgid ""
+"List of words seperated by comma (,) used to generate the meta keywords for "
+"search engines. Leave blank for default."
+msgstr ""
+"Lista de palabras separadas por coma (,) para los motores de búsqueda. Dejar "
+"en blanco para usar predeterminado."
+
+#: system/pages/admin/languages/translate.php:112
+#: system/pages/admin/pages/add.php:275 system/pages/admin/pages/edit.php:358
+msgid "Meta tags"
+msgstr "Meta etiquetas"
+
+#: system/pages/admin/languages/translate.php:253
+#: system/pages/admin/languages/translate.php:291
+msgid "Translation saved successfully!"
+msgstr "Traducción creada exitosamente!"
+
+#: system/pages/admin/logout.php:17
+msgid "User Logout"
+msgstr "Usuario desconectado"
+
+#: system/pages/admin/logout.php:25
+msgid "Successfully logged out!"
+msgstr "Exitosamente desconectado,"
+
+#: system/pages/admin/logout.php:27
+msgid "Click Here"
+msgstr "presione aquí"
+
+#: system/pages/admin/logout.php:29
+msgid "to go back to home page."
+msgstr "para regresar a inicio."
+
+#: system/pages/admin/menus.php:53 system/pages/admin/menus/add.php:17
+msgid "Create Menu"
+msgstr "Crear Menu"
+
+#: system/pages/admin/menus.php:54
+msgid "Configuration"
+msgstr "Configuración"
+
+#: system/pages/admin/menus.php:252
+msgid "Add Item"
+msgstr "Agregar Item"
+
+#: system/pages/admin/menus.php:253
+msgid "Rename"
+msgstr "Renombrar"
+
+#: system/pages/admin/menus.php:287
+msgid "No menu items available."
+msgstr "No hay menu item disponible."
+
+#: system/pages/admin/menus/add-item.php:17
+msgid "Add Menu Item"
+msgstr "Agregar Menú Ítems"
+
+#: system/pages/admin/menus/add-item.php:50
+msgid "The menu item was successfully created."
+msgstr "El menu item fue creado exitosamente."
+
+#: system/pages/admin/menus/add-item.php:86
+#: system/pages/admin/menus/edit-item.php:131
+msgid "Url:"
+msgstr "Url:"
+
+#: system/pages/admin/menus/add-item.php:88
+#: system/pages/admin/menus/edit-item.php:134
+msgid ""
+"The relative path to access a page, for example: section/page, section or "
+"the full url like http://domain.com/section. Leave empty to auto-generate."
+msgstr ""
+"La ruta de acceso a la página, por ejemplo: seccion/pagina, mi-acceso-"
+"directo o un enlace completo como http://domain.com/section. Dejar en vacío "
+"para auto generar."
+
+#: system/pages/admin/menus/add-item.php:96
+#: system/pages/admin/menus/edit-item.php:143
+msgid "Small descriptive popup shown to user on mouse over."
+msgstr "Corta descripción que se muestra al usuario al poner el ratón encima."
+
+#: system/pages/admin/menus/add-item.php:99
+#: system/pages/admin/menus/edit-item.php:146
+msgid "New Window"
+msgstr "Nueva Ventana"
+
+#: system/pages/admin/menus/add-item.php:100
+#: system/pages/admin/menus/edit-item.php:147
+msgid "Current Window"
+msgstr "Ventana Actual"
+
+#: system/pages/admin/menus/add-item.php:101
+#: system/pages/admin/menus/edit-item.php:148
+msgid "Parent frameset"
+msgstr "Marco Principal"
+
+#: system/pages/admin/menus/add-item.php:102
+#: system/pages/admin/menus/edit-item.php:149
+msgid "Full body of window"
+msgstr "Toda la ventana"
+
+#: system/pages/admin/menus/add-item.php:109
+#: system/pages/admin/menus/edit-item.php:159
+msgid "Target:"
+msgstr "Destino:"
+
+#: system/pages/admin/menus/add-item.php:119
+msgid "Parent menu does not exists."
+msgstr "El menú principal no existe."
+
+#: system/pages/admin/menus/add-item.php:142
+#: system/pages/admin/menus/edit-item.php:177
+msgid "Show item elements?:"
+msgstr "Mostrar items del elemento?"
+
+#: system/pages/admin/menus/add-item.php:149
+#: system/pages/admin/menus/edit-item.php:184
+msgid "Expanded"
+msgstr "Expandido"
+
+#: system/pages/admin/menus/add-item.php:155
+#: system/pages/admin/menus/edit-item.php:190
+msgid "Disable item?:"
+msgstr "Desactivar ítem?"
+
+#: system/pages/admin/menus/add-item.php:162
+#: system/pages/admin/menus/edit-item.php:197 system/pages/admin/modules.php:67
+msgid "Disabled"
+msgstr "Desactivado"
+
+#: system/pages/admin/menus/add-item.php:179
+#: system/pages/admin/menus/edit-item.php:214
+msgid "Menu:"
+msgstr "Menu:"
+
+#: system/pages/admin/menus/add.php:54
+msgid "Menu successfully created."
+msgstr "Menu creado exitosamente."
+
+#: system/pages/admin/menus/add.php:78 system/pages/admin/menus/rename.php:114
+msgid "A machine readable name. For example: my-menu"
+msgstr "Un nombre en formato máquina como por ejemplo: mi-menu"
+
+#: system/pages/admin/menus/configuration.php:17
+msgid "Menu Configuration"
+msgstr "Configuración de los Menu"
+
+#: system/pages/admin/menus/configuration.php:29
+#: system/pages/admin/pages/edit.php:230 system/pages/admin/users/edit.php:180
+msgid "Your changes have been successfully saved."
+msgstr "Tus configuraciones han sido almacenadas exitosamente."
+
+#: system/pages/admin/menus/configuration.php:59
+msgid "Primary menu:"
+msgstr "Menú primario:"
+
+#: system/pages/admin/menus/configuration.php:62
+msgid "Menu returned on the $primary_links template variable"
+msgstr "Menú devolvido en la variable $primary_links de las plantillas."
+
+#: system/pages/admin/menus/configuration.php:69
+msgid "Secondary menu:"
+msgstr "Menú secundario:"
+
+#: system/pages/admin/menus/configuration.php:72
+msgid "Menu returned on the $secondary_links template variable"
+msgstr "Menú devolvido en la variable $secondary_links de las plantillas."
+
+#: system/pages/admin/menus/delete-item.php:17
+msgid "Delete Menu Item"
+msgstr "Eliminar Menú Ítems"
+
+#: system/pages/admin/menus/delete-item.php:35
+msgid "Menu item successfully deleted."
+msgstr "Item de menu borrado exitosamente."
+
+#: system/pages/admin/menus/delete-item.php:56
+msgid "Are you sure you want to delete the menu item?"
+msgstr "Esta seguro que desea borrar el item de menu?"
+
+#: system/pages/admin/menus/delete.php:17
+msgid "Delete Menu"
+msgstr "Eliminar Menú"
+
+#: system/pages/admin/menus/delete.php:61
+msgid "Menu successfully deleted."
+msgstr "Menú borrado exitosamente."
+
+#: system/pages/admin/menus/delete.php:72
+msgid "Can't delete primary menu."
+msgstr "No se puede borrar el menú primario."
+
+#: system/pages/admin/menus/delete.php:76
+msgid "Can't delete secondary menu."
+msgstr "No se puede borrar el menú secundario."
+
+#: system/pages/admin/menus/delete.php:93
+msgid "Are you sure you want to delete the menu?"
+msgstr "Esta seguro que desea borrar el menu?"
+
+#: system/pages/admin/menus/edit-item.php:17
+msgid "Edit Menu Item"
+msgstr "Editar Menú Ítems"
+
+#: system/pages/admin/menus/edit-item.php:76
+msgid "The menu item was successfully edited."
+msgstr "El menu item fue editado exitosamente."
+
+#: system/pages/admin/menus/rename.php:17
+msgid "Rename Menu"
+msgstr "Renombrar Menu"
+
+#: system/pages/admin/menus/rename.php:83
+msgid "Menu successfully renamed."
+msgstr "Menu renombrado exitosamente."
+
+#: system/pages/admin/menus/rename.php:112
+msgid "New name:"
+msgstr "Nuevo nombre:"
+
+#: system/pages/admin/modules.php:31 system/pages/admin/users/list.php:156
+msgid "Status"
+msgstr "Estado"
+
+#: system/pages/admin/modules.php:33
+msgid "Dependencies"
+msgstr "Dependencias"
+
+#: system/pages/admin/modules.php:41
+msgid "View module info."
+msgstr "Ver información del módulo."
+
+#: system/pages/admin/modules.php:57 system/pages/admin/themes.php:70
+msgid "Enabled"
+msgstr "Activado"
+
+#: system/pages/admin/modules.php:58
+msgid "Version installed:"
+msgstr "Versión instalada:"
+
+#: system/pages/admin/modules.php:62
+msgid "Actual version:"
+msgstr "Versión actual:"
+
+#: system/pages/admin/modules.php:68 system/pages/admin/modules/view.php:43
+#: system/pages/admin/themes/view.php:52
+msgid "Version:"
+msgstr "Versión:"
+
+#: system/pages/admin/modules/delete.php:17
+msgid "Delete Module"
+msgstr "Borrar Módulo"
+
+#: system/pages/admin/modules/delete.php:39
+msgid "Module successfully deleted."
+msgstr "Módulo borrado exitosamente."
+
+#: system/pages/admin/modules/delete.php:60
+msgid "Are you sure you want to delete the module?"
+msgstr "Estas seguro que deseas eliminar el módulo?"
+
+#: system/pages/admin/modules/delete.php:63
+msgid "Module: "
+msgstr "Módulo:"
+
+#: system/pages/admin/modules/install.php:17
+msgid "Install Module"
+msgstr "Instalar Modulo"
+
+#: system/pages/admin/modules/install.php:27
+#: system/pages/admin/modules/uninstall.php:27
+#: system/pages/admin/modules/upgrade.php:27
+msgid "Data caching is enabled, please disable it first."
+msgstr "El cache de data esta activo, por favor desactívelo antes."
+
+#: system/pages/admin/modules/install.php:36
+msgid "Module successfully installed."
+msgstr "Módulo instalado exitosamente."
+
+#: system/pages/admin/modules/uninstall.php:17
+msgid "Uninstall Module"
+msgstr "Desinstalar Módulo"
+
+#: system/pages/admin/modules/uninstall.php:36
+msgid "Module successfully uninstalled."
+msgstr "Módulo desinstalado exitosamente."
+
+#: system/pages/admin/modules/upgrade.php:17
+msgid "Upgrade Module"
+msgstr "Actualizar Modulo"
+
+#: system/pages/admin/modules/upgrade.php:35
+msgid "Module successfully upgraded."
+msgstr "Módulo actualizado exitosamente."
+
+#: system/pages/admin/modules/upload.php:17
+msgid "Upload Module"
+msgstr "Subir Módulo"
+
+#: system/pages/admin/modules/upload.php:30
+msgid ""
+"By uploading a module you will override any existing system one with your "
+"version."
+msgstr ""
+"Al subir un módulo estarás sobre escribiendo cualquiera existente del "
+"sistema."
+
+#: system/pages/admin/modules/upload.php:59
+msgid "Module uploaded."
+msgstr "Módulo subido."
+
+#: system/pages/admin/modules/upload.php:64
+#: system/pages/admin/settings/sqlite/upload.php:55
+#: system/pages/admin/themes/upload.php:64
+msgid "ZipArchive extension not enabled. Could not extract zip file."
+msgstr ""
+"La extensión ZipArchive no esta disponible. No se pudo extraer el archivo "
+"zip."
+
+#: system/pages/admin/modules/upload.php:84
+msgid "Module file:"
+msgstr "Archivo de módulo:"
+
+#: system/pages/admin/modules/upload.php:88
+msgid "A valid module zip file."
+msgstr "Un archivo zip válido de módulo."
+
+#: system/pages/admin/modules/view.php:17
+msgid "Module Info"
+msgstr "Información del Módulo"
+
+#: system/pages/admin/modules/view.php:51 system/pages/admin/themes/view.php:60
+msgid "Author:"
+msgstr "Autor:"
+
+#: system/pages/admin/modules/view.php:55 system/pages/admin/themes/view.php:64
+#: system/pages/admin/users/edit.php:280
+msgid "Email:"
+msgstr "Correo Electrónico:"
+
+#: system/pages/admin/modules/view.php:61 system/pages/admin/themes/view.php:76
+#: system/pages/admin/users/add.php:260 system/pages/admin/users/edit.php:307
+#: system/pages/register.php:370
+msgid "Website:"
+msgstr "Sitio:"
+
+#: system/pages/admin/pages.php:17 system/pages/admin/pages.php:113
+msgid "Pages"
+msgstr "Páginas"
+
+#: system/pages/admin/pages.php:30 system/pages/admin/users.php:37
+msgid "You are currently navigating:"
+msgstr "Estas navegando en:"
+
+#: system/pages/admin/pages.php:75 system/pages/admin/pages.php:143
+msgid "Sections"
+msgstr "Secciones"
+
+#: system/pages/admin/pages.php:94 system/pages/admin/users.php:107
+msgid "Alphabetical"
+msgstr "&Aacute;lfabeto"
+
+#: system/pages/admin/pages.php:134 system/pages/admin/users.php:28
+#: system/pages/admin/users/export.php:25 system/pages/admin/users/list.php:25
+#: system/pages/admin/users/re-index.php:25
+msgid "List View"
+msgstr "Vista en Listado"
+
+#: system/pages/admin/pages.php:141
+msgid "Navigation"
+msgstr "Navegación"
+
+#: system/pages/admin/pages.php:142
+msgid "Singles"
+msgstr "Solas"
+
+#: system/pages/admin/pages/add.php:146
+msgid "The page was successfully created."
+msgstr "La página fue creada exitosamente."
+
+#: system/pages/admin/pages/add.php:182
+msgid "You do not have permissions to add content of that type."
+msgstr "No tienes permisos para agregar contenido de ese tipo."
+
+#: system/pages/admin/pages/add.php:328 system/pages/admin/pages/edit.php:407
+msgid ""
+"Select the groups that can see this content. Don't select anything to "
+"display content to everyone."
+msgstr ""
+"Seleccione los grupos que pueden ver el contenido. No seleccione nada para "
+"mostrarlo a todos los grupos."
+
+#: system/pages/admin/pages/add.php:340 system/pages/admin/pages/edit.php:419
+msgid "Users:"
+msgstr "Usuarios:"
+
+#: system/pages/admin/pages/add.php:344 system/pages/admin/pages/edit.php:422
+msgid ""
+"A comma seperated list of users that can see this content. Leave empty to "
+"display content to everyone."
+msgstr ""
+"Una lista de usuarios separados por coma (,) que puede ver este contenido. "
+"No seleccione nada para mostrar el contenido a todos los visitantes."
+
+#: system/pages/admin/pages/add.php:360
+#: system/pages/admin/pages/blocks/add/post.php:137
+#: system/pages/admin/pages/blocks/edit/post.php:206
+#: system/pages/admin/pages/edit.php:438 system/pages/admin/settings.php:616
+#: system/pages/admin/settings.php:632
+msgid "Uri:"
+msgstr "Uri:"
+
+#: system/pages/admin/pages/add.php:364 system/pages/admin/pages/edit.php:441
+msgid ""
+"The relative path to access the page, for example: section/page, section. "
+"Leave empty to auto-generate."
+msgstr ""
+"La ruta de acceso a la página, por ejemplo: seccion/pagina ó mi-acceso-"
+"directo. Dejar en vacío para auto generar."
+
+#: system/pages/admin/pages/add.php:381 system/pages/admin/pages/edit.php:458
+#: system/pages/admin/types/delete.php:61
+#: system/pages/admin/types/fields/add.php:158
+#: system/pages/admin/types/fields/edit.php:178
+msgid "Type:"
+msgstr "Tipo:"
+
+#: system/pages/admin/pages/blocks.php:17
+msgid "Page Blocks"
+msgstr "Bloques de Páginas"
+
+#: system/pages/admin/pages/blocks.php:136
+#: system/pages/admin/pages/blocks/post/settings.php:46
+msgid "Create Post Block"
+msgstr "Crear Bloque de Envio"
+
+#: system/pages/admin/pages/blocks.php:151
+#: system/pages/admin/pages/blocks/post/settings.php:47
+msgid "Post Settings"
+msgstr "Configuraciones de Envios"
+
+#: system/pages/admin/pages/blocks/add.php:17
+msgid "Add Page Block"
+msgstr "Agregar Bloque de Página"
+
+#: system/pages/admin/pages/blocks/add.php:71
+msgid "The blocks was successfully created."
+msgstr "Bloque creado exitosamente."
+
+#: system/pages/admin/pages/blocks/add/post.php:17
+msgid "Add Post Block"
+msgstr "Agregar Bloque de Publicación"
+
+#: system/pages/admin/pages/blocks/add/post.php:71
+msgid "The post block was successfully created."
+msgstr "El bloque de publicación fue creado exitosamente."
+
+#: system/pages/admin/pages/blocks/add/post.php:140
+#: system/pages/admin/pages/blocks/edit/post.php:210
+msgid "The uri of the page to display a summary."
+msgstr "El uri utilizado para mostrar un resumem de contenido."
+
+#: system/pages/admin/pages/blocks/delete.php:17
+msgid "Delete Page Block"
+msgstr "Eliminar Bloque de Página"
+
+#: system/pages/admin/pages/blocks/edit.php:17
+msgid "Edit Page Block"
+msgstr "Editar Bloque de Página"
+
+#: system/pages/admin/pages/blocks/edit/post.php:17
+msgid "Edit Post Block"
+msgstr "Crear Bloque de Publicación"
+
+#: system/pages/admin/pages/blocks/post/settings.php:17
+msgid "Blocks Post Settings"
+msgstr "Configuracion para los bloques de envio"
+
+#: system/pages/admin/pages/blocks/post/settings.php:66
+msgid "Post settings successfully saved."
+msgstr "Configuraciones de envio guardadas exitosamente."
+
+#: system/pages/admin/pages/blocks/post/settings.php:99
+msgid "Display post title"
+msgstr "Mostrar título del envio"
+
+#: system/pages/admin/pages/blocks/post/settings.php:103
+msgid ""
+"Overrides the block title with the title of the page from the given uri."
+msgstr ""
+"Sobre escríbe el título del bloque con el título de la página asignada en el "
+"uri."
+
+#: system/pages/admin/pages/blocks/post/settings.php:117
+msgid "Thumbnail width:"
+msgstr "Ancho de miniatura:"
+
+#: system/pages/admin/pages/blocks/post/settings.php:121
+msgid "The maximum width of the image thumbnail in pixels."
+msgstr ""
+"Máximo ancho en pixeles en el cual las imágenes de previsualización se van a "
+"mostrar."
+
+#: system/pages/admin/pages/blocks/post/settings.php:127
+msgid "Thumbnail height:"
+msgstr "Alto de miniatura:"
+
+#: system/pages/admin/pages/blocks/post/settings.php:130
+msgid "The maximum height of the image thumbnail in pixels."
+msgstr "Alto máximo en pixeles de la miniatura."
+
+#: system/pages/admin/pages/blocks/post/settings.php:136
+#: system/pages/admin/settings/search.php:142
+msgid "Background color:"
+msgstr "Color de fondo:"
+
+#: system/pages/admin/pages/blocks/post/settings.php:139
+msgid "The background color of the thumbnail in case is neccesary."
+msgstr "El color de fondo de la miniatura en caso de ser necesario."
+
+#: system/pages/admin/pages/blocks/post/settings.php:149
+#: system/pages/admin/settings/search.php:135
+msgid "Keep aspect ratio?"
+msgstr "¿Mantener relación de aspecto?"
+
+#: system/pages/admin/pages/blocks/post/settings.php:156
+msgid "Display image thumbnail"
+msgstr "Mostrar miniatura de imagen"
+
+#: system/pages/admin/pages/blocks/post/settings.php:171
+msgid "Display view more link"
+msgstr "Mostar enlace de ver más"
+
+#: system/pages/admin/pages/blocks/post/settings.php:181
+msgid "Maximun amount of words:"
+msgstr "Maxima cantidad de palabras:"
+
+#: system/pages/admin/pages/blocks/post/settings.php:184
+msgid "Amount of words displayed of the page summary."
+msgstr "Cantidad de palabras mostradas en el resumen del envio."
+
+#: system/pages/admin/pages/delete.php:74
+msgid "Page successfully deleted."
+msgstr "Página eliminada exitosamente."
+
+#: system/pages/admin/pages/delete.php:84
+msgid "Translations successfully deleted."
+msgstr "Traducción borrada exitosamente."
+
+#: system/pages/admin/pages/delete.php:119
+msgid "Are you sure you want to delete this?"
+msgstr "Estas seguro que deseas eliminar esto?"
+
+#: system/pages/admin/pages/duplicate.php:18
+msgid "Duplicate Content"
+msgstr "Duplicar Contenido"
+
+#: system/pages/admin/pages/duplicate.php:34
+msgid "The content you was trying to duplicate is a system page."
+msgstr ""
+"El contenido que estabas tratando de duplicar es una página del sistema."
+
+#: system/pages/admin/pages/duplicate.php:108
+msgid "The page was successfully duplicated."
+msgstr "La página fue duplicada exitosamente."
+
+#: system/pages/admin/pages/edit.php:52 system/pages/admin/pages/edit.php:85
+msgid "The content you was trying to edit is a system page."
+msgstr "El contenido que tratabas de editar es una página del sistema."
+
+#: system/pages/admin/pages/edit.php:219
+msgid "Translations repositioned."
+msgstr "Traducciones reposicionadas."
+
+#: system/pages/admin/pages/files.php:75
+#: system/pages/admin/pages/files/add.php:45
+msgid "File uploads not permitted for this content type."
+msgstr "Subida de archivos no permitida para este tipo de contenido."
+
+#: system/pages/admin/pages/files.php:79
+#: system/pages/admin/pages/files/add.php:50
+msgid "Maximum file uploads reached."
+msgstr "Cantidad maxima de archivos subidos alcanzada."
+
+#: system/pages/admin/pages/files.php:121
+#: system/pages/admin/pages/files/add.php:17
+msgid "Add File"
+msgstr "Agregar Archivo"
+
+#: system/pages/admin/pages/files.php:180
+#: system/pages/admin/pages/images.php:197
+#: system/pages/admin/pages/list.php:132
+msgid "Select:"
+msgstr "Seleccionar:"
+
+#: system/pages/admin/pages/files.php:181
+#: system/pages/admin/pages/images.php:198
+#: system/pages/admin/pages/list.php:133
+msgid "-Action-"
+msgstr "-Acción-"
+
+#: system/pages/admin/pages/files.php:182
+#: system/pages/admin/pages/images.php:199 system/pages/admin/pages/list.php:87
+#: system/pages/admin/pages/list.php:134 system/pages/admin/user/content.php:45
+#: system/pages/admin/users/list.php:84 system/pages/admin/users/list.php:99
+#: system/pages/search.php:39
+msgid "All"
+msgstr "Todos"
+
+#: system/pages/admin/pages/files.php:188
+#: system/pages/admin/pages/images.php:207
+#: system/pages/admin/pages/list.php:140
+msgid "Delete Selected"
+msgstr "Borrar Seleccionados"
+
+#: system/pages/admin/pages/files.php:227
+msgid "Click to download"
+msgstr "Presiona para descargar."
+
+#: system/pages/admin/pages/files.php:283
+msgid "No file available click Add File to create one."
+msgstr ""
+"No existe archivo disponible. Favor de dar un click a Agregar Archivo para "
+"crear uno."
+
+#: system/pages/admin/pages/files.php:288
+msgid "No file available."
+msgstr "No hay archivos disponibles."
+
+#: system/pages/admin/pages/files/add.php:91
+msgid "The file was successfully added."
+msgstr "El archivo fue guardado exitosamente."
+
+#: system/pages/admin/pages/files/add.php:118
+#: system/pages/admin/settings/error-line.php:78
+msgid "File:"
+msgstr "Archivo:"
+
+#: system/pages/admin/pages/files/delete-selected.php:18
+msgid "Delete Selected Files"
+msgstr "Borrar Archivos Seleccionados"
+
+#: system/pages/admin/pages/files/delete-selected.php:38
+msgid "Please select the files to delete."
+msgstr "Por favor seleccione los archivos a borrar."
+
+#: system/pages/admin/pages/files/delete-selected.php:66
+msgid "Files successfully deleted."
+msgstr "Archivos borrados exitosamente."
+
+#: system/pages/admin/pages/files/delete-selected.php:99
+msgid "Are you sure you want to delete the listed files?"
+msgstr "¿Estas seguro que desea eliminar los archivos listados?"
+
+#: system/pages/admin/pages/files/delete.php:17
+msgid "Delete File"
+msgstr "Eliminar"
+
+#: system/pages/admin/pages/files/delete.php:40
+msgid "File successfully deleted."
+msgstr "Archivo se ha eliminado exitosamente.."
+
+#: system/pages/admin/pages/files/delete.php:61
+msgid "Are you sure you want to delete the file?"
+msgstr "Estas seguro que deseas eliminar el archivo?"
+
+#: system/pages/admin/pages/images.php:91
+#: system/pages/admin/pages/images/add.php:47
+msgid "Image uploads not permitted for this content type."
+msgstr "Subida de imágenes no permitida para este tipo de contenido."
+
+#: system/pages/admin/pages/images.php:95
+#: system/pages/admin/pages/images/add.php:52
+msgid "Maximum image uploads reached."
+msgstr "Cantidad maxima de imágenes subidas alcanzada."
+
+#: system/pages/admin/pages/images.php:137
+#: system/pages/admin/pages/images/add.php:17
+msgid "Add Image"
+msgstr "Agregar Imagen"
+
+#: system/pages/admin/pages/images.php:229
+msgid "Thumbnail"
+msgstr "Miniatura"
+
+#: system/pages/admin/pages/images.php:263
+msgid "Click to enlarge"
+msgstr "Presiona para agrandar"
+
+#: system/pages/admin/pages/images.php:325
+msgid "No images available click Add Image to create one."
+msgstr ""
+"No existe imágenes disponibles. Favor de dar un click a Agregar Imagen para "
+"crear una."
+
+#: system/pages/admin/pages/images.php:330
+msgid "No images available."
+msgstr "No hay imágenes disponible."
+
+#: system/pages/admin/pages/images/add.php:145
+msgid "The image was successfully added."
+msgstr "La imagen fue agregada exitosamente."
+
+#: system/pages/admin/pages/images/add.php:173
+msgid "Image file:"
+msgstr "Archivo de imagen:"
+
+#: system/pages/admin/pages/images/add.php:186
+#: system/pages/admin/settings.php:581
+msgid "Maximun width:"
+msgstr "Ancho máximo:"
+
+#: system/pages/admin/pages/images/add.php:188
+msgid "The width the image should be resized to."
+msgstr "El ancho al que la imagen debe ser cambiada de tamaño."
+
+#: system/pages/admin/pages/images/add.php:189
+msgid "default:"
+msgstr "predeterminado:"
+
+#: system/pages/admin/pages/images/delete-selected.php:18
+msgid "Delete Selected Images"
+msgstr "Borrar Imagenes Seleccionadas"
+
+#: system/pages/admin/pages/images/delete-selected.php:38
+msgid "Please select the images to delete."
+msgstr "Por favor seleccione las imagenes a borrar."
+
+#: system/pages/admin/pages/images/delete-selected.php:66
+msgid "Images successfully deleted."
+msgstr "Imagenes borradas exitosamente."
+
+#: system/pages/admin/pages/images/delete-selected.php:97
+msgid "Are you sure you want to delete the listed images?"
+msgstr "¿Esta seguro que desea eliminar las imagenes listadas?"
+
+#: system/pages/admin/pages/images/delete.php:17
+msgid "Delete Image"
+msgstr "Eliminar Imagen"
+
+#: system/pages/admin/pages/images/delete.php:40
+msgid "Image successfully deleted."
+msgstr "La imagen fue exitosamente borrada."
+
+#: system/pages/admin/pages/images/delete.php:61
+msgid "Are you sure you want to delete the image?"
+msgstr "Esta seguro que desea borrar la imagen?"
+
+#: system/pages/admin/pages/list.php:17
+msgid "Pages List"
+msgstr "Listado de Páginas"
+
+#: system/pages/admin/pages/list.php:38 system/pages/admin/users.php:27
+#: system/pages/admin/users/export.php:24 system/pages/admin/users/list.php:24
+#: system/pages/admin/users/re-index.php:24
+msgid "Navigation View"
+msgstr "Vista en Navegación"
+
+#: system/pages/admin/pages/list.php:86 system/pages/admin/user/content.php:41
+msgid "Filter by type:"
+msgstr "Filtrar por tipo:"
+
+#: system/pages/admin/pages/list.php:128 system/pages/admin/user/content.php:79
+msgid "Total content:"
+msgstr "Contenido total:"
+
+#: system/pages/admin/pages/list.php:170
+msgid "Author"
+msgstr "Autor"
+
+#: system/pages/admin/pages/list.php:171
+#: system/pages/admin/user/content.php:103
+msgid "Dates"
+msgstr "Días"
+
+#: system/pages/admin/pages/list.php:172
+#: system/pages/admin/settings/errors.php:129
+#: system/pages/admin/types/posts.php:29
+#: system/pages/admin/types/uploads.php:29
+#: system/pages/admin/user/content.php:104
+msgid "Type"
+msgstr "Tipo"
+
+#: system/pages/admin/pages/list.php:184 system/pages/admin/pages/list.php:186
+#: system/pages/admin/user/content.php:127
+msgid "system"
+msgstr "sistema"
+
+#: system/pages/admin/pages/list.php:218
+#: system/pages/admin/user/content.php:156
+msgid "Created:"
+msgstr "Creado:"
+
+#: system/pages/admin/pages/list.php:224
+#: system/pages/admin/user/content.php:157
+msgid "Edited:"
+msgstr "Editado:"
+
+#: system/pages/admin/pages/mass-delete.php:18
+msgid "Mass Content Delete"
+msgstr "Eliminación de Contenido en Masa"
+
+#: system/pages/admin/pages/mass-delete.php:38
+msgid "Please select the content to delete."
+msgstr "Por favor seleccione el contenido a borrar."
+
+#: system/pages/admin/pages/mass-delete.php:71
+msgid "Content successfully deleted."
+msgstr "Contenido exitosamente borrado."
+
+#: system/pages/admin/pages/mass-delete.php:105
+msgid "Are you sure you want to delete the listed content?"
+msgstr "¿Esta seguro que desea eliminar el contenido listado?"
+
+#: system/pages/admin/pages/translate.php:17
+msgid "Translate Page"
+msgstr "Traducir Página"
+
+#: system/pages/admin/pages/types.php:17
+msgid "Add Content"
+msgstr "Añadir Contenido"
+
+#: system/pages/admin/pages/types.php:91
+msgid ""
+"You do not have permissions to add content of any type. Ask the "
+"administrator for access."
+msgstr ""
+"No tienes permiso para agregar contenido de nigun tupo. Preguntale al "
+"administrador por los accesos."
+
+#: system/pages/admin/settings.php:25
+msgid "Mailer"
+msgstr "Enviador"
+
+#: system/pages/admin/settings.php:177
+#: system/pages/admin/settings/advanced.php:119
+#: system/pages/admin/settings/mailer.php:44
+#: system/pages/admin/settings/search.php:56
+#: system/pages/admin/types/posts.php:49
+#: system/pages/admin/types/uploads.php:50
+msgid "Your settings have been successfully saved."
+msgstr "Tus configuraciones han sido exitosamente almacenadas."
+
+#: system/pages/admin/settings.php:196
+msgid "Online"
+msgstr "En línea"
+
+#: system/pages/admin/settings.php:197
+msgid "Offline"
+msgstr "Fuera de línea"
+
+#: system/pages/admin/settings.php:210
+msgid "Status title:"
+msgstr "Título del estado:"
+
+#: system/pages/admin/settings.php:213
+msgid "A brief description of site status like: Under Construction"
+msgstr "Una descripción breve del estado."
+
+#: system/pages/admin/settings.php:219
+msgid "Status Description:"
+msgstr "Descripción del estado:"
+
+#: system/pages/admin/settings.php:222
+msgid "A detailed description of the site status."
+msgstr "Una descripción más detallada del estado."
+
+#: system/pages/admin/settings.php:226
+msgid "Site Status"
+msgstr "Estado del Sitio"
+
+#: system/pages/admin/settings.php:235
+msgid "Site title:"
+msgstr "Título del sitio:"
+
+#: system/pages/admin/settings.php:249
+msgid "Auto detect base url?"
+msgstr "¿Auto detectar url base?"
+
+#: system/pages/admin/settings.php:257
+msgid "Site url:"
+msgstr "Enlace del sitio:"
+
+#: system/pages/admin/settings.php:265
+msgid "Slogan:"
+msgstr "Lema:"
+
+#: system/pages/admin/settings.php:268
+msgid "A short phrase that describes your company or organization goals."
+msgstr "Una frase corta que describa tu compañía o metas de la organización."
+
+#: system/pages/admin/settings.php:273
+msgid "Footer message:"
+msgstr "Mensaje del pie:"
+
+#: system/pages/admin/settings.php:279
+msgid "Site info"
+msgstr "Información del sitio"
+
+#: system/pages/admin/settings.php:286
+msgid "auto-detect"
+msgstr "auto-detectar"
+
+#: system/pages/admin/settings.php:295
+msgid "Site language:"
+msgstr "Lenguaje del sitio:"
+
+#: system/pages/admin/settings.php:313
+msgid "Timezone:"
+msgstr "Horario de zona"
+
+#: system/pages/admin/settings.php:321
+msgid "Language and Timezone"
+msgstr "Lenguaje y Horario de Zona"
+
+#: system/pages/admin/settings.php:340
+msgid "Require administrator approval?"
+msgstr "Requiere aprobación del administrador?"
+
+#: system/pages/admin/settings.php:353
+msgid "Registrator can select group?"
+msgstr "El usuario registrador puede seleccionar el grupo?"
+
+#: system/pages/admin/settings.php:366
+msgid "Groups the registrator can select"
+msgstr "Grupos que el usuario registrador puede seleccionar"
+
+#: system/pages/admin/settings.php:391
+msgid "Group"
+msgstr "Grupo"
+
+#: system/pages/admin/settings.php:401
+msgid "Requires Approval"
+msgstr "Requiere Aprobación"
+
+#: system/pages/admin/settings.php:475
+msgid "Benefits:"
+msgstr "Beneficios:"
+
+#: system/pages/admin/settings.php:478
+msgid ""
+"This will be displayed on My Account (admin/user) login page. You can input "
+"html and php code."
+msgstr ""
+"Esto será mostrado en la página de inicio Mi Cuenta (admin/user). Puedes "
+"entrar html y código php."
+
+#: system/pages/admin/settings.php:484
+msgid "Terms and conditions:"
+msgstr "Terminos y condiciones:"
+
+#: system/pages/admin/settings.php:487
+msgid "The terms and conditions users have to agree before registering."
+msgstr ""
+"Los terminos y condiciones que el usuario debe aceptar antes de registrarse."
+
+#: system/pages/admin/settings.php:491
+msgid "New registrations"
+msgstr "Nuevas registraciones"
+
+#: system/pages/admin/settings.php:495
+msgid ""
+"Enables or disable public registrations to the site at the register page."
+msgstr ""
+"Activa o desactiva el registro publico al sitio en la pagina de register."
+
+#: system/pages/admin/settings.php:511
+msgid "Public profiles"
+msgstr "Perfiles Públicos"
+
+#: system/pages/admin/settings.php:524
+msgid "Personal Text Lenght"
+msgstr "Largo del Texto personal"
+
+#: system/pages/admin/settings.php:535
+msgid "User profiles"
+msgstr "Perfil de usuarios"
+
+#: system/pages/admin/settings.php:554
+msgid "Size:"
+msgstr "Tamaño:"
+
+#: system/pages/admin/settings.php:558
+msgid ""
+"The maximun width and height of the picture in the format 100x150 where 100 "
+"= width and 150 height."
+msgstr ""
+"Máximo ancho y alto de una imagen de 100x150 donde el 100 = ancho y 150 el "
+"alto."
+
+#: system/pages/admin/settings.php:562
+msgid "User picture"
+msgstr "Foto del Usuario"
+
+#: system/pages/admin/settings.php:585
+msgid "The maximun width for uploaded images."
+msgstr "Máximo ancho para la subida de imágenes."
+
+#: system/pages/admin/settings.php:590
+msgid "Image quality:"
+msgstr "Calidad de imagen:"
+
+#: system/pages/admin/settings.php:594
+msgid ""
+"A range from 0 (worst quality, smaller file) to 100 (best quality, biggest "
+"file) for jpeg files."
+msgstr ""
+"Un valor desde 0 (peor calidad, menor peso) hasta 100 (mejor calidad, mayor "
+"peso) para las imagenes jpeg."
+
+#: system/pages/admin/settings.php:602
+msgid "Static Serving"
+msgstr "Entrega Estática"
+
+#: system/pages/admin/settings.php:604
+msgid ""
+"Enabling this option will store processed image files in a public directory "
+"named 'images', this way the web server becomes in charge of serving images "
+"directly instead of serving them from php script which improves performance. "
+"The only drawback is that images are not protected from public access."
+msgstr ""
+"Al activar esta opción se guardarán las imágenes procesadas en el directorio "
+"publico nombrado 'images', de esta manera el servidor web se hace cargo de "
+"servir las imágenes directamente en vez de ser servidas de un script en php, "
+"lo que mejora el rendimiento. El único inconveniente es que las imágenes no "
+"son protegidas del acceso público."
+
+#: system/pages/admin/settings.php:608
+msgid "Image compression"
+msgstr "Compresión de Imágenes"
+
+#: system/pages/admin/settings.php:620
+msgid "The uri to the page used as the home page."
+msgstr "El uri utilizado para la pagina de inicio."
+
+#: system/pages/admin/settings.php:624
+msgid "Home page"
+msgstr "Página de Inicio"
+
+#: system/pages/admin/settings.php:636
+msgid "The uri to the page used as the page not found result."
+msgstr "El uri utilizado para la página de resultado no encontrado."
+
+#: system/pages/admin/settings/about.php:24
+msgid "You are using Jaris CMS Version:"
+msgstr "Estas usando JarisCMS Version:"
+
+#: system/pages/admin/settings/about.php:28
+msgid "Copyright &copy; 2008 - 2010, All Rights Reserved by JegoYalu."
+msgstr ""
+"Derechos Reservados &copy; 2008 - 2010, Todos los derechos reservados por "
+"JegoYalu."
+
+#: system/pages/admin/settings/about.php:30
+msgid "JarisCMS is developed by JegoYalu"
+msgstr "JarisCMS es desarrollado por JegoYalu"
+
+#: system/pages/admin/settings/about.php:34
+msgid "and is under the GPL license"
+msgstr "y esta bajo la licencia GPL"
+
+#: system/pages/admin/settings/advanced.php:17
+msgid "Advanced Settings"
+msgstr "Configuraciones Avanzadas"
+
+#: system/pages/admin/settings/advanced.php:24
+#: system/pages/admin/settings/cron.php:17
+msgid "Cron Jobs"
+msgstr "Cron Jobs"
+
+#: system/pages/admin/settings/advanced.php:25
+#: system/pages/admin/settings/clear-image-cache.php:17
+msgid "Clear Image Cache"
+msgstr "Limpar Cache de Imágenes"
+
+#: system/pages/admin/settings/advanced.php:26
+#: system/pages/admin/settings/clear-page-cache.php:17
+msgid "Clear Page Cache"
+msgstr "Limpar Cache de Páginas"
+
+#: system/pages/admin/settings/advanced.php:27
+msgid "Sqlite Backups"
+msgstr "Respaldos Sqlite"
+
+#: system/pages/admin/settings/advanced.php:28
+msgid "Re-index SQLite Search"
+msgstr "Re-indexear Buscador SQLite"
+
+#: system/pages/admin/settings/advanced.php:154
+msgid "Override settings"
+msgstr "Sobre escribir configuraciones"
+
+#: system/pages/admin/settings/advanced.php:158
+msgid "Overrides settings.php options. Should always be enable."
+msgstr ""
+"Sobre escribir las opciones de settings.php. Debe estar siempre activado."
+
+#: system/pages/admin/settings/advanced.php:173
+msgid "Development mode"
+msgstr "Modo desarrollo"
+
+#: system/pages/admin/settings/advanced.php:177
+msgid ""
+"When enabled a module changes will reflect instantly without having to re-"
+"install it, but this will affect the system performance. Use when developing "
+"modules for easier testing."
+msgstr ""
+"Cuando esta activado, los cambios realizados a un módulo se reflejaran "
+"inmediatamente sin necesidad de re-instalación, pero afectará el rendimiento "
+"del sistema. Activa esta opción cuando estes desarrollando módulos probar "
+"tus cambios más facilmente."
+
+#: system/pages/admin/settings/advanced.php:185
+msgid "Enables or disable the validation of user ip address"
+msgstr "Activar o desactivar la validación de ip para usuarios iniciados"
+
+#: system/pages/admin/settings/advanced.php:194
+msgid ""
+"This increases security but may result on user logout on dynamic mobile "
+"connections that constantly change ip address."
+msgstr ""
+"Esto aumenta la seguridad pero puede resultar en el cierre de sesión para "
+"usuarios con conexiones moviles dinámicas que constantemente cambian de ip."
+
+#: system/pages/admin/settings/advanced.php:199
+msgid "Force login over encrypted connection (https)"
+msgstr "Forzar el inicio de sesion usando conexión encriptada (https)"
+
+#: system/pages/admin/settings/advanced.php:211
+msgid "Login and Authentication"
+msgstr "Inicio y Autentificación"
+
+#: system/pages/admin/settings/advanced.php:230
+msgid "PHP pages caching?"
+msgstr "Cache de páginas en php?"
+
+#: system/pages/admin/settings/advanced.php:243
+msgid "Select databases to ignore on timestamp check"
+msgstr "Bases de datos a ignorar al verificar la fecha de modificación"
+
+#: system/pages/admin/settings/advanced.php:288
+msgid "Select types to disable page caching"
+msgstr "Selecciona los tipos a ignorar el cache de páginas"
+
+#: system/pages/admin/settings/advanced.php:321
+msgid "Expiration time:"
+msgstr "Tiempo de expiración:"
+
+#: system/pages/admin/settings/advanced.php:325
+msgid ""
+"Amount of seconds until a cached page is regenerated. Leave blank or set to "
+"0 to disable."
+msgstr ""
+"Cantidad de segundos para regenerar un página almacenada en el cache. Dejar "
+"en blanco o poner 0 (cero) para deshabilitar."
+
+#: system/pages/admin/settings/advanced.php:331
+msgid "Enable Fast Page Caching"
+msgstr "Activar Cache Rápido de Páginas"
+
+#: system/pages/admin/settings/advanced.php:335
+msgid ""
+"Enabling this option will prevent the system from fully loading and proceed "
+"to send a cached file if available."
+msgstr ""
+"Activar esta opción evitará que el sistema cargue completamente y proceda a "
+"enviar un archivo de cache de estar disponible."
+
+#: system/pages/admin/settings/advanced.php:339
+msgid "Page Caching"
+msgstr "Cache de Páginas"
+
+#: system/pages/admin/settings/advanced.php:343
+msgid "Enables or disable the caching of pages content for fast retrieving."
+msgstr ""
+"Activar o desactivar el cache del contenido de las páginas para un mejor "
+"rendimiento."
+
+#: system/pages/admin/settings/advanced.php:358
+msgid "Data Caching"
+msgstr "Cache de Data"
+
+#: system/pages/admin/settings/advanced.php:362
+msgid ""
+"Special option that improves performance on embedded devices or low "
+"performance servers."
+msgstr ""
+"Opción especial que mejora el rendimiento en dispositivos  integrados o "
+"servidores de bajo rendimiento."
+
+#: system/pages/admin/settings/advanced.php:377
+msgid "Classic Views Counting"
+msgstr "Conteo Clásico de Visitas"
+
+#: system/pages/admin/settings/advanced.php:381
+msgid ""
+"When enabled, instead of using new json api to count page views after load, "
+"the old server side mechanism is used which can slow down page load time."
+msgstr ""
+"Cuando esta activado, en vez de usar el nuevo api de json para contar las "
+"vistas de página despues de su carga, se utiliza el método antiguo el cual "
+"puede afectar el tiempo de carga de las páginas."
+
+#: system/pages/admin/settings/advanced.php:396
+msgid "Script stats"
+msgstr "Estadísticas de la aplicación"
+
+#: system/pages/admin/settings/advanced.php:400
+msgid ""
+"Enables or disable the display of script stats at the end of page. For the "
+"purpose of measuring JarisCMS performance."
+msgstr ""
+"Activa o desactiva la muestra de estadísticas de la aplicación al final de "
+"la página. Con el propósito de medir el rendimiento de JarisCMS."
+
+#: system/pages/admin/settings/advanced.php:415
+msgid "Clean url"
+msgstr "Enlaces limpios"
+
+#: system/pages/admin/settings/api.php:24
+msgid "Add Key"
+msgstr " Agregar Llave"
+
+#: system/pages/admin/settings/api.php:52
+msgid "Key"
+msgstr "Llave"
+
+#: system/pages/admin/settings/api/add-key.php:17
+msgid "Add Api Key"
+msgstr " Agregar Llave de API"
+
+#: system/pages/admin/settings/api/add-key.php:49
+msgid "The api key has been successfully created."
+msgstr "La llave de api fue creada exitosamente."
+
+#: system/pages/admin/settings/api/add-key.php:77
+#: system/pages/admin/settings/api/edit-key.php:83
+msgid "A brief description of the key purpose."
+msgstr "Una descripción breve del uso de la llave."
+
+#: system/pages/admin/settings/api/add-key.php:86
+#: system/pages/admin/settings/api/edit-key.php:91
+msgid "An optional username to associate to the key."
+msgstr "Un nombre de usuario opcional a asociar a una llave."
+
+#: system/pages/admin/settings/api/add-key.php:94
+#: system/pages/admin/settings/api/edit-key.php:98
+msgid "IP or Host:"
+msgstr "IP o Servidor:"
+
+#: system/pages/admin/settings/api/add-key.php:95
+#: system/pages/admin/settings/api/edit-key.php:99
+msgid ""
+"A list separated by comma (,) of ip addresses or host that can use the "
+"apikey. Eg: 192.168.1.1, host.mydynip.com"
+msgstr ""
+"Una lista separada por coma (,) de direcciones ip o servidores que pueden "
+"utilizar la llave del api. Ejemplo: 192.168.1.1, host.mydynip.com"
+
+#: system/pages/admin/settings/api/delete-key.php:17
+msgid "Delete Api Key"
+msgstr "Eliminar Llave de Api"
+
+#: system/pages/admin/settings/api/delete-key.php:36
+msgid "Api key successfully deleted."
+msgstr "Llave de api eliminada exitosamente.."
+
+#: system/pages/admin/settings/api/delete-key.php:51
+msgid "Are you sure you want to delete this api key?"
+msgstr "Estas seguro que deseas eliminar esta llave de api?"
+
+#: system/pages/admin/settings/api/delete-key.php:61
+#: system/pages/admin/settings/api/edit-key.php:73
+msgid "Key:"
+msgstr "Llave:"
+
+#: system/pages/admin/settings/api/edit-key.php:17
+msgid "Edit Api Key"
+msgstr "Editar Llave de Api"
+
+#: system/pages/admin/settings/api/edit-key.php:47
+msgid "The api key has been successfully updated."
+msgstr "La llave de api fue actualizada exitosamente."
+
+#: system/pages/admin/settings/clear-image-cache.php:28
+msgid "Image cache cleared successfully."
+msgstr "Cache de imágenes limpiado  exitosamente."
+
+#: system/pages/admin/settings/clear-image-cache.php:47
+msgid "Are you sure you want to clear the image cache?"
+msgstr "Esta seguro que desea limpiar el cache de imágenes?"
+
+#: system/pages/admin/settings/clear-page-cache.php:30
+msgid "Page cache cleared successfully."
+msgstr "Cache de Páginas limpiado  exitosamente."
+
+#: system/pages/admin/settings/clear-page-cache.php:49
+msgid "Are you sure you want to clear the page cache?"
+msgstr "Esta seguro que desea limpiar el cache de páginas?"
+
+#: system/pages/admin/settings/cron.php:36
+msgid ""
+"To run cron jobs automatically you need to set a command to execute on your "
+"operating system crontab as the following examples:"
+msgstr ""
+"Para ejecutar los cron jobs automaticamente necesitas establecer un comando "
+"en el crontab de tu sistema operativo como los siguientes ejemplos:"
+
+#: system/pages/admin/settings/cron.php:46
+msgid "Last time cron jobs executed:"
+msgstr "Última vez que ejecutaron los cron jobs:"
+
+#: system/pages/admin/settings/cron.php:55
+msgid "never"
+msgstr "nunca"
+
+#: system/pages/admin/settings/cron.php:66
+msgid "Run cron jobs?"
+msgstr "¿Ejecutar los cron jobs?"
+
+#: system/pages/admin/settings/cron.php:72
+msgid ""
+"The process of running the cron jobs could take a long time. Execute jobs "
+"now?"
+msgstr ""
+"El proceso de ejecutar los cron jobs puede tomar un tiempo largo. ¿Ejecutar "
+"ahora?"
+
+#: system/pages/admin/settings/error-line.php:17
+msgid "Code line of Error"
+msgstr "Línea de código del Error"
+
+#: system/pages/admin/settings/errors-clear.php:17
+msgid "Clear Errors Database"
+msgstr "Limpiar Base de Dato de Errores"
+
+#: system/pages/admin/settings/errors-clear.php:52
+msgid "Successfully removed all logged errors."
+msgstr "Se removieron todos los errores exitosamente."
+
+#: system/pages/admin/settings/errors-clear.php:66
+msgid "Are you sure you want to remove all error messages?"
+msgstr "Esta seguro que desea remover todos los mensajes de error?"
+
+#: system/pages/admin/settings/errors.php:24
+msgid "Clear Errors Log"
+msgstr "Limpiar Log de Errores"
+
+#: system/pages/admin/settings/errors.php:59
+msgid "Date Descending"
+msgstr "Fecha Descendente"
+
+#: system/pages/admin/settings/errors.php:60
+msgid "Date Ascending"
+msgstr "Fecha Ascendente"
+
+#: system/pages/admin/settings/errors.php:61
+msgid "Error Level Descending"
+msgstr "Nivel de Error Descendente"
+
+#: system/pages/admin/settings/errors.php:62
+msgid "Error Level Ascending"
+msgstr "Nivel de Error Ascendente"
+
+#: system/pages/admin/settings/errors.php:67
+msgid "Order by:"
+msgstr "Ordenar por:"
+
+#: system/pages/admin/settings/errors.php:88
+msgid "Total errors:"
+msgstr "Total de errores:"
+
+#: system/pages/admin/settings/errors.php:128 system/pages/user.php:104
+msgid "Date"
+msgstr "Fecha"
+
+#: system/pages/admin/settings/errors.php:130
+msgid "Message"
+msgstr "Mensaje"
+
+#: system/pages/admin/settings/errors.php:131
+msgid "File"
+msgstr "Archivo"
+
+#: system/pages/admin/settings/errors.php:132
+msgid "Line"
+msgstr "Línea"
+
+#: system/pages/admin/settings/errors.php:133
+#: system/skeleton/data/types/pages.php:11
+msgid "Page"
+msgstr "Página"
+
+#: system/pages/admin/settings/mailer.php:17
+msgid "Mailer Settings"
+msgstr "Configuraciones del Correo"
+
+#: system/pages/admin/settings/mailer.php:68
+msgid "Mail (default)"
+msgstr "Mail (predeterminado)"
+
+#: system/pages/admin/settings/mailer.php:69
+msgid "Sendmail"
+msgstr "Sendmail"
+
+#: system/pages/admin/settings/mailer.php:70
+msgid "SMTP"
+msgstr "SMTP"
+
+#: system/pages/admin/settings/mailer.php:74
+msgid "Mailing system:"
+msgstr "Sistema de correo:"
+
+#: system/pages/admin/settings/mailer.php:83
+msgid "From name:"
+msgstr "Nombre para desde:"
+
+#: system/pages/admin/settings/mailer.php:88
+msgid "The name used on the from email."
+msgstr "El nombre usado para el envio de correos electrónicos."
+
+#: system/pages/admin/settings/mailer.php:93
+msgid "From e-mail:"
+msgstr "Correo electrónico para desde:"
+
+#: system/pages/admin/settings/mailer.php:98
+msgid "The email used on the from email."
+msgstr "El correo electrónico utilizado en el evío de correos."
+
+#: system/pages/admin/settings/mailer.php:108
+msgid "Authentication:"
+msgstr "Autentificación:"
+
+#: system/pages/admin/settings/mailer.php:117
+msgid "SSL:"
+msgstr "SSL:"
+
+#: system/pages/admin/settings/mailer.php:126
+msgid "Host:"
+msgstr "Servidor:"
+
+#: system/pages/admin/settings/mailer.php:134
+msgid "Port:"
+msgstr "Puerto:"
+
+#: system/pages/admin/settings/mailer.php:150 system/pages/admin/user.php:94
+#: system/pages/admin/users/add.php:220 system/pages/register.php:332
+#: system/skeleton/data/blocks/left.php:41
+msgid "Password:"
+msgstr "Contraseña:"
+
+#: system/pages/admin/settings/mailer.php:157
+msgid "SMTP Configuration"
+msgstr "Configuración SMTP"
+
+#: system/pages/admin/settings/reindex-search.php:17
+msgid "Reindex SQLite Search Engine Database"
+msgstr "Re-indexear Base De Datos SQLite del Motor de Búsqueda"
+
+#: system/pages/admin/settings/reindex-search.php:30
+msgid "Indexation of SQLite search database completed."
+msgstr "Operación de recreación de la base de datos de búsqueda completado."
+
+#: system/pages/admin/settings/reindex-search.php:49
+msgid ""
+"The proces of recreating sqlite search engine index could take some time. "
+"Are you sure you want do this?"
+msgstr ""
+"El proceso de recrear la base de datos de sqlite del motor de búsqueda puede "
+"tomar un tiempo largo. ¿Estas seguro que deseas hacer esto?"
+
+#: system/pages/admin/settings/search.php:17
+msgid "Search Settings"
+msgstr "Configuraciones del buscador"
+
+#: system/pages/admin/settings/search.php:85
+msgid ""
+"Enables displaying the searched categories as the title of the search page."
+msgstr ""
+"Activa la muestra de las categorías buscadas como el título de la página."
+
+#: system/pages/admin/settings/search.php:89
+msgid "Display category titles?"
+msgstr "¿Mostrar el título de las categorías?"
+
+#: system/pages/admin/settings/search.php:108
+msgid "Width:"
+msgstr "Ancho:"
+
+#: system/pages/admin/settings/search.php:113
+msgid ""
+"The pixels width of the image displayed on search results. Default: 60px"
+msgstr ""
+"El ancho en pixeles de la imagen mostrada en los resultados de búsqueda. "
+"Predeterminado: 60px"
+
+#: system/pages/admin/settings/search.php:118
+msgid "Height:"
+msgstr "Alto:"
+
+#: system/pages/admin/settings/search.php:123
+msgid ""
+"The pixels height of the image displayed on search results. Default: 60px"
+msgstr ""
+"El largo en pixeles de la imagen mostrada en los resultados de búsqueda. "
+"Predeterminado: 60px"
+
+#: system/pages/admin/settings/search.php:147
+msgid ""
+"The background color of images when forced aspect ratio in html notation, "
+"example: d3d3d3."
+msgstr ""
+"El color de fondo para las imágenes cuando se fuerza la relación de aspecto, "
+"en formato html, ejemplo: d3d3d3."
+
+#: system/pages/admin/settings/search.php:151
+msgid "Display Images"
+msgstr "Mostrar imágenes"
+
+#: system/pages/admin/settings/search.php:157
+msgid "Types where displaying images"
+msgstr "Los tipos donde se mostrarán imágenes"
+
+#: system/pages/admin/settings/search.php:183
+msgid "Content type fields"
+msgstr "Campos de tipos de contenido"
+
+#: system/pages/admin/settings/search.php:187
+msgid ""
+"A list of field names in the format Label:field_name separated by comma for "
+"each content type that are displayed on search results. Example: Description:"
+"content, Page Views:views, etc."
+msgstr ""
+"Un listado de nombres de campos en el formato Etiqueta:nombre_de_campo "
+"separados por coma para cada tipo de contenido que es mostrado en los "
+"resultados de búsqueda. Ejemplo: Descripción:content, Vistas de Páginas:"
+"views, etc."
+
+#: system/pages/admin/settings/search.php:192
+msgid "Results not found"
+msgstr "Resultados no encontrados"
+
+#: system/pages/admin/settings/search.php:196
+msgid ""
+"Optional content that is displayed when search results are not found, "
+"supports php code."
+msgstr ""
+"Contenido opcional que es mostrado cuando no se encuentran resultados, "
+"soporta código PHP."
+
+#: system/pages/admin/settings/sqlite.php:17
+msgid "Sqlite Database Center"
+msgstr "Sqlite Centro de Bases de Datos"
+
+#: system/pages/admin/settings/sqlite.php:24
+msgid "Upload Database Backup"
+msgstr "Subir Copia de Base de Datos"
+
+#: system/pages/admin/settings/sqlite.php:32
+msgid "Database"
+msgstr "Base de Datos"
+
+#: system/pages/admin/settings/sqlite.php:53
+msgid "Backup"
+msgstr "Respaldo"
+
+#: system/pages/admin/settings/sqlite/backup.php:17
+msgid "Sqlite Backup"
+msgstr "Respaldo Sqlite"
+
+#: system/pages/admin/settings/sqlite/delete.php:17
+msgid "Delete Sqlite Database"
+msgstr "Borrar Base de Datos Sqlite"
+
+#: system/pages/admin/settings/sqlite/delete.php:36
+msgid "Database successfully deleted."
+msgstr "Respaldo eliminado exitosamente."
+
+#: system/pages/admin/settings/sqlite/delete.php:51
+msgid "Are you sure you want to delete the database?"
+msgstr "Esta seguro que desea borrar la base de datos?"
+
+#: system/pages/admin/settings/sqlite/delete.php:54
+msgid "Database:"
+msgstr "Base de datos:"
+
+#: system/pages/admin/settings/sqlite/upload.php:17
+msgid "Upload Sqlite Backup"
+msgstr "Subir Respaldo Sqlite"
+
+#: system/pages/admin/settings/sqlite/upload.php:30
+msgid ""
+"By uploading a backup you will overwrite any existing data on a database."
+msgstr ""
+"Al subir un respaldo borras toda la data que este en la base de datos "
+"actualmente."
+
+#: system/pages/admin/settings/sqlite/upload.php:68
+msgid "Database restored."
+msgstr "Base de datos restaurada."
+
+#: system/pages/admin/settings/sqlite/upload.php:85
+msgid "Backup file:"
+msgstr "Archivo de respaldo:"
+
+#: system/pages/admin/settings/sqlite/upload.php:88
+msgid "An sql or zip backup file generated by the sqlite backup center."
+msgstr ""
+"Un archivo de respaldo sql o zip generado por el centro de respaldos sqlite."
+
+#: system/pages/admin/themes.php:31
+msgid ""
+"In order to change the default theme you need to enable Override settings"
+msgstr ""
+"En orden para poder cambiar el tema predeterminado debes activar Sobre-"
+"escribir Configuraciones."
+
+#: system/pages/admin/themes.php:68 system/pages/admin/themes/view.php:84
+msgid "Preview"
+msgstr "Previsualización:"
+
+#: system/pages/admin/themes.php:85
+msgid "Preview not available"
+msgstr "Vista no disponible"
+
+#: system/pages/admin/themes.php:86
+msgid "View theme info."
+msgstr "Ver información del tema."
+
+#: system/pages/admin/themes/delete.php:17
+msgid "Delete Theme"
+msgstr "Borrar Tema"
+
+#: system/pages/admin/themes/delete.php:39
+msgid "Theme successfully deleted."
+msgstr "Tema borrado exitosamente."
+
+#: system/pages/admin/themes/delete.php:60
+msgid "Are you sure you want to delete the theme?"
+msgstr "Estas seguro que deseas eliminar el tema?"
+
+#: system/pages/admin/themes/delete.php:63
+msgid "Theme: "
+msgstr "Tema:"
+
+#: system/pages/admin/themes/upload.php:17
+msgid "Upload Theme"
+msgstr "Subir Tema"
+
+#: system/pages/admin/themes/upload.php:30
+msgid ""
+"By uploading a theme you will override any existing system one with your "
+"version."
+msgstr ""
+"Al subir un tema estarás sobre escribiendo cualquiera existente del sistema."
+
+#: system/pages/admin/themes/upload.php:59
+msgid "Theme uploaded."
+msgstr "Tema subido."
+
+#: system/pages/admin/themes/upload.php:84
+msgid "Theme file:"
+msgstr "Archivo de tema:"
+
+#: system/pages/admin/themes/upload.php:88
+msgid "A valid theme zip file."
+msgstr "Un archivo zip válido de tema."
+
+#: system/pages/admin/themes/view.php:17
+msgid "Theme Info"
+msgstr "Información de Tema"
+
+#: system/pages/admin/themes/view.php:71
+msgid "Developer:"
+msgstr "Desarrollador:"
+
+#: system/pages/admin/types.php:17 system/pages/admin/types/edit.php:29
+msgid "Types"
+msgstr "Tipos"
+
+#: system/pages/admin/types.php:45 system/pages/admin/types/add.php:17
+msgid "Create Type"
+msgstr "Crear Tipo"
+
+#: system/pages/admin/types.php:131
+msgid "Fields"
+msgstr "Campos"
+
+#: system/pages/admin/types/add.php:45
+msgid "The type has been successfully created."
+msgstr "El tipo fue creado exitosamente."
+
+#: system/pages/admin/types/add.php:72
+msgid "A readable machine name, like for example: my-type."
+msgstr "Un nombre de máquina leíble, por ejemplo: mi-tipo"
+
+#: system/pages/admin/types/add.php:83 system/pages/admin/types/edit.php:116
+msgid "A human readable name like for example: My Type."
+msgstr "Un nombre leíble por ejemplo: Mi Tipo"
+
+#: system/pages/admin/types/add.php:94 system/pages/admin/types/edit.php:126
+msgid "A brief description of the type."
+msgstr "Una descripción del tipo."
+
+#: system/pages/admin/types/add.php:104 system/pages/admin/types/edit.php:151
+msgid ""
+"The image displayed by default if content of this type doesn't have one."
+msgstr "La imagen predeterminada si contenido de este tipo no posee una."
+
+#: system/pages/admin/types/add.php:108 system/pages/admin/types/edit.php:155
+msgid "Image"
+msgstr "Imagen"
+
+#: system/pages/admin/types/add.php:118 system/pages/admin/types/edit.php:165
+msgid "The categories a user can select for this type of content."
+msgstr ""
+"Las categorías que los usuarios pueden seleccionar para este tipo de "
+"contenido."
+
+#: system/pages/admin/types/add.php:131 system/pages/admin/types/edit.php:177
+msgid "Uri Scheme"
+msgstr "Esquema del Uri"
+
+#: system/pages/admin/types/add.php:134 system/pages/admin/types/edit.php:180
+msgid ""
+"The scheme used for the auto generation of every path (uri) created under "
+"this type. Available placeholders: {user}, {type} and {title}"
+msgstr ""
+"El esquema usado para la auto generación de todas las rutas (uri) creadas "
+"bajo este tipo. Marcadores de posición disponible: {user}, {type} y {title}"
+
+#: system/pages/admin/types/add.php:152 system/pages/admin/types/edit.php:198
+msgid "Default Input Format"
+msgstr "Formato de Entrada Predeterminado"
+
+#: system/pages/admin/types/add.php:164 system/pages/admin/types/edit.php:207
+msgid "The label of the input title."
+msgstr "La etiqueta del titulo de entrada."
+
+#: system/pages/admin/types/add.php:169 system/pages/admin/types/edit.php:212
+msgid "Title description:"
+msgstr "Descripción del título:"
+
+#: system/pages/admin/types/add.php:176 system/pages/admin/types/edit.php:219
+msgid "The description of the title."
+msgstr "La descripción del título:"
+
+#: system/pages/admin/types/add.php:186 system/pages/admin/types/edit.php:231
+msgid "The label of the input content."
+msgstr "La etiqueta de la entrada del contenido."
+
+#: system/pages/admin/types/add.php:191 system/pages/admin/types/edit.php:236
+msgid "Content description:"
+msgstr "Descripción del contenido:"
+
+#: system/pages/admin/types/add.php:196 system/pages/admin/types/edit.php:243
+msgid "The description of the content."
+msgstr "La descripción del contenido."
+
+#: system/pages/admin/types/add.php:200 system/pages/admin/types/edit.php:247
+msgid "Labels"
+msgstr "Etiquetas"
+
+#: system/pages/admin/types/add.php:201 system/pages/admin/types/edit.php:248
+msgid ""
+"To replace original labels of title and content when user is adding or "
+"editing content of this type."
+msgstr ""
+"Para reemplazar las etiquetas originales del título y contenido cuando un "
+"usuario está añadiendo o editando contenido de este tipo."
+
+#: system/pages/admin/types/delete.php:17
+msgid "Delete Type"
+msgstr "Eliminar Tipo"
+
+#: system/pages/admin/types/delete.php:37
+msgid "Type successfully deleted."
+msgstr "El tipo fue eliminado exitosamente."
+
+#: system/pages/admin/types/delete.php:58
+msgid "Are you sure you want to delete the type?"
+msgstr "Estas seguro de querer borrar este tipo?"
+
+#: system/pages/admin/types/edit.php:17
+msgid "Edit Type"
+msgstr "Editar Tipo"
+
+#: system/pages/admin/types/edit.php:31
+msgid "Uploads"
+msgstr "Subidas"
+
+#: system/pages/admin/types/edit.php:33
+msgid "Maximum Posts"
+msgstr "Máximo de Publicaciones"
+
+#: system/pages/admin/types/edit.php:106
+msgid "The machine name of the type also used on the content template."
+msgstr "El nombre máquina el tipo támbien utilizado en los temas de contenido."
+
+#: system/pages/admin/types/fields.php:17
+msgid "Content Type Fields"
+msgstr "Campos de Tipo de Contenido"
+
+#: system/pages/admin/types/fields.php:51
+msgid "Add Field"
+msgstr "Agregar Campo"
+
+#: system/pages/admin/types/fields.php:108
+msgid "No fields available click on Add Field to create one."
+msgstr ""
+"No existe campos disponible. Favor de dar un click a Agregar Campo para "
+"crear uno."
+
+#: system/pages/admin/types/fields/add.php:17
+msgid "Create Content Type Field"
+msgstr "Crear Tipo de Campo de Contenido"
+
+#: system/pages/admin/types/fields/add.php:71
+msgid "The content type field has been successfully created."
+msgstr "El campo de tipo de contenido fue creado exitosamente."
+
+#: system/pages/admin/types/fields/add.php:108
+#: system/pages/admin/types/fields/edit.php:122
+msgid "Variable name:"
+msgstr "Nombre de variable:"
+
+#: system/pages/admin/types/fields/add.php:111
+#: system/pages/admin/types/fields/edit.php:125
+msgid ""
+"The name of the variable used for this field when generating the form code."
+msgstr ""
+"El nombre de la variable usada para este campo cuando genera el código de la "
+"forma."
+
+#: system/pages/admin/types/fields/add.php:122
+#: system/pages/admin/types/fields/edit.php:138
+msgid "A human readable name displayed when the form is generated."
+msgstr "Un nombre leíble para mostrarse cuando la forma es generada."
+
+#: system/pages/admin/types/fields/add.php:133
+#: system/pages/admin/types/fields/edit.php:151
+msgid ""
+"A brief description of how the user should fill this field or it's purpose."
+msgstr ""
+"Una breve descripción de como el usuario debe llenar este campo o el "
+"propósito."
+
+#: system/pages/admin/types/fields/add.php:136
+#: system/pages/admin/types/fields/edit.php:154
+msgid "Check box"
+msgstr "Check box"
+
+#: system/pages/admin/types/fields/add.php:137
+#: system/pages/admin/types/fields/edit.php:155
+msgid "Color selector"
+msgstr "Selector de Colores"
+
+#: system/pages/admin/types/fields/add.php:138
+#: system/pages/admin/types/fields/edit.php:156
+msgid "Date picker"
+msgstr "Selector de Fecha"
+
+#: system/pages/admin/types/fields/add.php:139
+#: system/pages/admin/types/fields/add.php:272
+#: system/pages/admin/types/fields/edit.php:157
+#: system/pages/admin/types/fields/edit.php:310
+msgid "File upload"
+msgstr "Subida de archivo"
+
+#: system/pages/admin/types/fields/add.php:140
+#: system/pages/admin/types/fields/add.php:221
+#: system/pages/admin/types/fields/edit.php:158
+#: system/pages/admin/types/fields/edit.php:251
+msgid "Image upload"
+msgstr "Subida de imagen"
+
+#: system/pages/admin/types/fields/add.php:141
+#: system/pages/admin/types/fields/edit.php:159
+msgid "Hidden"
+msgstr "Hidden"
+
+#: system/pages/admin/types/fields/add.php:142
+#: system/pages/admin/types/fields/edit.php:160
+msgid "Other"
+msgstr "Otro"
+
+#: system/pages/admin/types/fields/add.php:143
+#: system/pages/admin/types/fields/edit.php:161
+msgid "Password"
+msgstr "Contraseña"
+
+#: system/pages/admin/types/fields/add.php:144
+#: system/pages/admin/types/fields/edit.php:162
+msgid "Radio box"
+msgstr "Radio box"
+
+#: system/pages/admin/types/fields/add.php:146
+#: system/pages/admin/types/fields/edit.php:164
+msgid "Text"
+msgstr "Texto"
+
+#: system/pages/admin/types/fields/add.php:147
+#: system/pages/admin/types/fields/edit.php:165
+msgid "Text area"
+msgstr "Text area"
+
+#: system/pages/admin/types/fields/add.php:148
+#: system/pages/admin/types/fields/edit.php:166
+msgid "Uri"
+msgstr "Uri"
+
+#: system/pages/admin/types/fields/add.php:149
+#: system/pages/admin/types/fields/edit.php:167
+msgid "Uri area"
+msgstr "Area de uri"
+
+#: system/pages/admin/types/fields/add.php:150
+#: system/pages/admin/types/fields/add.php:332
+#: system/pages/admin/types/fields/edit.php:168
+#: system/pages/admin/types/fields/edit.php:378
+msgid "Google Map Location"
+msgstr "Localización en Google Maps"
+
+#: system/pages/admin/types/fields/add.php:160
+#: system/pages/admin/types/fields/edit.php:180
+msgid "The type of the form field."
+msgstr "El tipo de campo de la forma."
+
+#: system/pages/admin/types/fields/add.php:168
+#: system/pages/admin/types/fields/edit.php:190
+msgid "Input limit:"
+msgstr "Límite de entrada:"
+
+#: system/pages/admin/types/fields/add.php:170
+#: system/pages/admin/types/fields/edit.php:192
+msgid ""
+"The maximun amount of character the user can insert if this is a text or "
+"textarea field. 0 for unlimited."
+msgstr ""
+"La máxima cantidad de caracteres que un usuario puede insertar si es un "
+"texto o campo de area de texto. 0 para ilimitado."
+
+#: system/pages/admin/types/fields/add.php:178
+#: system/pages/admin/types/fields/edit.php:202
+msgid "Default value:"
+msgstr "Valor Predeterminado:"
+
+#: system/pages/admin/types/fields/add.php:180
+#: system/pages/admin/types/fields/edit.php:204
+msgid ""
+"The default value for a text, textarea, password, hidden, other or a list "
+"like select, radio and checkbox."
+msgstr ""
+"El valor predeterminado para el campo de texto, area de texto, contraseña, "
+"valor \"hidden\", otro or una lista de selección, \"radio\" y \"checkbox\"."
+
+#: system/pages/admin/types/fields/add.php:193
+#: system/pages/admin/types/fields/edit.php:219
+msgid "Image width:"
+msgstr "Ancho de imagen:"
+
+#: system/pages/admin/types/fields/add.php:195
+#: system/pages/admin/types/fields/edit.php:221
+msgid ""
+"Maximum width of the image in pixels in case this field is an image upload. "
+"0 for unlimited."
+msgstr ""
+"Ancho máximo de la imagen en pixeles en caso que este campo es una subida de "
+"imagen. 0 para ilimitado."
+
+#: system/pages/admin/types/fields/add.php:200
+#: system/pages/admin/types/fields/add.php:251
+#: system/pages/admin/types/fields/edit.php:226
+#: system/pages/admin/types/fields/edit.php:285
+msgid "Multiple upload?"
+msgstr "¿Subida múltiple?"
+
+#: system/pages/admin/types/fields/add.php:206
+#: system/pages/admin/types/fields/edit.php:234
+msgid "Enable or disable multiple image uploads."
+msgstr "Activar o desactivar la subida múltiple de imágenes."
+
+#: system/pages/admin/types/fields/add.php:214
+#: system/pages/admin/types/fields/edit.php:244
+msgid "Maximum images:"
+msgstr "Máximo de imágenes:"
+
+#: system/pages/admin/types/fields/add.php:216
+#: system/pages/admin/types/fields/edit.php:246
+msgid ""
+"The maximum amount of allowed images to upload if multiple is enabled, 0 for "
+"unlimited."
+msgstr ""
+"La cantidad máxima de imágenes a subir permitida si subidas múltiples esta "
+"activado, 0 para ilimitado."
+
+#: system/pages/admin/types/fields/add.php:222
+#: system/pages/admin/types/fields/edit.php:252
+msgid "Options used in case the type selected is a image upload."
+msgstr "Opciones usadas en caso que el tipo seleccionado sea subida de imagen."
+
+#: system/pages/admin/types/fields/add.php:232
+#: system/pages/admin/types/fields/edit.php:264
+msgid "File extensions:"
+msgstr "Extensiones de archivo:"
+
+#: system/pages/admin/types/fields/add.php:234
+#: system/pages/admin/types/fields/edit.php:266
+msgid ""
+"A comma (,) seperated list of extensions allowed for upload in case of file "
+"upload. For example: txt, doc, pdf"
+msgstr ""
+"Un listado de extensiones de archivo permitidos para subir separadas por "
+"coma (,). Por ejemplo: txt, doc, pdf"
+
+#: system/pages/admin/types/fields/add.php:242
+#: system/pages/admin/types/fields/edit.php:276
+msgid "File size:"
+msgstr "Tamaño del archivo:"
+
+#: system/pages/admin/types/fields/add.php:244
+#: system/pages/admin/types/fields/edit.php:278
+msgid "The maximum permitted file size in kilobytes. For example: 100k"
+msgstr "El tamaño máximo permitido en kilobytes.  Por ejemplo: 100k"
+
+#: system/pages/admin/types/fields/add.php:245
+#: system/pages/admin/types/fields/edit.php:279
+msgid "The maximum file upload size allowed by this server is:"
+msgstr "El tamaño máximo de subida de archivos permitido por este server es:"
+
+#: system/pages/admin/types/fields/add.php:257
+#: system/pages/admin/types/fields/edit.php:293
+msgid "Enable or disable multiple file uploads."
+msgstr "Activar o desactivar la subida múltiple de archivos."
+
+#: system/pages/admin/types/fields/add.php:265
+#: system/pages/admin/types/fields/edit.php:303
+msgid "Maximum files:"
+msgstr "Máximo de archivos:"
+
+#: system/pages/admin/types/fields/add.php:267
+#: system/pages/admin/types/fields/edit.php:305
+msgid ""
+"The maximum amount of allowed files to upload if multiple is enabled, 0 for "
+"unlimited."
+msgstr ""
+"La cantidad máxima de archivos a subir permitida si subidas múltiples esta "
+"activado, 0 para ilimitado."
+
+#: system/pages/admin/types/fields/add.php:273
+#: system/pages/admin/types/fields/edit.php:311
+msgid "Options used in case the type selected is a file upload."
+msgstr ""
+"Opciones usadas en caso que el tipo seleccionado sea subida de archivo."
+
+#: system/pages/admin/types/fields/add.php:283
+#: system/pages/admin/types/fields/edit.php:323
+msgid "Latitude name:"
+msgstr "Nombre de latitud:"
+
+#: system/pages/admin/types/fields/add.php:285
+#: system/pages/admin/types/fields/edit.php:325
+msgid "Name of the latitude field."
+msgstr "Nombre del campo de latitud."
+
+#: system/pages/admin/types/fields/add.php:293
+#: system/pages/admin/types/fields/edit.php:335
+msgid "Latitude value:"
+msgstr "Valor de latitud:"
+
+#: system/pages/admin/types/fields/add.php:295
+#: system/pages/admin/types/fields/edit.php:337
+msgid "Default value for the latitude."
+msgstr "Valor predeterminado para latitud."
+
+#: system/pages/admin/types/fields/add.php:303
+#: system/pages/admin/types/fields/edit.php:347
+msgid "Longitude name:"
+msgstr "Nombre de longitud:"
+
+#: system/pages/admin/types/fields/add.php:305
+#: system/pages/admin/types/fields/edit.php:349
+msgid "Name of the longitude field."
+msgstr "Nombre del campo de longitud."
+
+#: system/pages/admin/types/fields/add.php:313
+#: system/pages/admin/types/fields/edit.php:359
+msgid "Longitude value:"
+msgstr "Valor de longitud:"
+
+#: system/pages/admin/types/fields/add.php:315
+#: system/pages/admin/types/fields/edit.php:361
+msgid "Default value for the longitude."
+msgstr "Valor predeterminado para longitud."
+
+#: system/pages/admin/types/fields/add.php:325
+#: system/pages/admin/types/fields/edit.php:371
+msgid "Zoom:"
+msgstr "Acercamiento:"
+
+#: system/pages/admin/types/fields/add.php:327
+#: system/pages/admin/types/fields/edit.php:373
+msgid "Initial amount of zoom for the map control."
+msgstr "Cantidad inicial de acercamiento para el control del mapa."
+
+#: system/pages/admin/types/fields/add.php:335
+#: system/pages/admin/types/fields/edit.php:381
+msgid "Options used in case the type selected is a google map location."
+msgstr ""
+"Opciones usadas en caso que el tipo seleccionado sea localización en Google "
+"Maps."
+
+#: system/pages/admin/types/fields/add.php:343
+#: system/pages/admin/types/fields/edit.php:391
+msgid "Read only:"
+msgstr "Read only:"
+
+#: system/pages/admin/types/fields/add.php:345
+#: system/pages/admin/types/fields/edit.php:393
+msgid "In case the field should be readonly."
+msgstr "En caso que el campo fuera \"readonly\"."
+
+#: system/pages/admin/types/fields/add.php:353
+#: system/pages/admin/types/fields/edit.php:403
+msgid "Required:"
+msgstr "Required:"
+
+#: system/pages/admin/types/fields/add.php:355
+#: system/pages/admin/types/fields/edit.php:405
+msgid "In case the field should be required."
+msgstr "En caso que el campo sea requerido."
+
+#: system/pages/admin/types/fields/add.php:363
+#: system/pages/admin/types/fields/edit.php:415
+msgid "Strip html:"
+msgstr "Eliminar html:"
+
+#: system/pages/admin/types/fields/add.php:365
+#: system/pages/admin/types/fields/edit.php:417
+msgid "To enable stripping of any html tags."
+msgstr "Para activar la eliminación de cualquier tag de html."
+
+#: system/pages/admin/types/fields/add.php:370
+#: system/pages/admin/types/fields/edit.php:422
+msgid "Field options"
+msgstr "Opciones de campo"
+
+#: system/pages/admin/types/fields/add.php:371
+#: system/pages/admin/types/fields/edit.php:423
+msgid "Special options for the field."
+msgstr "Opciones especiales para el campo."
+
+#: system/pages/admin/types/fields/add.php:379
+#: system/pages/admin/types/fields/edit.php:433
+msgid "Values:"
+msgstr "Valores:"
+
+#: system/pages/admin/types/fields/add.php:381
+#: system/pages/admin/types/fields/edit.php:435
+msgid "A list of values seperated by comma for select, radio and checkbox."
+msgstr ""
+"Una lista de valores separados por coma para el \"select\", \"radio\" y "
+"\"checkbox\"."
+
+#: system/pages/admin/types/fields/add.php:389
+#: system/pages/admin/types/fields/edit.php:445
+msgid "Captions:"
+msgstr "Títulos:"
+
+#: system/pages/admin/types/fields/add.php:391
+#: system/pages/admin/types/fields/edit.php:447
+msgid ""
+"A list of captions seperated by comma in the same order entered in values in "
+"case it is a radio, checkbox or select."
+msgstr ""
+"Una lista de titulos separados por coma en el mismo orden entrado en valores "
+"en caso de que sea \"radio\", \"checkbox\" or \"select\"."
+
+#: system/pages/admin/types/fields/add.php:396
+#: system/pages/admin/types/fields/edit.php:452
+msgid "Multiple options"
+msgstr "Opciones múltiples"
+
+#: system/pages/admin/types/fields/add.php:397
+#: system/pages/admin/types/fields/edit.php:453
+msgid "Options used in case the type selected is a select, radio or checkbox."
+msgstr ""
+"Opciones usadas en caso que el tipo seleccionado sea un \"select\", \"radio"
+"\" o \"checkbox\"."
+
+#: system/pages/admin/types/fields/add.php:407
+#: system/pages/admin/types/fields/edit.php:468
+msgid ""
+"Select the groups that can see this field. Don't select anything to display "
+"the field to everyone."
+msgstr ""
+"Seleccione los grupos que pueden ver el campo. No seleccione nada para "
+"mostrarlo a todos los grupos."
+
+#: system/pages/admin/types/fields/delete.php:17
+msgid "Delete Content Type Field"
+msgstr "Eliminar Campo de Tipo de Contenido"
+
+#: system/pages/admin/types/fields/delete.php:38
+msgid "Type field successfully deleted."
+msgstr "El tipo de campo fue eliminado exitosamente."
+
+#: system/pages/admin/types/fields/delete.php:64
+msgid "Are you sure you want to delete the field?"
+msgstr "Estas seguro que deseas eliminar el campo?"
+
+#: system/pages/admin/types/fields/delete.php:67
+msgid "Field:"
+msgstr "Campo:"
+
+#: system/pages/admin/types/fields/edit.php:17
+msgid "Edit Content Type Field"
+msgstr "Editar Campo de Tipo de Contenido"
+
+#: system/pages/admin/types/fields/edit.php:72
+msgid "The content type field has been successfully modified."
+msgstr "El campo del tipo de contenido ha sido exitosamente modificado."
+
+#: system/pages/admin/types/fields/edit.php:465
+msgid "Groups Access"
+msgstr "Acceso a los Grupos"
+
+#: system/pages/admin/types/posts.php:17
+msgid "Type Maximum Posts"
+msgstr "Cantidad Máxima de Publicaciones del Tipo"
+
+#: system/pages/admin/types/posts.php:82
+msgid "Posts:"
+msgstr "Publicaciones:"
+
+#: system/pages/admin/types/posts.php:89
+msgid "Maximum number of posts per user. 0 for unlimited"
+msgstr "Cantidad máxima de publicaciones. 0 para ilimitado"
+
+#: system/pages/admin/types/uploads.php:17
+msgid "Type Upload Settings"
+msgstr "Configuración de Subidas para el Tipo"
+
+#: system/pages/admin/types/uploads.php:81
+msgid "Images:"
+msgstr "Imágenes:"
+
+#: system/pages/admin/types/uploads.php:88
+msgid "Maximum images user can upload per post. -1 for unlimited"
+msgstr ""
+"Cantidad maxima de imágenes que un usuario puede subir por publicación. -1 "
+"para ilimitado"
+
+#: system/pages/admin/types/uploads.php:93
+msgid "Files:"
+msgstr "Archivos:"
+
+#: system/pages/admin/types/uploads.php:100
+msgid "Maximum files user can upload per post. -1 for unlimited"
+msgstr ""
+"Cantidad maxima de archivos que un usuario puede subir por publicación. -1 "
+"para ilimitado"
+
+#: system/pages/admin/user.php:17
+msgid "My Account"
+msgstr "Mi Cuenta"
+
+#: system/pages/admin/user.php:53
+msgid ""
+"Only users with special permissions can login while the site is offline."
+msgstr ""
+"Solo usuarios con permisos especiales pueden iniciar mientras el sitio este "
+"fuera de servicio."
+
+#: system/pages/admin/user.php:85
+msgid "Username or E-mail:"
+msgstr "Usuario o Correo Electrónico:"
+
+#: system/pages/admin/user.php:96
+msgid "the password is case sensitive"
+msgstr "la contraseña es sensible a mayúsculas"
+
+#: system/pages/admin/user.php:108
+msgid "Reset"
+msgstr "Borrar"
+
+#: system/pages/admin/user.php:120
+msgid "Existing User"
+msgstr "Usuario Existente"
+
+#: system/pages/admin/user.php:126
+msgid "Forgot Password?"
+msgstr "¿Olvidaste tu contraseña?"
+
+#: system/pages/admin/user.php:135
+msgid "Create Account"
+msgstr "Crear Cuenta"
+
+#: system/pages/admin/user.php:141 system/pages/admin/users/add.php:381
+#: system/pages/register.php:528
+msgid "Register"
+msgstr "Registrar"
+
+#: system/pages/admin/users.php:29 system/pages/admin/users/add.php:17
+#: system/pages/admin/users/export.php:26 system/pages/admin/users/list.php:26
+#: system/pages/admin/users/re-index.php:26
+msgid "Create User"
+msgstr "Crear Usuario"
+
+#: system/pages/admin/users.php:31 system/pages/admin/users/export.php:28
+#: system/pages/admin/users/list.php:28
+#: system/pages/admin/users/re-index.php:28
+msgid "Export"
+msgstr "Exportar"
+
+#: system/pages/admin/users/add.php:32 system/pages/admin/users/edit.php:71
+#: system/pages/register.php:49
+msgid "The email you entered is not a valid one."
+msgstr "El correo electrónico que entraste no es válido."
+
+#: system/pages/admin/users/add.php:48 system/pages/admin/users/edit.php:86
+#: system/pages/register.php:64
+msgid ""
+"The email you entered already has a registered account associated to it."
+msgstr ""
+"El correo electrónico que entraste ya es parte de una cuenta existente."
+
+#: system/pages/admin/users/add.php:65 system/pages/register.php:81
+msgid "The username you provided has invalid characters."
+msgstr "El nombre de usuario que proveiste tiene caracteres inválidos."
+
+#: system/pages/admin/users/add.php:76 system/pages/register.php:92
+msgid "The username should be at least 3 characters long."
+msgstr "El nombre de usuario debe ser almenos 3 caracteres de longitud."
+
+#: system/pages/admin/users/add.php:85 system/pages/register.php:101
+msgid "The username exceeds from 60 characters."
+msgstr "El nombre de usuario excede los 60 caracteres."
+
+#: system/pages/admin/users/add.php:130 system/pages/register.php:220
+msgid "The Password and Verify password doesn't match."
+msgstr "La contraseña y la contraseña de verificación no coinciden."
+
+#: system/pages/admin/users/add.php:140 system/pages/register.php:234
+msgid "The e-mail and verify e-mail doesn't match."
+msgstr ""
+"El correo electrónico y el correo electrónico de verificación no coinciden."
+
+#: system/pages/admin/users/add.php:170
+msgid "The user has been successfully created."
+msgstr "El usuario fue creado exitosamente."
+
+#: system/pages/admin/users/add.php:202 system/pages/register.php:315
+msgid "Your full real name."
+msgstr "Tu nombre real completo."
+
+#: system/pages/admin/users/add.php:214 system/pages/register.php:326
+msgid ""
+"The name that you are going to use to log in, at least 3 characters long. "
+"Permitted characters are A to Z, 0 to 9 and underscores."
+msgstr ""
+"El nombre que vas a utilizar para iniciar sesión de al menos 3 carácteres de "
+"longitud. Los caracteres permitidos son A hasta Z, 0 hasta 9 y líneas de "
+"subrayado (underscores)."
+
+#: system/pages/admin/users/add.php:223 system/pages/register.php:335
+msgid "The password used to login, should be at least 6 characters long."
+msgstr ""
+"Contraseña utilizada para iniciar sesión, este debe ser de 6 carácteres de "
+"longitud."
+
+#: system/pages/admin/users/add.php:229 system/pages/admin/users/edit.php:297
+#: system/pages/register.php:341
+msgid "Verify password:"
+msgstr "Verificar contraseña:"
+
+#: system/pages/admin/users/add.php:232 system/pages/register.php:344
+msgid "Re-enter the password to verify it."
+msgstr "Re-escriba su contraseña para verificarlo."
+
+#: system/pages/admin/users/add.php:243 system/pages/register.php:354
+msgid "The email used in case you forgot your password."
+msgstr "Correo electrónico utilizado en caso de pérdida de contraseña."
+
+#: system/pages/admin/users/add.php:249 system/pages/register.php:360
+msgid "Verify the e-mail:"
+msgstr "Verificación de correo electrónico:"
+
+#: system/pages/admin/users/add.php:252 system/pages/register.php:363
+msgid "Re-enter the e-mail to verify is correct."
+msgstr "Re-escriba su correo electrónico para verificarlo."
+
+#: system/pages/admin/users/add.php:262 system/pages/admin/users/edit.php:309
+#: system/pages/register.php:372
+msgid "Corporate or personal website."
+msgstr "Página de Internet personal o corporativa."
+
+#: system/pages/admin/users/add.php:268 system/pages/admin/users/edit.php:315
+#: system/pages/register.php:378 system/pages/user.php:71
+msgid "Male"
+msgstr "Masculino"
+
+#: system/pages/admin/users/add.php:269 system/pages/admin/users/edit.php:316
+#: system/pages/register.php:379 system/pages/user.php:73
+msgid "Female"
+msgstr "Femenino"
+
+#: system/pages/admin/users/add.php:282 system/pages/admin/users/edit.php:329
+#: system/pages/register.php:390
+msgid "Gender"
+msgstr "Género"
+
+#: system/pages/admin/users/add.php:290 system/pages/admin/users/edit.php:345
+#: system/pages/register.php:396
+msgid "Day:"
+msgstr "Día:"
+
+#: system/pages/admin/users/add.php:303 system/pages/admin/users/edit.php:357
+#: system/pages/register.php:408
+msgid "Month:"
+msgstr "Mes:"
+
+#: system/pages/admin/users/add.php:316 system/pages/admin/users/edit.php:369
+#: system/pages/register.php:420
+msgid "Year:"
+msgstr "Año:"
+
+#: system/pages/admin/users/add.php:327 system/pages/admin/users/edit.php:379
+#: system/pages/register.php:430
+msgid "Birth date"
+msgstr "Fecha de nacimiento"
+
+#: system/pages/admin/users/add.php:345
+msgid "A picture displayed in user post, comments, etc..."
+msgstr "Una imagen mostrada en los post del usuario."
+
+#: system/pages/admin/users/add.php:349 system/pages/admin/users/edit.php:415
+#: system/pages/register.php:453
+msgid "Picture"
+msgstr "Foto"
+
+#: system/pages/admin/users/add.php:362 system/pages/admin/users/edit.php:430
+msgid "The group where the user belongs."
+msgstr "El grupo al cual el usuario pertenece."
+
+#: system/pages/admin/users/add.php:368 system/pages/admin/users/edit.php:436
+msgid "Status:"
+msgstr "Estado:"
+
+#: system/pages/admin/users/add.php:373 system/pages/admin/users/edit.php:440
+msgid "The account status of this user."
+msgstr "El estado de cuenta de este usuario."
+
+#: system/pages/admin/users/delete.php:17
+msgid "Delete User"
+msgstr "Eliminar Usuario"
+
+#: system/pages/admin/users/delete.php:39
+msgid "User successfully deleted."
+msgstr "Usuario borrado exitosamente."
+
+#: system/pages/admin/users/delete.php:63
+msgid "This action will also delete all users content."
+msgstr "Esta acción también borrara el contenido del usuario."
+
+#: system/pages/admin/users/delete.php:64
+msgid "Are you sure you want to delete the user?"
+msgstr "Estas seguro de querer borrar el usuario?"
+
+#: system/pages/admin/users/edit.php:24
+msgid "Edit User"
+msgstr "Editar usuario"
+
+#: system/pages/admin/users/edit.php:28
+msgid "My Account Details"
+msgstr "Detalles de Mi Cuenta"
+
+#: system/pages/admin/users/edit.php:147
+msgid "The New password and Verify password doesn't match."
+msgstr "La nueva contraseña y la contraseña de verificación no coinciden."
+
+#: system/pages/admin/users/edit.php:193
+msgid "Your account has been activated."
+msgstr "Tus cuenta ha sido activada."
+
+#: system/pages/admin/users/edit.php:195
+msgid "Login by visiting:"
+msgstr "Inicia visitando:"
+
+#: system/pages/admin/users/edit.php:197
+msgid "Account Activated"
+msgstr "Cuenta Activada"
+
+#: system/pages/admin/users/edit.php:262
+msgid "The name that others can see."
+msgstr "El nombre que otros pueden ver."
+
+#: system/pages/admin/users/edit.php:271
+msgid "Personal text:"
+msgstr "Texto personal:"
+
+#: system/pages/admin/users/edit.php:273
+msgid "Writing displayed on your profile page."
+msgstr "Escrito mostrado en la página de tu perfil."
+
+#: system/pages/admin/users/edit.php:283
+msgid "The email used in case you forgot your password or to contact you."
+msgstr ""
+"Correo electrónico utilizado en caso de pérdida de contraseña para ser "
+"contactado."
+
+#: system/pages/admin/users/edit.php:289
+msgid "New password:"
+msgstr "Nueva contraseña:"
+
+#: system/pages/admin/users/edit.php:291
+msgid "You can enter a new password to change actual one."
+msgstr "Puedes entrar una contraseña nueva para cambiar la actual."
+
+#: system/pages/admin/users/edit.php:299
+msgid "Re-enter the new password to verify it."
+msgstr "Re-escriba su contraseña para verificarla."
+
+#: system/pages/admin/users/edit.php:411
+msgid "A picture displayed in user post, comments, etc. Maximun size of:"
+msgstr "Una foto del usuario mostrada en los post."
+
+#: system/pages/admin/users/edit.php:463
+msgid "Last login from ip:"
+msgstr "Ultimo acceso desde el ip:"
+
+#: system/pages/admin/users/export.php:17
+msgid "Export Users List"
+msgstr "Exportar Listado de Usuarios"
+
+#: system/pages/admin/users/export.php:35
+msgid "Download Last Generated"
+msgstr "Descargar el Último Generado"
+
+#: system/pages/admin/users/export.php:90
+msgid ""
+"The process of creating a csv file of the users database could take a long "
+"time.<br />Do you want to the generate export file?"
+msgstr ""
+"El proceso de crear un archivo csv de la base de datos de usuarios puede "
+"tomar un tiempo largo.<br />¿Desea generar el archivo csv?"
+
+#: system/pages/admin/users/list.php:17
+msgid "Users List"
+msgstr "Listado de Usuarios"
+
+#: system/pages/admin/users/list.php:32
+#: system/pages/admin/users/re-index.php:30
+msgid "Re-index Users List"
+msgstr "Re-indexar Listado de Usuarios"
+
+#: system/pages/admin/users/list.php:83
+msgid "Filter view by group:"
+msgstr "Filtrar vista por grupo:"
+
+#: system/pages/admin/users/list.php:98
+msgid " status:"
+msgstr "estado:"
+
+#: system/pages/admin/users/list.php:131
+msgid "Total users:"
+msgstr "Total de usuarios:"
+
+#: system/pages/admin/users/list.php:154
+msgid "Username"
+msgstr "Usuario"
+
+#: system/pages/admin/users/list.php:155
+msgid "E-mail"
+msgstr "Correo Electrónico"
+
+#: system/pages/admin/users/list.php:157
+msgid "Register date"
+msgstr "Día de registro"
+
+#: system/pages/admin/users/re-index.php:17
+msgid "Re-index Users Database"
+msgstr "Re-indexear Base De Datos de Usuarios"
+
+#: system/pages/admin/users/re-index.php:38
+msgid "Indexation of users database completed."
+msgstr "Indexación de la base de datos de usuarios completada."
+
+#: system/pages/admin/users/re-index.php:164
+msgid ""
+"The process of recreating the users database list could take a long time. "
+"Are you sure you want to do this?"
+msgstr ""
+"El proceso de recrear la base de datos de usuarios puede tomar un tiempo "
+"largo. ¿Estas seguro que deseas hacer esto?"
+
+#: system/pages/forgot-password.php:17
+msgid "Forgot your password?"
+msgstr "¿Olvidaste tu contraseña?"
+
+#: system/pages/forgot-password.php:45
+msgid ""
+"Your password has been reset successfully. Check your e-mail inbox for "
+"details."
+msgstr ""
+"Tu contraseña fue reinicializada exitosamente. Verifica la bandeja de "
+"entrada de tu correo electrónico para detalles."
+
+#: system/pages/forgot-password.php:71
+msgid "If you remember your username write it down."
+msgstr "Si recuerdas tu nombre de usuario favor de escribirlo."
+
+#: system/pages/forgot-password.php:76
+msgid "OR"
+msgstr "O"
+
+#: system/pages/forgot-password.php:84
+msgid ""
+"If you remember the e-mail that you used to register the account write it "
+"down."
+msgstr ""
+"Si recuerdas el correo electrónico que utilizaste para registrar tu cuenta "
+"favor de escribirlo."
+
+#: system/pages/forgot-password.php:90
+msgid "Reset Password"
+msgstr "Reiniciar Contraseña"
+
+#: system/pages/home.php:15
+msgid "Welcome to your new Jaris website!"
+msgstr "Bienvenido a tu nuevo sitio contruído con Jaris CMS!"
+
+#: system/pages/home.php:22
+msgid ""
+"Enjoy your new webiste, to start working on it login on the left block with "
+"your administration account"
+msgstr ""
+"Disfruta tu nueva página, para comenzar a trabajar en la misma inicia en el "
+"bloque izquierdo con el nombre de usuario y contraseña."
+
+#: system/pages/home.php:26
+msgid ""
+"Now that you are logged in you can start by using the administration "
+"navigation menu to modify your web page as you like."
+msgstr ""
+"Ahora que iniciaste puedes usar el menu de administración para editar el "
+"sitio como sientas sea necesario."
+
+#: system/pages/home.php:30
+msgid "site settings"
+msgstr "configuraciones del sitio"
+
+#: system/pages/home.php:35
+#, php-format
+msgid "You can set the default home page by going to the %s."
+msgstr "Puedes configurar la página de inicio visitando las %s."
+
+#: system/pages/offline.php:22
+msgid "Under mantainance"
+msgstr "Bajo mantenimiento"
+
+#: system/pages/offline.php:35
+msgid ""
+"The site is down for mantainance, sorry for any inconvenience it may cause "
+"you. Try again later."
+msgstr ""
+"El sitio esta abajo por mantenimiento, perdone por los inconvenientes que "
+"pueda causarle. Trate más tarde."
+
+#: system/pages/register.php:15
+msgid "Create My Account"
+msgstr "Crear Mi Cuenta"
+
+#: system/pages/register.php:23
+msgid "Registrations are disabled, sorry for any inconvinience."
+msgstr "Las registraciones estan desactivadas perdone por el inconveniente."
+
+#: system/pages/register.php:120
+msgid ""
+"You must agree to the terms and conditions of this website in order to "
+"register."
+msgstr ""
+"Debes aceptar los terminos y condiciones de este sitio para poder "
+"registrarte."
+
+#: system/pages/register.php:149
+msgid "Please select a valid Account Type."
+msgstr "Por favor selecciona un Tipo de Cuenta valida."
+
+#: system/pages/register.php:283
+msgid ""
+"Your account has been successfully created. Enter your details to login."
+msgstr "Tu cuenta fue creada exitosamente. Entre los detalles para iniciar."
+
+#: system/pages/register.php:448
+msgid "A logo or picture of your self."
+msgstr "Un logo o foto de si mismo."
+
+#: system/pages/register.php:470
+msgid "(requires approval)"
+msgstr "(requiere aprobación)"
+
+#: system/pages/register.php:487
+msgid "Account Type"
+msgstr "Tipo de Cuenta"
+
+#: system/pages/register.php:495
+msgid "I do not agree"
+msgstr "No acepto"
+
+#: system/pages/register.php:496
+msgid "I agree"
+msgstr "Acepto"
+
+#: system/pages/register.php:501
+msgid "Terms and Conditions:"
+msgstr "Terminos y Condiciones:"
+
+#: system/pages/register.php:505
+msgid "The terms and conditions that you have to accept in order to register."
+msgstr "Los terminos y condiciones que debes aceptar para poder registrarte."
+
+#: system/pages/register.php:519
+msgid "Validation:"
+msgstr "Validación:"
+
+#: system/pages/search.php:75 system/pages/search.php:80
+#: system/pages/search.php:263 system/skeleton/data/blocks/right.php:46
+msgid "Search"
+msgstr "Buscar"
+
+#: system/pages/search.php:140
+msgid "Search Options"
+msgstr "Opciones de Busqueda"
+
+#: system/pages/search.php:177
+msgid "Sorting"
+msgstr "Ordenamiento"
+
+#: system/pages/search.php:181
+msgid "Title ascending"
+msgstr "Título ascendente"
+
+#: system/pages/search.php:182
+msgid "Title descending"
+msgstr "Título descendente"
+
+#: system/pages/search.php:183
+msgid "Newest first"
+msgstr "Nuevos Primero"
+
+#: system/pages/search.php:184
+msgid "Oldest first"
+msgstr "Viejos Primero"
+
+#: system/pages/search.php:190
+msgid "Sort by:"
+msgstr "Ordenar por:"
+
+#: system/pages/search.php:216
+msgid "-All-"
+msgstr "-Todo-"
+
+#: system/pages/search.php:234
+msgid "Content type"
+msgstr "Tipo de Contenido"
+
+#: system/pages/search.php:237
+msgid "The type of content you are searching."
+msgstr "El tipo de contenido que estas buscando."
+
+#: system/pages/search.php:255
+msgid "Search text:"
+msgstr "Texto de búsqueda"
+
+#: system/pages/search.php:347
+msgid "Results"
+msgstr "Resultados"
+
+#: system/pages/search.php:537
+msgid "Nothing was found."
+msgstr "No se encontro nada."
+
+#: system/pages/user.php:22
+msgid "Profile not found"
+msgstr "Perfil no encontrada"
+
+#: system/pages/user.php:30
+msgid "In order to view other people profiles you need to login."
+msgstr "Para poder ver los perfiles de otras personas necesitas iniciar."
+
+#: system/pages/user.php:52
+msgid "The given username does not exist."
+msgstr "El usuario solicitado no existe."
+
+#: system/pages/user.php:90
+msgid "Latest post"
+msgstr "Últimas publicaciones"
+
+#: system/pages/user.php:155
+msgid "Member since:"
+msgstr "Miembro desde:"
+
+#: system/pages/user.php:156
+msgid "Gender:"
+msgstr "Género:"
+
+#: system/pages/user.php:157
+msgid "Birth date:"
+msgstr "Fecha de Nacimiento:"

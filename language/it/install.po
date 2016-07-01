@@ -1,0 +1,315 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Jaris CMS Installer v1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-03-20 10:51-0400\n"
+"PO-Revision-Date: 2012-09-26 17:21+0100\n"
+"Last-Translator: Andrea Zanellato <zanellato.andrea@gmail.com>\n"
+"Language-Team: Jaris CMS Translators\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Italian\n"
+"X-Poedit-Country: ITALY\n"
+"X-Poedit-KeywordsList: t\n"
+"X-Poedit-Basepath: ../../../../\n"
+"X-Poedit-KeywordsList: t\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SearchPath-0: install\n"
+
+#: install/install.php:43
+msgid "Select a language"
+msgstr "Seleziona una lingua"
+
+#: install/install.php:55
+msgid "Language:"
+msgstr "Lingua:"
+
+#: install/install.php:59
+#: install/install.php:232
+#: install/install.php:370
+#: install/install.php:453
+#: install/install.php:496
+msgid "Continue"
+msgstr "Continua"
+
+#: install/install.php:70
+msgid "Jaris CMS Installation Wizard"
+msgstr "Assistente di installazione Jaris CMS"
+
+#: install/install.php:72
+msgid "<b>Welcome</b> to Jaris CMS installation wizard! To install it you just need some minimun system requirements to have a working enviroment. Before we continue you should know that <b>Jaris CMS</b> does not requires any relational database like mysql since it has its own engine written on php to store data. So in order to make it work you need to set write permissions to the user account that is running the php parser.<br />"
+msgstr "<b>Benvenuto</b> al programma di installazione! Per proseguire l'installazione sono richesti alcuni requisiti di sistema. <b>Jaris CMS</b> non richiede alcun database relazionale come mysql ma utilizza un proprio motore scritto in php per salvare i dati. E' necessario quindi impostare i permessi in scrittura per l'account utente dal quale il parser php viene eseguito.<br />"
+
+#: install/install.php:74
+msgid "Requirements:"
+msgstr "Requisiti:"
+
+#: install/install.php:77
+msgid "PHP 5 or greater"
+msgstr "PHP 5 o superiore"
+
+#: install/install.php:78
+msgid "PHP GD library for graphics processing"
+msgstr "Libreria PHP GD per l'elaborazione grafica"
+
+#: install/install.php:79
+msgid "Write permissions on <b>data</b> directory"
+msgstr "Permessi in scrittura nella directory <b>data</b>"
+
+#: install/install.php:80
+msgid "Apache with mod rewrite for clean url system"
+msgstr "Apache con modulo mod_rewrite"
+
+#: install/install.php:81
+msgid "Sqlite just for search engine optimizations."
+msgstr "Sqlite per l'ottimizzazione del motore di ricerca."
+
+#: install/install.php:90
+msgid "Check Requirements"
+msgstr "Verifica Requisiti"
+
+#: install/install.php:107
+msgid "Step One - Checking Requirements"
+msgstr "Passo Uno - Verifica Requisiti"
+
+#: install/install.php:116
+#: install/install.php:128
+msgid "PHP version installed:"
+msgstr "Versione PHP installata:"
+
+#: install/install.php:120
+#: install/install.php:148
+#: install/install.php:175
+#: install/install.php:203
+msgid "(OK)"
+msgstr "(OK)"
+
+#: install/install.php:128
+msgid "Version 5 or greater is needed."
+msgstr "Versione 5 o superiore richiesta."
+
+#: install/install.php:132
+#: install/install.php:160
+#: install/install.php:187
+#: install/install.php:215
+msgid "(ERROR)"
+msgstr "(ERRORE)"
+
+#: install/install.php:144
+#: install/install.php:156
+msgid "PHP GD library:"
+msgstr "Libreria PHP GD:"
+
+#: install/install.php:144
+msgid "available"
+msgstr "disponibile"
+
+#: install/install.php:156
+msgid "not available"
+msgstr "non disponibile"
+
+#: install/install.php:171
+#: install/install.php:183
+msgid "Write permissions on data directory:"
+msgstr "Permessi in scrittura nella directory data:"
+
+#: install/install.php:171
+#: install/install.php:199
+msgid "yes"
+msgstr "si"
+
+#: install/install.php:183
+#: install/install.php:211
+msgid "no"
+msgstr "no"
+
+#: install/install.php:199
+#: install/install.php:211
+msgid "PHP SQLite library:"
+msgstr "Libreria PHP SQLite:"
+
+#: install/install.php:247
+msgid "Re-check Requirements."
+msgstr "Ricontrollare i requisiti."
+
+#: install/install.php:297
+msgid "Powered by"
+msgstr ""
+
+#: install/install.php:297
+msgid "File Based CMS"
+msgstr "CMS basato su archivi di file"
+
+#: install/install.php:320
+#: install/install.php:411
+msgid "Configuration could not be save. Check your write permissions on the data directory."
+msgstr "La configurazione non può essere salvata. Verifica i permessi in scrittura della directory data."
+
+#: install/install.php:325
+#: install/install.php:416
+msgid "You need to provide all the fields"
+msgstr "Devi riempire tutti i campi"
+
+#: install/install.php:330
+msgid "Your password does not match. Try again."
+msgstr "Le password non coincidono, ritenta."
+
+#: install/install.php:336
+msgid "Step Two - Site Details"
+msgstr "Passo Due - Dettagli Sito"
+
+#: install/install.php:341
+msgid "Site title:"
+msgstr "Titolo del Sito:"
+
+#: install/install.php:343
+msgid "Slogan:"
+msgstr ""
+
+#: install/install.php:352
+msgid "Default timezone:"
+msgstr "Fuso orario:"
+
+#: install/install.php:356
+msgid "Auto detect base url?"
+msgstr "Auto imposta la URL base?"
+
+#: install/install.php:356
+msgid "Automatically detects domain even if you change it. Mandatory on multisites."
+msgstr "Rilevazione automatica del dominio durante le variazioni. Configurazione obbligatoria per un ambiente multi-sito."
+
+#: install/install.php:358
+msgid "Base url:"
+msgstr "URL base:"
+
+#: install/install.php:360
+msgid "Administrator full name:"
+msgstr "Nome completo dell'amministratore:"
+
+#: install/install.php:362
+msgid "Administrator e-mail:"
+msgstr "E-mail amministratore:"
+
+#: install/install.php:364
+msgid "Administrator password:"
+msgstr "Password amministratore:"
+
+#: install/install.php:366
+msgid "Re-enter administrator password:"
+msgstr "Reinserisci password amministratore:"
+
+#: install/install.php:422
+msgid "Step Three - Mailing Details"
+msgstr "Passo Tre - Dettagli Posta"
+
+#: install/install.php:429
+msgid "Mail (default)"
+msgstr "Mail (predefinito)"
+
+#: install/install.php:430
+msgid "Sendmail"
+msgstr ""
+
+#: install/install.php:431
+msgid "SMTP"
+msgstr ""
+
+#: install/install.php:433
+msgid "Mailing system:"
+msgstr "Sistema di posta:"
+
+#: install/install.php:434
+msgid "From name:"
+msgstr "Mittente:"
+
+#: install/install.php:434
+msgid "The name used on the from email."
+msgstr "Nome del mittente."
+
+#: install/install.php:435
+msgid "From e-mail:"
+msgstr "E-mail mittente:"
+
+#: install/install.php:435
+msgid "The email used on the from email."
+msgstr "Indirizzo e-mail usato dal mittente."
+
+#: install/install.php:439
+msgid "Enable"
+msgstr "Abilita"
+
+#: install/install.php:440
+msgid "Disable"
+msgstr "Disabilita"
+
+#: install/install.php:442
+msgid "Authentication:"
+msgstr "Autenticazione:"
+
+#: install/install.php:443
+msgid "SSL:"
+msgstr ""
+
+#: install/install.php:444
+msgid "Host:"
+msgstr ""
+
+#: install/install.php:445
+msgid "Port:"
+msgstr "Porta:"
+
+#: install/install.php:446
+msgid "Username:"
+msgstr "Nome utente:"
+
+#: install/install.php:447
+msgid "Password:"
+msgstr ""
+
+#: install/install.php:449
+msgid "SMTP Configuration"
+msgstr "Configurazione SMTP"
+
+#: install/install.php:465
+msgid "Step Four - Clean URL Check"
+msgstr "Passo Quattro - Verifica URL (Apache mod_write)"
+
+#: install/install.php:467
+msgid "Url rewrites make url's more readable and easy to acess. Here are the results of the test:"
+msgstr "La riscrittura delle URL le rende più leggibili e accessibili. Risultati del test:"
+
+#: install/install.php:482
+msgid "SUPPORTED and Activated"
+msgstr "SUPPORTATO e Attivato"
+
+#: install/install.php:486
+msgid "NOT SUPPORTED"
+msgstr "NON SUPPORTATO"
+
+#: install/install.php:488
+msgid "There are many factors that make clean url not work. If using apache server check if mod_rewrite is activated."
+msgstr "Il mancato funzionamento del mod_rewrite può essere causato da diversi fattori. Se stai usando apache, verifica che il modulo sia attivato."
+
+#: install/install.php:508
+msgid "Step Five - You are done!"
+msgstr "Passo Cinque - Installazione terminata!"
+
+#: install/install.php:510
+msgid "<b>Congratulations,</b> you have successfully installed Jaris content management system. To visit your index site click"
+msgstr "<b>Congratulazioni,</b> Jaris CMS é stato installato con successo. Per visitare la pagina principale clicca"
+
+#: install/install.php:512
+msgid "here"
+msgstr "qui"
+
+#: install/install.php:512
+msgid "and login with the username <b>admin</b> and the password you specified"
+msgstr "e accedi col nome utente <b>admin</b> usando la password che hai specificato durante l'installazione"
+
+#: install/install.php:518
+#: install/install.php:582
+msgid "Jaris CMS - Installation Script"
+msgstr "Jaris CMS - Programma di Installazione"
+

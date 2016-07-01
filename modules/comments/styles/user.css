@@ -1,0 +1,17 @@
+.comments-list
+{
+    border: solid 1px #d3d3d3;
+    padding:  10px;
+    margin: 5px 0 5px 0;
+}
+
+.comments-list .text
+{
+    padding: 5px;
+    margin: 5px;
+}
+
+.comments-list .text .text
+{
+    background-color:  #d3d3d3;
+}

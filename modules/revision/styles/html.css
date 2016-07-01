@@ -1,0 +1,12 @@
+.diff-html-added, .diff-html-removed{
+    display: inline-block;
+    padding: 2px;
+}
+
+.diff-html-added {
+    background-color: #E0FFE0;
+}
+
+.diff-html-removed {
+    background-color: #FFE0E0;
+}

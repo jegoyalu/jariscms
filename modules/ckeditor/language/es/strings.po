@@ -1,0 +1,224 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: JarisCMS Ecommerce v1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-04-02 18:34-0400\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Jefferson González <jgonzalez@jegoyalu.com>\n"
+"Language-Team: JegoYalu <servicios@jegoyalu.com>\n"
+"Language: es_PR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-Basepath: ../..\n"
+"X-Poedit-KeywordsList: t\n"
+"X-Generator: Poedit 1.8.7.1\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: data/admin-settings-ckeditor.php:15
+msgid "CKEditor Settings"
+msgstr "Configuraciones de CKEditor"
+
+#: data/admin-settings-ckeditor.php:65
+msgid "Your changes have been saved."
+msgstr "Tus cambios fueron guardados."
+
+#: data/admin-settings-ckeditor.php:80
+msgid "Groups"
+msgstr "Grupos"
+
+#: data/admin-settings-ckeditor.php:84
+msgid "Description"
+msgstr "Descripción"
+
+#: data/admin-settings-ckeditor.php:116
+msgid "edit"
+msgstr "editar"
+
+#: data/admin-settings-ckeditor.php:144
+msgid "Enable ckeditor?"
+msgstr "Activar ckeditor?"
+
+#: data/admin-settings-ckeditor.php:176
+#, php-format
+msgid ""
+"Here you can <a target=\"_blank\" href=\"%s\">alter</a> the ckeditor "
+"configuration."
+msgstr ""
+"Aquí puedes <a target=\"_blank\" href=\"%s\">alterar</a> la configuración "
+"del CKEeditor."
+
+#: data/admin-settings-ckeditor.php:184 data/admin-settings-ckeditor.php:191
+msgid "Configuration:"
+msgstr "Configuración:"
+
+#: data/admin-settings-ckeditor.php:195
+msgid "Main color of the editor interface."
+msgstr "Color principal de la interfaz del editor."
+
+#: data/admin-settings-ckeditor.php:203
+msgid "Check all plugins to enable:"
+msgstr "Marca todos los 'plugins' a activar:"
+
+#: data/admin-settings-ckeditor.php:224
+msgid "Textarea Id:"
+msgstr "Id del textarea:"
+
+#: data/admin-settings-ckeditor.php:228
+msgid "List of textarea id's seperated by comma (,)."
+msgstr "Listado de id para diferentes textarea separados por coma (,)."
+
+#: data/admin-settings-ckeditor.php:234
+msgid "Form names:"
+msgstr "Nombre formularios:"
+
+#: data/admin-settings-ckeditor.php:247
+msgid "List of form names seperated by comma (,)."
+msgstr "Listado de nombres de formularios separados por coma (,)."
+
+#: data/admin-settings-ckeditor.php:259
+msgid "Show disable editor button?"
+msgstr "Mostrar botón para desactivar editor?"
+
+#: data/admin-settings-ckeditor.php:274
+msgid "Save"
+msgstr "Guardar"
+
+#: data/admin-settings-ckeditor.php:280
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: data/admin-settings-ckeditor.php:287
+msgid "Selected group:"
+msgstr "Grupo seleccionado:"
+
+#: data/ckeditorlink.php:15 data/ckeditorlink.php:51
+msgid "File browser"
+msgstr "Nagevador de archivos"
+
+#: data/ckeditorlink.php:119
+msgid "Click a file below to select."
+msgstr "Haz click en un nombre de archivo para seleccionar."
+
+#: data/ckeditorlink.php:144
+msgid "No files available."
+msgstr "No hay archivos disponibles."
+
+#: data/ckeditorlinkup.php:62
+msgid "File Upload"
+msgstr "Subida de Archivo"
+
+#: data/ckeditorlinkup.php:93
+msgid "File uploads not permitted for this content type."
+msgstr "Subida de archivos no permitida para este tipo de contenido."
+
+#: data/ckeditorlinkup.php:98
+msgid "Maximum file uploads reached."
+msgstr "Cantidad máxima de archivos subidos alcanzada."
+
+#: data/ckeditorpic.php:15 data/ckeditorpic.php:50
+msgid "Image browser"
+msgstr "Navegador de imágenes"
+
+#: data/ckeditorpic.php:92
+msgid "Click on the image to add."
+msgstr "Haz click en la imagen a añadir."
+
+#: data/ckeditorpic.php:114
+msgid "No images available."
+msgstr "No hay imágenes disponibles."
+
+#: data/ckeditorpicup.php:62
+msgid "Image Upload"
+msgstr "Subida de Imagen"
+
+#: data/ckeditorpicup.php:95
+msgid "Image uploads not permitted for this content type."
+msgstr "Subida de imágenes no permitida para este tipo de contenido."
+
+#: data/ckeditorpicup.php:100
+msgid "Maximum image uploads reached."
+msgstr "Cantidad máxima de imágenes subidas alcanzada."
+
+#: functions.php:115
+msgid "Disable Editor"
+msgstr "Desactivar Editor"
+
+#: functions.php:202
+msgid "Enable Editor"
+msgstr "Activar Editor"
+
+#: functions.php:294
+msgid "CKEditor"
+msgstr ""
+
+#: install.php:13
+msgid "Remember to set the ckeditor configurations to work properly."
+msgstr ""
+"Recuerda configurar las opciones de CKEditor para un correcto "
+"funcionamiento."
+
+#: install.php:20
+msgid "Configure Now"
+msgstr "Configurar Ahora"
+
+#: ckeditor/plugins/codemirror/js/beautify.min.js:1
+msgid "./beautify"
+msgstr ""
+
+#: ckeditor/plugins/codemirror/js/beautify.min.js:1
+msgid "./beautify-css"
+msgstr ""
+
+#: ckeditor/samples/toolbarconfigurator/lib/codemirror/codemirror.js:3
+#: ckeditor/samples/toolbarconfigurator/lib/codemirror/codemirror.js:4
+#: ckeditor/samples/toolbarconfigurator/lib/codemirror/codemirror.js:5
+#: ckeditor/samples/toolbarconfigurator/lib/codemirror/codemirror.js:9
+#: ckeditor/samples/toolbarconfigurator/lib/codemirror/codemirror.js:12
+#: ckeditor/samples/toolbarconfigurator/lib/codemirror/codemirror.js:17
+#: ckeditor/samples/toolbarconfigurator/lib/codemirror/codemirror.js:28
+#: ckeditor/samples/toolbarconfigurator/lib/codemirror/codemirror.js:29
+#: ckeditor/samples/toolbarconfigurator/lib/codemirror/codemirror.js:30
+#: ckeditor/samples/toolbarconfigurator/lib/codemirror/codemirror.js:31
+#: ckeditor/samples/toolbarconfigurator/lib/codemirror/codemirror.js:32
+#: ckeditor/samples/toolbarconfigurator/lib/codemirror/codemirror.js:37
+#: ckeditor/samples/toolbarconfigurator/lib/codemirror/codemirror.js:49
+#: ckeditor/samples/toolbarconfigurator/lib/codemirror/codemirror.js:50
+#: ckeditor/samples/toolbarconfigurator/lib/codemirror/codemirror.js:79
+#: ckeditor/samples/toolbarconfigurator/lib/codemirror/codemirror.js:138
+#: ckeditor/samples/toolbarconfigurator/lib/codemirror/codemirror.js:281
+#: ckeditor/samples/toolbarconfigurator/lib/codemirror/codemirror.js:282
+msgid "div"
+msgstr ""
+
+#: ckeditor/samples/toolbarconfigurator/lib/codemirror/codemirror.js:36
+msgid "textarea"
+msgstr ""
+
+#: ckeditor/samples/toolbarconfigurator/lib/codemirror/codemirror.js:56
+#: ckeditor/samples/toolbarconfigurator/lib/codemirror/codemirror.js:70
+#: ckeditor/samples/toolbarconfigurator/lib/codemirror/codemirror.js:71
+#: ckeditor/samples/toolbarconfigurator/lib/codemirror/codemirror.js:144
+msgid "pre"
+msgstr ""
+
+#: ckeditor/samples/toolbarconfigurator/lib/codemirror/codemirror.js:61
+#: ckeditor/samples/toolbarconfigurator/lib/codemirror/codemirror.js:71
+#: ckeditor/samples/toolbarconfigurator/lib/codemirror/codemirror.js:125
+#: ckeditor/samples/toolbarconfigurator/lib/codemirror/codemirror.js:143
+#: ckeditor/samples/toolbarconfigurator/lib/codemirror/codemirror.js:149
+#: ckeditor/samples/toolbarconfigurator/lib/codemirror/codemirror.js:150
+#: ckeditor/samples/toolbarconfigurator/lib/codemirror/codemirror.js:168
+#: ckeditor/samples/toolbarconfigurator/lib/codemirror/codemirror.js:169
+#: ckeditor/samples/toolbarconfigurator/lib/codemirror/codemirror.js:221
+msgid "span"
+msgstr ""
+
+#: ckeditor/samples/toolbarconfigurator/lib/codemirror/codemirror.js:70
+msgid "br"
+msgstr ""
+
+#: ckeditor/samples/toolbarconfigurator/lib/codemirror/codemirror.js:89
+msgid "img"
+msgstr ""

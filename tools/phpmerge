@@ -1,0 +1,182 @@
+#!/usr/bin/php --no-php-ini
+<?php
+
+$start_time = microtime(true);
+
+$input_file = "";
+$ouput_file = "";
+$output_code = "";
+
+if(!isset($_SERVER["argv"][1]))
+{
+	
+print "Usage: phpmerge input_file [output_file]
+
+This program search all include(), require(), include_once() and
+require_once() statements on a php script and merge them into a whole 
+single file. If no output_file is provided the program will generate 
+one with the name: input_file.combined.
+
+Note: This utility is not perfect and you may need to inspect or test
+the output code to ensure it is error free.
+
+";
+	exit();
+}
+else
+{
+	$input_file = $_SERVER["argv"][1];
+}
+
+if(!isset($_SERVER["argv"][2]))
+{
+	$output_file = $_SERVER["argv"][1] . ".combined";
+}
+else
+{
+	$output_file = $_SERVER["argv"][2];
+}
+
+//Change working directory to the one of the input file
+$directory_parts = explode("/", $input_file);
+if(count($directory_parts) > 1)
+{
+	unset($directory_parts[count($directory_parts)-1]);
+	$working_directory = implode("/", $directory_parts);
+	chdir($working_directory);
+}
+
+function str_replace_once($needle , $replace , $haystack)
+{
+    // Looks for the first occurence of $needle in $haystack
+    // and replaces it with $replace.
+    $pos = strpos($haystack, $needle);
+    if ($pos === false) {
+        // Nothing found
+    return $haystack;
+    }
+    return substr_replace($haystack, $replace, $pos, strlen($needle));
+}  
+
+function merge_file($file, $is_main=true)
+{
+	static $include_once;
+	
+	if(!isset($include_once))
+		$include_once = array();
+	
+	if(!file_exists($file))
+	{
+		die("error: file '$file' does not exists.\n");
+	}
+	
+	$file_content = utf8_decode(file_get_contents($file));
+	
+	if(!$is_main)
+	{
+        $file_content = strip_tags_comments($file_content);
+	}
+	
+	preg_match_all(
+        "/(?:include|require|include_once|require_once)\s*\([\"\']+([A-Za-z0-9\s\.\-\_\/]*)[\"\']+\)\s*\;+/", 
+        $file_content, 
+        $matches
+    );
+	
+	preg_match_all("/\s*(namespace)\s+/", $file_content, $namespace_matches);
+	
+	if(count($namespace_matches[0]) > 0)
+	{
+		print "Warning: $file contains namespaces, dont forget to wrap the code 'namespace name\{code\}' with brackets.\n";
+	}
+	
+	foreach($matches[0] as $position=>$string)
+	{	
+		if("".strpos($string, "include_once")."" != "" || "".strpos($string, "require_once")."" != "")
+		{
+			if(!isset($include_once[$matches[1][$position]]))
+			{
+				$include_once[$matches[1][$position]] = true;
+			}
+			else
+			{
+				//Already included, remove the statement and skip
+				$file_content = str_replace_once($string, "", $file_content);
+				
+				continue;
+			}
+		}
+		
+		print "Merging: " . $matches[1][$position] . "\n";
+		
+		$file_content = str_replace_once(
+            $string, 
+            merge_file($matches[1][$position], false), 
+            $file_content
+        );
+	}
+	
+	return $file_content;
+}
+
+function strip_tags_comments($string)
+{
+    $newStr  = '';
+
+    $commentTokens = array(T_COMMENT);
+
+    if (defined('T_DOC_COMMENT'))
+        $commentTokens[] = T_DOC_COMMENT; // PHP 5
+    if (defined('T_ML_COMMENT'))
+        $commentTokens[] = T_ML_COMMENT;  // PHP 4
+    
+    $commentTokens[] = T_OPEN_TAG;
+    $commentTokens[] = T_CLOSE_TAG;
+
+    $tokens = token_get_all($string);
+
+    foreach ($tokens as $token)
+    {    
+        if (is_array($token)) 
+        {
+            if (in_array($token[0], $commentTokens))
+                continue;
+
+            $token = $token[1];
+        }
+
+        $newStr .= $token;
+    }
+
+    return $newStr;
+}
+
+print "Merging files:\n";
+print "==============================\n";
+$output = merge_file($input_file);
+print "==============================\n\n";
+
+$fp = fopen($output_file, "w");
+fwrite($fp, utf8_encode($output));
+fclose($fp);
+
+print "Checking output file for syntax errors...\n\n";
+
+$errors = `php -l "$output_file" 2>&1`;
+
+$compacted = `php -w "$output_file"`;
+
+file_put_contents($output_file, $compacted);
+
+if(trim($errors) != "")
+{
+	print "Errors:\n";
+	print "==============================\n";
+	print $errors;
+}
+
+print "\n";
+
+print "Operation completed in " . number_format((microtime(true) - $start_time), 3) . " seconds.\n";
+
+?>

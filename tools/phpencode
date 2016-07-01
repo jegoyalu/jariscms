@@ -1,0 +1,57 @@
+#!/usr/bin/php5 --no-php-ini
+<?php
+
+dl("bcompiler.so");
+
+$start_time = microtime(true);
+
+$input_file = "";
+$ouput_file = "";
+$output_code = "";
+
+if(!isset($_SERVER["argv"][1]))
+{
+	
+print "Usage: phpencode input_file [output_file]
+
+This program convert a given php source file into byte code using the
+bcompiler extension. If no output_file is provided the program will 
+generate one with the name: input_file.phb
+
+";
+	exit();
+}
+else
+{
+	$input_file = $_SERVER["argv"][1];
+}
+
+if(!isset($_SERVER["argv"][2]))
+{
+	$output_file = str_ireplace(".php", "", $_SERVER["argv"][1]) . ".phb";
+}
+else
+{
+	$output_file = $_SERVER["argv"][2];
+}
+
+//Change working directory to the one of the input file
+$directory_parts = explode("/", $input_file);
+if(count($directory_parts) > 1)
+{
+	unset($directory_parts[count($directory_parts)-1]);
+	$working_directory = implode("/", $directory_parts);
+	chdir($working_directory);
+}
+
+print "Converting...\n";
+
+$fh = fopen($output_file, "w");
+bcompiler_write_header($fh);
+bcompiler_write_file($fh, $input_file);
+bcompiler_write_footer($fh);
+fclose($fh);
+
+print "Operation completed in " . number_format((microtime(true) - $start_time), 3) . " seconds.\n";
+
+?>

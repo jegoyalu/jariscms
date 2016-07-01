@@ -1,0 +1,33 @@
+div.code
+{
+    border: solid 2px #d3d3d3;
+    padding: 0 10px 0 0;
+    background-color: #fff;
+}
+
+div.code .linenum
+{
+    background-color: #d3d3d3;
+    vertical-align: middle;
+    text-align: center;
+    padding: 0 3px 0 3px;
+}
+
+div.code span, div.code del, div.code ins
+{
+    display: block;
+}
+
+div.code del
+{
+    text-decoration: none;
+    background-color: #FFE0E0;
+    border: solid 1px #ffc0c0;
+}
+
+div.code ins
+{
+    text-decoration: none;
+    background-color: #E0FFE0;
+    border: solid 1px #c0ffc0;
+}

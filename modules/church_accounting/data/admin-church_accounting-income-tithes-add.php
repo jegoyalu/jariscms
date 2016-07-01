@@ -1,0 +1,320 @@
+<?php
+/**
+ * Copyright 2008, Jefferson González (JegoYalu.com)
+ * This file is part of Jaris CMS and licensed under the GPL,
+ * check the LICENSE.txt file for version and details or visit
+ * https://opensource.org/licenses/GPL-3.0.
+ */
+
+//For security the file content is skipped from the world eyes :)
+exit;
+?>
+
+row: 0
+    field: title
+        <?php print t("Add Tithe") ?>
+    field;
+
+    field: content
+    <?php
+        Jaris\Authentication::protectedPage(array("add_income_church_accounting"));
+    ?>
+    <script type="text/javascript">
+        row_id = 1;
+
+        $(document).ready(function() {
+            $("#add-item").click(function() {
+
+                row = "<tr style=\"width: 100%\" id=\"table-row-" + row_id + "\">";
+                row += "<td style=\"width: auto\"><input style=\"width: 90%\" type=\"text\" name=\"checks[number][]\" placeholder=\"<?php print t("number") ?>\" /></td>";
+                row += "<td style=\"width: auto\"><input style=\"width: 90%\" type=\"text\" name=\"checks[amount][]\" placeholder=\"<?php print t("amount") ?>\" /></td>";
+                row += "<td style=\"width: auto; text-align: center\"><a href=\"javascript:remove_row(" + row_id + ")\"><?php print t("remove") ?></a></td>";
+                row += "</tr>";
+
+                $("#items-table > tbody").append($(row));
+
+                row_id++;
+            });
+        });
+
+        function remove_row(id)
+        {
+            $("#table-row-" + id).fadeOut("slow", function() {
+                $(this).remove();
+            });
+        }
+    </script>
+    <?php
+
+        $tither_data = church_accounting_tither_get($_REQUEST["tid"]);
+
+        if(!is_array($tither_data))
+        {
+            Jaris\Uri::go(
+                Jaris\Modules::getPageUri(
+                    "admin/church-accounting/income",
+                    "church_accounting"
+                )
+            );
+        }
+
+        if(
+            isset($_REQUEST["btnSave"]) &&
+            !Jaris\Forms::requiredFieldEmpty("add-income-tithe")
+        )
+        {
+            $data = array(
+                "day" => $_REQUEST["day"],
+                "month" => $_REQUEST["month"],
+                "year" => $_REQUEST["year"],
+                "category" => 1,
+                "description" => $_REQUEST["description"],
+                "cash" => $_REQUEST["cash"],
+                "total" => $_REQUEST["total"],
+                "is_tithe" => 1,
+                "tither" => $_REQUEST["tid"],
+                "prepared_by" => $_REQUEST["prepared_by"],
+                "verified_by" => $_REQUEST["verified_by"]
+            );
+
+            $ckecks = array();
+            if(isset($_REQUEST["checks"]["number"]))
+            {
+                foreach($_REQUEST["checks"]["number"] as $index=>$value)
+                {
+                    $checks[] = array(
+                        "number"=>$value,
+                        "amount"=>$_REQUEST["checks"]["amount"][$index]
+                    );
+                }
+            }
+            $data["checks"] = $checks;
+
+            $attachments = array();
+            if(is_array($_FILES["attachments"]["name"]))
+            {
+                foreach($_FILES["attachments"]["name"] as $file_index => $file_name)
+                {
+                    $attachments[] = array(
+                        "name" => $file_name,
+                        "tmp_name" => $_FILES["attachments"]["tmp_name"][$file_index]
+                    );
+                }
+            }
+            $data["attachments"] = $attachments;
+
+            church_accounting_income_add($data);
+
+            Jaris\View::addMessage(t("Tithe successfully added."));
+
+            Jaris\Uri::go(
+                Jaris\Modules::getPageUri(
+                    "admin/church-accounting/income",
+                    "church_accounting"
+                )
+            );
+        }
+        elseif(isset($_REQUEST["btnCancel"]))
+        {
+            Jaris\Uri::go(
+                Jaris\Modules::getPageUri(
+                    "admin/church-accounting/income",
+                    "church_accounting"
+                )
+            );
+        }
+
+        $parameters["name"] = "add-income-tithe";
+        $parameters["class"] = "add-income-tithe";
+        $parameters["action"] = Jaris\Uri::url(Jaris\Uri::get());
+        $parameters["method"] = "post";
+
+        $fields_tither[] = array(
+            "type" => "hidden",
+            "name" => "tid",
+            "value" => $tither_data["id"]
+        );
+
+        $fields_tither[] = array(
+            "type" => "text",
+            "name" => "tither",
+            "label" => t("Tither:"),
+            "value" => $tither_data["first_name"] . " "
+                . $tither_data["last_name"] . " "
+                . $tither_data["maiden_name"],
+            "readonly" => true
+        );
+
+        $fieldset[] = array("fields" => $fields_tither);
+
+        $fields_date[] = array(
+            "type" => "select",
+            "name" => "day",
+            "label" => t("Day:"),
+            "value" => Jaris\Date::getDays(),
+            "selected" => isset($_REQUEST["day"]) ?
+                $_REQUEST["day"] : date("j", time()),
+            "inline" => true
+        );
+
+        $fields_date[] = array(
+            "type" => "select",
+            "name" => "month",
+            "label" => t("Month:"),
+            "value" => Jaris\Date::getMonths(),
+            "selected" => isset($_REQUEST["month"]) ?
+                $_REQUEST["month"] : date("n", time()),
+            "inline" => true
+        );
+
+        $fields_date[] = array(
+            "type" => "select",
+            "name" => "year",
+            "label" => t("Year:"),
+            "value" => Jaris\Date::getYears(),
+            "selected" => isset($_REQUEST["year"]) ?
+                $_REQUEST["year"] : date("Y", time()),
+            "inline" => true
+        );
+
+        $fieldset[] = array(
+            "name" => t("Date"),
+            "fields" => $fields_date,
+            "description" => t("Date when the tithe was received.")
+        );
+
+        $fields[] = array(
+            "type" => "textarea",
+            "name" => "description",
+            "value" => $_REQUEST["description"],
+            "label" => t("Description:"),
+            "description" => t("A brief or detailed description about the income.")
+        );
+
+        $fieldset[] = array("fields" => $fields);
+
+        $cash = array(
+            "0.01",
+            "0.05",
+            "0.10",
+            "0.25",
+            "0.50",
+            "1.00",
+            "5.00",
+            "10.00",
+            "20.00",
+            "50.00",
+            "100.00"
+        );
+
+        $fields_cash = array();
+        foreach($cash as $index=>$amount)
+        {
+            $fields_cash[] = array(
+                "type" => "hidden",
+                "name" => "cash[$index][amount]",
+                "value" => $amount
+            );
+
+            $fields_cash[] = array(
+                "type" => "number",
+                "name" => "cash[$index][quantity]",
+                "value" => $_REQUEST["cash"][$index]["quantity"],
+                "label" => "\$$amount",
+                "inline" => true
+            );
+        }
+
+        $fieldset[] = array(
+            "name" => t("Cash"),
+            "fields" => $fields_cash,
+            "collapsible" => true,
+            "collapsed" => true,
+            "description" => t("Enter the quantity received for each amount that applies.")
+        );
+
+        $subject_html = "<table id=\"items-table\" style=\"width: 100%\">";
+        $subject_html .= "<thead>";
+        $subject_html .= "<tr>";
+        $subject_html .= "<td style=\"width: auto\"><b>" . t("Number") . "</b></td>";
+        $subject_html .= "<td style=\"width: auto\"><b>" . t("Amount") . "</b></td>";
+        $subject_html .= "<td style=\"width: auto\"></td>";
+        $subject_html .= "</tr>";
+        $subject_html .= "</thead>";
+        $subject_html .= "<tbody>";
+
+        $subject_html .= "</tbody>";
+        $subject_html .= "</table>";
+        $subject_html .= "<a id=\"add-item\" style=\"cursor: pointer; display: block; margin-top: 8px\">" . t("Add check") . "</a>";
+
+        $fields_checks[] = array("type" => "other", "html_code" => $subject_html);
+
+        $fieldset[] = array(
+            "name" => t("Checks"),
+            "fields" => $fields_checks,
+            "collapsible" => true,
+            "description" => t("Any checks received as offering.")
+        );
+
+        $fields_attachments[] = array(
+            "type" => "file",
+            "name" => "attachments",
+            "multiple" => true,
+            "label" => t("Files:")
+        );
+
+        $fieldset[] = array(
+            "name" => t("Attachments"),
+            "fields" => $fields_attachments,
+            "collapsible" => true,
+            "description" => t("You can attach any file type like photos of checks, etc...")
+        );
+
+        $fields_other[] = array(
+            "type" => "text",
+            "name" => "total",
+            "value" => $_REQUEST["total"],
+            "label" => t("Additional amount"),
+            "description" => t("Any other additional amount.")
+        );
+
+        $fields_other[] = array(
+            "type" => "user",
+            "name" => "prepared_by",
+            "value" => isset($_REQUEST["prepared_by"]) ?
+                $_REQUEST["prepared_by"] : Jaris\Authentication::currentUser(),
+            "label" => t("Prepared by:"),
+            "description" => t("The treasurer or person who entered this data.")
+        );
+
+        $fields_other[] = array(
+            "type" => "user",
+            "name" => "verified_by",
+            "value" => isset($_REQUEST["verified_by"]) ?
+                $_REQUEST["verified_by"] : "",
+            "label" => t("Verified by:"),
+            "description" => t("The sub-treasurer or person who verified this data.")
+        );
+
+        $fields_other[] = array(
+            "type" => "submit",
+            "name" => "btnSave",
+            "value" => t("Save")
+        );
+
+        $fields_other[] = array(
+            "type" => "submit",
+            "name" => "btnCancel",
+            "value" => t("Cancel")
+        );
+
+        $fieldset[] = array("fields" => $fields_other);
+
+        print Jaris\Forms::generate($parameters, $fieldset);
+    ?>
+    field;
+
+    field: is_system
+        1
+    field;
+row;

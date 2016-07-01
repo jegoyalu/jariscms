@@ -1,0 +1,846 @@
+/*Collapsible fieldsets*/
+fieldset.collapsed
+{
+    border-bottom-width: 0;
+    border-left-width: 0;
+    border-right-width: 0;
+    margin-bottom: 0;
+}
+
+fieldset.collapsed legend,
+fieldset.collapsed legend *
+{
+    display: inline-block;
+}
+
+fieldset.collapsible legend a.collapse
+{
+    background: transparent url(images/collapse.png) no-repeat left;
+    padding-left: 15px;
+}
+
+fieldset.collapsible legend a.expand
+{
+    background: transparent url(images/expand.png) no-repeat left;
+    padding-left:  15px;
+}
+
+/*Teaxtarea Resizer*/
+div.grippie {
+    background:#EEEEEE url(images/grippie.png) no-repeat scroll center 2px;
+    border-color:#DDDDDD;
+    border-style:solid;
+    border-width:0pt 1px 1px;
+    cursor:s-resize;
+    height:9px;
+    overflow:hidden;
+}
+
+.resizable-textarea textarea {
+    display:block;
+    margin-bottom:0pt;
+}
+
+/*Generated Forms*/
+form .caption
+{
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+form fieldset
+{
+    margin-top: 20px;
+}
+
+form .field_inline
+{
+    display: inline-block;
+    margin-right: 20px;
+    vertical-align: top;
+}
+
+form .caption .required
+{
+    color: red;
+    font-weight: bold;
+    font-size:  18px;
+}
+
+form .description
+{
+    color: #555;
+    font-size: 13px;
+    padding-top: 5px;
+}
+
+form .form-gmap-location
+{
+    width: 100%;
+    height: 350px;
+}
+
+form .form-gmap-addr
+{
+    width: 75%;
+    margin-top: 7px;
+}
+
+form .form-gmap-locate
+{
+    cursor: pointer;
+    margin-left: 10px;
+    margin-top: 7px;
+    display: inline-block;
+    padding: 5px 10px 5px 10px;
+    border: solid 1px #777;
+    background-color: #F0F0F0;
+}
+
+form .form-gmap-locate:hover
+{
+    background-color: #E5E3E3;
+}
+
+form .form-text
+{
+    width: 310px;
+}
+
+form .form-password
+{
+    width: 310px;
+}
+
+form .form-textarea
+{
+    width: 99%;
+    height: 120px;
+}
+
+form .form-checkbox-entry
+{
+    display: inline-block;
+    vertical-align: top;
+}
+
+form .form-submit
+{
+    margin-top: 15px;
+}
+
+form .edit-user-picture
+{
+    margin-bottom: 15px;
+}
+
+form .form-chars-left
+{
+    font-weight: bold;
+}
+
+form .current-file, form .current-image
+{
+    padding: 5px;
+    border: solid 1px #d3d3d3;
+    margin-top: 5px;
+}
+
+/*Messages*/
+#messages
+{
+    background-color: #fff1b9;
+    margin-bottom: 10px;
+    border: solid 1px #e9f2f5;
+    padding: 3px;
+    color: #429042;
+    font-weight: bold;
+}
+
+#messages .error
+{
+    color: #ca1919;
+}
+
+/*Tabs*/
+.tabs
+{
+    padding: 0;
+    margin: 0;
+    display: block;
+}
+
+.tabs li
+{
+    list-style-type: none;
+    float: left;
+}
+
+.tabs li a
+{
+    display: block;
+    padding: 5px;
+    border: solid 1px #d3d3d3;
+    background-color: #e9f2f5;
+    margin: 0 3px 3px 0;
+}
+
+.tabs li a:hover
+{
+    color: #a52a2a;
+}
+
+.tabs li a.selected
+{
+    color: #ffffff;
+    border: solid 1px #d3d3d3;
+    background-color: #df7500;
+}
+
+.tabs li a.selected:hover
+{
+    color: #ffffff;
+}
+
+.tabs-clear
+{
+    clear: both;
+    padding: 5px;
+}
+
+/*Search results page*/
+.search-results
+{
+    margin: 30px 0 30px 0;
+}
+
+.search-results .text
+{
+    padding-left: 30px;
+    border-bottom: dashed 1px #d3d3d3;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+}
+
+.search-results .text .label
+{
+    font-weight: bold;
+}
+
+.search-results .search-highlight
+{
+    font-weight: bold;
+    color: #800000;
+}
+
+.search-results .title li
+{
+    list-style: none;
+}
+
+.search-results .navigation
+{
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.search-results .navigation .page
+{
+    padding: 10px;
+}
+
+.search-results .navigation .current-page
+{
+    font-weight: bold;
+    color: #000000;
+}
+
+.search-results .navigation .previous, .search-results .navigation .next
+{
+    font-weight: bold;
+    padding: 5px;
+    border: solid 1px #d3d3d3;
+    background-color: #e9f2f5;
+    margin: 5px;
+}
+
+.search-results .navigation .current-page
+{
+    font-weight: bold;
+    color: #000000;
+}
+
+/*Administration Page*/
+.administration-list .section h2.section-title
+{
+    cursor: pointer;
+}
+
+/*Administration Center*/
+.administration-list .section
+{
+    padding-bottom: 5px;
+}
+
+.administration-list .section h2.section-title
+{
+    font-size: 22px;
+    height: 30px;
+    padding-top: 3px;
+    padding-left: 5px;
+    font-weight: normal;
+    margin-bottom: 5px;
+    margin-top: 0;
+}
+
+.administration-list .section .subsection-title
+{
+    margin-left: 25px;
+}
+
+.administration-list .section .description
+{
+    border-bottom: dashed 1px #d3d3d3;
+    font-size: 12px;
+    font-style: italic;
+    margin-left: 25px;
+    margin-bottom: 5px;
+    margin-right: 25px;
+}
+
+/*Blocks Administration*/
+.instant-block-edit
+{
+    padding: 3px 3px 3px 3px;
+    float: left;
+    display: block;
+    position: relative;
+    top: 0;
+    left: 0;
+    background-color: #7c7c7c;
+    color: #fff;
+    border: 0;
+}
+
+.instant-content-block-edit
+{
+    padding: 3px 3px 3px 3px;
+    float: left;
+    display: block;
+    position: relative;
+    top: 0;
+    left: 0;
+    background-color: #F85555;
+    color: #fff;
+    border: 0;
+}
+
+form.blocks h3
+{
+    text-transform: capitalize;
+}
+
+form.blocks .blocks-list tr.head td
+{
+    font-weight: bold;
+}
+
+form.blocks .blocks-list td
+{
+    width: auto;
+    padding: 5px;
+}
+
+form.blocks .blocks-list tbody.blocks td
+{
+    border-bottom: solid 1px #d3d3d3;
+}
+
+form.blocks .blocks-list .form-text
+{
+    width: auto;
+}
+
+form.blocks .blocks-list tbody.blocks tr:hover
+{
+    background-color: #d3d3d3;
+}
+
+/*Menus Administration*/
+form.menu .menu-list td
+{
+    width: auto;
+    padding: 4px;
+}
+
+form.menu .menu-list .name, form.menu .menu-list .options
+{
+    padding: 20px 0 20px 0;
+}
+
+form.menu .menu-list .options
+{
+    text-align: left;
+}
+
+form.menu .menu-list h3
+{
+    padding: 0;
+    margin: 0;
+}
+
+form.menu .menu-list tr.head td
+{
+    font-weight: bold;
+}
+
+form.menu .menu-list tbody.items td
+{
+    border-bottom: solid 1px #d3d3d3;
+}
+
+form.menu .menu-list tbody.items tr:hover
+{
+    background-color: #d3d3d3;
+}
+
+form.menu .menu-list .form-text
+{
+    width: auto;
+}
+
+form.menu .menu-list select
+{
+    width: 100%;
+}
+
+/*Page images administration*/
+form.images .images-list
+{
+    margin-bottom: 30px;
+}
+
+form.images .images-list thead
+{
+    font-weight: bold;
+}
+
+form.images .images-list thead td
+{
+    height: 30px;
+    border-bottom: 0;
+}
+
+form.images .images-list td
+{
+    width: auto;
+    vertical-align:  middle;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    border-bottom: dashed 1px #d3d3d3;
+    margin-bottom: 10px;
+}
+
+form.images .images-list tbody tr:hover
+{
+    background-color: #d3d3d3;
+}
+
+form.images .images-list .form-text
+{
+    width: auto;
+}
+
+/*Page files administration*/
+form.files .files-list
+{
+    margin-bottom: 30px;
+}
+
+form.files .files-list thead
+{
+    font-weight: bold;
+}
+
+form.files .files-list thead td
+{
+    height: 30px;
+    border-bottom: 0;
+}
+
+form.files .files-list td
+{
+    width: auto;
+    vertical-align:  middle;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    border-bottom: dashed 1px #d3d3d3;
+    margin-bottom: 10px;
+}
+
+form.files .files-list .form-text
+{
+    width: auto;
+}
+
+/*Modules Administration*/
+.modules-list thead
+{
+    font-weight: bold;
+    height: 30px;
+}
+
+.modules-list thead td
+{
+    border-bottom: 0;
+}
+
+.modules-list td
+{
+    width: auto;
+    vertical-align:  middle;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    border-bottom: dashed 1px #d3d3d3;
+    margin-bottom: 10px;
+}
+
+.modules-list .form-text
+{
+    width: auto;
+}
+
+.module-info .info .label
+{
+    text-align: left;
+}
+
+.module-info .info .label
+{
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+
+/*Themes Administration*/
+form.themes .themes-list thead
+{
+    font-weight: bold;
+    height: 30px;
+}
+
+form.themes .themes-list thead td
+{
+    border-bottom: 0;
+}
+
+form.themes .themes-list td
+{
+    width: auto;
+    vertical-align:  middle;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    border-bottom: dashed 1px #d3d3d3;
+    margin-bottom: 10px;
+}
+
+form.themes .themes-list .form-text
+{
+    width: auto;
+}
+
+.theme-info .info .label
+{
+    text-align: left;
+}
+
+.theme-info .info .label
+{
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.theme-info .preview .label
+{
+    margin-top: 10px;
+    font-weight: bold;
+    height: 30px;
+}
+
+/*Navigations List*/
+.navigation-list td
+{
+    width: auto;
+    padding: 5px;
+    border-bottom: solid 1px #d3d3d3;
+}
+
+.navigation-list thead td
+{
+    width: auto;
+    font-weight:  bold;
+    border-bottom: 0;
+}
+
+.navigation-list-hover tbody tr:hover
+{
+    background-color: #d3d3d3;
+}
+
+/*Groups Administration*/
+.groups-list thead
+{
+    font-weight: bold;
+}
+
+.groups-list td
+{
+    width: auto;
+    text-align: left;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: dashed 1px #d3d3d3;
+    padding-right: 10px;
+}
+
+/*Languages Administration*/
+.languages-list thead
+{
+    font-weight: bold;
+}
+
+.languages-list td
+{
+    width: auto;
+    text-align: left;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: dashed 1px #d3d3d3;
+    padding-right: 10px;
+}
+
+.language-info .info .label
+{
+    text-align: left;
+}
+
+.language-info .info .label
+{
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+/*Types Administration*/
+.types-list thead
+{
+    font-weight: bold;
+}
+
+.types-list td
+{
+    width: auto;
+    text-align: left;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: dashed 1px #d3d3d3;
+    padding-right: 10px;
+}
+
+.types-list tbody tr:hover
+{
+    background-color: #d3d3d3;
+}
+
+/*Categories Administration*/
+.categories-list thead, .subcategories-list thead
+{
+    font-weight: bold;
+}
+
+.categories-list td, .subcategories-list td
+{
+    width: auto;
+    text-align: left;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: dashed 1px #d3d3d3;
+    padding-right: 10px;
+}
+
+.categories-list tbody tr:hover
+{
+    background-color: #d3d3d3;
+}
+
+/*Subcategories administration*/
+.subcategories td
+{
+    width: auto;
+    padding: 4px;
+}
+
+.subcategories-list .form-text
+{
+    width: auto;
+}
+
+.subcategories-list tbody tr:hover
+{
+    background-color: #d3d3d3;
+}
+
+/*Block User Login*/
+form.block-login .form-text
+{
+    width: auto;
+}
+
+form.block-login .form-password
+{
+    width: auto;
+}
+
+form.block-login .caption
+{
+    margin: 0;
+}
+
+/*Block Search*/
+form.block-search .form-text
+{
+    width: auto;
+}
+
+form.block-search .caption
+{
+    margin: 0;
+}
+
+/*My Account Page*/
+#my-account .register
+{
+    border-left: dashed 1px #d3d3d3;
+    padding-left: 25px;
+}
+
+#my-account .register-link
+{
+    margin: 30px auto 0 auto;
+    width: 200px;
+    display: block;
+    padding: 5px;
+    background-color: #e9f2f5;
+    border: solid 1px #d3d3d3;
+    font-size: 18px;
+    text-align: center
+}
+
+/*User profile*/
+.user-profile
+{
+    border-bottom: solid 1px #d3d3d3;
+    margin-bottom: 15px;
+}
+
+.user-profile td
+{
+    vertical-align: top;
+}
+
+.user-profile .personal-text
+{
+    padding: 7px;
+    font-size: 14px;
+}
+
+.user-profile .details
+{
+    width: 200px;
+}
+
+.user-profile .details *
+{
+    font-size: 14px;
+    text-align: left;
+}
+
+/*Sorting*/
+a.sort-handle
+{
+    display: block;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    background: transparent url(images/crosshair.png) no-repeat center center;
+}
+
+/*File Upload*/
+.file-upload-list
+{
+    margin: 5px 0 5px 0;
+    border-top: solid 1px #d3d3d3;
+}
+
+.file-upload-list tr:hover, .file-uploaded-list tr:hover
+{
+    background-color: #d3d3d3;
+}
+
+.file-upload-list tr td, .file-uploaded-list tr td
+{
+    width: auto;
+    padding: 5px;
+    border-bottom: solid 1px #d3d3d3;
+}
+
+.file-upload-list .description input
+{
+    width: 100%;
+}
+
+.file-upload-list .percent
+{
+    font-weight: bold;
+}
+
+.file-upload-list .progress
+{
+    width: 220px;
+}
+
+.file-upload-list .progress .container
+{
+    border: solid 1px #777;
+}
+
+.file-upload-list .bar
+{
+    height: 18px;
+    background: #389944;
+}
+
+.file-upload-list .percent, .file-upload-list .delete
+{
+    text-align: center;
+}
+
+.file-uploaded-list .delete
+{
+    text-align: right;
+}
+
+.file-upload-list .delete a, .file-uploaded-list .delete a
+{
+    font-weight: bold;
+    color: #BA0B0B;
+    font-family: Tahoma, sans-serif;
+    font-size: 22px;
+    display: inline-block;
+    padding: 0 10px 0 10px;
+    cursor: pointer;
+}

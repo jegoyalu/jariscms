@@ -1,0 +1,39 @@
+/** jQuery Gallery Plugin **/
+.gallery{
+  position: relative;
+  overflow: hidden;
+  background-color: #666;
+  padding: 12px;
+  height: 450px;
+}
+.galleryBar {
+  position: absolute;
+  left: 0;
+  margin: 0;
+  padding: 0 7px;
+  display:none;
+}
+
+.galleryBar li {
+  position: relative;
+  margin: 0 7px 0 0;
+  padding: 0;
+  overflow: hidden;
+  float: left;
+  list-style: none;
+}
+.galleryScreen, .galleryInfo {
+  position: absolute;
+}
+.galleryScreen {
+ background-color: #222;
+}
+.galleryInfo {
+ background-color: transparent;
+ color: #fff;
+ padding: 12px;
+}
+.galleryTitle {
+ font-size: 135%;
+ font-weight: bold;
+}

@@ -1,0 +1,121 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: JarisCMS Ecommerce v1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-11-28 22:55-0400\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Jefferson González <jgonzalez@jegoyalu.com>\n"
+"Language-Team: JegoYalu <servicios@jegoyalu.com>\n"
+"Language: es_PR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-Basepath: ../..\n"
+"X-Poedit-KeywordsList: t\n"
+"X-Generator: Poedit 1.8.6\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: data/admin-settings-terms_generator.php:15 functions.php:17 functions.php:40
+msgid "Terms Generator"
+msgstr "Generador de Términos"
+
+#: data/admin-settings-terms_generator.php:147
+msgid "Terms generated successfully!"
+msgstr "Términos generados exitosamente!"
+
+#: data/admin-settings-terms_generator.php:169
+msgid "Company name:"
+msgstr "Nombre de compañía:"
+
+#: data/admin-settings-terms_generator.php:170
+msgid "The company name as it will appear on the generated terms."
+msgstr "El nombre de la compañía como aparecerá en los términos a generar."
+
+#: data/admin-settings-terms_generator.php:177
+msgid "Contact us:"
+msgstr "Contacto:"
+
+#: data/admin-settings-terms_generator.php:178
+msgid "The uri of existing contact us page."
+msgstr "El uri de una página existente de contacto."
+
+#: data/admin-settings-terms_generator.php:185
+msgid "Terms and conditions:"
+msgstr "Términos y Condiciones:"
+
+#: data/admin-settings-terms_generator.php:187
+msgid ""
+"The uri of the terms and conditions page to create. Note that if the "
+"provided uri exists the content of that page will be overwritten."
+msgstr ""
+"El uri de la página de términos y condiciones a ser creada. Nota, si el uri "
+"proveído existe el contenido de esa página será sobre escrito."
+
+#: data/admin-settings-terms_generator.php:194
+msgid "Privacy policy:"
+msgstr "Política de privacidad:"
+
+#: data/admin-settings-terms_generator.php:196
+msgid ""
+"The uri of the privacy policy page to create. Note that if the provided uri "
+"exists the content of that page will be overwritten."
+msgstr ""
+"El uri de la página de política de privacidad a ser creada. Nota, si el uri "
+"proveído existe el contenido de esa página será sobre escrito."
+
+#: data/admin-settings-terms_generator.php:203
+#: data/admin-settings-terms_generator.php:210
+msgid "Return policy:"
+msgstr "Política de devoluciones:"
+
+#: data/admin-settings-terms_generator.php:204
+msgid ""
+"The uri of the return policy page to create. Note that if the provided uri "
+"exists the content of that page will be overwritten."
+msgstr ""
+"El uri de la página de política de devoluciones a ser creada. Nota, si el "
+"uri proveído existe el contenido de esa página será sobre escrito."
+
+#: data/admin-settings-terms_generator.php:212
+msgid "The amount of days for applicable return after doing the order."
+msgstr ""
+"La cantidad de días aplicables para devoluciones después de la orden de "
+"compra."
+
+#: data/admin-settings-terms_generator.php:218
+msgid "Save"
+msgstr "Guardar"
+
+#: data/admin-settings-terms_generator.php:224
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: functions.php:31
+msgid "Settings"
+msgstr "Configuraciones"
+
+#: functions.php:47
+msgid ""
+"Helps you generate terms and conditions, privacy policy and return policy."
+msgstr ""
+"Asiste en la generación de los términos y condiciones, política de "
+"privacidad y política de devoluciones."
+
+#: info.php:14
+msgid "Generates terms and conditions, privacy policy and return policy."
+msgstr ""
+"Genera términos y condiciones, política de privacidad y política de "
+"devoluciones."
+
+#: install.php:21
+msgid ""
+"Remember to generate your terms on the Settings section of the Control "
+"Center."
+msgstr ""
+"Recuerda generar sus términos y condiciones en la sección de Configuraciones "
+"del Centro de Control."
+
+#: install.php:23
+msgid "Generate Now"
+msgstr "Generar Ahora"

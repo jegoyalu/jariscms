@@ -1,0 +1,550 @@
+Changes Log
+================================================================================
+
+Version 6.0.0 - Date 26/05/2016
+
+    * Major refactoring of all the codebase moving global functions to
+      the class each on the namespace Jaris.
+    * Introduced autoloading.
+    * Removed core use of global functions and instead use static classes to
+      store variables used thru the code.
+    * Many more changes.
+    * Added move and delete field functions to Forms.
+    * Added ability to activiate descriptions for image/file custom fields.
+    * Added new functions to Pages\Images.
+
+Version 5.1.0 - Date 29/02/2016
+
+    * Fixed lots of issues found after running phan on the project source.
+    * Stream lined return types of functions to a single type.
+    * Fixes to doc blocks.
+    * Added content duplication functionality.
+    * Added new default theme.
+    * Added support for distros at install time.
+    * Added jaris demo distro.
+    * Modified get_current_language to use $_REQUEST instead of $_GET which
+      fixes an installer issue.
+    * Updated spanish translations.
+    * Added support to display developer details when viewing a theme.
+    * Improved fieldset collapser.
+    * Turned on WAL on cache, search_engine and users database to improve
+      concurrency.
+    * Disabled PRAGMA journal_mode=OFF on jaris_sqlite_turbo because it was
+      resetting the wal mode to delete.
+    * Upgraded phpmailer.
+    * Added default image for content types.
+    * Inlined elements on user register form.
+    * Improvements to gmaps form code.
+
+Version 5.0.6 - Date 25/02/2016
+
+    * Introduced testing scripts to test core pages and find errors.
+    * Fixed thousands of notices found with testing scripts.
+    * Fixed issue with content types image been deleted due to bug.
+    * Added placeholder to the description of file uploads.
+    * Updated spanish translation and global language template.
+    * Fixed router.php to properly work on php7.
+    * Fixed issue when accessing pages to handle api keys creating a
+      blank api database.
+    * Added delete_block hook.
+    * Used source sanityzer script to format all files on jaris source tree.
+    * Skip empty translations on po files to fix modules overriding system
+      translation issues.
+
+Version 5.0.5 - Date 21/10/2015
+
+    * More explicit error reporting in development mode.
+    * Fixed a notice when retrieving a non existing translation.
+    * Inline birth date fields on register and user add/edit forms.
+    * Fixed issue with blank module translations overriding core ones.
+    * Added image_resize function.
+    * Added delete_block hook.
+    * Fixed issue with placeholder getting repeated on subsequent generated
+      form elements on generate_form function.
+
+Version 5.0.4 - Date 01/07/2015
+
+    * Added more hooks.
+    * Improved autocomplete field.
+    * Other fixes.
+
+Version 5.0.3 - Date 24/05/2015
+
+    * Added forms_add_fieldsets().
+    * Added basic api framework.
+    * Added optional len to generate_user_password.
+    * Removed warning message when locking a file that doesn't
+      exists with lock_data().
+
+Version 5.0.2 - Date 28/02/2015
+
+    * Added google map selection control to forms.
+    * Added groups filtering to content type fields.
+    * Added ability to enable multiple file/image uploads from custom type fields.
+    * Added ability to filter html tag attributes on input formats.
+
+Version 5.0.1 - Date 24/01/2015
+
+    * Fixes to print_any_file not working correctly on android.
+    * Added mp4 mimetype.
+    * Added support to translate global blocks.
+    * Added option to enable classic page views count.
+    * Added support to assign images to content types.
+    * Added arguments array support to print_url()
+    * Minor improvement to jaris_sqlite_count.
+
+Version 5.0 - Date 07/08/2014
+
+    * Initial support for modules upload.
+    * Initial support for themes upload.
+    * Modified almost all modules to support variable modules path.
+    * Moved languages to root directory enabling multi-site support of core
+      translations.
+    * When translating, only none system strings will show.
+    * Moved location of website data from data/default into sites/hostname/data
+    * Added skeleton with default data directory structure for a site.
+    * Modified install.php to use the skeleton directoy to create sites/default
+    * Moved system pages into system/pages/.
+    * Changes to the dir structure of the system pages.
+    * Added rendering_mode support for pages.
+    * Count pages views user side to increase loading performance.
+    * Added fast cache option that can be 10x+ faster than normal cache.
+    * Fixes to get the cms working back with hhvm.
+
+Version 4.9.21 - Date 07/08/2014
+
+    * Fixed parse_links function.
+    * Added more stuff.
+    * Simplified post blocks.
+    * Fixed system_pages_blacklist which was blacklisting non system pages.
+
+Version 4.9.20 - Date 21/06/2014
+
+    * Added translate_page hook.
+    * Added function to store files for public access store_file() and
+      get_files_path() which use the directory files/{site_domain}
+    * Added get_user_uploads_path()
+    * Fixed translation issues when default language wasn't english.
+
+Version 4.9.19 - Date 19/05/2014
+
+    * Use limit 1 on count_page_view function select statement
+      to improve performance.
+    * Implemented automatic cache expiration in seconds.
+    * Added usernames control access to content.
+    * Improved performance a bit for haspermission and hasuserpermission
+      sqlite aggregate functions.
+    * Check file type of uploaded user profile picture.
+    * Added image_is_valid function.
+    * Added ability to add a blocks.php to modules which are installed automatically.
+    * Added option to display subcategories on the generated categories block menu.
+    * Fixed printing of file paths like file/my-profile/somefile.ext where profile/
+      was replaced by prosomefile.ext
+    * Removed trim on the t() function to use exact string input.
+    * Added http_host to cached pages files.
+
+Version 4.9.18 - Date 26/04/2014
+
+    * Made personal text lenght a configurable option.
+    * Added active class to span of generated menus.
+    * Fix for po_parser in order to parse multi-line messages.
+
+Version 4.9.17 - Date 16/02/2014
+
+    * Set sender (return-path) on send_email in to pass spf validation.
+    * Added date to the sqlite error logging file.
+    * Added page cache hooks to support the hiawatha_cache module.
+    * Ignore the error_log database for cached pages.
+    * Added ability to download raw databases.
+    * Added begin_transaction and commit to sqlite functions.
+    * Removed jaris_sqlite_turbo from count page view to prevent data corruption.
+
+Version 4.9.16 - Date 28/01/2014
+
+    * Modified search_files function to be able to stop search from the
+      callback by setting a $stop_search reference to true.
+    * Small documentation addition.
+    * Added get_mimetype_local function.
+    * Re-enabled the php error handling hook and improved its performance.
+    * Error logging is now stored on a sqlite database which content can be
+      viewed by going to admin/settings/errors.
+    * Updated translation strings and spanish translation.
+    * Added new copy_file function
+    * Now add_image and add_file dont remove original file source.
+    * Added form_begin_fieldset and form_end_fieldset helper functions.
+    * Added support for static images.
+    * Strip right slash for uri's.
+    * Fixed user picture not displayed bug introduced when formatting code.
+
+Version 4.9.15 - Date 11/12/2013
+
+    * Added apcu support to cache data files which improves performance
+      against the previous unserialize/serialize method.
+    * Added helper functions to append or prepend fields into a form fields set.
+    * Added inline flag to form fields.
+    * Added hassomecategories() to sqlite search functions.
+
+Version 4.9.14 - Date 02/12/2013
+
+    * Added placeholder ability to generate_form function.
+    * Fixed delete_subcategory so that now it also delets a subcategory
+      sub-subcategories (recursively).
+
+Version 4.9.13 - Date 20/10/2013
+
+    * Updated jaris_sqlite_get_data_list and jaris_sqlite_count_column to use
+      jaris_sqlite_turbo in order to prevent database lockups.
+    * Also added jaris_sqlite_turbo to search_database() and get_results_count()
+    * Updated some user management functions to use jaris_sqlite_turbo.
+    * Set a busytimeout for opened sqlite databases.
+    * Added new option to disable certain menu items.
+    * Stripped the data/<dir>/ from data_cache files.
+    * Renamed image-cache directory to image_cache
+    * Added X-UA-Compatible to enable latest IE renderer by default.
+    * Improved data parser performance in about 33%.
+    * Added error message when trying to (un)install/upgrade a module with
+      data cache enabled.
+    * Some small refactoring and added @package documentation element to
+      included files in order to generate better documentation with apigen.
+    * Refactored get_dates_array to get_days_array.
+    * Moved date functions from system.php to date.php
+
+Version 4.9.12 - Date 03/10/2013
+
+    * Use flock for php data files instead of custom problematic implementation.
+    * Added images to content navigation and my content.
+    * Fixed get_sub_menu_items that returned incomplete list of menus if parent
+      was deleted.
+
+Version 4.9.11 - Date 09/08/2013
+
+    * Added haschilds css class to menu elements that expand.
+    * Updated image generation function to better handle transparency.
+    * Added required attribute to form generation function.
+
+Version 4.9.10 - Date 13/05/2013
+
+    * Fixed has_categories method used on search_engine.
+    * Added print_file hook.
+    * File size stored for uploaded files.
+    * Fixed Content-Lenght not reported for file downloads.
+
+Version 4.9.9 - Date 11/02/2013
+
+    * Added uri and uriarea as an option for content types custom fields.
+    * Included website as part of user account.
+    * New javascript/jquery effect for blocks edit button.
+
+Version 4.9.8 - Date 05/02/2013
+
+    * New option to force logins with ssl if supported.
+
+Version 4.9.7 - Date 27/01/2013
+
+    * Now themes gotta be enabled.
+    * Blocks can be positioned per theme.
+
+Version 4.9.6 - Date 02/01/2013
+
+    * Added new feature to enable selection of account type at registration.
+    * Added validation field to registration form.
+
+Version 4.9.5 - Date 17/11/2012
+
+    * Added custom format support for date fields.
+    * Updated jdpicker to work with newer jquery library.
+
+Version 4.9.4 - Date 17/11/2012
+
+    * Added jaris_sqlite_turbo to count_page_view increaseing
+      performance in about 85%
+    * Added jaris_sqlite_turbo to search_reindex_callback
+    * Added jaris_sqlite_turbo to user re-indexetion page
+
+Version 4.9.3 - Date 14/10/2012
+
+    * Fixes to check boxes on form generation functions.
+    * Added progress bar and concurrent support to file uploads.
+    * Small fix to print file functions.
+
+Version 4.9.2 - Date 10/10/2012
+
+    * Added uri autocompletion
+    * Added visual sorting of blocks, menus, categories, types, etc...
+    * Updated send_email function to use attacments index as file name
+      if not integer.
+
+Version 4.9.1 - Date 26/09/2012
+
+    * Itialian translation (thanks to Andrea Zanellato <zanellato.andrea@gmail.com>)
+    * Improvements on language structure by Andrea Zanellato.
+    * Adjusments to language.php as needed for new structure.
+    * Removed empty string listed on language strings edition.
+    * Added language details capability
+    * Added counting of views by current day, week and month
+    * Improved custom file upload field functionality
+    * Added language po files caching for faster retrieval.
+    * Added optional data caching for better performance on embedded
+      devices like the sheevaplug.
+    * Added image upload for as a content type custom filed.
+    * Fixes to content types file uploads custom field
+    * Fixes to cronjob to be able to run them in cli mode
+
+Version 4.9.0 - Date 23/09/2012
+
+    * User can login with email also instead of username
+    * Fixed blocks lists management page appeareance
+    * Fixed menu lists management page appeareance
+    * Added maximum amount of posts per content type and users group
+
+Version 4.8.22 - Date 23/06/2012
+
+    * Added ability for user profiles
+
+Version 4.8.21 - Date 19/05/2012
+
+    * Added re-indexetion of users database
+
+Version 4.8.20 - Date 29/03/2012
+
+    * Added support to add file upload fields to content types
+    * Added meta titles to creation of pages
+
+Version 4.8.19 - Date 24/01/2012
+
+    * New permission: Can edit all users content
+    * New function to generated Control Center: generate_admin_page_sections();
+
+Version 4.8.18 - Date 18/12/2011
+
+    * Removed use of deprecated pass by reference on module
+      hook_module() function
+    * Improved admin/pages/list
+
+Version 4.8.17 - Date 29/11/2011
+
+    * Added template support to search results
+    * Added new function jaris_sqlite_close_result($result); to not
+      forget that in some cases results need to be unset to unlock database.
+    * Added numeration to menus generated on theme_links ex: l1, l2, l3
+    * Other things I forgot.
+
+Version 4.8.16 - Date 15/8/2011
+
+    * Improved aspect ratio calculation for scaled images
+    * Added content type option for content block templates
+
+Version 4.8.15 - Date 27/6/2011
+
+    * When adding or editing menu made the url optional and automatically
+      generated if left blank
+    * Fixed multiple add_messages on form validation.
+    * Modified send_email function to permit a $from variable
+    * Protected access to images and files when the page user access
+      options are set to certain groups.
+    * Added image quality option into settings page for jpeg processing
+
+Version 4.8.14 - Date 16/5/2011
+
+    * Added email checking on registration and users add page to see if it
+      is already in use
+    * Disabled breadcrumbs since a bug needs to be fixed
+
+Version 4.8.13 - Date 20/3/2011
+
+    * Added position select box on content blocks edit page
+    * Added simple by following a uri paths breadcrumb support
+    * Also added hidden_parameters functionality for the breadcrumbs
+
+Version 4.8.12 - Date 10/3/2011
+
+    * Added has_permission method on jaris_sqlite_search class to use on
+      search_engine database.
+    * Fixed security issue of search page displaying results of content
+      where user has no permissions
+    * by using the new has_permission function on the search_content functions.
+
+Version 4.8.11 - Date 20/2/2011
+
+    * Adjusted send_mail function to use utf-8
+    * Fixed a security issue on the jaris_sqlite_get_data_list that
+      had possibility of sql injections
+    * Also fixed security issues on search functions where the
+      $_REQUEST[page] parameter could be used for sql injections.
+
+Version 4.8.10 - Date 18/1/2011
+
+    * Modified get_years_array to sort years in reverse order
+    * Fixed user_login function to lowercase username
+    * Other minor changes
+
+Version 4.8.9 - Date 19/12/2010
+
+    * Improved post blocks options.
+    * Improved print_content_preview function.
+
+Version 4.8.8 - Date 29/11/2010
+
+    * Fixed search results that were cutting words, when searching by category.
+    * Added dusplay suspensive points to print_content_preview function.
+    * Fixed highlight_search_results and added 'type' argument to
+      know if displaying suspensive points is needed.
+    * Modified search page.
+
+Version 4.8.7 - Date 4/11/2010
+
+    * Added register link on login page.
+    * slogan now supports php.
+    * Updated installer script.
+
+Version 4.8.6 - Date 27/09/2010
+
+    * Changed admin/user title to My Account and admin/user/edit title
+      to My Account Details
+    * Modified cron.php to check if cron is already running and skip execution.
+    * Fixed username from case sensitive to case insesitive to prevent multiple
+      registrations of same username with different cases
+    * Fixed bug on categories menu not sorting
+    * Fixed terrible bug that created categories folder with strange
+      permissions because of passing permissions as string "0755" instead of 0755
+    * Security issues addressed on edit user page
+    * Added SQLite3 database connector since pdo seems to lock databases in
+      some systems on multiple access like ubuntu
+    * New convert special characters of uploaded filenames to friendly uris
+      (to stop problem of different file name encodings when moving from linux
+      to windows or viceversa)
+    * If page doesn't exist instead of redirect the create page to
+      admin/pages/add redirect to admin/pages/types
+    * Added edit button to content blocks
+    * Added sqlite function to attach databases to already open ones
+    * Added option to export users database to csv
+    * Fixed minor bug on admin/user/content (type not passed to navigation links)
+    * Other minor improvements
+
+Version 4.8.5 - Date 07/09/2010
+
+    * Fixed small bug on caching functions trying to cache visual uris
+
+Version 4.8.4 - Date 25/08/2010
+
+    * Added function hooks on theme_styles and theme_scripts
+    * Imrpoved page caching functionality
+    * Fixed user edit bug logging out user if not changed password
+    * Fixed bug on add page block not enforcing description
+    * Added translations importer
+
+Version 4.8.3 - Date 15/08/2010
+
+    * Added function on forms.php to check if a string is a valid float
+      or integer number.
+    * Added theme_content function hook to be able to modify content output
+    * Added results title h2 on search page
+    * Fixed strip_html_tags function to optionally allow object and embed tags
+    * Improved category get_subcategory_list functions performance by caching data
+    * Added main category sortings option
+    * Added optional permission to enable or disable user from etering meta tags
+    * Improved custom type fields options
+    * Display images by name and not by id on most parts
+    * Added color and date picker support to custom type fields
+    * Added caching capability to jaris cms
+
+Version 4.8.2 - Date 11/08/2010
+
+    * Removed author column from my content page.
+    * Moved logout tab to the end on My account page.
+    * Added option to add terms and conditions to registrations
+    * Added return argument to register and login page so after a successful
+      register or login action user is redirected back to where it was
+    * Added permission option to enable disable user from editing the width of
+      uploaded images at compression box
+    * Added gender and birth date at registration
+    * Added get array functions for dates, months and years
+    * Added index to users database for incremented query speed
+    * Added uri field on the search database index
+    * Added print content preview function
+    * Fixed image htmlhex_to_rgb function returning bad values
+    * Added ability to change title and content, label and descriptions to
+      custom types when adding or editing content.
+
+Version 4.8.1 - Date 03/08/2010
+
+    * Made the validation of user ip on session validation optional
+      at settings page
+    * Added pdo_sqlite on php.ini to enable sqlite3 support on windows and linux
+
+Version 4.8.0 - Date 10/07/2010
+
+    * Fixed function is_user_logged check on user logged site returning
+      false when logged from non www and clicking on www links
+
+Version 4.7.9 - Date 28/06/2010
+
+    * Added new option to content types to restrict amount of files and
+      images uploaded per post.
+
+Version 4.7.8 - Date 12/06/2010
+
+    * Fixed a bug on data_writer function where it doesnt unlocks a
+      file if it cant write to it.
+    * Fixed bug on user_has_permissions not getting permissions of
+      specified user
+    * Fixed bug on upgrade module function not replacing _ by -
+    * Added ob_clean() to goto_page to clean any previous output for
+      added protection
+    * Removed unnecessary statement from get_data_path
+    * The page views count is done in separate file to protect page
+      data file from possible corruption
+    * Added validation field to check if human is filling a form.
+
+Version 4.7.7 - Date 12/06/2010
+
+    * Now sqlite functions try to use sqlite3 when possible instead of sqlite2
+    * New sqlite turbo mode function
+
+Version 4.7.6 - Date 11/06/2010
+
+    * Improved search performance
+
+Version 4.7.5 - Date 09/06/2010
+
+    * Added slogan support
+
+Version 4.7.4 - Date 05/06/2010
+
+    * Improved search system to mainly use sqlite
+    * Added the ability to show different fields for different
+      content types on search results
+    * Translated new strings
+    * Many more things
+
+Version 4.7.3 - Date 23/05/2010
+
+    * Improved permissions system
+    * Many fixes and changes
+
+Version 4.7.2 - Date 17/05/2010
+
+    * Improved system functions
+    * Added UDF to sqlite to search text
+
+Version 4.7.1 - Date 10/05/2010
+
+    * New feature cron jobs
+    * Fixed print_url function tu support arguments on real exisiting paths
+
+Version 4.7.0 - Date 07/05/2010
+
+    * New feature pages list view
+    * Fixed not add page to search_engine database when is system
+
+Version 4.6.2 - Date 24/04/2010
+
+    * Bug on hook_set_group_permission passing incorrect variable name
+    * Fixed Control Center Page to allow access to registered users
+    * Improved generate_admin_page function to support Control Center fix
+    * Added new jaris_sqlite_escape_array function to escape single quotes
+
+
+Version 4.6.1 - Date 14/04/2010
+
+    * Bug on translate content not serializing groups access array

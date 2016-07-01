@@ -1,0 +1,643 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: JarisCMS Ecommerce v1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-06-01 15:31-0800\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Jefferson González <jgonzalez@jegoyalu.com>\n"
+"Language-Team: JegoYalu <servicios@jegoyalu.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Spanish\n"
+"X-Poedit-Country: PUERTO RICO\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-Basepath: ../../\n"
+"X-Poedit-KeywordsList: t\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: functions.php:33
+msgid "Create Animated Block"
+msgstr "Crear Bloque Animado"
+
+#: data/admin-animated_blocks-add.php:17
+msgid "Add Animated Block"
+msgstr "Añadir Bloque Animado"
+
+#: data/admin-animated_blocks-add.php:41
+msgid "The block was successfully created."
+msgstr "El bloque ha sido creado exitosamente."
+
+#: data/admin-animated_blocks-add.php:60
+#: data/admin-animated_blocks-edit.php:79
+msgid "Header"
+msgstr "Encabezado"
+
+#: data/admin-animated_blocks-add.php:61
+#: data/admin-animated_blocks-edit.php:80
+#: data/admin-animated_blocks-effects.php:155
+#: data/admin-animated_blocks-effects.php:173
+msgid "Left"
+msgstr "Izquierda"
+
+#: data/admin-animated_blocks-add.php:62
+#: data/admin-animated_blocks-edit.php:81
+#: data/admin-animated_blocks-effects.php:155
+#: data/admin-animated_blocks-effects.php:173
+msgid "Right"
+msgstr "Derecho"
+
+#: data/admin-animated_blocks-add.php:63
+#: data/admin-animated_blocks-edit.php:82
+msgid "Center"
+msgstr "Centro"
+
+#: data/admin-animated_blocks-add.php:64
+#: data/admin-animated_blocks-edit.php:83
+msgid "Footer"
+msgstr "Pie"
+
+#: data/admin-animated_blocks-add.php:65
+#: data/admin-animated_blocks-edit.php:84
+msgid "None"
+msgstr "Ninguno"
+
+#: data/admin-animated_blocks-add.php:67
+#: data/admin-animated_blocks-edit.php:86
+#: data/admin-animated_blocks-effects.php:155
+#: data/admin-animated_blocks-effects.php:167
+#: data/admin-animated_blocks-effects.php:172
+msgid "Position:"
+msgstr "Posición:"
+
+#: data/admin-animated_blocks-add.php:68
+#: data/admin-animated_blocks-edit.php:87
+#: data/admin-animated_blocks-slides.php:136
+#: data/admin-animated_blocks-slides.php:158
+msgid "Description:"
+msgstr "Descripción:"
+
+#: data/admin-animated_blocks-add.php:69
+#: data/admin-animated_blocks-edit.php:88
+#: data/admin-animated_blocks-slides.php:135
+#: data/admin-animated_blocks-slides.php:157
+msgid "Title:"
+msgstr "Titulo:"
+
+#: data/admin-animated_blocks-add.php:73
+#: data/admin-animated_blocks-edit.php:92
+msgid "Users Access"
+msgstr "Acceso a Usuarios"
+
+#: data/admin-animated_blocks-add.php:73
+#: data/admin-animated_blocks-edit.php:92
+msgid "Select the groups that can see the block. Don't select anything to display block to everyone."
+msgstr "Seleccione los grupos que pueden ver el bloque. No soleccione nada si quiere mostrarlo a todos."
+
+#: data/admin-animated_blocks-add.php:75
+#: data/admin-animated_blocks-edit.php:94
+msgid "Display in all pages except the listed ones."
+msgstr "Se muestra en todas las páginas excepto en las que se listan."
+
+#: data/admin-animated_blocks-add.php:76
+#: data/admin-animated_blocks-edit.php:95
+msgid "Just display on the listed pages."
+msgstr "Mostrar solamente en las páginas listadas."
+
+#: data/admin-animated_blocks-add.php:79
+#: data/admin-animated_blocks-edit.php:98
+msgid "Pages:"
+msgstr "Páginas:"
+
+#: data/admin-animated_blocks-add.php:81
+#: data/admin-animated_blocks-edit.php:100
+msgid "List of uri's seperated by comma (,). Also supports the wildcard (*), for example: my-section/*"
+msgstr "Lista de uri's separados por coma(,). También soporta el wildcard(*), por ejemplo: mi-seccion/*"
+
+#: data/admin-animated_blocks-add.php:85
+#: data/admin-animated_blocks-edit.php:104
+msgid "Return Code:"
+msgstr "Código de Regreso:"
+
+#: data/admin-animated_blocks-add.php:85
+#: data/admin-animated_blocks-edit.php:104
+msgid "PHP code enclosed with &lt;?php code ?&gt; to evaluate if block should display by printing true or false. for example: &lt;?php if(is_user_logged()) print \"true\"; else print \"false\"; ?&gt;"
+msgstr "Código PHP encapsulado con  &lt;?php code ?&gt; para evaluar si el bloque debería mostrarse imprimiendo cierto o falso, por ejemplo: &lt;?php if(is_user_logged()) print \"true\"; else print \"false\"; ?&gt;"
+
+#: data/admin-animated_blocks-add.php:88
+#: data/admin-animated_blocks-edit.php:107
+#: data/admin-animated_blocks-effects.php:200
+#: data/admin-animated_blocks-slides.php:138
+#: data/admin-animated_blocks-slides.php:161
+#: data/admin-animated_blocks-slides.php:231
+msgid "Save"
+msgstr "Guardar"
+
+#: data/admin-animated_blocks-add.php:89
+#: data/admin-animated_blocks-edit.php:108
+#: data/admin-animated_blocks-effects.php:201
+#: data/admin-animated_blocks-slides.php:139
+#: data/admin-animated_blocks-slides.php:162
+#: data/admin-animated_blocks-slides.php:232
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: data/admin-animated_blocks-edit.php:17
+msgid "Edit Animated Block"
+msgstr "Editar Bloque Animado"
+
+#: data/admin-animated_blocks-edit.php:46
+msgid "Your changes have been saved to the block."
+msgstr "Tus cambios han sido guardados."
+
+#: data/admin-animated_blocks-edit.php:63
+#: data/admin-animated_blocks-effects.php:25
+#: data/admin-animated_blocks-slides.php:27
+#: data/admin-animated_blocks-slides.php:216
+msgid "Edit"
+msgstr "Editar"
+
+#: data/admin-animated_blocks-edit.php:64
+#: data/admin-animated_blocks-effects.php:26
+#: data/admin-animated_blocks-slides.php:28
+msgid "Effects"
+msgstr "Efectos"
+
+#: data/admin-animated_blocks-edit.php:65
+#: data/admin-animated_blocks-effects.php:27
+#: data/admin-animated_blocks-slides.php:29
+msgid "Slides"
+msgstr "Diapositivas"
+
+#: data/admin-animated_blocks-edit.php:66
+#: data/admin-animated_blocks-effects.php:28
+#: data/admin-animated_blocks-slides.php:30
+#: data/admin-animated_blocks-slides.php:219
+msgid "Delete"
+msgstr "Eliminar"
+
+#: data/admin-animated_blocks-edit.php:67
+#: data/admin-animated_blocks-effects.php:29
+#: data/admin-animated_blocks-slides.php:31
+msgid "Blocks"
+msgstr "Bloques"
+
+#: data/admin-animated_blocks-effects.php:17
+msgid "Block Effect Settings"
+msgstr "Configuraciones de Efectos del Bloque"
+
+#: data/admin-animated_blocks-effects.php:103
+msgid "Effect changes saved."
+msgstr "Los Effectos han sido guardados."
+
+#: data/admin-animated_blocks-effects.php:118
+msgid "Enable"
+msgstr "Habilitado"
+
+#: data/admin-animated_blocks-effects.php:119
+msgid "Disable"
+msgstr "Inhabilitado"
+
+#: data/admin-animated_blocks-effects.php:134
+#: data/admin-animated_blocks-effects.php:160
+msgid "Width:"
+msgstr "Ancho:"
+
+#: data/admin-animated_blocks-effects.php:134
+msgid "The width in pixels of the animated area. Example: 400px"
+msgstr "El ancho en píxeles del área animada. Ejemplo: 400px"
+
+#: data/admin-animated_blocks-effects.php:135
+#: data/admin-animated_blocks-effects.php:161
+msgid "Height:"
+msgstr "Alto:"
+
+#: data/admin-animated_blocks-effects.php:135
+msgid "The height in pixels of the animated area. Example: 350px"
+msgstr "El alto en píxeles del área animada. Ejemplo: 350px"
+
+#: data/admin-animated_blocks-effects.php:136
+#: data/admin-animated_blocks-effects.php:153
+#: data/admin-animated_blocks-effects.php:174
+msgid "Background color:"
+msgstr "Color de Fondo:"
+
+#: data/admin-animated_blocks-effects.php:136
+msgid "The main background color."
+msgstr "El color principal de fondo."
+
+#: data/admin-animated_blocks-effects.php:137
+msgid "Autogenerate information?"
+msgstr "¿Autogenerar información?"
+
+#: data/admin-animated_blocks-effects.php:137
+msgid "To automatically get page title and description."
+msgstr "Obtener automáticamente el titulo y la descripción de la página."
+
+#: data/admin-animated_blocks-effects.php:138
+#: data/admin-animated_blocks-effects.php:164
+#: data/admin-animated_blocks-effects.php:180
+msgid "Border style:"
+msgstr "Estilo del borde:"
+
+#: data/admin-animated_blocks-effects.php:138
+#: data/admin-animated_blocks-effects.php:180
+#: data/admin-animated_blocks-effects.php:187
+msgid "The border style."
+msgstr "El estilo del borde."
+
+#: data/admin-animated_blocks-effects.php:139
+#: data/admin-animated_blocks-effects.php:165
+#: data/admin-animated_blocks-effects.php:181
+msgid "Border width:"
+msgstr "Ancho del borde:"
+
+#: data/admin-animated_blocks-effects.php:139
+#: data/admin-animated_blocks-effects.php:181
+#: data/admin-animated_blocks-effects.php:188
+msgid "The border width in pixels. Example: 2px"
+msgstr "El ancho del borde en píxeles. Ejemplo: 2px"
+
+#: data/admin-animated_blocks-effects.php:140
+#: data/admin-animated_blocks-effects.php:166
+#: data/admin-animated_blocks-effects.php:182
+msgid "Border color:"
+msgstr "Color del Borde:"
+
+#: data/admin-animated_blocks-effects.php:140
+#: data/admin-animated_blocks-effects.php:182
+#: data/admin-animated_blocks-effects.php:189
+msgid "The border color."
+msgstr "Color del borde."
+
+#: data/admin-animated_blocks-effects.php:142
+msgid "Area"
+msgstr "Área"
+
+#: data/admin-animated_blocks-effects.php:144
+msgid "Title color:"
+msgstr "Color del Título:"
+
+#: data/admin-animated_blocks-effects.php:144
+msgid "The text color of the title."
+msgstr "El color del texto del título."
+
+#: data/admin-animated_blocks-effects.php:145
+msgid "Title size:"
+msgstr "Tamaño del título:"
+
+#: data/admin-animated_blocks-effects.php:145
+msgid "The font size in pixels of the title. Example: 12px"
+msgstr "El tamaño de la fuente en píxeles en el título. Ejemplo: 12px"
+
+#: data/admin-animated_blocks-effects.php:146
+msgid "Title margin:"
+msgstr "Márgen del Título:"
+
+#: data/admin-animated_blocks-effects.php:146
+msgid "The margin of title in pixels in the format: top right bottom left. Example 3px 4px 3px 4px"
+msgstr "El margen del título en píxeles en el formato: top right bottom left. Ejemplo 3px 4px 3px 4px"
+
+#: data/admin-animated_blocks-effects.php:147
+msgid "Title padding:"
+msgstr "Padding del Título:"
+
+#: data/admin-animated_blocks-effects.php:147
+msgid "The padding of title in pixels in the format: top right bottom left. Example 3px 4px 3px 4px"
+msgstr "El padding del título en píxeles en el formato: top right bottom left. Ejemplo 3px 4px 3px 4x"
+
+#: data/admin-animated_blocks-effects.php:148
+msgid "Description color:"
+msgstr "Color de la Descripción:"
+
+#: data/admin-animated_blocks-effects.php:148
+msgid "The text color of the description."
+msgstr "El color del texto de la descripción."
+
+#: data/admin-animated_blocks-effects.php:149
+msgid "Description size:"
+msgstr "Tamaño de la Descripción:"
+
+#: data/admin-animated_blocks-effects.php:149
+msgid "The font size in pixels of the description. Example: 12px"
+msgstr "El tamaño del font en píxeles en la descripción. Ejemplo 12px"
+
+#: data/admin-animated_blocks-effects.php:150
+msgid "Description margin:"
+msgstr "Márgen de la Descripción:"
+
+#: data/admin-animated_blocks-effects.php:150
+msgid "The margin of description in pixels in the format: top right bottom left. Example 3px 4px 3px 4px"
+msgstr "El margen de la descripción en píxeles en el formato: top right bottom left. Ejemplo 3px 4px 3px 4px"
+
+#: data/admin-animated_blocks-effects.php:151
+msgid "Description padding:"
+msgstr "Padding de la Descripción:"
+
+#: data/admin-animated_blocks-effects.php:151
+msgid "The padding of description in pixels in the format: top right bottom left. Example 3px 4px 3px 4px"
+msgstr "El padding de la descripción en píxeles en el formato: top right bottom left, Ejemplo 3px 4px 3px 4px"
+
+#: data/admin-animated_blocks-effects.php:152
+msgid "Description word count:"
+msgstr "Cantidad de Palabras de la Descripción:"
+
+#: data/admin-animated_blocks-effects.php:152
+msgid "The maximun amount of words for the description."
+msgstr "La máxima cantidad de palabras para la descricpión."
+
+#: data/admin-animated_blocks-effects.php:153
+msgid "The background color of the content."
+msgstr "El color del fondo del contenido."
+
+#: data/admin-animated_blocks-effects.php:154
+msgid "Opacity:"
+msgstr "Opacidad:"
+
+#: data/admin-animated_blocks-effects.php:154
+msgid "The amount of opacity for background color."
+msgstr "La cantidad de opacidad para el color de fondo."
+
+#: data/admin-animated_blocks-effects.php:155
+#: data/admin-animated_blocks-effects.php:172
+msgid "Top"
+msgstr "Arriba"
+
+#: data/admin-animated_blocks-effects.php:155
+#: data/admin-animated_blocks-effects.php:172
+msgid "Bottom"
+msgstr "Abajo"
+
+#: data/admin-animated_blocks-effects.php:155
+msgid "The position of the content."
+msgstr "La posición del contenido."
+
+#: data/admin-animated_blocks-effects.php:157
+msgid "Content"
+msgstr "Contenido"
+
+#: data/admin-animated_blocks-effects.php:159
+msgid "Image as background?"
+msgstr "¿Imagen como fondo?"
+
+#: data/admin-animated_blocks-effects.php:160
+msgid "The width in pixels of the displayed image in case image as background not enabled."
+msgstr "El ancho en píxeles para la imagen de muestra en caso de que la imagen de fondo no esté habilitada."
+
+#: data/admin-animated_blocks-effects.php:161
+msgid "The height in pixels of the displayed image in case image as background not enabled."
+msgstr "El alto en píxeles de la imagen de muestra en caso que la imagen de fondo no esté habilitada."
+
+#: data/admin-animated_blocks-effects.php:162
+#: data/admin-animated_blocks-effects.php:178
+msgid "Margin:"
+msgstr "Márgen:"
+
+#: data/admin-animated_blocks-effects.php:162
+msgid "The margin of image in pixels in the format: top right bottom left. Example 3px 4px 3px 4px"
+msgstr "El márgen de la imagen en píxeles en el formato: top right bottom left. Ejemplo 3px 4px 3px 4px"
+
+#: data/admin-animated_blocks-effects.php:163
+#: data/admin-animated_blocks-effects.php:179
+msgid "Padding:"
+msgstr "Padding:"
+
+#: data/admin-animated_blocks-effects.php:163
+msgid "The padding of image in pixels in the format: top right bottom left. Example 3px 4px 3px 4px"
+msgstr "El padding de la imagen en píxeles en el formato: top right bottom left. Ejemplo 3px 4px 3px 4px"
+
+#: data/admin-animated_blocks-effects.php:164
+msgid "The border style of the image if not as background."
+msgstr "El estilo del borde de la imagen si no está en el fondo."
+
+#: data/admin-animated_blocks-effects.php:165
+msgid "The border width in pixels of the image if not as background. Example: 2px"
+msgstr "El ancho del borde en píxeles de la imagen si no está como fondo. Ejemplo: 2px"
+
+#: data/admin-animated_blocks-effects.php:166
+msgid "The border color of the image if not as background."
+msgstr "El color de borde de la imagen si no está como fondo."
+
+#: data/admin-animated_blocks-effects.php:167
+msgid "Top Left"
+msgstr "Arriba Izquierda"
+
+#: data/admin-animated_blocks-effects.php:167
+msgid "Top Right"
+msgstr "Arriba Derecha"
+
+#: data/admin-animated_blocks-effects.php:167
+msgid "Bottom Left"
+msgstr "Abajo Izquierda"
+
+#: data/admin-animated_blocks-effects.php:167
+msgid "Bottom Right"
+msgstr "Abajo Derecha"
+
+#: data/admin-animated_blocks-effects.php:167
+msgid "The position of the image."
+msgstr "La posición de la imagen."
+
+#: data/admin-animated_blocks-effects.php:169
+msgid "Images"
+msgstr "Imágenes"
+
+#: data/admin-animated_blocks-effects.php:171
+msgid "Pager:"
+msgstr "Pager:"
+
+#: data/admin-animated_blocks-effects.php:173
+msgid "Alignment:"
+msgstr "Alineamiento:"
+
+#: data/admin-animated_blocks-effects.php:174
+msgid "The background color of the pager buttons."
+msgstr "El color de fondo de los botónes del pager."
+
+#: data/admin-animated_blocks-effects.php:175
+msgid "Text color:"
+msgstr "Color del Texto:"
+
+#: data/admin-animated_blocks-effects.php:175
+msgid "The text color of the pager buttons."
+msgstr "El color del texto en los botones del pager."
+
+#: data/admin-animated_blocks-effects.php:176
+msgid "Active background color:"
+msgstr "Color de Fondo Activo:"
+
+#: data/admin-animated_blocks-effects.php:176
+msgid "The background color of the active pager button."
+msgstr "El color de fondo en el botón activo del pager."
+
+#: data/admin-animated_blocks-effects.php:177
+msgid "Active text color:"
+msgstr "Color de Texto Activo:"
+
+#: data/admin-animated_blocks-effects.php:177
+msgid "The text color of the active pager button."
+msgstr "El color del texto del botón activo del pager."
+
+#: data/admin-animated_blocks-effects.php:178
+#: data/admin-animated_blocks-effects.php:185
+msgid "The margin in pixels in the format: top right bottom left. Example 3px 4px 3px 4px"
+msgstr "El margen en píxeles en el formato: top right bottom left. Ejemplo 3px 4px 3px 4px"
+
+#: data/admin-animated_blocks-effects.php:179
+#: data/admin-animated_blocks-effects.php:186
+msgid "The padding in pixels in the format: top right bottom left. Example 3px 4px 3px 4px"
+msgstr "El padding en píxeles en el formato: top right bottom left. Ejemplo 3px 4px 3px 4px"
+
+#: data/admin-animated_blocks-effects.php:183
+msgid "Font size:"
+msgstr "Tamaño de la Fuente:"
+
+#: data/admin-animated_blocks-effects.php:183
+msgid "The font size in pixels. Example: 12px"
+msgstr "El tamaño del font en píxeles. Ejemplo: 12px"
+
+#: data/admin-animated_blocks-effects.php:184
+msgid "Pager bar background color:"
+msgstr "Color de fondo de la barra del pager."
+
+#: data/admin-animated_blocks-effects.php:184
+msgid "The background color of the pager bar."
+msgstr "El color del fondo en la barra del pager."
+
+#: data/admin-animated_blocks-effects.php:185
+msgid "Bar margin:"
+msgstr "Margen de la Barra:"
+
+#: data/admin-animated_blocks-effects.php:186
+msgid "Bar padding:"
+msgstr "Padding de la Barra:"
+
+#: data/admin-animated_blocks-effects.php:187
+msgid "Bar border style:"
+msgstr "Estilo del Borde la Barra:"
+
+#: data/admin-animated_blocks-effects.php:188
+msgid "Bas border width:"
+msgstr "Ancho del Borde de la Barra:"
+
+#: data/admin-animated_blocks-effects.php:189
+msgid "Bar border color:"
+msgstr "Color del Borde de la Barra:"
+
+#: data/admin-animated_blocks-effects.php:191
+msgid "Pager"
+msgstr "Pager"
+
+#: data/admin-animated_blocks-effects.php:193
+msgid "Effect:"
+msgstr "Efecto:"
+
+#: data/admin-animated_blocks-effects.php:193
+msgid "The transition effect used for the animation."
+msgstr "El efecto de transición usado para la animación."
+
+#: data/admin-animated_blocks-effects.php:194
+msgid "Transition speed:"
+msgstr "Velocidad de la Transición:"
+
+#: data/admin-animated_blocks-effects.php:194
+msgid "The speed of the transition in mili seconds."
+msgstr "La velocidad de la transición en mili segundos."
+
+#: data/admin-animated_blocks-effects.php:195
+msgid "Effect speed:"
+msgstr "Velocidad del Efecto:"
+
+#: data/admin-animated_blocks-effects.php:195
+msgid "The speed of the transition effect."
+msgstr "La velocidad del efecto de transición."
+
+#: data/admin-animated_blocks-effects.php:196
+msgid "Pause on mouse over?"
+msgstr "¿Pausa colocando el ratón encima?"
+
+#: data/admin-animated_blocks-effects.php:198
+msgid "Effect"
+msgstr "Efecto"
+
+#: data/admin-animated_blocks-slides.php:17
+msgid "Block Slides"
+msgstr "Bloque de Diapositivas"
+
+#: data/admin-animated_blocks-slides.php:48
+msgid "Slide added."
+msgstr "Diapositiva añadida"
+
+#: data/admin-animated_blocks-slides.php:72
+msgid "Slide edited."
+msgstr "Diapositiva editada."
+
+#: data/admin-animated_blocks-slides.php:91
+msgid "Slide removed."
+msgstr "Diapositiva removida."
+
+#: data/admin-animated_blocks-slides.php:114
+msgid "Slide details updated."
+msgstr "Detalles de la diapositiva actualizada."
+
+#: data/admin-animated_blocks-slides.php:134
+#: data/admin-animated_blocks-slides.php:156
+#: data/admin-animated_blocks-slides.php:177
+msgid "Uri:"
+msgstr "Uri:"
+
+#: data/admin-animated_blocks-slides.php:134
+#: data/admin-animated_blocks-slides.php:156
+msgid "The uri of the slide, image or content."
+msgstr "El uri de la diapositiva, imagen o contenido."
+
+#: data/admin-animated_blocks-slides.php:135
+#: data/admin-animated_blocks-slides.php:157
+msgid "Optional title for the slide."
+msgstr "Título opcional para la Diapositiva."
+
+#: data/admin-animated_blocks-slides.php:136
+#: data/admin-animated_blocks-slides.php:158
+msgid "Optional description for the slide."
+msgstr "Descripción opcional para la diapositiva."
+
+#: data/admin-animated_blocks-slides.php:159
+msgid "Order:"
+msgstr "Orden:"
+
+#: data/admin-animated_blocks-slides.php:159
+msgid "Numerical value to indicate the order in which the slide is displayed."
+msgstr "Valor númerico para indicar el orden en cual la diapositiva se mostrará."
+
+#: data/admin-animated_blocks-slides.php:176
+msgid "Are you sure you want to delete the slide?"
+msgstr "¿Estas seguro que deseas borrar la diapositiva?"
+
+#: data/admin-animated_blocks-slides.php:179
+msgid "Yes"
+msgstr "Sí"
+
+#: data/admin-animated_blocks-slides.php:180
+msgid "No"
+msgstr "No"
+
+#: data/admin-animated_blocks-slides.php:185
+msgid "Add Slide"
+msgstr "Añadir Diapositiva"
+
+#: data/admin-animated_blocks-slides.php:198
+msgid "Uri"
+msgstr "Uri"
+
+#: data/admin-animated_blocks-slides.php:199
+msgid "Order"
+msgstr "Orden"
+
+#: data/admin-animated_blocks-slides.php:200
+msgid "Operation"
+msgstr "Operación"
+
+#: data/admin-animated_blocks-slides.php:237
+msgid "No slides available"
+msgstr "Diapositivas no disponibles."
+

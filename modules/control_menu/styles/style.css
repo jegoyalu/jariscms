@@ -1,0 +1,133 @@
+#control-menu
+{
+    position: fixed;
+    background-color: #E9F2F5;
+    border: solid 1px #d3d3d3;
+}
+
+#control-menu *
+{
+    font-size: 13px;
+    font-weight: bold;
+}
+
+#control-menu .user
+{
+    float: left;
+    display: block;
+    margin: 0 8px 0 0;
+    padding: 8px;
+    background-color: #235c96;
+    color: #fff;
+}
+
+#control-menu .right
+{
+    float: right;
+}
+
+#control-menu .right a
+{
+    width: 20px;
+    height: 18px;
+    display: block;
+    float: left;
+    padding: 8px;
+}
+
+#control-menu .right a:hover
+{
+    background-color: #D5E7ED;
+}
+
+#control-menu .about
+{
+    background: transparent url(about.png) no-repeat center center;
+}
+
+#control-menu .help
+{
+    background: transparent url(help.png) no-repeat center center;
+}
+
+#control-menu .logout
+{
+    background: transparent url(logout.png) no-repeat center center;
+}
+
+#control-menu ul
+{
+    display: block;
+    margin: 0;
+    padding: 0;
+    float: left;
+}
+
+#control-menu ul li
+{
+    display: block;
+    list-style: none;
+    margin: 0;
+    float: left;
+    position: relative;
+}
+
+#control-menu ul li a
+{
+    display: block;
+    padding: 8px;
+    cursor: pointer;
+    color: #00576d;
+    text-decoration: none;
+}
+
+#control-menu ul li a:hover
+{
+    background-color: #D5E7ED;
+}
+
+#control-menu ul li ul
+{
+    position: absolute;
+    left: 0;
+    bottom: 32px;
+    display: none;
+    background-color: #E9F2F5;
+    padding: 5px;
+    width: 200px;
+
+    border-top: solid 1px #d3d3d3;
+    border-left: solid 1px #d3d3d3;
+    border-right: solid 1px #d3d3d3;
+
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+#control-menu ul li ul li
+{
+    display: block;
+    margin: 0;
+    padding: 0;
+    float: none;
+}
+
+#control-menu ul li ul li a
+{
+    display: block;
+    border-bottom: dotted 1px #d3d3d3;
+    color: #00576d;
+    text-decoration: none;
+}
+
+#control-menu ul li ul li a:hover
+{
+    background-color: #df7500;
+    color: #fff;
+}
+
+

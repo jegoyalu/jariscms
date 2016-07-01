@@ -1,0 +1,3 @@
+Andrea Zanellato <zanellato.andrea@gmail.com>
+
+    * Italian translations.

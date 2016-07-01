@@ -1,0 +1,1096 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: JarisCMS Ecommerce v1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-01-23 11:38-0400\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Jefferson González <jgonzalez@jegoyalu.com>\n"
+"Language-Team: JegoYalu <servicios@jegoyalu.com>\n"
+"Language: es_PR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-Basepath: ../..\n"
+"X-Poedit-KeywordsList: t\n"
+"X-Generator: Poedit 1.8.6\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: data/admin-church_accounting-attachment.php:15
+msgid "Attachment not found"
+msgstr "Adjunto no encontrado"
+
+#: data/admin-church_accounting-attachment.php:32
+msgid "The file does not exist."
+msgstr "El archivo no existe."
+
+#: data/admin-church_accounting-expenses-add.php:15
+#: data/admin-church_accounting-expenses.php:47
+msgid "Add Expense"
+msgstr "Añadir Gasto"
+
+#: data/admin-church_accounting-expenses-add.php:29
+#: data/admin-church_accounting-expenses-edit.php:29
+#: data/admin-church_accounting-expenses-edit.php:353
+#: data/admin-church_accounting-income-offerings-add.php:29
+#: data/admin-church_accounting-income-offerings-edit.php:29
+#: data/admin-church_accounting-income-offerings-edit.php:302
+#: data/admin-church_accounting-income-tithes-add.php:29
+#: data/admin-church_accounting-income-tithes-edit.php:29
+#: data/admin-church_accounting-income-tithes-edit.php:309
+msgid "number"
+msgstr "número"
+
+#: data/admin-church_accounting-expenses-add.php:30
+#: data/admin-church_accounting-expenses-edit.php:30
+#: data/admin-church_accounting-expenses-edit.php:354
+msgid "paid to"
+msgstr "pagado a"
+
+#: data/admin-church_accounting-expenses-add.php:31
+#: data/admin-church_accounting-expenses-add.php:55
+#: data/admin-church_accounting-expenses-edit.php:31
+#: data/admin-church_accounting-expenses-edit.php:55
+#: data/admin-church_accounting-expenses-edit.php:313
+#: data/admin-church_accounting-expenses-edit.php:355
+#: data/admin-church_accounting-income-offerings-add.php:30
+#: data/admin-church_accounting-income-offerings-edit.php:30
+#: data/admin-church_accounting-income-offerings-edit.php:303
+#: data/admin-church_accounting-income-tithes-add.php:30
+#: data/admin-church_accounting-income-tithes-edit.php:30
+#: data/admin-church_accounting-income-tithes-edit.php:310
+msgid "amount"
+msgstr "cantidad"
+
+#: data/admin-church_accounting-expenses-add.php:32
+#: data/admin-church_accounting-expenses-add.php:56
+#: data/admin-church_accounting-expenses-edit.php:32
+#: data/admin-church_accounting-expenses-edit.php:56
+#: data/admin-church_accounting-expenses-edit.php:314
+#: data/admin-church_accounting-expenses-edit.php:356
+#: data/admin-church_accounting-income-offerings-add.php:31
+#: data/admin-church_accounting-income-offerings-edit.php:31
+#: data/admin-church_accounting-income-offerings-edit.php:304
+#: data/admin-church_accounting-income-tithes-add.php:31
+#: data/admin-church_accounting-income-tithes-edit.php:31
+#: data/admin-church_accounting-income-tithes-edit.php:311
+msgid "remove"
+msgstr "remover"
+
+#: data/admin-church_accounting-expenses-add.php:54
+#: data/admin-church_accounting-expenses-edit.php:54
+#: data/admin-church_accounting-expenses-edit.php:312
+msgid "description"
+msgstr "descripción"
+
+#: data/admin-church_accounting-expenses-add.php:131
+msgid "Expense successfully added."
+msgstr "Gasto exitosamente añadido."
+
+#: data/admin-church_accounting-expenses-add.php:158
+#: data/admin-church_accounting-expenses-edit.php:228
+#: data/admin-church_accounting-income-offerings-add.php:121
+#: data/admin-church_accounting-income-offerings-edit.php:190
+#: data/admin-church_accounting-income-tithes-add.php:153
+#: data/admin-church_accounting-income-tithes-edit.php:219
+#: data/admin-church_accounting-transactions-report.php:75
+msgid "Day:"
+msgstr "Día:"
+
+#: data/admin-church_accounting-expenses-add.php:168
+#: data/admin-church_accounting-expenses-edit.php:238
+#: data/admin-church_accounting-expenses.php:153
+#: data/admin-church_accounting-income-offerings-add.php:131
+#: data/admin-church_accounting-income-offerings-edit.php:200
+#: data/admin-church_accounting-income-report.php:57
+#: data/admin-church_accounting-income-tithes-add.php:163
+#: data/admin-church_accounting-income-tithes-edit.php:229
+#: data/admin-church_accounting-income.php:169
+#: data/admin-church_accounting-tithers-report.php:80
+#: data/admin-church_accounting-transactions-report.php:90
+#: templates/church-accounting-report-print.php:63
+msgid "Month:"
+msgstr "Mes:"
+
+#: data/admin-church_accounting-expenses-add.php:178
+#: data/admin-church_accounting-expenses-edit.php:248
+#: data/admin-church_accounting-expenses.php:168
+#: data/admin-church_accounting-income-offerings-add.php:141
+#: data/admin-church_accounting-income-offerings-edit.php:210
+#: data/admin-church_accounting-income-report.php:72
+#: data/admin-church_accounting-income-tithes-add.php:173
+#: data/admin-church_accounting-income-tithes-edit.php:239
+#: data/admin-church_accounting-income.php:184
+#: data/admin-church_accounting-tithers-report.php:95
+#: data/admin-church_accounting-transactions-report.php:105
+#: templates/church-accounting-report-print.php:72
+#: templates/church-accounting-tither-report-print.php:134
+#: templates/church-accounting-tither-report.php:125
+msgid "Year:"
+msgstr "Año:"
+
+#: data/admin-church_accounting-expenses-add.php:186
+#: data/admin-church_accounting-expenses-edit.php:256
+#: data/admin-church_accounting-expenses.php:243
+#: data/admin-church_accounting-income-offerings-add.php:149
+#: data/admin-church_accounting-income-offerings-edit.php:218
+#: data/admin-church_accounting-income-tithes-add.php:181
+#: data/admin-church_accounting-income-tithes-edit.php:247
+#: data/admin-church_accounting-income.php:260
+#: templates/church-accounting-tither-report-print.php:89
+#: templates/church-accounting-tither-report.php:80
+#: templates/church-accounting-transactions-report-print.php:380
+#: templates/church-accounting-transactions-report.php:398
+msgid "Date"
+msgstr "Fecha"
+
+#: data/admin-church_accounting-expenses-add.php:188
+#: data/admin-church_accounting-expenses-edit.php:258
+#: data/admin-church_accounting-income-offerings-add.php:151
+#: data/admin-church_accounting-income-offerings-edit.php:220
+#: data/admin-church_accounting-income-tithes-edit.php:249
+msgid "Date when the offerings where received."
+msgstr "Día en que la ofrenda fue recibida."
+
+#: data/admin-church_accounting-expenses-add.php:208
+#: data/admin-church_accounting-expenses-edit.php:279
+#: data/admin-church_accounting-expenses.php:136
+#: data/admin-church_accounting-income-offerings-add.php:171
+#: data/admin-church_accounting-income-offerings-edit.php:241
+#: data/admin-church_accounting-income.php:152
+msgid "Category:"
+msgstr "Categoría:"
+
+#: data/admin-church_accounting-expenses-add.php:209
+#: data/admin-church_accounting-expenses-edit.php:280
+#: data/admin-church_accounting-income-offerings-add.php:172
+#: data/admin-church_accounting-income-offerings-edit.php:242
+msgid "The category that best apply for this entry."
+msgstr "La categoría que mejor aplica para esta entrada."
+
+#: data/admin-church_accounting-expenses-add.php:217
+#: data/admin-church_accounting-expenses-edit.php:289
+#: data/admin-church_accounting-income-offerings-add.php:180
+#: data/admin-church_accounting-income-offerings-edit.php:251
+#: data/admin-church_accounting-income-tithes-add.php:190
+#: data/admin-church_accounting-income-tithes-edit.php:257
+msgid "Description:"
+msgstr "Descripción:"
+
+#: data/admin-church_accounting-expenses-add.php:218
+#: data/admin-church_accounting-expenses-edit.php:290
+msgid "A brief or detailed description about the expenses."
+msgstr "Una descripción breve o detallada sobre los gastos."
+
+#: data/admin-church_accounting-expenses-add.php:226
+#: data/admin-church_accounting-expenses-edit.php:298
+#: templates/church-accounting-transactions-report-print.php:127
+#: templates/church-accounting-transactions-report-print.php:249
+#: templates/church-accounting-transactions-report-print.php:382
+#: templates/church-accounting-transactions-report-print.php:594
+#: templates/church-accounting-transactions-report.php:116
+#: templates/church-accounting-transactions-report.php:303
+#: templates/church-accounting-transactions-report.php:400
+#: templates/church-accounting-transactions-report.php:636
+msgid "Description"
+msgstr "Descripción"
+
+#: data/admin-church_accounting-expenses-add.php:227
+#: data/admin-church_accounting-expenses-add.php:250
+#: data/admin-church_accounting-expenses-edit.php:299
+#: data/admin-church_accounting-expenses-edit.php:339
+#: data/admin-church_accounting-income-offerings-add.php:229
+#: data/admin-church_accounting-income-offerings-edit.php:289
+#: data/admin-church_accounting-income-tithes-add.php:240
+#: data/admin-church_accounting-income-tithes-edit.php:296
+#: templates/church-accounting-report-print.php:101
+#: templates/church-accounting-report-print.php:161
+#: templates/church-accounting-report.php:66
+#: templates/church-accounting-report.php:127
+#: templates/church-accounting-tither-report-print.php:90
+#: templates/church-accounting-tither-report-print.php:140
+#: templates/church-accounting-tither-report-print.php:192
+#: templates/church-accounting-tither-report.php:81
+#: templates/church-accounting-tither-report.php:131
+#: templates/church-accounting-tither-report.php:183
+#: templates/church-accounting-transactions-report-print.php:221
+#: templates/church-accounting-transactions-report-print.php:250
+#: templates/church-accounting-transactions-report-print.php:566
+#: templates/church-accounting-transactions-report-print.php:595
+#: templates/church-accounting-transactions-report.php:278
+#: templates/church-accounting-transactions-report.php:304
+#: templates/church-accounting-transactions-report.php:611
+#: templates/church-accounting-transactions-report.php:637
+msgid "Amount"
+msgstr "Cantidad"
+
+#: data/admin-church_accounting-expenses-add.php:234
+#: data/admin-church_accounting-expenses-edit.php:322
+msgid "Add expense"
+msgstr "Añadir gasto"
+
+#: data/admin-church_accounting-expenses-add.php:239
+#: data/admin-church_accounting-expenses-edit.php:328
+#: templates/church-accounting-report-print.php:155
+#: templates/church-accounting-report.php:121
+msgid "Expenses"
+msgstr "Gastos"
+
+#: data/admin-church_accounting-expenses-add.php:242
+#: data/admin-church_accounting-expenses-edit.php:331
+msgid "A list of expenses."
+msgstr "Una lista de gastos."
+
+#: data/admin-church_accounting-expenses-add.php:248
+#: data/admin-church_accounting-expenses-edit.php:337
+#: data/admin-church_accounting-income-offerings-add.php:228
+#: data/admin-church_accounting-income-offerings-edit.php:288
+#: data/admin-church_accounting-income-tithes-add.php:239
+#: data/admin-church_accounting-income-tithes-edit.php:295
+#: templates/church-accounting-transactions-report-print.php:219
+#: templates/church-accounting-transactions-report-print.php:564
+#: templates/church-accounting-transactions-report.php:276
+#: templates/church-accounting-transactions-report.php:609
+msgid "Number"
+msgstr "Número"
+
+#: data/admin-church_accounting-expenses-add.php:249
+#: data/admin-church_accounting-expenses-edit.php:338
+#: templates/church-accounting-transactions-report-print.php:220
+#: templates/church-accounting-transactions-report-print.php:565
+#: templates/church-accounting-transactions-report.php:277
+#: templates/church-accounting-transactions-report.php:610
+msgid "Paid to"
+msgstr "Pagado a"
+
+#: data/admin-church_accounting-expenses-add.php:257
+#: data/admin-church_accounting-expenses-edit.php:364
+#: data/admin-church_accounting-income-offerings-add.php:237
+#: data/admin-church_accounting-income-offerings-edit.php:312
+#: data/admin-church_accounting-income-tithes-add.php:248
+#: data/admin-church_accounting-income-tithes-edit.php:319
+msgid "Add check"
+msgstr "Agregar cheque"
+
+#: data/admin-church_accounting-expenses-add.php:262
+#: data/admin-church_accounting-expenses-edit.php:370
+#: data/admin-church_accounting-income-offerings-add.php:242
+#: data/admin-church_accounting-income-offerings-edit.php:318
+#: data/admin-church_accounting-income-tithes-add.php:253
+#: data/admin-church_accounting-income-tithes-edit.php:325
+#: templates/church-accounting-transactions-report-print.php:215
+#: templates/church-accounting-transactions-report-print.php:560
+#: templates/church-accounting-transactions-report.php:272
+#: templates/church-accounting-transactions-report.php:605
+msgid "Checks"
+msgstr "Cheques"
+
+#: data/admin-church_accounting-expenses-add.php:265
+#: data/admin-church_accounting-expenses-edit.php:373
+msgid "Checks used to pay the expenses."
+msgstr "Cheques utilizados para pagar los gastos."
+
+#: data/admin-church_accounting-expenses-add.php:272
+#: data/admin-church_accounting-expenses-edit.php:425
+#: data/admin-church_accounting-income-offerings-add.php:252
+#: data/admin-church_accounting-income-offerings-edit.php:373
+#: data/admin-church_accounting-income-tithes-add.php:263
+#: data/admin-church_accounting-income-tithes-edit.php:380
+msgid "Files:"
+msgstr "Archivos:"
+
+#: data/admin-church_accounting-expenses-add.php:276
+#: data/admin-church_accounting-expenses-edit.php:438
+#: data/admin-church_accounting-income-offerings-add.php:256
+#: data/admin-church_accounting-income-offerings-edit.php:386
+#: data/admin-church_accounting-income-tithes-add.php:267
+#: data/admin-church_accounting-income-tithes-edit.php:393
+msgid "Attachments"
+msgstr "Adjuntos"
+
+#: data/admin-church_accounting-expenses-add.php:279
+#: data/admin-church_accounting-expenses-edit.php:441
+#: data/admin-church_accounting-income-offerings-add.php:259
+#: data/admin-church_accounting-income-offerings-edit.php:389
+#: data/admin-church_accounting-income-tithes-add.php:270
+#: data/admin-church_accounting-income-tithes-edit.php:396
+msgid "You can attach any file type like photos of checks, etc..."
+msgstr "Puede adjuntar cualquier tipo de archivo como fotos de cheques, etc..."
+
+#: data/admin-church_accounting-expenses-add.php:287
+#: data/admin-church_accounting-expenses-edit.php:449
+#: data/admin-church_accounting-income-offerings-add.php:275
+#: data/admin-church_accounting-income-offerings-edit.php:408
+#: data/admin-church_accounting-income-tithes-add.php:286
+#: data/admin-church_accounting-income-tithes-edit.php:415
+#: templates/church-accounting-transactions-report-print.php:335
+#: templates/church-accounting-transactions-report-print.php:415
+#: templates/church-accounting-transactions-report-print.php:502
+#: templates/church-accounting-transactions-report.php:147
+#: templates/church-accounting-transactions-report.php:217
+#: templates/church-accounting-transactions-report.php:433
+#: templates/church-accounting-transactions-report.php:540
+msgid "Prepared by:"
+msgstr "Preparado por:"
+
+#: data/admin-church_accounting-expenses-add.php:288
+#: data/admin-church_accounting-expenses-edit.php:450
+#: data/admin-church_accounting-income-offerings-add.php:276
+#: data/admin-church_accounting-income-offerings-edit.php:409
+#: data/admin-church_accounting-income-tithes-add.php:287
+#: data/admin-church_accounting-income-tithes-edit.php:416
+msgid "The treasurer or person who entered this data."
+msgstr "El tesorero o persona que entro esta data."
+
+#: data/admin-church_accounting-expenses-add.php:296
+#: data/admin-church_accounting-expenses-edit.php:458
+#: data/admin-church_accounting-income-offerings-add.php:284
+#: data/admin-church_accounting-income-offerings-edit.php:417
+#: data/admin-church_accounting-income-tithes-add.php:295
+#: data/admin-church_accounting-income-tithes-edit.php:424
+#: templates/church-accounting-transactions-report-print.php:336
+#: templates/church-accounting-transactions-report-print.php:433
+#: templates/church-accounting-transactions-report-print.php:520
+#: templates/church-accounting-transactions-report.php:165
+#: templates/church-accounting-transactions-report.php:235
+#: templates/church-accounting-transactions-report.php:451
+#: templates/church-accounting-transactions-report.php:558
+msgid "Verified by:"
+msgstr "Verificado por:"
+
+#: data/admin-church_accounting-expenses-add.php:297
+#: data/admin-church_accounting-expenses-edit.php:459
+#: data/admin-church_accounting-income-offerings-add.php:285
+#: data/admin-church_accounting-income-offerings-edit.php:418
+#: data/admin-church_accounting-income-tithes-add.php:296
+#: data/admin-church_accounting-income-tithes-edit.php:425
+msgid "The sub-treasurer or person who verified this data."
+msgstr "El sub-tesorero o persona que verificó esta data."
+
+#: data/admin-church_accounting-expenses-add.php:303
+#: data/admin-church_accounting-expenses-edit.php:465
+#: data/admin-church_accounting-income-offerings-add.php:291
+#: data/admin-church_accounting-income-offerings-edit.php:424
+#: data/admin-church_accounting-income-tithes-add.php:302
+#: data/admin-church_accounting-income-tithes-edit.php:431
+#: data/admin-church_accounting-tithers-add.php:115
+#: data/admin-church_accounting-tithers-edit.php:172
+msgid "Save"
+msgstr "Guardar"
+
+#: data/admin-church_accounting-expenses-add.php:309
+#: data/admin-church_accounting-expenses-edit.php:471
+#: data/admin-church_accounting-income-offerings-add.php:297
+#: data/admin-church_accounting-income-offerings-edit.php:430
+#: data/admin-church_accounting-income-tithes-add.php:308
+#: data/admin-church_accounting-income-tithes-edit.php:437
+#: data/admin-church_accounting-tithers-add.php:121
+#: data/admin-church_accounting-tithers-edit.php:178
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: data/admin-church_accounting-expenses-delete.php:17
+msgid "Delete Selected Expense"
+msgstr "Borrar Gasto Seleccionado"
+
+#: data/admin-church_accounting-expenses-delete.php:30
+msgid "Expense entry successfully deleted."
+msgstr "Entrada de gasto exitosamente borrada."
+
+#: data/admin-church_accounting-expenses-delete.php:58
+msgid "Are you sure you want to delete this expense entry?"
+msgstr "¿Estás seguro que deseas eliminar este gasto?"
+
+#: data/admin-church_accounting-expenses-delete.php:63
+#: data/admin-church_accounting-income-delete.php:63
+#: data/admin-church_accounting-tithers-delete.php:74
+#: data/admin-settings-church_accounting-categories-expenses-delete.php:87
+#: data/admin-settings-church_accounting-categories-income-delete.php:87
+msgid "Yes"
+msgstr "Sí"
+
+#: data/admin-church_accounting-expenses-delete.php:66
+#: data/admin-church_accounting-income-delete.php:66
+#: data/admin-church_accounting-tithers-delete.php:77
+#: data/admin-settings-church_accounting-categories-expenses-delete.php:90
+#: data/admin-settings-church_accounting-categories-income-delete.php:90
+msgid "No"
+msgstr "No"
+
+#: data/admin-church_accounting-expenses-edit.php:15
+msgid "Edit Expense"
+msgstr "Editar Gasto"
+
+#: data/admin-church_accounting-expenses-edit.php:195
+msgid "Expense successfully edited."
+msgstr "Gasto exitosamente editado."
+
+#: data/admin-church_accounting-expenses-edit.php:379
+#: data/admin-church_accounting-income-offerings-edit.php:327
+#: data/admin-church_accounting-income-tithes-edit.php:334
+msgid "Order"
+msgstr "Orden"
+
+#: data/admin-church_accounting-expenses-edit.php:380
+#: data/admin-church_accounting-income-offerings-edit.php:328
+#: data/admin-church_accounting-income-tithes-edit.php:335
+msgid "File"
+msgstr "Archivo"
+
+#: data/admin-church_accounting-expenses-edit.php:381
+#: data/admin-church_accounting-income-offerings-edit.php:329
+#: data/admin-church_accounting-income-tithes-edit.php:336
+msgid "Action"
+msgstr "Acción"
+
+#: data/admin-church_accounting-expenses-edit.php:410
+#: data/admin-church_accounting-expenses.php:320
+#: data/admin-church_accounting-income-offerings-edit.php:358
+#: data/admin-church_accounting-income-tithes-edit.php:365
+#: data/admin-church_accounting-income.php:318
+#: data/admin-church_accounting-tithers.php:128
+#: data/admin-settings-church_accounting-categories-expenses.php:127
+#: data/admin-settings-church_accounting-categories-income.php:121
+msgid "Delete"
+msgstr "Eliminar"
+
+#: data/admin-church_accounting-expenses-edit.php:431
+#: data/admin-church_accounting-income-offerings-edit.php:379
+#: data/admin-church_accounting-income-tithes-edit.php:386
+msgid "Current files:"
+msgstr "Archivos actuales:"
+
+#: data/admin-church_accounting-expenses.php:15
+msgid "Church Accounting Expenses"
+msgstr "Gastos de la Iglesia"
+
+#: data/admin-church_accounting-expenses.php:55
+#: data/admin-church_accounting-income.php:39
+msgid "Income/Expenses Report"
+msgstr "Reporte de Ingresos / Gastos"
+
+#: data/admin-church_accounting-expenses.php:63
+#: data/admin-church_accounting-income.php:47
+#: templates/church-accounting-transactions-report-print.php:3
+#: templates/church-accounting-transactions-report-print.php:93
+#: templates/church-accounting-transactions-report-print.php:352
+msgid "Transactions Report"
+msgstr "Reporte de Transacciones"
+
+#: data/admin-church_accounting-expenses.php:96
+#: data/admin-church_accounting-income.php:95
+msgid "Date Descending"
+msgstr "Fecha Descendente"
+
+#: data/admin-church_accounting-expenses.php:97
+#: data/admin-church_accounting-income.php:96
+msgid "Date Ascending"
+msgstr "Fecha Ascendente"
+
+#: data/admin-church_accounting-expenses.php:137
+#: data/admin-church_accounting-expenses.php:154
+#: data/admin-church_accounting-expenses.php:169
+#: data/admin-church_accounting-income-report.php:58
+#: data/admin-church_accounting-income-report.php:73
+#: data/admin-church_accounting-income.php:137
+#: data/admin-church_accounting-income.php:153
+#: data/admin-church_accounting-income.php:170
+#: data/admin-church_accounting-income.php:185
+#: data/admin-church_accounting-tithers-report.php:81
+#: data/admin-church_accounting-tithers-report.php:96
+#: data/admin-church_accounting-transactions-report.php:76
+#: data/admin-church_accounting-transactions-report.php:91
+#: data/admin-church_accounting-transactions-report.php:106
+msgid "All"
+msgstr "Todo"
+
+#: data/admin-church_accounting-expenses.php:185
+#: data/admin-church_accounting-income.php:201
+msgid "Sort by:"
+msgstr "Ordenar por:"
+
+#: data/admin-church_accounting-expenses.php:213
+#: data/admin-church_accounting-income.php:229
+#: data/admin-church_accounting-tithers.php:45
+#: templates/church-accounting-report-print.php:140
+#: templates/church-accounting-report-print.php:200
+#: templates/church-accounting-report.php:105
+#: templates/church-accounting-report.php:166
+#: templates/church-accounting-tither-report-print.php:126
+#: templates/church-accounting-tither-report-print.php:178
+#: templates/church-accounting-tither-report-print.php:230
+#: templates/church-accounting-tither-report.php:117
+#: templates/church-accounting-tither-report.php:169
+#: templates/church-accounting-tither-report.php:221
+#: templates/church-accounting-transactions-report-print.php:286
+#: templates/church-accounting-transactions-report-print.php:647
+#: templates/church-accounting-transactions-report.php:333
+#: templates/church-accounting-transactions-report.php:682
+msgid "Total:"
+msgstr "Total:"
+
+#: data/admin-church_accounting-expenses.php:244
+#: data/admin-church_accounting-income.php:261
+#: templates/church-accounting-report-print.php:100
+#: templates/church-accounting-report-print.php:160
+#: templates/church-accounting-report.php:65
+#: templates/church-accounting-report.php:126
+msgid "Category"
+msgstr "Categoría"
+
+#: data/admin-church_accounting-expenses.php:245
+#: data/admin-church_accounting-income.php:262
+msgid "Total"
+msgstr "Total"
+
+#: data/admin-church_accounting-expenses.php:246
+#: data/admin-church_accounting-income.php:263
+#: data/admin-church_accounting-tithers.php:69
+#: data/admin-settings-church_accounting-categories-expenses.php:98
+#: data/admin-settings-church_accounting-categories-income.php:92
+msgid "Operation"
+msgstr "Operación"
+
+#: data/admin-church_accounting-expenses.php:319
+#: data/admin-church_accounting-income.php:317
+msgid "Edit"
+msgstr "Editar"
+
+#: data/admin-church_accounting-income-delete.php:17
+msgid "Delete Selected Income"
+msgstr "Borrar Ingreso Seleccionado"
+
+#: data/admin-church_accounting-income-delete.php:30
+msgid "Income entry successfully deleted."
+msgstr "Entrada de ingreso borrada exitosamente."
+
+#: data/admin-church_accounting-income-delete.php:58
+msgid "Are you sure you want to delete this income entry?"
+msgstr "¿Estás seguro que deseas eliminar este ingreso?"
+
+#: data/admin-church_accounting-income-offerings-add.php:15
+#: data/admin-church_accounting-income.php:23
+msgid "Add Offerings"
+msgstr "Añadir Ofrenda"
+
+#: data/admin-church_accounting-income-offerings-add.php:94
+msgid "Offerings successfully added."
+msgstr "Ofrenda exitosamente añadida."
+
+#: data/admin-church_accounting-income-offerings-add.php:181
+#: data/admin-church_accounting-income-offerings-edit.php:252
+#: data/admin-church_accounting-income-tithes-add.php:191
+#: data/admin-church_accounting-income-tithes-edit.php:258
+msgid "A brief or detailed description about the income."
+msgstr "Una descripción breve o detallada de los ingresos."
+
+#: data/admin-church_accounting-income-offerings-add.php:219
+#: data/admin-church_accounting-income-offerings-edit.php:279
+#: data/admin-church_accounting-income-tithes-add.php:229
+#: data/admin-church_accounting-income-tithes-edit.php:285
+msgid "Cash"
+msgstr "Efectivo"
+
+#: data/admin-church_accounting-income-offerings-add.php:222
+#: data/admin-church_accounting-income-offerings-edit.php:282
+#: data/admin-church_accounting-income-tithes-add.php:233
+#: data/admin-church_accounting-income-tithes-edit.php:289
+msgid "Enter the quantity received for each amount that applies."
+msgstr ""
+"Entre la cantidad recibida para todas las monedas o billetes que apliquen."
+
+#: data/admin-church_accounting-income-offerings-add.php:245
+#: data/admin-church_accounting-income-offerings-edit.php:321
+#: data/admin-church_accounting-income-tithes-add.php:256
+#: data/admin-church_accounting-income-tithes-edit.php:328
+msgid "Any checks received as offering."
+msgstr "Cheques recibidos como ofrenda."
+
+#: data/admin-church_accounting-income-offerings-add.php:266
+#: data/admin-church_accounting-income-offerings-edit.php:399
+#: data/admin-church_accounting-income-tithes-add.php:277
+#: data/admin-church_accounting-income-tithes-edit.php:406
+msgid "Additional amount"
+msgstr "Cantidad adicional"
+
+#: data/admin-church_accounting-income-offerings-add.php:267
+#: data/admin-church_accounting-income-offerings-edit.php:400
+#: data/admin-church_accounting-income-tithes-add.php:278
+#: data/admin-church_accounting-income-tithes-edit.php:407
+msgid "Any other additional amount."
+msgstr "Alguna cantidad adicional recibida."
+
+#: data/admin-church_accounting-income-offerings-edit.php:15
+msgid "Edit Offerings"
+msgstr "Editar Ofrenda"
+
+#: data/admin-church_accounting-income-offerings-edit.php:157
+msgid "Offerings successfully edited."
+msgstr "Ofrenda exitosamente editada."
+
+#: data/admin-church_accounting-income-report-print.php:15
+#: data/admin-church_accounting-income.php:15
+msgid "Church Accounting Income"
+msgstr "Ingresos de la Iglesia"
+
+#: data/admin-church_accounting-income-report.php:15
+msgid "Church Accounting Income/Expenses Report"
+msgstr "Reporte de Ingresos / Gastos"
+
+#: data/admin-church_accounting-income-report.php:23
+#: data/admin-church_accounting-tithers-report.php:57
+#: data/admin-church_accounting-transactions-report.php:23
+msgid "Print"
+msgstr "Imprimir"
+
+#: data/admin-church_accounting-income-report.php:87
+#: data/admin-church_accounting-tithers-report.php:110
+#: data/admin-church_accounting-transactions-report.php:120
+msgid "View"
+msgstr "Ver"
+
+#: data/admin-church_accounting-income-tithes-add.php:15
+#: data/admin-church_accounting-tithers-edit.php:35
+msgid "Add Tithe"
+msgstr "Añadir Diezmo"
+
+#: data/admin-church_accounting-income-tithes-add.php:108
+msgid "Tithe successfully added."
+msgstr "Diezmo exitosamente añadido."
+
+#: data/admin-church_accounting-income-tithes-add.php:141
+#: data/admin-church_accounting-income-tithes-edit.php:201
+#: templates/church-accounting-tither-report-print.php:66
+#: templates/church-accounting-tither-report.php:57
+msgid "Tither:"
+msgstr "Diezmante:"
+
+#: data/admin-church_accounting-income-tithes-add.php:183
+msgid "Date when the tithe was received."
+msgstr "Día en que el diezmo fue recibido."
+
+#: data/admin-church_accounting-income-tithes-edit.php:15
+msgid "Edit Tithe"
+msgstr "Editar Diezmo"
+
+#: data/admin-church_accounting-income-tithes-edit.php:168
+msgid "Tithe successfully edited."
+msgstr "Diezmo exitosamente editado."
+
+#: data/admin-church_accounting-income.php:31
+msgid "Add Thites"
+msgstr "Añadir Diezmo"
+
+#: data/admin-church_accounting-income.php:58
+msgid "Offerings"
+msgstr "Ofrendas"
+
+#: data/admin-church_accounting-income.php:59
+msgid "Tithes"
+msgstr "Diezmos"
+
+#: data/admin-church_accounting-income.php:136
+msgid "Filter by:"
+msgstr "Filtrar por:"
+
+#: data/admin-church_accounting-tithers-add.php:15
+#: data/admin-church_accounting-tithers.php:23
+msgid "Add Tither"
+msgstr "Añadir Diezmante"
+
+#: data/admin-church_accounting-tithers-add.php:67
+#: data/admin-church_accounting-tithers-edit.php:106
+msgid "First name:"
+msgstr "Nombre:"
+
+#: data/admin-church_accounting-tithers-add.php:74
+#: data/admin-church_accounting-tithers-edit.php:116
+msgid "Last name:"
+msgstr "Apellido paterno:"
+
+#: data/admin-church_accounting-tithers-add.php:81
+#: data/admin-church_accounting-tithers-edit.php:126
+msgid "Maiden name:"
+msgstr "Apellido materno:"
+
+#: data/admin-church_accounting-tithers-add.php:88
+#: data/admin-church_accounting-tithers-edit.php:136
+msgid "Postal address:"
+msgstr "Dirección postal:"
+
+#: data/admin-church_accounting-tithers-add.php:95
+#: data/admin-church_accounting-tithers-edit.php:146
+msgid "E-mail:"
+msgstr "Correo Electrónico:"
+
+#: data/admin-church_accounting-tithers-add.php:102
+#: data/admin-church_accounting-tithers-edit.php:156
+msgid "Phone:"
+msgstr "Teléfono:"
+
+#: data/admin-church_accounting-tithers-add.php:109
+#: data/admin-church_accounting-tithers-edit.php:166
+msgid "Mobile phone:"
+msgstr "Teléfono móvil:"
+
+#: data/admin-church_accounting-tithers-delete.php:17
+msgid "Delete Tither"
+msgstr "Eliminar Diezmante"
+
+#: data/admin-church_accounting-tithers-delete.php:30
+msgid "Tither successfully deleted."
+msgstr "Diezmante exitosamente eliminado."
+
+#: data/admin-church_accounting-tithers-delete.php:58
+msgid "Are you sure you want to delete this tither?"
+msgstr "¿Estás seguro que deseas eliminar este diezmante?"
+
+#: data/admin-church_accounting-tithers-edit.php:15
+msgid "Edit Tither"
+msgstr "Editar Diezmante"
+
+#: data/admin-church_accounting-tithers-edit.php:44
+msgid "Reports"
+msgstr "Reportes"
+
+#: data/admin-church_accounting-tithers-report-print.php:15
+#: data/admin-church_accounting-tithers-report.php:15
+#: templates/church-accounting-tither-report-print.php:3
+#: templates/church-accounting-tither-report-print.php:55
+msgid "Tither Report"
+msgstr "Reporte de Diezmos"
+
+#: data/admin-church_accounting-tithers-report.php:55
+msgid "Print Certification"
+msgstr "Imprimir Certificación"
+
+#: data/admin-church_accounting-tithers.php:15
+msgid "Church Accounting Tithers"
+msgstr "Diezmantes de la Iglesia"
+
+#: data/admin-church_accounting-tithers.php:66
+msgid "First Name"
+msgstr "Nombre"
+
+#: data/admin-church_accounting-tithers.php:67
+msgid "Last Names"
+msgstr "Apellidos"
+
+#: data/admin-church_accounting-tithers.php:68
+msgid "Contact"
+msgstr "Contacto"
+
+#: data/admin-church_accounting-tithers.php:127
+msgid "Add tithe"
+msgstr "Añadir diezmo"
+
+#: data/admin-church_accounting-transactions-report-print.php:15
+#: data/admin-church_accounting-transactions-report.php:15
+msgid "Church Accounting Transactions"
+msgstr "Transacciones de la Iglesia"
+
+#: data/admin-settings-church_accounting-categories-expenses-delete.php:17
+msgid "Delete Expenses Category"
+msgstr "Borrar Categoría de Gastos"
+
+#: data/admin-settings-church_accounting-categories-expenses-delete.php:27
+#: data/admin-settings-church_accounting-categories-income-delete.php:27
+msgid "You can not delete the predefined categories."
+msgstr "No puede borrar las categorías predeterminadas."
+
+#: data/admin-settings-church_accounting-categories-expenses-delete.php:47
+msgid "Expense category successfully deleted."
+msgstr "Categoría de gasto eliminada exitosamente."
+
+#: data/admin-settings-church_accounting-categories-expenses-delete.php:75
+msgid ""
+"Deleting an expense category will affect all associations for existing "
+"expenses."
+msgstr ""
+"Al borrar una categoría de gastos se afectarán todas las asociaciones con "
+"gastos existentes."
+
+#: data/admin-settings-church_accounting-categories-expenses-delete.php:76
+#: data/admin-settings-church_accounting-categories-income-delete.php:76
+msgid "Are you sure you want to delete this category?"
+msgstr "¿Estás seguro que deseas eliminar esta categoría?"
+
+#: data/admin-settings-church_accounting-categories-expenses-delete.php:81
+#: data/admin-settings-church_accounting-categories-expenses.php:70
+#: data/admin-settings-church_accounting-categories-income-delete.php:81
+#: data/admin-settings-church_accounting-categories-income.php:64
+msgid "Label:"
+msgstr "Etiqueta:"
+
+#: data/admin-settings-church_accounting-categories-expenses.php:15
+msgid "Expense Categories"
+msgstr "Categorías de Gasto"
+
+#: data/admin-settings-church_accounting-categories-expenses.php:46
+#: data/admin-settings-church_accounting-categories-income.php:42
+msgid "Categories successfully updated."
+msgstr "Categorías exitosamente actualizadas."
+
+#: data/admin-settings-church_accounting-categories-expenses.php:77
+#: data/admin-settings-church_accounting-categories-income.php:71
+msgid "Add"
+msgstr "Añadir"
+
+#: data/admin-settings-church_accounting-categories-expenses.php:81
+#: data/admin-settings-church_accounting-categories-income.php:75
+msgid "Add Category"
+msgstr "Añadir Categoría"
+
+#: data/admin-settings-church_accounting-categories-expenses.php:97
+#: data/admin-settings-church_accounting-categories-income.php:91
+msgid "Label"
+msgstr "Etiqueta"
+
+#: data/admin-settings-church_accounting-categories-income-delete.php:17
+msgid "Delete Income Category"
+msgstr "Borrar Categoría de Ingreso"
+
+#: data/admin-settings-church_accounting-categories-income-delete.php:47
+msgid "Income category successfully deleted."
+msgstr "Categoría de ingreso eliminada exitosamente."
+
+#: data/admin-settings-church_accounting-categories-income-delete.php:75
+msgid ""
+"Deleting an income category will affect all associations for existing income."
+msgstr ""
+"Borrar una categoría de ingreso afectará todas las asociaciones de ingreso "
+"existente."
+
+#: data/admin-settings-church_accounting-categories-income.php:15
+msgid "Income Categories"
+msgstr "Categorías de Ingreso"
+
+#: functions.php:15
+msgid "View Income"
+msgstr "Ver Ingreso"
+
+#: functions.php:16
+msgid "Add Income"
+msgstr "Añadir Ingreso"
+
+#: functions.php:17
+msgid "Edit Income"
+msgstr "Editar Ingreso"
+
+#: functions.php:18
+msgid "Delete Income"
+msgstr "Borrar Ingreso"
+
+#: functions.php:20
+msgid "View Expenses"
+msgstr "Ver Gastos"
+
+#: functions.php:21
+msgid "Add Expenses"
+msgstr "Añadir Gastos"
+
+#: functions.php:22
+msgid "Edit Expenses"
+msgstr "Editar Gasto"
+
+#: functions.php:23
+msgid "Delete Expenses"
+msgstr "Borrar Gasto"
+
+#: functions.php:25
+msgid "Manage Categories"
+msgstr "Manejar Categorías"
+
+#: functions.php:26
+msgid "Manage Tithers"
+msgstr "Manejar Diezmantes"
+
+#: functions.php:28 functions.php:150 info.php:13
+msgid "Church Accounting"
+msgstr "Contabilidad de la Iglesia"
+
+#: functions.php:40
+msgid "Add offerings"
+msgstr "Añadir ofrenda"
+
+#: functions.php:47 functions.php:61
+msgid "Add offerings and thites."
+msgstr "Añadir ofrendas y diezmos."
+
+#: functions.php:54
+msgid "Add tithes"
+msgstr "Añadir diezmos"
+
+#: functions.php:68
+msgid "View all income"
+msgstr "Ver todo el ingreso"
+
+#: functions.php:75
+msgid "View or manage existing income."
+msgstr "Ver o manejar el ingreso existente."
+
+#: functions.php:82
+msgid "Add expenses"
+msgstr "Añadir gastos"
+
+#: functions.php:89
+msgid "Add expenses on rent, materials, etc..."
+msgstr "Añadir gastos en renta, materiales, etc..."
+
+#: functions.php:96
+msgid "View all expenses"
+msgstr "Ver todos los gastos"
+
+#: functions.php:103
+msgid "View or manage existing expenses."
+msgstr "Ver o manejar gastos existentes."
+
+#: functions.php:110
+msgid "Manage tithers"
+msgstr "Manejar diezmantes"
+
+#: functions.php:117
+msgid "View or manage tithers."
+msgstr "Ver o manejar los diezmantes."
+
+#: functions.php:124
+msgid "Manage income categories"
+msgstr "Manejar categorías de ingreso"
+
+#: functions.php:131
+msgid "View or manage income categories."
+msgstr "Ver o manejar categorías de ingreso."
+
+#: functions.php:135
+msgid "Manage expense categories"
+msgstr "Manejar categorías de gastos"
+
+#: functions.php:142
+msgid "View or manage expense categories."
+msgstr "Ver o manejar las categorías de gastos."
+
+#: info.php:14
+msgid "Provides a an easy way to keep track of the church finances."
+msgstr "Provee una manera fácil de administrar las finanzas de la iglesia."
+
+#: install.php:131
+msgid "Tithe"
+msgstr "Diezmo"
+
+#: install.php:132 install.php:141
+msgid "Offering"
+msgstr "Ofrenda"
+
+#: install.php:133
+msgid "Bank Interest"
+msgstr "Interés de Banco"
+
+#: install.php:134 install.php:144
+msgid "Other"
+msgstr "Otro"
+
+#: install.php:136
+msgid "Activities"
+msgstr "Actividades"
+
+#: install.php:137
+msgid "Rent"
+msgstr "Renta"
+
+#: install.php:138
+msgid "Radio Broadcasting"
+msgstr "Transmisión Radial"
+
+#: install.php:139
+msgid "Materials"
+msgstr "Materiales"
+
+#: install.php:140
+msgid "Equipment"
+msgstr "Equipo"
+
+#: install.php:142
+msgid "Travel"
+msgstr "Viajes"
+
+#: install.php:143
+msgid "Donation"
+msgstr "Donaciones"
+
+#: templates/church-accounting-report-print.php:3
+#: templates/church-accounting-report-print.php:56
+msgid "Income and Expenses Report"
+msgstr "Reporte de Ingresos y Gastos"
+
+#: templates/church-accounting-report-print.php:81
+#: templates/church-accounting-tither-report-print.php:186
+#: templates/church-accounting-tither-report.php:177
+msgid "All time report"
+msgstr "Reporte de todo el transcurso de tiempo"
+
+#: templates/church-accounting-report-print.php:95
+#: templates/church-accounting-report.php:60
+msgid "Income"
+msgstr "Ingreso"
+
+#: templates/church-accounting-report-print.php:208
+#: templates/church-accounting-report.php:174
+msgid "Income:"
+msgstr "Ingreso:"
+
+#: templates/church-accounting-report-print.php:211
+#: templates/church-accounting-report.php:177
+msgid "Expenses:"
+msgstr "Gastos:"
+
+#: templates/church-accounting-tither-report-print.php:139
+#: templates/church-accounting-tither-report.php:130
+msgid "Month"
+msgstr "Mes"
+
+#: templates/church-accounting-tither-report-print.php:191
+#: templates/church-accounting-tither-report.php:182
+msgid "Year"
+msgstr "Año"
+
+#: templates/church-accounting-transactions-report-print.php:126
+#: templates/church-accounting-transactions-report-print.php:381
+#: templates/church-accounting-transactions-report.php:115
+#: templates/church-accounting-transactions-report.php:399
+msgid "Type"
+msgstr "Tipo"
+
+#: templates/church-accounting-transactions-report-print.php:128
+#: templates/church-accounting-transactions-report-print.php:383
+#: templates/church-accounting-transactions-report.php:117
+#: templates/church-accounting-transactions-report.php:401
+msgid "Debit"
+msgstr "Débito"
+
+#: templates/church-accounting-transactions-report-print.php:129
+#: templates/church-accounting-transactions-report-print.php:384
+#: templates/church-accounting-transactions-report.php:118
+#: templates/church-accounting-transactions-report.php:402
+msgid "Credit"
+msgstr "Crédito"
+
+#: templates/church-accounting-transactions-report-print.php:245
+#: templates/church-accounting-transactions-report-print.php:590
+#: templates/church-accounting-transactions-report.php:299
+#: templates/church-accounting-transactions-report.php:632
+msgid "Items"
+msgstr "Artículos"
+
+#: templates/church-accounting-transactions-report-print.php:316
+#: templates/church-accounting-transactions-report-print.php:661
+#: templates/church-accounting-transactions-report.php:357
+#: templates/church-accounting-transactions-report.php:690
+msgid "Net Total:"
+msgstr "Total Neto:"
+
+#: templates/church-accounting-transactions-report-print.php:485
+#: templates/church-accounting-transactions-report-print.php:634
+#: templates/church-accounting-transactions-report.php:523
+#: templates/church-accounting-transactions-report.php:670
+msgid "Subtotal:"
+msgstr "Subtotal:"

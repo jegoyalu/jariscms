@@ -1,0 +1,63 @@
+msgid "Features"
+msgstr "Características"
+
+msgid "Support"
+msgstr "Soporte"
+
+msgid "Download"
+msgstr "Descargar"
+
+msgid "About"
+msgstr "Acerca"
+
+msgid "Team"
+msgstr "Equipo"
+
+msgid "Services"
+msgstr "Servicios"
+
+msgid "Contact"
+msgstr "Contacto"
+
+msgid "User Guide"
+msgstr "Guía del Usuario"
+
+msgid "Developer Guide"
+msgstr "Guía del Desarrolador"
+
+msgid "Training and Certifications"
+msgstr "Adiestramientos y Certificaciones"
+
+msgid "Follow US"
+msgstr "Síguenos"
+
+msgid "Receive Tips and Updates"
+msgstr "Recibe Consejos y Actualizaciones"
+
+msgid "right at your inbox it's free"
+msgstr "directamente a tu correo electrónico. ¡Es gratis!"
+
+msgid "Enter your email"
+msgstr "Entra tu correo"
+
+msgid "Developed by JegoYalu"
+msgstr "Desarrollado por JegoYalu"
+
+msgid "Extend"
+msgstr "Extender"
+
+msgid "Yes! Suscribe Me"
+msgstr "Sí! Suscribeme"
+
+msgid "Sign-in"
+msgstr "Iniciar"
+
+msgid "Your Account"
+msgstr "Tu Cuenta"
+
+msgid "Hello,"
+msgstr "Hola,"
+
+msgid "search..."
+msgstr "buscar..."
+

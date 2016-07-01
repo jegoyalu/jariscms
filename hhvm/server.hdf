@@ -1,0 +1,8 @@
+Server {
+  Port = 8080
+  DefaultDocument = index.php
+}
+
+Eval {
+  Jit = true
+}

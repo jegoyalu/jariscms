@@ -1,0 +1,274 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: JarisCMS Ecommerce v1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-04-16 18:37-0400\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Jefferson González <jgonzalez@jegoyalu.com>\n"
+"Language-Team: JegoYalu <servicios@jegoyalu.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Spanish\n"
+"X-Poedit-Country: PUERTO RICO\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-Basepath: ../../\n"
+"X-Poedit-KeywordsList: t\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: functions.php:19
+msgid "Google Translate"
+msgstr "Traducciónes de Google"
+
+#: install.php:40
+msgid "Translate"
+msgstr "Traducir"
+
+#: install.php:43
+msgid "Remember to set the google translate configurations to work properly."
+msgstr "Recuerda configurar las opciones de traducción de google para un buen funcionamiento."
+
+#: install.php:43
+msgid "Configure Now"
+msgstr "Configurar Ahora"
+
+#: data/admin-settings-google_translate.php:17
+msgid "Google Translate Settings"
+msgstr "Configuración de Traducciones de Google"
+
+#: data/admin-settings-google_translate.php:24
+msgid "Settings"
+msgstr ""
+
+#: data/admin-settings-google_translate.php:30
+msgid "Your changes have been saved."
+msgstr "Tus cambios fueron guardados."
+
+#: data/admin-settings-google_translate.php:47
+msgid "Afrikaans"
+msgstr ""
+
+#: data/admin-settings-google_translate.php:48
+msgid "Albanian"
+msgstr ""
+
+#: data/admin-settings-google_translate.php:49
+msgid "Arabic"
+msgstr ""
+
+#: data/admin-settings-google_translate.php:50
+msgid "Belarusian"
+msgstr ""
+
+#: data/admin-settings-google_translate.php:51
+msgid "Bulgarian"
+msgstr ""
+
+#: data/admin-settings-google_translate.php:52
+msgid "Catalan"
+msgstr ""
+
+#: data/admin-settings-google_translate.php:53
+msgid "Chinese (Simplified)"
+msgstr ""
+
+#: data/admin-settings-google_translate.php:54
+msgid "Chinese (Traditional)"
+msgstr ""
+
+#: data/admin-settings-google_translate.php:55
+msgid "Croatian"
+msgstr ""
+
+#: data/admin-settings-google_translate.php:56
+msgid "Czech"
+msgstr ""
+
+#: data/admin-settings-google_translate.php:57
+msgid "Danish"
+msgstr ""
+
+#: data/admin-settings-google_translate.php:58
+msgid "Dutch"
+msgstr ""
+
+#: data/admin-settings-google_translate.php:59
+msgid "English"
+msgstr ""
+
+#: data/admin-settings-google_translate.php:60
+msgid "Estonian"
+msgstr ""
+
+#: data/admin-settings-google_translate.php:61
+msgid "Filipino"
+msgstr ""
+
+#: data/admin-settings-google_translate.php:62
+msgid "Finnish"
+msgstr ""
+
+#: data/admin-settings-google_translate.php:63
+msgid "French"
+msgstr ""
+
+#: data/admin-settings-google_translate.php:64
+msgid "Galician"
+msgstr ""
+
+#: data/admin-settings-google_translate.php:65
+msgid "German"
+msgstr ""
+
+#: data/admin-settings-google_translate.php:66
+msgid "Greek"
+msgstr ""
+
+#: data/admin-settings-google_translate.php:67
+msgid "Haitian Creole"
+msgstr ""
+
+#: data/admin-settings-google_translate.php:68
+msgid "Hebrew"
+msgstr ""
+
+#: data/admin-settings-google_translate.php:69
+msgid "Hindi"
+msgstr ""
+
+#: data/admin-settings-google_translate.php:70
+msgid "Hungarian"
+msgstr ""
+
+#: data/admin-settings-google_translate.php:71
+msgid "Icelandic"
+msgstr ""
+
+#: data/admin-settings-google_translate.php:72
+msgid "Indonesian"
+msgstr ""
+
+#: data/admin-settings-google_translate.php:73
+msgid "Irish"
+msgstr ""
+
+#: data/admin-settings-google_translate.php:74
+msgid "Italian"
+msgstr ""
+
+#: data/admin-settings-google_translate.php:75
+msgid "Japanese"
+msgstr ""
+
+#: data/admin-settings-google_translate.php:76
+msgid "Korean"
+msgstr ""
+
+#: data/admin-settings-google_translate.php:77
+msgid "Latvian"
+msgstr ""
+
+#: data/admin-settings-google_translate.php:78
+msgid "Lithuanian"
+msgstr ""
+
+#: data/admin-settings-google_translate.php:79
+msgid "Macedonian"
+msgstr ""
+
+#: data/admin-settings-google_translate.php:80
+msgid "Malay"
+msgstr ""
+
+#: data/admin-settings-google_translate.php:81
+msgid "Maltese"
+msgstr ""
+
+#: data/admin-settings-google_translate.php:82
+msgid "Norwegian"
+msgstr ""
+
+#: data/admin-settings-google_translate.php:83
+msgid "Persian"
+msgstr ""
+
+#: data/admin-settings-google_translate.php:84
+msgid "Polish"
+msgstr ""
+
+#: data/admin-settings-google_translate.php:85
+msgid "Portuguese"
+msgstr ""
+
+#: data/admin-settings-google_translate.php:86
+msgid "Romanian"
+msgstr ""
+
+#: data/admin-settings-google_translate.php:87
+msgid "Russian"
+msgstr ""
+
+#: data/admin-settings-google_translate.php:88
+msgid "Serbian"
+msgstr ""
+
+#: data/admin-settings-google_translate.php:89
+msgid "Slovak"
+msgstr ""
+
+#: data/admin-settings-google_translate.php:90
+msgid "Slovenian"
+msgstr ""
+
+#: data/admin-settings-google_translate.php:91
+msgid "Spanish"
+msgstr ""
+
+#: data/admin-settings-google_translate.php:92
+msgid "Swahili"
+msgstr ""
+
+#: data/admin-settings-google_translate.php:93
+msgid "Swedish"
+msgstr ""
+
+#: data/admin-settings-google_translate.php:94
+msgid "Thai"
+msgstr ""
+
+#: data/admin-settings-google_translate.php:95
+msgid "Turkish"
+msgstr ""
+
+#: data/admin-settings-google_translate.php:96
+msgid "Ukrainian"
+msgstr ""
+
+#: data/admin-settings-google_translate.php:97
+msgid "Vietnamese"
+msgstr ""
+
+#: data/admin-settings-google_translate.php:98
+msgid "Welsh"
+msgstr ""
+
+#: data/admin-settings-google_translate.php:99
+msgid "Yiddish"
+msgstr ""
+
+#: data/admin-settings-google_translate.php:101
+msgid "Input language:"
+msgstr "Lenguaje de entrada:"
+
+#: data/admin-settings-google_translate.php:101
+msgid "The original language of the website."
+msgstr "El lenguaje original del sitio web."
+
+#: data/admin-settings-google_translate.php:103
+msgid "Save"
+msgstr ""
+
+#: data/admin-settings-google_translate.php:104
+msgid "Cancel"
+msgstr ""
+

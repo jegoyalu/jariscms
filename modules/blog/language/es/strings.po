@@ -1,0 +1,273 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: JarisCMS Ecommerce v1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-08-13 15:54-0400\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Yaritza Luyando <yluyando@jegoyalu.com>\n"
+"Language-Team: JegoYalu <servicios@jegoyalu.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Spanish\n"
+"X-Poedit-Country: PUERTO RICO\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-Basepath: ../../\n"
+"X-Poedit-KeywordsList: t\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: functions.php:74
+#: functions.php:82
+#: install.php:15
+#: data/blog-subscriptions.php:51
+msgid "Blog"
+msgstr ""
+
+#: install.php:16
+msgid "Message automatically posted on your personal blog"
+msgstr "Un mensaje automaticamente posteado en tu blog personal"
+
+#: install.php:48
+msgid "Blog Archive"
+msgstr "Archivo del Blog"
+
+#: install.php:145
+msgid "Recent Posts by This User"
+msgstr "Artículos Recientes del Usuario"
+
+#: install.php:196
+msgid "New Blogs"
+msgstr "Nuevos Blogs"
+
+#: install.php:257
+msgid "Most Viewed Blogs"
+msgstr "Blogs Más Vistos"
+
+#: install.php:258
+#: data/blog-browser.php:84
+#: data/blog-subscriptions.php:129
+#: data/blog-user.php:134
+#: templates/content-blog.php:47
+msgid "Views:"
+msgstr "Vistas:"
+
+#: install.php:259
+#: data/blog-browser.php:85
+#: templates/content-blog.php:45
+msgid "Created by:"
+msgstr "Creado por:"
+
+#: install.php:319
+msgid "Categories"
+msgstr "Categorías:"
+
+#: install.php:348
+msgid "Remember to set the blog configurations to work properly."
+msgstr "Recuerda configurar las opciones del blog para que funcione correctamente."
+
+#: install.php:348
+msgid "Configure Now"
+msgstr "Configurar Ahora"
+
+#: data/admin-blog-edit.php:17
+#: data/admin-settings-blog.php:17
+msgid "Blog Settings"
+msgstr "Configuraciones del Blog"
+
+#: data/admin-blog-edit.php:42
+msgid "Blog settings successfully updated."
+msgstr "Configuraciones del blog exitosamente actualizadas."
+
+#: data/admin-blog-edit.php:61
+msgid "Category:"
+msgstr "Categoría:"
+
+#: data/admin-blog-edit.php:64
+msgid "Title:"
+msgstr "Titulo:"
+
+#: data/admin-blog-edit.php:64
+msgid "The title or name of the blog."
+msgstr "El título o nombre del blog."
+
+#: data/admin-blog-edit.php:65
+msgid "Description:"
+msgstr "Descripción:"
+
+#: data/admin-blog-edit.php:65
+msgid "A brief description of the blog."
+msgstr "Una descripción breve del blog."
+
+#: data/admin-blog-edit.php:66
+msgid "Tags:"
+msgstr "Etiquetas"
+
+#: data/admin-blog-edit.php:66
+msgid "A list of words seperated by space that describe the blog."
+msgstr "Lista de palabras descriptivas separadas por espacio."
+
+#: data/admin-blog-edit.php:68
+#: data/admin-settings-blog.php:64
+msgid "Save"
+msgstr "Guardar"
+
+#: data/admin-blog-edit.php:69
+#: data/admin-settings-blog.php:65
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: data/admin-settings-blog.php:33
+msgid "Your settings have been successfully saved."
+msgstr "Tus cambios fueron guardados exitosamente."
+
+#: data/admin-settings-blog.php:52
+msgid "-None Selected-"
+msgstr "-Nada Seleccionado-"
+
+#: data/admin-settings-blog.php:62
+msgid "Blog categories:"
+msgstr "Categorías de blog:"
+
+#: data/admin-settings-blog.php:62
+msgid "The main category where users can select a sub category that represent its blog content."
+msgstr "La categoría principal donde los usuarios pueden seleccionar una subcategoría que represente el blog."
+
+#: data/blog-browser.php:17
+msgid "Blog Browser"
+msgstr "Navegador de Blogs"
+
+#: data/blog-browser.php:49
+msgid "Total Blogs:"
+msgstr "Total de blogs:"
+
+#: data/blog-browser.php:99
+msgid "No available blogs on the system yet. Register an account and start posting"
+msgstr "No hay blogs dispobles en el sistema aún. Registra una cuenta y comienza a publicar."
+
+#: data/blog-subscribe.php:35
+msgid "Subscribtion done."
+msgstr "Suscrito exitosamente."
+
+#: data/blog-subscribe.php:40
+msgid "Already subscribed."
+msgstr "Ya esta suscrito."
+
+#: data/blog-subscribe.php:47
+#: data/blog-unsubscribe.php:40
+msgid "Blog does not exist."
+msgstr "El blog no existe."
+
+#: data/blog-subscriptions.php:26
+msgid "Blog subscriptions of"
+msgstr "Suscripciones de blog de"
+
+#: data/blog-subscriptions.php:30
+msgid "My Blog Subscriptions"
+msgstr "Mis Suscripciones de Blogs"
+
+#: data/blog-subscriptions.php:54
+#: data/blog-subscriptions.php:76
+#: data/blog-user.php:49
+#: data/user-blog.php:37
+msgid "Subscriptions"
+msgstr "Suscripciones"
+
+#: data/blog-subscriptions.php:69
+#: data/user-blog.php:30
+msgid "View Blog"
+msgstr "Ver Blog"
+
+#: data/blog-subscriptions.php:71
+#: data/user-blog.php:32
+msgid "Edit Blog Settings"
+msgstr "Configuraciones del Blog"
+
+#: data/blog-subscriptions.php:73
+msgid "New Post"
+msgstr "Nuevas Publicaciones"
+
+#: data/blog-subscriptions.php:94
+msgid "Total Subscriptions:"
+msgstr "Total de Suscripciones:"
+
+#: data/blog-unsubscribe.php:34
+msgid "Unsubscribtion done."
+msgstr "Darse de baja hecho."
+
+#: data/blog-user.php:29
+msgid "blog"
+msgstr "blog"
+
+#: data/blog-user.php:43
+msgid "Manage Blog"
+msgstr "Manejar Blog"
+
+#: data/blog-user.php:45
+#: data/user-blog.php:34
+msgid "Add Post"
+msgstr "Añadir Publicación"
+
+#: data/blog-user.php:56
+msgid "Subscribe"
+msgstr "Suscribir"
+
+#: data/blog-user.php:60
+msgid "Unsubscribe"
+msgstr "Darse de baja"
+
+#: data/blog-user.php:130
+#: templates/content-blog.php:46
+msgid "Date:"
+msgstr "Fecha:"
+
+#: data/blog-user.php:153
+msgid "view more"
+msgstr "ver más"
+
+#: data/user-blog.php:18
+msgid "Blog Posted Content"
+msgstr "Publicaciones del Blog"
+
+#: data/user-blog.php:50
+msgid "Total post:"
+msgstr "Total de publicaciones:"
+
+#: data/user-blog.php:59
+msgid "Thumbnail"
+msgstr "Miniatura"
+
+#: data/user-blog.php:60
+msgid "Title"
+msgstr "Titulo"
+
+#: data/user-blog.php:61
+msgid "Date"
+msgstr "Fecha"
+
+#: data/user-blog.php:62
+msgid "Views"
+msgstr "Vistas"
+
+#: data/user-blog.php:63
+msgid "Actions"
+msgstr "Acciones"
+
+#: data/user-blog.php:93
+msgid "Created:"
+msgstr "Creado:"
+
+#: data/user-blog.php:94
+msgid "Edited:"
+msgstr "Editado:"
+
+#: data/user-blog.php:106
+msgid "View"
+msgstr "Ver"
+
+#: data/user-blog.php:107
+msgid "Edit"
+msgstr "Editar"
+
+#: data/user-blog.php:108
+msgid "Delete"
+msgstr "Borrar"

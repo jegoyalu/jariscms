@@ -1,0 +1,28 @@
+/* -------- simpleFAQ styles --------- */
+.simpleFAQ_list { margin: 15px 0 0 0; padding: 0; }
+.simpleFAQ_list li { list-style: none; }
+.simpleFAQ_list ul li { list-style: square; }
+.simpleFAQ_list ol li { list-style: decimal; }
+.simpleFAQ_list ol ul li { list-style: circle; }
+.simpleFAQ_list .question {
+  background: transparent url('plus.png') 10px center no-repeat;
+  cursor: pointer;
+  background-color: #d3d3d3;
+  padding: 10px 10px 10px 35px;
+  font-size: 18px;
+  color: #000;
+  margin: 0;
+  border-bottom: solid 1px #000;
+}
+.simpleFAQShowing .question {
+  background: transparent url('minus.png') 10px center no-repeat;
+  background-color: #555;
+  color: #fff;
+}
+.simpleFAQ_list .simpleFAQHover { background-color: #555; color: #fff; }
+.simpleFAQ_item .answer {
+  border: 1px solid #d3d3d3;
+  background-color: #E0E0E0;
+  padding: 20px;
+}
+.simpleFAQ_item .tags { display: none; }

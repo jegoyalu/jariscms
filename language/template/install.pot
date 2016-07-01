@@ -1,0 +1,333 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Jaris CMS Installer v1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-05-24 19:01-0400\n"
+"PO-Revision-Date: 2015-03-26 12:52-0400\n"
+"Last-Translator: Jefferson González <jgonzalez@jegoyalu.com>\n"
+"Language-Team: Jaris CMS Translators\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Basepath: ../../install\n"
+"X-Poedit-KeywordsList: t\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Generator: Poedit 1.8.7.1\n"
+"X-Poedit-SearchPath-0: install.php\n"
+
+#: install.php:74
+msgid "Select a language"
+msgstr ""
+
+#: install.php:90
+msgid "Language:"
+msgstr ""
+
+#: install.php:108 install.php:339 install.php:619 install.php:789
+#: install.php:861
+msgid "Continue"
+msgstr ""
+
+#: install.php:122
+msgid "Installation Wizard"
+msgstr ""
+
+#: install.php:124
+msgid ""
+"<b>Welcome</b> to Jaris CMS installation wizard! To install it you just need "
+"some minimun system requirements to have a working enviroment. Before we "
+"continue you should know that <b>Jaris CMS</b> does not requires any "
+"relational database like mysql since it has its own engine written on php to "
+"store data. So in order to make it work you need to set write permissions to "
+"the user account that is running the php parser.<br />"
+msgstr ""
+
+#: install.php:125
+msgid "Requirements:"
+msgstr ""
+
+#: install.php:127
+msgid "PHP 5 or greater"
+msgstr ""
+
+#: install.php:128
+msgid "PHP GD library for graphics processing"
+msgstr ""
+
+#: install.php:129
+msgid "Write permissions on <b>sites</b> directory"
+msgstr ""
+
+#: install.php:130
+msgid "Apache with mod rewrite for clean url system"
+msgstr ""
+
+#: install.php:131
+msgid "Sqlite just for search engine optimizations."
+msgstr ""
+
+#: install.php:146
+msgid "Check Requirements"
+msgstr ""
+
+#: install.php:167
+msgid "Step One - Checking Requirements"
+msgstr ""
+
+#: install.php:176 install.php:193
+msgid "PHP version installed:"
+msgstr ""
+
+#: install.php:183 install.php:222 install.php:259 install.php:297
+msgid "(OK)"
+msgstr ""
+
+#: install.php:195
+msgid "Version 5 or greater is needed."
+msgstr ""
+
+#: install.php:201 install.php:239 install.php:276 install.php:314
+msgid "(ERROR)"
+msgstr ""
+
+#: install.php:215 install.php:232
+msgid "PHP GD library:"
+msgstr ""
+
+#: install.php:216
+msgid "available"
+msgstr ""
+
+#: install.php:233
+msgid "not available"
+msgstr ""
+
+#: install.php:252 install.php:269
+msgid "Write permissions on sites directory:"
+msgstr ""
+
+#: install.php:253 install.php:291
+msgid "yes"
+msgstr ""
+
+#: install.php:270 install.php:308
+msgid "no"
+msgstr ""
+
+#: install.php:290 install.php:307
+msgid "PHP SQLite library:"
+msgstr ""
+
+#: install.php:364
+msgid "Re-check Requirements."
+msgstr ""
+
+#: install.php:409
+msgid "Please provide a username."
+msgstr ""
+
+#: install.php:413
+msgid "Please provide your fullname."
+msgstr ""
+
+#: install.php:417
+msgid "Please provide your e-mail."
+msgstr ""
+
+#: install.php:445
+msgid "Powered by JarisCMS."
+msgstr ""
+
+#: install.php:471 install.php:668
+msgid ""
+"Configuration could not be save. Check your write permissions on the sites "
+"directory."
+msgstr ""
+
+#: install.php:476 install.php:673
+msgid "You need to provide all the fields"
+msgstr ""
+
+#: install.php:481
+msgid "The administrator login name is invalid."
+msgstr ""
+
+#: install.php:486
+msgid "Your password does not match. Try again."
+msgstr ""
+
+#: install.php:492
+msgid "Step Two - Site Details"
+msgstr ""
+
+#: install.php:500
+msgid "Site title:"
+msgstr ""
+
+#: install.php:508
+msgid "Slogan:"
+msgstr ""
+
+#: install.php:521
+msgid "Default timezone:"
+msgstr ""
+
+#: install.php:536
+msgid "Auto detect base url?"
+msgstr ""
+
+#: install.php:539
+msgid ""
+"Automatically detects domain even if you change it. Mandatory on multisites."
+msgstr ""
+
+#: install.php:545
+msgid "Base url:"
+msgstr ""
+
+#: install.php:554
+msgid "Administrator login name:"
+msgstr ""
+
+#: install.php:562
+msgid "Administrator full name:"
+msgstr ""
+
+#: install.php:570
+msgid "Administrator e-mail:"
+msgstr ""
+
+#: install.php:578
+msgid "Administrator password:"
+msgstr ""
+
+#: install.php:585
+msgid "Re-enter administrator password:"
+msgstr ""
+
+#: install.php:589
+msgid "None"
+msgstr ""
+
+#: install.php:606
+msgid "Distribution template:"
+msgstr ""
+
+#: install.php:679
+msgid "Step Three - Mailing Details"
+msgstr ""
+
+#: install.php:686
+msgid "Mail (default)"
+msgstr ""
+
+#: install.php:687
+msgid "Sendmail"
+msgstr ""
+
+#: install.php:688
+msgid "SMTP"
+msgstr ""
+
+#: install.php:692
+msgid "Mailing system:"
+msgstr ""
+
+#: install.php:701
+msgid "From name:"
+msgstr ""
+
+#: install.php:706
+msgid "The name used on the from email."
+msgstr ""
+
+#: install.php:711
+msgid "From e-mail:"
+msgstr ""
+
+#: install.php:716
+msgid "The email used on the from email."
+msgstr ""
+
+#: install.php:721
+msgid "Enable"
+msgstr ""
+
+#: install.php:722
+msgid "Disable"
+msgstr ""
+
+#: install.php:726
+msgid "Authentication:"
+msgstr ""
+
+#: install.php:735
+msgid "SSL:"
+msgstr ""
+
+#: install.php:744
+msgid "Host:"
+msgstr ""
+
+#: install.php:752
+msgid "Port:"
+msgstr ""
+
+#: install.php:760
+msgid "Username:"
+msgstr ""
+
+#: install.php:768
+msgid "Password:"
+msgstr ""
+
+#: install.php:775
+msgid "SMTP Configuration"
+msgstr ""
+
+#: install.php:805
+msgid "Step Four - Clean URL Check"
+msgstr ""
+
+#: install.php:807
+msgid ""
+"Url rewrites make url's more readable and easy to acess. Here are the "
+"results of the test:"
+msgstr ""
+
+#: install.php:834
+msgid "SUPPORTED and Activated"
+msgstr ""
+
+#: install.php:841
+msgid "NOT SUPPORTED"
+msgstr ""
+
+#: install.php:847
+msgid ""
+"There are many factors that make clean url not work. If using apache server "
+"check if mod_rewrite is activated."
+msgstr ""
+
+#: install.php:877
+msgid "Step Five - You are done!"
+msgstr ""
+
+#: install.php:879
+msgid ""
+"<b>Congratulations,</b> you have successfully installed Jaris content "
+"management system. To visit your index site click"
+msgstr ""
+
+#: install.php:881
+msgid "here"
+msgstr ""
+
+#: install.php:883
+msgid "and login with the username <b>admin</b> and the password you specified"
+msgstr ""
+
+#: install.php:892 install.php:1127
+msgid "Jaris CMS - Installation Script"
+msgstr ""

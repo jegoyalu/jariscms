@@ -1,0 +1,223 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Jaris CMS Control Menu Module v1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-09-28 14:00-0400\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Andrea Zanellato <zanellato.andrea@gmail.com>\n"
+"Language-Team: Andrea Zanellato <italian.jariscms@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Italian\n"
+"X-Poedit-Country: ITALY\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-Basepath: ../../\n"
+"X-Poedit-KeywordsList: t\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: functions.php:17
+msgid "Settings"
+msgstr "Impostazioni"
+
+#: functions.php:25
+#: functions.php:98
+#: data/admin-settings-backgrounds.php:17
+msgid "Backgrounds"
+msgstr "Sfondi"
+
+#: functions.php:25
+msgid "To see, add and edit the background images of the site."
+msgstr "Per la visualizzare, aggiungere e modificare l'immagine di sfondo del sito."
+
+#: install.php:20
+msgid "Remember to add backgrounds on the Settings section of the Control Center."
+msgstr "Ricorda di aggiungere sfondi nella sezione Impostazioni del Centro di Controllo."
+
+#: install.php:20
+msgid "Add Backgrounds Now"
+msgstr "Aggiungi Sfondi Adesso"
+
+#: data/admin-settings-backgrounds-add.php:16
+#: data/admin-settings-backgrounds.php:24
+msgid "Add Background"
+msgstr "Aggiungi Sfondo"
+
+#: data/admin-settings-backgrounds-add.php:55
+msgid "Background successfully added."
+msgstr "Sfondo aggiunto con successo."
+
+#: data/admin-settings-backgrounds-add.php:86
+#: data/admin-settings-backgrounds-edit.php:102
+msgid "Description:"
+msgstr "Descrizione:"
+
+#: data/admin-settings-backgrounds-add.php:86
+#: data/admin-settings-backgrounds-edit.php:102
+msgid "Description of the background image like for example: January 2011 special product promotion."
+msgstr "Descrizione dell'immagine di sfondo, per esempio: Promozione prodotto Gennaio 2013."
+
+#: data/admin-settings-backgrounds-add.php:87
+msgid "Background image file:"
+msgstr "Immagine di sfondo:"
+
+#: data/admin-settings-backgrounds-add.php:88
+#: data/admin-settings-backgrounds-edit.php:105
+msgid "Top position:"
+msgstr "Posizione superiore:"
+
+#: data/admin-settings-backgrounds-add.php:88
+#: data/admin-settings-backgrounds-edit.php:105
+msgid "The top position of the background in pixels, for example 200. Default is 0"
+msgstr "La posizione superiore dello sfondo in pixel, per esempio 200. Predefinito è 0"
+
+#: data/admin-settings-backgrounds-add.php:89
+#: data/admin-settings-backgrounds-edit.php:106
+msgid "Background color:"
+msgstr "Colore di sfondo:"
+
+#: data/admin-settings-backgrounds-add.php:89
+#: data/admin-settings-backgrounds-edit.php:106
+msgid "The overall background color of the body."
+msgstr "Il colore di sfondo per il corpo di tutte le pagine."
+
+#: data/admin-settings-backgrounds-add.php:93
+#: data/admin-settings-backgrounds-edit.php:111
+msgid "Left"
+msgstr "Sinistra"
+
+#: data/admin-settings-backgrounds-add.php:94
+#: data/admin-settings-backgrounds-edit.php:112
+msgid "Center"
+msgstr "Centro"
+
+#: data/admin-settings-backgrounds-add.php:95
+#: data/admin-settings-backgrounds-edit.php:113
+msgid "Right"
+msgstr "Destra"
+
+#: data/admin-settings-backgrounds-add.php:99
+#: data/admin-settings-backgrounds-edit.php:117
+msgid "Position"
+msgstr "Posizione"
+
+#: data/admin-settings-backgrounds-add.php:102
+#: data/admin-settings-backgrounds-edit.php:120
+msgid "Repeat"
+msgstr "Ripeti"
+
+#: data/admin-settings-backgrounds-add.php:103
+#: data/admin-settings-backgrounds-edit.php:121
+msgid "No Repeat"
+msgstr "Non RIpetere"
+
+#: data/admin-settings-backgrounds-add.php:107
+#: data/admin-settings-backgrounds-edit.php:125
+msgid "Mode"
+msgstr "Modo"
+
+#: data/admin-settings-backgrounds-add.php:110
+#: data/admin-settings-backgrounds-edit.php:128
+msgid "Scroll"
+msgstr "Scorrimento"
+
+#: data/admin-settings-backgrounds-add.php:111
+#: data/admin-settings-backgrounds-edit.php:129
+msgid "Fixed"
+msgstr "Fisso"
+
+#: data/admin-settings-backgrounds-add.php:115
+#: data/admin-settings-backgrounds-edit.php:133
+msgid "Attachment"
+msgstr "Allegato"
+
+#: data/admin-settings-backgrounds-add.php:117
+#: data/admin-settings-backgrounds-edit.php:136
+msgid "Display in all pages except the listed ones."
+msgstr "Visualizza in tutte le pagine eccetto quelle in lista."
+
+#: data/admin-settings-backgrounds-add.php:118
+#: data/admin-settings-backgrounds-edit.php:137
+msgid "Just display on the listed pages."
+msgstr "Visualizza solamente nelle pagine in lista."
+
+#: data/admin-settings-backgrounds-add.php:121
+#: data/admin-settings-backgrounds-edit.php:140
+msgid "Pages:"
+msgstr "Pagine:"
+
+#: data/admin-settings-backgrounds-add.php:123
+#: data/admin-settings-backgrounds-edit.php:142
+msgid "List of uri's seperated by comma (,). Also supports the wildcard (*), for example: my-section/*"
+msgstr "Lista di URI separate da virgola. Carattere jolly * supportato, per esempio: mia-sezione/*"
+
+#: data/admin-settings-backgrounds-add.php:125
+#: data/admin-settings-backgrounds-edit.php:144
+msgid "Save"
+msgstr "Salva"
+
+#: data/admin-settings-backgrounds-add.php:126
+#: data/admin-settings-backgrounds-edit.php:145
+msgid "Cancel"
+msgstr "Annulla"
+
+#: data/admin-settings-backgrounds-delete.php:17
+msgid "Delete Background"
+msgstr "Elimina Sfondo"
+
+#: data/admin-settings-backgrounds-delete.php:39
+msgid "Background successfully deleted."
+msgstr "Sfondo eliminato con successo."
+
+#: data/admin-settings-backgrounds-delete.php:56
+msgid "Are you sure you want to delete the background image?"
+msgstr "Sicuro di voler eliminare l'immagine di sfondo?"
+
+#: data/admin-settings-backgrounds-delete.php:63
+msgid "Yes"
+msgstr "Si"
+
+#: data/admin-settings-backgrounds-delete.php:64
+msgid "No"
+msgstr "No"
+
+#: data/admin-settings-backgrounds-edit.php:16
+msgid "Edit Background"
+msgstr "Modifica Sfondo"
+
+#: data/admin-settings-backgrounds-edit.php:70
+msgid "Changes successfully saved."
+msgstr "Modifiche salvate con successo."
+
+#: data/admin-settings-backgrounds-edit.php:103
+msgid "Current image:"
+msgstr "Immagine corrente:"
+
+#: data/admin-settings-backgrounds-edit.php:104
+msgid "New background image file:"
+msgstr "Nuova immagine di sfondo:"
+
+#: data/admin-settings-backgrounds.php:35
+msgid "Description"
+msgstr "Descrizione"
+
+#: data/admin-settings-backgrounds.php:36
+msgid "Actions"
+msgstr "Azioni"
+
+#: data/admin-settings-backgrounds.php:44
+msgid "View Image"
+msgstr "Visualizza Immagine"
+
+#: data/admin-settings-backgrounds.php:47
+msgid "Edit"
+msgstr "Modifica"
+
+#: data/admin-settings-backgrounds.php:48
+msgid "Delete"
+msgstr "Elimina"
+
+#: data/admin-settings-backgrounds.php:58
+msgid "No background images available. Click Add Background to add one."
+msgstr "Nessuna immagine di sfondo disponibile. Clicca Aggiungi Sfondo per aggiungerne una."
+

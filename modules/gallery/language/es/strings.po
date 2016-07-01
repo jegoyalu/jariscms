@@ -1,0 +1,227 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: JarisCMS Ecommerce v1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-05-23 17:55-0400\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Jefferson González <jgonzalez@jegoyalu.com>\n"
+"Language-Team: JegoYalu <servicios@jegoyalu.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Spanish\n"
+"X-Poedit-Country: PUERTO RICO\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-Basepath: ../../\n"
+"X-Poedit-KeywordsList: t\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: functions.php:52
+#: data/admin-pages-gallery-edit.php:17
+#: data/admin-pages-gallery-edit.php:131
+msgid "Edit Gallery"
+msgstr "Editar Galería"
+
+#: install.php:15
+msgid "Gallery"
+msgstr "Galería"
+
+#: install.php:16
+msgid "For creating image galleries using lightbox."
+msgstr "Para crear galerías de imágenes usando lightbox."
+
+#: data/admin-pages-gallery-add.php:17
+msgid "Create Gallery"
+msgstr "Crear Galería"
+
+#: data/admin-pages-gallery-add.php:83
+msgid "The gallery was successfully created."
+msgstr "La galería fue creada exitosamente."
+
+#: data/admin-pages-gallery-add.php:106
+#: data/admin-pages-gallery-edit.php:149
+msgid "Categories"
+msgstr "Categorías"
+
+#: data/admin-pages-gallery-add.php:109
+#: data/admin-pages-gallery-edit.php:153
+msgid "Title:"
+msgstr "Titulo:"
+
+#: data/admin-pages-gallery-add.php:110
+#: data/admin-pages-gallery-edit.php:154
+msgid "Content:"
+msgstr "Contenido:"
+
+#: data/admin-pages-gallery-add.php:111
+#: data/admin-pages-gallery-edit.php:155
+msgid "Thumbnails width:"
+msgstr "Ancho de miniaturas:"
+
+#: data/admin-pages-gallery-add.php:111
+#: data/admin-pages-gallery-edit.php:155
+msgid "The width of the thumbnail in pixels."
+msgstr "El ancho de las miniaturas en pixeles."
+
+#: data/admin-pages-gallery-add.php:112
+#: data/admin-pages-gallery-edit.php:156
+msgid "Thumbnails height:"
+msgstr "Alto de miniaturas:"
+
+#: data/admin-pages-gallery-add.php:112
+#: data/admin-pages-gallery-edit.php:156
+msgid "The height of the image in pixels."
+msgstr "El alto de las miniaturas en pixeles."
+
+#: data/admin-pages-gallery-add.php:113
+#: data/admin-pages-gallery-edit.php:157
+msgid "Background color:"
+msgstr "Color de fondo:"
+
+#: data/admin-pages-gallery-add.php:114
+#: data/admin-pages-gallery-edit.php:158
+msgid "Images per page:"
+msgstr "Imágenes por página:"
+
+#: data/admin-pages-gallery-add.php:115
+#: data/admin-pages-gallery-edit.php:159
+msgid "Images per row:"
+msgstr "Imágenes por fila:"
+
+#: data/admin-pages-gallery-add.php:117
+#: data/admin-pages-gallery-edit.php:161
+msgid "Keep aspect ratio?"
+msgstr "¿Mantener aspecto?"
+
+#: data/admin-pages-gallery-add.php:122
+#: data/admin-pages-gallery-edit.php:166
+msgid "Show image title?"
+msgstr "¿Mostrar título de imagen?"
+
+#: data/admin-pages-gallery-add.php:124
+#: data/admin-pages-gallery-edit.php:168
+msgid "Top"
+msgstr "Arriba"
+
+#: data/admin-pages-gallery-add.php:125
+#: data/admin-pages-gallery-edit.php:169
+msgid "Bottom"
+msgstr "Abajo"
+
+#: data/admin-pages-gallery-add.php:126
+#: data/admin-pages-gallery-edit.php:170
+msgid "Position:"
+msgstr "Posición:"
+
+#: data/admin-pages-gallery-add.php:128
+#: data/admin-pages-gallery-edit.php:172
+msgid "Image title"
+msgstr "Título de imagen"
+
+#: data/admin-pages-gallery-add.php:130
+#: data/admin-pages-gallery-edit.php:174
+msgid "Description:"
+msgstr "Descripción:"
+
+#: data/admin-pages-gallery-add.php:130
+#: data/admin-pages-gallery-edit.php:174
+msgid "Used to generate the meta description for search engines. Leave blank for default."
+msgstr ""
+
+#: data/admin-pages-gallery-add.php:131
+#: data/admin-pages-gallery-edit.php:175
+msgid "Keywords:"
+msgstr ""
+
+#: data/admin-pages-gallery-add.php:131
+#: data/admin-pages-gallery-edit.php:175
+msgid "List of words seperated by comma (,) used to generate the meta keywords for search engines. Leave blank for default."
+msgstr ""
+
+#: data/admin-pages-gallery-add.php:133
+#: data/admin-pages-gallery-edit.php:177
+msgid "Meta tags"
+msgstr ""
+
+#: data/admin-pages-gallery-add.php:143
+#: data/admin-pages-gallery-edit.php:187
+msgid "Input Format"
+msgstr ""
+
+#: data/admin-pages-gallery-add.php:155
+#: data/admin-pages-gallery-edit.php:199
+msgid "Users Access"
+msgstr "Acceso de Usuarios"
+
+#: data/admin-pages-gallery-add.php:155
+#: data/admin-pages-gallery-edit.php:199
+msgid "Select the groups that can see this content. Don't select anything to display content to everyone."
+msgstr ""
+
+#: data/admin-pages-gallery-add.php:158
+#: data/admin-pages-gallery-edit.php:202
+msgid "Uri:"
+msgstr ""
+
+#: data/admin-pages-gallery-add.php:160
+#: data/admin-pages-gallery-edit.php:204
+msgid "Save"
+msgstr "Guardar"
+
+#: data/admin-pages-gallery-add.php:161
+#: data/admin-pages-gallery-edit.php:205
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: data/admin-pages-gallery-edit.php:34
+msgid "The content you was trying to edit is a system page."
+msgstr ""
+
+#: data/admin-pages-gallery-edit.php:107
+msgid "Translations repositioned."
+msgstr ""
+
+#: data/admin-pages-gallery-edit.php:115
+msgid "Your changes have been successfully saved."
+msgstr ""
+
+#: data/admin-pages-gallery-edit.php:132
+msgid "View Gallery"
+msgstr "Ver Galería"
+
+#: data/admin-pages-gallery-edit.php:133
+msgid "Blocks"
+msgstr ""
+
+#: data/admin-pages-gallery-edit.php:134
+msgid "Images"
+msgstr "Imágenes"
+
+#: data/admin-pages-gallery-edit.php:135
+msgid "Translate"
+msgstr ""
+
+#: data/admin-pages-gallery-edit.php:136
+msgid "Delete"
+msgstr ""
+
+#: templates/content-gallery.php:75
+msgid "This gallery has no images"
+msgstr "La galería no tiene imágenes."
+
+#: templates/content-gallery.php:124
+msgid "previous"
+msgstr "anterior"
+
+#: templates/content-gallery.php:124
+msgid "Previous"
+msgstr "Anterior"
+
+#: templates/content-gallery.php:133
+msgid "next"
+msgstr "siguiente"
+
+#: templates/content-gallery.php:133
+msgid "Next"
+msgstr "Siguiente"
+

@@ -1,0 +1,90 @@
+form .caption .required
+{
+    color: #FF3030;
+    font-size: 14px;
+}
+
+input[type=text], input[type=password], input[type=number], select, textarea
+{
+    padding: 10px 7px 10px 7px;
+    font-size: 16px;
+    background-color: #fff;
+    border: solid 1px #B5B5B5;
+    color: #000;
+    box-sizing: border-box;
+}
+
+textarea
+{
+    padding: 0;
+}
+
+select:focus,
+input[type=text]:focus,
+input[type=password]:focus,
+input[type=number]:focus,
+textarea:focus
+{
+    box-shadow: 0px 0px 2px 1px #6fbbe0;
+    border: solid 1px #6fbbe0;
+}
+
+input[type=submit], input[type=reset], input[type=button]
+{
+    display: inline-block;
+    border: 0;
+    padding: 10px 15px 10px 15px;
+    color: #fff;
+    background-color: #00AAD4;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+input[type=submit]:hover, input[type=reset]:hover, input[type=button]:hover
+{
+    color: #fff;
+    background-color: #0abde9;
+}
+
+@media all and (max-width: 480px)
+{
+    input[type=text], input[type=password], input[type=number]
+    {
+        width: 93%;
+        margin: 0 auto 0 auto;
+        display: block;
+        -webkit-box-sizing: content-box;
+        box-sizing: content-box;
+    }
+
+    input[type=checkbox]
+    {
+        /* Double-sized Checkboxes */
+        -ms-transform: scale(2); /* IE */
+        -moz-transform: scale(2); /* FF */
+        -webkit-transform: scale(2); /* Safari and Chrome */
+        -o-transform: scale(2); /* Opera */
+        padding: 10px;
+        margin-right: 5px;
+    }
+
+    form .field_inline
+    {
+        display: block;
+        margin-right: 0px;
+    }
+
+    form .form-checkbox-entry
+    {
+        display: block;
+        margin: 7px 0 15px 0;
+        vertical-align: middle;
+        border-bottom: dotted 1px #d3d3d3;
+    }
+
+    form .form-checkbox-entry *
+    {
+        display: inline-block;
+        vertical-align: middle;
+    }
+}

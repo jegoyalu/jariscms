@@ -1,0 +1,191 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: JarisCMS Ecommerce v1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-01-18 01:31-0400\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Jefferson González <jgonzalez@jegoyalu.com>\n"
+"Language-Team: JegoYalu <servicios@jegoyalu.com>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Spanish\n"
+"X-Poedit-Country: PUERTO RICO\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-Basepath: ../../\n"
+"X-Poedit-KeywordsList: t\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: functions.php:117
+#: data/revision-compare.php:66
+#: data/revisions.php:54
+#: data/revisions.php:120
+msgid "View"
+msgstr "Ver"
+
+#: functions.php:118
+#: data/revisions.php:140
+msgid "Delete"
+msgstr "Borrar"
+
+#: functions.php:119
+#: data/revisions.php:130
+msgid "Revert"
+msgstr "Revertir"
+
+#: functions.php:121
+#: functions.php:135
+#: info.php:13
+#: data/revision-compare.php:67
+#: data/revisions.php:17
+#: data/revisions.php:55
+msgid "Revisions"
+msgstr "Revisiones"
+
+#: functions.php:147
+msgid "Revert to this revision"
+msgstr "Revertir a esta revisión"
+
+#: info.php:14
+msgid "Adds content revision support."
+msgstr "Añade soporte para revisión de contenido."
+
+#: install.php:16
+msgid "Remember to set the group permissions for the revisions system to meet your needs."
+msgstr "Recuerda configurar los permisos de grupo del sistema de revisiones según tus necesidades."
+
+#: install.php:20
+msgid "Revise Permissions"
+msgstr "Permisos de Revisión"
+
+#: data/revision-compare.php:17
+msgid "Revisions Comparison"
+msgstr "Comparación de Revisiones"
+
+#: data/revision-compare.php:41
+#: data/revisions.php:39
+#: data/revisions.php:152
+msgid "No revisions found."
+msgstr "No se encontraron revisiones."
+
+#: data/revision-compare.php:50
+msgid "Invalid revisions."
+msgstr "Revisiones inválidas."
+
+#: data/revision-compare.php:61
+#: data/revisions.php:50
+msgid "Edit"
+msgstr "Editar"
+
+#: data/revision-compare.php:72
+#: data/revisions.php:60
+msgid "Page:"
+msgstr "Página:"
+
+#: data/revision-compare.php:92
+#: data/revisions.php:77
+msgid "Older:"
+msgstr "Antiguo:"
+
+#: data/revision-compare.php:111
+#: data/revisions.php:82
+msgid "Newer:"
+msgstr "Nuevo:"
+
+#: data/revision-compare.php:116
+#: data/revisions.php:87
+msgid "Compare"
+msgstr "Comparar"
+
+#: data/revision-delete.php:17
+msgid "Delete Revision"
+msgstr "Borrar Revisión"
+
+#: data/revision-delete.php:47
+msgid "Revision successfully removed."
+msgstr "Revisión exitosamente removida."
+
+#: data/revision-delete.php:66
+msgid "Are you sure you want to delete this revision?"
+msgstr "Esta seguro que desea borrar esta revisión?"
+
+#: data/revision-delete.php:67
+#: data/revision-revert.php:70
+msgid "Revision:"
+msgstr "Revisión:"
+
+#: data/revision-delete.php:69
+#: data/revision-revert.php:72
+msgid "Yes"
+msgstr "Si"
+
+#: data/revision-delete.php:70
+#: data/revision-revert.php:73
+msgid "No"
+msgstr "No"
+
+#: data/revision-revert.php:17
+msgid "Revert to Revision"
+msgstr "Revertir a Revisión"
+
+#: data/revision-revert.php:50
+msgid "Revert to revision was successfull."
+msgstr "La reversión se ejecuto con éxito."
+
+#: data/revision-revert.php:69
+msgid "Are you sure you want to revert to this revision?"
+msgstr "Estas seguro que deseas revertir a esta revisión?"
+
+#: data/revisions.php:98
+msgid "Date"
+msgstr "Fecha"
+
+#: data/revisions.php:99
+msgid "Action"
+msgstr "Acción"
+
+#~ msgid "Remember to set the codemirror configurations to work properly."
+#~ msgstr "Recuerda configurar codemirror para un funcionamiento correcto."
+
+#~ msgid "Configure Now"
+#~ msgstr "Configurar Ahora"
+
+#~ msgid "Codemirror Settings"
+#~ msgstr "Configuraciones de Codemirror"
+
+#~ msgid "Your changes have been saved."
+#~ msgstr "Tus cambios fueron guardados."
+
+#~ msgid "Groups"
+#~ msgstr "Grupos"
+
+#~ msgid "Description"
+#~ msgstr "Descripción"
+
+#~ msgid "edit"
+#~ msgstr "editar"
+
+#~ msgid "Enable Codemirror?"
+#~ msgstr "Activar Codemirror?"
+
+#~ msgid "Textarea Id:"
+#~ msgstr "Id del textarea:"
+
+#~ msgid "List of textarea id's seperated by comma (,)."
+#~ msgstr "Listado de id para diferentes textarea separados por coma (,)."
+
+#~ msgid "Form names:"
+#~ msgstr "Nombre formularios:"
+
+#~ msgid "List of form names seperated by comma (,)."
+#~ msgstr "Listado de nombres de formularios separados por coma (,)."
+
+#~ msgid "Save"
+#~ msgstr "Guardar"
+
+#~ msgid "Cancel"
+#~ msgstr "Cancelar"
+
+#~ msgid "Selected group:"
+#~ msgstr "Grupo seleccionado:"

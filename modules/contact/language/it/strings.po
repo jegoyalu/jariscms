@@ -1,0 +1,515 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Jaris CMS Contact Forms Module v1.0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-06-27 21:35-0400\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Andrea Zanellato <zanellato.andrea@gmail.com>\n"
+"Language-Team: Andrea Zanellato <italian.jariscms@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Italian\n"
+"X-Poedit-Country: ITALY\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-Basepath: ../../\n"
+"X-Poedit-KeywordsList: t\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: install.php:16
+msgid "Contact Form"
+msgstr "Scheda Contatto"
+
+#: install.php:17
+msgid "To create a contact form page."
+msgstr "Per creare una pagina di contatto."
+
+#: install.php:18
+msgid "Message"
+msgstr "Messaggio"
+
+#: functions.php:54
+msgid "The e-mail you entered appears to be invalid."
+msgstr "L'email inserita sembra essere non valida."
+
+#: functions.php:66
+msgid "Contact form:"
+msgstr "Scheda contatto:"
+
+#: functions.php:82
+#: data/admin-pages-contact_form-add.php:203
+#: data/admin-pages-contact_form-add.php:216
+#: data/admin-pages-contact_form-edit.php:251
+msgid "Subject"
+msgstr "Oggetto"
+
+#: functions.php:116
+msgid "IP address:"
+msgstr "Indirizzo IP:"
+
+#: functions.php:117
+#, fuzzy
+msgid "User agent:"
+msgstr ""
+
+#: functions.php:119
+msgid "Contact from "
+msgstr "Contatto da"
+
+#: functions.php:123
+msgid "Message successfully sent!"
+msgstr "Messaggio inviato con successo!"
+
+#: functions.php:127
+msgid "An error occurred while sending the message. Please try again later."
+msgstr "Si é verificato un errore durante l'invio del messaggio. Si prega di riprovare più tardi."
+
+#: functions.php:147
+msgid "Subject:"
+msgstr "Oggetto:"
+
+#: functions.php:158
+msgid "Validation:"
+msgstr "Validazione:"
+
+#: functions.php:162
+msgid "Send"
+msgstr "Invia"
+
+#: functions.php:163
+#: data/admin-pages-contact_form-fields-add.php:101
+#: data/admin-pages-contact_form-add.php:285
+#: data/admin-pages-contact_form-edit.php:336
+#: data/admin-pages-contact_form-fields-edit.php:105
+#: data/admin-pages-contact_form-fields.php:151
+msgid "Cancel"
+msgstr "Annulla"
+
+#: functions.php:193
+#: data/admin-pages-contact_form-fields.php:32
+msgid "Fields"
+msgstr "Campi"
+
+#: data/admin-pages-contact_form-fields-add.php:17
+msgid "Add Contact Form Field"
+msgstr "Aggiungi Campo Contatto"
+
+#: data/admin-pages-contact_form-fields-add.php:47
+msgid "The contact form field has been successfully created."
+msgstr "Il campo di contatto é stato creato con successo."
+
+#: data/admin-pages-contact_form-fields-add.php:67
+#: data/admin-pages-contact_form-fields-edit.php:71
+msgid "Name:"
+msgstr "Nome:"
+
+#: data/admin-pages-contact_form-fields-add.php:67
+#: data/admin-pages-contact_form-fields-edit.php:71
+msgid "A human readable name displayed when the form is generated."
+msgstr "Un nome leggibile visualizzato quando il form viene generato."
+
+#: data/admin-pages-contact_form-fields-add.php:68
+#: data/admin-pages-contact_form-add.php:227
+#: data/admin-pages-contact_form-edit.php:289
+#: data/admin-pages-contact_form-fields-edit.php:72
+msgid "Description:"
+msgstr "Descrizione:"
+
+#: data/admin-pages-contact_form-fields-add.php:68
+#: data/admin-pages-contact_form-fields-edit.php:72
+msgid "A brief description of how the user should fill this field or it's purpose."
+msgstr "Una breve descrizione di come l'utente deve compilare questo campo o il suo scopo."
+
+#: data/admin-pages-contact_form-fields-add.php:70
+#: data/admin-pages-contact_form-fields-edit.php:74
+msgid "Check box"
+msgstr ""
+
+#: data/admin-pages-contact_form-fields-add.php:71
+#: data/admin-pages-contact_form-fields-edit.php:75
+msgid "Color selector"
+msgstr "Selettore colore"
+
+#: data/admin-pages-contact_form-fields-add.php:72
+#: data/admin-pages-contact_form-fields-edit.php:76
+msgid "Date picker"
+msgstr "Selettore data"
+
+#: data/admin-pages-contact_form-fields-add.php:73
+#: data/admin-pages-contact_form-fields-edit.php:77
+msgid "Hidden"
+msgstr "Nascosto"
+
+#: data/admin-pages-contact_form-fields-add.php:74
+#: data/admin-pages-contact_form-fields-edit.php:78
+msgid "Other"
+msgstr "Altro"
+
+#: data/admin-pages-contact_form-fields-add.php:75
+#: data/admin-pages-contact_form-fields-edit.php:79
+msgid "Password"
+msgstr ""
+
+#: data/admin-pages-contact_form-fields-add.php:76
+#: data/admin-pages-contact_form-fields-edit.php:80
+msgid "Radio box"
+msgstr ""
+
+#: data/admin-pages-contact_form-fields-add.php:77
+#: data/admin-pages-contact_form-fields-edit.php:81
+msgid "Select"
+msgstr "Seleziona"
+
+#: data/admin-pages-contact_form-fields-add.php:78
+#: data/admin-pages-contact_form-fields-edit.php:82
+msgid "Text"
+msgstr "Testo"
+
+#: data/admin-pages-contact_form-fields-add.php:79
+#: data/admin-pages-contact_form-fields-edit.php:83
+msgid "Text area"
+msgstr "Area testo"
+
+#: data/admin-pages-contact_form-fields-add.php:81
+#: data/admin-pages-contact_form-add.php:277
+#: data/admin-pages-contact_form-edit.php:332
+#: data/admin-pages-contact_form-fields-edit.php:85
+msgid "Type:"
+msgstr "Tipo:"
+
+#: data/admin-pages-contact_form-fields-add.php:81
+#: data/admin-pages-contact_form-fields-edit.php:85
+msgid "The type of the form field."
+msgstr "Il tipo del campo del form."
+
+#: data/admin-pages-contact_form-fields-add.php:83
+#: data/admin-pages-contact_form-fields-edit.php:87
+msgid "Input limit:"
+msgstr "Limite di inserimento:"
+
+#: data/admin-pages-contact_form-fields-add.php:83
+#: data/admin-pages-contact_form-fields-edit.php:87
+msgid "The maximun amount of character the user can insert if this is a text or textarea field. 0 for unlimited."
+msgstr "Limite massimo di caratteri che l'utente può inserire, se si tratta di un testo o un campo di area testo. 0 per illimitato."
+
+#: data/admin-pages-contact_form-fields-add.php:85
+#: data/admin-pages-contact_form-fields-edit.php:89
+msgid "Default value:"
+msgstr "Valore predefinito:"
+
+#: data/admin-pages-contact_form-fields-add.php:85
+#: data/admin-pages-contact_form-fields-edit.php:89
+msgid "The default value for a text, textarea, password, hidden, other or a list like select, radio and checkbox."
+msgstr "Valore predefinito per un testo, area testo, password, campo nascosto, selezione, radio o check box o altro."
+
+#: data/admin-pages-contact_form-fields-add.php:89
+#: data/admin-pages-contact_form-fields-edit.php:93
+msgid "Read only:"
+msgstr "Sola lettura:"
+
+#: data/admin-pages-contact_form-fields-add.php:89
+#: data/admin-pages-contact_form-fields-edit.php:93
+msgid "In case the field should be readonly."
+msgstr "Nel caso il campo debba essere a sola lettura."
+
+#: data/admin-pages-contact_form-fields-add.php:90
+#: data/admin-pages-contact_form-fields-edit.php:94
+msgid "Required:"
+msgstr "Obbligatorio:"
+
+#: data/admin-pages-contact_form-fields-add.php:90
+#: data/admin-pages-contact_form-fields-edit.php:94
+msgid "In case the field should be required."
+msgstr "Nel caso il campo debba essere obbligatorio."
+
+#: data/admin-pages-contact_form-fields-add.php:91
+#: data/admin-pages-contact_form-fields-edit.php:95
+#, fuzzy
+msgid "Strip html:"
+msgstr ""
+
+#: data/admin-pages-contact_form-fields-add.php:91
+#: data/admin-pages-contact_form-fields-edit.php:95
+msgid "To enable stripping of any html tags."
+msgstr "Per abilitare lo stripping di qualsiasi tag HTML."
+
+#: data/admin-pages-contact_form-fields-add.php:93
+#: data/admin-pages-contact_form-fields-edit.php:97
+msgid "Field options"
+msgstr "Opzioni campo"
+
+#: data/admin-pages-contact_form-fields-add.php:93
+#: data/admin-pages-contact_form-fields-edit.php:97
+msgid "Special options for the field."
+msgstr "Opzioni speciali per il campo."
+
+#: data/admin-pages-contact_form-fields-add.php:95
+#: data/admin-pages-contact_form-fields-edit.php:99
+msgid "Values:"
+msgstr "Valori:"
+
+#: data/admin-pages-contact_form-fields-add.php:95
+#: data/admin-pages-contact_form-fields-edit.php:99
+msgid "A list of values seperated by comma for select, radio and checkbox."
+msgstr "Una lista di valori separati da virgola per la selezione, radio o check box."
+
+#: data/admin-pages-contact_form-fields-add.php:96
+#: data/admin-pages-contact_form-fields-edit.php:100
+msgid "Captions:"
+msgstr "DIdascalie:"
+
+#: data/admin-pages-contact_form-fields-add.php:96
+#: data/admin-pages-contact_form-fields-edit.php:100
+msgid "A list of captions seperated by comma in the same order entered in values in case it is a radio, checkbox or select."
+msgstr "Una lista di didascalie separate da virgola nello stesso ordine di inserimento dei valori nel caso di selezione, radio o check box."
+
+#: data/admin-pages-contact_form-fields-add.php:98
+#: data/admin-pages-contact_form-fields-edit.php:102
+msgid "Multiple options"
+msgstr "Opzioni multiple"
+
+#: data/admin-pages-contact_form-fields-add.php:98
+#: data/admin-pages-contact_form-fields-edit.php:102
+msgid "Options used in case the type selected is a select, radio or checkbox."
+msgstr "Opzioni utilizzate nel caso il tipo selezionato sia una selezione, radio o check box."
+
+#: data/admin-pages-contact_form-fields-add.php:100
+#: data/admin-pages-contact_form-add.php:284
+#: data/admin-pages-contact_form-edit.php:335
+#: data/admin-pages-contact_form-fields-edit.php:104
+#: data/admin-pages-contact_form-fields.php:149
+msgid "Save"
+msgstr "Salva"
+
+#: data/admin-pages-contact_form-add.php:20
+msgid "Add"
+msgstr "Aggiungi"
+
+#: data/admin-pages-contact_form-add.php:34
+#: data/admin-pages-contact_form-edit.php:34
+#: data/admin-pages-contact_form-edit.php:266
+msgid "remove"
+msgstr "rimuovi"
+
+#: data/admin-pages-contact_form-add.php:129
+msgid "The page was successfully created."
+msgstr "Pagina creata con successo."
+
+#: data/admin-pages-contact_form-add.php:179
+msgid "You do not have permissions to add content of that type."
+msgstr "Non hai i permessi per aggiungere contenuti di quel tipo."
+
+#: data/admin-pages-contact_form-add.php:192
+#: data/admin-pages-contact_form-edit.php:239
+msgid "Categories"
+msgstr "Categorie"
+
+#: data/admin-pages-contact_form-add.php:204
+#: data/admin-pages-contact_form-edit.php:252
+msgid "Recipient"
+msgstr "Destinatario"
+
+#: data/admin-pages-contact_form-add.php:212
+#: data/admin-pages-contact_form-edit.php:274
+msgid "Add subject"
+msgstr "Aggiungi oggetto"
+
+#: data/admin-pages-contact_form-add.php:216
+#: data/admin-pages-contact_form-edit.php:278
+msgid "Optional list of selectable subjects by the visitor with alternate mail recipients."
+msgstr "Lista opzionale di oggetti selezionabili dal visitatore con indirizzi email dei destinatari alternativi."
+
+#: data/admin-pages-contact_form-add.php:218
+#: data/admin-pages-contact_form-edit.php:280
+msgid "Mail recipient"
+msgstr "Destinatario"
+
+#: data/admin-pages-contact_form-add.php:218
+#: data/admin-pages-contact_form-edit.php:280
+msgid "The default recipient to receive the email. This value gets overriden by the recipient entered on the list of subjects."
+msgstr "Il destinatario predefinito per la ricezione delle email. Questo valore viene sovrascritto dal destinatario impostato nella lista oggetti."
+
+#: data/admin-pages-contact_form-add.php:220
+#: data/admin-pages-contact_form-edit.php:282
+msgid "Carbon copy recipients"
+msgstr "Copia carbone per il destinatario"
+
+#: data/admin-pages-contact_form-add.php:220
+#: data/admin-pages-contact_form-edit.php:282
+msgid "A comma seperated list of emails to receive a copy. For example: email_1@domain.com, email_2@domain.com"
+msgstr "Una lista separata da virgola di email per ricevere una copia. Per esempio: email_1@dominio.com, email_2@dominio.com"
+
+#: data/admin-pages-contact_form-add.php:226
+#: data/admin-pages-contact_form-edit.php:288
+msgid "Title:"
+msgstr "Titolo:"
+
+#: data/admin-pages-contact_form-add.php:226
+#: data/admin-pages-contact_form-edit.php:288
+msgid "Overrides the original page title on search engine results. Leave blank for default."
+msgstr "Sovrascrive il titolo della pagina originale dei risultati del motore di ricerca. Lascia vuoto per il valore predefinito."
+
+#: data/admin-pages-contact_form-add.php:227
+#: data/admin-pages-contact_form-edit.php:289
+msgid "Used to generate the meta description for search engines. Leave blank for default."
+msgstr "Utilizzato per generare le meta descrizione per i motori di ricerca. Lascia vuoto per il valore predefinito."
+
+#: data/admin-pages-contact_form-add.php:228
+#: data/admin-pages-contact_form-edit.php:290
+msgid "Keywords:"
+msgstr "Parole chiave:"
+
+#: data/admin-pages-contact_form-add.php:228
+#: data/admin-pages-contact_form-edit.php:290
+msgid "List of words seperated by comma (,) used to generate the meta keywords for search engines. Leave blank for default."
+msgstr "Lista di parole separate da virgola usata per generare le parole chiave per il motore di ricerca. Lascia vuoto per il valore predefinito."
+
+#: data/admin-pages-contact_form-add.php:230
+#: data/admin-pages-contact_form-edit.php:292
+msgid "Meta tags"
+msgstr ""
+
+#: data/admin-pages-contact_form-add.php:241
+#: data/admin-pages-contact_form-edit.php:303
+msgid "Input Format"
+msgstr "Formato Inserimento"
+
+#: data/admin-pages-contact_form-add.php:260
+#: data/admin-pages-contact_form-edit.php:315
+msgid "Users Access"
+msgstr "Accesso Utenti"
+
+#: data/admin-pages-contact_form-add.php:260
+#: data/admin-pages-contact_form-edit.php:315
+msgid "Select the groups that can see this content. Don't select anything to display content to everyone."
+msgstr "Seleziona i gruppi che possono visualizzare questo contenuto. Non selezionare nulla per permettere a tutti di visualizzarlo."
+
+#: data/admin-pages-contact_form-add.php:265
+#: data/admin-pages-contact_form-edit.php:320
+msgid "Uri:"
+msgstr "URI:"
+
+#: data/admin-pages-contact_form-add.php:265
+#: data/admin-pages-contact_form-edit.php:320
+msgid "The relative path to access the page, for example: section/page, section. Leave empty to auto-generate."
+msgstr "Il percorso relativo per accedere alla pagina, per esempio: section/page, section. Lascia vuoto per auto-generarlo."
+
+#: data/admin-pages-contact_form-edit.php:20
+#: data/admin-pages-contact_form-edit.php:206
+#: data/admin-pages-contact_form-fields.php:39
+#: data/admin-pages-contact_form-fields.php:132
+msgid "Edit"
+msgstr "Modifica"
+
+#: data/admin-pages-contact_form-edit.php:62
+#: data/admin-pages-contact_form-edit.php:81
+msgid "The content you was trying to edit is a system page."
+msgstr "Il contenuto che stai tentando di modificare é una pagina di sistema."
+
+#: data/admin-pages-contact_form-edit.php:179
+msgid "Translations repositioned."
+msgstr "Traduzioni riposizionate."
+
+#: data/admin-pages-contact_form-edit.php:187
+msgid "Your changes have been successfully saved."
+msgstr "Le tue modifiche sono state salvate con successo."
+
+#: data/admin-pages-contact_form-edit.php:208
+#: data/admin-pages-contact_form-fields.php:41
+msgid "View"
+msgstr "Visualizza"
+
+#: data/admin-pages-contact_form-edit.php:211
+#: data/admin-pages-contact_form-fields.php:44
+msgid "Blocks"
+msgstr "Blocchi"
+
+#: data/admin-pages-contact_form-edit.php:215
+#: data/admin-pages-contact_form-fields.php:48
+msgid "Images"
+msgstr "Immagini"
+
+#: data/admin-pages-contact_form-edit.php:219
+#: data/admin-pages-contact_form-fields.php:52
+msgid "Files"
+msgstr ""
+
+#: data/admin-pages-contact_form-edit.php:223
+#: data/admin-pages-contact_form-fields.php:56
+msgid "Translate"
+msgstr "Traduci"
+
+#: data/admin-pages-contact_form-edit.php:227
+#: data/admin-pages-contact_form-fields.php:60
+#: data/admin-pages-contact_form-fields.php:133
+msgid "Delete"
+msgstr "Elimina"
+
+#: data/admin-pages-contact_form-edit.php:278
+msgid "Subjects"
+msgstr "Oggetti"
+
+#: data/admin-pages-contact_form-fields-edit.php:17
+msgid "Edit Contact Form Field"
+msgstr "Modifica Campo Contatto"
+
+#: data/admin-pages-contact_form-fields-edit.php:48
+msgid "The contact form field has been successfully modified."
+msgstr "I campi contatto sono stati modificati con successo."
+
+#: data/admin-pages-contact_form-fields.php:18
+msgid "Contact Form Fields"
+msgstr "Campo Contatto"
+
+#: data/admin-pages-contact_form-fields.php:34
+msgid "Add Field"
+msgstr "Aggiungi Campo"
+
+#: data/admin-pages-contact_form-fields.php:88
+msgid "Your changes have been saved."
+msgstr "Le tue modifiche sono state salvate."
+
+#: data/admin-pages-contact_form-fields.php:102
+msgid "No fields available click on Add Field to create one."
+msgstr "Nessun campo disponibile, clicca su Aggiungi Campo per crearne uno."
+
+#: data/admin-pages-contact_form-fields.php:110
+msgid "Name"
+msgstr "Nome"
+
+#: data/admin-pages-contact_form-fields.php:111
+msgid "Description"
+msgstr "Descrizione"
+
+#: data/admin-pages-contact_form-fields.php:112
+msgid "Order"
+msgstr "Ordine"
+
+#: data/admin-pages-contact_form-fields.php:113
+msgid "Operation"
+msgstr "Operazione"
+
+#: data/admin-pages-contact_form-fields-delete.php:17
+msgid "Delete Contact Form Field"
+msgstr "Elimina Campo Contatto"
+
+#: data/admin-pages-contact_form-fields-delete.php:35
+msgid "Contact form field successfully deleted."
+msgstr "Campo contatto eliminato con successo."
+
+#: data/admin-pages-contact_form-fields-delete.php:54
+msgid "Are you sure you want to delete the field?"
+msgstr "Sicuro di voler eliminare il campo?"
+
+#: data/admin-pages-contact_form-fields-delete.php:55
+msgid "Field:"
+msgstr "Campo:"
+
+#: data/admin-pages-contact_form-fields-delete.php:57
+msgid "Yes"
+msgstr "Si"
+
+#: data/admin-pages-contact_form-fields-delete.php:58
+msgid "No"
+msgstr ""
+

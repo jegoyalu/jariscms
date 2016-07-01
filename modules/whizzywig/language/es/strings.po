@@ -1,0 +1,400 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: JarisCMS Ecommerce v1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-02-20 20:00-0400\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Jefferson González <jgonzalez@jegoyalu.com>\n"
+"Language-Team: JegoYalu <servicios@jegoyalu.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Spanish\n"
+"X-Poedit-Country: PUERTO RICO\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-Basepath: ../../\n"
+"X-Poedit-KeywordsList: t\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: functions.php:95
+msgid "Disable Editor"
+msgstr "Desactivar Editor"
+
+#: functions.php:123
+msgid "Enable Editor"
+msgstr "Activar Editor"
+
+#: functions.php:194
+msgid "Whizzywig Editor"
+msgstr "Editor Whizzywig"
+
+#: data/admin-settings-whizzywig.php:61
+msgid "Your changes have been saved."
+msgstr "Tus cambios fueron guardados."
+
+#: data/admin-settings-whizzywig.php:76
+msgid "Groups"
+msgstr "Grupos"
+
+#: data/admin-settings-whizzywig.php:80
+msgid "Description"
+msgstr "Descripción"
+
+#: data/admin-settings-whizzywig.php:109
+msgid "edit"
+msgstr "editar"
+
+#: data/admin-settings-whizzywig.php:127
+msgid "Enable Whizzywig?"
+msgstr "Activar Whizzywig?"
+
+#: data/admin-settings-whizzywig.php:130
+msgid "Here you specify what items are showed on the toolbar of whizzywig editor. The default value is <b>all</b> equivalent to the following:"
+msgstr "Aquí puedes especificar que botones se mostrarán en la barra del editor whizzywig. El valor predeterminado es <b>all</b> equivalente a lo siguiente:"
+
+#: data/admin-settings-whizzywig.php:132
+msgid "Toolbar Items:"
+msgstr "Items de la barra de herramientas:"
+
+#: data/admin-settings-whizzywig.php:136
+msgid "Textarea Id:"
+msgstr "Id del textarea:"
+
+#: data/admin-settings-whizzywig.php:136
+msgid "List of textarea id's seperated by comma (,)."
+msgstr "Listado de id para diferentes textarea separados por coma (,)."
+
+#: data/admin-settings-whizzywig.php:137
+msgid "Form names:"
+msgstr "Nombre formularios:"
+
+#: data/admin-settings-whizzywig.php:139
+msgid "List of form names seperated by comma (,)."
+msgstr "Listado de nombres de formularios separados por coma (,)."
+
+#: data/admin-settings-whizzywig.php:142
+msgid "Show disable editor button?"
+msgstr "Mostrar botón para desactivar editor?"
+
+#: data/admin-settings-whizzywig.php:146
+msgid "Save"
+msgstr "Guardar"
+
+#: data/admin-settings-whizzywig.php:147
+#: data/whizzylang.php:74
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: data/admin-settings-whizzywig.php:152
+msgid "Selected group:"
+msgstr "Grupo seleccionado:"
+
+#: data/whizzylang.php:23
+msgid "Rows"
+msgstr "Filas"
+
+#: data/whizzylang.php:24
+msgid "Border width"
+msgstr "Ancho del borde"
+
+#: data/whizzylang.php:25
+msgid "Columns"
+msgstr "Columnas"
+
+#: data/whizzylang.php:26
+msgid "Open link in new window"
+msgstr "Abrir enlace en nueva ventana"
+
+#: data/whizzylang.php:27
+msgid "Insert Image"
+msgstr "Insertar imagen"
+
+#: data/whizzylang.php:28
+msgid "Insert Table"
+msgstr "Insertar tabla"
+
+#: data/whizzylang.php:29
+#: data/whizzylang.php:69
+msgid "Fixed width"
+msgstr "Ancho fijo"
+
+#: data/whizzylang.php:30
+msgid "editor not available for your browser"
+msgstr "editor no disponible para su navegador"
+
+#: data/whizzylang.php:31
+msgid "Bold"
+msgstr "Negrita"
+
+#: data/whizzylang.php:32
+msgid "Italic"
+msgstr "Cursiva"
+
+#: data/whizzylang.php:33
+msgid "Underline"
+msgstr "Subrayar"
+
+#: data/whizzylang.php:34
+msgid "Left"
+msgstr "Izquierda"
+
+#: data/whizzylang.php:35
+msgid "Center"
+msgstr "Centro"
+
+#: data/whizzylang.php:36
+msgid "Right"
+msgstr "Derecha"
+
+#: data/whizzylang.php:37
+msgid "Number"
+msgstr "Lista numerada"
+
+#: data/whizzylang.php:38
+msgid "Bullet"
+msgstr "Lista no numerada"
+
+#: data/whizzylang.php:39
+msgid "Indent"
+msgstr "Sangrar"
+
+#: data/whizzylang.php:40
+msgid "Outdent"
+msgstr "Quitar sangrado"
+
+#: data/whizzylang.php:41
+msgid "Undo"
+msgstr "Deshacer"
+
+#: data/whizzylang.php:42
+msgid "Redo"
+msgstr "Rehacer"
+
+#: data/whizzylang.php:43
+msgid "Color"
+msgstr "Color"
+
+#: data/whizzylang.php:44
+msgid "Hilite"
+msgstr "Remarcar"
+
+#: data/whizzylang.php:45
+msgid "Rule"
+msgstr "Línea"
+
+#: data/whizzylang.php:46
+msgid "Link"
+msgstr "Enlace"
+
+#: data/whizzylang.php:47
+msgid "Image"
+msgstr "Imagen"
+
+#: data/whizzylang.php:48
+msgid "Table"
+msgstr "Tabla"
+
+#: data/whizzylang.php:49
+msgid "Clean"
+msgstr "Limpiar"
+
+#: data/whizzylang.php:50
+msgid "Html"
+msgstr "HTML"
+
+#: data/whizzylang.php:51
+msgid "Spellcheck"
+msgstr "Comprobar ortografía"
+
+#: data/whizzylang.php:52
+msgid "Select some text first"
+msgstr "Selecciona algun texto primero"
+
+#: data/whizzylang.php:53
+msgid "Insert"
+msgstr "Insertar"
+
+#: data/whizzylang.php:54
+msgid "Add row above"
+msgstr "Agregar fila encima"
+
+#: data/whizzylang.php:55
+msgid "Add row below"
+msgstr "Agregar fila debajo"
+
+#: data/whizzylang.php:56
+msgid "Delete row"
+msgstr "Borrar fila"
+
+#: data/whizzylang.php:57
+msgid "Add column before"
+msgstr "Agregar columna anterior"
+
+#: data/whizzylang.php:58
+msgid "Add column after"
+msgstr "Agregar columna posterior"
+
+#: data/whizzylang.php:59
+msgid "click below or enter a"
+msgstr "Haz click debajo o escribe un"
+
+#: data/whizzylang.php:60
+msgid "color name"
+msgstr "nombre de color"
+
+#: data/whizzylang.php:61
+msgid "Delete column"
+msgstr "Borrar columna"
+
+#: data/whizzylang.php:62
+msgid "Choose style"
+msgstr "Elegir estilo"
+
+#: data/whizzylang.php:63
+msgid "Paragraph"
+msgstr "Párrafo"
+
+#: data/whizzylang.php:64
+msgid "Heading"
+msgstr "Encabezado"
+
+#: data/whizzylang.php:65
+msgid "Address"
+msgstr "Dirección"
+
+#: data/whizzylang.php:66
+msgid "Big"
+msgstr "Grande"
+
+#: data/whizzylang.php:67
+msgid "Small"
+msgstr "Pequeña"
+
+#: data/whizzylang.php:68
+msgid "large"
+msgstr "Grande"
+
+#: data/whizzylang.php:70
+msgid "Font"
+msgstr "Fuente"
+
+#: data/whizzylang.php:71
+msgid "Font size"
+msgstr "Tamaño de fuente"
+
+#: data/whizzylang.php:72
+msgid "Browse"
+msgstr "Buscar"
+
+#: data/whizzylang.php:73
+msgid "OK"
+msgstr "Aceptar"
+
+#: data/whizzylang.php:75
+msgid "Hide HTML"
+msgstr "Ocultar HTML"
+
+#: data/whizzylang.php:76
+msgid "Image address (URL)"
+msgstr "Direcci&oacute;n de la imagen (URL)"
+
+#: data/whizzylang.php:77
+msgid "Link address (URL)"
+msgstr "Direcci&oacute;n del enlace(URL)"
+
+#: data/whizzylang.php:78
+msgid "to display if image unavailable"
+msgstr "a mostrar si la imagen no esta disponible"
+
+#: data/whizzylang.php:79
+msgid "Alternate text"
+msgstr "Texto alternativo"
+
+#: data/whizzylang.php:80
+msgid "Align"
+msgstr "Alinear"
+
+#: data/whizzylang.php:81
+msgid "normal"
+msgstr "normal"
+
+#: data/whizzylang.php:82
+msgid "left"
+msgstr "izquierda"
+
+#: data/whizzylang.php:83
+msgid "right"
+msgstr "derecha"
+
+#: data/whizzylang.php:84
+msgid "inside"
+msgstr "dentro"
+
+#: data/whizzylang.php:85
+msgid "Border"
+msgstr "Borde"
+
+#: data/whizzylang.php:86
+msgid "Margin"
+msgstr "Margen"
+
+#: data/whizzylang.php:87
+msgid "Insert image"
+msgstr "Insertar imagen"
+
+#: data/whizzylang.php:88
+msgid "ieSpell is not installed on your computer."
+msgstr "ieSpell no está instalado en tu ordenador."
+
+#: data/whizzylang.php:89
+msgid "Click [OK] to go to download page."
+msgstr "Haz click en [Aceptar] para ir a la página de descarga."
+
+#: data/whizzylang.php:90
+msgid "Click [OK] for instructions to download and install"
+msgstr "Haz click en [Aceptar] para instrucciones de descarga e instalación de"
+
+#: data/whizzylang.php:91
+msgid "SpellBound on your computer."
+msgstr "SpellBound en tu ordenador."
+
+#: data/whizzylang.php:92
+msgid "If you already have it, click [Cancel] then right"
+msgstr "Si ya lo tienes, haz click en [Cancelar] y con el boton derecho"
+
+#: data/whizzylang.php:93
+msgid "click in the edit area and select 'Check Spelling'."
+msgstr "haz click en el área de edición y selecciona 'Check Spelling'(Comprobar ortografía)"
+
+#: data/whizzylang.php:94
+msgid "Fullscreen"
+msgstr "Pantalla Completa"
+
+#: data/whizzylink.php:17
+msgid "File browser"
+msgstr "Nagevador de archivos"
+
+#: data/whizzylink.php:65
+msgid "Click a name below to select."
+msgstr "Pincha un nombre para seleccionar."
+
+#: data/whizzylink.php:81
+msgid "No files available."
+msgstr "No hay archivos disponibles."
+
+#: data/whizzypic.php:17
+msgid "Image browser"
+msgstr "Navegador de imágenes"
+
+#: data/whizzypic.php:80
+msgid "Image preview"
+msgstr "Prevista de la imágenes"
+
+#: data/whizzypic.php:95
+msgid "Hover over a name below to preview, click it to select."
+msgstr "Pasa el ratón encima de un nombre para previsualizar. pinchalo para seleccionar."
+
+#: data/whizzypic.php:108
+msgid "No images available."
+msgstr "No hay imágenes disponibles."
+

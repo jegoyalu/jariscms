@@ -1,0 +1,32 @@
+#ie-update-popup
+{
+    position: absolute;
+    width: 750px;
+    height: 190px;
+    left: 10px;
+    top: 10px;
+    border: solid 1px #d3d3d3;
+    background-color: #fff;
+    z-index: 5000;
+}
+
+#ie-update-popup .close
+{
+    float: right;
+    padding: 4px;
+}
+
+#ie-update-popup .close a
+{
+    font-weight: bold;
+    font-size: 16px;
+}
+
+#ie-update-popup .message
+{
+    color: #706E6F;
+    font-family: Georgia, Serif;
+    font-size: 18px;
+    font-weight: normal;
+    margin: 5px 0 5px 0;
+}

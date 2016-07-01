@@ -1,0 +1,6 @@
+/*To disable textarea resizer bar*/
+form .form-textarea-whizzywig
+{
+    width: 100%;
+    height: 350px;
+}
