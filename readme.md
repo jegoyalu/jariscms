@@ -11,7 +11,7 @@ kind of idea you have for a site, Jaris can suit your needs.
 
 ## Docs
 
-See the docs directory for some introduction in Jaricms inner working.
+See the **docs** directory for some introduction in JariCMS inner working.
 
 ## License
 
@@ -22,4 +22,4 @@ JarisCMS is licensed as [GPLv3](https://opensource.org/licenses/GPL-3.0)
 * Website: [http://jariscms.com/](http://jariscms.com/)
 * Project page: [http://github.com/jegoyalu/jariscms](http://github.com/jegoyalu/jariscms)
 * GIT: [http://github.com/jegoyalu/jariscms.git](http://github.com/jegoyalu/jariscms.git)
-* Developer by: [http://jegoyalu.com/](http://jegoyalu.com/)
+* Developed by: [http://jegoyalu.com/](http://jegoyalu.com/)
