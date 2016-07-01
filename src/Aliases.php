@@ -86,3 +86,8 @@ function get_sub_menu_items($menu_name, $parent_id = "root")
 {
     return Jaris\Menus::getChildItems($menu_name, $parent_id);
 }
+
+function category_menu($machine_name, $parent_id="root")
+{
+    return Jaris\Categories::generateMenu($machine_name, $parent_id);
+}

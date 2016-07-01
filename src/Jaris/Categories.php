@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Jefferson González <jgonzalez@jegoyalu.com>
- * @license https://opensource.org/licenses/GPL-3.0 
+ * @license https://opensource.org/licenses/GPL-3.0
  * @link http://github.com/jegoyalu/jariscms Source code.
  */
 
@@ -482,14 +482,14 @@ static function getSubcategoriesInParentOrder(
     if(!$category_data["sorting"])
     {
         $subcategories_list = Data::sort(
-            self::getChildSubcategories($category_name, $parent), 
+            self::getChildSubcategories($category_name, $parent),
             "order"
         );
     }
     else
     {
         $subcategories_list = Data::sort(
-            self::getChildSubcategories($category_name, $parent), 
+            self::getChildSubcategories($category_name, $parent),
             "title"
         );
     }
@@ -617,9 +617,9 @@ static function addBlock($machine_name, $data)
 {
     $category_block = array();
 
-    $category_block["description"] = $machine_name . " " . "menu";
-    $category_block["title"] = $data["name"] . " " . "menu";
-    $category_block["content"] = "<?php\nprint category_menu(\"$machine_name\");\n?>";
+    $category_block["description"] = $machine_name . " " . "categories";
+    $category_block["title"] = $data["name"] . " " . "categories";
+    $category_block["content"] = "<?php\nprint Jaris\\Categories::generateMenu(\"$machine_name\");\n?>";
     $category_block["order"] = "0";
     $category_block["display_rule"] = "all_except_listed";
     $category_block["pages"] = "";

@@ -180,11 +180,6 @@ function add_category_block($machine_name, $data)
     Jaris\Categories::addBlock($machine_name, $data);
 }
 
-function category_menu($machine_name, $parent_id="root")
-{
-    return Jaris\Categories::generateMenu($machine_name, $parent_id);
-}
-
 function show_category_results(&$page)
 {
     Jaris\Categories::showResults($page);
