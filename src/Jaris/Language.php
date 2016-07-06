@@ -56,7 +56,10 @@ static function translate($textToTranslate, $po_file = null)
                 $files[] = "language/" . $language . "/" . $po_file;
             }
 
-            $files[] = Site::dataDir() . "language/" . $language . "/" . $po_file;
+            if(file_exists(Site::dataDir() . "language/" . $language . "/" . $po_file))
+            {
+                $files[] = Site::dataDir() . "language/" . $language . "/" . $po_file;
+            }
         }
 
         //Add activated modules translations if available
@@ -133,7 +136,7 @@ static function generateCache($language, $files)
     }
 
     //Use existing cache file and update if neccesary
-    else
+    elseif(is_dir(Site::dataDir()))
     {
         $lang = unserialize(file_get_contents($cache_file));
 
