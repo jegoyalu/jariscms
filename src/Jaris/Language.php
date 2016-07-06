@@ -136,7 +136,7 @@ static function generateCache($language, $files)
     }
 
     //Use existing cache file and update if neccesary
-    elseif(is_dir(Site::dataDir()))
+    else
     {
         $lang = unserialize(file_get_contents($cache_file));
 
