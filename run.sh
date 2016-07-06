@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # Helper interface to launch jariscms and test it in various ways.
 
+cd "$(dirname $0)"
+
 showhelp()
 {
     echo "JarisCMS Launcher and Test tool"
