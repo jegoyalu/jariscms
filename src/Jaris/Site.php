@@ -166,7 +166,11 @@ static function init()
                 $path = implode("/", $paths);
 
                 self::$base_url = $protocol . "://" . $_SERVER["HTTP_HOST"];
-                self::$base_url .= $path;
+                
+                if(!defined("HHVM_VERSION"))
+                {
+                    self::$base_url .= $path;
+                }
             }
             else
             {
