@@ -12,7 +12,7 @@
 
 $module["name"] = t("Internet Explorer Update Needed Detector");
 $module["description"] = t("Checks if the user browser is internet explorer version 8 or older and prompt the user to update.");
-$module["version"] = "1.4.1";
+$module["version"] = "1.4.2";
 $module["author"] = "Jefferson González";
 $module["email"] = "jgonzalez@jegoyalu.com";
 $module["website"] = "http://www.jegoyalu.com";
@@ -20,6 +20,10 @@ $module["website"] = "http://www.jegoyalu.com";
 /**
 
 =Change Log=
+
+Version 1.4.2 - Date 13/06/2016
+
+    * Modified to work with new session changes.
 
 Version 1.4.1 - Date 05/26/2016
 

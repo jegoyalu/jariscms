@@ -50,7 +50,7 @@ Jaris\Site::init();
 //Starts the main session for the user
 if(isset($_SERVER["SERVER_NAME"]))
 {
-    session_start();
+    Jaris\Session::startIfUserLogged();
 }
 
 //Initialize error handler

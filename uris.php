@@ -23,7 +23,7 @@ if(file_exists("include/forms.php"))
 Jaris\Site::init();
 
 //Starts the main session for the user
-session_start();
+Jaris\Session::start();
 
 //Initialize error handler
 Jaris\System::initiateErrorCatchSystem();

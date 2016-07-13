@@ -17,7 +17,7 @@ class System
  * Stores JarisCMS version number.
  * @var string
  */
-const VERSION = "6.0.0 MS";
+const VERSION = "6.1.0 MS";
 
 /**
  * Receives parameters: $page, $tabs
@@ -1174,6 +1174,8 @@ static function addHiddenUrlParameters($parameters, $type = "get")
     {
         foreach($parameters as $name => $value)
         {
+            Session::start();
+            
             if($name != "p")
             {
                 $_SESSION["hidden_parameters"][$type][$name] = $value;
@@ -1191,7 +1193,7 @@ static function addHiddenUrlParameters($parameters, $type = "get")
 static function appendHiddenParameters()
 {
     //Only execute if current breadcrumb generation is valid
-    if(self::generateBreadcrumb())
+    if(self::generateBreadcrumb() && Settings::get("breadcrumbs", "main"))
     {
         if(isset($_SESSION["hidden_parameters"]))
         {
@@ -1212,9 +1214,11 @@ static function appendHiddenParameters()
                     $_REQUEST[$name] = $value;
                 }
             }
+            
+            unset($_SESSION["hidden_parameters"]);
+            
+            Session::destroyIfEmpty();
         }
-
-        unset($_SESSION["hidden_parameters"]);
     }
 }
 

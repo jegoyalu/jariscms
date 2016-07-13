@@ -23,7 +23,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
                 $_REQUEST["device"] == "phone" ||
                 $_REQUEST["device"] == "tablet"
             )
-                $_SESSION["device"] = $_REQUEST["device"];
+                Jaris\Session::addCookie("device", $_REQUEST["device"]);
         }
 
         $mobile_theme = Jaris\Settings::get("mobile_theme", "mobile_detect");
@@ -45,9 +45,9 @@ Jaris\Signals\SignalHandler::listenWithParams(
             }
         }
 
-        if(isset($_SESSION["device"]))
+        if(isset($_COOKIE["device"]))
         {
-            switch($_SESSION["device"])
+            switch($_COOKIE["device"])
             {
                 case "phone":
                     if($mobile_theme)

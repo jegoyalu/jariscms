@@ -412,7 +412,7 @@ static function loadModules()
 static function bootStrap()
 {
     //Starts the main session for the user
-    session_start();
+    Session::startIfUserLogged();
 
     //Increase the time for session to garbage collection
     ini_set("session.gc_maxlifetime", "18000");

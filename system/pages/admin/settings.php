@@ -54,6 +54,7 @@ row: 0
             $site_settings["user_profiles_personal_text_lenght"] = 300;
             $site_settings["user_picture"] = false;
             $site_settings["user_picture_size"] = "150x150";
+            $site_settings["breadcrumbs"] = false;
             $site_settings["image_compression"] = false;
             $site_settings["image_compression_maxwidth"] = "640";
             $site_settings["image_compression_quality"] = "75";
@@ -109,6 +110,9 @@ row: 0
             $site_settings["user_picture_size"] = isset($site_settings["user_picture_size"]) ?
                 $site_settings["user_picture_size"] : "150x150"
             ;
+            $site_settings["breadcrumbs"] = isset($site_settings["breadcrumbs"]) ?
+                $site_settings["breadcrumbs"] : false
+            ;
             $site_settings["image_compression"] = isset($site_settings["image_compression"]) ?
                 $site_settings["image_compression"] : false
             ;
@@ -159,6 +163,7 @@ row: 0
                 Jaris\Settings::save("user_profiles_personal_text_lenght", $_REQUEST["user_profiles_personal_text_lenght"], "main");
                 Jaris\Settings::save("user_picture", $_REQUEST["user_picture"], "main");
                 Jaris\Settings::save("user_picture_size", $_REQUEST["user_picture_size"], "main");
+                Jaris\Settings::save("breadcrumbs", $_REQUEST["breadcrumbs"], "main");
                 Jaris\Settings::save("image_compression", $_REQUEST["image_compression"], "main");
                 Jaris\Settings::save("image_compression_maxwidth", $_REQUEST["image_compression_maxwidth"], "main");
                 Jaris\Settings::save("image_compression_quality", $_REQUEST["image_compression_quality"], "main");
@@ -556,6 +561,25 @@ row: 0
             "fields" => $user_fields,
             "collapsible" => true,
             "collapsed" => true
+        );
+        
+        $breadcrumbs[t("Enable")] = true;
+        $breadcrumbs[t("Disable")] = false;
+
+        $breadcrumb_fields[] = array(
+            "type" => "radio",
+            "name" => "breadcrumbs",
+            "id" => "breadcrumbs",
+            "value" => $breadcrumbs,
+            "checked" => $site_settings["breadcrumbs"]
+        );
+
+        $fieldset[] = array(
+            "name" => t("Breadcrumbs"),
+            "fields" => $breadcrumb_fields,
+            "collapsible" => true,
+            "collapsed" => true,
+            "description" => "Enable or disable breadcrumps navigation."
         );
 
         $image_compression[t("Enable")] = true;

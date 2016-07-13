@@ -33,7 +33,7 @@ row: 0
         //Store return url
         if(isset($_REQUEST["return"]))
         {
-            $_SESSION["return_url"] = $_REQUEST["return"];
+            Jaris\Session::addCookie("return_url", $_REQUEST["return"]);
         }
 
         if(Jaris\Authentication::isUserLogged())

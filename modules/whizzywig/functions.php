@@ -89,11 +89,11 @@ Jaris\Signals\SignalHandler::listenWithParams(
                 {
                     if(isset($_REQUEST["disable_whizzywig"]))
                     {
-                        $_SESSION["disable_whizzywig"] = 1;
+                        Jaris\Session::addCookie("disable_whizzywig", 1);
                     }
                     if(isset($_REQUEST["enable_whizzywig"]))
                     {
-                        $_SESSION["disable_whizzywig"] = 0;
+                        Jaris\Session::removeCookie("disable_whizzywig");
                     }
                 }
 
@@ -161,7 +161,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
                             {
                                 if($disable_editor[Jaris\Authentication::currentUserGroup()])
                                 {
-                                    if($_SESSION["disable_whizzywig"])
+                                    if($_COOKIE["disable_whizzywig"])
                                     {
                                         $fields[] = array(
                                             "type" => "submit",

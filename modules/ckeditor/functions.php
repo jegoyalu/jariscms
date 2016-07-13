@@ -112,11 +112,11 @@ Jaris\Signals\SignalHandler::listenWithParams(
                 {
                     if(isset($_REQUEST["disable_ckeditor"]))
                     {
-                        $_SESSION["disable_ckeditor"] = 1;
+                        Jaris\Session::addCookie("disable_ckeditor", 1);
                     }
                     if(isset($_REQUEST["enable_ckeditor"]))
                     {
-                        $_SESSION["disable_ckeditor"] = 0;
+                        Jaris\Session::removeCookie("disable_ckeditor");
                     }
                 }
 
@@ -209,7 +209,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
                             {
                                 if($disable_editor[Jaris\Authentication::currentUserGroup()])
                                 {
-                                    if($_SESSION["disable_ckeditor"])
+                                    if($_COOKIE["disable_ckeditor"])
                                     {
                                         $fields[] = array(
                                             "type" => "submit",

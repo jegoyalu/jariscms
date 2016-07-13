@@ -12,7 +12,7 @@
 
 $module["name"] = "Whizzywig";
 $module["description"] = "Integrates the whizzywig editor to jaris cms";
-$module["version"] = "4.5.2";
+$module["version"] = "4.5.3";
 $module["author"] = "Jefferson González";
 $module["email"] = "jgonzalez@jegoyalu.com";
 $module["website"] = "http://www.jegoyalu.com";
@@ -20,6 +20,10 @@ $module["website"] = "http://www.jegoyalu.com";
 /**
 
 =Change Log=
+
+Version 4.5.3 - Date 13/06/2016
+
+    * Modified to work with new session changes.
 
 Version 4.5.2 - Date 05/26/2016
 

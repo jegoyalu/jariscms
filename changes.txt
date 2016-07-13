@@ -1,6 +1,12 @@
 Changes Log
 ================================================================================
 
+Version 6.1.0 - Date 13/06/2016
+
+    * Made session initialization optional.
+    * Introduced session class with helper static functions.
+    * Modified all modules to work with new session changes.
+
 Version 6.0.0 - Date 26/05/2016
 
     * Major refactoring of all the codebase moving global functions to

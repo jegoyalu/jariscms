@@ -201,6 +201,8 @@ static function addTab($name, $uri, $arguments = array(), $row = 0)
  */
 static function addMessage($message, $type = "normal")
 {
+    Session::start();
+    
     $_SESSION["messages"][] = array("text" => $message, "type" => $type);
 }
 
@@ -903,6 +905,13 @@ static function getTabsHTML($tabs_array)
  */
 static function getMessagesHTML()
 {
+    if(!Session::exists())
+    {
+        return "";
+    }
+    
+    Session::start();
+    
     if(isset($_SESSION["messages"]))
     {
         $messages_array = $_SESSION["messages"];
@@ -940,6 +949,8 @@ static function getMessagesHTML()
             $messages .= "</span>\n";
         }
     }
+    
+    Session::destroyIfEmpty();
 
     return $messages;
 }
@@ -977,7 +988,10 @@ static function render($page, $page_data, $content, $left, $center, $right, $hea
     $slogan = System::evalPHP($slogan);
     $meta = self::getMetaTagsHTML($page_data);
     $breadcrumb = "";
-    //$breadcrumb = print_breadcrumb();
+    if(Settings::get("breadcrumbs", "main"))
+    {
+        $breadcrumb = System::generateBreadcrumb();
+    }
     $tabs = self::getTabsHTML($tabs_list);
     $messages = self::getMessagesHTML();
     $styles = self::getStylesHTML(System::getStyles());

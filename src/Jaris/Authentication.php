@@ -23,7 +23,7 @@ static function isUserLogged()
 {
     static $user_data;
 
-    if(!isset($_SESSION))
+    if(!isset($_COOKIE["logged"]) || !isset($_SESSION))
         return false;
 
     //To reduce file access
@@ -109,7 +109,7 @@ static function login()
     $logged_site = str_replace(
         array("http://", "https://", "www."),
         "",
-        $_SESSION["logged"]["site"]
+        isset($_SESSION["logged"]) ? $_SESSION["logged"]["site"] : ""
     );
 
     $base_url_parsed = str_replace(
@@ -158,6 +158,8 @@ static function login()
 
                 return $is_logged;
             }
+            
+            Session::start();
 
             $_SESSION["logged"]["site"] = Site::$base_url;
             $_SESSION["logged"]["username"] = strtolower($_REQUEST["username"]);
@@ -180,7 +182,11 @@ static function login()
         }
         else
         {
-            $_SESSION["logged"]["site"] = false;
+            if(isset($_SESSION["logged"]))
+            {
+                $_SESSION["logged"]["site"] = false;
+            }
+            
             $is_logged = false;
         }
 
@@ -206,10 +212,15 @@ static function login()
  */
 static function logout()
 {
-    unset($_SESSION["logged"]);
+    if(isset($_SESSION["logged"]))
+    {
+        unset($_SESSION["logged"]);
 
-    setcookie("logged", "", -1, "/");
-    unset($_COOKIE["logged"]);
+        setcookie("logged", "", -1, "/");
+        unset($_COOKIE["logged"]);
+        
+        Session::destroyIfEmpty();
+    }
 }
 
 /**

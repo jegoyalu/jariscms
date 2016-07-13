@@ -16,7 +16,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
     {
         if(
             Jaris\System::getUserBrowser() == "ie" && 
-            $_SESSION["ie_check"] != "yes"
+            !isset($_COOKIE["ie_check"])
         )
         {
             $styles[] = Jaris\Uri::url(
@@ -33,12 +33,14 @@ Jaris\Signals\SignalHandler::listenWithParams(
     {
         if(
             Jaris\System::getUserBrowser() == "ie" && 
-            $_SESSION["ie_check"] != "yes"
+            !isset($_COOKIE["ie_check"])
         )
         {
             $scripts[] = Jaris\Uri::url("ie-update-script");
         }
-
-        $_SESSION["ie_check"] = "yes";
+        else
+        {
+            Jaris\Session::addCookie("ie_check", 1);
+        }
     }
 );

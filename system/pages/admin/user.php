@@ -21,8 +21,8 @@ row: 0
     <?php
         //Store return url
         if(isset($_REQUEST["return"]))
-        {
-            $_SESSION["return_url"] = $_REQUEST["return"];
+        {    
+            Jaris\Session::addCookie("return_url", $_REQUEST["return"]);
         }
 
         if(
@@ -63,10 +63,11 @@ row: 0
             }
 
             //Goto return url if it is set
-            if(isset($_SESSION["return_url"]))
+            if(isset($_COOKIE["return_url"]))
             {
-                $return = $_SESSION["return_url"];
-                unset($_SESSION["return_url"]);
+                $return = $_COOKIE["return_url"];
+                
+                Jaris\Session::removeCookie("return_url");
 
                 Jaris\Uri::go($return);
             }

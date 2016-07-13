@@ -92,11 +92,11 @@ Jaris\Signals\SignalHandler::listenWithParams(
                 {
                     if(isset($_REQUEST["disable_simplemde"]))
                     {
-                        $_SESSION["disable_simplemde"] = 1;
+                        Jaris\Session::addCookie("disable_simplemde", 1);
                     }
                     if(isset($_REQUEST["enable_simplemde"]))
                     {
-                        $_SESSION["disable_simplemde"] = 0;
+                        Jaris\Session::removeCookie("disable_simplemde");
                     }
                 }
 
@@ -137,7 +137,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
                             {
                                 if($disable_editor[Jaris\Authentication::currentUserGroup()])
                                 {
-                                    if($_SESSION["disable_simplemde"])
+                                    if($_COOKIE["disable_simplemde"])
                                     {
                                         $fields[] = array(
                                             "type" => "submit",

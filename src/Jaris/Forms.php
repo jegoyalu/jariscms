@@ -255,6 +255,8 @@ static function deleteUploads()
  */
 static function requiredFieldEmpty($form_name)
 {
+    Session::start();
+    
     $required = false;
     if(is_array($_SESSION["required_fields"][$form_name]))
     {
@@ -343,6 +345,8 @@ static function requiredFieldEmpty($form_name)
 
     //Call create_page hook before creating the page
     Modules::hook("hook_is_required_field_empty", $form_name, $required);
+    
+    Session::destroyIfEmpty();
 
     return $required;
 }
@@ -376,6 +380,8 @@ static function requiredFieldEmpty($form_name)
  */
 static function generate($parameters, $fieldsets)
 {
+    Session::start();
+    
     $form_no_name_warning = false;
 
     //Keeps the fields user entered values if browser page back/forward

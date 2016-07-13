@@ -12,7 +12,7 @@
 
 $module["name"] = "CKEditor";
 $module["description"] = "The best web text editor for everyone.";
-$module["version"] = "1.0.1";
+$module["version"] = "1.0.2";
 $module["author"] = "Jefferson González";
 $module["email"] = "jgonzalez@jegoyalu.com";
 $module["website"] = "http://ckeditor.com/";
@@ -20,6 +20,10 @@ $module["website"] = "http://ckeditor.com/";
 /**
 
 =Change Log=
+
+Version 1.0.2 - Date 13/06/2016
+
+    * Modified to work with new session changes.
 
 Version 1.0.1 - Date 05/26/2016
 

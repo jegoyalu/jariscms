@@ -103,7 +103,7 @@ Jaris\System::fastCacheIfPossible(Jaris\Uri::get());
 Jaris\Site::loadModules();
 
 //Starts the main session for the user
-session_start();
+Jaris\Session::start();
 
 // Set server and session variables to proper values for testing
 $_SESSION["logged"]["username"] = "test";
@@ -112,6 +112,7 @@ $_SESSION["logged"]["password"] = "test";
 $_SESSION["logged"]["user_agent"] = "test";
 $_SERVER["HTTP_USER_AGENT"] = "test";
 $_SESSION["logged"]["group"] = "administrator";
+$_COOKIE["logged"] = 1;
 
 //Initialize error handler (disable since we use a custom one to get errors)
 //System::initiateErrorCatchSystem();
