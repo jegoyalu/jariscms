@@ -1487,10 +1487,7 @@ static function fastCacheIfPossible($uri)
 
         if(Settings::get("classic_views_count", "main"))
         {
-            include("include/sqlite.php");
-            include("include/data_managers/page_manager.php");
-            include("include/classes/jaris_sqlite_search.php");
-
+            //TODO: How can we disable autoloading of this class
             //function Modules::hook(){}
 
             Pages::countView($uri);
