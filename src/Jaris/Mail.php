@@ -206,4 +206,45 @@ static function sendRegistrationNotification($username)
     self::send($to, t("New registration pending for approval"), $html_message);
 }
 
+/**
+ * Sends an email notification to all administrators when 
+ * new content is published that requires approval.
+ *
+ * @param string $uri
+ * @param string $type
+ */
+static function sendContentApproveNotification($uri, $type)
+{
+    $page_data = Pages::get($uri);
+
+    $select = "select * from users where user_group='administrator'";
+
+    $db = Sql::open("users");
+
+    $result = Sql::query($select, $db);
+
+    $to = array();
+    while($data = Sql::fetchArray($result))
+    {
+        $admin_data = Users::get($data["username"]);
+        $to[$admin_data["name"]] = $data["email"];
+    }
+
+    Sql::close($db);
+
+    $html_message = t("New content has been created and is pending for administration approval.") . "<br /><br />";
+    $html_message .= "<b>" . t("Content Title:") . "</b>" . " " . $page_data["title"] . "<br />";
+    $html_message .= "<b>" . t("Content Type:") . "</b>" . " " . $page_data["type"] . "<br />";
+    $html_message .= "<b>" . t("Submitted by:") . "</b>" . " " . $page_data["author"] . "<br />";
+    $html_message .= t("For more details or to approve this content visit the approve content page:") . "<br /><br />";
+
+    $html_message .= "<a target=\"_blank\" href=\"" .
+        Uri::url("admin/user", array("return" => "admin/pages/approve")) .
+        "\">" . Uri::url("admin/user", array("return" => "admin/pages/approve")) .
+        "</a>"
+    ;
+
+    self::send($to, t("New content pending for approval"), $html_message);
+}
+
 }

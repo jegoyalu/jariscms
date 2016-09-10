@@ -509,7 +509,22 @@ static function generate($parameters, $fieldsets)
             //Convert special characters to html
             if(is_string($field["value"]))
             {
-                $field["value"] = htmlspecialchars($field["value"]);
+                if(
+                    $field["type"] == "textarea" || 
+                    $field["type"] == "uriarea" || 
+                    $field["type"] == "userarea"
+                )
+                {
+                    $field["value"] = htmlspecialchars($field["value"]);
+                }
+                else
+                {
+                    $field["value"] = str_replace(
+                        '"', 
+                        "&quot;", 
+                        $field["value"]
+                    );
+                }
             }
 
             if(

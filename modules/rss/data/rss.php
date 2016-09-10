@@ -93,10 +93,10 @@ row: 0
                 "uris",
                 0,
                 20,
-                "where has_permissions > 0 and has_user_permissions > 0 "
-                . "$type order by created_date desc",
+                "where has_permissions > 0 and has_user_permissions > 0 and "
+                    . "approved='a' $type order by created_date desc",
                 "uri, haspermission(groups, '$group') as has_permissions, "
-                . "hasuserpermission(users, '$user') as has_user_permissions"
+                    . "hasuserpermission(users, '$user') as has_user_permissions"
             );
 
             $is_first = true;

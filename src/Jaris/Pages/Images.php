@@ -9,7 +9,6 @@ namespace Jaris\Pages;
 
 use Jaris\Site;
 use Jaris\Data;
-use Jaris\Files;
 use Jaris\Pages;
 use Jaris\System;
 use Jaris\Settings;
@@ -138,7 +137,7 @@ static function delete($id, $page)
         }
 
         FileSystem::search(
-            rtrim(Files::getDir("static_image"), "/"),
+            rtrim(\Jaris\Files::getDir("static_image"), "/"),
             "/$image_path-($id|$image_name).*/",
             function($full_path, &$stop_search)
             {

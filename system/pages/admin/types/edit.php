@@ -54,6 +54,7 @@ row: 0
             $fields["categories"] = $_REQUEST["categories"];
             $fields["uri_scheme"] = $_REQUEST["uri_scheme"];
             $fields["input_format"] = $_REQUEST["input_format"];
+            $fields["requires_approval"] = $_REQUEST["requires_approval"];
             $fields["title_label"] = $_REQUEST["title_label"];
             $fields["title_description"] = $_REQUEST["title_description"];
             $fields["content_label"] = $_REQUEST["content_label"];
@@ -217,6 +218,31 @@ row: 0
         $fieldset[] = array(
             "fields" => $fields_inputformats,
             "name" => t("Default Input Format")
+        );
+        
+        $fields_approval = array();
+
+        foreach(Jaris\Groups::getList() as $group_name => $machine_name)
+        {
+            if($machine_name == "administrator")
+            {
+                continue;
+            }
+            
+            $fields_approval[] = array(
+                "type" => "checkbox",
+                "label" => t($group_name),
+                "checked" => $type_data["requires_approval"][$machine_name] ? 
+                    true : false,
+                "name" => "requires_approval[$machine_name]",
+                "description" => t(Jaris\Groups::get($machine_name)["description"])
+            );
+        }
+
+        $fieldset[] = array(
+            "fields" => $fields_approval,
+            "name" => t("Moderation"),
+            "description" => t("List of groups that require approval. Check all the groups that require approval on the content moderation queue for content to be published.")
         );
 
         $fields_labels[] = array(

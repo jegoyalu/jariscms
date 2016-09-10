@@ -6,22 +6,28 @@
  * https://opensource.org/licenses/GPL-3.0.
  *
  * Jaris CMS module info file
- *
- * @note You always need to create an info.php file for your modules.
  */
 
 $module["name"] = t("Content Listing");
 $module["description"] = t("To create pages that display a list of content by a given set of criteria.");
-$module["version"] = "1.4.4";
+$module["version"] = "1.4.6";
 $module["author"] = "Jefferson González";
 $module["email"] = "jgonzalez@jegoyalu.com";
 $module["website"] = "http://www.jegoyalu.com";
 
-/**
+/*
 
 =Change Log=
 
-Version 1.4.4 - Date 05/26/2016
+Version 1.4.6 - Date 24/08/2016
+
+    * Only display approved results.
+
+Version 1.4.5 - Date 15/08/2016
+
+    * Added container to listing blocks.
+
+Version 1.4.4 - Date 26/05/2016
 
     * Included global refactorization.
 

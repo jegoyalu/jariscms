@@ -92,6 +92,23 @@ static function add($page, $data, &$uri)
     $data["users"] = serialize($data["users"]);
     $data["groups"] = serialize($data["groups"]);
     $data["categories"] = serialize($data["categories"]);
+    
+    if(!isset($data["approved"]) || empty($data["approved"]))
+    {
+        if(
+            \Jaris\Types::groupRequiresApproval(
+                $data["type"], 
+                current_user_group()
+            )
+        )
+        {
+            $data["approved"] = "p";
+        }
+        else
+        {
+            $data["approved"] = "a";
+        }
+    }
 
     if(Data::add($data, $path . "/data.php"))
     {
@@ -169,6 +186,11 @@ static function edit($page, $new_data)
     }
 
     $page_path = Pages::getPath($page);
+    
+    if(!isset($new_data["approved"]) || empty($new_data["approved"]))
+    {
+        $new_data["approved"] = "a";
+    }
 
     //Call edit_page_data hook before editing the page
     Modules::hook("hook_edit_page_data", $page, $new_data, $page_path);
@@ -185,6 +207,31 @@ static function edit($page, $new_data)
     }
 
     return false;
+}
+
+/**
+ * Approve a page.
+ * @param string $page The uri of the page to approve, example: mysection/mypage
+ * @return bool True on success or false on fail.
+ */
+static function approve($page)
+{
+    $page = trim($page);
+    if($page == "")
+    {
+        return false;
+    }
+    
+    $page_data = self::get($page);
+    
+    if(!$page_data)
+    {
+        return false;
+    }
+
+    $page_data["approved"] = "a";
+    
+    return self::edit($page, $page_data);
 }
 
 /**
@@ -408,6 +455,11 @@ static function get($page, $language_code = null)
         $data["users"] = unserialize($data["users"]);
         $data["groups"] = unserialize($data["groups"]);
         $data["categories"] = unserialize($data["categories"]);
+        
+        if(!isset($data["approved"]) || empty($data["approved"]))
+        {
+            $data["approved"] = "a";
+        }
     }
 
     //Call get_page_data hook before returning the data
@@ -721,6 +773,7 @@ static function addIndex($uri, $data)
             . "last_edit_by text,"
             . "author text,"
             . "type text,"
+            . "approved text,"
             . "views integer,"
             . "views_day integer,"
             . "views_day_count integer,"
@@ -745,6 +798,7 @@ static function addIndex($uri, $data)
             . "last_edit_date desc,"
             . "author desc,"
             . "type desc,"
+            . "approved desc,"
             . "views desc,"
             . "views_day_count desc,"
             . "views_week_count desc,"
@@ -796,18 +850,20 @@ static function addIndex($uri, $data)
     }
 
     Sql::escapeArray($data);
+    
+    $data = array_map('trim', $data);
 
     $uri = str_replace("'", "''", $uri);
 
     $db = Sql::open("search_engine");
     Sql::query("insert into uris
     (title, content, description, keywords, users, groups, categories, input_format,
-     created_date, last_edit_date, last_edit_by, author, type, views, uri, data)
+     created_date, last_edit_date, last_edit_by, author, type, approved, views, uri, data)
 
     values ('{$data['title']}', '{$data['content']}', '{$data['description']}', '{$data['keywords']}',
     '{$data['users']}', '{$data['groups']}', '{$data['categories']}','{$data['input_format']}','{$data['created_date']}',
     '{$data['last_edit_date']}', '{$data['last_edit_by']}', '{$data['author']}', '{$data['type']}',
-    {$data['views']}, '$uri', '$all_data')", $db);
+    '{$data['approved']}', {$data['views']}, '$uri', '$all_data')", $db);
 
     Sql::close($db);
 }
@@ -884,6 +940,8 @@ static function editIndex($uri, $data)
         $data["content"] = strtolower($data["content"]);
 
         Sql::escapeArray($data);
+        
+        $data = array_map('trim', $data);
 
         $uri = str_replace("'", "''", $uri);
 
@@ -905,6 +963,7 @@ static function editIndex($uri, $data)
         last_edit_by = '{$data['last_edit_by']}',
         author = '{$data['author']}',
         type = '{$data['type']}',
+        approved = '{$data['approved']}',
         data = '$all_data'
 
         where uri = '$uri'", $db);

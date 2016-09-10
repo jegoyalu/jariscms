@@ -380,6 +380,8 @@ Jaris\Signals\SignalHandler::listenWithParams(
             }
 
             Jaris\Sql::close($db_page_comments);
+            
+            $comment_user_data = Jaris\Users::get($data_comment["user"]);
 
             // Send e-mail notification to all subscribers
             $db_subscribers = Jaris\Sql::open(
@@ -465,6 +467,11 @@ Jaris\Signals\SignalHandler::listenWithParams(
                             . "<br /><br />"
                         ;
 
+                    $html_message .= "<b>" 
+                        . $comment_user_data["name"] 
+                        . "</b>: <br />"
+                    ;
+                    
                     $html_message .= "<i>" 
                         . Jaris\Util::stripHTMLTags(
                             $data_comment["comment_text"]

@@ -78,10 +78,13 @@ static function add($name, $fields)
 
         $fields["image"] = $image_name;
     }
-
+    
     $fields["categories"] = serialize($fields["categories"]);
     $fields["uploads"] = serialize($fields["uploads"]);
     $fields["posts"] = serialize($fields["posts"]);
+    $fields["requires_approval"] = is_array($fields["requires_approval"]) ?
+        serialize($fields["requires_approval"]) : serialize(array())
+    ;
 
     if(!Data::add($fields, $type_data_path))
     {
@@ -143,6 +146,9 @@ static function edit($name, $fields)
     $fields["categories"] = serialize($fields["categories"]);
     $fields["uploads"] = serialize($fields["uploads"]);
     $fields["posts"] = serialize($fields["posts"]);
+    $fields["requires_approval"] = is_array($fields["requires_approval"]) ?
+        serialize($fields["requires_approval"]) : serialize(array())
+    ;
 
     if(is_array($fields["image"]))
     {
@@ -221,6 +227,17 @@ static function get($name)
     else
     {
         $type[0]["posts"] = unserialize($type[0]["posts"]);
+    }
+    
+    if(!isset($type[0]["requires_approval"]))
+    {
+        $type[0]["requires_approval"] = array();
+    }
+    else
+    {
+        $type[0]["requires_approval"] = unserialize(
+            $type[0]["requires_approval"]
+        );
     }
 
 
@@ -415,6 +432,29 @@ static function userReachedMaxPosts($type, $username)
         }
     }
 
+    return false;
+}
+
+/**
+ * Check if a user requires approval when publishing content of certain type. 
+ * @param string $type The machine name of the content type.
+ * @param string $group_name The machine name of a user group.
+ * @return bool
+ */
+static function groupRequiresApproval($type, $group_name)
+{
+    if($group_name == "administrator")
+    {
+        return false;
+    }
+    
+    $type_data = self::get($type);
+    
+    if($type_data["requires_approval"][$group_name])
+    {
+        return true;
+    }
+    
     return false;
 }
 

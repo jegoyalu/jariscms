@@ -63,10 +63,21 @@ row: 0
                         Jaris\Authentication::currentUser() != $page_data["author"]
                     )
                     {
+                        $comment_user_data = Jaris\Users::get(
+                            Jaris\Authentication::currentUser()
+                        );
+
+                        $comment_name = trim($comment_user_data["name"]) != "" ?
+                            $comment_user_data["name"]
+                            :
+                            Jaris\Authentication::currentUser()
+                        ;
+
                         $to[$user_data["name"]] = $user_data["email"];
                         $subject = t("You have a new comment on") . " " . $page_data["title"];
 
                         $html_message = t("A user posted the following comment on your post:") . "<br /><br />";
+                        $html_message .= "<b>" . $comment_name  . "</b>:<br />";
                         $html_message .= "<i>" . $comment . "</i><br /><br />";
 
                         $html_message .= t("To reply or view your original post click on the following link:") . "<br />";

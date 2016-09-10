@@ -6,20 +6,22 @@
  * https://opensource.org/licenses/GPL-3.0.
  *
  * Jaris CMS module info file
- *
- * @note You always need to create an info.php file for your modules.
  */
 
 $module["name"] = t("RSS Generator");
 $module["description"] = t("Automatically generates rss feeds by type");
-$module["version"] = "1.3.2";
+$module["version"] = "1.3.3";
 $module["author"] = "Jefferson González";
 $module["email"] = "jgonzalez@jegoyalu.com";
 $module["website"] = "http://www.jegoyalu.com";
 
-/**
+/*
 
 =Change Log=
+
+Version 1.3.3 - Date 25/08/2016
+
+    * List only approved content.
 
 Version 1.3.2 - Date 05/26/2016
 
@@ -46,4 +48,4 @@ Version 1.0 - Date Unknown
 
     * Initial creation of realty system
 
-**/
+*/

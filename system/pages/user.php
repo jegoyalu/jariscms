@@ -94,7 +94,7 @@ row: 0
                 "uris",
                 0,
                 10,
-                "where author='$username' order by created_date desc"
+                "where author='$username' and approved='a' order by created_date desc"
             );
 
             $latest_post .= "<table class=\"navigation-list\">";

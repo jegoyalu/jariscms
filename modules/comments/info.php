@@ -6,20 +6,22 @@
  * https://opensource.org/licenses/GPL-3.0.
  *
  * Jaris CMS module info file.
- *
- * @note You always need to create an info.php file for your modules.
  */
 
 $module["name"] = "Comments";
 $module["description"] = "Add comments functionality to Jaris CMS";
-$module["version"] = "1.6.1";
+$module["version"] = "1.6.2";
 $module["author"] = "Jefferson González";
 $module["email"] = "jgonzalez@jegoyalu.com";
 $module["website"] = "http://www.jegoyalu.com";
 
-/**
+/*
 
 =Change Log=
+
+Version 1.6.2 - Date 30/08/2016
+
+    * Display a commments author on new comment email notifications.
 
 Version 1.6.1 - Date 05/26/2016
 
@@ -58,4 +60,4 @@ Version 1.0 - Date 01/06/2010
 
     * Initial module development
 
-**/
+*/

@@ -156,7 +156,9 @@ static function database($page = 1, $amount = 10)
             hasuserpermission(users, '$user') as has_user_permissions,
             uri from uris where
             ((title_relevancy > 0 or content_relevancy > 0 or
-            description_normal > 0 or keywords_normal > 0) and has_category > 0 and has_permissions > 0 and has_user_permissions > 0) $type
+            description_normal > 0 or keywords_normal > 0) and 
+            has_category > 0 and has_permissions > 0 and 
+            has_user_permissions > 0 and approved='a') $type
             order by title_relevancy desc, content_relevancy desc,
             description_normal desc, keywords_normal desc limit $page, $amount";
 
@@ -171,7 +173,9 @@ static function database($page = 1, $amount = 10)
                 hasuserpermission(users, '$user') as has_user_permissions,
                 uri from uris where
                 ((title_relevancy > 0 or content_relevancy > 0 or
-                description_normal > 0 or keywords_normal > 0) and has_category > 0 and has_permissions > 0 and has_user_permissions > 0) $type
+                description_normal > 0 or keywords_normal > 0) and 
+                has_category > 0 and has_permissions > 0 and 
+                has_user_permissions > 0 and approved='a') $type
                 $order_clause limit $page, $amount";
             }
 
@@ -211,7 +215,9 @@ static function database($page = 1, $amount = 10)
             haspermission(groups, '$group') as has_permissions,
             hasuserpermission(users, '$user') as has_user_permissions,
             uri from uris where
-            has_category > 0 and has_permissions > 0 and has_user_permissions > 0 $type $order_clause limit $page, $amount";
+            has_category > 0 and has_permissions > 0 and 
+            has_user_permissions > 0 and approved='a' 
+            $type $order_clause limit $page, $amount";
 
             $result = Sql::query($select, $db);
 
@@ -262,6 +268,7 @@ static function reindex()
         . "last_edit_by text,"
         . "author text,"
         . "type text,"
+        . "approved text,"
         . "views integer,"
         . "views_day integer,"
         . "views_day_count integer,"
@@ -286,6 +293,7 @@ static function reindex()
         . "last_edit_date desc,"
         . "author desc,"
         . "type desc,"
+        . "approved desc,"
         . "views desc,"
         . "views_day_count desc,"
         . "views_week_count desc,"
@@ -369,6 +377,10 @@ static function reindexCallback($content_path)
     //Remove repeated whitespaces
     $data["content"] = preg_replace('/\s\s+/', ' ', $data["content"]);
     $data["content"] = strtolower($data["content"]);
+    
+    $data["approved"] = isset($page_data["approved"]) ? 
+        $page_data["approved"] : "a"
+    ;
 
     //Get views
     $views_file = Pages::getPath($uri) . "/views.php";
@@ -394,12 +406,14 @@ static function reindexCallback($content_path)
 
     Sql::query("insert into uris
     (title, content, description, keywords, users, groups, categories, input_format,
-     created_date, last_edit_date, last_edit_by, author, type, views, uri, data)
+     created_date, last_edit_date, last_edit_by, author, type, approved, views, uri, data)
 
-    values ('{$data['title']}', '{$data['content']}', '{$data['description']}', '{$data['keywords']}',
-    '{$data['users']}', '{$data['groups']}', '{$data['categories']}','{$data['input_format']}','{$data['created_date']}',
-    '{$data['last_edit_date']}', '{$data['last_edit_by']}', '{$data['author']}', '{$data['type']}',
-    {$data['views']}, '$uri', '$page_data')", $db);
+    values ('{$data['title']}', '{$data['content']}', '{$data['description']}', 
+    '{$data['keywords']}', '{$data['users']}', '{$data['groups']}', 
+    '{$data['categories']}', '{$data['input_format']}', '{$data['created_date']}',
+    '{$data['last_edit_date']}', '{$data['last_edit_by']}', '{$data['author']}', 
+    '{$data['type']}', '{$data['approved']}', {$data['views']}, '$uri', '$page_data')", 
+    $db);
 
     Sql::close($db);
 }
@@ -1058,7 +1072,9 @@ static function getResultsCount()
                 hasuserpermission(users, '$user') as has_user_permissions,
                 count(uri) as uri_count from uris where
                 ((title_relevancy > 0 or content_relevancy > 0 or
-                description_normal > 0 or keywords_normal > 0) and has_category > 0 and has_permissions > 0 and has_user_permissions > 0) $type";
+                description_normal > 0 or keywords_normal > 0) and 
+                has_category > 0 and has_permissions > 0 and 
+                has_user_permissions > 0 and approved='a') $type";
 
                 $result = Sql::query($select, $db);
 
@@ -1079,7 +1095,8 @@ static function getResultsCount()
                 haspermission(groups, '$group') as has_permissions,
                 hasuserpermission(users, '$user') as has_user_permissions,
                 count(uri) as uri_count from uris where
-                has_category > 0 and has_permissions > 0 and has_user_permissions > 0 $type";
+                has_category > 0 and has_permissions > 0 and 
+                has_user_permissions > 0 and approved='a' $type";
 
                 $result = Sql::query($select, $db);
 

@@ -343,6 +343,7 @@ static function getPermissions($group)
     $content["view_content"] = t("View");
     $content["add_content"] = t("Create");
     $content["edit_content"] = t("Edit");
+    $content["approve_content"] = t("Approve");
     $content["duplicate_content"] = t("Duplicate");
     $content["delete_content"] = t("Delete");
     $content["select_type_content"] = t("Select type");

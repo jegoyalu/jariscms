@@ -164,6 +164,18 @@ row: 0
                 Jaris\Fields::saveUploads($fields["type"], $uri);
 
                 Jaris\View::addMessage(t("The page was successfully created."));
+                
+                if(
+                    Jaris\Types::groupRequiresApproval(
+                        $fields["type"], 
+                        current_user_group()
+                    )
+                )
+                {
+                    Jaris\View::addMessage(t("This content requires the administrator approval. If the content is approved it will be listed on the main sections of the site."));
+                    
+                    Jaris\Mail::sendContentApproveNotification($uri, $fields["type"]);
+                }
             }
             else
             {

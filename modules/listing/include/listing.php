@@ -18,14 +18,18 @@ function listing_category_fields($selected = null, $main_category = null, $type 
     }
     else
     {
-        $categories_list[$main_category] = Jaris\Categories::get($main_category);
+        $categories_list[$main_category] = Jaris\Categories::get(
+            $main_category
+        );
     }
 
     if($categories_list)
     {
         foreach($categories_list as $machine_name => $values)
         {
-            $subcategories = Jaris\Categories::getSubcategoriesInParentOrder($machine_name);
+            $subcategories = Jaris\Categories::getSubcategoriesInParentOrder(
+                $machine_name
+            );
 
             $select_values = null;
             /* if(!$values["multiple"])
@@ -154,11 +158,15 @@ function listing_print_results($uri, $content_data)
 
         if($content_data["category_matching"] != "match_partial")
         {
-            $has_categories = ", hascategories(categories, '$categories') as has_category";
+            $has_categories = ", "
+                . "hascategories(categories, '$categories') as has_category"
+            ;
         }
         else
         {
-            $has_categories = ", hassomecategories(categories, '$categories') as has_category";
+            $has_categories = ", "
+                . "hassomecategories(categories, '$categories') as has_category"
+            ;
         }
 
         $where_categories = "and has_category > 0";
@@ -204,7 +212,11 @@ function listing_print_results($uri, $content_data)
     Jaris\Sql::turbo($db);
 
     $result = Jaris\Sql::query(
-        "select haspermission(groups, '$group') as has_permissions, hasuserpermission(users, '$user') as has_user_permissions, count(uri) as uri_count $has_categories from uris where has_permissions > 0 and has_user_permissions > 0 $types $authors $where_categories",
+        "select haspermission(groups, '$group') as has_permissions, "
+        . "hasuserpermission(users, '$user') as has_user_permissions, "
+        . "count(uri) as uri_count $has_categories from uris "
+        . "where has_permissions > 0 and has_user_permissions > 0 and "
+        . "approved='a' $types $authors $where_categories",
         $db
     );
 
@@ -221,7 +233,11 @@ function listing_print_results($uri, $content_data)
         "uris",
         $page - 1,
         $content_data["results_per_page"],
-        "where has_permissions > 0 and has_user_permissions > 0 $types $authors $where_categories $ordering", "haspermission(groups, '$group') as has_permissions, hasuserpermission(users, '$user') as has_user_permissions, uri $has_categories"
+        "where has_permissions > 0 and has_user_permissions > 0 and "
+            . "approved='a' $types $authors $where_categories $ordering", 
+        "haspermission(groups, '$group') as has_permissions, "
+            . "hasuserpermission(users, '$user') as has_user_permissions, "
+            . "uri $has_categories"
     );
 
     $output = "";
@@ -246,12 +262,17 @@ function listing_print_results($uri, $content_data)
 
     foreach($results as $fields)
     {
-        $page_data = Jaris\Pages::get($fields["uri"], Jaris\Language::getCurrent());
+        $page_data = Jaris\Pages::get(
+            $fields["uri"], 
+            Jaris\Language::getCurrent()
+        );
 
         $title = !$content_data["display_title"] ?
             false
             :
-            "<a href=\"" . Jaris\Uri::url($fields["uri"]) . "\">" . $page_data["title"] . "</a>"
+            "<a href=\"" . Jaris\Uri::url($fields["uri"]) . "\">" 
+                . $page_data["title"] 
+                . "</a>"
         ;
 
         $summary = !$content_data["display_summary"] ?
@@ -264,7 +285,12 @@ function listing_print_results($uri, $content_data)
             )
         ;
 
-        $image_list = Jaris\Data::sort(Jaris\Pages\Images::getList($fields["uri"]), "order");
+        $image_list = Jaris\Data::sort(
+            Jaris\Pages\Images::getList(
+                $fields["uri"]
+            ), 
+            "order"
+        );
         $image_name = null;
         $image_description = null;
         $image = null;
@@ -343,7 +369,9 @@ function listing_print_results($uri, $content_data)
         $view_more = !$content_data["display_more"] ?
             false
             :
-            "<a href=\"" . Jaris\Uri::url($fields["uri"]) . "\">" . t("View More") . "</a>"
+            "<a href=\"" . Jaris\Uri::url($fields["uri"]) . "\">" 
+                . t("View More") 
+                . "</a>"
         ;
 
         $layout = $content_data["layout"];
@@ -488,11 +516,15 @@ function listing_block_print_results($uri, $content_data)
 
         if($content_data["category_matching"] != "match_partial")
         {
-            $has_categories = ", hascategories(categories, '$categories') as has_category";
+            $has_categories = ", "
+                . "hascategories(categories, '$categories') as has_category"
+            ;
         }
         else
         {
-            $has_categories = ", hassomecategories(categories, '$categories') as has_category";
+            $has_categories = ", "
+                . "hassomecategories(categories, '$categories') as has_category"
+            ;
         }
 
         $where_categories = "and has_category > 0";
@@ -542,8 +574,11 @@ function listing_block_print_results($uri, $content_data)
             "uris",
             0,
             $content_data["results_to_show"],
-            "where has_permissions > 0 and has_user_permissions > 0 $types $authors $where_categories $ordering",
-            "haspermission(groups, '$group') as has_permissions, hasuserpermission(users, '$user') as has_user_permissions, uri $has_categories"
+            "where has_permissions > 0 and has_user_permissions > 0 and "
+                . "approved='a' $types $authors $where_categories $ordering",
+            "haspermission(groups, '$group') as has_permissions, "
+                . "hasuserpermission(users, '$user') as has_user_permissions, "
+                . "uri $has_categories"
         );
     }
     else
@@ -570,20 +605,33 @@ function listing_block_print_results($uri, $content_data)
             "uris",
             0,
             $content_data["results_to_show"],
-            "where uri <> '" . Jaris\Uri::get() . "' and (title_relevancy > 0 or content_relevancy > 0) and has_permissions > 0 and has_user_permissions > 0 $types $authors $where_categories order by title_relevancy desc, content_relevancy desc", "leftsearch(title, '$displayed_title') as title_relevancy, leftsearch(content, '$displayed_content') as content_relevancy, haspermission(groups, '$group') as has_permissions, hasuserpermission(users, '$user') as has_user_permissions, uri $has_categories"
+            "where uri <> '" . Jaris\Uri::get() . "' and "
+                . "(title_relevancy > 0 or content_relevancy > 0) and "
+                . "has_permissions > 0 and has_user_permissions > 0 and "
+                . "approved='a' $types $authors $where_categories "
+                . "order by title_relevancy desc, content_relevancy desc", 
+            "leftsearch(title, '$displayed_title') as title_relevancy, "
+                . "leftsearch(content, '$displayed_content') as content_relevancy, "
+                . "haspermission(groups, '$group') as has_permissions, "
+                . "hasuserpermission(users, '$user') as has_user_permissions, "
+                . "uri $has_categories"
         );
     }
 
-    $output = "";
+    $output = '<div class="listing-block-container">';
 
     foreach($results as $fields)
     {
-        $page_data = Jaris\Pages::get($fields["uri"], Jaris\Language::getCurrent());
+        $page_data = Jaris\Pages::get(
+            $fields["uri"], Jaris\Language::getCurrent()
+        );
 
         $title = !$content_data["display_title"] ?
             false
             :
-            "<a href=\"" . Jaris\Uri::url($fields["uri"]) . "\">" . $page_data["title"] . "</a>"
+            "<a href=\"" . Jaris\Uri::url($fields["uri"]) . "\">" 
+                . $page_data["title"] 
+                . "</a>"
         ;
 
         $summary = !$content_data["display_summary"] ?
@@ -663,7 +711,9 @@ function listing_block_print_results($uri, $content_data)
         $view_more = !$content_data["display_more"] ?
             false
             :
-            "<a href=\"" . Jaris\Uri::url($fields["uri"]) . "\">" . t("View More") . "</a>"
+            "<a href=\"" . Jaris\Uri::url($fields["uri"]) . "\">" 
+                . t("View More") 
+                . "</a>"
         ;
 
         ob_start();
@@ -671,9 +721,11 @@ function listing_block_print_results($uri, $content_data)
         include(listing_result_template($uri, $page_data["type"], "block"));
 
         $output .= ob_get_contents();
-
+        
         ob_end_clean();
     }
+    
+    $output .= '</div>';
 
     return $output;
 }
@@ -683,10 +735,18 @@ function listing_result_template($page, $results_type = "all", $template_type = 
     $theme = Jaris\Site::$theme;
     $page = str_replace("/", "-", $page);
 
-    $current_template = Jaris\Themes::directory($theme) . "listing-$template_type.php";
-    $current_page = Jaris\Themes::directory($theme) . "listing-$template_type-" . $page . ".php";
-    $current_results_type = Jaris\Themes::directory($theme) . "listing-$template_type-" . $results_type . ".php";
-    $current_page_result_type = Jaris\Themes::directory($theme) . "listing-$template_type-" . $page . "-" . $results_type . ".php";
+    $current_template = Jaris\Themes::directory($theme) 
+        . "listing-$template_type.php"
+    ;
+    $current_page = Jaris\Themes::directory($theme) 
+        . "listing-$template_type-" . $page . ".php"
+    ;
+    $current_results_type = Jaris\Themes::directory($theme) 
+        . "listing-$template_type-" . $results_type . ".php"
+    ;
+    $current_page_result_type = Jaris\Themes::directory($theme) 
+        . "listing-$template_type-" . $page . "-" . $results_type . ".php"
+    ;
 
     $template_path = "";
 
@@ -708,7 +768,9 @@ function listing_result_template($page, $results_type = "all", $template_type = 
     }
     else
     {
-        $template_path = Jaris\Modules::directory("listing") . "templates/listing-$template_type.php";
+        $template_path = Jaris\Modules::directory("listing") 
+            . "templates/listing-$template_type.php"
+        ;
     }
 
     return $template_path;

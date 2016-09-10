@@ -17,7 +17,7 @@ class System
  * Stores JarisCMS version number.
  * @var string
  */
-const VERSION = "6.1.0 MS";
+const VERSION = "6.1.1 MS";
 
 /**
  * Receives parameters: $page, $tabs
@@ -669,6 +669,15 @@ static function generateAdminPageSections()
             "title" => t("Manage Categories"),
             "url" => Uri::url("admin/categories"),
             "description" => t("View and edit existing content categories.")
+        );
+    }
+    
+    if(Authentication::groupHasPermission("approve_content", $group))
+    {
+        $content[] = array(
+            "title" => t("Approve Content"),
+            "url" => Uri::url("admin/pages/approve"),
+            "description" => t("View and approve pending content to be published.")
         );
     }
 
