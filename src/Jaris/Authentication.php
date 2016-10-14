@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Jefferson González <jgonzalez@jegoyalu.com>
- * @license https://opensource.org/licenses/GPL-3.0 
+ * @license https://opensource.org/licenses/GPL-3.0
  * @link http://github.com/jegoyalu/jariscms Source code.
  */
 
@@ -121,15 +121,16 @@ static function login()
     if($logged_site != $base_url_parsed)
     {
         $user_data = array();
+        $username = trim($_REQUEST["username"]);
 
-        if(Forms::validEmail($_REQUEST["username"]))
+        if(strstr($username, "@") !== false)
         {
-            $user_data = Users::getByEmail($_REQUEST["username"]);
-            $_REQUEST["username"] = $user_data["username"];
+            $user_data = Users::getByEmail($username);
+            $username = $user_data["username"];
         }
         else
         {
-            $user_data = Users::get($_REQUEST["username"]);
+            $user_data = Users::get($username);
         }
 
         if(
@@ -158,11 +159,35 @@ static function login()
 
                 return $is_logged;
             }
-            
+
+            if(
+                Settings::get("registration_needs_activation", "main") &&
+                $user_data["email_activated"] == "0"
+            )
+            {
+                View::addMessage(
+                    t("Your account is pending activation by email.")
+                        . " "
+                        . t("To resend the activation e-mail click here: ")
+                        . "<a target=\"_blank\" href=\""
+                        . Uri::url(
+                            "account/reactivate",
+                            array(
+                                "u" => $username,
+                            )
+                        )
+                        . "\">"
+                        . t("re-send activation e-mail")
+                        . "</a>"
+                );
+
+                return $is_logged;
+            }
+
             Session::start();
 
             $_SESSION["logged"]["site"] = Site::$base_url;
-            $_SESSION["logged"]["username"] = strtolower($_REQUEST["username"]);
+            $_SESSION["logged"]["username"] = strtolower($username);
             $_SESSION["logged"]["password"] = $user_data["password"];
             $_SESSION["logged"]["group"] = $user_data["group"];
             $_SESSION["logged"]["ip_address"] = $_SERVER["REMOTE_ADDR"];
@@ -173,7 +198,7 @@ static function login()
 
             //Save last ip used
             $user_data["ip_address"] = $_SERVER["REMOTE_ADDR"];
-            Users::edit($_REQUEST["username"], $user_data["group"], $user_data);
+            Users::edit($username, $user_data["group"], $user_data);
 
             //Keep user uploads dir clean
             Forms::deleteUploads();
@@ -186,7 +211,7 @@ static function login()
             {
                 $_SESSION["logged"]["site"] = false;
             }
-            
+
             $is_logged = false;
         }
 
@@ -218,7 +243,7 @@ static function logout()
 
         setcookie("logged", "", -1, "/");
         unset($_COOKIE["logged"]);
-        
+
         Session::destroyIfEmpty();
     }
 }

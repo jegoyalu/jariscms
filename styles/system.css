@@ -10,7 +10,7 @@ fieldset.collapsed
 fieldset.collapsed legend,
 fieldset.collapsed legend *
 {
-    display: inline-block;
+    display: block;
 }
 
 fieldset.collapsible legend a.collapse

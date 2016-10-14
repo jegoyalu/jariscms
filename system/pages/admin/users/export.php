@@ -51,7 +51,9 @@ row: 0
 
                 fputs(
                     $file,
-                    "username,email,register_date,user_group,picture,ip_address,gender,birth_date\n"
+                    "username,email,register_date,user_group,"
+                        . "picture,ip_address,gender,birth_date,"
+                        . "register_date_readable\n"
                 );
 
                 $db = Jaris\Sql::open("users");
@@ -60,6 +62,11 @@ row: 0
 
                 while($data = Jaris\Sql::fetchArray($result))
                 {
+                    $data["register_date_readable"] = date(
+                        "m/d/Y g:i:s a",
+                        $data["register_date"]
+                    );
+
                     fputcsv($file, $data, ",", "\"");
                 }
 

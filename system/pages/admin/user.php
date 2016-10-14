@@ -21,7 +21,7 @@ row: 0
     <?php
         //Store return url
         if(isset($_REQUEST["return"]))
-        {    
+        {
             Jaris\Session::addCookie("return_url", $_REQUEST["return"]);
         }
 
@@ -66,7 +66,7 @@ row: 0
             if(isset($_COOKIE["return_url"]))
             {
                 $return = $_COOKIE["return_url"];
-                
+
                 Jaris\Session::removeCookie("return_url");
 
                 Jaris\Uri::go($return);

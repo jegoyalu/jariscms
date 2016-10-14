@@ -95,9 +95,9 @@ row: 0
             }
 
             $fields["name"] = substr(Jaris\Util::stripHTMLTags($_REQUEST["name"]), 0, 65);
-            $fields["email"] = Jaris\Util::stripHTMLTags($_REQUEST["email"]);
+            $fields["email"] = trim(Jaris\Util::stripHTMLTags($_REQUEST["email"]));
             $fields["website"] = trim(Jaris\Util::stripHTMLTags($_REQUEST["website"]));
-            $fields["gender"] = Jaris\Util::stripHTMLTags($_REQUEST["gender"]);
+            $fields["gender"] = trim(Jaris\Util::stripHTMLTags($_REQUEST["gender"]));
 
             $fields["personal_text"] = substr(
                 trim(Jaris\Util::stripHTMLTags($_REQUEST["personal_text"])),
@@ -158,6 +158,8 @@ row: 0
             if(!$error)
             {
                 $message = "";
+
+                $fields = array_map("trim", $fields);
 
                 if(
                     Jaris\Settings::get("user_picture", "main") &&
@@ -225,8 +227,11 @@ row: 0
                 Jaris\Authentication::currentUser() == $username
             )
             {
-                Jaris\Authentication::logout();
-                Jaris\Authentication::login();
+                Jaris\View::addMessage(
+                    t("Please login again using your new password.")
+                );
+
+                Jaris\Uri::go("admin/user", array("username" => $fields["email"]));
             }
 
             Jaris\Uri::go("admin/users/edit", array("username" => $username));

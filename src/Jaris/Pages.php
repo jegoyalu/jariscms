@@ -12,7 +12,7 @@ namespace Jaris;
  */
 class Pages
 {
-    
+
 /**
  * Receives parameters: $page, $is_system_page
  * @var string
@@ -92,12 +92,12 @@ static function add($page, $data, &$uri)
     $data["users"] = serialize($data["users"]);
     $data["groups"] = serialize($data["groups"]);
     $data["categories"] = serialize($data["categories"]);
-    
+
     if(!isset($data["approved"]) || empty($data["approved"]))
     {
         if(
             \Jaris\Types::groupRequiresApproval(
-                $data["type"], 
+                $data["type"],
                 current_user_group()
             )
         )
@@ -164,6 +164,11 @@ static function delete($page, $disable_hook=false)
 
     self::deleteIndex($page);
 
+    if(Settings::get("enable_cache", "main"))
+    {
+        System::removeCachedPage($page);
+    }
+
     return true;
 }
 
@@ -186,7 +191,7 @@ static function edit($page, $new_data)
     }
 
     $page_path = Pages::getPath($page);
-    
+
     if(!isset($new_data["approved"]) || empty($new_data["approved"]))
     {
         $new_data["approved"] = "a";
@@ -202,6 +207,11 @@ static function edit($page, $new_data)
     if(Data::edit(0, $new_data, $page_path . "/data.php"))
     {
         self::editIndex($page, $new_data);
+
+        if(Settings::get("enable_cache", "main"))
+        {
+            System::removeCachedPage($page);
+        }
 
         return true;
     }
@@ -221,16 +231,16 @@ static function approve($page)
     {
         return false;
     }
-    
+
     $page_data = self::get($page);
-    
+
     if(!$page_data)
     {
         return false;
     }
 
     $page_data["approved"] = "a";
-    
+
     return self::edit($page, $page_data);
 }
 
@@ -455,7 +465,7 @@ static function get($page, $language_code = null)
         $data["users"] = unserialize($data["users"]);
         $data["groups"] = unserialize($data["groups"]);
         $data["categories"] = unserialize($data["categories"]);
-        
+
         if(!isset($data["approved"]) || empty($data["approved"]))
         {
             $data["approved"] = "a";
@@ -850,7 +860,7 @@ static function addIndex($uri, $data)
     }
 
     Sql::escapeArray($data);
-    
+
     $data = array_map('trim', $data);
 
     $uri = str_replace("'", "''", $uri);
@@ -940,7 +950,7 @@ static function editIndex($uri, $data)
         $data["content"] = strtolower($data["content"]);
 
         Sql::escapeArray($data);
-        
+
         $data = array_map('trim', $data);
 
         $uri = str_replace("'", "''", $uri);

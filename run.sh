@@ -31,7 +31,7 @@ showhelp()
 
 runserver()
 {
-    php -S 0.0.0.0:8080 router.php
+    php -S localhost:8080 router.php
 }
 
 runprofiler()
@@ -41,7 +41,7 @@ runprofiler()
         -d xdebug.profiler_append=1 \
         -d xdebug.profiler_output_dir=`pwd` \
         -d xdebug.profiler_output_name=cachegrind.out \
-        -S 0.0.0.0:8080 router.php
+        -S localhost:8080 router.php
 }
 
 runhhvm()

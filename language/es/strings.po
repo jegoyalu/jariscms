@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Jaris CMS v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-25 17:34-0400\n"
-"PO-Revision-Date: 2016-08-25 17:42-0400\n"
+"POT-Creation-Date: 2016-10-12 13:49-0400\n"
+"PO-Revision-Date: 2016-10-12 13:50-0400\n"
 "Last-Translator: Jefferson González <jgonzalez@jegoyalu.com>\n"
 "Language-Team: Jaris CMS Translators\n"
 "Language: es_PR\n"
@@ -13,11 +13,11 @@ msgstr ""
 "X-Poedit-KeywordsList: t\n"
 "X-Poedit-Basepath: ../..\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Generator: Poedit 1.8.8\n"
+"X-Generator: Poedit 1.8.9\n"
 "X-Poedit-SearchPath-0: system\n"
 "X-Poedit-SearchPath-1: src\n"
 
-#: src/Jaris/Authentication.php:157 system/pages/register.php:280
+#: src/Jaris/Authentication.php:158 system/pages/register.php:261
 msgid ""
 "Your registration is awaiting for approval. If the registration is approved "
 "you will receive an email notification."
@@ -25,7 +25,19 @@ msgstr ""
 "Tu registración esta en proceso de aprobación. Si es aprobada recibirás una "
 "notificación por correo electrónico ."
 
-#: src/Jaris/Authentication.php:200
+#: src/Jaris/Authentication.php:169
+msgid "Your account is pending activation by email."
+msgstr "Su cuenta esta esperando a ser activada por correo electrónico."
+
+#: src/Jaris/Authentication.php:171
+msgid "To resend the activation e-mail click here: "
+msgstr "Para re-enviar el correo electrónico de activación haga clic aquí: "
+
+#: src/Jaris/Authentication.php:180
+msgid "re-send activation e-mail"
+msgstr "re-enviar correo de activación"
+
+#: src/Jaris/Authentication.php:225
 msgid "The username or password you entered is incorrect."
 msgstr "El usuario o contraseña que escribio es incorrecto."
 
@@ -105,51 +117,51 @@ msgstr "Desactivado"
 msgid "-None Selected-"
 msgstr "-Nada Seleccionado-"
 
-#: src/Jaris/Date.php:41 src/Jaris/Forms.php:990
+#: src/Jaris/Date.php:41 src/Jaris/Forms.php:1013
 msgid "January"
 msgstr "Enero"
 
-#: src/Jaris/Date.php:42 src/Jaris/Forms.php:990
+#: src/Jaris/Date.php:42 src/Jaris/Forms.php:1013
 msgid "February"
 msgstr "Febrero"
 
-#: src/Jaris/Date.php:43 src/Jaris/Forms.php:990
+#: src/Jaris/Date.php:43 src/Jaris/Forms.php:1013
 msgid "March"
 msgstr "Marzo"
 
-#: src/Jaris/Date.php:44 src/Jaris/Forms.php:990
+#: src/Jaris/Date.php:44 src/Jaris/Forms.php:1013
 msgid "April"
 msgstr "Abril"
 
-#: src/Jaris/Date.php:45 src/Jaris/Forms.php:990 src/Jaris/Forms.php:991
+#: src/Jaris/Date.php:45 src/Jaris/Forms.php:1013 src/Jaris/Forms.php:1014
 msgid "May"
 msgstr "Mayo"
 
-#: src/Jaris/Date.php:46 src/Jaris/Forms.php:990
+#: src/Jaris/Date.php:46 src/Jaris/Forms.php:1013
 msgid "June"
 msgstr "Junio"
 
-#: src/Jaris/Date.php:47 src/Jaris/Forms.php:990
+#: src/Jaris/Date.php:47 src/Jaris/Forms.php:1013
 msgid "July"
 msgstr "Julio"
 
-#: src/Jaris/Date.php:48 src/Jaris/Forms.php:990
+#: src/Jaris/Date.php:48 src/Jaris/Forms.php:1013
 msgid "August"
 msgstr "Agosto"
 
-#: src/Jaris/Date.php:49 src/Jaris/Forms.php:990
+#: src/Jaris/Date.php:49 src/Jaris/Forms.php:1013
 msgid "September"
 msgstr "Septiembre"
 
-#: src/Jaris/Date.php:50 src/Jaris/Forms.php:990
+#: src/Jaris/Date.php:50 src/Jaris/Forms.php:1013
 msgid "October"
 msgstr "Octubre"
 
-#: src/Jaris/Date.php:51 src/Jaris/Forms.php:990
+#: src/Jaris/Date.php:51 src/Jaris/Forms.php:1013
 msgid "November"
 msgstr "Noviembre"
 
-#: src/Jaris/Date.php:52 src/Jaris/Forms.php:990
+#: src/Jaris/Date.php:52 src/Jaris/Forms.php:1013
 msgid "December"
 msgstr "Diciembre"
 
@@ -264,7 +276,7 @@ msgstr "EL tamaño máximo permitido es:"
 msgid "Maximum amount of files allowed:"
 msgstr "Cantidad máxima de archivos permitidos: "
 
-#: src/Jaris/Fields.php:1109 src/Jaris/Fields.php:1215 src/Jaris/Forms.php:725
+#: src/Jaris/Fields.php:1109 src/Jaris/Fields.php:1215 src/Jaris/Forms.php:748
 msgid "description"
 msgstr "descripción"
 
@@ -302,111 +314,115 @@ msgstr "La suma que entraste es incorrecta."
 msgid "Form with required fields doesn't have a proper name."
 msgstr "Un formulario mostrado con campos requeridos no tiene un nombre."
 
-#: src/Jaris/Forms.php:610 src/Jaris/Forms.php:1188
+#: src/Jaris/Forms.php:609
+msgid "Show Password"
+msgstr "Mostrar Contraseña"
+
+#: src/Jaris/Forms.php:633 src/Jaris/Forms.php:1211
 msgid "characters left"
 msgstr "caracteres restantes"
 
-#: src/Jaris/Forms.php:720
+#: src/Jaris/Forms.php:743
 msgid "Incorrect file type selected. The type should be:"
 msgstr "Tipo de archivo seleccionado incorrecto. El tipo debería ser:"
 
-#: src/Jaris/Forms.php:722
+#: src/Jaris/Forms.php:745
 msgid "Maximum amount of files allowed reached."
 msgstr "Cantidad máxima de archivos subidos alcanzada."
 
-#: src/Jaris/Forms.php:762
+#: src/Jaris/Forms.php:785
 msgid "Enter address to locate"
 msgstr "Escribe una dirección para localizar"
 
-#: src/Jaris/Forms.php:763
+#: src/Jaris/Forms.php:786
 msgid "Locate"
 msgstr "Localizar"
 
-#: src/Jaris/Forms.php:764
+#: src/Jaris/Forms.php:787
 msgid "Clear"
 msgstr "Despejar"
 
-#: src/Jaris/Forms.php:991
+#: src/Jaris/Forms.php:1014
 msgid "Jan"
 msgstr "Ene"
 
-#: src/Jaris/Forms.php:991
+#: src/Jaris/Forms.php:1014
 msgid "Feb"
 msgstr "Feb"
 
-#: src/Jaris/Forms.php:991
+#: src/Jaris/Forms.php:1014
 msgid "Mar"
 msgstr "Mar"
 
-#: src/Jaris/Forms.php:991
+#: src/Jaris/Forms.php:1014
 msgid "Apr"
 msgstr "Abr"
 
-#: src/Jaris/Forms.php:991
+#: src/Jaris/Forms.php:1014
 msgid "Jun"
 msgstr "Jun"
 
-#: src/Jaris/Forms.php:991
+#: src/Jaris/Forms.php:1014
 msgid "Jul"
 msgstr "Jul"
 
-#: src/Jaris/Forms.php:991
+#: src/Jaris/Forms.php:1014
 msgid "Aug"
 msgstr "Ago"
 
-#: src/Jaris/Forms.php:991
+#: src/Jaris/Forms.php:1014
 msgid "Sep"
 msgstr "Sep"
 
-#: src/Jaris/Forms.php:991
+#: src/Jaris/Forms.php:1014
 msgid "Oct"
 msgstr "Oct"
 
-#: src/Jaris/Forms.php:991
+#: src/Jaris/Forms.php:1014
 msgid "Nov"
 msgstr "Nov"
 
-#: src/Jaris/Forms.php:991
+#: src/Jaris/Forms.php:1014
 msgid "Dec"
 msgstr "Dic"
 
-#: src/Jaris/Forms.php:992
+#: src/Jaris/Forms.php:1015
 msgid "SU"
 msgstr "DO"
 
-#: src/Jaris/Forms.php:992
+#: src/Jaris/Forms.php:1015
 msgid "MO"
 msgstr "LU"
 
-#: src/Jaris/Forms.php:992
+#: src/Jaris/Forms.php:1015
 msgid "TU"
 msgstr "MA"
 
-#: src/Jaris/Forms.php:992
+#: src/Jaris/Forms.php:1015
 msgid "WE"
 msgstr "MI"
 
-#: src/Jaris/Forms.php:992
+#: src/Jaris/Forms.php:1015
 msgid "TH"
 msgstr "JU"
 
-#: src/Jaris/Forms.php:992
+#: src/Jaris/Forms.php:1015
 msgid "FR"
 msgstr "VI"
 
-#: src/Jaris/Forms.php:992
+#: src/Jaris/Forms.php:1015
 msgid "SA"
 msgstr "SA"
 
-#: src/Jaris/Forms.php:993
+#: src/Jaris/Forms.php:1016
 msgid "Selected date is out of range"
 msgstr "El día seleccionado está fuera de rango."
 
-#: src/Jaris/Forms.php:1206
+#: src/Jaris/Forms.php:1229
 msgid "Enter the sum of"
 msgstr "Entra la suma de"
 
-#: src/Jaris/Forms.php:1214 system/pages/admin/blocks.php:261
+#: src/Jaris/Forms.php:1237 system/pages/admin/blocks.php:261
 #: system/pages/admin/blocks/add.php:221 system/pages/admin/blocks/edit.php:283
 #: system/pages/admin/categories.php:164
 #: system/pages/admin/categories/add.php:146
@@ -442,7 +458,7 @@ msgstr "Entra la suma de"
 #: system/pages/admin/pages/files/add.php:150
 #: system/pages/admin/pages/images.php:385
 #: system/pages/admin/pages/images/add.php:225
-#: system/pages/admin/settings.php:672
+#: system/pages/admin/settings.php:701
 #: system/pages/admin/settings/advanced.php:431
 #: system/pages/admin/settings/api/add-key.php:147
 #: system/pages/admin/settings/api/edit-key.php:149
@@ -457,8 +473,8 @@ msgstr "Entra la suma de"
 #: system/pages/admin/types/fields/edit.php:511
 #: system/pages/admin/types/posts.php:123
 #: system/pages/admin/types/uploads.php:134
-#: system/pages/admin/users/add.php:398 system/pages/admin/users/edit.php:484
-#: system/pages/forgot-password.php:96 system/pages/register.php:542
+#: system/pages/admin/users/add.php:398 system/pages/admin/users/edit.php:489
+#: system/pages/forgot-password.php:96 system/pages/register.php:519
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -477,7 +493,7 @@ msgstr "Permitir inicio en modo fuera de servicio"
 #: system/pages/admin/pages/files.php:96
 #: system/pages/admin/pages/images.php:113
 #: system/pages/admin/pages/translate.php:47
-#: system/pages/admin/users/list.php:123
+#: system/pages/admin/users/list.php:171
 msgid "View"
 msgstr "Ver"
 
@@ -512,7 +528,7 @@ msgstr "Crear"
 #: system/pages/admin/settings/api.php:75 system/pages/admin/types.php:133
 #: system/pages/admin/types/fields.php:151
 #: system/pages/admin/user/content.php:186
-#: system/pages/admin/users/delete.php:33 system/pages/admin/users/list.php:203
+#: system/pages/admin/users/delete.php:33 system/pages/admin/users/list.php:254
 msgid "Edit"
 msgstr "Editar"
 
@@ -547,7 +563,7 @@ msgstr "Editar"
 #: system/pages/admin/settings/sqlite.php:63 system/pages/admin/types.php:135
 #: system/pages/admin/types/fields.php:152
 #: system/pages/admin/user/content.php:195
-#: system/pages/admin/users/edit.php:256 system/pages/admin/users/list.php:204
+#: system/pages/admin/users/edit.php:261 system/pages/admin/users/list.php:255
 msgid "Delete"
 msgstr "Borrar"
 
@@ -830,7 +846,7 @@ msgstr ""
 "los administradores."
 
 #: src/Jaris/Mail.php:195 system/pages/admin/users/add.php:210
-#: system/pages/register.php:315
+#: system/pages/register.php:319
 msgid "Fullname:"
 msgstr "Nombre completo:"
 
@@ -840,8 +856,8 @@ msgstr "Nombre completo:"
 #: system/pages/admin/settings/api/edit-key.php:90
 #: system/pages/admin/settings/mailer.php:144
 #: system/pages/admin/users/add.php:222 system/pages/admin/users/delete.php:73
-#: system/pages/admin/users/edit.php:206 system/pages/forgot-password.php:69
-#: system/pages/register.php:326 system/skeleton/data/blocks/left.php:33
+#: system/pages/admin/users/edit.php:208 system/pages/forgot-password.php:69
+#: system/pages/register.php:330 system/skeleton/data/blocks/left.php:33
 msgid "Username:"
 msgstr "Usuario:"
 
@@ -849,7 +865,7 @@ msgstr "Usuario:"
 #: system/pages/admin/languages/edit-info.php:103
 #: system/pages/admin/languages/info.php:68
 #: system/pages/admin/users/add.php:251 system/pages/forgot-password.php:82
-#: system/pages/register.php:356
+#: system/pages/register.php:351
 msgid "E-mail:"
 msgstr "Correo Electrónico:"
 
@@ -894,6 +910,22 @@ msgstr ""
 msgid "New content pending for approval"
 msgstr "Nuevo contenido esperando por aprobación."
 
+#: src/Jaris/Mail.php:273
+msgid ""
+"To finish the registration process please click the following link to "
+"activate your account:"
+msgstr ""
+"Para terminar el proceso de registración por favor haga clic en el siguiente "
+"enlace para activar su cuenta:"
+
+#: src/Jaris/Mail.php:300 system/pages/account/activate.php:15
+msgid "Account Activation"
+msgstr "Activación de Cuenta"
+
+#: src/Jaris/Mail.php:351
+msgid "Welcome!"
+msgstr "Bienvenido!"
+
 #: src/Jaris/Modules.php:358
 msgid "The following modules need to be installed first:"
 msgstr "Los siguientes módulos deben ser instalados primero:"
@@ -914,7 +946,7 @@ msgstr "Anterior"
 msgid "Next"
 msgstr "Siguiente"
 
-#: src/Jaris/System.php:93 system/pages/admin/settings.php:657
+#: src/Jaris/System.php:93 system/pages/admin/settings.php:686
 msgid "Page not found"
 msgstr "Página no encontrada"
 
@@ -1279,7 +1311,7 @@ msgstr "Mostrado en el título del navegador y dentro del contenido."
 msgid "Content:"
 msgstr "Contenido:"
 
-#: src/Jaris/Users.php:691 system/pages/admin/users/list.php:185
+#: src/Jaris/Users.php:691 system/pages/admin/users/list.php:236
 msgid "Active"
 msgstr "Activo"
 
@@ -1352,6 +1384,47 @@ msgstr "Acceso Denegado"
 msgid "You dont have sufficient permissions to access the page."
 msgstr "No tienes los permisos suficientes para accesar la página."
 
+#: system/pages/account/activate.php:34 system/pages/account/activate.php:41
+msgid "Error: Invalid activation data."
+msgstr "Error: Datos inválidos de activación."
+
+#: system/pages/account/activate.php:70
+msgid "The account was successfully activated. Please login."
+msgstr "La cuenta fue activada exitosamente. Por favor proceda a iniciar."
+
+#: system/pages/account/activate.php:81 system/pages/account/reactivate.php:53
+msgid "Account already activated. Please login."
+msgstr "La cuenta ya fue activada anteriormente. Por favor proceda a iniciar."
+
+#: system/pages/account/activate.php:103
+msgid "Click to Activate"
+msgstr "Haga clic para Activar"
+
+#: system/pages/account/activate.php:114
+msgid "Resend Account Activation E-mail"
+msgstr "Re-enviar Correo de Activación de Cuenta"
+
+#: system/pages/account/reactivate.php:15
+msgid "Account E-mail Activation"
+msgstr "Correo de Activación para Cuenta"
+
+#: system/pages/account/reactivate.php:25
+#: system/pages/account/reactivate.php:32
+msgid "Error: Invalid account."
+msgstr "Error: Cuenta inválida."
+
+#: system/pages/account/reactivate.php:43
+msgid "The activation e-mail was successfully sent."
+msgstr "El correo electrónico de activación fue enviado exitosamente."
+
+#: system/pages/account/reactivate.php:47
+msgid ""
+"Error: An error occured while trying to send the activation email, please "
+"try again later."
+msgstr ""
+"Error: Un error ocurrió mientras se trataba de enviar el correo electrónico "
+"de activación, por favor trate mas tarde."
+
 #: system/pages/admin/blocks.php:76 system/pages/admin/pages/blocks.php:173
 #: system/pages/admin/pages/blocks/post/settings.php:47
 msgid "Create Block"
@@ -1382,7 +1455,7 @@ msgstr "Orden"
 #: system/pages/admin/pages/blocks.php:317
 #: system/pages/admin/pages/files.php:253
 #: system/pages/admin/pages/images.php:286
-#: system/pages/admin/pages/types.php:33 system/pages/admin/settings.php:394
+#: system/pages/admin/pages/types.php:33 system/pages/admin/settings.php:416
 #: system/pages/admin/settings/api.php:53 system/pages/admin/types.php:95
 #: system/pages/admin/types/fields.php:121
 msgid "Description"
@@ -1408,7 +1481,7 @@ msgstr "Posición"
 #: system/pages/admin/settings/sqlite.php:36 system/pages/admin/types.php:96
 #: system/pages/admin/types/fields.php:122
 #: system/pages/admin/user/content.php:119
-#: system/pages/admin/users/list.php:168
+#: system/pages/admin/users/list.php:219
 msgid "Operation"
 msgstr "Operación"
 
@@ -1449,7 +1522,7 @@ msgstr "No hay bloques disponibles"
 #: system/pages/admin/pages/files/add.php:144
 #: system/pages/admin/pages/images.php:381
 #: system/pages/admin/pages/images/add.php:219
-#: system/pages/admin/settings.php:666
+#: system/pages/admin/settings.php:695
 #: system/pages/admin/settings/advanced.php:425
 #: system/pages/admin/settings/api/add-key.php:141
 #: system/pages/admin/settings/api/edit-key.php:143
@@ -1462,7 +1535,7 @@ msgstr "No hay bloques disponibles"
 #: system/pages/admin/types/fields/edit.php:505
 #: system/pages/admin/types/posts.php:117
 #: system/pages/admin/types/uploads.php:128
-#: system/pages/admin/users/edit.php:478
+#: system/pages/admin/users/edit.php:483
 msgid "Save"
 msgstr "Guardar"
 
@@ -1590,6 +1663,9 @@ msgid ""
 "display by printing true or false. for example: &lt;?php if(Jaris"
 "\\Authentication::isUserLogged()) print \"true\"; else print \"false\"; ?&gt;"
 msgstr ""
+"Código php encerrado con &lt;?php code ?&gt; para evaluar si un bloque debe "
+"ser mostrado haciendo print de true o false. Por ejemplo: &lt;?php if(Jaris"
+"\\Authentication::isUserLogged()) print \"true\"; else print \"false\"; ?&gt;"
 
 #: system/pages/admin/blocks/delete.php:17
 msgid "Delete Block"
@@ -1641,7 +1717,7 @@ msgstr "Descripción:"
 #: system/pages/admin/types/delete.php:69
 #: system/pages/admin/types/fields/delete.php:78
 #: system/pages/admin/users/delete.php:79
-#: system/pages/admin/users/export.php:96
+#: system/pages/admin/users/export.php:103
 #: system/pages/admin/users/re-index.php:177
 msgid "Yes"
 msgstr "Si"
@@ -1674,7 +1750,7 @@ msgstr "Si"
 #: system/pages/admin/types/delete.php:72
 #: system/pages/admin/types/fields/delete.php:81
 #: system/pages/admin/users/delete.php:82
-#: system/pages/admin/users/export.php:99
+#: system/pages/admin/users/export.php:106
 #: system/pages/admin/users/re-index.php:180
 msgid "No"
 msgstr "No"
@@ -1745,7 +1821,7 @@ msgstr "Un nombre de máquina leíble, por ejemplo: mi-categoria"
 #: system/pages/admin/types/edit.php:133
 #: system/pages/admin/types/fields/add.php:126
 #: system/pages/admin/types/fields/edit.php:142
-#: system/pages/admin/users/edit.php:283
+#: system/pages/admin/users/edit.php:288
 msgid "Name:"
 msgstr "Nombre:"
 
@@ -1926,7 +2002,7 @@ msgid "Are you sure you want to delete the group?"
 msgstr "Estar seguro de querer borrar este grupo?"
 
 #: system/pages/admin/groups/delete.php:66 system/pages/admin/users/add.php:368
-#: system/pages/admin/users/edit.php:455
+#: system/pages/admin/users/edit.php:460
 msgid "Group:"
 msgstr "Grupo:"
 
@@ -2010,9 +2086,9 @@ msgstr ""
 #: system/pages/admin/input-formats/add.php:117
 #: system/pages/admin/input-formats/edit.php:139
 #: system/pages/admin/pages/blocks/post/settings.php:98
-#: system/pages/admin/settings.php:325 system/pages/admin/settings.php:384
-#: system/pages/admin/settings.php:496 system/pages/admin/settings.php:539
-#: system/pages/admin/settings.php:566 system/pages/admin/settings.php:585
+#: system/pages/admin/settings.php:334 system/pages/admin/settings.php:406
+#: system/pages/admin/settings.php:525 system/pages/admin/settings.php:568
+#: system/pages/admin/settings.php:595 system/pages/admin/settings.php:614
 #: system/pages/admin/settings/advanced.php:143
 #: system/pages/admin/settings/advanced.php:162
 #: system/pages/admin/settings/advanced.php:181
@@ -2032,9 +2108,9 @@ msgstr "Activar"
 #: system/pages/admin/input-formats/add.php:118
 #: system/pages/admin/input-formats/edit.php:140
 #: system/pages/admin/pages/blocks/post/settings.php:99
-#: system/pages/admin/settings.php:326 system/pages/admin/settings.php:497
-#: system/pages/admin/settings.php:540 system/pages/admin/settings.php:567
-#: system/pages/admin/settings.php:586
+#: system/pages/admin/settings.php:335 system/pages/admin/settings.php:526
+#: system/pages/admin/settings.php:569 system/pages/admin/settings.php:596
+#: system/pages/admin/settings.php:615
 #: system/pages/admin/settings/advanced.php:144
 #: system/pages/admin/settings/advanced.php:163
 #: system/pages/admin/settings/advanced.php:182
@@ -2503,7 +2579,7 @@ msgid "Menu Configuration"
 msgstr "Configuración de los Menu"
 
 #: system/pages/admin/menus/configuration.php:29
-#: system/pages/admin/pages/edit.php:251 system/pages/admin/users/edit.php:186
+#: system/pages/admin/pages/edit.php:251 system/pages/admin/users/edit.php:188
 msgid "Your changes have been successfully saved."
 msgstr "Tus configuraciones han sido almacenadas exitosamente."
 
@@ -2575,7 +2651,7 @@ msgstr "Menu renombrado exitosamente."
 msgid "New name:"
 msgstr "Nuevo nombre:"
 
-#: system/pages/admin/modules.php:31 system/pages/admin/users/list.php:166
+#: system/pages/admin/modules.php:31 system/pages/admin/users/list.php:217
 msgid "Status"
 msgstr "Estado"
 
@@ -2691,13 +2767,12 @@ msgid "Author:"
 msgstr "Autor:"
 
 #: system/pages/admin/modules/view.php:55 system/pages/admin/themes/view.php:64
-#: system/pages/admin/users/edit.php:304
+#: system/pages/admin/users/edit.php:309
 msgid "Email:"
 msgstr "Correo Electrónico:"
 
 #: system/pages/admin/modules/view.php:61 system/pages/admin/themes/view.php:76
-#: system/pages/admin/users/add.php:271 system/pages/admin/users/edit.php:331
-#: system/pages/register.php:378
+#: system/pages/admin/users/add.php:271 system/pages/admin/users/edit.php:336
 msgid "Website:"
 msgstr "Sitio:"
 
@@ -2770,8 +2845,8 @@ msgstr ""
 #: system/pages/admin/pages/add.php:421
 #: system/pages/admin/pages/blocks/add/post.php:154
 #: system/pages/admin/pages/blocks/edit/post.php:217
-#: system/pages/admin/pages/edit.php:512 system/pages/admin/settings.php:633
-#: system/pages/admin/settings.php:649
+#: system/pages/admin/pages/edit.php:512 system/pages/admin/settings.php:662
+#: system/pages/admin/settings.php:678
 msgid "Uri:"
 msgstr "Uri:"
 
@@ -2811,7 +2886,7 @@ msgstr "Filtrar por tipo:"
 #: system/pages/admin/pages/files.php:225
 #: system/pages/admin/pages/images.php:255 system/pages/admin/pages/list.php:87
 #: system/pages/admin/pages/list.php:134 system/pages/admin/user/content.php:47
-#: system/pages/admin/users/list.php:94 system/pages/admin/users/list.php:109
+#: system/pages/admin/users/list.php:120 system/pages/admin/users/list.php:136
 #: system/pages/search.php:39
 msgid "All"
 msgstr "Todos"
@@ -3126,7 +3201,7 @@ msgid "Image file:"
 msgstr "Archivo de imagen:"
 
 #: system/pages/admin/pages/images/add.php:204
-#: system/pages/admin/settings.php:598
+#: system/pages/admin/settings.php:627
 msgid "Maximun width:"
 msgstr "Ancho máximo:"
 
@@ -3237,7 +3312,7 @@ msgstr ""
 msgid "Mailer"
 msgstr "Enviador"
 
-#: system/pages/admin/settings.php:174
+#: system/pages/admin/settings.php:183
 #: system/pages/admin/settings/advanced.php:118
 #: system/pages/admin/settings/mailer.php:44
 #: system/pages/admin/settings/search.php:91
@@ -3246,103 +3321,107 @@ msgstr "Enviador"
 msgid "Your settings have been successfully saved."
 msgstr "Tus configuraciones han sido exitosamente almacenadas."
 
-#: system/pages/admin/settings.php:196
+#: system/pages/admin/settings.php:205
 msgid "Online"
 msgstr "En línea"
 
-#: system/pages/admin/settings.php:197
+#: system/pages/admin/settings.php:206
 msgid "Offline"
 msgstr "Fuera de línea"
 
-#: system/pages/admin/settings.php:210
+#: system/pages/admin/settings.php:219
 msgid "Status title:"
 msgstr "Título del estado:"
 
-#: system/pages/admin/settings.php:213
+#: system/pages/admin/settings.php:222
 msgid "A brief description of site status like: Under Construction"
 msgstr "Una descripción breve del estado."
 
-#: system/pages/admin/settings.php:219
+#: system/pages/admin/settings.php:228
 msgid "Status Description:"
 msgstr "Descripción del estado:"
 
-#: system/pages/admin/settings.php:222
+#: system/pages/admin/settings.php:231
 msgid "A detailed description of the site status."
 msgstr "Una descripción más detallada del estado."
 
-#: system/pages/admin/settings.php:226
+#: system/pages/admin/settings.php:235
 msgid "Site Status"
 msgstr "Estado del Sitio"
 
-#: system/pages/admin/settings.php:235
+#: system/pages/admin/settings.php:244
 msgid "Site title:"
 msgstr "Título del sitio:"
 
-#: system/pages/admin/settings.php:249
+#: system/pages/admin/settings.php:258
 msgid "Auto detect base url?"
 msgstr "¿Auto detectar url base?"
 
-#: system/pages/admin/settings.php:257
+#: system/pages/admin/settings.php:266
 msgid "Site url:"
 msgstr "Enlace del sitio:"
 
-#: system/pages/admin/settings.php:265
+#: system/pages/admin/settings.php:274
 msgid "Slogan:"
 msgstr "Lema:"
 
-#: system/pages/admin/settings.php:268
+#: system/pages/admin/settings.php:277
 msgid "A short phrase that describes your company or organization goals."
 msgstr "Una frase corta que describa tu compañía o metas de la organización."
 
-#: system/pages/admin/settings.php:273
+#: system/pages/admin/settings.php:282
 msgid "Footer message:"
 msgstr "Mensaje del pie:"
 
-#: system/pages/admin/settings.php:279
+#: system/pages/admin/settings.php:288
 msgid "Site info"
 msgstr "Información del sitio"
 
-#: system/pages/admin/settings.php:286
+#: system/pages/admin/settings.php:295
 msgid "auto-detect"
 msgstr "auto-detectar"
 
-#: system/pages/admin/settings.php:295
+#: system/pages/admin/settings.php:304
 msgid "Site language:"
 msgstr "Lenguaje del sitio:"
 
-#: system/pages/admin/settings.php:311
+#: system/pages/admin/settings.php:320
 msgid "Timezone:"
 msgstr "Horario de zona"
 
-#: system/pages/admin/settings.php:319
+#: system/pages/admin/settings.php:328
 msgid "Language and Timezone"
 msgstr "Lenguaje y Horario de Zona"
 
-#: system/pages/admin/settings.php:338
+#: system/pages/admin/settings.php:347
+msgid "Require e-mail activation?"
+msgstr "Requerir activación por correo electrónico?"
+
+#: system/pages/admin/settings.php:360
 msgid "Require administrator approval?"
 msgstr "Requiere aprobación del administrador?"
 
-#: system/pages/admin/settings.php:351
+#: system/pages/admin/settings.php:373
 msgid "Registrator can select group?"
 msgstr "El usuario registrador puede seleccionar el grupo?"
 
-#: system/pages/admin/settings.php:364
+#: system/pages/admin/settings.php:386
 msgid "Groups the registrator can select"
 msgstr "Grupos que el usuario registrador puede seleccionar"
 
-#: system/pages/admin/settings.php:389
+#: system/pages/admin/settings.php:411
 msgid "Group"
 msgstr "Grupo"
 
-#: system/pages/admin/settings.php:399
+#: system/pages/admin/settings.php:421
 msgid "Requires Approval"
 msgstr "Requiere Aprobación"
 
-#: system/pages/admin/settings.php:473
+#: system/pages/admin/settings.php:495
 msgid "Benefits:"
 msgstr "Beneficios:"
 
-#: system/pages/admin/settings.php:476
+#: system/pages/admin/settings.php:497
 msgid ""
 "This will be displayed on My Account (admin/user) login page. You can input "
 "html and php code."
@@ -3350,42 +3429,56 @@ msgstr ""
 "Esto será mostrado en la página de inicio Mi Cuenta (admin/user). Puedes "
 "entrar html y código php."
 
-#: system/pages/admin/settings.php:482
+#: system/pages/admin/settings.php:503
+msgid "Welcome message:"
+msgstr "Mensaje de bienvenida:"
+
+#: system/pages/admin/settings.php:505
+msgid ""
+"A message that is sent to user after a successful registration. You can "
+"input html and php code. The following placeholders can be used: {name}, "
+"{username}, {email}, {gender}, {group}"
+msgstr ""
+"Un mensaje que es enviado al usuario luego de un registro exitoso. Puedes "
+"entrar código php o html. Los siguientes marcadores puede ser utilizados: "
+"{name}, {username}, {email}, {gender}, {group}"
+
+#: system/pages/admin/settings.php:511
 msgid "Terms and conditions:"
 msgstr "Terminos y condiciones:"
 
-#: system/pages/admin/settings.php:485
+#: system/pages/admin/settings.php:514
 msgid "The terms and conditions users have to agree before registering."
 msgstr ""
 "Los terminos y condiciones que el usuario debe aceptar antes de registrarse."
 
-#: system/pages/admin/settings.php:489
+#: system/pages/admin/settings.php:518
 msgid "New registrations"
 msgstr "Nuevas registraciones"
 
-#: system/pages/admin/settings.php:493
+#: system/pages/admin/settings.php:522
 msgid ""
 "Enables or disable public registrations to the site at the register page."
 msgstr ""
 "Activa o desactiva el registro publico al sitio en la pagina de register."
 
-#: system/pages/admin/settings.php:509
+#: system/pages/admin/settings.php:538
 msgid "Public profiles"
 msgstr "Perfiles Públicos"
 
-#: system/pages/admin/settings.php:522
+#: system/pages/admin/settings.php:551
 msgid "Personal Text Lenght"
 msgstr "Largo del Texto personal"
 
-#: system/pages/admin/settings.php:533
+#: system/pages/admin/settings.php:562
 msgid "User profiles"
 msgstr "Perfil de usuarios"
 
-#: system/pages/admin/settings.php:552
+#: system/pages/admin/settings.php:581
 msgid "Size:"
 msgstr "Tamaño:"
 
-#: system/pages/admin/settings.php:556
+#: system/pages/admin/settings.php:585
 msgid ""
 "The maximun width and height of the picture in the format 100x150 where 100 "
 "= width and 150 height."
@@ -3393,23 +3486,23 @@ msgstr ""
 "Máximo ancho y alto de una imagen de 100x150 donde el 100 = ancho y 150 el "
 "alto."
 
-#: system/pages/admin/settings.php:560
+#: system/pages/admin/settings.php:589
 msgid "User picture"
 msgstr "Foto del Usuario"
 
-#: system/pages/admin/settings.php:578
+#: system/pages/admin/settings.php:607
 msgid "Breadcrumbs"
 msgstr ""
 
-#: system/pages/admin/settings.php:602
+#: system/pages/admin/settings.php:631
 msgid "The maximun width for uploaded images."
 msgstr "Máximo ancho para la subida de imágenes."
 
-#: system/pages/admin/settings.php:607
+#: system/pages/admin/settings.php:636
 msgid "Image quality:"
 msgstr "Calidad de imagen:"
 
-#: system/pages/admin/settings.php:611
+#: system/pages/admin/settings.php:640
 msgid ""
 "A range from 0 (worst quality, smaller file) to 100 (best quality, biggest "
 "file) for jpeg files."
@@ -3417,11 +3510,11 @@ msgstr ""
 "Un valor desde 0 (peor calidad, menor peso) hasta 100 (mejor calidad, mayor "
 "peso) para las imagenes jpeg."
 
-#: system/pages/admin/settings.php:619
+#: system/pages/admin/settings.php:648
 msgid "Static Serving"
 msgstr "Entrega Estática"
 
-#: system/pages/admin/settings.php:621
+#: system/pages/admin/settings.php:650
 msgid ""
 "Enabling this option will store processed image files in a public directory "
 "named 'images', this way the web server becomes in charge of serving images "
@@ -3434,19 +3527,19 @@ msgstr ""
 "lo que mejora el rendimiento. El único inconveniente es que las imágenes no "
 "son protegidas del acceso público."
 
-#: system/pages/admin/settings.php:625
+#: system/pages/admin/settings.php:654
 msgid "Image compression"
 msgstr "Compresión de Imágenes"
 
-#: system/pages/admin/settings.php:637
+#: system/pages/admin/settings.php:666
 msgid "The uri to the page used as the home page."
 msgstr "El uri utilizado para la pagina de inicio."
 
-#: system/pages/admin/settings.php:641
+#: system/pages/admin/settings.php:670
 msgid "Home page"
 msgstr "Página de Inicio"
 
-#: system/pages/admin/settings.php:653
+#: system/pages/admin/settings.php:682
 msgid "The uri to the page used as the page not found result."
 msgstr "El uri utilizado para la página de resultado no encontrado."
 
@@ -3454,19 +3547,22 @@ msgstr "El uri utilizado para la página de resultado no encontrado."
 msgid "You are using Jaris CMS Version:"
 msgstr "Estas usando JarisCMS Version:"
 
-#: system/pages/admin/settings/about.php:28
-msgid "Copyright &copy; 2008 - 2010, All Rights Reserved by JegoYalu."
-msgstr ""
-"Derechos Reservados &copy; 2008 - 2010, Todos los derechos reservados por "
-"JegoYalu."
-
 #: system/pages/admin/settings/about.php:30
+#, php-format
+msgid "Copyright &copy; 2008 - %s, All Rights Reserved by JegoYalu."
+msgstr "Copyright 2008 - %s, Todos los derechos reservados por JegoYalu."
+
+#: system/pages/admin/settings/about.php:34
 msgid "JarisCMS is developed by JegoYalu"
 msgstr "JarisCMS es desarrollado por JegoYalu"
 
-#: system/pages/admin/settings/about.php:34
+#: system/pages/admin/settings/about.php:38
 msgid "and is under the GPL license"
 msgstr "y esta bajo la licencia GPL"
+
+#: system/pages/admin/settings/about.php:47
+msgid "For more information about JarisCMS visit:"
+msgstr "Para más información con respecto a JarisCMS visita:"
 
 #: system/pages/admin/settings/advanced.php:17
 msgid "Advanced Settings"
@@ -3849,7 +3945,7 @@ msgid "Port:"
 msgstr "Puerto:"
 
 #: system/pages/admin/settings/mailer.php:152 system/pages/admin/user.php:98
-#: system/pages/admin/users/add.php:231 system/pages/register.php:335
+#: system/pages/admin/users/add.php:231 system/pages/register.php:339
 #: system/skeleton/data/blocks/left.php:41
 msgid "Password:"
 msgstr "Contraseña:"
@@ -4729,7 +4825,7 @@ msgid "Create Account"
 msgstr "Crear Cuenta"
 
 #: system/pages/admin/user.php:145 system/pages/admin/users/add.php:392
-#: system/pages/register.php:536
+#: system/pages/register.php:513
 msgid "Register"
 msgstr "Registrar"
 
@@ -4745,13 +4841,11 @@ msgstr "Crear Usuario"
 msgid "Export"
 msgstr "Exportar"
 
-#: system/pages/admin/users/add.php:32 system/pages/admin/users/edit.php:71
-#: system/pages/register.php:52
+#: system/pages/admin/users/add.php:32
 msgid "The email you entered is not a valid one."
 msgstr "El correo electrónico que entraste no es válido."
 
 #: system/pages/admin/users/add.php:48 system/pages/admin/users/edit.php:86
-#: system/pages/register.php:67
 msgid ""
 "The email you entered already has a registered account associated to it."
 msgstr ""
@@ -4769,11 +4863,11 @@ msgstr "El nombre de usuario debe ser almenos 3 caracteres de longitud."
 msgid "The username exceeds from 60 characters."
 msgstr "El nombre de usuario excede los 60 caracteres."
 
-#: system/pages/admin/users/add.php:131 system/pages/register.php:223
+#: system/pages/admin/users/add.php:131
 msgid "The Password and Verify password doesn't match."
 msgstr "La contraseña y la contraseña de verificación no coinciden."
 
-#: system/pages/admin/users/add.php:144 system/pages/register.php:237
+#: system/pages/admin/users/add.php:144
 msgid "The e-mail and verify e-mail doesn't match."
 msgstr ""
 "El correo electrónico y el correo electrónico de verificación no coinciden."
@@ -4782,11 +4876,11 @@ msgstr ""
 msgid "The user has been successfully created."
 msgstr "El usuario fue creado exitosamente."
 
-#: system/pages/admin/users/add.php:213 system/pages/register.php:318
+#: system/pages/admin/users/add.php:213 system/pages/register.php:322
 msgid "Your full real name."
 msgstr "Tu nombre real completo."
 
-#: system/pages/admin/users/add.php:225 system/pages/register.php:329
+#: system/pages/admin/users/add.php:225 system/pages/register.php:333
 msgid ""
 "The name that you are going to use to log in, at least 3 characters long. "
 "Permitted characters are A to Z, 0 to 9 and underscores."
@@ -4795,70 +4889,67 @@ msgstr ""
 "longitud. Los caracteres permitidos son A hasta Z, 0 hasta 9 y líneas de "
 "subrayado (underscores)."
 
-#: system/pages/admin/users/add.php:234 system/pages/register.php:339
+#: system/pages/admin/users/add.php:234 system/pages/register.php:344
 msgid "The password used to login, should be at least 6 characters long."
 msgstr ""
 "Contraseña utilizada para iniciar sesión, este debe ser de 6 carácteres de "
 "longitud."
 
-#: system/pages/admin/users/add.php:240 system/pages/admin/users/edit.php:321
-#: system/pages/register.php:345
+#: system/pages/admin/users/add.php:240 system/pages/admin/users/edit.php:326
 msgid "Verify password:"
 msgstr "Verificar contraseña:"
 
-#: system/pages/admin/users/add.php:243 system/pages/register.php:349
+#: system/pages/admin/users/add.php:243
 msgid "Re-enter the password to verify it."
 msgstr "Re-escriba su contraseña para verificarlo."
 
-#: system/pages/admin/users/add.php:254 system/pages/register.php:360
+#: system/pages/admin/users/add.php:254 system/pages/register.php:355
 msgid "The email used in case you forgot your password."
 msgstr "Correo electrónico utilizado en caso de pérdida de contraseña."
 
-#: system/pages/admin/users/add.php:260 system/pages/register.php:367
+#: system/pages/admin/users/add.php:260
 msgid "Verify the e-mail:"
 msgstr "Verificación de correo electrónico:"
 
-#: system/pages/admin/users/add.php:263 system/pages/register.php:371
+#: system/pages/admin/users/add.php:263
 msgid "Re-enter the e-mail to verify is correct."
 msgstr "Re-escriba su correo electrónico para verificarlo."
 
-#: system/pages/admin/users/add.php:273 system/pages/admin/users/edit.php:333
-#: system/pages/register.php:380
+#: system/pages/admin/users/add.php:273 system/pages/admin/users/edit.php:338
 msgid "Corporate or personal website."
 msgstr "Página de Internet personal o corporativa."
 
-#: system/pages/admin/users/add.php:279 system/pages/admin/users/edit.php:339
-#: system/pages/register.php:386 system/pages/user.php:71
+#: system/pages/admin/users/add.php:279 system/pages/admin/users/edit.php:344
+#: system/pages/register.php:359 system/pages/user.php:71
 msgid "Male"
 msgstr "Masculino"
 
-#: system/pages/admin/users/add.php:280 system/pages/admin/users/edit.php:340
-#: system/pages/register.php:387 system/pages/user.php:73
+#: system/pages/admin/users/add.php:280 system/pages/admin/users/edit.php:345
+#: system/pages/register.php:360 system/pages/user.php:73
 msgid "Female"
 msgstr "Femenino"
 
-#: system/pages/admin/users/add.php:293 system/pages/admin/users/edit.php:353
-#: system/pages/register.php:398
+#: system/pages/admin/users/add.php:293 system/pages/admin/users/edit.php:358
 msgid "Gender"
 msgstr "Género"
 
-#: system/pages/admin/users/add.php:301 system/pages/admin/users/edit.php:369
-#: system/pages/register.php:404
+#: system/pages/admin/users/add.php:301 system/pages/admin/users/edit.php:374
+#: system/pages/register.php:378
 msgid "Day:"
 msgstr "Día:"
 
-#: system/pages/admin/users/add.php:314 system/pages/admin/users/edit.php:381
-#: system/pages/register.php:416
+#: system/pages/admin/users/add.php:314 system/pages/admin/users/edit.php:386
+#: system/pages/register.php:390
 msgid "Month:"
 msgstr "Mes:"
 
-#: system/pages/admin/users/add.php:327 system/pages/admin/users/edit.php:393
-#: system/pages/register.php:428
+#: system/pages/admin/users/add.php:327 system/pages/admin/users/edit.php:398
+#: system/pages/register.php:402
 msgid "Year:"
 msgstr "Año:"
 
-#: system/pages/admin/users/add.php:338 system/pages/admin/users/edit.php:403
-#: system/pages/register.php:438
+#: system/pages/admin/users/add.php:338 system/pages/admin/users/edit.php:408
+#: system/pages/register.php:412
 msgid "Birth date"
 msgstr "Fecha de nacimiento"
 
@@ -4866,20 +4957,20 @@ msgstr "Fecha de nacimiento"
 msgid "A picture displayed in user post, comments, etc..."
 msgstr "Una imagen mostrada en los post del usuario."
 
-#: system/pages/admin/users/add.php:360 system/pages/admin/users/edit.php:439
-#: system/pages/register.php:461
+#: system/pages/admin/users/add.php:360 system/pages/admin/users/edit.php:444
+#: system/pages/register.php:435
 msgid "Picture"
 msgstr "Foto"
 
-#: system/pages/admin/users/add.php:373 system/pages/admin/users/edit.php:459
+#: system/pages/admin/users/add.php:373 system/pages/admin/users/edit.php:464
 msgid "The group where the user belongs."
 msgstr "El grupo al cual el usuario pertenece."
 
-#: system/pages/admin/users/add.php:379 system/pages/admin/users/edit.php:465
+#: system/pages/admin/users/add.php:379 system/pages/admin/users/edit.php:470
 msgid "Status:"
 msgstr "Estado:"
 
-#: system/pages/admin/users/add.php:384 system/pages/admin/users/edit.php:469
+#: system/pages/admin/users/add.php:384 system/pages/admin/users/edit.php:474
 msgid "The account status of this user."
 msgstr "El estado de cuenta de este usuario."
 
@@ -4911,53 +5002,57 @@ msgstr "Detalles de Mi Cuenta"
 msgid "The New password and Verify password doesn't match."
 msgstr "La nueva contraseña y la contraseña de verificación no coinciden."
 
-#: system/pages/admin/users/edit.php:205
+#: system/pages/admin/users/edit.php:207
 msgid "Your account has been activated."
 msgstr "Tus cuenta ha sido activada."
 
-#: system/pages/admin/users/edit.php:207
+#: system/pages/admin/users/edit.php:209
 msgid "Login by visiting:"
 msgstr "Inicia visitando:"
 
-#: system/pages/admin/users/edit.php:209
+#: system/pages/admin/users/edit.php:211
 msgid "Account Activated"
 msgstr "Cuenta Activada"
 
-#: system/pages/admin/users/edit.php:286
+#: system/pages/admin/users/edit.php:231
+msgid "Please login again using your new password."
+msgstr "Por favor inicie nuevamente utilizando su contraseña nueva."
+
+#: system/pages/admin/users/edit.php:291
 msgid "The name that others can see."
 msgstr "El nombre que otros pueden ver."
 
-#: system/pages/admin/users/edit.php:295
+#: system/pages/admin/users/edit.php:300
 msgid "Personal text:"
 msgstr "Texto personal:"
 
-#: system/pages/admin/users/edit.php:297
+#: system/pages/admin/users/edit.php:302
 msgid "Writing displayed on your profile page."
 msgstr "Escrito mostrado en la página de tu perfil."
 
-#: system/pages/admin/users/edit.php:307
+#: system/pages/admin/users/edit.php:312
 msgid "The email used in case you forgot your password or to contact you."
 msgstr ""
 "Correo electrónico utilizado en caso de pérdida de contraseña para ser "
 "contactado."
 
-#: system/pages/admin/users/edit.php:313
+#: system/pages/admin/users/edit.php:318
 msgid "New password:"
 msgstr "Nueva contraseña:"
 
-#: system/pages/admin/users/edit.php:315
+#: system/pages/admin/users/edit.php:320
 msgid "You can enter a new password to change actual one."
 msgstr "Puedes entrar una contraseña nueva para cambiar la actual."
 
-#: system/pages/admin/users/edit.php:323
+#: system/pages/admin/users/edit.php:328
 msgid "Re-enter the new password to verify it."
 msgstr "Re-escriba su contraseña para verificarla."
 
-#: system/pages/admin/users/edit.php:435
+#: system/pages/admin/users/edit.php:440
 msgid "A picture displayed in user post, comments, etc. Maximun size of:"
 msgstr "Una foto del usuario mostrada en los post."
 
-#: system/pages/admin/users/edit.php:492
+#: system/pages/admin/users/edit.php:497
 msgid "Last login from ip:"
 msgstr "Ultimo acceso desde el ip:"
 
@@ -4969,7 +5064,7 @@ msgstr "Exportar Listado de Usuarios"
 msgid "Download Last Generated"
 msgstr "Descargar el Último Generado"
 
-#: system/pages/admin/users/export.php:93
+#: system/pages/admin/users/export.php:100
 msgid ""
 "The process of creating a csv file of the users database could take a long "
 "time.<br />Do you want to the generate export file?"
@@ -4986,27 +5081,47 @@ msgstr "Listado de Usuarios"
 msgid "Re-index Users List"
 msgstr "Re-indexar Listado de Usuarios"
 
-#: system/pages/admin/users/list.php:93
+#: system/pages/admin/users/list.php:119
 msgid "Filter view by group:"
 msgstr "Filtrar vista por grupo:"
 
-#: system/pages/admin/users/list.php:108
-msgid " status:"
+#: system/pages/admin/users/list.php:135
+msgid "status:"
 msgstr "estado:"
 
-#: system/pages/admin/users/list.php:141
+#: system/pages/admin/users/list.php:152
+msgid "Username Ascending"
+msgstr "Nombre de Usuario Ascendente"
+
+#: system/pages/admin/users/list.php:153
+msgid "Username Descending"
+msgstr "Nombre de Usuario Descendente"
+
+#: system/pages/admin/users/list.php:154
+msgid "Registration Date Ascending"
+msgstr "Día de Registro Ascendente"
+
+#: system/pages/admin/users/list.php:155
+msgid "Registration Date Descending"
+msgstr "Día de Registro Descendente"
+
+#: system/pages/admin/users/list.php:157
+msgid "sort by:"
+msgstr "ordenar por:"
+
+#: system/pages/admin/users/list.php:188
 msgid "Total users:"
 msgstr "Total de usuarios:"
 
-#: system/pages/admin/users/list.php:164
+#: system/pages/admin/users/list.php:215
 msgid "Username"
 msgstr "Usuario"
 
-#: system/pages/admin/users/list.php:165
+#: system/pages/admin/users/list.php:216
 msgid "E-mail"
 msgstr "Correo Electrónico"
 
-#: system/pages/admin/users/list.php:167
+#: system/pages/admin/users/list.php:218
 msgid "Register date"
 msgstr "Día de registro"
 
@@ -5119,40 +5234,55 @@ msgstr ""
 msgid "Please select a valid Account Type."
 msgstr "Por favor selecciona un Tipo de Cuenta valida."
 
-#: system/pages/register.php:286
+#: system/pages/register.php:219
+msgid "The Password should be at least 6 characters long."
+msgstr "La contraseña debe ser de al menos 6 caracteres de largo."
+
+#: system/pages/register.php:273
+msgid ""
+"Your account has been successfully created. An activation e-mail was sent."
+msgstr ""
+"Su cuenta a sido creada exitosamente. Un correo electrónico de activación "
+"fue enviado, favor de activar su cuenta antes de iniciar."
+
+#: system/pages/register.php:279
 msgid ""
 "Your account has been successfully created. Enter your details to login."
 msgstr "Tu cuenta fue creada exitosamente. Entre los detalles para iniciar."
 
-#: system/pages/register.php:456
+#: system/pages/register.php:364 system/pages/user.php:156
+msgid "Gender:"
+msgstr "Género:"
+
+#: system/pages/register.php:430
 msgid "A logo or picture of your self."
 msgstr "Un logo o foto de si mismo."
 
-#: system/pages/register.php:478
+#: system/pages/register.php:452
 msgid "(requires approval)"
 msgstr "(requiere aprobación)"
 
-#: system/pages/register.php:495
+#: system/pages/register.php:472
 msgid "Account Type"
 msgstr "Tipo de Cuenta"
 
-#: system/pages/register.php:503
+#: system/pages/register.php:480
 msgid "I do not agree"
 msgstr "No acepto"
 
-#: system/pages/register.php:504
+#: system/pages/register.php:481
 msgid "I agree"
 msgstr "Acepto"
 
-#: system/pages/register.php:509
+#: system/pages/register.php:486
 msgid "Terms and Conditions:"
 msgstr "Terminos y Condiciones:"
 
-#: system/pages/register.php:513
+#: system/pages/register.php:490
 msgid "The terms and conditions that you have to accept in order to register."
 msgstr "Los terminos y condiciones que debes aceptar para poder registrarte."
 
-#: system/pages/register.php:527
+#: system/pages/register.php:504
 msgid "Validation:"
 msgstr "Validación:"
 
@@ -5232,10 +5362,6 @@ msgstr "Últimas publicaciones"
 #: system/pages/user.php:155
 msgid "Member since:"
 msgstr "Miembro desde:"
-
-#: system/pages/user.php:156
-msgid "Gender:"
-msgstr "Género:"
 
 #: system/pages/user.php:157
 msgid "Birth date:"

@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Jefferson González <jgonzalez@jegoyalu.com>
- * @license https://opensource.org/licenses/GPL-3.0 
+ * @license https://opensource.org/licenses/GPL-3.0
  * @link http://github.com/jegoyalu/jariscms Source code.
  */
 
@@ -156,7 +156,7 @@ static function getStyles()
     $additional_styles = View::$additional_styles;
 
     $styles = array(
-        Uri::url("styles/00-system.css")
+        Uri::url("styles/system.css")
     );
 
     foreach($additional_styles as $url)
@@ -182,9 +182,9 @@ static function getScripts()
     $additional_scripts = View::$additional_scripts;
 
     $scripts = array(
-        Uri::url("scripts/00-jquery-1.8.2.min.js"),
-        Uri::url("scripts/01-jquery.textarearesizer.compressed.js"),
-        Uri::url("scripts/02-system.js")
+        Uri::url("scripts/jquery-1.12.4.min.js"),
+        Uri::url("scripts/jquery.textarearesizer.min.js"),
+        Uri::url("scripts/system.js")
     );
 
     foreach($additional_scripts as $url)
@@ -671,7 +671,7 @@ static function generateAdminPageSections()
             "description" => t("View and edit existing content categories.")
         );
     }
-    
+
     if(Authentication::groupHasPermission("approve_content", $group))
     {
         $content[] = array(
@@ -766,7 +766,7 @@ static function generateAdminPageSections()
     {
         $users[] = array(
             "title" => t("Manage"),
-            "url" => Uri::url("admin/users"),
+            "url" => Uri::url("admin/users/list"),
             "description" => t("View and edit existing users.")
         );
     }
@@ -1184,7 +1184,7 @@ static function addHiddenUrlParameters($parameters, $type = "get")
         foreach($parameters as $name => $value)
         {
             Session::start();
-            
+
             if($name != "p")
             {
                 $_SESSION["hidden_parameters"][$type][$name] = $value;
@@ -1223,9 +1223,9 @@ static function appendHiddenParameters()
                     $_REQUEST[$name] = $value;
                 }
             }
-            
+
             unset($_SESSION["hidden_parameters"]);
-            
+
             Session::destroyIfEmpty();
         }
     }
@@ -1629,6 +1629,52 @@ static function savePageToCacheIfPossible($uri, $page_data, $content)
 
         Data::edit(0, $fields, $cache_time_file);
     }
+}
+
+/**
+ * Removes a cached page.
+ * @param string $uri
+ * @param array $get_params
+ * @return bool True on succes or false if cached page didn't exist.
+ */
+static function removeCachedPage($uri, &$get_params=array())
+{
+    $cache_file = Site::dataDir() . "cache/" .
+        Uri::fromText($_SERVER["HTTP_HOST"] . $uri) . Language::getCurrent()
+    ;
+
+    $cache_time_file = Site::dataDir() . "cache/" .
+        Uri::fromText($_SERVER["HTTP_HOST"] . $uri) . Language::getCurrent()
+    ;
+
+    //Append get variables to cache name in order to support caching
+    //pages like some-results?page=1
+    if(count($get_params) > 1)
+    {
+        $cache_file .= "_get_";
+        $cache_time_file .= "_get_";
+
+        foreach($get_params as $name=>$value)
+        {
+            if($name == "p")
+                continue;
+
+            $cache_file .= $name . "_" . $value;
+            $cache_time_file .= $name . "_" . $value;
+        }
+    }
+
+    $cache_time_file .= ".time";
+
+    if(file_exists($cache_file))
+    {
+        unlink($cache_file);
+        unlink($cache_time_file);
+
+        return true;
+    }
+
+    return false;
 }
 
 }

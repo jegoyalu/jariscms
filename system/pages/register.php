@@ -208,42 +208,22 @@ row: 0
             $error = false;
 
             if(
-                $_REQUEST["password"] != "" &&
-                $_REQUEST["password"] == $_REQUEST["verify_password"]
+                strlen($_REQUEST["password"]) >= 6
             )
             {
                 $fields["password"] = $_REQUEST["password"];
             }
-            elseif(
-                $_REQUEST["password"] == "" ||
-                $_REQUEST["password"] != $_REQUEST["verify_password"]
-            )
-            {
-                Jaris\View::addMessage(
-                    t("The Password and Verify password doesn't match."),
-                    "error"
-                );
-
-                $error = true;
-            }
-
-            if($_REQUEST["email"] == $_REQUEST["verify_email"])
-            {
-                $fields["email"] = trim($_REQUEST["email"]);
-            }
             else
             {
                 Jaris\View::addMessage(
-                    t("The e-mail and verify e-mail doesn't match."),
+                    t("The Password should be at least 6 characters long."),
                     "error"
                 );
 
                 $error = true;
             }
 
-            $fields["website"] = trim(
-                Jaris\Util::stripHTMLTags($_REQUEST["website"])
-            );
+            $fields["email"] = trim($_REQUEST["email"]);
 
             if(!$error)
             {
@@ -277,13 +257,37 @@ row: 0
                         in_array($_REQUEST["group"], $groups_approval))
                     )
                     {
-                        Jaris\View::addMessage(t("Your registration is awaiting for approval. If the registration is approved you will receive an email notification."));
+                        Jaris\View::addMessage(
+                            t("Your registration is awaiting for approval. If the registration is approved you will receive an email notification.")
+                        );
 
-                        Jaris\Mail::sendRegistrationNotification($_REQUEST["username"]);
+                        Jaris\Mail::sendRegistrationNotification(
+                            $_REQUEST["username"]
+                        );
                     }
                     else
                     {
-                        Jaris\View::addMessage(t("Your account has been successfully created. Enter your details to login."));
+                        if(Jaris\Settings::get("registration_needs_activation", "main"))
+                        {
+                            Jaris\View::addMessage(
+                                t("Your account has been successfully created. An activation e-mail was sent.")
+                            );
+                        }
+                        else
+                        {
+                            Jaris\View::addMessage(
+                                t("Your account has been successfully created. Enter your details to login.")
+                            );
+                        }
+                    }
+
+                    if(Jaris\Settings::get("registration_needs_activation", "main"))
+                    {
+                        Jaris\Mail::sendEmailActivation($_REQUEST["username"]);
+                    }
+                    else
+                    {
+                        Jaris\Mail::sendWelcomeMessage($_REQUEST["username"]);
                     }
 
                     Jaris\Uri::go("admin/user");
@@ -334,19 +338,10 @@ row: 0
             "name" => "password",
             "label" => t("Password:"),
             "id" => "password",
+            "value" => $_REQUEST["password"],
+            "reveal" => true,
             "required" => true,
-            "inline" => true,
             "description" => t("The password used to login, should be at least 6 characters long.")
-        );
-
-        $fields[] = array(
-            "type" => "password",
-            "name" => "verify_password",
-            "label" => t("Verify password:"),
-            "id" => "verify_password",
-            "required" => true,
-            "inline" => true,
-            "description" => t("Re-enter the password to verify it.")
         );
 
         $fields[] = array(
@@ -360,34 +355,13 @@ row: 0
             "description" => t("The email used in case you forgot your password.")
         );
 
-        $fields[] = array(
-            "type" => "text",
-            "value" => $_REQUEST["verify_email"],
-            "name" => "verify_email",
-            "label" => t("Verify the e-mail:"),
-            "id" => "verify_email",
-            "required" => true,
-            "inline" => true,
-            "description" => t("Re-enter the e-mail to verify is correct.")
-        );
-
-        $fields[] = array(
-            "type" => "text",
-            "value" => $_REQUEST["website"],
-            "name" => "website",
-            "label" => t("Website:"),
-            "id" => "website",
-            "description" => t("Corporate or personal website.")
-        );
-
-        $fieldset[] = array("fields" => $fields);
-
         //Gender Fields
         $gender[t("Male")] = "m";
         $gender[t("Female")] = "f";
 
-        $gender_fields[] = array(
+        $fields[] = array(
             "type" => "radio",
+            "label" => t("Gender:"),
             "name" => "gender",
             "id" => "gender",
             "value" => $gender,
@@ -395,7 +369,7 @@ row: 0
             "required" => true
         );
 
-        $fieldset[] = array("name" => t("Gender"), "fields" => $gender_fields);
+        $fieldset[] = array("fields" => $fields);
 
         //Birthdate fields
         $birth_date_fields[] = array(
@@ -481,10 +455,13 @@ row: 0
                     $fields_group[] = array(
                         "type" => "radio",
                         "checked" => (
-                            $group_machine_name == $_REQUEST["group"] ? true : false
+                            $group_machine_name == $_REQUEST["group"] ?
+                                true : false
                         ),
                         "name" => "group",
-                        "description" => $group_data["description"] . " " . $requires_approval,
+                        "description" => $group_data["description"]
+                            . " "
+                            . $requires_approval,
                         "value" => array(
                             $group_data["name"] => $group_machine_name
                         )

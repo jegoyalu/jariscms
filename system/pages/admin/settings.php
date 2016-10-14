@@ -45,6 +45,7 @@ row: 0
             $site_settings["footer_message"] = Jaris\Site::$footer_message;
             $site_settings["language"] = Jaris\Site::$language;
             $site_settings["new_registrations"] = false;
+            $site_settings["registration_needs_activation"] = false;
             $site_settings["registration_needs_approval"] = false;
             $site_settings["registration_can_select_group"] = false;
             $site_settings["registration_groups"] = "";
@@ -83,6 +84,9 @@ row: 0
             $site_settings["new_registrations"] = isset($site_settings["new_registrations"]) ?
                 $site_settings["new_registrations"] : false
             ;
+            $site_settings["registration_needs_activation"] = isset($site_settings["registration_needs_activation"]) ?
+                $site_settings["registration_needs_activation"] : false
+            ;
             $site_settings["registration_needs_approval"] = isset($site_settings["registration_needs_approval"]) ?
                 $site_settings["registration_needs_approval"] : false
             ;
@@ -91,6 +95,9 @@ row: 0
             ;
             $site_settings["registration_benefits"] = isset($site_settings["registration_benefits"]) ?
                 $site_settings["registration_benefits"] : ""
+            ;
+            $site_settings["registration_welcome_message"] = isset($site_settings["registration_welcome_message"]) ?
+                $site_settings["registration_welcome_message"] : ""
             ;
             $site_settings["registration_terms"] = isset($site_settings["registration_terms"]) ?
                 $site_settings["registration_terms"] : ""
@@ -152,11 +159,13 @@ row: 0
                 Jaris\Settings::save("timezone", $_REQUEST["timezone"], "main");
                 Jaris\Settings::save("language", $_REQUEST["language"], "main");
                 Jaris\Settings::save("new_registrations", $_REQUEST["new_registrations"], "main");
+                Jaris\Settings::save("registration_needs_activation", $_REQUEST["registration_needs_activation"], "main");
                 Jaris\Settings::save("registration_needs_approval", $_REQUEST["registration_needs_approval"], "main");
                 Jaris\Settings::save("registration_can_select_group", $_REQUEST["registration_can_select_group"], "main");
                 Jaris\Settings::save("registration_groups", serialize($_REQUEST["registration_groups"]), "main");
                 Jaris\Settings::save("registration_groups_approval", serialize($_REQUEST["registration_groups_approval"]), "main");
                 Jaris\Settings::save("registration_benefits", $_REQUEST["registration_benefits"], "main");
+                Jaris\Settings::save("registration_welcome_message", $_REQUEST["registration_welcome_message"], "main");
                 Jaris\Settings::save("registration_terms", $_REQUEST["registration_terms"], "main");
                 Jaris\Settings::save("user_profiles", $_REQUEST["user_profiles"], "main");
                 Jaris\Settings::save("user_profiles_public", $_REQUEST["user_profiles_public"], "main");
@@ -335,6 +344,19 @@ row: 0
 
         $new_registration_fields[] = array(
             "type" => "other",
+            "html_code" => "<h4>" . t("Require e-mail activation?") . "</h4>"
+        );
+
+        $new_registration_fields[] = array(
+            "type" => "radio",
+            "name" => "registration_needs_activation",
+            "id" => "registration_needs_activation",
+            "value" => $new_registrations,
+            "checked" => $site_settings["registration_needs_activation"]
+        );
+
+        $new_registration_fields[] = array(
+            "type" => "other",
             "html_code" => "<h4>" . t("Require administrator approval?") . "</h4>"
         );
 
@@ -471,9 +493,16 @@ row: 0
             "type" => "textarea",
             "name" => "registration_benefits",
             "label" => t("Benefits:"),
-            "id" => "registration_benefits",
             "value" => $site_settings["registration_benefits"],
             "description" => t("This will be displayed on My Account (admin/user) login page. You can input html and php code.")
+        );
+
+        $new_registration_fields[] = array(
+            "type" => "textarea",
+            "name" => "registration_welcome_message",
+            "label" => t("Welcome message:"),
+            "value" => $site_settings["registration_welcome_message"],
+            "description" => t("A message that is sent to user after a successful registration. You can input html and php code. The following placeholders can be used: {name}, {username}, {email}, {gender}, {group}")
         );
 
         $new_registration_fields[] = array(
@@ -562,7 +591,7 @@ row: 0
             "collapsible" => true,
             "collapsed" => true
         );
-        
+
         $breadcrumbs[t("Enable")] = true;
         $breadcrumbs[t("Disable")] = false;
 

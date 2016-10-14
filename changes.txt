@@ -6,6 +6,11 @@ Version 6.1.1 - Date 23/08/2016
     * Added ability to moderate/approve content/pages before they are
       published. This functionality needs to be implemented by the content
       listing module, etc...
+    * Added ability to remove cached pages when edited and new
+      Jaris\System function to remove cached pages.
+    * Added option to set a welcome message for new registrations.
+    * Simplified the registration process and added optional email activation.
+    * Renamed core js and css files.
 
 Version 6.1.0 - Date 13/06/2016
 

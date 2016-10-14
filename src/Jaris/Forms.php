@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Jefferson González <jgonzalez@jegoyalu.com>
- * @license https://opensource.org/licenses/GPL-3.0 
+ * @license https://opensource.org/licenses/GPL-3.0
  * @link http://github.com/jegoyalu/jariscms Source code.
  */
 
@@ -256,7 +256,7 @@ static function deleteUploads()
 static function requiredFieldEmpty($form_name)
 {
     Session::start();
-    
+
     $required = false;
     if(is_array($_SESSION["required_fields"][$form_name]))
     {
@@ -345,7 +345,7 @@ static function requiredFieldEmpty($form_name)
 
     //Call create_page hook before creating the page
     Modules::hook("hook_is_required_field_empty", $form_name, $required);
-    
+
     Session::destroyIfEmpty();
 
     return $required;
@@ -381,7 +381,7 @@ static function requiredFieldEmpty($form_name)
 static function generate($parameters, $fieldsets)
 {
     Session::start();
-    
+
     $form_no_name_warning = false;
 
     //Keeps the fields user entered values if browser page back/forward
@@ -510,8 +510,8 @@ static function generate($parameters, $fieldsets)
             if(is_string($field["value"]))
             {
                 if(
-                    $field["type"] == "textarea" || 
-                    $field["type"] == "uriarea" || 
+                    $field["type"] == "textarea" ||
+                    $field["type"] == "uriarea" ||
                     $field["type"] == "userarea"
                 )
                 {
@@ -520,8 +520,8 @@ static function generate($parameters, $fieldsets)
                 else
                 {
                     $field["value"] = str_replace(
-                        '"', 
-                        "&quot;", 
+                        '"',
+                        "&quot;",
                         $field["value"]
                     );
                 }
@@ -600,6 +600,29 @@ static function generate($parameters, $fieldsets)
                 }
 
                 $form .= "<input {$field['code']} $placeholder $readonly id=\"{$field['id']}\" class=\"form-{$field['type']}{$field['class']}\" type=\"{$field['type']}\" name=\"{$field['name']}\" value=\"{$field['value']}\" $size_attr $required_attr/>";
+
+                if($field["type"] == "password" && isset($field["reveal"]))
+                {
+                    $form .= ' <span class="form-checkpassword">'
+                        . '<input type="checkbox" id="'.$field['id'].'-check" />'
+                        . '<label for="'.$field['id'].'-check"> '
+                        . t("Show Password")
+                        . '</label>'
+                        . '</span>'
+                    ;
+
+                    $scripts .= '<script>'
+                        . '$("#'.$field['id'].'-check").click(function(){'
+                        . 'if($(this).is(":checked")){'
+                        . '$("#'.$field['id'].'").attr("type", "text");'
+                        . '} else{'
+                        . '$("#'.$field['id'].'").attr("type", "password");'
+                        . '}'
+                        . '});'
+                        . '</script>'
+                    ;
+
+                }
 
                 if(
                     isset($field["limit"]) &&

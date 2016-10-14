@@ -57,6 +57,16 @@ input[type=submit]:hover, input[type=reset]:hover, input[type=button]:hover
         box-sizing: content-box;
     }
 
+    .form-checkpassword
+    {
+        display: block;
+        width: 96%;
+        margin: 10px auto 5px auto;
+        -webkit-box-sizing: content-box;
+        box-sizing: content-box;
+        text-align: center;
+    }
+
     input[type=checkbox]
     {
         /* Double-sized Checkboxes */

@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Jefferson González <jgonzalez@jegoyalu.com>
- * @license https://opensource.org/licenses/GPL-3.0 
+ * @license https://opensource.org/licenses/GPL-3.0
  * @link http://github.com/jegoyalu/jariscms Source code.
  */
 
@@ -207,7 +207,7 @@ static function sendRegistrationNotification($username)
 }
 
 /**
- * Sends an email notification to all administrators when 
+ * Sends an email notification to all administrators when
  * new content is published that requires approval.
  *
  * @param string $uri
@@ -245,6 +245,110 @@ static function sendContentApproveNotification($uri, $type)
     ;
 
     self::send($to, t("New content pending for approval"), $html_message);
+}
+
+static function sendEmailActivation($username_or_email)
+{
+    $user_data = array();
+    $username = $username_or_email;
+
+    if(strstr($username_or_email, "@") !== false)
+    {
+        $user_data = Users::getByEmail($username_or_email);
+        $username = $user_data["username"];
+    }
+    else
+    {
+        $user_data = Users::get($username_or_email);
+    }
+
+    $activation_code = Users::generatePassword(12);
+
+    $user_data["activation_code"] = $activation_code;
+    $user_data["email_activated"] = "0";
+
+    if(Users::edit($username, $user_data["group"], $user_data) !== "true")
+        return false;
+
+    $html_message = t("To finish the registration process please click the following link to activate your account:")
+        . "<br /><br />"
+    ;
+
+    $html_message .= "<a target=\"_blank\" href=\""
+        . Uri::url(
+            "account/activate",
+            array(
+                "u" => $username,
+                "c" => $activation_code
+            )
+        )
+        . "\">"
+        . Uri::url(
+            "account/activate",
+            array(
+                "u" => $username,
+                "c" => $activation_code
+            )
+        )
+        . "</a>"
+    ;
+
+    $to = array(
+        $user_data["name"] => $user_data["email"]
+    );
+
+    return self::send($to, t("Account Activation"), $html_message);
+}
+
+static function sendWelcomeMessage($username_or_email)
+{
+    $message = Settings::get("registration_welcome_message", "main");
+
+    if(trim($message) == "")
+    {
+        return true;
+    }
+
+    $user_data = array();
+    $username = $username_or_email;
+
+    if(strstr($username_or_email, "@"))
+    {
+        $user_data = Users::getByEmail($username_or_email);
+        $username = $user_data["username"];
+    }
+    else
+    {
+        $user_data = Users::get($username_or_email);
+    }
+
+    $html_message = str_replace(
+        array(
+            "{name}",
+            "{username}",
+            "{email}",
+            "{gender}",
+            "{group}"
+        ),
+        array(
+            $user_data["name"],
+            $username,
+            $user_data["email"],
+            $user_data["gender"],
+            $user_data["group"]
+        ),
+        $message
+    );
+
+    $html_message = System::evalPHP(
+        $html_message
+    );
+
+    $to = array(
+        $user_data["name"] => $user_data["email"]
+    );
+
+    return self::send($to, t("Welcome!"), $html_message);
 }
 
 }

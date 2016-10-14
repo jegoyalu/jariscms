@@ -59,6 +59,11 @@ row: 0
             $_REQUEST["status"] = "";
         }
 
+        if(!isset($_REQUEST["sort"]))
+        {
+            $_REQUEST["user_asc"] = "";
+        }
+
         $group = "";
         if(trim($_REQUEST["group"]) != "")
         {
@@ -86,10 +91,31 @@ row: 0
                 $status = "and status='$status'";
         }
 
+        $sort = "order by username asc";
+        if(trim($_REQUEST["sort"]) != "user_asc")
+        {
+            switch($_REQUEST["sort"])
+            {
+                case "user_desc":
+                    $sort = "order by username desc";
+                    break;
+                case "register_asc":
+                    $sort = "order by register_date asc";
+                    break;
+                case "register_desc":
+                    $sort = "order by register_date desc";
+                    break;
+                default:
+                    $sort = "order by username asc";
+                    break;
+            }
+        }
+
         $status_array = Jaris\Users::getStatuses();
 
         print "<form method=\"get\" action=\"" . Jaris\Uri::url("admin/users/list") . "\">\n";
 
+        // user group filter
         print t("Filter view by group:") . " <select name=\"group\">\n";
         print "<option value=\"\">" . t("All") . "</option>\n";
         foreach($groups_array as $group_name => $machine_name)
@@ -105,7 +131,8 @@ row: 0
         }
         print "</select>\n";
 
-        print t(" status:") . " <select name=\"status\">\n";
+        // user status filter
+        print " " . t("status:") . " <select name=\"status\">\n";
         print "<option value=\"\">" . t("All") . "</option>\n";
         foreach($status_array as $status_label => $status_id)
         {
@@ -120,6 +147,27 @@ row: 0
         }
         print "</select>\n";
 
+        // user sort by
+        $sort_array = array(
+            t("Username Ascending") => "user_asc",
+            t("Username Descending") => "user_desc",
+            t("Registration Date Ascending") => "register_asc",
+            t("Registration Date Descending") => "register_desc"
+        );
+        print " " . t("sort by:") . " <select name=\"sort\">\n";
+        foreach($sort_array as $sort_label => $sort_value)
+        {
+            $selected = "";
+
+            if($_REQUEST["sort"] == $sort_value)
+            {
+                $selected = "selected=\"selected\"";
+            }
+
+            print "<option $selected value=\"$sort_value\">$sort_label</option>\n";
+        }
+        print "</select>\n";
+
         print "<input type=\"submit\" value=\"" . t("View") . "\" />";
 
         print "</form>\n";
@@ -129,7 +177,6 @@ row: 0
         {
             $status_captions[$id] = $caption;
         }
-
 
         $users_count = Jaris\Sql::countColumn(
             "users",
@@ -145,7 +192,7 @@ row: 0
             "users",
             $page - 1,
             30,
-            "$group $status order by username asc",
+            "$group $status $sort",
             "username"
         );
 
@@ -155,7 +202,11 @@ row: 0
             "admin/users/list",
             "",
             30,
-            array("group" => $_REQUEST["group"])
+            array(
+                "group" => $_REQUEST["group"],
+                "status" => $_REQUEST["status"],
+                "sort" => $_REQUEST["sort"]
+            )
         );
 
         print "<table class=\"navigation-list\">";
@@ -215,7 +266,11 @@ row: 0
             "admin/users/list",
             "",
             30,
-            array("group" => $_REQUEST["group"])
+            array(
+                "group" => $_REQUEST["group"],
+                "status" => $_REQUEST["status"],
+                "sort" => $_REQUEST["sort"]
+            )
         );
     ?>
     field;
