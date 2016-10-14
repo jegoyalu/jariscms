@@ -12,7 +12,7 @@
 
 $module["name"] = t("Calendar");
 $module["description"] = t("Adds the ability to create calendars for publishing any kind of event or activity.");
-$module["version"] = "1.1.1";
+$module["version"] = "1.2";
 $module["author"] = "Jefferson González";
 $module["email"] = "jgonzalez@jegoyalu.com";
 $module["website"] = "http://www.jegoyalu.com";
@@ -20,6 +20,10 @@ $module["website"] = "http://www.jegoyalu.com";
 /**
 
 =Change Log=
+
+Version 1.2 - Date 22/09/2016
+
+    * Fixed bug when saving uploaded attachments to a newly created event.
 
 Version 1.1.1 - Date 05/26/2016
 

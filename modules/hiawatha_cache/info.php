@@ -12,13 +12,19 @@
 
 $module["name"] = t("Hiawatha Cache");
 $module["description"] = t("Stores a cgi call output to the internal cache system of hiawatha when a url was successfully cached by JarisCMS built-in cache system.");
-$module["version"] = "1.0.1";
+$module["version"] = "1.0.2";
 $module["author"] = "Jefferson González";
 $module["email"] = "jgonzalez@jegoyalu.com";
 $module["website"] = "http://www.jegoyalu.com";
 
 
-/**
+/*
+
+Version 1.0.2 - Date 08/10/2016
+
+    * Added a 200 bytes padding to the len of content because (maybe wrong strlen)
+      or hiawatha causing a strip of the cached html and outputting
+      incomplete html.
 
 Version 1.0.1 - Date 05/26/2016
 

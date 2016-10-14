@@ -130,10 +130,10 @@ Jaris\Signals\SignalHandler::listenWithParams(
         }
 
         $styles_code .= '<link href="'.Jaris\Uri::url($cache_file).'" '
-            . 'rel="stylesheet" type="text/css" media="all" />' 
+            . 'rel="stylesheet" type="text/css" media="all" />'
             . "\n"
         ;
-        
+
         $styles_code .= $last_styles_code;
 
         $i = count($styles);
@@ -166,7 +166,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
         $scripts_code = "";
         $last_scripts_codes = "";
         $compressed = Jaris\Uri::url(
-            Jaris\Modules::directory("minify") 
+            Jaris\Modules::directory("minify")
                 . "min/index.php?f="
         );
         $cache_file = Jaris\Files::getDir("minify");
@@ -187,7 +187,8 @@ Jaris\Signals\SignalHandler::listenWithParams(
             }
             elseif(
                 strpos($url, "jscolor.js") === false &&
-                strpos($url, "ckeditor.js") === false
+                strpos($url, "ckeditor.js") === false &&
+                strpos($url, $main_url) !== false
             )
             {
                 $url_parse = parse_url($url);
@@ -204,7 +205,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
                     );
                 }
 
-                $page_path = Jaris\Pages::getPath($url_parse["path"]) 
+                $page_path = Jaris\Pages::getPath($url_parse["path"])
                     . "/data.php"
                 ;
 

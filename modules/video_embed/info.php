@@ -12,14 +12,18 @@
 
 $module["name"] = t("Videos Auto Embedding");
 $module["description"] = t("To automatically generate a video player from a video link. Supports youtube.com, vimeo.com, videozer.com, videobb.com, dailymotion.com and megavideo.com");
-$module["version"] = "1.0.1";
+$module["version"] = "1.1";
 $module["author"] = "Jefferson González";
 $module["email"] = "jgonzalez@jegoyalu.com";
 $module["website"] = "http://www.jegoyalu.com";
 
-/**
+/*
 
 =Change Log=
+
+Version 1.1 - Date 12/10/2016
+
+    * Added ability to specify the player size.
 
 Version 1.0.1 - Date 05/26/2016
 

@@ -12,7 +12,7 @@
 
 $module["name"] = "Minify";
 $module["description"] = "Uses http://code.google.com/p/minify/ to compress all css and javascript output to one file for faster web download.";
-$module["version"] = "1.2.3";
+$module["version"] = "1.2.4";
 $module["author"] = "Jefferson González";
 $module["email"] = "jgonzalez@jegoyalu.com";
 $module["website"] = "http://www.jegoyalu.com";
@@ -20,6 +20,10 @@ $module["website"] = "http://www.jegoyalu.com";
 /**
 
 =Change Log=
+
+Version 1.2.4 - Date 22/09/2016
+
+    * Fixed bug of module not adding externally linked scripts.
 
 Version 1.2.3 - Date 05/26/2016
 

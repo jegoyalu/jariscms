@@ -99,7 +99,7 @@ row: 0
                 {
                     $file = array(
                         "name" => $file_name,
-                        "tmp_name" => $_FILES["images"]["tmp_name"][$file_index]
+                        "tmp_name" => $_FILES["attachments"]["tmp_name"][$file_index]
                     );
 
                     $data["attachments"][] = Jaris\Files::addUpload(
@@ -107,18 +107,23 @@ row: 0
                         "calendar/" .  str_replace("/", "-", $uri)
                     );
                 }
+            }
 
-                //Chmod all uploaded files to 0755
-                foreach($data["attachments"] as $file)
-                {
-                    chmod(
-                        Jaris\Files::get(
-                            $file,
-                            "calendar/" . str_replace("/", "-", $uri)
-                        ),
-                        0755
-                    );
-                }
+            if(!is_array($data["attachments"]))
+            {
+                $data["attachments"] = array();
+            }
+
+            //Chmod all uploaded files to 0755
+            foreach($data["attachments"] as $file)
+            {
+                chmod(
+                    Jaris\Files::get(
+                        $file,
+                        "calendar/" .  str_replace("/", "-", $uri)
+                    ),
+                    0755
+                );
             }
 
             calendar_event_add($data, $uri);

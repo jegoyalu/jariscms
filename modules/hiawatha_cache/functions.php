@@ -32,7 +32,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
         // Manually set the content lenght header since
         // hiawatha isn't doing it and browser keeps trying
         // to finish load the page.
-        header("Content-Length: " . strlen($content));
+        header("Content-Length: " . strlen($content)+200);
     }
 );
 
@@ -58,7 +58,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
         // Manually set the content lenght header since
         // hiawatha isn't doing it and browser keeps trying
         // to finish load the page.
-        header("Content-Length: " . strlen($content));
+        header("Content-Length: " . strlen($content)+200);
     }
 );
 
@@ -67,5 +67,41 @@ Jaris\Signals\SignalHandler::listenWithParams(
     function()
     {
         header("X-Hiawatha-Cache-Remove: all");
+    }
+);
+
+Jaris\Signals\SignalHandler::listenWithParams(
+    Jaris\Pages::SIGNAL_EDIT_PAGE_DATA,
+    function(&$page, &$new_data, &$page_path)
+    {
+        if(Jaris\Settings::get("enable_cache", "main"))
+        {
+            $uri = "/$page";
+
+            if(Jaris\Settings::get("home_page", "main") == $page)
+            {
+                $uri = "/";
+            }
+
+            header("X-Hiawatha-Cache-Remove: $uri");
+        }
+    }
+);
+
+Jaris\Signals\SignalHandler::listenWithParams(
+    Jaris\Pages::SIGNAL_DELETE_PAGE,
+    function(&$page, &$page_path)
+    {
+        if(Jaris\Settings::get("enable_cache", "main"))
+        {
+            $uri = "/$page";
+
+            if(Jaris\Settings::get("home_page", "main") == $page)
+            {
+                $uri = "/";
+            }
+
+            header("X-Hiawatha-Cache-Remove: $uri");
+        }
     }
 );
