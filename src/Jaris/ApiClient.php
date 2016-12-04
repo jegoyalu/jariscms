@@ -1,55 +1,54 @@
 <?php
 /**
- * Copyright 2008, Jefferson González (JegoYalu.com)
- * This file is part of Jaris CMS and licensed under the GPL,
- * check the LICENSE.txt file for version and details or visit
- * https://opensource.org/licenses/GPL-3.0.
- *
- * Class to facilitate api calls written with jariscms api framework.
+ * @author Jefferson González <jgonzalez@jegoyalu.com>
+ * @license https://opensource.org/licenses/GPL-3.0
+ * @link http://github.com/jegoyalu/jariscms Source code.
  */
 
 /*
 Sample Usage:
 ================================================================================
 
-$api = new Api(
-    "http://localhost/api/ecommerce/inventory",
-    "1ZGzJXlBLxOBUep7yThhFSNspRznu1OlKJ3M0rKwM35xPFjsC1XUTSlMMWX11yK8",
-    false
-);
+    $api = new Api(
+        "http://localhost/api/ecommerce/inventory",
+        "somelongapikeygeneratedjaris",
+        false
+    );
 
-$api->SetAction("update_single");
+    $api->SetAction("update_single");
 
-$api->AddParameters(
-    array(
-        "uri"=>"product/test",
-        "price" => "80.85"
-    )
-);
+    $api->AddParameters(
+        array(
+            "uri"=>"product/test",
+            "price" => "80.85"
+        )
+    );
 
-$api->SendRequest();
+    $api->SendRequest();
 
-print $api->GetResponseBody();
+    print $api->GetResponseBody();
 
-$api->AddParameters(
-    array(
-        "item_number"=>"AA1245",
-        "price" => "80.85"
-    )
-);
+    $api->AddParameters(
+        array(
+            "item_number"=>"AA1245",
+            "price" => "80.85"
+        )
+    );
 
-$api->SendRequest();
+    $api->SendRequest();
 
-print $api->GetResponseBody();
+    print $api->GetResponseBody();
 
 ================================================================================
 */
 
+namespace Jaris;
+
 
 /**
- * Faciliates the usage of jariscms api.
+ * Facilitates doing api calls to api's written with jariscms api framework.
  */
-class Api
+class ApiClient
 {
     /**
      * Full url of the api.
@@ -114,7 +113,7 @@ class Api
      * @param string $name
      * @param string $value
      */
-    public function AddParameter($name, $value)
+    public function addParameter($name, $value)
     {
         $this->parameters[$name] = $value;
     }
@@ -123,7 +122,7 @@ class Api
      * Adds multiple parameters to send on api call.
      * @param array $parameters
      */
-    public function AddParameters(array $parameters)
+    public function addParameters(array $parameters)
     {
         $this->parameters = array_merge($this->parameters, $parameters);
     }
@@ -131,7 +130,7 @@ class Api
     /**
      * Removes previous parameters.
      */
-    public function ClearParameters()
+    public function clearParameters()
     {
         $this->parameters = array();
     }
@@ -140,7 +139,7 @@ class Api
      * Sets the action to execute on api call.
      * @param string $action
      */
-    public function SetAction($action)
+    public function setAction($action)
     {
         $this->action = $action;
     }
@@ -149,7 +148,7 @@ class Api
      * Makes an api call by sending the action and parameters previously set.
      * @throws Exception
      */
-    public function SendRequest()
+    public function sendRequest()
     {
         if($this->token == "")
         {
@@ -190,7 +189,7 @@ class Api
      * Gets the raw response of last api call.
      * @return string
      */
-    public function GetRawResponse()
+    public function getRawResponse()
     {
         return $this->response;
     }
@@ -199,7 +198,7 @@ class Api
      * Gets the array of returned data by last api call.
      * @return array
      */
-    public function GetResponse()
+    public function getResponse()
     {
         return json_decode($this->GetResponseBody(), true);
     }
@@ -208,7 +207,7 @@ class Api
      * Gets raw response headers of last api call.
      * @return string
      */
-    public function GetResponseHeaders()
+    public function getResponseHeaders()
     {
         $response = explode("\r\n\r\n", $this->response);
 
@@ -219,7 +218,7 @@ class Api
      * Gets raw response body of last api call.
      * @return string
      */
-    public function GetResponseBody()
+    public function getResponseBody()
     {
         $response = explode("\r\n\r\n", $this->response);
 
@@ -230,7 +229,7 @@ class Api
      * Gets a new token in order to make api calls.
      * @throws Exception
      */
-    private function GetNewToken()
+    private function getNewToken()
     {
         $parameters = array(
             "key" => $this->api_key
@@ -259,7 +258,7 @@ class Api
      * @return string
      * @throws Exception
      */
-    private function DoRequest($parameters)
+    private function doRequest($parameters)
     {
         $url_info = parse_url($this->api_url);
 
@@ -302,7 +301,10 @@ class Api
 
         if(!$fp)
         {
-            throw new Exception("Could not connect to host.", $errstr, $errno);
+            throw new Exception(
+                "Could not connect to host with error: " . $errstr,
+                $errno
+            );
         }
 
         fputs($fp, $request);

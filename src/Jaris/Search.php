@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Jefferson González <jgonzalez@jegoyalu.com>
- * @license https://opensource.org/licenses/GPL-3.0 
+ * @license https://opensource.org/licenses/GPL-3.0
  * @link http://github.com/jegoyalu/jariscms Source code.
  */
 
@@ -156,8 +156,8 @@ static function database($page = 1, $amount = 10)
             hasuserpermission(users, '$user') as has_user_permissions,
             uri from uris where
             ((title_relevancy > 0 or content_relevancy > 0 or
-            description_normal > 0 or keywords_normal > 0) and 
-            has_category > 0 and has_permissions > 0 and 
+            description_normal > 0 or keywords_normal > 0) and
+            has_category > 0 and has_permissions > 0 and
             has_user_permissions > 0 and approved='a') $type
             order by title_relevancy desc, content_relevancy desc,
             description_normal desc, keywords_normal desc limit $page, $amount";
@@ -173,8 +173,8 @@ static function database($page = 1, $amount = 10)
                 hasuserpermission(users, '$user') as has_user_permissions,
                 uri from uris where
                 ((title_relevancy > 0 or content_relevancy > 0 or
-                description_normal > 0 or keywords_normal > 0) and 
-                has_category > 0 and has_permissions > 0 and 
+                description_normal > 0 or keywords_normal > 0) and
+                has_category > 0 and has_permissions > 0 and
                 has_user_permissions > 0 and approved='a') $type
                 $order_clause limit $page, $amount";
             }
@@ -215,8 +215,8 @@ static function database($page = 1, $amount = 10)
             haspermission(groups, '$group') as has_permissions,
             hasuserpermission(users, '$user') as has_user_permissions,
             uri from uris where
-            has_category > 0 and has_permissions > 0 and 
-            has_user_permissions > 0 and approved='a' 
+            has_category > 0 and has_permissions > 0 and
+            has_user_permissions > 0 and approved='a'
             $type $order_clause limit $page, $amount";
 
             $result = Sql::query($select, $db);
@@ -377,8 +377,8 @@ static function reindexCallback($content_path)
     //Remove repeated whitespaces
     $data["content"] = preg_replace('/\s\s+/', ' ', $data["content"]);
     $data["content"] = strtolower($data["content"]);
-    
-    $data["approved"] = isset($page_data["approved"]) ? 
+
+    $data["approved"] = isset($page_data["approved"]) ?
         $page_data["approved"] : "a"
     ;
 
@@ -408,11 +408,11 @@ static function reindexCallback($content_path)
     (title, content, description, keywords, users, groups, categories, input_format,
      created_date, last_edit_date, last_edit_by, author, type, approved, views, uri, data)
 
-    values ('{$data['title']}', '{$data['content']}', '{$data['description']}', 
-    '{$data['keywords']}', '{$data['users']}', '{$data['groups']}', 
+    values ('{$data['title']}', '{$data['content']}', '{$data['description']}',
+    '{$data['keywords']}', '{$data['users']}', '{$data['groups']}',
     '{$data['categories']}', '{$data['input_format']}', '{$data['created_date']}',
-    '{$data['last_edit_date']}', '{$data['last_edit_by']}', '{$data['author']}', 
-    '{$data['type']}', '{$data['approved']}', {$data['views']}, '$uri', '$page_data')", 
+    '{$data['last_edit_date']}', '{$data['last_edit_by']}', '{$data['author']}',
+    '{$data['type']}', '{$data['approved']}', {$data['views']}, '$uri', '$page_data')",
     $db);
 
     Sql::close($db);
@@ -668,12 +668,12 @@ static function checkContent($content_path, $content_data = array())
 
 /**
  * Gets a set of results for a list of uris stored on _SESSION['search']
- * @param  string $page
- * @param  string $amount
+ * @param  int $page
+ * @param  int $amount
  * @return array
  * @original get_search_results
  */
-static function getResults($page, $amount)
+static function getResults($page=1, $amount=10)
 {
     // To protect against sql injections be sure $page is a int
     if(!is_numeric($page))
@@ -761,7 +761,7 @@ static function getResults($page, $amount)
     //In case someone is trying a page out of range
     if($page > $page_count || $page < 1)
     {
-        return false;
+        return array();
     }
 
     if(Sql::dbExists("search_engine"))
@@ -802,7 +802,7 @@ static function getResults($page, $amount)
  * @param  int $page
  * @param  int $amount
  * @param  string $search_uri
- * @return string
+ * @return bool
  * @original print_search_navigation
  */
 static function printNavigation($page, $amount = 10, $search_uri = "search")
@@ -988,6 +988,8 @@ static function printNavigation($page, $amount = 10, $search_uri = "search")
         print "<a class=\"next\" href=\"$next_page\">$next_text</a>";
     }
     print "</div>\n";
+
+    return true;
 }
 
 /**
@@ -1072,8 +1074,8 @@ static function getResultsCount()
                 hasuserpermission(users, '$user') as has_user_permissions,
                 count(uri) as uri_count from uris where
                 ((title_relevancy > 0 or content_relevancy > 0 or
-                description_normal > 0 or keywords_normal > 0) and 
-                has_category > 0 and has_permissions > 0 and 
+                description_normal > 0 or keywords_normal > 0) and
+                has_category > 0 and has_permissions > 0 and
                 has_user_permissions > 0 and approved='a') $type";
 
                 $result = Sql::query($select, $db);
@@ -1095,7 +1097,7 @@ static function getResultsCount()
                 haspermission(groups, '$group') as has_permissions,
                 hasuserpermission(users, '$user') as has_user_permissions,
                 count(uri) as uri_count from uris where
-                has_category > 0 and has_permissions > 0 and 
+                has_category > 0 and has_permissions > 0 and
                 has_user_permissions > 0 and approved='a' $type";
 
                 $result = Sql::query($select, $db);
@@ -1139,7 +1141,7 @@ static function addKeywords($keywords)
 
 /**
  * Get keywords.
- * @return string
+ * @return array
  * @original get_keywords
  */
 static function getKeywords()

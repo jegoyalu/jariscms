@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Jefferson González <jgonzalez@jegoyalu.com>
- * @license https://opensource.org/licenses/GPL-3.0 
+ * @license https://opensource.org/licenses/GPL-3.0
  * @link http://github.com/jegoyalu/jariscms Source code.
  */
 
@@ -796,7 +796,7 @@ static function generatePassword($len=10)
         $password .= str_replace(
             array("\$", ".", "/"),
             "",
-            crypt(uniqid(rand($len, $len*rand()), true))
+            crypt(uniqid((string)rand($len, $len*rand()), true))
         );
 
     if(strlen($password) > $len)

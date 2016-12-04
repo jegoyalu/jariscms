@@ -14,7 +14,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
     {
         if(
             Jaris\Authentication::groupHasPermission(
-                "add_blocks", 
+                "add_blocks",
                 Jaris\Authentication::currentUserGroup()
             )
         )
@@ -25,7 +25,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
                     "admin/blocks/add",
                     array("calendar_block" => 1)
                 ),
-                "description" => t("Create blocks to display a list a content by a given criteria.")
+                "description" => t("Create blocks to display events of a particular calendar page.")
             );
         }
 
@@ -102,9 +102,9 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
             $fieldset[] = array(
                 "fields" => Jaris\Groups::generateFields(
-                    null, 
-                    "groups_add_event", 
-                    array("administrator", "guest"), 
+                    null,
+                    "groups_add_event",
+                    array("administrator", "guest"),
                     true
                 ),
                 "name" => t("Groups"),
@@ -473,7 +473,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
         $db = Jaris\Sql::open("calendar_events");
 
         Jaris\Sql::query(
-            "delete from calendar_events where uri='$page'", 
+            "delete from calendar_events where uri='$page'",
             $db
         );
 
@@ -527,7 +527,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
         if($field["is_calendar_block"])
         {
             Jaris\View::addStyle(
-                Jaris\Modules::directory("calendar") 
+                Jaris\Modules::directory("calendar")
                     . "styles/events.css"
             );
 
@@ -536,12 +536,12 @@ Jaris\Signals\SignalHandler::listenWithParams(
                 $field["content"] = Jaris\System::evalPHP(
                     $field["pre_content"]
                 );
-                
+
                 $field["content"] .= calendar_block_print_results(
                     $field,
                     $field["calendar_uri"]
                 );
-                
+
                 $field["content"] .= Jaris\System::evalPHP(
                     $field["sub_content"]
                 );
@@ -551,11 +551,11 @@ Jaris\Signals\SignalHandler::listenWithParams(
                 $field["content"] .= Jaris\System::evalPHP(
                     $field["pre_content"]
                 );
-                
+
                 $field["content"] .= calendar_block_print_results(
                     $field
                 );
-                
+
                 $field["content"] .= Jaris\System::evalPHP(
                     $field["sub_content"]
                 );
@@ -573,7 +573,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
         if($content_data["type"] == "calendar")
         {
             Jaris\View::addStyle(
-                Jaris\Modules::directory("calendar") 
+                Jaris\Modules::directory("calendar")
                     . "styles/calendar.css"
             );
 

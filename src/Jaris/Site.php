@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Jefferson González <jgonzalez@jegoyalu.com>
- * @license https://opensource.org/licenses/GPL-3.0 General License Protecting Programmers
+ * @license https://opensource.org/licenses/GPL-3.0
  * @link http://github.com/jegoyalu/jariscms Source code.
  */
 
@@ -12,7 +12,7 @@ namespace Jaris;
  */
 class Site
 {
-    
+
 /**
  * Doesn't Receive parameters.
  * @var string
@@ -141,74 +141,71 @@ static function init()
 
     if($settings = Settings::getAll("main"))
     {
-        if($settings["override"])
+        self::$title = $settings["title"] ? $settings["title"] : self::$title;
+
+        if(!empty($settings["timezone"]))
         {
-            self::$title = $settings["title"] ? $settings["title"] : self::$title;
-
-            if(!empty($settings["timezone"]))
-            {
-                date_default_timezone_set($settings["timezone"]);
-            }
-            else
-            {
-                date_default_timezone_set("UTC");
-            }
-
-            $protocol = System::isSSLConnection() ? "https" : "http";
-
-            if(
-                $settings["auto_detect_base_url"] ||
-                trim($settings["base_url"]) == ""
-            )
-            {
-                $paths = explode("/", $_SERVER["SCRIPT_NAME"]);
-                unset($paths[count($paths) - 1]); //Remove index.php
-                $path = implode("/", $paths);
-
-                self::$base_url = $protocol . "://" . $_SERVER["HTTP_HOST"];
-                
-                if(!defined("HHVM_VERSION"))
-                {
-                    self::$base_url .= $path;
-                }
-            }
-            else
-            {
-                self::$base_url = str_replace(
-                    "http://",
-                    "$protocol://",
-                    ($settings["base_url"] ? $settings["base_url"] : self::$base_url)
-                );
-            }
-
-            self::$user_profiles = isset($settings["user_profiles"]) ?
-                    $settings["user_profiles"] : self::$user_profiles
-            ;
-
-            self::$slogan = isset($settings["slogan"]) ?
-                $settings["slogan"] : self::$slogan
-            ;
-
-            self::$footer_message = isset($settings["footer_message"]) ?
-                $settings["footer_message"] : self::$footer_message
-            ;
-
-            self::$theme = !empty($settings["theme"]) ?
-                $settings["theme"] : self::$theme
-            ;
-
-            self::$language = !empty($settings["language"]) ?
-                $settings["language"] : self::$language
-            ;
-
-            self::$clean_urls = $settings["clean_urls"];
-
-            self::$theme_path = self::$base_url . "/" . rtrim(Themes::directory(self::$theme), "/");
-
-            self::$development_mode = isset($settings["development_mode"]) ?
-                $settings["development_mode"] : false
-            ;
+            date_default_timezone_set($settings["timezone"]);
         }
+        else
+        {
+            date_default_timezone_set("UTC");
+        }
+
+        $protocol = System::isSSLConnection() ? "https" : "http";
+
+        if(
+            $settings["auto_detect_base_url"] ||
+            trim($settings["base_url"]) == ""
+        )
+        {
+            $paths = explode("/", $_SERVER["SCRIPT_NAME"]);
+            unset($paths[count($paths) - 1]); //Remove index.php
+            $path = implode("/", $paths);
+
+            self::$base_url = $protocol . "://" . $_SERVER["HTTP_HOST"];
+
+            if(!defined("HHVM_VERSION"))
+            {
+                self::$base_url .= $path;
+            }
+        }
+        else
+        {
+            self::$base_url = str_replace(
+                "http://",
+                "$protocol://",
+                ($settings["base_url"] ? $settings["base_url"] : self::$base_url)
+            );
+        }
+
+        self::$user_profiles = isset($settings["user_profiles"]) ?
+                $settings["user_profiles"] : self::$user_profiles
+        ;
+
+        self::$slogan = isset($settings["slogan"]) ?
+            $settings["slogan"] : self::$slogan
+        ;
+
+        self::$footer_message = isset($settings["footer_message"]) ?
+            $settings["footer_message"] : self::$footer_message
+        ;
+
+        self::$theme = !empty($settings["theme"]) ?
+            $settings["theme"] : self::$theme
+        ;
+
+        self::$language = !empty($settings["language"]) ?
+            $settings["language"] : self::$language
+        ;
+
+        self::$clean_urls = $settings["clean_urls"];
+
+        self::$theme_path = self::$base_url . "/" . rtrim(Themes::directory(self::$theme), "/");
+
+        self::$development_mode = isset($settings["development_mode"]) ?
+            $settings["development_mode"] : false
+        ;
     }
 
     //For backward compatibility with themes that may be using these
@@ -616,7 +613,7 @@ static function bootStrap()
 
     //Set the page title
     if(
-        Pages::isSystem(false, self::$page_data[0]) ||
+        Pages::isSystem("", self::$page_data[0]) ||
         ($page_type == "category" && $page == "search") ||
         $page == "user"
     )

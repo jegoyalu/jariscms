@@ -1,6 +1,15 @@
+# Building PHP for Jaris
+
+PHP comes available to install by default on most existing distributions.
+There are cases where you will need to build a fresh version of PHP
+(like PHP7) in order to enjoy the latest language features and performance
+gains. Here is a shell script sample to build latest PHP 7 that
+you can use or tweak to build PHP 7 on your linux distribution of choice.
+
+```sh
 #!/bin/bash
 #
-# When building on debian 7 use:
+# To meet all dependencies, when building on debian 7 use:
 # apt-get install build-essential php5-dev bison libxml2-dev \
 #                 libcurl4-openssl-dev pkg-config libjpeg8-dev \
 #                 libpng12-dev libmcrypt-dev libedit-dev
@@ -63,3 +72,4 @@ export EXTENSION_DIR
     --with-curl \
     --with-openssl \
     --with-zlib
+```

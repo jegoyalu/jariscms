@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Jefferson González <jgonzalez@jegoyalu.com>
- * @license https://opensource.org/licenses/GPL-3.0 
+ * @license https://opensource.org/licenses/GPL-3.0
  * @link http://github.com/jegoyalu/jariscms Source code.
  */
 
@@ -240,6 +240,7 @@ static function getInstalled()
             {
                 if(file_exists($current_directory . "/info.php"))
                 {
+                    $language = array();
                     include($current_directory . "/info.php");
                     $languages[$language["code"]] = $language["name"];
                     $found_language = true;

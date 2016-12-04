@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Jefferson González <jgonzalez@jegoyalu.com>
- * @license https://opensource.org/licenses/GPL-3.0 General License Protecting Programmers
+ * @license https://opensource.org/licenses/GPL-3.0
  * @link http://github.com/jegoyalu/jariscms Source code.
  *
  * This file stores all functions of old jariscms version for backwards
@@ -237,7 +237,7 @@ function generate_type_form_fields($type, $values = array())
 
 function generate_type_fields_path($type)
 {
-    return Jaris\Fields::getPath();
+    return Jaris\Fields::getPath($type);
 }
 
 function add_file(
@@ -634,7 +634,7 @@ function delete_user($username)
 
 function edit_user($username, $group, $new_data, $picture = array())
 {
-    return Jaris\Users::edit($username, $group, $new_datam, $picture);
+    return Jaris\Users::edit($username, $group, $new_data, $picture);
 }
 
 function get_user_data_by_email($email)
@@ -759,12 +759,12 @@ function api_response_send()
 
 function api_response_send_error($code, $message, $http_status=400)
 {
-    Jaris\Api::sendErrorResponse($code. $message, $http_status);
+    Jaris\Api::sendErrorResponse($code, $message, $http_status);
 }
 
 function api_response_send_system_error($code)
 {
-    Jaris\Api::sendSystemErrorResponse($conde);
+    Jaris\Api::sendSystemErrorResponse($code);
 }
 
 function api_key_create_db()
@@ -949,7 +949,7 @@ function rename_file_if_exist($file_name)
 
 function print_file($file_uri)
 {
-    Jaris\Pages\Files::printIt($file_url);
+    Jaris\Pages\Files::printIt($file_uri);
 }
 
 function search_files($path, $pattern, $callback)
@@ -1897,7 +1897,7 @@ function get_uri_type($uri)
     return Jaris\Uri::type($uri);
 }
 
-function translate_image_uri($path)
+function translate_image_uri($uri)
 {
     return Jaris\Uri::getImagePath($uri);
 }

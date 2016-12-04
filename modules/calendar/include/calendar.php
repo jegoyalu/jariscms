@@ -509,6 +509,16 @@ function calendar_generate($month, $year, $uri, $user=null)
         )
     );
 
+    $calendar .= "<style>"
+        . ".calendar-consecutive{display: none;}"
+        . "@media all and (max-width: 850px){"
+        . ".calendar-consecutive{display: block;}"
+        . ".calendar-nav{display: none;}"
+        . ".calendar{display: none;}"
+        . "}"
+        . "</style>"
+    ;
+
     $calendar .= '<table class="calendar-nav">'
         . '<tr>'
         . '<td><a href="'.$previous.'">&laquo;</a></td>'
@@ -630,6 +640,8 @@ function calendar_generate($month, $year, $uri, $user=null)
 
     // end the table
     $calendar .= '</table>';
+
+    $calendar .= calendar_generate_consecutive($uri);
 
     // all done, return result
     return $calendar;

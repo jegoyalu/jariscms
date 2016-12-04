@@ -33,7 +33,6 @@ row: 0
 
         if(!($site_settings = Jaris\Settings::getAll("main")))
         {
-            $site_settings["override"] = true;
             $site_settings["clean_urls"] = Jaris\Site::$clean_urls;
             $site_settings["validate_ip"] = false;
             $site_settings["login_ssl"] = false;
@@ -66,9 +65,8 @@ row: 0
         )
         {
             //Check if write is possible and continue to write settings
-            if(Jaris\Settings::save("override", $_REQUEST["override"], "main"))
+            if(Jaris\Settings::save("clean_urls", $_REQUEST["clean_urls"], "main"))
             {
-                Jaris\Settings::save("clean_urls", $_REQUEST["clean_urls"], "main");
                 Jaris\Settings::save("validate_ip", $_REQUEST["validate_ip"], "main");
                 Jaris\Settings::save("login_ssl", $_REQUEST["login_ssl"], "main");
                 Jaris\Settings::save("development_mode", $_REQUEST["development_mode"], "main");
@@ -140,24 +138,8 @@ row: 0
         $parameters["action"] = Jaris\Uri::url("admin/settings/advanced");
         $parameters["method"] = "post";
 
-        $override[t("Enable")] = true;
-        $override[t("Disable")] = false;
-
-        $override_fields[] = array(
-            "type" => "radio",
-            "name" => "override",
-            "id" => "override",
-            "value" => $override,
-            "checked" => $site_settings["override"]
-        );
-
-        $fieldset[] = array(
-            "name" => t("Override settings"),
-            "fields" => $override_fields,
-            "collapsible" => true,
-            "collapsed" => true,
-            "description" => t("Overrides settings.php options. Should always be enable.")
-        );
+        $enable_disable[t("Enable")] = true;
+        $enable_disable[t("Disable")] = false;
 
         $development[t("Enable")] = true;
         $development[t("Disable")] = false;
@@ -166,7 +148,7 @@ row: 0
             "type" => "radio",
             "name" => "development_mode",
             "id" => "development_mode",
-            "value" => $override,
+            "value" => $enable_disable,
             "checked" => $site_settings["development_mode"]
         );
 

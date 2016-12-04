@@ -79,7 +79,7 @@ Jaris\Site::loadModules();
 Jaris\Modules::hook("hook_cronjob");
 
 //Save execution time
-Jaris\Settings::save("last_cron_jobs_run", time(), "main");
+Jaris\Settings::save("last_cron_jobs_run", (string)time(), "main");
 
 //Remove cron lock file
 unlink(Jaris\Site::dataDir() . "cron_running.lock");

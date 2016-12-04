@@ -113,6 +113,7 @@ row: 0
             $data["title"] = trim($_REQUEST["title"]);
             $data["description"] = $_REQUEST["description"];
             $data["place"] = $_REQUEST["place"];
+            $data["url"] = Jaris\Util::stripHTMLTags($_REQUEST["url"]);
             $data["longitude"] = Jaris\Util::stripHTMLTags($_REQUEST["longitude"]);
             $data["latitude"] = Jaris\Util::stripHTMLTags($_REQUEST["latitude"]);
             $data["day"] = intval($_REQUEST["day"]);
@@ -246,6 +247,17 @@ row: 0
                 $event_data["place"],
             "label" => t("Place:"),
             "description" => t("The physical address or description of the area where the event is goint to take place.")
+        );
+
+        $fields[] = array(
+            "type" => "text",
+            "name" => "url",
+            "value" => isset($_REQUEST["url"]) ?
+                $_REQUEST["url"]
+                :
+                $event_data["url"],
+            "label" => t("Url:"),
+            "description" => t("A general purpose url or registration page for this event.")
         );
 
         $fields[] = array(

@@ -1,6 +1,14 @@
 Changes Log
 ================================================================================
 
+Version 6.1.2 - Date 18/10/2016
+
+    * Removed legacy use of override configuration flag since settings.php
+      isn't used anymore.
+    * Fixed jquery.geolocation.edit plugin not loading on https connections.
+    * Use a block unique id if possible when generating its html code
+      on Jaris\View.
+
 Version 6.1.1 - Date 23/08/2016
 
     * Added ability to moderate/approve content/pages before they are

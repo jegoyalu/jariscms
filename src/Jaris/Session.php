@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Jefferson González <jgonzalez@jegoyalu.com>
- * @license https://opensource.org/licenses/GPL-3.0 
+ * @license https://opensource.org/licenses/GPL-3.0
  * @link http://github.com/jegoyalu/jariscms Source code.
  */
 
@@ -29,10 +29,10 @@ static function start()
     {
         session_start();
         self::$session_started = true;
-        
+
         return true;
     }
-    
+
     return false;
 }
 
@@ -45,10 +45,10 @@ static function startIfUserLogged()
     if(!empty($_COOKIE["logged"]))
     {
         self::start();
-        
+
         return true;
     }
-    
+
     return false;
 }
 
@@ -60,8 +60,8 @@ static function destroy()
     if(self::$session_started)
     {
         unset($_SESSION);
-        
-        self::closeIfEmpty();
+
+        self::destroyIfEmpty();
     }
 }
 
@@ -74,16 +74,16 @@ static function destroyIfEmpty()
     {
         if(empty($_SESSION))
         {
-            if(ini_get("session.use_cookies")) 
+            if(ini_get("session.use_cookies"))
             {
                 $params = session_get_cookie_params();
-                
+
                 setcookie(session_name(), '', time() - 42000,
                     $params["path"], $params["domain"],
                     $params["secure"], $params["httponly"]
                 );
             }
-            
+
             self::$session_started = false;
 
             session_destroy();
@@ -97,19 +97,19 @@ static function destroyIfEmpty()
  */
 static function exists()
 {
-    if(ini_get("session.use_cookies")) 
+    if(ini_get("session.use_cookies"))
     {
         if(isset($_COOKIE[session_name()]))
         {
             return true;
         }
     }
-    
+
     if(self::$session_started)
     {
         return true;
     }
-    
+
     return false;
 }
 
@@ -126,7 +126,7 @@ static function addCookie($name, $value, $expires=0, $path="/")
     {
         $value = serialize($value);
     }
-    
+
     setcookie($name, $value, $expires, $path);
     $_COOKIE[$name] = $value;
 }
@@ -139,7 +139,7 @@ static function addCookie($name, $value, $expires=0, $path="/")
 static function removeCookie($name, $path="/")
 {
     setcookie($name, "", -1, $path="/");
-    
+
     if(isset($_COOKIE[$name]))
     {
         unset($_COOKIE[$name]);

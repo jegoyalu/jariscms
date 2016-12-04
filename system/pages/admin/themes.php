@@ -23,16 +23,6 @@ row: 0
 
         Jaris\View::addTab(t("Upload"), "admin/themes/upload");
 
-        $is_override_on = Jaris\Settings::get("override", "main");
-
-        if(!$is_override_on)
-        {
-            Jaris\View::addMessage(
-                t("In order to change the default theme you need to enable Override settings"),
-                "error"
-            );
-        }
-
         if(isset($_REQUEST["btnSave"]))
         {
             if(is_array($_REQUEST["themes_enabled"]))

@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Jefferson González <jgonzalez@jegoyalu.com>
- * @license https://opensource.org/licenses/GPL-3.0 General License Protecting Programmers
+ * @license https://opensource.org/licenses/GPL-3.0
  * @link http://github.com/jegoyalu/jariscms Source code.
  */
 
@@ -32,7 +32,7 @@ static function add($menu_name)
     }
 
     //Create an empty menu file and supress invalid array warning
-    if(@!Data::write(null, $menu_file))
+    if(@!Data::write(array(), $menu_file))
     {
         return System::errorMessage("write_error_data");
     }

@@ -12,7 +12,7 @@
     <div class="content">
        <?php
             print $content;
-            print animated_blocks_print_block($id, $position);
+            print animated_blocks_print_block($row_id, $position);
        ?>
     </div>
 </div>

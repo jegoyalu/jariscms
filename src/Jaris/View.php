@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Jefferson González <jgonzalez@jegoyalu.com>
- * @license https://opensource.org/licenses/GPL-3.0 General License Protecting Programmers
+ * @license https://opensource.org/licenses/GPL-3.0
  * @link http://github.com/jegoyalu/jariscms Source code.
  */
 
@@ -202,7 +202,7 @@ static function addTab($name, $uri, $arguments = array(), $row = 0)
 static function addMessage($message, $type = "normal")
 {
     Session::start();
-    
+
     $_SESSION["messages"][] = array("text" => $message, "type" => $type);
 }
 
@@ -225,7 +225,7 @@ static function getMetaTagsHTML(&$page_data=array())
 
     $description = isset($page_data["description"]) ?
         str_replace(
-            array('"', "\n"), 
+            array('"', "\n"),
             array("'", " "),
             Util::stripHTMLTags($page_data["description"])
         )
@@ -235,7 +235,7 @@ static function getMetaTagsHTML(&$page_data=array())
 
     $keywords = isset($page_data["keywords"]) ?
         str_replace(
-            array('"', "\n"), 
+            array('"', "\n"),
             array("'", " "),
             Util::stripHTMLTags($page_data["keywords"])
         )
@@ -450,6 +450,14 @@ static function getBlocksHTML($arrData, $position, $page)
                         if(trim($content) == "")
                         {
                             continue;
+                        }
+
+                        $row_id = $id;
+
+                        //Set the id to the unique ID of the block.
+                        if(isset($field["id"]))
+                        {
+                            $id = $field["id"];
                         }
 
                         ob_start();
@@ -909,9 +917,9 @@ static function getMessagesHTML()
     {
         return "";
     }
-    
+
     Session::start();
-    
+
     if(isset($_SESSION["messages"]))
     {
         $messages_array = $_SESSION["messages"];
@@ -949,7 +957,7 @@ static function getMessagesHTML()
             $messages .= "</span>\n";
         }
     }
-    
+
     Session::destroyIfEmpty();
 
     return $messages;

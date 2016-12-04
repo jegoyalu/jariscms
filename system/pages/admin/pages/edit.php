@@ -15,7 +15,22 @@ exit;
 row: 0
     field: title
     <?php
-        if(!isset($_REQUEST["uri"]))
+        if(
+            !Jaris\Authentication::groupHasPermission(
+                "manual_uri_content",
+                Jaris\Authentication::currentUserGroup()
+            )
+            &&
+            empty($_REQUEST["uri"])
+        )
+        {
+            if(!empty($_REQUEST["actual_uri"]))
+            {
+                $_REQUEST["uri"] = $_REQUEST["actual_uri"];
+            }
+        }
+
+        if(empty($_REQUEST["uri"]))
         {
             Jaris\Uri::go("");
         }
@@ -177,7 +192,7 @@ row: 0
                 !Jaris\Authentication::groupHasPermission(
                     "manual_uri_content",
                     Jaris\Authentication::currentUserGroup()
-                ) ||
+                ) &&
                 $_REQUEST["uri"] == ""
             )
             {
@@ -454,8 +469,7 @@ row: 0
 
         $extra_fields = Jaris\Fields::generateFields(
             $current_type,
-            $page_data,
-            "edit"
+            $page_data
         );
 
         if($extra_fields)

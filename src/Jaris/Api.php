@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Jefferson González <jgonzalez@jegoyalu.com>
- * @license https://opensource.org/licenses/GPL-3.0 
+ * @license https://opensource.org/licenses/GPL-3.0
  * @link http://github.com/jegoyalu/jariscms Source code.
  */
 
@@ -814,7 +814,7 @@ public static function sendResponse()
 
 /**
  * Sends an error response and finalize the request.
- * @param string $code The code should be a number greater than 1000
+ * @param int $code The code should be a number greater than 1000
  * @param string $message
  * @param int $http_status A valid http header status code
  * @original api_response_send_error
@@ -842,7 +842,7 @@ public static function sendErrorResponse($code, $message, $http_status=400)
 
 /**
  * Sends one of the predefined system errors and finalizes the request.
- * @param string $code
+ * @param int $code
  * @original api_response_send_system_error
  */
 public static function sendSystemErrorResponse($code)

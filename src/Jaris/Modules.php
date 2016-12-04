@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Jefferson González <jgonzalez@jegoyalu.com>
- * @license https://opensource.org/licenses/GPL-3.0 
+ * @license https://opensource.org/licenses/GPL-3.0
  * @link http://github.com/jegoyalu/jariscms Source code.
  */
 
@@ -29,7 +29,7 @@ static function hook(
 )
 {
     static $signals_loaded;
-    
+
     if(!$signals_loaded)
     {
         $development_mode = Site::$development_mode;
@@ -57,10 +57,10 @@ static function hook(
 
             include_once($functions_file);
         }
-        
+
         $signals_loaded = true;
     }
-    
+
     Signals\SignalHandler::sendWithParams(
         $hook, $var1, $var2, $var3, $var4
     );
@@ -242,7 +242,7 @@ static function getInstalled()
         $modules = array();
 
         $module_dir = Site::dataDir() . "modules/";
-        
+
         if(is_dir($module_dir))
         {
             $dir_handle = opendir($module_dir);
@@ -260,7 +260,7 @@ static function getInstalled()
                     }
                 }
             }
-            
+
             sort($modules);
         }
     }
@@ -356,7 +356,7 @@ static function checkDependecies($name)
 
             View::addMessage(
                 t("The following modules need to be installed first:") .
-                " $mo$modules_not_installed",
+                " $modules_not_installed",
                 "error"
             );
 
@@ -477,7 +477,7 @@ static function install($name, &$needs_dependency = null)
             $uri = trim($fields["uri"]);
 
             //Reference that stores the new page uri in case original already exist
-            $new_uri = null;
+            $new_uri = "";
 
             $data_file = $module_dir . "data/" .
                 str_replace("/", "-", str_replace("-", "_", $uri)) . ".php"
@@ -490,7 +490,10 @@ static function install($name, &$needs_dependency = null)
                 return false;
             }
 
-            $pages_uri[$id] = array("original_uri" => $uri, "new_uri" => $new_uri);
+            $pages_uri[$id] = array(
+                "original_uri" => $uri,
+                "new_uri" => $new_uri
+            );
         }
 
         if(!Data::write($pages_uri, $module_installation . "/pages.php"))
@@ -680,7 +683,7 @@ static function upgrade($name)
             $uri = trim($fields["uri"]);
 
             //Reference that stores the new page uri in case original already exist
-            $new_uri = null;
+            $new_uri = "";
 
             $data_file = $module_dir . "data/" .
                 str_replace("/", "-", str_replace("-", "_", $uri)) .

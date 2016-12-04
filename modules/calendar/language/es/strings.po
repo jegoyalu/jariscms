@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: JarisCMS Ecommerce v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-31 00:01-0400\n"
+"POT-Creation-Date: 2016-10-25 09:30-0400\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Jefferson González <jgonzalez@jegoyalu.com>\n"
 "Language-Team: JegoYalu <servicios@jegoyalu.com>\n"
@@ -13,41 +13,56 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: ../..\n"
 "X-Poedit-KeywordsList: t\n"
-"X-Generator: Poedit 1.8.2\n"
+"X-Generator: Poedit 1.8.9\n"
 "X-Poedit-SearchPath-0: .\n"
 
 #: data/admin-calendar-events-add.php:15 data/admin-calendar-events.php:141
-#: functions.php:18 functions.php:97
+#: functions.php:55 functions.php:165
 msgid "Add Event"
 msgstr "Añadir Evento"
 
-#: data/admin-calendar-events-add.php:139
-#: data/admin-calendar-events-edit.php:211
+#: data/admin-calendar-events-add.php:80
+msgid "A new calendar event has been created and is pending for your approval."
+msgstr ""
+"Un nuevo evento de calendario a sido creado y esta a la espera de tu "
+"aprobación."
+
+#: data/admin-calendar-events-add.php:82
+msgid "For more details or approve this event visit the calendar page:"
+msgstr ""
+"Para mas detalles o aprobar este evento visita la página del calendario:"
+
+#: data/admin-calendar-events-add.php:90
+msgid "New calendar event pending for approval"
+msgstr "Nuevo evento de calendario esperando aprobación"
+
+#: data/admin-calendar-events-add.php:161
+#: data/admin-calendar-events-edit.php:220
 msgid "Title:"
 msgstr "Título:"
 
-#: data/admin-calendar-events-add.php:142
-#: data/admin-calendar-events-edit.php:217
+#: data/admin-calendar-events-add.php:164
+#: data/admin-calendar-events-edit.php:226
 msgid "A brief description of the event."
 msgstr "Una breve descripción del evento."
 
-#: data/admin-calendar-events-add.php:149
-#: data/admin-calendar-events-edit.php:227 data/calendar-event.php:140
+#: data/admin-calendar-events-add.php:171
+#: data/admin-calendar-events-edit.php:236 templates/calendar-event.php:35
 msgid "Description:"
 msgstr "Descripción:"
 
-#: data/admin-calendar-events-add.php:151
-#: data/admin-calendar-events-edit.php:229
+#: data/admin-calendar-events-add.php:173
+#: data/admin-calendar-events-edit.php:238
 msgid "A detailed description of the event."
 msgstr "Una descripción detallada del evento."
 
-#: data/admin-calendar-events-add.php:158
-#: data/admin-calendar-events-edit.php:239 data/calendar-event.php:154
+#: data/admin-calendar-events-add.php:180
+#: data/admin-calendar-events-edit.php:248 templates/calendar-event.php:41
 msgid "Place:"
 msgstr "Lugar:"
 
-#: data/admin-calendar-events-add.php:159
-#: data/admin-calendar-events-edit.php:240
+#: data/admin-calendar-events-add.php:181
+#: data/admin-calendar-events-edit.php:249
 msgid ""
 "The physical address or description of the area where the event is goint to "
 "take place."
@@ -55,94 +70,104 @@ msgstr ""
 "La dirección física o descripción del área donde se estará llevando acabo el "
 "evento."
 
-#: data/admin-calendar-events-add.php:169
-#: data/admin-calendar-events-edit.php:256 data/calendar-event.php:160
+#: data/admin-calendar-events-add.php:188
+#: data/admin-calendar-events-edit.php:259
+msgid "Url:"
+msgstr ""
+
+#: data/admin-calendar-events-add.php:189
+#: data/admin-calendar-events-edit.php:260
+msgid "A general purpose url or registration page for this event."
+msgstr "Un url genérico o para registro de este evento."
+
+#: data/admin-calendar-events-add.php:199
+#: data/admin-calendar-events-edit.php:276 templates/calendar-event.php:48
 msgid "Map:"
 msgstr "Mapa:"
 
-#: data/admin-calendar-events-add.php:170
-#: data/admin-calendar-events-edit.php:257
+#: data/admin-calendar-events-add.php:200
+#: data/admin-calendar-events-edit.php:277
 msgid "Select or search the location of the event on the map."
 msgstr "Selecciona o busca la localización del evento en el mapa."
 
-#: data/admin-calendar-events-add.php:178
-#: data/admin-calendar-events-add.php:268
-#: data/admin-calendar-events-edit.php:265
-#: data/admin-calendar-events-edit.php:355
+#: data/admin-calendar-events-add.php:208
+#: data/admin-calendar-events-add.php:298
+#: data/admin-calendar-events-edit.php:285
+#: data/admin-calendar-events-edit.php:375
 msgid "From"
 msgstr "Desde"
 
-#: data/admin-calendar-events-add.php:191
-#: data/admin-calendar-events-add.php:235
-#: data/admin-calendar-events-edit.php:278
-#: data/admin-calendar-events-edit.php:322
+#: data/admin-calendar-events-add.php:221
+#: data/admin-calendar-events-add.php:265
+#: data/admin-calendar-events-edit.php:298
+#: data/admin-calendar-events-edit.php:342
 msgid "Day:"
 msgstr "Día:"
 
-#: data/admin-calendar-events-add.php:204
-#: data/admin-calendar-events-add.php:248
-#: data/admin-calendar-events-edit.php:291
-#: data/admin-calendar-events-edit.php:335 data/admin-calendar-events.php:172
+#: data/admin-calendar-events-add.php:234
+#: data/admin-calendar-events-add.php:278
+#: data/admin-calendar-events-edit.php:311
+#: data/admin-calendar-events-edit.php:355 data/admin-calendar-events.php:172
 msgid "Month:"
 msgstr "Mes:"
 
-#: data/admin-calendar-events-add.php:217
-#: data/admin-calendar-events-add.php:261
-#: data/admin-calendar-events-edit.php:304
-#: data/admin-calendar-events-edit.php:348 data/admin-calendar-events.php:187
+#: data/admin-calendar-events-add.php:247
+#: data/admin-calendar-events-add.php:291
+#: data/admin-calendar-events-edit.php:324
+#: data/admin-calendar-events-edit.php:368 data/admin-calendar-events.php:187
 msgid "Year:"
 msgstr "Año:"
 
-#: data/admin-calendar-events-add.php:222
-#: data/admin-calendar-events-add.php:320
-#: data/admin-calendar-events-edit.php:309
-#: data/admin-calendar-events-edit.php:416
+#: data/admin-calendar-events-add.php:252
+#: data/admin-calendar-events-add.php:350
+#: data/admin-calendar-events-edit.php:329
+#: data/admin-calendar-events-edit.php:436
 msgid "To"
 msgstr "Hasta"
 
-#: data/admin-calendar-events-add.php:264
-#: data/admin-calendar-events-edit.php:351 data/admin-calendar-events.php:256
+#: data/admin-calendar-events-add.php:294
+#: data/admin-calendar-events-edit.php:371 data/admin-calendar-events.php:256
 msgid "Date"
 msgstr "Fecha"
 
-#: data/admin-calendar-events-add.php:283
-#: data/admin-calendar-events-add.php:330
-#: data/admin-calendar-events-edit.php:373
-#: data/admin-calendar-events-edit.php:429
+#: data/admin-calendar-events-add.php:313
+#: data/admin-calendar-events-add.php:360
+#: data/admin-calendar-events-edit.php:393
+#: data/admin-calendar-events-edit.php:449
 msgid "Hour:"
 msgstr "Hora:"
 
-#: data/admin-calendar-events-add.php:305
-#: data/admin-calendar-events-add.php:340
-#: data/admin-calendar-events-edit.php:398
-#: data/admin-calendar-events-edit.php:442
+#: data/admin-calendar-events-add.php:335
+#: data/admin-calendar-events-add.php:370
+#: data/admin-calendar-events-edit.php:418
+#: data/admin-calendar-events-edit.php:462
 msgid "Minute:"
 msgstr "Minuto:"
 
-#: data/admin-calendar-events-add.php:315
-#: data/admin-calendar-events-add.php:350
-#: data/admin-calendar-events-edit.php:411
-#: data/admin-calendar-events-edit.php:455
+#: data/admin-calendar-events-add.php:345
+#: data/admin-calendar-events-add.php:380
+#: data/admin-calendar-events-edit.php:431
+#: data/admin-calendar-events-edit.php:475
 msgid "AM/PM:"
 msgstr ""
 
-#: data/admin-calendar-events-add.php:353
-#: data/admin-calendar-events-edit.php:458 data/admin-calendar-events.php:257
+#: data/admin-calendar-events-add.php:383
+#: data/admin-calendar-events-edit.php:478 data/admin-calendar-events.php:257
 msgid "Time"
 msgstr "Horario"
 
-#: data/admin-calendar-events-add.php:360
-#: data/admin-calendar-events-edit.php:500
+#: data/admin-calendar-events-add.php:390
+#: data/admin-calendar-events-edit.php:520
 msgid "Attachments:"
 msgstr "Archivos Adjuntos:"
 
-#: data/admin-calendar-events-add.php:366
-#: data/admin-calendar-events-edit.php:513
+#: data/admin-calendar-events-add.php:396
+#: data/admin-calendar-events-edit.php:533
 msgid "Save"
 msgstr "Guardar"
 
-#: data/admin-calendar-events-add.php:372
-#: data/admin-calendar-events-edit.php:519
+#: data/admin-calendar-events-add.php:402
+#: data/admin-calendar-events-edit.php:539
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -179,23 +204,23 @@ msgstr "Editar Evento"
 msgid "View Event"
 msgstr "Ver Evento"
 
-#: data/admin-calendar-events-edit.php:463
+#: data/admin-calendar-events-edit.php:483
 msgid "Order"
 msgstr "Orden"
 
-#: data/admin-calendar-events-edit.php:464
+#: data/admin-calendar-events-edit.php:484
 msgid "File"
 msgstr "Archivo"
 
-#: data/admin-calendar-events-edit.php:465
+#: data/admin-calendar-events-edit.php:485
 msgid "Action"
 msgstr "Acción"
 
-#: data/admin-calendar-events-edit.php:484
+#: data/admin-calendar-events-edit.php:504
 msgid "Delete"
 msgstr "Borrar"
 
-#: data/admin-calendar-events-edit.php:506
+#: data/admin-calendar-events-edit.php:526
 msgid "Current attachments:"
 msgstr "Archivos adjuntos actuales:"
 
@@ -264,85 +289,124 @@ msgstr "aprobar"
 msgid "delete"
 msgstr "borrar"
 
-#: data/calendar-event.php:92
-msgid "Published by:"
-msgstr "Publicado por:"
+#: functions.php:23
+msgid "Add Calendar Block"
+msgstr "Añadir Bloque de Calendario"
 
-#: data/calendar-event.php:100
-msgid "Date:"
-msgstr "Fecha:"
+#: functions.php:28
+msgid "Create blocks to display events of a particular calendar page."
+msgstr ""
+"Crea un bloque para mostrar eventos de una página de calendario en "
+"particular."
 
-#: data/calendar-event.php:120
-msgid "Hours:"
-msgstr "Horarios:"
-
-#: data/calendar-event.php:211
-msgid "Images:"
-msgstr "Imágenes:"
-
-#: data/calendar-event.php:232
-msgid "Documents:"
-msgstr "Documentos:"
-
-#: functions.php:27
+#: functions.php:64
 msgid "Manage Events"
 msgstr "Manejar Eventos"
 
-#: functions.php:48 functions.php:115
+#: functions.php:88 functions.php:178
+msgid "Calendar Style:"
+msgstr "Estilo del Calendario:"
+
+#: functions.php:91 functions.php:181
+msgid "Traditional"
+msgstr "Tradicional"
+
+#: functions.php:92 functions.php:182
+msgid "Consecutive"
+msgstr "Consecutivo"
+
+#: functions.php:96 functions.php:186
+msgid "Select the default style used to display the calendar events."
+msgstr ""
+"Selecciona el estilo predeterminado para mostrar los eventos del calendario."
+
+#: functions.php:110 functions.php:200
 msgid "Groups"
 msgstr "Grupos"
 
-#: functions.php:49 functions.php:116
+#: functions.php:111 functions.php:201
 msgid "The groups that can publish events to this calendar."
 msgstr "Los grupos que pueden publicar eventos a este calendario."
 
-#: functions.php:55 functions.php:122
+#: functions.php:117 functions.php:207
 msgid "Enable"
 msgstr "Activado"
 
-#: functions.php:56 functions.php:123
+#: functions.php:118 functions.php:208
 msgid "Disable"
 msgstr "Desactivado"
 
-#: functions.php:68 functions.php:135
+#: functions.php:130 functions.php:220
 msgid "Require Approval"
 msgstr "Requerir Aprobación"
 
-#: functions.php:69 functions.php:136
+#: functions.php:131 functions.php:221
 msgid "Enable if adding events require approval."
 msgstr ""
 "Active esta opción si desea que los eventos publicados por terceros sean "
 "aprobados."
 
-#: functions.php:98
+#: functions.php:166
 msgid "View Events"
 msgstr "Ver Eventos"
 
-#: include/calendar.php:389
+#: functions.php:244 functions.php:316
+msgid "Pre-content:"
+msgstr "Pre-contenido:"
+
+#: functions.php:249 functions.php:321
+msgid "Content that will appear above the results."
+msgstr "Contenido que será mostrado encima de los resultados."
+
+#: functions.php:256 functions.php:328
+msgid "Sub-content:"
+msgstr "Sub-contenido:"
+
+#: functions.php:261 functions.php:333
+msgid "Content that will appear below the results."
+msgstr "Contenido que será mostrado encima de los resultados."
+
+#: functions.php:271 functions.php:343
+msgid "Results to show:"
+msgstr "Resultados a mostrar:"
+
+#: functions.php:274 functions.php:346
+msgid "The amount of results to display."
+msgstr "La cantidad de resultados a mostrar."
+
+#: functions.php:284 functions.php:358
+msgid "Calendar uri:"
+msgstr "Uri del calendario:"
+
+#: functions.php:286 functions.php:360
+msgid "The uri of the calendar from which to display the events."
+msgstr "El uri del calendario del cual mostrar los eventos."
+
+#: include/calendar.php:539
 msgid "Sunday"
 msgstr "Domingo"
 
-#: include/calendar.php:389
+#: include/calendar.php:539
 msgid "Monday"
 msgstr "Lunes"
 
-#: include/calendar.php:389
+#: include/calendar.php:539
 msgid "Tuesday"
 msgstr "Martes"
 
-#: include/calendar.php:389
+#: include/calendar.php:539
 msgid "Wednesday"
 msgstr "Miercoles"
 
-#: include/calendar.php:390
+#: include/calendar.php:540
 msgid "Thursday"
 msgstr "Jueves"
 
-#: include/calendar.php:390
+#: include/calendar.php:540
 msgid "Friday"
 msgstr "Viernes"
 
-#: include/calendar.php:390
+#: include/calendar.php:540
 msgid "Saturday"
 msgstr "Sábado"
 
@@ -369,3 +433,27 @@ msgstr "Una breve descripción de la página del calendario."
 #: install.php:18
 msgid "A full description of the calendar page."
 msgstr "Una descripción detallada de la página del calendario."
+
+#: templates/calendar-event.php:4
+msgid "Published by:"
+msgstr "Publicado por:"
+
+#: templates/calendar-event.php:9
+msgid "Date:"
+msgstr "Fecha:"
+
+#: templates/calendar-event.php:22
+msgid "Hours:"
+msgstr "Horarios:"
+
+#: templates/calendar-event.php:70
+msgid "Images:"
+msgstr "Imágenes:"
+
+#: templates/calendar-event.php:94
+msgid "Documents:"
+msgstr "Documentos:"
+
+#: templates/calendar-event.php:115
+msgid "Register"
+msgstr "Registrar"

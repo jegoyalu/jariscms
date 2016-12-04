@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Jefferson González <jgonzalez@jegoyalu.com>
- * @license https://opensource.org/licenses/GPL-3.0 
+ * @license https://opensource.org/licenses/GPL-3.0
  * @link http://github.com/jegoyalu/jariscms Source code.
  */
 
@@ -210,7 +210,7 @@ static function edit($id, $new_data, $page)
  * @param array $new_data
  * @param string $page The page uri where the image reside.
  *
- * @return array All the fields of the image.
+ * @return bool False if failed to edit data otherwise true.
  */
 static function editByName($name, $new_data, $page)
 {

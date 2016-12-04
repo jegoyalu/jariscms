@@ -42,7 +42,11 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
         if(!$textarea_id[Jaris\Authentication::currentUserGroup()])
         {
-            $textarea_id[Jaris\Authentication::currentUserGroup()] = "content,pre_content,sub_content";
+            $textarea_id[Jaris\Authentication::currentUserGroup()] =
+                "content,pre_content,sub_content,"
+                    . "registration_welcome_message,registration_benefits,"
+                    . "footer-message,site_status_description"
+            ;
         }
         else
         {
@@ -85,7 +89,8 @@ Jaris\Signals\SignalHandler::listenWithParams(
                 . "add-page-layaway_product,edit-page-layaway_product,"
                 . "realty-add-listing,realty-edit-listing,"
                 . "animated-blocks-add,animated-blocks-edit,"
-                . "listing-blocks-add,listing-blocks-edit"
+                . "listing-blocks-add,listing-blocks-edit,"
+                . "edit-site-settings"
             ;
         }
         else

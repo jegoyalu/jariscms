@@ -12,12 +12,16 @@
 
 $module["name"] = t("Mobile Detect");
 $module["description"] = t("Provides functionality to adjust theme depending on device.");
-$module["version"] = "1.0.2";
+$module["version"] = "1.0.3";
 $module["author"] = "Jefferson González";
 $module["email"] = "jgonzalez@jegoyalu.com";
 $module["website"] = "http://www.jegoyalu.com";
 
 /**
+
+Version 1.0.3 - Date 18/10/2016
+
+    * Removed legacy detection of main override flag.
 
 Version 1.0.2 - Date 13/06/2016
 

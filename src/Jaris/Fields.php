@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Jefferson González <jgonzalez@jegoyalu.com>
- * @license https://opensource.org/licenses/GPL-3.0 
+ * @license https://opensource.org/licenses/GPL-3.0
  * @link http://github.com/jegoyalu/jariscms Source code.
  */
 
@@ -103,21 +103,21 @@ static function delete($id, $type)
  * @param int $id The id of the field.
  * @param string $type The machine name of the type.
  *
- * @return bool True on success or false on failure.
+ * @return array Array with a field fields or empty array if not found.
  * @original get_type_field_data
  */
 static function get($id, $type)
 {
     if($id == "" && $type == "")
     {
-        return false;
+        return array();
     }
 
     $fields = self::getList($type);
 
-    if(!$fields)
+    if(!$fields || !isset($fields[$id]))
     {
-        return false;
+        return array();
     }
 
     return $fields[$id];

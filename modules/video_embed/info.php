@@ -12,7 +12,7 @@
 
 $module["name"] = t("Videos Auto Embedding");
 $module["description"] = t("To automatically generate a video player from a video link. Supports youtube.com, vimeo.com, videozer.com, videobb.com, dailymotion.com and megavideo.com");
-$module["version"] = "1.1";
+$module["version"] = "1.2";
 $module["author"] = "Jefferson González";
 $module["email"] = "jgonzalez@jegoyalu.com";
 $module["website"] = "http://www.jegoyalu.com";
@@ -20,6 +20,10 @@ $module["website"] = "http://www.jegoyalu.com";
 /*
 
 =Change Log=
+
+Version 1.2 - Date 02/11/2016
+
+    * Generate protocol agnostic embed code by using // instead of http://
 
 Version 1.1 - Date 12/10/2016
 
@@ -33,4 +37,4 @@ Version 1.0 - Date 08/12/2011
 
     * First version
 
-**/
+*/

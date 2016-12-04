@@ -445,9 +445,8 @@ elseif(isset($_REQUEST["action"]) && $_REQUEST["action"] == "site_details")
                     $footer_message = t("Powered by JarisCMS.", "install.po");
 
                     //Check if write is possible and continue to write settings
-                    if(Jaris\Settings::save("override", true, "main"))
+                    if(Jaris\Settings::save("site_status", true, "main"))
                     {
-                        Jaris\Settings::save("site_status", true, "main");
                         Jaris\Settings::save("title", $_REQUEST["title"], "main");
                         Jaris\Settings::save("slogan", $_REQUEST["slogan"], "main");
                         Jaris\Settings::save("timezone", $_REQUEST["timezone"], "main");

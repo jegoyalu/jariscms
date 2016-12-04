@@ -109,7 +109,7 @@ row: 0
                     {
                         $image = Jaris\Images::get(
                             $file["tmp_name"],
-                            $max_width
+                            intval($max_width)
                         );
 
                         switch($image_info["mime"])

@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Jefferson González <jgonzalez@jegoyalu.com>
- * @license https://opensource.org/licenses/GPL-3.0 
+ * @license https://opensource.org/licenses/GPL-3.0
  * @link http://github.com/jegoyalu/jariscms Source code.
  */
 
@@ -191,6 +191,7 @@ static function get($path)
 
     if(file_exists($info_file))
     {
+        $theme = array();
         include($info_file);
         $theme_info = $theme;
     }

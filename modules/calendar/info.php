@@ -12,14 +12,32 @@
 
 $module["name"] = t("Calendar");
 $module["description"] = t("Adds the ability to create calendars for publishing any kind of event or activity.");
-$module["version"] = "1.2";
+$module["version"] = "1.6";
 $module["author"] = "Jefferson González";
 $module["email"] = "jgonzalez@jegoyalu.com";
 $module["website"] = "http://www.jegoyalu.com";
 
-/**
+/*
 
 =Change Log=
+
+Version 1.6 - Date 02/11/2016
+
+    * Fixed issue of gmap3 not loading when on https connection.
+
+Version 1.5 - Date 30/10/2016
+
+    * Improvements to calendar for responsive sites.
+    * Improvements to calendar event template.
+
+Version 1.4 - Date 24/10/2016
+
+    * Added registration url.
+
+Version 1.3 - Date 22/09/2016
+
+    * Make traditional calendar responsive by switching to consecutive
+      calendar on lower resolutions.
 
 Version 1.2 - Date 22/09/2016
 

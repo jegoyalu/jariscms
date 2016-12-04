@@ -32,6 +32,10 @@ function add_question(question, answer)
     {
         whizzywig.makeWhizzyWig("answer-"+question_id, "all");
     }
+    else if(typeof CKEDITOR == "object")
+    {
+        CKEDITOR.replace("answer-"+question_id);
+    }
 
     question_id++;
 }

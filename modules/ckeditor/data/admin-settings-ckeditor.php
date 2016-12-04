@@ -224,7 +224,11 @@ row: 0
                 "label" => t("Textarea Id:"),
                 "id" => "teaxtarea_id",
                 "value" => $classes[$_REQUEST["group"]] ?
-                    $classes[$_REQUEST["group"]] : "content,pre_content,sub_content",
+                    $classes[$_REQUEST["group"]]
+                    :
+                    "content,pre_content,sub_content,"
+                        . "registration_welcome_message,registration_benefits,"
+                        . "footer-message,site_status_description",
                 "description" => t("List of textarea id's seperated by comma (,).")
             );
 
@@ -252,7 +256,8 @@ row: 0
                     . "add-page-layaway_product,edit-page-layaway_product,"
                     . "realty-add-listing,realty-edit-listing,"
                     . "animated-blocks-add,animated-blocks-edit,"
-                    . "listing-blocks-add,listing-blocks-edit"
+                    . "listing-blocks-add,listing-blocks-edit,"
+                    . "edit-site-settings"
             );
 
             $fieldset[] = array(

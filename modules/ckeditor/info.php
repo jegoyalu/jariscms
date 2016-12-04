@@ -12,7 +12,7 @@
 
 $module["name"] = "CKEditor";
 $module["description"] = "The best web text editor for everyone.";
-$module["version"] = "1.0.2";
+$module["version"] = "1.1";
 $module["author"] = "Jefferson González";
 $module["email"] = "jgonzalez@jegoyalu.com";
 $module["website"] = "http://ckeditor.com/";
@@ -20,6 +20,10 @@ $module["website"] = "http://ckeditor.com/";
 /**
 
 =Change Log=
+
+Version 1.1 - Date 18/10/2016
+
+    * Enabled ckeditor of various text areas found in the main admin settings.
 
 Version 1.0.2 - Date 13/06/2016
 

@@ -52,6 +52,7 @@
     border-bottom: solid 1px #d3d3d3;
     transition: all 0.3s;
     vertical-align: top;
+    width: 14%;
 }
 
 .calendar tbody td:hover
@@ -132,6 +133,24 @@
 {
     padding: 5px;
     margin-bottom: 20px;
+}
+
+.calendar-event .url a
+{
+    display: block;
+    padding: 15px;
+    font-size: 18px;
+    background-color: #d3d3d3;
+    color: #000;
+    border: solid 1px #000;
+    font-weight: bold;
+    transition: all 0.3s;
+    text-align: center;
+}
+
+.calendar-event .url a:hover
+{
+    background-color: #B8B8B8;
 }
 
 .calendar-event .images
@@ -229,4 +248,55 @@
     padding-top: 20px;
     padding-bottom: 20px;
     display: block;
+}
+
+@media all and (max-width: 650px)
+{
+    .calendar-consecutive .event
+    {
+        flex-direction: column;
+        padding-bottom: 7px;
+    }
+
+    .calendar-consecutive .event .date
+    {
+        max-width: 100%;
+        margin-right: 0px;
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+    }
+
+    .calendar-consecutive .event .date .day,
+    .calendar-consecutive .event .date .month,
+    .calendar-consecutive .event .date .year
+    {
+        font-size: 18px;
+    }
+
+    .calendar-consecutive .event .details
+    {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .calendar-consecutive .event .details .hours,
+    .calendar-consecutive .event .details .title a
+    {
+        font-size: 16px;
+        margin-right: 0px;
+        border-right: 0;
+        padding-right: 0px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        display: block;
+    }
+
+    .calendar-consecutive .event .details .title a
+    {
+        font-weight: bold;
+        font-size: 20px;
+    }
 }

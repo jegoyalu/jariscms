@@ -18,28 +18,19 @@ Jaris\Signals\SignalHandler::listenWithParams(
         {
             $settings = Jaris\Settings::getAll("video_embed");
 
-            $types = !empty($settings["content_types"]) ?
-                unserialize($settings["content_types"])
+            $width = !empty($settings["default_width"]) ?
+                $settings["default_width"]
                 :
-                array()
+                640
             ;
 
-            if(empty($types) || in_array($content_data["type"], $types))
-            {
-                $width = !empty($settings["default_width"]) ?
-                    $settings["default_width"]
-                    :
-                    640
-                ;
+            $height = !empty($settings["default_height"]) ?
+                $settings["default_height"]
+                :
+                385
+            ;
 
-                $height = !empty($settings["default_height"]) ?
-                    $settings["default_height"]
-                    :
-                    385
-                ;
-
-                video_embed_parse_videos($content, $width, $height);
-            }
+            video_embed_parse_videos($content, $width, $height);
         }
     }
 );
@@ -79,7 +70,7 @@ function video_embed_parse_videos(&$content, $width=640, $height=385)
         )                 # End host alternatives.
         ([\w\-]{10,12})   # Allow 10-12 for 11 char youtube id.
         \b                # Anchor end to word boundary.
-        %x', '<iframe class="youtube-player" type="text/html" width="'.$width.'" height="'.$height.'" src="http://www.youtube.com/embed/$1?rel=0" frameborder="0" allowfullscreen></iframe>', $content
+        %x', '<iframe class="youtube-player" type="text/html" width="'.$width.'" height="'.$height.'" src="//www.youtube.com/embed/$1?rel=0" frameborder="0" allowfullscreen></iframe>', $content
     );
 
     //Vimeo ex: http://vimeo.com/34267
@@ -90,7 +81,7 @@ function video_embed_parse_videos(&$content, $width=640, $height=385)
         vimeo\.com/
         (\d+)
         \b
-        %x", '<iframe src="http://player.vimeo.com/video/$1" width="'.$width.'" height="'.$height.'" frameborder="0" allowfullscreen></iframe>', $content
+        %x", '<iframe src="//player.vimeo.com/video/$1" width="'.$width.'" height="'.$height.'" frameborder="0" allowfullscreen></iframe>', $content
     );
 
     //Videozer ex: http://www.videozer.com/video/CA3TwM
@@ -101,7 +92,7 @@ function video_embed_parse_videos(&$content, $width=640, $height=385)
         videozer\.com/video/
         ([a-zA-Z\d]+)
         \b
-        %x', '<object id="player" width="'.$width.'" height="'.$height.'" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" ><param name="movie" value="http://www.videozer.com/embed/$1" ></param><param name="allowFullScreen" value="true" ></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.videozer.com/embed/$1" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="'.$width.'" height="'.$height.'"></embed></object>', $content
+        %x', '<object id="player" width="'.$width.'" height="'.$height.'" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" ><param name="movie" value="//www.videozer.com/embed/$1" ></param><param name="allowFullScreen" value="true" ></param><param name="allowscriptaccess" value="always"></param><embed src="//www.videozer.com/embed/$1" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="'.$width.'" height="'.$height.'"></embed></object>', $content
     );
 
     //Videobb ex: http://www.videobb.com/video/Z6316GH7usKM or http://www.videobb.com/watch_video.php?v=Z6316GH7usKM
@@ -118,7 +109,7 @@ function video_embed_parse_videos(&$content, $width=640, $height=385)
         )                           # End host alternatives.
         ([A-Za-z\d]+)               # Video id.
         \b                          # Anchor end to word boundary.
-        %x', '<object id="player" width="'.$width.'" height="'.$height.'" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" ><param name="movie" value="http://www.videobb.com/e/$1" ></param><param name="allowFullScreen" value="true" ></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.videobb.com/e/$1" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="'.$width.'" height="'.$height.'"></embed></object>', $content
+        %x', '<object id="player" width="'.$width.'" height="'.$height.'" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" ><param name="movie" value="//www.videobb.com/e/$1" ></param><param name="allowFullScreen" value="true" ></param><param name="allowscriptaccess" value="always"></param><embed src="//www.videobb.com/e/$1" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="'.$width.'" height="'.$height.'"></embed></object>', $content
     );
 
     //Dailymotion ex: http://www.dailymotion.com/video/xmts74_dirty-radio-ground-shake_music
@@ -138,7 +129,7 @@ function video_embed_parse_videos(&$content, $width=640, $height=385)
         $dailymotion_id = strtok($daily_match, "_");
 
         $content = str_replace(
-            $daily_matches[0][$id], '<iframe frameborder="0" width="'.$width.'" height="'.$height.'" src="http://www.dailymotion.com/embed/video/' . $dailymotion_id . '" allowfullscreen></iframe>', $content
+            $daily_matches[0][$id], '<iframe frameborder="0" width="'.$width.'" height="'.$height.'" src="//www.dailymotion.com/embed/video/' . $dailymotion_id . '" allowfullscreen></iframe>', $content
         );
     }
 
@@ -150,6 +141,6 @@ function video_embed_parse_videos(&$content, $width=640, $height=385)
         megavideo\.com/\?v=
         ([a-zA-Z\d]+)
         \b
-        %x', '<object width="'.$width.'" height="'.$height.'"><param name="movie" value="http://www.megavideo.com/v/$1"></param><param name="allowFullScreen" value="true"></param><embed src="http://www.megavideo.com/v/$1" type="application/x-shockwave-flash" allowfullscreen="true" width="'.$width.'" height="'.$height.'"></embed></object>', $content
+        %x', '<object width="'.$width.'" height="'.$height.'"><param name="movie" value="//www.megavideo.com/v/$1"></param><param name="allowFullScreen" value="true"></param><embed src="//www.megavideo.com/v/$1" type="application/x-shockwave-flash" allowfullscreen="true" width="'.$width.'" height="'.$height.'"></embed></object>', $content
     );
 }

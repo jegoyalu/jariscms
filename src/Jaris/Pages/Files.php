@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Jefferson González <jgonzalez@jegoyalu.com>
- * @license https://opensource.org/licenses/GPL-3.0 
+ * @license https://opensource.org/licenses/GPL-3.0
  * @link http://github.com/jegoyalu/jariscms Source code.
  */
 
@@ -20,7 +20,7 @@ use Jaris\Authentication;
  */
 class Files
 {
-    
+
 /**
  * Receives parameters: $uri, $page_data, $file_uri, $file_data
  * @var string
@@ -167,7 +167,7 @@ static function edit($id, $new_data, $page)
  * @param array $new_data
  * @param string $page The page uri where the file reside.
  *
- * @return array All the fields of the file.
+ * @return bool False if failed to edit data otherwise true.
  */
 static function editByName($name, $new_data, $page)
 {

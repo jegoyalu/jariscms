@@ -12,14 +12,18 @@
 
 $module["name"] = t("FAQ");
 $module["description"] = t("A Frequently asked questions module that uses jequery.simpleFAQ.");
-$module["version"] = "1.1.1";
+$module["version"] = "1.2";
 $module["author"] = "Jefferson González";
 $module["email"] = "jgonzalez@jegoyalu.com";
 $module["website"] = "http://www.jegoyalu.com";
 
-/**
+/*
 
 =Change Log=
+
+Version 1.2 - Date 01/11/2016
+
+    * Added support for ckeditor
 
 Version 1.1.1 - Date 05/26/2016
 
@@ -33,4 +37,4 @@ Version 1.0 - Date 01/11/2013
 
     * Initial version
 
-**/
+*/

@@ -17,7 +17,7 @@ class System
  * Stores JarisCMS version number.
  * @var string
  */
-const VERSION = "6.1.1 MS";
+const VERSION = "6.1.2 MS";
 
 /**
  * Receives parameters: $page, $tabs
@@ -410,7 +410,7 @@ static function addEditTab(&$page_data=null)
             "edit_content",
             Authentication::currentUserGroup()
         ) &&
-        !Pages::isSystem(false, $page_data)
+        !Pages::isSystem("", $page_data)
     )
     {
         if(Pages::userIsOwner($uri, $page_data))

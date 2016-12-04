@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Jefferson González <jgonzalez@jegoyalu.com>
- * @license https://opensource.org/licenses/GPL-3.0 
+ * @license https://opensource.org/licenses/GPL-3.0
  * @link http://github.com/jegoyalu/jariscms Source code.
  */
 
@@ -536,7 +536,6 @@ static function edit($position, $new_data, $file, $callback=null)
  * @param string $file The file path to lock.
  * @param int $lock_type The lock mode that can be shared or exclusive.
  *
- * @return bool true on success false on fail.
  * @original lock_data
  */
 static function lock($file, $lock_type = LOCK_SH)

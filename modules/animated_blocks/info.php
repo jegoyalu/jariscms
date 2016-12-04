@@ -12,7 +12,7 @@
 
 $module["name"] = "Animated Blocks";
 $module["description"] = "Various java script animations to post content into blocks in a more interactive way.";
-$module["version"] = "2.5.1";
+$module["version"] = "2.5.2";
 $module["author"] = "Jefferson González";
 $module["email"] = "jgonzalez@jegoyalu.com";
 $module["website"] = "http://www.jegoyalu.com";
@@ -20,6 +20,10 @@ $module["website"] = "http://www.jegoyalu.com";
 /**
 
 =Change Log=
+
+Version 2.5.2 - Date 18/11/2016
+
+    * Updated block-animated template to use the $row_id instead of $id.
 
 Version 2.5.1 - Date 05/26/2016
 

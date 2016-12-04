@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Jefferson González <jgonzalez@jegoyalu.com>
- * @license https://opensource.org/licenses/GPL-3.0 
+ * @license https://opensource.org/licenses/GPL-3.0
  * @link http://github.com/jegoyalu/jariscms Source code.
  */
 
@@ -27,8 +27,8 @@ class SearchAddons
     private $keywords_count;
 
     /**
-     * String of keywords as input by user.
-     * @var string
+     * Array of keywords as input by user.
+     * @var string[]
      */
     private $keywords_string;
 

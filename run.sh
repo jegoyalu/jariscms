@@ -59,7 +59,7 @@ runphan()
     echo "Checking core functions:"
     echo "========================================================================="
     phan --minimum-severity=0 --backward-compatibility-checks \
-        `find src`
+        `find src` index.php upload.php uris.php cron.php
 }
 
 runphanpages()
@@ -172,7 +172,7 @@ rundocs()
 
     echo
     echo "======================================="
-    echo "Documentation stored on: docs/api"
+    echo "Documentation stored on: doc/api"
     echo "======================================="
 }
 

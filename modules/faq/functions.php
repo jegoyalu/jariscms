@@ -14,11 +14,11 @@ Jaris\Signals\SignalHandler::listenWithParams(
     {
         if($page_data[0]["type"] == "faq")
         {
-            Jaris\View::addStyle(Jaris\Modules::directory("faq") 
+            Jaris\View::addStyle(Jaris\Modules::directory("faq")
                 . "styles/jquery.simpleFAQ.css")
             ;
 
-            Jaris\View::addScript(Jaris\Modules::directory("faq") 
+            Jaris\View::addScript(Jaris\Modules::directory("faq")
                 . "scripts/jquery.simpleFAQ.js")
             ;
         }
@@ -30,11 +30,11 @@ Jaris\Signals\SignalHandler::listenWithParams(
     function(&$parameters, &$fieldsets)
     {
         if(
-            Jaris\Uri::get() == "admin/pages/add" && 
+            Jaris\Uri::get() == "admin/pages/add" &&
             $parameters["name"] == "add-page-faq"
         )
         {
-            Jaris\View::addScript(Jaris\Modules::directory("faq") 
+            Jaris\View::addScript(Jaris\Modules::directory("faq")
                 . "scripts/questions.js")
             ;
 
@@ -74,11 +74,11 @@ Jaris\Signals\SignalHandler::listenWithParams(
         }
         elseif(
             (
-                Jaris\Uri::get() == "admin/pages/edit" && 
+                Jaris\Uri::get() == "admin/pages/edit" &&
                 $parameters["name"] == "edit-page-faq"
             ) ||
             (
-                Jaris\Uri::get() == "admin/languages/translate" && 
+                Jaris\Uri::get() == "admin/languages/translate" &&
                 $_REQUEST["type"] == "page"
             )
         )
@@ -86,7 +86,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
             $page_data = Jaris\Pages::get($_REQUEST["uri"]);
 
             if(
-                Jaris\Uri::get() == "admin/languages/translate" && 
+                Jaris\Uri::get() == "admin/languages/translate" &&
                 $page_data["type"] != "faq"
             )
             {
@@ -95,7 +95,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
             elseif(Jaris\Uri::get() == "admin/languages/translate")
             {
                 $page_data = Jaris\Pages::get(
-                    $_REQUEST["uri"], 
+                    $_REQUEST["uri"],
                     $_REQUEST["code"]
                 );
             }
@@ -106,7 +106,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
             }
 
             Jaris\View::addScript(
-                Jaris\Modules::directory("faq") 
+                Jaris\Modules::directory("faq")
                     . "scripts/questions.js"
             );
 
@@ -190,6 +190,15 @@ Jaris\Signals\SignalHandler::listenWithParams(
                 for($current_id=1; $current_id<=$question_id; $current_id++)
                 {
                     $whizzywig_html .= '  whizzywig.makeWhizzyWig("answer-"+'.$current_id.', "all");' . "\n";
+                }
+
+                $whizzywig_html .= '}' . "\n";
+                $whizzywig_html .= 'else if(typeof CKEDITOR == "object")' . "\n";
+                $whizzywig_html .= '{' . "\n";
+
+                for($current_id=1; $current_id<=$question_id; $current_id++)
+                {
+                    $whizzywig_html .= '  CKEDITOR.replace("answer-"+'.$current_id.');' . "\n";
                 }
 
                 $whizzywig_html .= '}' . "\n";
