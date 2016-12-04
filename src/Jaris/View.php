@@ -462,7 +462,7 @@ static function getBlocksHTML($arrData, $position, $page)
 
                         ob_start();
                         $title = t($field["title"]);
-                        include(self::blockTemplate($position, $page, $id));
+                        include(self::blockTemplate($position, $page, $row_id));
                         $block .= ob_get_contents();
                         ob_end_clean();
                     }

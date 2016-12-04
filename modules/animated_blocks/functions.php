@@ -84,7 +84,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
     {
         if(
             Jaris\Authentication::groupHasPermission(
-                "add_blocks", 
+                "add_blocks",
                 Jaris\Authentication::currentUserGroup()
             )
         )
@@ -129,11 +129,11 @@ Jaris\Signals\SignalHandler::listenWithParams(
             if($block_data["is_animated_block"])
             {
                 Jaris\View::addScript(
-                    Jaris\Modules::directory("animated_blocks") 
+                    Jaris\Modules::directory("animated_blocks")
                         . "scripts/cycle/jquery.cycle.all.min.js"
                 );
-                
-                $template_path = Jaris\Modules::directory("animated_blocks") 
+
+                $template_path = Jaris\Modules::directory("animated_blocks")
                     . "templates/block-animated.php"
                 ;
             }
