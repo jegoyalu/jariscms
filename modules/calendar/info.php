@@ -12,7 +12,7 @@
 
 $module["name"] = t("Calendar");
 $module["description"] = t("Adds the ability to create calendars for publishing any kind of event or activity.");
-$module["version"] = "1.6";
+$module["version"] = "1.7";
 $module["author"] = "Jefferson González";
 $module["email"] = "jgonzalez@jegoyalu.com";
 $module["website"] = "http://www.jegoyalu.com";
@@ -20,6 +20,10 @@ $module["website"] = "http://www.jegoyalu.com";
 /*
 
 =Change Log=
+
+Version 1.7 - Date 03/12/2016
+
+    * Fixed issue with calendar block not displaying.
 
 Version 1.6 - Date 02/11/2016
 

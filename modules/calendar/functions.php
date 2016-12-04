@@ -490,6 +490,10 @@ Jaris\Signals\SignalHandler::listenWithParams(
             isset($_REQUEST["calendar_block"])
         )
         {
+            if(trim($_REQUEST["content"]) == "")
+            {
+                $fields["content"] = "<div></div>";
+            }
             $fields["pre_content"] = $_REQUEST["pre_content"];
             $fields["sub_content"] = $_REQUEST["sub_content"];
             $fields["is_calendar_block"] = 1;
@@ -508,6 +512,10 @@ Jaris\Signals\SignalHandler::listenWithParams(
             isset($_REQUEST["calendar_block"])
         )
         {
+            if(trim($_REQUEST["content"]) == "")
+            {
+                $new_data["content"] = "<div></div>";
+            }
             $new_data["pre_content"] = $_REQUEST["pre_content"];
             $new_data["sub_content"] = $_REQUEST["sub_content"];
             $new_data["results_to_show"] = intval($_REQUEST["results_to_show"]);
