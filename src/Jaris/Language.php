@@ -313,14 +313,12 @@ static function getCurrent()
 
     if(isset($_REQUEST["language"]))
     {
-        setcookie(
+        Session::addCookie(
             "language",
             $_REQUEST["language"],
             time() + (60 * 60 * 24 * 365),
             "/"
         );
-
-        $_COOKIE["language"] = $_REQUEST["language"];
 
         return $_REQUEST["language"];
     }

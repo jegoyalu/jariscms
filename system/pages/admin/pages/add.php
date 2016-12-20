@@ -164,16 +164,16 @@ row: 0
                 Jaris\Fields::saveUploads($fields["type"], $uri);
 
                 Jaris\View::addMessage(t("The page was successfully created."));
-                
+
                 if(
                     Jaris\Types::groupRequiresApproval(
-                        $fields["type"], 
+                        $fields["type"],
                         current_user_group()
                     )
                 )
                 {
                     Jaris\View::addMessage(t("This content requires the administrator approval. If the content is approved it will be listed on the main sections of the site."));
-                    
+
                     Jaris\Mail::sendContentApproveNotification($uri, $fields["type"]);
                 }
             }
@@ -240,7 +240,7 @@ row: 0
         {
 
             $fields_categories = Jaris\Categories::generateFields(
-                null,
+                $_REQUEST,
                 null,
                 $_REQUEST["type"]
             );
@@ -387,7 +387,7 @@ row: 0
 
             $fields_users_access = array_merge(
                 $fields_users_access,
-                Jaris\Groups::generateFields()
+                Jaris\Groups::generateFields($_REQUEST["groups"])
             );
 
             $fields_users_access[] = array(

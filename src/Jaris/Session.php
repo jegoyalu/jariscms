@@ -27,6 +27,19 @@ static function start()
 {
     if(!self::$session_started)
     {
+        // Set the session cookie attributes
+        if(ini_get("session.use_cookies"))
+        {
+            $cookie_params = self::getCookieParams();
+
+            session_set_cookie_params(
+                $cookie_params["lifetime"],
+                $cookie_params["path"],
+                $cookie_params["domain"]
+            );
+        }
+
+        // Register the session
         session_start();
         self::$session_started = true;
 
@@ -92,6 +105,48 @@ static function destroyIfEmpty()
 }
 
 /**
+ * Function that returns proper domain and path values for a cookie that
+ * should work on www and non-www domains as sites installed on lower paths.
+ * @return array
+ */
+static function getCookieParams()
+{
+    $url = parse_url(Site::$base_url);
+
+    $domain = $url["host"];
+    $domain_parts = explode(".", $url["host"]);
+
+    // cookie should work on www/non-www domains.
+    if(count($domain_parts) > 1)
+    {
+        if($domain_parts[0] == "www")
+        {
+            $domain_parts[0] = "";
+            $domain = implode(".", $domain_parts);
+        }
+    }
+    else
+    {
+        $domain = "." . $domain;
+    }
+
+    // If site is not running on main / path then set its current path
+    $path = "/";
+    if(isset($url["path"]))
+    {
+        $path = $url["path"];
+    }
+
+    return array(
+        "lifetime" => ini_get("session.cookie_lifetime"),
+        "path" => $path,
+        "domain" => $domain,
+        "secure" => ini_get("session.cookie_secure"),
+        "httponly" => ini_get("session.cookie_httponly")
+    );
+}
+
+/**
  * Check if a session exists for current connection.
  * @return bool True if a session is registered for current connection.
  */
@@ -127,7 +182,16 @@ static function addCookie($name, $value, $expires=0, $path="/")
         $value = serialize($value);
     }
 
-    setcookie($name, $value, $expires, $path);
+    $cookie_params = self::getCookieParams();
+
+    setcookie(
+        $name,
+        $value,
+        $expires,
+        $path == "/" ? $cookie_params["path"] : $path,
+        $cookie_params["domain"]
+    );
+
     $_COOKIE[$name] = $value;
 }
 
@@ -138,7 +202,15 @@ static function addCookie($name, $value, $expires=0, $path="/")
  */
 static function removeCookie($name, $path="/")
 {
-    setcookie($name, "", -1, $path="/");
+    $cookie_params = self::getCookieParams();
+
+    setcookie(
+        $name,
+        "",
+        -1,
+        $path == "/" ? $cookie_params["path"] : $path,
+        $cookie_params["domain"]
+    );
 
     if(isset($_COOKIE[$name]))
     {

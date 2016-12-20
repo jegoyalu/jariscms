@@ -328,7 +328,7 @@ static function printIt($file_uri)
             header("Content-Length: " . filesize($file_array["path"]));
 
         //Print file to browser
-        ob_clean();
+        ob_end_clean();
         flush();
 
         $fp = fopen($file_array["path"], "r");

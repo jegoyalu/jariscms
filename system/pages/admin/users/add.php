@@ -116,37 +116,21 @@ row: 0
             $error = false;
 
             if(
-                $_REQUEST["password"] != "" &&
-                $_REQUEST["password"] == $_REQUEST["verify_password"]
+                strlen($_REQUEST["password"]) >= 6
             )
             {
                 $fields["password"] = $_REQUEST["password"];
             }
-            elseif(
-                $_REQUEST["password"] == "" ||
-                $_REQUEST["password"] != $_REQUEST["verify_password"]
-            )
-            {
-                Jaris\View::addMessage(
-                    t("The Password and Verify password doesn't match."),
-                    "error"
-                );
-                $error = true;
-            }
-
-            if($_REQUEST["email"] == $_REQUEST["verify_email"])
-            {
-                $fields["email"] = trim($_REQUEST["email"]);
-            }
             else
             {
                 Jaris\View::addMessage(
-                    t("The e-mail and verify e-mail doesn't match."),
+                    t("The Password should be at least 6 characters long."),
                     "error"
                 );
-
                 $error = true;
             }
+
+            $fields["email"] = trim($_REQUEST["email"]);
 
             $fields["website"] = trim(
                 Jaris\Util::stripHTMLTags($_REQUEST["website"])
@@ -230,17 +214,11 @@ row: 0
             "name" => "password",
             "label" => t("Password:"),
             "id" => "password",
+            "value" => empty($_REQUEST["password"]) ?
+                "" : $_REQUEST["password"],
+            "reveal" => true,
             "required" => true,
             "description" => t("The password used to login, should be at least 6 characters long.")
-        );
-
-        $fields[] = array(
-            "type" => "password",
-            "name" => "verify_password",
-            "label" => t("Verify password:"),
-            "id" => "verify_password",
-            "required" => true,
-            "description" => t("Re-enter the password to verify it.")
         );
 
         $fields[] = array(
@@ -252,15 +230,6 @@ row: 0
             "id" => "email",
             "required" => true,
             "description" => t("The email used in case you forgot your password.")
-        );
-
-        $fields[] = array(
-            "type" => "text",
-            "name" => "verify_email",
-            "label" => t("Verify the e-mail:"),
-            "id" => "verify_email",
-            "required" => true,
-            "description" => t("Re-enter the e-mail to verify is correct.")
         );
 
         $fields[] = array(
@@ -389,7 +358,7 @@ row: 0
         $fields_submit[] = array(
             "type" => "submit",
             "name" => "btnSave",
-            "value" => t("Register")
+            "value" => t("Save")
         );
 
         $fields_submit[] = array(

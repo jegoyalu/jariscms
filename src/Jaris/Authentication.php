@@ -193,8 +193,7 @@ static function login()
             $_SESSION["logged"]["ip_address"] = $_SERVER["REMOTE_ADDR"];
             $_SESSION["logged"]["user_agent"] = $_SERVER["HTTP_USER_AGENT"];
 
-            setcookie("logged", "1", 0, "/");
-            $_COOKIE["logged"] = 1;
+            Session::addCookie("logged", "1");
 
             //Save last ip used
             $user_data["ip_address"] = $_SERVER["REMOTE_ADDR"];
@@ -241,8 +240,7 @@ static function logout()
     {
         unset($_SESSION["logged"]);
 
-        setcookie("logged", "", -1, "/");
-        unset($_COOKIE["logged"]);
+        Session::removeCookie("logged");
 
         Session::destroyIfEmpty();
     }

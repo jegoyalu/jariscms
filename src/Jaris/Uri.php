@@ -436,7 +436,7 @@ static function go($uri, $arguments = array(), $ssl = false)
             str_replace("http://", "https://", self::url($uri, $arguments))
         );
 
-    ob_clean();
+    ob_end_clean();
     exit;
 }
 

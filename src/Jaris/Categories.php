@@ -519,13 +519,14 @@ static function getSubcategoriesInParentOrder(
  * @param string $main_category Machine name of category to generate the
  * form field for a specific and single category.
  * @param string $type The type to generate the available categories for it.
+ * @param string $prefix A prefix for the generated field names.
  *
  * @return array Data that represent a series of fields that can
  * be used when generating a form on a fieldset.
  * @original generate_category_fields_list
  */
 static function generateFields(
-    $selected = null, $main_category = null, $type = null
+    $selected = null, $main_category = null, $type = null, $prefix = ""
 )
 {
     $fields = array();
@@ -582,10 +583,10 @@ static function generateFields(
                 $fields[] = array(
                     "type" => "select",
                     "multiple" => $multiple,
-                    "selected" => $selected[$machine_name],
-                    "name" => "{$machine_name}[]",
+                    "selected" => $selected[$prefix . $machine_name],
+                    "name" => "$prefix{$machine_name}[]",
                     "label" => t($values["name"]),
-                    "id" => $machine_name,
+                    "id" => $prefix . $machine_name,
                     "value" => $select_values
                 );
             }
@@ -594,9 +595,9 @@ static function generateFields(
                 $fields[] = array(
                     "type" => "select",
                     "multiple" => $multiple,
-                    "name" => "{$machine_name}[]",
+                    "name" => "$prefix{$machine_name}[]",
                     "label" => t($values["name"]),
-                    "id" => $machine_name,
+                    "id" => $prefix . $machine_name,
                     "value" => $select_values
                 );
             }

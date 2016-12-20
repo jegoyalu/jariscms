@@ -1,6 +1,21 @@
 Changes Log
 ================================================================================
 
+Version 6.1.3 - Date 13/12/2016
+
+    * Added settings to store api keys for third party api providers, starting
+      with google maps api.
+    * Fixed add page form not using the $_REQUEST categories and groups access.
+    * Updated session, cookie and login code to support logged session on www
+      and non-www site versions as cookies set by Session::addCookie on
+      www and non-www.
+    * Simplified creation of user accounts by admin by removing the repetitive
+      verify password and email fields.
+    * Replaced ob_clean() with ob_end_clean() since ob_clean() was causing
+      issues on apache with gzip turned on.
+    * Added $prefix parameter to Categories::generateFields in order to be
+      able to modify the variable names of generated category fields.
+
 Version 6.1.2 - Date 18/10/2016
 
     * Removed legacy use of override configuration flag since settings.php

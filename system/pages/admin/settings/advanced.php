@@ -21,6 +21,7 @@ row: 0
     <?php
         Jaris\Authentication::protectedPage(array("edit_settings"));
 
+        Jaris\View::addTab(t("Api Keys"), "admin/settings/advanced/keys");
         Jaris\View::addTab(t("Cron Jobs"), "admin/settings/cron");
         Jaris\View::addTab(t("Clear Image Cache"), "admin/settings/clear-image-cache");
         Jaris\View::addTab(t("Clear Page Cache"), "admin/settings/clear-page-cache");

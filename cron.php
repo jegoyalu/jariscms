@@ -63,11 +63,10 @@ Jaris\System::checkIfNotInstalled();
 Jaris\Site::checkIfOffline();
 
 //Check if cron is already running and if running exit cron script
-if(!file_exists(Jaris\Site::dataDir() . "cron_running.lock"))
-{
-    file_put_contents(Jaris\Site::dataDir() . "cron_running.lock", "");
-}
-else
+$cron_file = fopen(Jaris\Site::dataDir() . "cron_running.lock", "w+");
+$cron_lock = flock($cron_file, LOCK_EX | LOCK_NB, $cron_wouldblock);
+
+if(!$cron_lock && $cron_wouldblock)
 {
     exit;
 }
@@ -82,6 +81,8 @@ Jaris\Modules::hook("hook_cronjob");
 Jaris\Settings::save("last_cron_jobs_run", (string)time(), "main");
 
 //Remove cron lock file
+flock($cron_file, LOCK_UN);
+fclose($cron_file);
 unlink(Jaris\Site::dataDir() . "cron_running.lock");
 
 //If script was executed from control panel return to it

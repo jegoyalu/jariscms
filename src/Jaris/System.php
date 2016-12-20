@@ -17,7 +17,7 @@ class System
  * Stores JarisCMS version number.
  * @var string
  */
-const VERSION = "6.1.2 MS";
+const VERSION = "6.1.3 MS";
 
 /**
  * Receives parameters: $page, $tabs

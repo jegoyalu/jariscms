@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Jefferson González <jgonzalez@jegoyalu.com>
- * @license https://opensource.org/licenses/GPL-3.0 
+ * @license https://opensource.org/licenses/GPL-3.0
  * @link http://github.com/jegoyalu/jariscms Source code.
  */
 
@@ -630,7 +630,7 @@ static function printCached($path)
     header("Accept-Ranges: bytes");
     header("Content-Lenght: " . filesize($path));
 
-    ob_clean();
+    ob_end_clean();
 
     flush();
 

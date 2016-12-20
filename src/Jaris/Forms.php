@@ -770,6 +770,17 @@ static function generate($parameters, $fieldsets)
             }
             elseif($field["type"] == "gmap-location")
             {
+                $google_map_key = Settings::get("google_maps", "keys");
+                $map_key_param = !empty($google_map_key) ?
+                    "&key=$google_map_key"
+                    :
+                    ""
+                ;
+
+                View::addScript(
+                    "https://maps.googleapis.com/maps/api/js?sensor=false$map_key_param"
+                );
+
                 View::addScript(
                     "scripts/jquery-geolocation-edit/jquery.geolocation.edit.min.js"
                 );

@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Jefferson González <jgonzalez@jegoyalu.com>
- * @license https://opensource.org/licenses/GPL-3.0 
+ * @license https://opensource.org/licenses/GPL-3.0
  * @link http://github.com/jegoyalu/jariscms Source code.
  */
 
@@ -528,7 +528,7 @@ static function printFile(
     {
         header("Content-Lenght: " . filesize($file));
 
-        ob_clean();
+        ob_end_clean();
         flush();
 
         $fp = fopen($file, "r");
