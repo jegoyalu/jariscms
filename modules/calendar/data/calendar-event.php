@@ -61,7 +61,14 @@ row: 0
 
         if(count($event_data) > 0)
         {
-            Jaris\View::addScript("https://maps.googleapis.com/maps/api/js?sensor=false");
+            $google_map_key = Jaris\Settings::get("google_maps", "keys");
+            $map_key_param = !empty($google_map_key) ?
+                "&key=$google_map_key"
+                :
+                ""
+            ;
+
+            Jaris\View::addScript("https://maps.googleapis.com/maps/api/js?sensor=false$map_key_param");
             Jaris\View::addScript(Jaris\Modules::directory("calendar") . "scripts/gmap3.min.js");
 
             Jaris\View::addStyle(Jaris\Modules::directory("calendar") . "styles/calendar.css");

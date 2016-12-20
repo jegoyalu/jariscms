@@ -12,7 +12,7 @@
 
 $module["name"] = t("Calendar");
 $module["description"] = t("Adds the ability to create calendars for publishing any kind of event or activity.");
-$module["version"] = "1.7";
+$module["version"] = "1.8";
 $module["author"] = "Jefferson González";
 $module["email"] = "jgonzalez@jegoyalu.com";
 $module["website"] = "http://www.jegoyalu.com";
@@ -20,6 +20,10 @@ $module["website"] = "http://www.jegoyalu.com";
 /*
 
 =Change Log=
+
+Version 1.8 - Date 03/12/2016
+
+    * Updated to use the google maps api key set on jariscms settings.
 
 Version 1.7 - Date 03/12/2016
 
