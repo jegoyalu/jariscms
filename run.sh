@@ -21,6 +21,8 @@ if [ "$COMPOSER_FOUND" = "composer:" ]; then
     exit
 fi
 
+PERL_FOUND=`whereis perl`
+
 if [ ! -d "vendor" ]; then
     composer install
 fi
@@ -222,9 +224,9 @@ rungeanytags()
     geany -g jariscms.php.tags \
         `find . -type f -iname "*.php"`
 
-    mkdir -p ~/.config/geany/tags/
+    mkdir -p $HOME/.config/geany/tags/
 
-    cp -f jariscms.php.tags ~/.config/geany/tags/
+    cp -f jariscms.php.tags $HOME/.config/geany/tags/
 
     echo
     echo "======================================="
@@ -235,6 +237,11 @@ rungeanytags()
 
 runsanityzer()
 {
+    if [ "$PERL_FOUND" = "perl:" ]; then
+        echo "Please install perl (http://www.perl.org/)"
+        exit
+    fi
+
 find_command=$(cat <<'END_HEREDOC'
 find .
     -name "*.php"
