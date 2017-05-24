@@ -7,21 +7,19 @@ PHAN_PATH=vendor/etsy/phan/phan
 PHPLOC_PATH=vendor/phploc/phploc/phploc
 APIGEN_PATH=vendor/apigen/apigen/bin/apigen
 
-PHP_FOUND=`whereis php`
+PHP_FOUND=`command -v php`
 
-if [ "$PHP_FOUND" = "php:" ]; then
+if [ "$PHP_FOUND" = "" ]; then
     echo "Please install php (http://php.net/)"
     exit
 fi
 
-COMPOSER_FOUND=`whereis composer`
+COMPOSER_FOUND=`command -v composer`
 
-if [ "$COMPOSER_FOUND" = "composer:" ]; then
+if [ "$COMPOSER_FOUND" = "" ]; then
     echo "Please install composer (http://getcomposer.org/)"
     exit
 fi
-
-PERL_FOUND=`whereis perl`
 
 if [ ! -d "vendor" ]; then
     composer install
@@ -162,9 +160,9 @@ runprofiler()
 
 runhhvm()
 {
-    HHVM_FOUND=`whereis hhvm`
+    HHVM_FOUND=`command -v hhvm`
 
-    if [ "$HHVM_FOUND" = "hhvm:" ]; then
+    if [ "$HHVM_FOUND" = "" ]; then
         echo "Please install hhvm (http://hhvm.com/)"
         exit
     fi
@@ -214,9 +212,9 @@ runphan()
 
 rungeanytags()
 {
-    GEANY_FOUND=`whereis geany`
+    GEANY_FOUND=`command -v geany`
 
-    if [ "$GEANY_FOUND" = "geany:" ]; then
+    if [ "$GEANY_FOUND" = "" ]; then
         echo "Please install geany (http://geany.org/)"
         exit
     fi
@@ -237,7 +235,9 @@ rungeanytags()
 
 runsanityzer()
 {
-    if [ "$PERL_FOUND" = "perl:" ]; then
+    PERL_FOUND=`command -v perl`
+
+    if [ "$PERL_FOUND" = "" ]; then
         echo "Please install perl (http://www.perl.org/)"
         exit
     fi
@@ -302,9 +302,9 @@ END_HEREDOC
 
 runctags()
 {
-    CTAGS_FOUND=`whereis ctags`
+    CTAGS_FOUND=`command -v ctags`
 
-    if [ "$CTAGS_FOUND" = "ctags:" ]; then
+    if [ "$CTAGS_FOUND" = "" ]; then
         echo "Please install ctags (http://ctags.sourceforge.net/)"
         exit
     fi
