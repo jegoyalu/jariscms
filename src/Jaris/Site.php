@@ -99,6 +99,12 @@ public static $development_mode;
 public static $static_images_generated;
 
 /**
+ * The images that need to be statically generated.
+ * @var array
+ */
+public static $static_images_to_generate;
+
+/**
  * List of menu items of primery menu of site.
  * @var array
  */
@@ -138,6 +144,8 @@ static function init()
     self::$theme_path = self::$base_url . '/themes/' . self::$theme;
     self::$clean_urls = true;
     self::$language = 'en';
+    self::$static_images_generated = false;
+    self::$static_images_to_generate = array();
 
     if($settings = Settings::getAll("main"))
     {
@@ -408,11 +416,11 @@ static function loadModules()
  */
 static function bootStrap()
 {
-    //Starts the main session for the user
-    Session::startIfUserLogged();
-
     //Increase the time for session to garbage collection
     ini_set("session.gc_maxlifetime", "18000");
+
+    //Starts the main session for the user
+    Session::startIfUserLogged();
 
     //Initialize error handler
     System::initiateErrorCatchSystem();
@@ -525,6 +533,15 @@ static function bootStrap()
     //TODO Fix an issue that keeps hidden parameters stored.
     System::appendHiddenParameters();
 
+    //In case of page not found
+    if(!self::$page_data[0])
+    {
+        self::$page_data = System::pageNotFound();
+    }
+
+    //Prepare the content html
+    $content = View::getContentHTML(self::$page_data, $visual_uri);
+
     //Read blocks
     $header_data = Data::sort(
         Data::parse(
@@ -571,6 +588,22 @@ static function bootStrap()
         "order"
     );
 
+    //Move blocks to other positions depending on current theme
+    Blocks::moveByTheme(
+        $header_data,
+        $left_data,
+        $right_data,
+        $center_data,
+        $footer_data
+    );
+
+    //Prepare blocks html
+    $header = View::getBlocksHTML($header_data, "header", $visual_uri);
+    $footer = View::getBlocksHTML($footer_data, "footer", $visual_uri);
+    $left = View::getBlocksHTML($left_data, "left", $visual_uri);
+    $right = View::getBlocksHTML($right_data, "right", $visual_uri);
+    $center = View::getBlocksHTML($center_data, "center", $visual_uri);
+
     //Read menus
     $primary_links_data = Data::sort(
         Menus::getChildItems(Menus::getPrimaryName()),
@@ -582,31 +615,14 @@ static function bootStrap()
         "order"
     );
 
-    //Move blocks to other positions depending on current theme
-    Blocks::moveByTheme(
-        $header_data,
-        $left_data,
-        $right_data,
-        $center_data,
-        $footer_data
+    //Prepare menus html
+    self::$primary_links = View::getLinksHTML(
+        $primary_links_data, "primary-links"
     );
 
-    //In case of page not found
-    if(!self::$page_data[0])
-    {
-        self::$page_data = System::pageNotFound();
-    }
-
-    //Format Data
-    $content = View::getContentHTML(self::$page_data, $visual_uri);
-    $header = View::getBlocksHTML($header_data, "header", $visual_uri);
-    $footer = View::getBlocksHTML($footer_data, "footer", $visual_uri);
-    $left = View::getBlocksHTML($left_data, "left", $visual_uri);
-    $right = View::getBlocksHTML($right_data, "right", $visual_uri);
-    $center = View::getBlocksHTML($center_data, "center", $visual_uri);
-
-    self::$primary_links = View::getLinksHTML($primary_links_data, "primary-links");
-    self::$secondary_links = View::getLinksHTML($secondary_links_data, "secondary-links");
+    self::$secondary_links = View::getLinksHTML(
+        $secondary_links_data, "secondary-links"
+    );
 
     //Adds edit link on every page if administrator is logged.
     System::addEditTab(self::$page_data[0]);
@@ -671,21 +687,22 @@ static function printStats($from="")
         print "<div style=\"clear: both\"></div>";
 
         print "<div style=\"width: 90%; border: solid #f0b656 1px; "
-        . "background-color: #d0dde7; margin: 0 auto 0 auto; padding: 10px\">";
-
-        print "<b>Script execution time:</b> " .
-            ceil((microtime(true) - $time_start) * 1000) .
-            " milliseconds<br />"
+            . "background-color: #d0dde7; margin: 0 auto 0 auto; padding: 10px\">"
         ;
 
-        print "<b>Peak memory usage:</b> " .
-            number_format(memory_get_peak_usage() / 1024 / 1024, 0, '.', ',') .
-            " MB<br />"
+        print "<b>Script execution time:</b> "
+            . ceil((microtime(true) - $time_start) * 1000)
+            . " milliseconds<br />"
         ;
 
-        print "<b>Final memory usage:</b> " .
-            number_format(memory_get_usage() / 1024 / 1024, 0, '.', ',') .
-            " MB<br />"
+        print "<b>Peak memory usage:</b> "
+            . number_format(memory_get_peak_usage() / 1024 / 1024, 0, '.', ',')
+            . " MB<br />"
+        ;
+
+        print "<b>Final memory usage:</b> "
+            . number_format(memory_get_usage() / 1024 / 1024, 0, '.', ',')
+            . " MB<br />"
         ;
 
         if($from)

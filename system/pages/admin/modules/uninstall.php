@@ -36,6 +36,15 @@ row: 0
             if(Jaris\Modules::uninstall($_REQUEST["path"], $is_dependency))
             {
                 Jaris\View::addMessage(t("Module successfully uninstalled."));
+
+                t("Uninstalled module '{module_name}'.");
+
+                Jaris\Logger::info(
+                    "Uninstalled module '{module_name}'.",
+                    array(
+                        "module_name" => $_REQUEST["path"]
+                    )
+                );
             }
             elseif(!$is_dependency)
             {

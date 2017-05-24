@@ -1,0 +1,21 @@
+{
+    "name": "jegoyalu/jariscms",
+    "description": "Extensible and lightweight content management system.",
+    "type": "project",
+    "homepage": "http://jariscms.com/",
+    "require-dev": {
+        "etsy/phan": "dev-master",
+        "phploc/phploc": "^3.0",
+        "apigen/apigen": "^4.1",
+        "ext-xdebug": "^2.5.0"
+    },
+    "license": "GPL-3.0",
+    "authors": [
+        {
+            "name": "Jefferson González",
+            "email": "jgmdev@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}

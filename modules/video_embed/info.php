@@ -6,13 +6,11 @@
  * https://opensource.org/licenses/GPL-3.0.
  *
  * Jaris CMS module info file
- *
- * @note You always need to create an info.php file for your modules.
  */
 
 $module["name"] = t("Videos Auto Embedding");
 $module["description"] = t("To automatically generate a video player from a video link. Supports youtube.com, vimeo.com, videozer.com, videobb.com, dailymotion.com and megavideo.com");
-$module["version"] = "1.2";
+$module["version"] = "1.3";
 $module["author"] = "Jefferson González";
 $module["email"] = "jgonzalez@jegoyalu.com";
 $module["website"] = "http://www.jegoyalu.com";
@@ -20,6 +18,10 @@ $module["website"] = "http://www.jegoyalu.com";
 /*
 
 =Change Log=
+
+Version 1.3 - Date 04/02/2017
+
+    * Added hability to select content types to scan for videos.
 
 Version 1.2 - Date 02/11/2016
 

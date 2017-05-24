@@ -41,6 +41,15 @@ row: 0
                 Jaris\View::addMessage(
                     t("The input format has been successfully created.")
                 );
+
+                t("Added input format '{machine_name}'.");
+
+                Jaris\Logger::info(
+                    "Added input format '{machine_name}'.",
+                    array(
+                        "machine_name" => $_REQUEST["machine_name"]
+                    )
+                );
             }
             else
             {

@@ -5,19 +5,23 @@
  * check the LICENSE.txt file for version and details or visit
  * https://opensource.org/licenses/GPL-3.0.
  *
- * Jaris CMS module info file
- *
- * @note You always need to create an info.php file for your modules.
+ * Jaris CMS module info file.
  */
 
 $module["name"] = "Wallpaper Backgrounds";
 $module["description"] = "To add different background images per section.";
-$module["version"] = "1.3.6";
+$module["version"] = "1.3.7";
 $module["author"] = "Jefferson González";
 $module["email"] = "jgonzalez@jegoyalu.com";
 $module["website"] = "http://www.jegoyalu.com";
 
-/**
+/*
+
+Version 1.3.7 - Date 01/02/2017
+
+    * On single backgrounds when not responsive set background-size to
+      auto instead of cover.
+    * Added option to set the background-size mode for single backgrounds.
 
 Version 1.3.6 - Date 05/26/2016
 

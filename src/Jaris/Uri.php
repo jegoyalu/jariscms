@@ -405,12 +405,17 @@ static function url($uri, $arguments = array())
             }
 
             //Static image needs to be generated.
-            elseif($static_images_generated != true)
+            else
             {
-                //We set the static images generated flag to true in order
-                //to tell the internal cache system to store the cache of
-                //current page on next run with the static images url's
-                $static_images_generated = true;
+                Site::$static_images_to_generate[$url] = 1;
+
+                if($static_images_generated != true)
+                {
+                    //We set the static images generated flag to true in order
+                    //to tell the internal cache system to store the cache of
+                    //current page on next run with the static images url's
+                    Site::$static_images_generated = true;
+                }
             }
         }
     }

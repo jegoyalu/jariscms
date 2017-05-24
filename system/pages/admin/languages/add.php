@@ -43,7 +43,7 @@ row: 0
                     break;
                 }
             }
-            
+
             if(
                 Jaris\Language::add(
                     $_REQUEST["code"],
@@ -56,6 +56,15 @@ row: 0
             {
                 Jaris\View::addMessage(
                     t("The language was successfully created.")
+                );
+
+                t("Added language '{code}'.");
+
+                Jaris\Logger::info(
+                    "Added language '{code}'.",
+                    array(
+                        "code" => $_REQUEST["code"]
+                    )
                 );
 
                 Jaris\Uri::go("admin/languages");

@@ -37,6 +37,9 @@ static function show($image_path)
 
     if(Pages::userHasAccess($page_data))
     {
+        // Do not lock subsequent requests.
+        Session::close();
+
         //Try to get image from cache
         $cache_name = self::getCacheName($image_path);
         if(
@@ -51,9 +54,9 @@ static function show($image_path)
         {
             $image = self::get(
                 $image_path,
-                $_REQUEST['w'],
-                $_REQUEST['h'],
-                $_REQUEST["ar"],
+                intval($_REQUEST['w']),
+                intval($_REQUEST['h']),
+                boolval($_REQUEST["ar"]),
                 $_REQUEST["bg"]
             );
 
@@ -612,39 +615,7 @@ static function printIt($image)
  */
 static function printCached($path)
 {
-    $image_info = getimagesize($path);
-
-    //First reset headers
-    header("Pragma: ");         //This one is set to no-cache so we disable it
-    header("Cache-Control: ");  //also set to no cache
-    header("Last-Modified: ");  //We try to reset to only send one date
-    header("Expires: ");        //We try to reset to only send one expiration date
-    header("X-Powered-By: ");   //We remove the php powered by since we want to pass as normal file
-
-    //Set headers to enable image caching
-    header("Content-Type: {$image_info['mime']}");
-    header("Etag: \"" . md5_file($path) . "\"");
-    header("Cache-Control: max-age=1209600");
-    header('Last-Modified: ' . gmdate('D, d M Y H:i:s', filemtime($path)) . 'GMT');
-    header('Expires: ' . gmdate('D, d M Y H:i:s', time() + (14 * 24 * 60 * 60)) . 'GMT');
-    header("Accept-Ranges: bytes");
-    header("Content-Lenght: " . filesize($path));
-
-    ob_end_clean();
-
-    flush();
-
-    $fp = fopen($path, "r");
-
-    while(!feof($fp))
-    {
-        echo fread($fp, 65536);
-        flush();
-    }
-
-    fclose($fp);
-
-    exit;
+    FileSystem::printFile($path, "");
 }
 
 /**
@@ -661,6 +632,9 @@ static function printUserPic($page)
     {
         return;
     }
+
+    // Do not lock subsequent requests.
+    Session::close();
 
     $image = null;
 

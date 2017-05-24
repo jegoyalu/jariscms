@@ -6,20 +6,22 @@
  * https://opensource.org/licenses/GPL-3.0.
  *
  * Jaris CMS module info file
- *
- * @note You always need to create an info.php file for your modules.
  */
 
 $module["name"] = "Open Graph Protocol";
 $module["description"] = t("Adds Open Graph Protocol meta tags to pages for a better look when shared on social sites like facebook.");
-$module["version"] = "1.0.1";
+$module["version"] = "1.1";
 $module["author"] = "Jefferson González";
 $module["email"] = "jgonzalez@jegoyalu.com";
 $module["website"] = "http://www.jegoyalu.com";
 
-/**
+/*
 
 =Change Log=
+
+Version 1.1 - Date 24/02/2017
+
+    * Fixed issue with not assigning the static image path to first image.
 
 Version 1.0.1 - Date 05/26/2016
 

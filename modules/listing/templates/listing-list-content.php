@@ -5,10 +5,11 @@
         <td class="image"><?php print $image ?></td>
         <?php } ?>
 
-        <?php if($content_data["display_title"] || $content_data["display_summary"]){ ?>
+        <?php if($title || $summary || $price){ ?>
         <td class="preview">
             <div class="title"><?php print $title ?></div>
             <div class="summary"><?php print $summary ?></div>
+            <div class="price"><?php print $price ?></div>
         </td>
         <?php } ?>
 

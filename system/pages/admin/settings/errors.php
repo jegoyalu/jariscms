@@ -21,7 +21,15 @@ row: 0
     <?php
         Jaris\Authentication::protectedPage(array("edit_settings"));
 
-        Jaris\View::addTab(t("Clear Errors Log"), "admin/settings/errors-clear");
+        Jaris\View::addTab(t("System Log"), "admin/settings/log");
+        Jaris\View::addTab(t("Errors Log"), "admin/settings/errors");
+
+        Jaris\View::addTab(
+            t("Clear Errors Log"),
+            "admin/settings/errors-clear",
+            array(),
+            1
+        );
 
         $ordering = "order by error_date desc";
 

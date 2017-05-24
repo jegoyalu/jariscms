@@ -74,6 +74,16 @@ row: 0
                 Jaris\View::addMessage(
                     t("The content type field has been successfully created.")
                 );
+
+                t("Added field '{name}' to content type '{machine_name}'.");
+
+                Jaris\Logger::info(
+                    "Added field '{name}' to content type '{machine_name}'.",
+                    array(
+                        "name" => $fields["name"],
+                        "machine_name" => $_REQUEST["type_name"]
+                    )
+                );
             }
             else
             {

@@ -41,6 +41,10 @@ row: 0
                 Jaris\View::addMessage(
                     t("Your settings have been successfully saved.")
                 );
+
+                t("Edited global api keys.");
+
+                Jaris\Logger::info("Edited global api keys.");
             }
             else
             {

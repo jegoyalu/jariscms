@@ -5,21 +5,25 @@
  * check the LICENSE.txt file for version and details or visit
  * https://opensource.org/licenses/GPL-3.0.
  *
- * Jaris CMS module info file
- *
- * @note You always need to create an info.php file for your modules.
+ * Jaris CMS module info file.
  */
 
 $module["name"] = "Minify";
 $module["description"] = "Uses http://code.google.com/p/minify/ to compress all css and javascript output to one file for faster web download.";
-$module["version"] = "1.2.4";
+$module["version"] = "1.3.0";
 $module["author"] = "Jefferson González";
 $module["email"] = "jgonzalez@jegoyalu.com";
 $module["website"] = "http://www.jegoyalu.com";
 
-/**
+/*
 
 =Change Log=
+
+Version 1.3.0 - Date 30/04/2017
+
+    * Fixed newly introduced bug of not been able to read a theme css and js
+      files because of new functionality to add the theme version as parameter
+      of theme files so they get refreshed on theme changes.
 
 Version 1.2.4 - Date 22/09/2016
 

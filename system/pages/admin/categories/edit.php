@@ -44,6 +44,15 @@ row: 0
             if(Jaris\Categories::edit($_REQUEST["category"], $fields))
             {
                 Jaris\View::addMessage(t("Your changes have been saved."));
+
+                t("Edited category '{machine_name}'.");
+
+                Jaris\Logger::info(
+                    "Edited category '{machine_name}'.",
+                    array(
+                        "machine_name" => $_REQUEST["category"]
+                    )
+                );
             }
             else
             {

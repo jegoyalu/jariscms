@@ -117,6 +117,10 @@ row: 0
                     t("Your settings have been successfully saved.")
                 );
 
+                t("Edited avanced settings.");
+
+                Jaris\Logger::info("Edited advanced settings.");
+
                 Jaris\Site::$clean_urls = $_REQUEST["clean_urls"];
             }
             else
@@ -236,6 +240,7 @@ row: 0
                 $db_name == "search_engine" ||
                 $db_name == "users" ||
                 $db_name == "cache" ||
+                $db_name == "log" ||
                 $db_name == "errors_log" ||
                 $db_name == "api_keys" ||
                 $db_name == "readme.txt"

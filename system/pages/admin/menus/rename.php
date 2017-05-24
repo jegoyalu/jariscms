@@ -81,6 +81,16 @@ row: 0
                 );
 
                 Jaris\View::addMessage(t("Menu successfully renamed."));
+
+                t("Renamed menu '{machine_name}' to '{new_machine_name}'.");
+
+                Jaris\Logger::info(
+                    "Renamed menu '{machine_name}' to '{new_machine_name}'.",
+                    array(
+                        "machine_name" => $_REQUEST["current_name"],
+                        "new_machine_name" => $_REQUEST["new_name"]
+                    )
+                );
             }
             else
             {

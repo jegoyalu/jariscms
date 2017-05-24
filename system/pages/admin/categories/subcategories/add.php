@@ -43,6 +43,16 @@ row: 0
                 Jaris\View::addMessage(
                     t("The subcategory was successfully created.")
                 );
+
+                t("Added subcategory '{title}' on '{machine_name}'.");
+
+                Jaris\Logger::info(
+                    "Added subcategory '{title}' on '{machine_name}'.",
+                    array(
+                        "title" => $fields["title"],
+                        "machine_name" => $_REQUEST["category"]
+                    )
+                );
             }
             else
             {

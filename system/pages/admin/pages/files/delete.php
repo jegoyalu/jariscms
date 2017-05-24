@@ -31,11 +31,16 @@ row: 0
             Jaris\Authentication::protectedPage();
         }
 
-        $file_data = Jaris\Pages\Files::get($_REQUEST["id"], $_REQUEST["uri"]);
+        $file_id = intval($_REQUEST["id"]);
+
+        $file_data = Jaris\Pages\Files::get(
+            $file_id,
+            $_REQUEST["uri"]
+        );
 
         if(isset($_REQUEST["btnYes"]))
         {
-            if(Jaris\Pages\Files::delete($_REQUEST["id"], $_REQUEST["uri"]))
+            if(Jaris\Pages\Files::delete($file_id, $_REQUEST["uri"]))
             {
                 Jaris\View::addMessage(t("File successfully deleted."));
             }

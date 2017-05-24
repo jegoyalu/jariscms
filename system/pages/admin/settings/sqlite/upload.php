@@ -67,6 +67,15 @@ row: 0
 
             Jaris\View::addMessage(t("Database restored."));
 
+            t("Uploaded sql database '{database}'.");
+
+            Jaris\Logger::info(
+                "Uploaded sql database '{database}'.",
+                array(
+                    "database" => $_FILES["backup_file"]["name"]
+                )
+            );
+
             Jaris\Uri::go("admin/settings/sqlite");
         }
         elseif(isset($_REQUEST["btnCancel"]))

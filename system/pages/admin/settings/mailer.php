@@ -35,13 +35,18 @@ row: 0
                 Jaris\Settings::save("mailer_from_email", $_REQUEST["mailer_from_email"], "main");
 
                 Jaris\Settings::save("smtp_auth", $_REQUEST["smtp_auth"], "main");
-                Jaris\Settings::save("smtp_ssl", $_REQUEST["smtp_ssl"], "main");
+                Jaris\Settings::save("smtp_cert_validation", $_REQUEST["smtp_cert_validation"], "main");
+                Jaris\Settings::save("smtp_encryption", $_REQUEST["smtp_encryption"], "main");
                 Jaris\Settings::save("smtp_host", $_REQUEST["smtp_host"], "main");
                 Jaris\Settings::save("smtp_port", $_REQUEST["smtp_port"], "main");
                 Jaris\Settings::save("smtp_user", $_REQUEST["smtp_user"], "main");
                 Jaris\Settings::save("smtp_pass", $_REQUEST["smtp_pass"], "main");
 
                 Jaris\View::addMessage(t("Your settings have been successfully saved."));
+
+                t("Updated mailer settings.");
+
+                Jaris\Logger::info("Updated mailer settings.");
 
                 Jaris\Site::$clean_urls = $_REQUEST["clean_urls"];
             }
@@ -116,11 +121,23 @@ row: 0
 
         $fields_smtp[] = array(
             "type" => "select",
-            "label" => t("SSL:"),
-            "name" => "smtp_ssl",
-            "id" => "smtp_ssl",
+            "label" => t("Encryption method:"),
+            "name" => "smtp_encryption",
+            "value" => array(
+                "NONE" => "",
+                "TLS" => "tls",
+                "SSL" => "ssl"
+            ),
+            "selected" => $site_settings["smtp_encryption"]
+        );
+
+        $fields_smtp[] = array(
+            "type" => "select",
+            "label" => t("Validation of Certificate:"),
+            "name" => "smtp_cert_validation",
             "value" => $stmp_options,
-            "selected" => $site_settings["smtp_ssl"]
+            "selected" => $site_settings["smtp_cert_validation"],
+            "description" => t("Verifies that the smtp server certificate is valid.")
         );
 
         $fields_smtp[] = array(

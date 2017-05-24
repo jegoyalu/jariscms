@@ -35,8 +35,10 @@ row: 0
             Jaris\Authentication::protectedPage();
         }
 
+        $block_id = intval($_REQUEST["id"]);
+
         $block_data = Jaris\Blocks::get(
-            $_REQUEST["id"],
+            $block_id,
             $_REQUEST["position"],
             $_REQUEST["uri"]
         );
@@ -45,7 +47,7 @@ row: 0
         {
             if(
                 Jaris\Blocks::delete(
-                    $_REQUEST["id"],
+                    $block_id,
                     $_REQUEST["position"],
                     $_REQUEST["uri"]
                 )

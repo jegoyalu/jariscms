@@ -35,6 +35,15 @@ row: 0
             if($message == "true")
             {
                 Jaris\View::addMessage(t("Input format successfully deleted."));
+
+                t("Deleted input format '{machine_name}'.");
+
+                Jaris\Logger::info(
+                    "Deleted input format '{machine_name}'.",
+                    array(
+                        "machine_name" => $_REQUEST["input_format"]
+                    )
+                );
             }
             else
             {

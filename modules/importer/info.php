@@ -5,19 +5,24 @@
  * check the LICENSE.txt file for version and details or visit
  * https://opensource.org/licenses/GPL-3.0.
  *
- * Jaris CMS module info file
- *
- * @note You always need to create an info.php file for your modules.
+ * Jaris CMS module info file.
  */
 
 $module["name"] = t("Importer");
 $module["description"] = t("Module to add content into the system by reading a csv file.");
-$module["version"] = "2.1.1";
+$module["version"] = "2.2";
 $module["author"] = "Jefferson González";
 $module["email"] = "jgonzalez@jegoyalu.com";
 $module["website"] = "http://www.jegoyalu.com";
 
-/**
+/*
+
+Version 2.2 - Date 26/04/2017
+
+    * Added support to choose from which language to export.
+    * Added support to choose into which language to import.
+    * Added import support of image url.
+    * Added import support of best category match.
 
 Version 2.1.1 - Date 05/26/2016
 

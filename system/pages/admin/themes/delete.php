@@ -48,6 +48,15 @@ row: 0
             )
             {
                 Jaris\View::addMessage(t("Theme successfully deleted."));
+
+                t("Deleted theme '{theme}'.");
+
+                Jaris\Logger::info(
+                    "Deleted theme '{theme}'.",
+                    array(
+                        "theme" => $_REQUEST["path"]
+                    )
+                );
             }
             else
             {

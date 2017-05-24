@@ -153,6 +153,10 @@ static function processUploads($field_name, $multiple_uploads = false)
 
     if($multiple_uploads)
     {
+        $_FILES[$field_name]["name"] = array();
+        $_FILES[$field_name]["tmp_name"] = array();
+        $_FILES[$field_name]["type"] = array();
+
         foreach($_REQUEST[$field_name]["names"] as $index => $value)
         {
             $_FILES[$field_name]["name"][] = $_REQUEST[$field_name]["names"][$index];
@@ -1151,7 +1155,7 @@ static function generate($parameters, $fieldsets)
                 foreach($field["value"] as $label => $value)
                 {
                     //For compatibility with jaris realty
-                    if($label == "optgroup")
+                    if($label === "optgroup")
                     {
                         foreach($value as $options)
                         {

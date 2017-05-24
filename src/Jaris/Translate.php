@@ -45,6 +45,7 @@ static function page($page, $data, $language_code)
         true
     );
 
+    $data["users"] = serialize($data["users"]);
     $data["groups"] = serialize($data["groups"]);
     $data["categories"] = serialize($data["categories"]);
 

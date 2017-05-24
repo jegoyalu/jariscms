@@ -129,6 +129,7 @@ row: 0
             $fields["subjects"] = serialize($subjects);
             $fields["mail_recipient"] = $_REQUEST["mail_recipient"];
             $fields["mail_carbon_copy"] = $_REQUEST["mail_carbon_copy"];
+            $fields["message_archive"] = $_REQUEST["message_archive"];
             $fields["mail_autoresponse"] = $_REQUEST["mail_autoresponse"];
             $fields["mail_autoresponse_subject"] = $_REQUEST["mail_autoresponse_subject"];
             $fields["mail_autoresponse_message"] = $_REQUEST["mail_autoresponse_message"];
@@ -276,6 +277,17 @@ row: 0
         {
             Jaris\View::addTab(t("Translate"), "admin/pages/translate", $arguments);
         }
+        if($page_data["message_archive"])
+        {
+            Jaris\View::addTab(
+                t("Messages Archive"),
+                Jaris\Modules::getPageUri(
+                    "admin/pages/contact-form/archive",
+                    "contact"
+                ),
+                $arguments
+            );
+        }
         if(Jaris\Authentication::groupHasPermission("delete_content", Jaris\Authentication::currentUserGroup()))
         {
             Jaris\View::addTab(t("Delete"), "admin/pages/delete", $arguments);
@@ -391,6 +403,16 @@ row: 0
             "label" => t("Carbon copy recipients"),
             "id" => "title",
             "description" => t("A comma seperated list of emails to receive a copy. For example: email_1@domain.com, email_2@domain.com")
+        );
+
+        $fields_recipient[] = array(
+            "type" => "radio",
+            "name" => "message_archive",
+            "label" => t("Archive Messages?"),
+            "value" => array(t("No") => false, t("Yes") => true),
+            "checked" => isset($_REQUEST["message_archive"]) ?
+                $_REQUEST["message_archive"] : $page_data["message_archive"],
+            "description" => t("All sent messages are archived along any file attachments.")
         );
 
         $fieldset[] = array("fields" => $fields_recipient);

@@ -6,8 +6,6 @@
  * https://opensource.org/licenses/GPL-3.0.
  *
  * Jaris CMS module functions file
- *
- * @note File that stores all hook functions.
  */
 
 function ogp_meta_tags_generate($uri, $page_data)
@@ -24,7 +22,11 @@ function ogp_meta_tags_generate($uri, $page_data)
 
     if($page_data["is_system"])
     {
-        $title .= trim(Jaris\Util::stripHTMLTags(Jaris\System::evalPHP($page_data["title"])));
+        $title .= trim(
+            Jaris\Util::stripHTMLTags(
+                Jaris\System::evalPHP($page_data["title"])
+            )
+        );
     }
     else
     {
@@ -76,6 +78,10 @@ function ogp_meta_tags_generate($uri, $page_data)
 
     if($images)
     {
+        $generate_static = Jaris\Settings::get(
+            "image_static_serving", "main"
+        );
+
         $first_image = true;
 
         foreach($images as $image)
@@ -103,32 +109,30 @@ function ogp_meta_tags_generate($uri, $page_data)
                 // to speed up the tags generation.
                 if($image_static == "")
                 {
-                    $image_path = str_replace(
-                        "images.php",
-                        "images/".$image["name"],
-                        Jaris\Pages\Images::getPath($uri)
+                    ogp_image_create_cache(
+                        "image/".$uri."/".$image["name"],
+                        200,
+                        200,
+                        true
                     );
+                }
+            }
+            elseif($generate_static)
+            {
+                $image_static = Jaris\Images::getStaticName(
+                    Jaris\Uri::url(
+                        "image/".$uri."/".$image["name"]
+                    )
+                );
 
-                    $image_info = getimagesize($image_path);
-
-                    if($image_info[0] < 200 || $image_info[1] < 200)
-                    {
-
-                        ogp_image_create_cache(
-                            "image/".$uri."/".$image["name"],
-                            200,
-                            200,
-                            true
-                        );
-                    }
-                    else
-                    {
-                        ogp_image_create_cache(
-                            "image/".$uri."/".$image["name"]
-                        );
-
-                        $arguments = null;
-                    }
+                // If a 200x200 static image doesn't exists already
+                // we proceed to create one, we do this check
+                // to speed up the tags generation.
+                if($image_static == "")
+                {
+                    ogp_image_create_cache(
+                        "image/".$uri."/".$image["name"]
+                    );
                 }
             }
 
@@ -143,7 +147,7 @@ function ogp_meta_tags_generate($uri, $page_data)
 
                 if($image_static != "")
                 {
-                    $image_url == $image_static;
+                    $image_url = $image_static;
                 }
 
                 $first_image = false;
@@ -206,16 +210,27 @@ function ogp_meta_tags_generate($uri, $page_data)
 
 function ogp_image_create_cache($image_uri, $width=0, $height=0, $ar=false, $bg="ffffff")
 {
+    $image_url = "";
+
     // Generate image url
-    $image_url = Jaris\Uri::url(
-        $image_uri,
-        array(
-            "w"=>$width,
-            "h"=>$height,
-            "ar"=>$ar,
-            "bg"=>$bg,
-        )
-    );
+    if($width > 0)
+    {
+        $image_url .= Jaris\Uri::url(
+            $image_uri,
+            array(
+                "w"=>$width,
+                "h"=>$height,
+                "ar"=>$ar,
+                "bg"=>$bg,
+            )
+        );
+    }
+    else
+    {
+        $image_url .= Jaris\Uri::url(
+            $image_uri
+        );
+    }
 
     $image_cache_name = Jaris\Images::getStaticName(
         $image_url,

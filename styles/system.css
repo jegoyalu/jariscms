@@ -1,4 +1,9 @@
 /*Collapsible fieldsets*/
+fieldset.collapsible
+{
+    margin-bottom: 20px;
+}
+
 fieldset.collapsed
 {
     border-bottom-width: 0;
@@ -231,7 +236,6 @@ form .current-file, form .current-image
 .search-results .search-highlight
 {
     font-weight: bold;
-    color: #800000;
 }
 
 .search-results .title li
@@ -586,6 +590,37 @@ form.themes .themes-list .form-text
 .navigation-list-hover tbody tr:hover
 {
     background-color: #d3d3d3;
+}
+
+@media all and (max-width: 800px)
+{
+    .navigation-list thead
+    {
+        display: none;
+    }
+
+    .navigation-list tbody
+    {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .navigation-list tbody tr
+    {
+        display: block;
+        border-bottom: solid 1px #d3d3d3;
+        padding: 10px;
+        flex-grow: 1;
+        margin-bottom: 10px;
+    }
+
+    .navigation-list tbody tr td
+    {
+        display: block;
+        padding: 2px;
+        border-bottom: 0;
+        text-align: center !important;
+    }
 }
 
 /*Groups Administration*/

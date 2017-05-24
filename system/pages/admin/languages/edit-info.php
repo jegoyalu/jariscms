@@ -48,6 +48,15 @@ row: 0
                 Jaris\View::addMessage(
                     t("The language was successfully modified.")
                 );
+
+                t("Edited language '{code}' info.");
+
+                Jaris\Logger::info(
+                    "Edited language '{code}' info.",
+                    array(
+                        "code" => $_REQUEST["code"]
+                    )
+                );
             }
             else
             {

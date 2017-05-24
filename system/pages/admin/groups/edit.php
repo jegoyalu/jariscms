@@ -59,6 +59,15 @@ row: 0
                 if($message == "true")
                 {
                     Jaris\View::addMessage(t("Your changes have been saved."));
+
+                    t("Edited group '{machine_name}'.");
+
+                    Jaris\Logger::info(
+                        "Edited group '{machine_name}'.",
+                        array(
+                            "machine_name" => $_REQUEST["group"]
+                        )
+                    );
                 }
                 else
                 {

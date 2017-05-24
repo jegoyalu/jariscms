@@ -246,7 +246,7 @@ row: 0
                     . "edit-page-blog,add-page-blog,"
                     . "add-exam,edit-exam,"
                     . "add-page-product, edit-page-product,"
-                    . "add-listing,edit-listing,"
+                    . "add-page-listing,edit-page-listing,"
                     . "add-gallery,edit-gallery,"
                     . "add-page-contact-form,edit-page-contact-form,"
                     . "add-page-calendar,edit-page-calendar,"

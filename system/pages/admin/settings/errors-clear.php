@@ -51,6 +51,12 @@ row: 0
 
             Jaris\View::addMessage(t("Successfully removed all logged errors."));
 
+            t("Cleared errors log.");
+
+            Jaris\Logger::info(
+                "Cleared errors log."
+            );
+
             Jaris\Uri::go("admin/settings/errors");
         }
         elseif(isset($_REQUEST["btnNo"]))

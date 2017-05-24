@@ -239,7 +239,7 @@ static function editByName($name, $new_data, $page)
 /**
  * Get an array with data of a specific image.
  *
- * @param int &$id Unique identifier or name of the image. If
+ * @param int|string &$id Unique identifier or name of the image. If
  * the name of image is given instead of uniq identifier then this
  * parameter value is modified with the uniq identifier.
  * @param string $page The page uri where the image reside.

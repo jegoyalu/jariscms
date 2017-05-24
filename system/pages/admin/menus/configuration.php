@@ -28,6 +28,12 @@ row: 0
 
             Jaris\View::addMessage(t("Your changes have been successfully saved."));
 
+            t("Updated primary/secondary menu settings.");
+
+            Jaris\Logger::info(
+                "Updated primary/secondary menu settings."
+            );
+
             Jaris\Uri::go("admin/menus");
         }
         else if(isset($_REQUEST["btnCancel"]))

@@ -55,6 +55,15 @@ row: 0
                 Jaris\Blocks::add($menu_block, "none");
 
                 Jaris\View::addMessage(t("Menu successfully created."));
+
+                t("Added menu '{machine_name}'.");
+
+                Jaris\Logger::info(
+                    "Added menu '{machine_name}'.",
+                    array(
+                        "machine_name" => $_REQUEST["menu_name"]
+                    )
+                );
             }
             else
             {

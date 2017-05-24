@@ -61,7 +61,24 @@ row: 0
 
         if(isset($_REQUEST["btnSave"]) && !Jaris\Forms::requiredFieldEmpty("edit-user"))
         {
+            $current_editor = Jaris\Users::get(Jaris\Authentication::currentUser());
+
             $fields = Jaris\Users::get($username);
+
+            if(isset($fields["superadmin"]) && $fields["superadmin"])
+            {
+                if(!isset($current_editor["superadmin"]) || !$current_editor["superadmin"])
+                {
+                    Jaris\View::addMessage(
+                        t("This account can only be edited by a super admin.")
+                    );
+
+                    Jaris\Uri::go(
+                        "admin/users/edit",
+                        array("username"=>$username)
+                    );
+                }
+            }
 
             if(trim($fields["email"]) != trim($_REQUEST["email"]))
             {
@@ -186,6 +203,15 @@ row: 0
                 {
                     Jaris\View::addMessage(
                         t("Your changes have been successfully saved.")
+                    );
+
+                    t("Edited user '{username}'.");
+
+                    Jaris\Logger::info(
+                        "Edited user '{username}'.",
+                        array(
+                            "username" => $username
+                        )
                     );
 
                     if(

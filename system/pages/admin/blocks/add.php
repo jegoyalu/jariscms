@@ -56,6 +56,16 @@ row: 0
             if(Jaris\Blocks::add($fields, $_REQUEST["position"], $page = ""))
             {
                 Jaris\View::addMessage(t("The block was successfully created."));
+
+                t("Added global block '{title}' on {position}.");
+
+                Jaris\Logger::info(
+                    "Added global block '{title}' on {position}.",
+                    array(
+                        "title" => $fields["title"],
+                        "position" => $_REQUEST["position"]
+                    )
+                );
             }
             else
             {

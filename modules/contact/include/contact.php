@@ -14,7 +14,7 @@
  * @param $fields An array with the values of the field.
  * @param $uri The path of the contact form page.
  *
- * @return True on success or false on failure.
+ * @return bool True on success or false on failure.
  */
 function contact_add_field($field, $uri)
 {
@@ -43,7 +43,7 @@ function contact_add_field($field, $uri)
  * @param $field An array with the new values of the field.
  * @param $uri The contact form page path.
  *
- * @return True on success or false on failure.
+ * @return bool True on success or false on failure.
  */
 function contact_edit_field($id, $field, $uri)
 {
@@ -68,7 +68,7 @@ function contact_edit_field($id, $field, $uri)
  * @param $id The id of the field.
  * @param $uri The contact forms page path.
  *
- * @return True on success or false on failure.
+ * @return bool True on success or false on failure.
  */
 function contact_delete_field($id, $uri)
 {
@@ -93,7 +93,7 @@ function contact_delete_field($id, $uri)
  * @param $id The id of the field.
  * @param $uri The contact forms page path.
  *
- * @return True on success or false on failure.
+ * @return bool True on success or false on failure.
  */
 function contact_get_field_data($id, $uri)
 {
@@ -117,7 +117,7 @@ function contact_get_field_data($id, $uri)
  *
  * @param $uri The contact form page path.
  *
- * @return True on success or false on failure.
+ * @return bool True on success or false on failure.
  */
 function contact_get_fields($uri)
 {
@@ -157,7 +157,17 @@ function contact_append_fields($uri, &$current_fields)
         {
             //Skip file uploads since they are handled seperately
             if($field["type"] == "file")
+            {
+                if(!empty($_FILES[$field["variable_name"]]["name"]))
+                {
+                    $current_fields[$field["variable_name"]] = $_FILES
+                        [$field["variable_name"]]
+                        ["name"]
+                    ;
+                }
+
                 continue;
+            }
 
             $value = "";
 
@@ -196,7 +206,7 @@ function contact_append_fields($uri, &$current_fields)
  *
  * @param string $type The uri of the contact form page.
  *
- * @return boolean
+ * @return bool
  */
 function contact_files_upload_pass($uri)
 {
@@ -595,7 +605,7 @@ function contact_generate_form_fields($uri, $values = array())
  *
  * @param $uri The path to the contact form page.
  *
- * @return True on success or false if no fields exist.
+ * @return bool True on success or false if no fields exist.
  */
 function contact_generate_fields_path($uri)
 {
@@ -612,6 +622,121 @@ function contact_generate_fields_path($uri)
     }
 
     return $path;
+}
+
+function contact_archive_message_add(
+    $page, $html_message, $fields=array(),
+    $fields_value=array(), $from=array(), $attachments=array()
+)
+{
+    if(Jaris\Sql::dbExists("contact_archive"))
+    {
+        $fields = serialize($fields);
+        $fields_value = serialize($fields_value);
+        $from = serialize($from);
+
+        $stored_attachments = array();
+
+        foreach($attachments as $att_name => $att_path)
+        {
+            $stored_attachments[] = Jaris\Files::add(
+                $att_path,
+                $att_name,
+                "contact/" . str_replace("/", "-", $page)
+            );
+        }
+
+        $stored_attachments = serialize($stored_attachments);
+
+        Jaris\Sql::escapeVar($page);
+        Jaris\Sql::escapeVar($html_message);
+        Jaris\Sql::escapeVar($fields);
+        Jaris\Sql::escapeVar($fields_value);
+        Jaris\Sql::escapeVar($from);
+        Jaris\Sql::escapeVar($stored_attachments);
+
+        $db = Jaris\Sql::open("contact_archive");
+
+        Jaris\Sql::query(
+            "insert into contact_archive ("
+            . "created_date, "
+            . "day, "
+            . "month, "
+            . "year, "
+            . "uri, "
+            . "message, "
+            . "from_info, "
+            . "fields, "
+            . "fields_value, "
+            . "attachments"
+            . ") "
+            . "values("
+            . "'" . time() . "',"
+            . date("j", time()) . ","
+            . date("n", time()) . ","
+            . date("Y", time()) . ","
+            . "'" . $page . "',"
+            . "'" . $html_message . "',"
+            . "'" . $from . "',"
+            . "'" . $fields . "',"
+            . "'" . $fields_value . "',"
+            . "'" . $stored_attachments . "'"
+            . ")",
+            $db
+        );
+
+        Jaris\Sql::close($db);
+    }
+}
+
+function contact_archive_message_get($id)
+{
+    Jaris\Sql::escapeVar($id, "int");
+
+    $db = Jaris\Sql::open("contact_archive");
+
+    $result = Jaris\Sql::query(
+        "select * from contact_archive where id=$id",
+        $db
+    );
+
+    $data = Jaris\Sql::fetchArray($result);
+
+    Jaris\Sql::close($db);
+
+    if(is_array($data))
+    {
+        $data["fields"] = unserialize($data["fields"]);
+        $data["fields_value"] = unserialize($data["fields_value"]);
+        $data["from_info"] = unserialize($data["from_info"]);
+        $data["attachments"] = unserialize($data["attachments"]);
+    }
+
+    return $data;
+}
+
+function contact_archive_message_delete($id)
+{
+    $message_data = contact_archive_message_get($id);
+
+    foreach($message_data["attachments"] as $attachment)
+    {
+        Jaris\Files::delete(
+            $attachment,
+            "contact/" . str_replace("/", "-", $message_data["uri"])
+        );
+    }
+
+    Jaris\Sql::escapeVar($id, "int");
+
+    $db = Jaris\Sql::open("contact_archive");
+
+    Jaris\Sql::query(
+        "delete from contact_archive where id=$id",
+        $db
+    );
+
+    Jaris\Sql::close($db);
 }
 
 ?>

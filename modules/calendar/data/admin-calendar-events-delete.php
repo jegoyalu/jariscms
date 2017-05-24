@@ -55,10 +55,6 @@ row: 0
                 Jaris\Authentication::protectedPage();
             }
         }
-        elseif(!$is_page_owner)
-        {
-            Jaris\Authentication::protectedPage();
-        }
 
         if(isset($_REQUEST["btnYes"]))
         {

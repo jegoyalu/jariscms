@@ -52,8 +52,8 @@ row: 0
                 fputs(
                     $file,
                     "username,email,register_date,user_group,"
-                        . "picture,ip_address,gender,birth_date,"
-                        . "register_date_readable\n"
+                        . "picture,ip_address,gender,birth_date,status,"
+                        . "register_date_readable,birth_date_readable\n"
                 );
 
                 $db = Jaris\Sql::open("users");
@@ -67,11 +67,22 @@ row: 0
                         $data["register_date"]
                     );
 
+                    $data["birth_date_readable"] = date(
+                        "m/d/Y",
+                        $data["birth_date"]
+                    );
+
                     fputcsv($file, $data, ",", "\"");
                 }
 
                 fclose($file);
                 Jaris\Sql::close($db);
+
+                t("Downloaded users csv file.");
+
+                Jaris\Logger::info(
+                    "Downloaded users csv file."
+                );
 
                 Jaris\FileSystem::printFile($users_csv, "users.csv", true, true);
             }

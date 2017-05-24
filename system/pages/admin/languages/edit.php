@@ -204,6 +204,16 @@ row: 0
                 if(Jaris\Language::addString($lang_code, $original, $translation))
                 {
                     Jaris\View::addMessage(t("Changes successfully saved."));
+
+                    t("Added new language string '{string}' to '{code}'.");
+
+                    Jaris\Logger::info(
+                        "Added new language string '{string}' to '{code}'.",
+                        array(
+                            "string" => $original,
+                            "code" => $lang_code
+                        )
+                    );
                 }
                 else
                 {
@@ -248,6 +258,16 @@ row: 0
                 )
                 {
                     Jaris\View::addMessage(t("Changes successfully saved."));
+
+                    t("Modified language string '{string}' to '{code}'.");
+
+                    Jaris\Logger::info(
+                        "Modified language string '{string}' to '{code}'.",
+                        array(
+                            "string" => $strings[$position]["original"],
+                            "code" => $lang_code
+                        )
+                    );
                 }
                 else
                 {
@@ -316,6 +336,16 @@ row: 0
                 if(Jaris\Language::deleteString($lang_code, $strings[$position]["original"]))
                 {
                     Jaris\View::addMessage(t("String successfully removed."));
+
+                    t("Removed language string '{string}' to '{code}'.");
+
+                    Jaris\Logger::info(
+                        "Removed language string '{string}' to '{code}'.",
+                        array(
+                            "string" => $strings[$position]["original"],
+                            "code" => $lang_code
+                        )
+                    );
                 }
                 else
                 {

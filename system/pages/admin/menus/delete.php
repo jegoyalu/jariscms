@@ -61,6 +61,15 @@ row: 0
                     Jaris\Blocks::deleteByField("menu_name", $_REQUEST["menu"]);
 
                     Jaris\View::addMessage(t("Menu successfully deleted."));
+
+                    t("Deleted menu '{machine_name}'.");
+
+                    Jaris\Logger::info(
+                        "Deleted menu '{machine_name}'.",
+                        array(
+                            "machine_name" => $_REQUEST["menu"]
+                        )
+                    );
                 }
                 else
                 {

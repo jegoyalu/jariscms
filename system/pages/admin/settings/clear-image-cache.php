@@ -28,6 +28,10 @@ row: 0
                 Jaris\View::addMessage(
                     t("Image cache cleared successfully.")
                 );
+
+                t("Cleared image cache.");
+
+                Jaris\Logger::info("Cleared image cache.");
             }
             else
             {

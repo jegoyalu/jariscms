@@ -19,6 +19,54 @@ row: 0
     <?php
         Jaris\Authentication::protectedPage(array("import_content_importer"));
 
+        $cat_best_match = function($input, $categories){
+            $shortest = -1;
+            $closest = "";
+            $cat_machine_name = "";
+            $subcat_id = "";
+            $product_categories = array();
+
+            foreach($categories as $machine_name => $values)
+            {
+                $sub_categories = Jaris\Categories::getSubcategories(
+                    $machine_name
+                );
+
+                foreach($sub_categories as $sub_id=>$sub_data)
+                {
+                    $lev = levenshtein(
+                        $input,
+                        strtolower($sub_data["title"])
+                    );
+
+                    // exact match
+                    if($lev == 0)
+                    {
+                        $closest = $sub_data["title"];
+                        $shortest = 0;
+
+                        $cat_machine_name = $machine_name;
+                        $subcat_id = $sub_id;
+
+                        break 2;
+                    }
+
+                    if($lev <= $shortest || $shortest < 0)
+                    {
+                        $closest  = $sub_data["title"];
+                        $shortest = $lev;
+
+                        $cat_machine_name = $machine_name;
+                        $subcat_id = $sub_id;
+                    }
+                }
+            }
+
+            $product_categories[$cat_machine_name][] = $subcat_id;
+
+            return $product_categories;
+        };
+
         if(
             isset($_REQUEST["btnUpload"]) &&
             !Jaris\Forms::requiredFieldEmpty("upload-csv-importer")
@@ -57,7 +105,7 @@ row: 0
             {
                 //Disables execution time and enables unlimited
                 //execution time
-                ini_set('max_execution_time', '0');
+                set_time_limit(0);
 
                 $csv = fopen($_SESSION["importer"]["file"], "r");
 
@@ -90,6 +138,8 @@ row: 0
 
                 //Set images path and index
                 $image_indexes = array_keys($_REQUEST["column"], "image");
+
+                $image_url_indexes = array_keys($_REQUEST["column"], "image_url");
 
                 $images_path = trim($_REQUEST["images_path"]);
 
@@ -143,7 +193,6 @@ row: 0
                                 break;
 
                             case "content":
-
                                 if($break_lines)
                                 {
                                     $page_data["content"] = preg_replace(
@@ -160,7 +209,6 @@ row: 0
                                 break;
 
                             case "category":
-
                                 foreach($categories as $machine_name => $values)
                                 {
                                     $sub_categories = Jaris\Categories::getSubcategories(
@@ -181,6 +229,14 @@ row: 0
                                         }
                                     }
                                 }
+
+                                break;
+
+                            case "category_best_match":
+                                $page_categories = $cat_best_match(
+                                    $columns[$index],
+                                    $categories
+                                );
 
                                 break;
 
@@ -308,7 +364,11 @@ row: 0
                             $author
                         );
 
-                        $page_created_modified = Jaris\Pages::add($uri, $page_data, $page_uri);
+                        $page_created_modified = Jaris\Pages::add(
+                            $uri,
+                            $page_data,
+                            $page_uri
+                        );
                     }
                     else
                     {
@@ -316,9 +376,30 @@ row: 0
 
                         $old_data = Jaris\Pages::get($uri);
 
-                        $page_data = array_merge($old_data, $page_data);
+                        $new_data = array_merge($old_data, $page_data);
 
-                        $page_created_modified = Jaris\Pages::edit($uri, $page_data);
+                        if($_REQUEST["language_code"] != "en")
+                        {
+                            $new_data["title"] = $old_data["title"];
+                            $new_data["content"] = $old_data["content"];
+                        }
+
+                        $page_created_modified = Jaris\Pages::edit(
+                            $uri,
+                            $new_data
+                        );
+
+                        if($_REQUEST["language_code"] != "en")
+                        {
+                            $new_data["title"] = $page_data["title"];
+                            $new_data["content"] = $page_data["content"];
+
+                            Jaris\Translate::page(
+                                $uri,
+                                $new_data,
+                                $_REQUEST["language_code"]
+                            );
+                        }
                     }
 
                     if($page_created_modified)
@@ -361,6 +442,50 @@ row: 0
 
                                             $stop_search = true;
                                         }
+                                    );
+                                }
+                            }
+                        }
+
+                        //Add images
+                        if(count($image_url_indexes) > 0)
+                        {
+                            foreach($image_url_indexes as $image_index)
+                            {
+                                if(
+                                    stristr($columns[$image_index], "http://") === false
+                                    &&
+                                    stristr($columns[$image_index], "https://") === false
+                                )
+                                {
+                                    continue;
+                                }
+
+                                $image_content = file_get_contents(trim($columns[$image_index]));
+
+                                if($image_content !== false)
+                                {
+                                    $image_name = end(
+                                        explode("/", trim($columns[$image_index]))
+                                    );
+
+                                    file_put_contents(
+                                        Jaris\Site::dataDir() . $image_name,
+                                        $image_content
+                                    );
+
+                                    $file = array(
+                                        "name" => $image_name,
+                                        "tmp_name" => Jaris\Site::dataDir() . $image_name,
+                                        "type" => Jaris\FileSystem::getMimeTypeLocal(
+                                            Jaris\Site::dataDir() . $image_name
+                                        )
+                                    );
+
+                                    Jaris\Pages\Images::add(
+                                        $file,
+                                        "",
+                                        $page_uri
                                     );
                                 }
                             }
@@ -486,7 +611,6 @@ row: 0
                 "type" => "file",
                 "name" => "csv",
                 "label" => t("Comma Seperated Values (CSV) file:"),
-                "id" => "image",
                 "valid_types" => "csv",
                 "required" => true
             );
@@ -620,8 +744,10 @@ row: 0
                 t("None") => "none",
                 t("Title") => "title",
                 t("Content") => "content",
-                t("Category") => "category",
+                t("Category Exact Match") => "category",
+                t("Category Best Match") => "category_best_match",
                 t("Image") => "image",
+                t("Image URL") => "image_url",
                 t("File") => "file",
                 t("Meta Title") => "meta_title",
                 t("Meta Description") => "meta_description",
@@ -769,6 +895,17 @@ row: 0
             {
                 $types[t($type_data["name"])] = $machine_name;
             }
+
+            $languages = array_flip(Jaris\Language::getInstalled());
+
+            $option_fields[] = array(
+                "type" => "select",
+                "name" => "language_code",
+                "label" => t("Language:"),
+                "value" => $languages,
+                "selected" => "en",
+                "description" => t("Language used when updating existing content.")
+            );
 
             $option_fields[] = array(
                 "type" => "select",

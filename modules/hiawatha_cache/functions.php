@@ -32,7 +32,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
         // Manually set the content lenght header since
         // hiawatha isn't doing it and browser keeps trying
         // to finish load the page.
-        header("Content-Length: " . strlen($content)+200);
+        //header("Content-Length: " . strval(strlen($content)+200));
     }
 );
 
@@ -58,7 +58,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
         // Manually set the content lenght header since
         // hiawatha isn't doing it and browser keeps trying
         // to finish load the page.
-        header("Content-Length: " . strlen($content)+200);
+        //header("Content-Length: " . strval(strlen($content)+200));
     }
 );
 

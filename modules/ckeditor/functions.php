@@ -5,9 +5,7 @@
  * check the LICENSE.txt file for version and details or visit
  * https://opensource.org/licenses/GPL-3.0.
  *
- * Jaris CMS module functions file
- *
- * @note File that stores all hook functions.
+ * Jaris CMS module functions file.
  */
 
 $display_ckeditor_on_current_page = false;
@@ -79,7 +77,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
                 . "edit-page-blog,add-page-blog,"
                 . "add-exam,edit-exam,"
                 . "add-page-product, edit-page-product,"
-                . "add-listing,edit-listing,"
+                . "add-page-listing,edit-page-listing,"
                 . "add-gallery,edit-gallery,"
                 . "add-page-contact-form,edit-page-contact-form,"
                 . "add-page-calendar,edit-page-calendar,"

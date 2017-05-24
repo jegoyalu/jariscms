@@ -173,8 +173,10 @@ row: 0
 
             for($i = 0; $i < $file_count; $i++)
             {
+                $file_id = intval($_REQUEST["id"][$i]);
+
                 $file_data = Jaris\Pages\Files::get(
-                    $_REQUEST["id"][$i],
+                    $file_id,
                     $arguments["uri"]
                 );
 
@@ -182,7 +184,7 @@ row: 0
 
                 if(
                     !Jaris\Pages\Files::edit(
-                        $_REQUEST["id"][$i],
+                        $file_id,
                         $file_data,
                         $arguments["uri"]
                     )

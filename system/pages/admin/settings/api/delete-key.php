@@ -26,14 +26,23 @@ row: 0
             Jaris\Uri::go("admin/settings/api");
         }
 
-        $key_data = api_key_get_data_by_id($_REQUEST["id"]);
+        $key_data = Jaris\ApiKey::getDataById($_REQUEST["id"]);
 
         if(isset($_REQUEST["btnYes"]))
         {
             //Delete page
-            api_key_delete($key_data["key"]);
+            Jaris\ApiKey::delete($key_data["key"]);
 
             Jaris\View::addMessage(t("Api key successfully deleted."));
+
+            t("Deleted api key '{key}'.");
+
+            Jaris\Logger::info(
+                "Deleted api key '{key}'.",
+                array(
+                    "key" => $key_data["key"]
+                )
+            );
 
             Jaris\Uri::go("admin/settings/api");
         }

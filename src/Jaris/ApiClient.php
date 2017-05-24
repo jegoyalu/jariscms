@@ -146,7 +146,7 @@ class ApiClient
 
     /**
      * Makes an api call by sending the action and parameters previously set.
-     * @throws Exception
+     * @throws \Exception
      */
     public function sendRequest()
     {
@@ -177,7 +177,7 @@ class ApiClient
                     break;
 
                 default:
-                    throw new Exception(
+                    throw new \Exception(
                         $response["error"]["message"],
                         $response["error"]["code"]
                     );
@@ -227,7 +227,7 @@ class ApiClient
 
     /**
      * Gets a new token in order to make api calls.
-     * @throws Exception
+     * @throws \Exception
      */
     private function getNewToken()
     {
@@ -241,7 +241,7 @@ class ApiClient
 
         if(isset($response["error"]))
         {
-            throw new Exception(
+            throw new \Exception(
                 $response["error"]["message"],
                 $response["error"]["code"]
             );
@@ -256,7 +256,7 @@ class ApiClient
      * Make a post request.
      * @param array $parameters
      * @return string
-     * @throws Exception
+     * @throws \Exception
      */
     private function doRequest($parameters)
     {
@@ -301,7 +301,7 @@ class ApiClient
 
         if(!$fp)
         {
-            throw new Exception(
+            throw new \Exception(
                 "Could not connect to host with error: " . $errstr,
                 $errno
             );

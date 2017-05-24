@@ -41,6 +41,15 @@ row: 0
                 if(Jaris\Mail::sendEmailActivation($_REQUEST["u"]))
                 {
                     $message = t("The activation e-mail was successfully sent.");
+
+                    t("Account re-activation e-mail sent for '{username}'.");
+
+                    Jaris\Logger::info(
+                        "Account re-activation e-mail sent for '{username}'.",
+                        array(
+                            "username" => $_REQUEST["u"]
+                        )
+                    );
                 }
                 else
                 {

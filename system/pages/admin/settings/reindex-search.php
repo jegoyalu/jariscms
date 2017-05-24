@@ -30,6 +30,10 @@ row: 0
                 Jaris\View::addMessage(
                     t("Indexation of SQLite search database completed.")
                 );
+
+                t("Re-indexed search database.");
+
+                Jaris\Logger::info("Re-indexed search database.");
             }
             else
             {

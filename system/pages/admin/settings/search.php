@@ -90,6 +90,10 @@ row: 0
                 Jaris\View::addMessage(
                     t("Your settings have been successfully saved.")
                 );
+
+                t("Edited search settings.");
+
+                Jaris\Logger::info("Edited search settings.");
             }
             else
             {

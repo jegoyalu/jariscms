@@ -19,14 +19,19 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("view_blocks", "delete_blocks"));
+        Jaris\Authentication::protectedPage(
+            array("view_blocks", "delete_blocks")
+        );
 
         if(!isset($_REQUEST["id"]) || !isset($_REQUEST["position"]))
         {
             Jaris\Uri::go("admin/blocks");
         }
 
-        $block_data = Jaris\Blocks::get($_REQUEST["id"], $_REQUEST["position"]);
+        $block_data = Jaris\Blocks::get(
+            intval($_REQUEST["id"]),
+            $_REQUEST["position"]
+        );
 
         if($block_data["is_system"])
         {
@@ -40,9 +45,24 @@ row: 0
 
         if(isset($_REQUEST["btnYes"]))
         {
-            if(Jaris\Blocks::delete($_REQUEST["id"], $_REQUEST["position"]))
+            if(
+                Jaris\Blocks::delete(
+                    intval($_REQUEST["id"]),
+                    $_REQUEST["position"]
+                )
+            )
             {
                 Jaris\View::addMessage(t("Block successfully deleted."));
+
+                t("Deleted global block '{title}' on {position}.");
+
+                Jaris\Logger::info(
+                    "Deleted global block '{title}' on {position}.",
+                    array(
+                        "title" => $block_data["title"],
+                        "position" => $_REQUEST["position"]
+                    )
+                );
             }
             else
             {

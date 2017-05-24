@@ -108,9 +108,9 @@ row: 0
 
             $fields["birth_date"] = mktime(
                 0, 0, 0,
-                $_REQUEST["month"],
-                $_REQUEST["day"],
-                $_REQUEST["year"]
+                intval($_REQUEST["month"]),
+                intval($_REQUEST["day"]),
+                intval($_REQUEST["year"])
             );
 
             $error = false;
@@ -162,6 +162,15 @@ row: 0
                 {
                     Jaris\View::addMessage(
                         t("The user has been successfully created.")
+                    );
+
+                    t("Added user '{username}'.");
+
+                    Jaris\Logger::info(
+                        "Added user '{username}'.",
+                        array(
+                            "username" => $_REQUEST["username"]
+                        )
                     );
 
                     Jaris\Uri::go("admin/users");

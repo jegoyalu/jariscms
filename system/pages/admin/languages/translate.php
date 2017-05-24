@@ -132,7 +132,7 @@ row: 0
         }
         elseif(isset($type) && $type == "block")
         {
-            $id = $_REQUEST["id"];
+            $id = intval($_REQUEST["id"]);
             $position = $_REQUEST["position"];
 
             $original_data = Jaris\Blocks::get(
@@ -251,6 +251,16 @@ row: 0
                 else
                 {
                     Jaris\View::addMessage(t("Translation saved successfully!"));
+
+                    t("Translated page '{uri}' to '{code}'.");
+
+                    Jaris\Logger::info(
+                        "Translated page '{uri}' to '{code}'.",
+                        array(
+                            "uri" => $uri,
+                            "code" => $language_code
+                        )
+                    );
                 }
             }
 
@@ -258,12 +268,13 @@ row: 0
         }
         elseif(isset($save) && $save == "block")
         {
-            $id = $_REQUEST["id"];
+            $id = intval($_REQUEST["id"]);
             $position = $_REQUEST["position"];
 
             if(isset($_REQUEST["btnSave"]))
             {
                 $original_data = Jaris\Blocks::get($id, $position);
+                $block_title = $original_data["title"];
 
                 if(!isset($original_data["id"]))
                 {
@@ -289,6 +300,16 @@ row: 0
                 else
                 {
                     Jaris\View::addMessage(t("Translation saved successfully!"));
+
+                    t("Translated global block '{title}' to '{code}'.");
+
+                    Jaris\Logger::info(
+                        "Translated global block '{title}' to '{code}'.",
+                        array(
+                            "title" => $block_title,
+                            "code" => $language_code
+                        )
+                    );
                 }
             }
 

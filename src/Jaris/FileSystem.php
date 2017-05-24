@@ -458,94 +458,213 @@ static function recursiveRemoveDir($directory, $empty = false)
  *
  * @param string $path The file on the current server.
  * @param string $name A name for the file when the download is forced.
+ * Set to empty so browser uses the name on the url path.
  * @param bool $force_download Even is it is a text file is forced
  * to download on the browser.
  * @param bool $try_compression Checks if zip support is available
  * and compress the file.
- * @original print_any_file
  */
 static function printFile(
     $path, $name = "file", $force_download = false, $try_compression = false
 )
 {
-    $file = $path;
+    // Do not lock subsequent requests.
+    Session::close();
 
-    //First reset headers
-    header("Pragma: ");   //This one is set to no-cache so we disable it
-    header("Cache-Control: ");  //also set to no cache
-    header("Last-Modified: ");  //We try to reset to only send one date
-    header("Expires: ");   //We try to reset to only send one expiration date
-    header("X-Powered-By: "); //We remove the php powered by since we want to pass as normal file
-
-
-    if($try_compression)
+    if("" . stripos($path, ".php") . "" != "")
     {
-        if(class_exists("ZipArchive"))
+        Site::setHTTPStatus(403);
+        exit;
+    }
+
+    if(is_file($path))
+    {
+        if($try_compression)
         {
-            $zip_file = self::stripExtension($file) . ".zip";
+            if(class_exists("ZipArchive"))
+            {
+                if($name == "")
+                {
+                    $name = end(explode("/", $path));
+                }
 
-            $zip = new \ZipArchive();
-            $zip->open($zip_file, \ZipArchive::CREATE);
+                $zip_file = self::stripExtension($path) . ".zip";
 
-            $zip->addFile($path, "$name");
-            $zip->close();
+                $zip = new \ZipArchive();
+                $zip->open($zip_file, \ZipArchive::CREATE);
 
-            $file = $zip_file;
-            $name = self::stripExtension($name) . ".zip";
+                $zip->addFile($path, "$name");
+                $zip->close();
+
+                $path = $zip_file;
+                $name = self::stripExtension($name) . ".zip";
+            }
         }
-    }
 
-    $file_name = $name;
+    	$file_size  = filesize($path);
+    	$file = @fopen($path,"rb");
 
-    if($name == "file")
-    {
-        $file_name_parts = explode("/", $path);
-        $file_name = $file_name_parts[count($file_name) - 1];
-    }
+        if($file)
+    	{
+            header("X-Powered-By: "); //Remove
+    		header("Pragma: public");
+            header("Etag: \"" . md5_file($path) . "\"");
+            header("Cache-Control: max-age=1209600");
+            header('Last-Modified: ' . gmdate('D, d M Y H:i:s', filemtime($path)) . 'GMT');
+            header('Expires: ' . gmdate('D, d M Y H:i:s', time() + (14 * 24 * 60 * 60)) . 'GMT');
+    		/*header(
+                "Cache-Control: public, must-revalidate, post-check=0, pre-check=0"
+            );*/
 
-    //Forces the file to download
-    if($force_download)
-    {
-        header("Content-Description: File Transfer");
-        header('Content-Disposition: attachment; filename="'.$file_name.'"');
-    }
-    else
-    {
-        header('Content-Disposition: inline; filename="'.$file_name.'"');
-    }
+            $file_name_header = "";
+            if($name != "")
+            {
+                $file_name_header .= " filename=\"$name\"";
+            }
 
-    //Set headers to enable file caching
-    header("Content-Type: " . self::getMimeTypeLocal($file));
+            if($force_download)
+            {
+                header("Content-Description: File Transfer");
+                header("Content-Disposition: attachment;$file_name_header");
+            }
+            else
+            {
+                header("Content-Disposition: inline;$file_name_header");
+                header('Content-Transfer-Encoding: binary');
+            }
 
-    //As security measure we output blank if php file is been requested
-    if("" . stripos($file, ".php") . "" != "")
-    {
-        // An alternative would be to eval the file.
-        //print_php_file($path);
-        echo "";
-    }
-    else
-    {
-        header("Content-Lenght: " . filesize($file));
+            header("Content-Type: " . self::getMimeTypeLocal($path));
 
-        ob_end_clean();
-        flush();
+    		//check if http_range is sent by browser (or download manager)
+    		if(isset($_SERVER['HTTP_RANGE']))
+    		{
+    			list($size_unit, $range_orig) = explode(
+                    '=',
+                    $_SERVER['HTTP_RANGE'],
+                    2
+                );
 
-        $fp = fopen($file, "r");
-        while(!feof($fp))
-        {
-            echo fread($fp, 65536);
+    			if($size_unit == 'bytes')
+    			{
+                    //http://www.media-division.com/the-right-way-to-handle-file-downloads-in-php/
+    				//multiple ranges could be specified at the same time,
+    				//but for simplicity only serve the first range
+    				//http://tools.ietf.org/id/draft-ietf-http-range-retrieval-00.txt
+    				list($range, $extra_ranges) = explode(
+                        ',', $range_orig, 2
+                    );
+    			}
+    			else
+    			{
+                    if($try_compression && class_exists("ZipArchive"))
+                    {
+                        unlink($path);
+                    }
+
+    				$range = '';
+    				header('HTTP/1.1 416 Requested Range Not Satisfiable');
+    				exit;
+    			}
+    		}
+    		else
+    		{
+    			$range = '';
+    		}
+
+    		//figure out download piece from range (if set)
+    		list($seek_start, $seek_end) = explode('-', $range, 2);
+
+    		//set start and end based on range (if set), else set defaults
+    		//also check for invalid ranges.
+    		$seek_end   = (empty($seek_end)) ?
+                ($file_size - 1)
+                :
+                min(abs(intval($seek_end)), ($file_size - 1))
+            ;
+
+    		$seek_start =
+                (
+                    empty($seek_start) || $seek_end < abs(intval($seek_start))
+                ) ?
+                0
+                :
+                max(abs(intval($seek_start)), 0)
+            ;
+
+    		//Only send partial content header if downloading a piece of the file (IE workaround)
+    		if ($seek_start > 0 || $seek_end < ($file_size - 1))
+    		{
+    			header('HTTP/1.1 206 Partial Content');
+
+    			header(
+                    'Content-Range: bytes '
+                    . $seek_start
+                    . '-'
+                    . $seek_end
+                    . '/'
+                    . $file_size
+                );
+
+                header('Content-Length: '.($seek_end - $seek_start + 1));
+    		}
+    		else
+            {
+                header("Content-Length: $file_size");
+            }
+
+    		header('Accept-Ranges: bytes');
+
+    		set_time_limit(0);
+    		fseek($file, $seek_start);
+
+            //Print file to browser
+            ob_end_clean();
             flush();
-        }
-        fclose($fp);
-    }
 
-    if($try_compression && class_exists("ZipArchive"))
+    		while(!feof($file))
+    		{
+    			print(@fread($file, 1024*8));
+
+    			flush();
+
+    			if(connection_status() != CONNECTION_NORMAL)
+    			{
+                    if($try_compression && class_exists("ZipArchive"))
+                    {
+                        unlink($path);
+                    }
+
+    				@fclose($file);
+    				exit;
+    			}
+    		}
+
+            if($try_compression && class_exists("ZipArchive"))
+            {
+                unlink($path);
+            }
+
+    		@fclose($file);
+    		exit;
+    	}
+    	else
+    	{
+            if($try_compression && class_exists("ZipArchive"))
+            {
+                unlink($path);
+            }
+
+    		// file couldn't be opened
+    		Site::setHTTPStatus(500);
+    		exit;
+    	}
+    }
+    else
     {
-        unlink($file);
+    	// file does not exist
+    	Site::setHTTPStatus(404);
+    	exit;
     }
-
-    exit;
 }
 
 /**

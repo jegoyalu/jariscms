@@ -26,7 +26,7 @@ row: 0
         {
             //Disables execution time and enables unlimited
             //execution time
-            ini_set('max_execution_time', '0');
+            set_time_limit(0);
 
             $db = Jaris\Sql::open("search_engine");
 
@@ -37,7 +37,7 @@ row: 0
                 $db
             );
 
-            $csv_filename = $_REQUEST["type"]
+            $csv_filename = $_REQUEST["type"] . "-" . $_REQUEST["language_code"]
                 . "-" . date("d-m-Y", time()) . ".csv"
             ;
 
@@ -58,6 +58,15 @@ row: 0
 
             while($data = Jaris\Sql::fetchArray($result))
             {
+                $page_data = array();
+                if($_REQUEST["language_code"] != "en")
+                {
+                    $page_data = Jaris\Pages::get(
+                        $data["uri"],
+                        $_REQUEST["language_code"]
+                    );
+                }
+
                 $columns = unserialize($data["data"]);
 
                 foreach($type_fields as $field_id => $field_data)
@@ -146,9 +155,39 @@ row: 0
                             $value = implode(",", $categories_list);
                         }
                     }
+                    elseif($_REQUEST["language_code"] != "en")
+                    {
+                        if($name == "title")
+                        {
+                            $value = $page_data["title"];
+                        }
+                        elseif($name == "content")
+                        {
+                            if($_REQUEST["strip_html"])
+                            {
+                                $value = preg_replace(
+                                    "/(\n|\r\n|\n\n)+/",
+                                    "\n",
+                                    Jaris\Util::stripHTMLTags(
+                                        $page_data["content"]
+                                    )
+                                );
+                            }
+                            else
+                            {
+                                $value = $page_data["content"];
+                            }
+                        }
+                    }
                     elseif($name == "content" && $_REQUEST["strip_html"])
                     {
-                        $value = Jaris\Util::stripHTMLTags($value);
+                        $value = preg_replace(
+                            "/(\n|\r\n|\n\n)+/",
+                            "\n",
+                            Jaris\Util::stripHTMLTags(
+                                $page_data["content"]
+                            )
+                        );
                     }
 
                     $row[] = $value;
@@ -212,6 +251,17 @@ row: 0
             {
                 $types[t($type_data["name"])] = $machine_name;
             }
+
+            $languages = array_flip(Jaris\Language::getInstalled());
+
+            $option_fields[] = array(
+                "type" => "select",
+                "name" => "language_code",
+                "label" => t("Language:"),
+                "value" => $languages,
+                "selected" => "en",
+                "description" => t("In which language to export the content.")
+            );
 
             $option_fields[] = array(
                 "type" => "select",

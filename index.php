@@ -33,7 +33,7 @@ Jaris\System::fastCacheIfPossible(Jaris\Uri::get());
 //Load installed modules
 Jaris\Site::loadModules();
 
-//Contine normal processing and render requested page
+//Continue normal processing and render requested page
 Jaris\Site::bootStrap();
 
 //Display amount of time that took to render the page if enabled.

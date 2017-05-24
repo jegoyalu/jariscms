@@ -1212,6 +1212,7 @@ static function highlightResults(
     }
 
     $result = Util::stripHTMLTags($result);
+    $result = str_replace("<br />", " ", $result);
 
     $keywords = self::getKeywords() ? self::getKeywords() : array();
     $keywords_string = implode(" ", $keywords);

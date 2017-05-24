@@ -100,6 +100,8 @@ function listing_category_fields($selected = null, $main_category = null, $type 
 
 function listing_print_results($uri, $content_data)
 {
+    $ecommerce_installed = Jaris\Modules::isInstalled("ecommerce");
+
     $page = 1;
 
     if(isset($_REQUEST["page"]))
@@ -124,6 +126,32 @@ function listing_print_results($uri, $content_data)
 
         $types .= ")";
     }
+
+    $ecommerce_product_types = false;
+
+    if(
+        !empty($content_data["treat_as_products"])
+        &&
+        $ecommerce_installed
+    )
+    {
+        $ecommerce_product_types = true;
+        $product_types = ecommerce_get_product_types();
+
+        foreach($content_data["filter_types"] as $type)
+        {
+            if(!isset($product_types[$type]))
+            {
+                $ecommerce_product_types = false;
+                break;
+            }
+        }
+    }
+
+    $ecommerce_products = $ecommerce_installed
+        &&
+        $ecommerce_product_types
+    ;
 
     $authors = "";
     $authors_list = explode(",", $content_data["filter_authors"]);
@@ -204,21 +232,90 @@ function listing_print_results($uri, $content_data)
             break;
     }
 
+    if(
+        !empty($content_data["display_sorting_selector"])
+        &&
+        isset($_REQUEST["s"])
+        &&
+        trim($_REQUEST["s"]) != ""
+    )
+    {
+        switch($_REQUEST["s"])
+        {
+            case "rd":
+                $ordering = "order by created_date desc";
+                break;
+            case "ra":
+                $ordering = "order by created_date asc";
+                break;
+            case "na":
+                $ordering = "order by title asc";
+                break;
+            case "nd":
+                $ordering = "order by title desc";
+                break;
+        }
+
+        if($ecommerce_products)
+        {
+            switch($_REQUEST["s"])
+            {
+                case "pd":
+                    $ordering = "order by price desc";
+                    break;
+                case "pa":
+                    $ordering = "order by price asc";
+                    break;
+            }
+        }
+    }
+
     $user = Jaris\Authentication::currentUser();
     $group = Jaris\Authentication::currentUserGroup();
 
+    // Get results count
     $results_count = 0;
     $db = Jaris\Sql::open("search_engine");
+
+    $query = "";
+
+    $on_sale = "";
+
+    if($ecommerce_products)
+    {
+        $on_sale = !empty($content_data["onsale_only"]) ?
+            " and on_sale != ''"
+            :
+            ""
+        ;
+
+        Jaris\Sql::attach("ecommerce_inventory", $db);
+
+        $query .= "select haspermission(groups, '$group') as has_permissions, "
+            . "hasuserpermission(users, '$user') as has_user_permissions, "
+            . "count(a.uri) as uri_count $has_categories from uris a "
+            . "inner join ecommerce_inventory b on "
+            . "a.uri = b.uri "
+            . "where b.variation=0 and b.in_stock=1 and "
+            . "has_permissions > 0 and has_user_permissions > 0 and "
+            . "approved='a' $types $authors $where_categories $on_sale"
+        ;
+
+        $query = str_replace("type=", "a.type=", $query);
+    }
+    else
+    {
+        $query .= "select haspermission(groups, '$group') as has_permissions, "
+            . "hasuserpermission(users, '$user') as has_user_permissions, "
+            . "count(uri) as uri_count $has_categories from uris "
+            . "where has_permissions > 0 and has_user_permissions > 0 and "
+            . "approved='a' $types $authors $where_categories"
+        ;
+    }
+
     Jaris\Sql::turbo($db);
 
-    $result = Jaris\Sql::query(
-        "select haspermission(groups, '$group') as has_permissions, "
-        . "hasuserpermission(users, '$user') as has_user_permissions, "
-        . "count(uri) as uri_count $has_categories from uris "
-        . "where has_permissions > 0 and has_user_permissions > 0 and "
-        . "approved='a' $types $authors $where_categories",
-        $db
-    );
+    $result = Jaris\Sql::query($query, $db);
 
     while($data_count = Jaris\Sql::fetchArray($result))
     {
@@ -228,19 +325,163 @@ function listing_print_results($uri, $content_data)
 
     Jaris\Sql::close($db);
 
-    $results = Jaris\Sql::getDataList(
-        "search_engine",
-        "uris",
-        $page - 1,
-        $content_data["results_per_page"],
-        "where has_permissions > 0 and has_user_permissions > 0 and "
-            . "approved='a' $types $authors $where_categories $ordering", 
-        "haspermission(groups, '$group') as has_permissions, "
-            . "hasuserpermission(users, '$user') as has_user_permissions, "
-            . "uri $has_categories"
-    );
+    // Get results
+    $db = Jaris\Sql::open("search_engine");
 
+    $query = "";
+
+    $limit = !empty($content_data["display_count_selector"])
+        &&
+        isset($_REQUEST["a"])
+        &&
+        (
+            intval($_REQUEST["a"]) >= 25
+            &&
+            intval($_REQUEST["a"]) <= 100
+        )
+        ?
+            intval($_REQUEST["a"])
+            :
+            intval($content_data["results_per_page"])
+    ;
+
+    if($ecommerce_products)
+    {
+        Jaris\Sql::attach("ecommerce_inventory", $db);
+
+        $query .= "select a.uri, haspermission(groups, '$group') as has_permissions, "
+            . "hasuserpermission(users, '$user') as has_user_permissions "
+            . "$has_categories from uris a "
+            . "inner join ecommerce_inventory b on "
+            . "a.uri = b.uri "
+            . "where b.variation=0 and b.in_stock=1 and "
+            . "has_permissions > 0 and has_user_permissions > 0 and "
+            . "approved='a' $types $authors $where_categories $on_sale $ordering "
+            . "limit ".(($page-1)*$limit).", ".$limit
+        ;
+
+        $query = str_replace("type=", "a.type=", $query);
+    }
+    else
+    {
+        $query .= "select uri, haspermission(groups, '$group') as has_permissions, "
+            . "hasuserpermission(users, '$user') as has_user_permissions "
+            . "$has_categories from uris "
+            . "where "
+            . "has_permissions > 0 and has_user_permissions > 0 and "
+            . "approved='a' $types $authors $where_categories $ordering "
+            . "limit ".(($page-1)*$limit).", ".$limit
+        ;
+    }
+
+    Jaris\Sql::turbo($db);
+
+    $result = Jaris\Sql::query($query, $db);
+
+    $results = array();
+    if($fields = Jaris\Sql::fetchArray($result))
+    {
+        $results[] = $fields;
+
+        while($fields = Jaris\Sql::fetchArray($result))
+        {
+            $results[] = $fields;
+        }
+    }
+
+    Jaris\Sql::close($db);
+
+    // Generate output
     $output = "";
+
+    if(
+        !empty($content_data["display_count_selector"])
+        ||
+        !empty($content_data["display_sorting_selector"])
+    )
+    {
+        $parameters["class"] = "filter-listing-results";
+        $parameters["action"] = Jaris\Uri::url(Jaris\Uri::get());
+        $parameters["method"] = "get";
+
+        $fields[] = array(
+            "type" => "other",
+            "html_code" =>
+                '<style>'
+                . '.content-list-options{margin-bottom: 20px} '
+                . '.content-list-options select{min-width: 150px;}'
+                . '</style>'
+                . '<div '
+                . 'class="content-list-options" '
+                . 'style="display: flex; justify-content: flex-end" '
+                . '>'
+        );
+
+        if(!empty($content_data["display_sorting_selector"]))
+        {
+            $sorting_list = array(
+                t("Default") => "",
+                t("Name Ascending") => "na",
+                t("Name Descending") => "nd",
+                t("Newest First") => "rd",
+                t("Newest Last") => "ra",
+            );
+
+            if($ecommerce_products)
+            {
+                $sorting_list[t("Price Lowest")] = 'pa';
+                $sorting_list[t("Price Highest")] = 'pd';
+            }
+
+            $fields[] = array(
+                "type" => "select",
+                "name" => "s",
+                "label" => t("Sort by:"),
+                "value" => $sorting_list,
+                "selected" => isset($_REQUEST["s"]) ?
+                    $_REQUEST["s"]
+                    :
+                    "",
+                "code" => 'onchange="javascript: this.form.submit()"',
+                "inline" => true
+            );
+        }
+
+        if(!empty($content_data["display_count_selector"]))
+        {
+            $amount_list = array(
+                t("Default") => "",
+                "25" => 25,
+                "50" => 50,
+                "75" => 75,
+                "100" => 100
+            );
+
+            $fields[] = array(
+                "type" => "select",
+                "name" => "a",
+                "label" => t("Results per page:"),
+                "value" => $amount_list,
+                "selected" => isset($_REQUEST["a"]) ?
+                    $_REQUEST["a"]
+                    :
+                    "",
+                "code" => 'onchange="javascript: this.form.submit()"',
+                "inline" => true
+            );
+        }
+
+        $fields[] = array(
+            "type" => "other",
+            "html_code" => '</div>'
+        );
+
+        $fieldset[] = array(
+            "fields" => $fields
+        );
+
+        $output .= Jaris\Forms::generate($parameters, $fieldset);
+    }
 
     if($content_data["layout"] == "list")
     {
@@ -263,15 +504,15 @@ function listing_print_results($uri, $content_data)
     foreach($results as $fields)
     {
         $page_data = Jaris\Pages::get(
-            $fields["uri"], 
+            $fields["uri"],
             Jaris\Language::getCurrent()
         );
 
         $title = !$content_data["display_title"] ?
             false
             :
-            "<a href=\"" . Jaris\Uri::url($fields["uri"]) . "\">" 
-                . $page_data["title"] 
+            "<a href=\"" . Jaris\Uri::url($fields["uri"]) . "\">"
+                . $page_data["title"]
                 . "</a>"
         ;
 
@@ -285,10 +526,33 @@ function listing_print_results($uri, $content_data)
             )
         ;
 
+        $price = "";
+
+        if($ecommerce_products && !empty($content_data["show_prices"]))
+        {
+            $price = ecommerce_get_product_price($page_data, $group);
+
+            $price_plain = $price;
+
+            if($price)
+            {
+                $price = '$' . number_format($price, 2, ".", ",");
+            }
+
+            if(!empty($page_data["on_sale"]))
+            {
+                $price = '<div class="on-sale">'
+                    . '<span>' . t("on sale") . '</span> '
+                    . $price
+                    . '</div>'
+                ;
+            }
+        }
+
         $image_list = Jaris\Data::sort(
             Jaris\Pages\Images::getList(
                 $fields["uri"]
-            ), 
+            ),
             "order"
         );
         $image_name = null;
@@ -369,8 +633,8 @@ function listing_print_results($uri, $content_data)
         $view_more = !$content_data["display_more"] ?
             false
             :
-            "<a href=\"" . Jaris\Uri::url($fields["uri"]) . "\">" 
-                . t("View More") 
+            "<a href=\"" . Jaris\Uri::url($fields["uri"]) . "\">"
+                . t("View More")
                 . "</a>"
         ;
 
@@ -448,12 +712,25 @@ function listing_print_results($uri, $content_data)
     {
         ob_start();
 
+        $arguments = array();
+
+        if(isset($_REQUEST["s"]))
+        {
+            $arguments["s"] = $_REQUEST["s"];
+        }
+
+        if(isset($_REQUEST["a"]))
+        {
+            $arguments["a"] = $_REQUEST["a"];
+        }
+
         Jaris\System::printNavigation(
             $results_count,
             $page,
             $uri,
             "",
-            $content_data["results_per_page"]
+            $limit,
+            $arguments
         );
 
         $output .= ob_get_contents();
@@ -609,7 +886,7 @@ function listing_block_print_results($uri, $content_data)
                 . "(title_relevancy > 0 or content_relevancy > 0) and "
                 . "has_permissions > 0 and has_user_permissions > 0 and "
                 . "approved='a' $types $authors $where_categories "
-                . "order by title_relevancy desc, content_relevancy desc", 
+                . "order by title_relevancy desc, content_relevancy desc",
             "leftsearch(title, '$displayed_title') as title_relevancy, "
                 . "leftsearch(content, '$displayed_content') as content_relevancy, "
                 . "haspermission(groups, '$group') as has_permissions, "
@@ -629,8 +906,8 @@ function listing_block_print_results($uri, $content_data)
         $title = !$content_data["display_title"] ?
             false
             :
-            "<a href=\"" . Jaris\Uri::url($fields["uri"]) . "\">" 
-                . $page_data["title"] 
+            "<a href=\"" . Jaris\Uri::url($fields["uri"]) . "\">"
+                . $page_data["title"]
                 . "</a>"
         ;
 
@@ -711,8 +988,8 @@ function listing_block_print_results($uri, $content_data)
         $view_more = !$content_data["display_more"] ?
             false
             :
-            "<a href=\"" . Jaris\Uri::url($fields["uri"]) . "\">" 
-                . t("View More") 
+            "<a href=\"" . Jaris\Uri::url($fields["uri"]) . "\">"
+                . t("View More")
                 . "</a>"
         ;
 
@@ -721,10 +998,10 @@ function listing_block_print_results($uri, $content_data)
         include(listing_result_template($uri, $page_data["type"], "block"));
 
         $output .= ob_get_contents();
-        
+
         ob_end_clean();
     }
-    
+
     $output .= '</div>';
 
     return $output;
@@ -735,16 +1012,16 @@ function listing_result_template($page, $results_type = "all", $template_type = 
     $theme = Jaris\Site::$theme;
     $page = str_replace("/", "-", $page);
 
-    $current_template = Jaris\Themes::directory($theme) 
+    $current_template = Jaris\Themes::directory($theme)
         . "listing-$template_type.php"
     ;
-    $current_page = Jaris\Themes::directory($theme) 
+    $current_page = Jaris\Themes::directory($theme)
         . "listing-$template_type-" . $page . ".php"
     ;
-    $current_results_type = Jaris\Themes::directory($theme) 
+    $current_results_type = Jaris\Themes::directory($theme)
         . "listing-$template_type-" . $results_type . ".php"
     ;
-    $current_page_result_type = Jaris\Themes::directory($theme) 
+    $current_page_result_type = Jaris\Themes::directory($theme)
         . "listing-$template_type-" . $page . "-" . $results_type . ".php"
     ;
 
@@ -768,7 +1045,7 @@ function listing_result_template($page, $results_type = "all", $template_type = 
     }
     else
     {
-        $template_path = Jaris\Modules::directory("listing") 
+        $template_path = Jaris\Modules::directory("listing")
             . "templates/listing-$template_type.php"
         ;
     }

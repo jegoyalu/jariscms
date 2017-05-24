@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Jefferson González <jgonzalez@jegoyalu.com>
- * @license https://opensource.org/licenses/GPL-3.0 
+ * @license https://opensource.org/licenses/GPL-3.0
  * @link http://github.com/jegoyalu/jariscms Source code.
  */
 
@@ -20,7 +20,8 @@ class Autoloader
     {
         $file = str_replace("\\", "/", $class_name) . ".php";
 
-        include(__DIR__ . "/" . $file);
+        if(file_exists(__DIR__ . "/" . $file))
+            include(__DIR__ . "/" . $file);
     }
 
     /**

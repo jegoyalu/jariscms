@@ -70,6 +70,15 @@ row: 0
                     t("The account was successfully activated. Please login.")
                 );
 
+                t("Account '{username}' activated.");
+
+                Jaris\Logger::info(
+                    "Account '{username}' activated.",
+                    array(
+                        "username" => $_REQUEST["u"]
+                    )
+                );
+
                 Jaris\Uri::go(
                     "admin/user",
                     array("username" => $user_data["email"])

@@ -386,6 +386,7 @@ elseif(isset($_REQUEST["action"]) && $_REQUEST["action"] == "site_details")
 
         $fields["name"] = $_REQUEST["name"];
         $fields["email"] = $_REQUEST["email"];
+        $fields["superadmin"] = 1;
 
         $error = false;
 
@@ -1189,11 +1190,11 @@ else if(isset($_REQUEST["action"]) && $_REQUEST["action"] == "finalize_installat
                     <?php print $step_title ?>
                 </h2>
 
-                    <?php if($error_message){ ?>
-                    <div id="error">
-                        <?php print $error_message ?>
-                    </div>
-                    <?php } ?>
+                <?php if($error_message){ ?>
+                <div id="error">
+                    <?php print $error_message ?>
+                </div>
+                <?php } ?>
 
                 <div class="content-container">
                     <?php print $content ?>

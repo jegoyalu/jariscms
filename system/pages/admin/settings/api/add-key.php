@@ -37,17 +37,26 @@ row: 0
                 "ip_host" => $_REQUEST["ip_host"],
             );
 
-            $key = api_key_add(
+            $key = Jaris\ApiKey::add(
                 $data
             );
 
-            if(api_key_valid($key))
+            if(Jaris\ApiKey::isValid($key))
             {
                 if(isset($_REQUEST["permissions"]))
-                    api_key_set_permissions($key, $_REQUEST["permissions"]);
+                    Jaris\ApiKey::setPermissions($key, $_REQUEST["permissions"]);
 
                 Jaris\View::addMessage(
                     t("The api key has been successfully created.")
+                );
+
+                t("Added api key '{key}'.");
+
+                Jaris\Logger::info(
+                    "Added api key '{key}'.",
+                    array(
+                        "key" => $key
+                    )
                 );
 
                 Jaris\Uri::go("admin/settings/api");
@@ -65,7 +74,7 @@ row: 0
             Jaris\Uri::go("admin/settings/api");
         }
 
-        $permissions = api_get_permissions_list();
+        $permissions = Jaris\Api::getPermissionsList();
 
         $parameters["name"] = "api-add-key";
         $parameters["class"] = "api-add-key";

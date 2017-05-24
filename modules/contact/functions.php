@@ -5,9 +5,7 @@
  * check the LICENSE.txt file for version and details or visit
  * https://opensource.org/licenses/GPL-3.0.
  *
- * Jaris CMS module functions file
- *
- * @note File that stores all hook functions.
+ * Jaris CMS module functions file.
  */
 
 Jaris\Signals\SignalHandler::listenWithParams(
@@ -54,6 +52,70 @@ Jaris\Signals\SignalHandler::listenWithParams(
 );
 
 Jaris\Signals\SignalHandler::listenWithParams(
+    Jaris\Pages::SIGNAL_MOVE_PAGE,
+    function(&$actual_uri, &$new_uri)
+    {
+        $page_data = Jaris\Pages::get($actual_uri);
+
+        if($page_data["type"] == "contact-form")
+        {
+            $db = Jaris\Sql::open("contact_archive");
+
+            Jaris\Sql::query(
+                "update contact_archive set "
+                . "uri = '$new_uri' "
+                . "where uri = '$actual_uri'",
+                $db
+            );
+
+            Jaris\Sql::close($db);
+
+            // rename attachments dir
+            $current_dir = str_replace("/", "-", $actual_uri);
+            $new_dir = str_replace("/", "-", $new_uri);
+
+            $path = Jaris\Files::getDir("contact/" . $current_dir);
+            $path_new = Jaris\Files::getDir("contact/" . $new_dir);
+
+            if(is_dir($path))
+            {
+                rename($path, $path_new);
+            }
+        }
+    }
+);
+
+Jaris\Signals\SignalHandler::listenWithParams(
+    Jaris\Pages::SIGNAL_DELETE_PAGE,
+    function(&$page, &$page_path)
+    {
+        $page_data = Jaris\Pages::get($page);
+
+        if($page_data["type"] == "contact-form")
+        {
+            $db = Jaris\Sql::open("contact_archive");
+
+            Jaris\Sql::query(
+                "delete from contact_archive "
+                . "where uri = '$page'",
+                $db
+            );
+
+            Jaris\Sql::close($db);
+
+            // remove attachments
+            $current_dir = str_replace("/", "-", $page);
+            $path = Jaris\Files::getDir("contact/" . $current_dir);
+
+            if(is_dir($path))
+            {
+                Jaris\FileSystem::recursiveRemoveDir($path);
+            }
+        }
+    }
+);
+
+Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\View::SIGNAL_THEME_CONTENT,
     function(&$content, &$content_title, &$content_data)
     {
@@ -64,18 +126,18 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
             $valid_email = true;
 
-            if(trim($_REQUEST["e_mail"]) != "")
+            /*if(trim($_REQUEST["e_mail"]) != "")
             {
                 if(!Jaris\Forms::validEmail(trim($_REQUEST["e_mail"])))
                 {
                     Jaris\View::addMessage(
-                        t("The e-mail you entered appears to be invalid."), 
+                        t("The e-mail you entered appears to be invalid."),
                         "error"
                     );
-                    
+
                     $valid_email = false;
                 }
-            }
+            }*/
 
             if(
                 isset($_REQUEST["btnContact"]) &&
@@ -90,9 +152,9 @@ Jaris\Signals\SignalHandler::listenWithParams(
                 contact_append_fields(Jaris\Uri::get(), $fields_values);
 
                 $html_message = "<b>" . t("Contact form:") . "</b> "
-                    . "<a href=\"" 
-                    . Jaris\Uri::url(Jaris\Uri::get()) 
-                    . "\">" . t($content_title) 
+                    . "<a href=\""
+                    . Jaris\Uri::url(Jaris\Uri::get())
+                    . "\">" . t($content_title)
                     . "</a><br />"
                 ;
 
@@ -111,8 +173,8 @@ Jaris\Signals\SignalHandler::listenWithParams(
                                 $to[$subject_to] = $subject_to;
                             }
 
-                            $html_message .= "<b>" . t("Subject") . ":</b> " 
-                                . t($subject_title) 
+                            $html_message .= "<b>" . t("Subject") . ":</b> "
+                                . t($subject_title)
                                 . "<br /><br />"
                             ;
 
@@ -139,7 +201,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
                 $from = array();
                 if(
-                    trim($_REQUEST["name"]) != "" && 
+                    trim($_REQUEST["name"]) != "" &&
                     trim($_REQUEST["e_mail"]) != ""
                 )
                 {
@@ -154,17 +216,17 @@ Jaris\Signals\SignalHandler::listenWithParams(
                 }
 
                 $html_message .= "<hr />";
-                $html_message .= t("IP address:") 
-                    . " " 
+                $html_message .= t("IP address:")
+                    . " "
                     . $_SERVER["REMOTE_ADDR"] . "<br />"
                 ;
-                $html_message .= t("User agent:") 
-                    . " " 
+                $html_message .= t("User agent:")
+                    . " "
                     . $_SERVER["HTTP_USER_AGENT"]
                 ;
 
-                $subject = t("Contact from ") 
-                    . " " 
+                $subject = t("Contact from ")
+                    . " "
                     . Jaris\Settings::get("mailer_from_name", "main")
                 ;
 
@@ -218,6 +280,15 @@ Jaris\Signals\SignalHandler::listenWithParams(
                             $autoresponse_message
                         );
                     }
+
+                    contact_archive_message_add(
+                        Jaris\Uri::get(),
+                        $html_message,
+                        $fields,
+                        $fields_values,
+                        $from,
+                        $attachments
+                    );
 
                     Jaris\View::addMessage(t("Message successfully sent!"));
                 }

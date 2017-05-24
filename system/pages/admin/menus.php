@@ -147,7 +147,7 @@ row: 0
             for($i = 0; $i < count($_REQUEST["menu"]); $i++)
             {
                 $item_data = Jaris\Menus::getItem(
-                    $_REQUEST["item_id"][$i],
+                    intval($_REQUEST["item_id"][$i]),
                     $_REQUEST["menu"][$i]
                 );
 
@@ -161,7 +161,7 @@ row: 0
                 )
                 {
                     $new_parent_item = Jaris\Menus::getItem(
-                        $_REQUEST["parent"][$i],
+                        intval($_REQUEST["parent"][$i]),
                         $_REQUEST["menu"][$i]
                     );
 
@@ -173,7 +173,7 @@ row: 0
                         $new_parent_item["parent"] = "root";
 
                         Jaris\Menus::editItem(
-                            $_REQUEST["parent"][$i],
+                            intval($_REQUEST["parent"][$i]),
                             $_REQUEST["menu"][$i],
                             $new_parent_item
                         );
@@ -185,7 +185,7 @@ row: 0
 
                 if(
                     !Jaris\Menus::editItem(
-                        $_REQUEST["item_id"][$i],
+                        intval($_REQUEST["item_id"][$i]),
                         $_REQUEST["menu"][$i],
                         $item_data
                     )

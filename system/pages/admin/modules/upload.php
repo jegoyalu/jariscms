@@ -60,6 +60,15 @@ row: 0
                 $zip->close();
 
                 Jaris\View::addMessage(t("Module uploaded."));
+
+                t("Uploaded module '{module_name}'.");
+
+                Jaris\Logger::info(
+                    "Uploaded module '{module_name}'.",
+                    array(
+                        "module_name" => $module_name
+                    )
+                );
             }
             else
             {

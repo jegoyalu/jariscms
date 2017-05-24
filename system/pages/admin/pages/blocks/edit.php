@@ -35,8 +35,10 @@ row: 0
             Jaris\Authentication::protectedPage();
         }
 
+        $block_id = intval($_REQUEST["id"]);
+
         $block_data = Jaris\Blocks::get(
-            $_REQUEST["id"],
+            $block_id,
             $_REQUEST["position"],
             $_REQUEST["uri"]
         );
@@ -98,7 +100,7 @@ row: 0
 
             if(
                 Jaris\Blocks::edit(
-                    $_REQUEST["id"],
+                    $block_id,
                     $_REQUEST["position"],
                     $block_data,
                     $_REQUEST["uri"]
@@ -108,7 +110,7 @@ row: 0
                 if($_REQUEST["position"] != $_REQUEST["new_position"])
                 {
                     Jaris\Blocks::move(
-                        $_REQUEST["id"],
+                        $block_id,
                         $_REQUEST["position"],
                         $_REQUEST["new_position"],
                         $_REQUEST["uri"]

@@ -31,13 +31,21 @@ row: 0
             Jaris\Authentication::protectedPage();
         }
 
-        if(isset($_REQUEST["btnSave"]) && !Jaris\Forms::requiredFieldEmpty("edit-listing"))
+        if(
+            isset($_REQUEST["btnSave"])
+            &&
+            !Jaris\Forms::requiredFieldEmpty("edit-page-listing")
+        )
         {
             //Check if client is trying to submit content to a
             //system page sending variables thru GET
             if(Jaris\Pages::isSystem($_REQUEST["actual_uri"]))
             {
-                Jaris\View::addMessage(t("The content you was trying to edit is a system page."), "error");
+                Jaris\View::addMessage(
+                    t("The content you was trying to edit is a system page."),
+                    "error"
+                );
+
                 Jaris\Uri::go("admin/pages");
             }
 
@@ -46,7 +54,12 @@ row: 0
             $fields["title"] = $_REQUEST["title"];
             $fields["content"] = $_REQUEST["content"];
 
-            if(Jaris\Authentication::groupHasPermission("add_edit_meta_content", Jaris\Authentication::currentUserGroup()))
+            if(
+                Jaris\Authentication::groupHasPermission(
+                    "add_edit_meta_content",
+                    Jaris\Authentication::currentUserGroup()
+                )
+            )
             {
                 $fields["meta_title"] = $_REQUEST["meta_title"];
                 $fields["description"] = $_REQUEST["description"];
@@ -67,7 +80,9 @@ row: 0
                 {
                     if(isset($_REQUEST["filter_category_$machine_name"]))
                     {
-                        $filter_categories[$machine_name] = $_REQUEST["filter_category_$machine_name"];
+                        $filter_categories[$machine_name] =
+                            $_REQUEST["filter_category_$machine_name"]
+                        ;
                     }
                 }
             }
@@ -81,6 +96,8 @@ row: 0
             $fields["display_more"] = $_REQUEST["display_more"];
             $fields["maximum_words"] = intval($_REQUEST["maximum_words"]);
             $fields["display_navigation"] = $_REQUEST["display_navigation"];
+            $fields["display_count_selector"] = $_REQUEST["display_count_selector"];
+            $fields["display_sorting_selector"] = $_REQUEST["display_sorting_selector"];
             $fields["results_per_page"] = intval($_REQUEST["results_per_page"]);
             $fields["results_per_row"] = intval($_REQUEST["results_per_row"]);
             $fields["thumbnail_show"] = $_REQUEST["thumbnail_show"];
@@ -89,7 +106,19 @@ row: 0
             $fields["thumbnail_bg"] = $_REQUEST["thumbnail_bg"];
             $fields["thumbnail_keep_aspectratio"] = $_REQUEST["thumbnail_keep_aspectratio"];
 
-            if(Jaris\Authentication::groupHasPermission("select_content_groups", Jaris\Authentication::currentUserGroup()))
+            if(Jaris\Modules::isInstalled("ecommerce"))
+            {
+                $fields["treat_as_products"] = $_REQUEST["treat_as_products"];
+                $fields["show_prices"] = $_REQUEST["show_prices"];
+                $fields["onsale_only"] = $_REQUEST["onsale_only"];
+            }
+
+            if(
+                Jaris\Authentication::groupHasPermission(
+                    "select_content_groups",
+                    Jaris\Authentication::currentUserGroup()
+                )
+            )
             {
                 $fields["groups"] = $_REQUEST["groups"];
 
@@ -124,7 +153,11 @@ row: 0
             $fields["categories"] = $categories;
 
             if(
-                Jaris\Authentication::groupHasPermission("input_format_content", Jaris\Authentication::currentUserGroup()) ||
+                Jaris\Authentication::groupHasPermission(
+                    "input_format_content",
+                    Jaris\Authentication::currentUserGroup()
+                )
+                ||
                 Jaris\Authentication::isAdminLogged()
             )
             {
@@ -137,7 +170,11 @@ row: 0
             Jaris\Fields::appendFields($fields["type"], $fields);
 
             if(
-                !Jaris\Authentication::groupHasPermission("manual_uri_content", Jaris\Authentication::currentUserGroup()) ||
+                !Jaris\Authentication::groupHasPermission(
+                    "manual_uri_content",
+                    Jaris\Authentication::currentUserGroup()
+                )
+                ||
                 $_REQUEST["uri"] == ""
             )
             {
@@ -154,41 +191,74 @@ row: 0
                 $new_page_data = Jaris\Pages::get($_REQUEST["actual_uri"]);
                 foreach(Jaris\Language::getInstalled() as $code => $name)
                 {
-                    $translation_path = Jaris\Language::dataTranslate(Jaris\Pages::getPath($_REQUEST["actual_uri"]), $code);
-                    $original_path = Jaris\Pages::getPath($_REQUEST["actual_uri"]);
+                    $translation_path = Jaris\Language::dataTranslate(
+                        Jaris\Pages::getPath($_REQUEST["actual_uri"]),
+                        $code
+                    );
+
+                    $original_path = Jaris\Pages::getPath(
+                        $_REQUEST["actual_uri"]
+                    );
 
                     if($translation_path != $original_path)
                     {
-                        $translation_data = Jaris\Pages::get($_REQUEST["actual_uri"], $code);
+                        $translation_data = Jaris\Pages::get(
+                            $_REQUEST["actual_uri"],
+                            $code
+                        );
 
                         $new_page_data["title"] = $translation_data["title"];
                         $new_page_data["content"] = $translation_data["content"];
 
-                        Jaris\Translate::page($_REQUEST["actual_uri"], $new_page_data, $code);
+                        Jaris\Translate::page(
+                            $_REQUEST["actual_uri"],
+                            $new_page_data,
+                            $code
+                        );
                     }
                 }
 
                 //Move page to new location
                 if($_REQUEST["actual_uri"] != $_REQUEST["uri"])
                 {
-                    Jaris\Pages::move($_REQUEST["actual_uri"], $_REQUEST["uri"]);
+                    Jaris\Pages::move(
+                        $_REQUEST["actual_uri"],
+                        $_REQUEST["uri"]
+                    );
 
                     //Also move its translations on the language directory
-                    if(Jaris\Translate::movePage($_REQUEST["actual_uri"], $_REQUEST["uri"]))
+                    if(
+                        Jaris\Translate::movePage(
+                            $_REQUEST["actual_uri"],
+                            $_REQUEST["uri"]
+                        )
+                    )
                     {
-                        Jaris\View::addMessage(t("Translations repositioned."));
+                        Jaris\View::addMessage(
+                            t("Translations repositioned.")
+                        );
                     }
                     else
                     {
-                        Jaris\View::addMessage(Jaris\System::errorMessage("translations_not_moved"), "error");
+                        Jaris\View::addMessage(
+                            Jaris\System::errorMessage(
+                                "translations_not_moved"
+                            ),
+                            "error"
+                        );
                     }
                 }
 
-                Jaris\View::addMessage(t("Your changes have been successfully saved."));
+                Jaris\View::addMessage(
+                    t("Your changes have been successfully saved.")
+                );
             }
             else
             {
-                Jaris\View::addMessage(Jaris\System::errorMessage("write_error_data"), "error");
+                Jaris\View::addMessage(
+                    Jaris\System::errorMessage("write_error_data"),
+                    "error"
+                );
             }
 
             Jaris\Uri::go(
@@ -213,51 +283,101 @@ row: 0
         $arguments["uri"] = $_REQUEST["uri"];
 
         //Tabs
-        if(Jaris\Authentication::groupHasPermission("edit_content", Jaris\Authentication::currentUserGroup()))
+        if(
+            Jaris\Authentication::groupHasPermission(
+                "edit_content",
+                Jaris\Authentication::currentUserGroup()
+            )
+        )
         {
             Jaris\View::addTab(
                 t("Edit listing"),
-                Jaris\Modules::getPageUri("admin/pages/listing/edit", "listing"),
+                Jaris\Modules::getPageUri(
+                    "admin/pages/listing/edit",
+                    "listing"
+                ),
                 $arguments
             );
         }
 
         Jaris\View::addTab(t("View listing"), $_REQUEST["uri"]);
 
-        if(Jaris\Authentication::groupHasPermission("view_content_blocks", Jaris\Authentication::currentUserGroup()))
+        if(
+            Jaris\Authentication::groupHasPermission(
+                "view_content_blocks",
+                Jaris\Authentication::currentUserGroup()
+            )
+        )
         {
-            Jaris\View::addTab(t("Blocks"), "admin/pages/blocks", $arguments);
+            Jaris\View::addTab(
+                t("Blocks"),
+                "admin/pages/blocks",
+                $arguments
+            );
         }
 
-        if(Jaris\Authentication::groupHasPermission("view_images", Jaris\Authentication::currentUserGroup()))
+        if(
+            Jaris\Authentication::groupHasPermission(
+                "view_images",
+                Jaris\Authentication::currentUserGroup()
+            )
+        )
         {
-            Jaris\View::addTab(t("Images"), "admin/pages/images", $arguments);
+            Jaris\View::addTab(
+                t("Images"),
+                "admin/pages/images",
+                $arguments
+            );
         }
 
-        if(Jaris\Authentication::groupHasPermission("view_files", Jaris\Authentication::currentUserGroup()))
+        if(
+            Jaris\Authentication::groupHasPermission(
+                "view_files",
+                Jaris\Authentication::currentUserGroup()
+            )
+        )
         {
             Jaris\View::addTab(t("Files"), "admin/pages/files", $arguments);
         }
 
-        if(Jaris\Authentication::groupHasPermission("translate_languages", Jaris\Authentication::currentUserGroup()))
+        if(
+            Jaris\Authentication::groupHasPermission(
+                "translate_languages",
+                Jaris\Authentication::currentUserGroup()
+            )
+        )
         {
-            Jaris\View::addTab(t("Translate"), "admin/pages/translate", $arguments);
+            Jaris\View::addTab(
+                t("Translate"),
+                "admin/pages/translate",
+                $arguments
+            );
         }
 
-        if(Jaris\Authentication::groupHasPermission("delete_content", Jaris\Authentication::currentUserGroup()))
+        if(
+            Jaris\Authentication::groupHasPermission(
+                "delete_content",
+                Jaris\Authentication::currentUserGroup()
+            )
+        )
         {
-            Jaris\View::addTab(t("Delete"), "admin/pages/delete", $arguments);
+            Jaris\View::addTab(
+                t("Delete"),
+                "admin/pages/delete",
+                $arguments
+            );
         }
 
         $page_data = Jaris\Pages::get($_REQUEST["uri"]);
-        $page_data["filter_types"] = unserialize($page_data["filter_types"]);
-        $page_data["filter_categories"] = unserialize($page_data["filter_categories"]);
-
-        $parameters["name"] = "edit-listing";
-        $parameters["class"] = "edit-listing";
-        $parameters["action"] = Jaris\Uri::url(
-            Jaris\Modules::getPageUri("admin/pages/listing/edit", "listing")
+        $page_data["filter_types"] = unserialize(
+            $page_data["filter_types"]
         );
+        $page_data["filter_categories"] = unserialize(
+            $page_data["filter_categories"]
+        );
+
+        $parameters["name"] = "edit-page-listing";
+        $parameters["action"] = Jaris\Uri::url(Jaris\Uri::get());
         $parameters["method"] = "post";
 
         $categories = Jaris\Categories::getList("listing");
@@ -305,8 +425,67 @@ row: 0
 
         $fieldset[] = array("fields" => $fields);
 
+        if(Jaris\Modules::isInstalled("ecommerce"))
+        {
+            $fields_ecommerce[] = array(
+                "type" => "radio",
+                "name" => "treat_as_products",
+                "label" => t("Treat listing as products?"),
+                "value" => array(
+                    t("Yes") => true,
+                    t("No") => false
+                ),
+                "checked" => isset($_REQUEST["treat_as_products"]) ?
+                    $_REQUEST["treat_as_products"]
+                    :
+                    $page_data["treat_as_products"],
+                "description" => t("If all selected content types on the filter are products the listing is treated as a listing of products.")
+            );
+
+            $fields_ecommerce[] = array(
+                "type" => "radio",
+                "name" => "show_prices",
+                "label" => t("Display prices?"),
+                "value" => array(
+                    t("Yes") => true,
+                    t("No") => false
+                ),
+                "checked" => isset($_REQUEST["show_prices"]) ?
+                    $_REQUEST["show_prices"]
+                    :
+                    $page_data["show_prices"],
+                "description" => t("Display the product base price.")
+            );
+
+            $fields_ecommerce[] = array(
+                "type" => "radio",
+                "name" => "onsale_only",
+                "label" => t("On sale only?"),
+                "value" => array(
+                    t("Yes") => true,
+                    t("No") => false
+                ),
+                "checked" => isset($_REQUEST["onsale_only"]) ?
+                    $_REQUEST["onsale_only"]
+                    :
+                    $page_data["onsale_only"],
+                "description" => t("Display only the products that are on sale.")
+            );
+
+            $fieldset[] = array(
+                "fields" => $fields_ecommerce,
+                "name" => t("E-commerce"),
+                "collapsible" => true,
+                "collapsed" => empty($page_data["treat_as_products"]),
+                "description" => t("Note: To treat the listed results as products, every content type selected on the filters section must be a valid product content type.")
+            );
+        }
+
         $criteria_types = array();
-        $criteria_types_list = Jaris\Types::getList(Jaris\Authentication::currentUserGroup());
+        $criteria_types_list = Jaris\Types::getList(
+            Jaris\Authentication::currentUserGroup()
+        );
+
         foreach($criteria_types_list as $machine_name => $type_fields)
         {
             $criteria_types[t(trim($type_fields["name"]))] = $machine_name;
@@ -386,7 +565,10 @@ row: 0
             "type" => "radio",
             "name" => "filter_ordering",
             "value" => $ordering,
-            "checked" => $_REQUEST["filter_ordering"] ? $_REQUEST["filter_ordering"] : $page_data["filter_ordering"]
+            "checked" => $_REQUEST["filter_ordering"] ?
+                $_REQUEST["filter_ordering"]
+                :
+                $page_data["filter_ordering"]
         );
 
         $fieldset[] = array(
@@ -482,15 +664,47 @@ row: 0
         );
 
         $fields_layout[] = array(
-            "type" => "checkbox",
+            "type" => "radio",
             "name" => "display_navigation",
-            "id" => "display_navigation",
             "label" => t("Display navigation?"),
+            "value" => array(
+                t("Yes") => true,
+                t("No") => false
+            ),
             "checked" => $_REQUEST["display_navigation"] ?
                 $_REQUEST["display_navigation"]
                 :
-                $page_data["display_navigation"],
-            "value" => true
+                $page_data["display_navigation"]
+        );
+
+        $fields_layout[] = array(
+            "type" => "radio",
+            "name" => "display_count_selector",
+            "label" => t("Display results per page selector?"),
+            "checked" => $_REQUEST["display_count_selector"] ?
+                $_REQUEST["display_count_selector"]
+                :
+                $page_data["display_count_selector"],
+            "value" => array(
+                t("Yes") => true,
+                t("No") => false
+            ),
+            "description" => t("Enable the visitor to select the amount of results to display per page.")
+        );
+
+        $fields_layout[] = array(
+            "type" => "radio",
+            "name" => "display_sorting_selector",
+            "label" => t("Display sorting selector?"),
+            "checked" => $_REQUEST["display_sorting_selector"] ?
+                $_REQUEST["display_sorting_selector"]
+                :
+                $page_data["display_sorting_selector"],
+            "value" => array(
+                t("Yes") => true,
+                t("No") => false
+            ),
+            "description" => t("Enable the visitor to select the sorting mode.")
         );
 
         $fields_layout[] = array(
@@ -575,7 +789,10 @@ row: 0
             "description" => t("The background color of the thumbnail in case is neccesary.")
         );
 
-        $fields_thumbnail[] = array("type" => "other", "html_code" => "<br />");
+        $fields_thumbnail[] = array(
+            "type" => "other",
+            "html_code" => "<br />"
+        );
 
         $fields_thumbnail[] = array(
             "type" => "checkbox",
@@ -596,7 +813,12 @@ row: 0
             "collapsed" => false
         );
 
-        if(Jaris\Authentication::groupHasPermission("add_edit_meta_content", Jaris\Authentication::currentUserGroup()))
+        if(
+            Jaris\Authentication::groupHasPermission(
+                "add_edit_meta_content",
+                Jaris\Authentication::currentUserGroup()
+            )
+        )
         {
             $fields_meta[] = array(
                 "type" => "textarea",
@@ -636,13 +858,21 @@ row: 0
         }
 
         if(
-            Jaris\Authentication::groupHasPermission("input_format_content", Jaris\Authentication::currentUserGroup()) ||
+            Jaris\Authentication::groupHasPermission(
+                "input_format_content",
+                Jaris\Authentication::currentUserGroup()
+            )
+            ||
             Jaris\Authentication::isAdminLogged()
         )
         {
             $fields_inputformats = array();
 
-            foreach(Jaris\InputFormats::getAll() as $machine_name => $fields_formats)
+            foreach(
+                Jaris\InputFormats::getAll()
+                as
+                $machine_name => $fields_formats
+            )
             {
                 $fields_inputformats[] = array(
                     "type" => "radio",
@@ -669,7 +899,12 @@ row: 0
             $fieldset[] = array("fields" => $extra_fields);
         }
 
-        if(Jaris\Authentication::groupHasPermission("select_content_groups", Jaris\Authentication::currentUserGroup()))
+        if(
+            Jaris\Authentication::groupHasPermission(
+                "select_content_groups",
+                Jaris\Authentication::currentUserGroup()
+            )
+        )
         {
             $fields_users_access[] = array(
                 "type" => "other",
@@ -700,7 +935,12 @@ row: 0
             );
         }
 
-        if(Jaris\Authentication::groupHasPermission("manual_uri_content", Jaris\Authentication::currentUserGroup()))
+        if(
+            Jaris\Authentication::groupHasPermission(
+                "manual_uri_content",
+                Jaris\Authentication::currentUserGroup()
+            )
+        )
         {
             $fields_other[] = array(
                 "type" => "text",

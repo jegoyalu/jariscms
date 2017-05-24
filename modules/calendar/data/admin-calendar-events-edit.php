@@ -86,10 +86,6 @@ row: 0
                 Jaris\Authentication::protectedPage();
             }
         }
-        elseif(!$is_page_owner)
-        {
-            Jaris\Authentication::protectedPage();
-        }
 
         Jaris\View::addTab(
             t("View Event"),
@@ -274,7 +270,7 @@ row: 0
                 :
                 $event_data["longitude"],
             "label" => t("Map:"),
-            "description" => t("Select or search the location of the event on the map."),
+            "description" => t("Select or search the location of the event on the map. Don't select anything to not display the map."),
             "required" => true
         );
 
@@ -518,6 +514,7 @@ row: 0
             "multiple" => true,
             "valid_types" => "jpg, jpeg, png, gif, pdf",
             "label" => t("Attachments:"),
+            "description" => t("Here you can upload promotional material like flyers or downloadable pdf.")
         );
 
         $fields_submit[] = array(

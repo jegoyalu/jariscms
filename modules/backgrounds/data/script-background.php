@@ -118,7 +118,7 @@ row: 0
                 resizeBG();
                 <?php } else{ ?>
                 backgroundContainer.css({
-                    backgroundSize: "cover"
+                    backgroundSize: "<?php print !empty($background["background_size"]) ? $background["background_size"] : "auto" ?>"
                 });
                 <?php } ?>
             });

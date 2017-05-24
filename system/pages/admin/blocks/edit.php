@@ -26,7 +26,10 @@ row: 0
             Jaris\Uri::go("admin/blocks");
         }
 
-        $block_data = Jaris\Blocks::get($_REQUEST["id"], $_REQUEST["position"]);
+        $block_data = Jaris\Blocks::get(
+            intval($_REQUEST["id"]),
+            $_REQUEST["position"]
+        );
 
         if(isset($_REQUEST["btnSave"]) && !Jaris\Forms::requiredFieldEmpty("block-edit"))
         {
@@ -65,7 +68,7 @@ row: 0
 
             if(
                 Jaris\Blocks::edit(
-                    $_REQUEST["id"],
+                    intval($_REQUEST["id"]),
                     $_REQUEST["position"],
                     $block_data
                 )
@@ -74,7 +77,7 @@ row: 0
                 if($_REQUEST["position"] != $_REQUEST["new_position"])
                 {
                     Jaris\Blocks::move(
-                        $_REQUEST["id"],
+                        intval($_REQUEST["id"]),
                         $_REQUEST["position"],
                         $_REQUEST["new_position"]
                     );
@@ -82,6 +85,16 @@ row: 0
 
                 Jaris\View::addMessage(
                     t("Your changes have been saved to the block.")
+                );
+
+                t("Edited global block '{title}' on {position}.");
+
+                Jaris\Logger::info(
+                    "Edited global block '{title}' on {position}.",
+                    array(
+                        "title" => $block_data["title"],
+                        "position" => $_REQUEST["position"]
+                    )
                 );
             }
             else

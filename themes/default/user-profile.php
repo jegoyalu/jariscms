@@ -10,7 +10,7 @@
 <table class="user-profile">
     <tr>
     <td class="picture">
-        <img src="<?php print get_user_picture_url($username) ?>" />
+        <img src="<?php print Jaris\Users::getPictureUrl($username) ?>" />
     </td>
 
     <?php if($personal_text){ ?>

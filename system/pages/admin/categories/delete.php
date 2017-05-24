@@ -35,6 +35,15 @@ row: 0
             if(Jaris\Categories::delete($_REQUEST["category"]))
             {
                 Jaris\View::addMessage(t("Category successfully deleted."));
+
+                t("Deleted category '{machine_name}'.");
+
+                Jaris\Logger::info(
+                    "Deleted category '{machine_name}'.",
+                    array(
+                        "machine_name" => $_REQUEST["category"]
+                    )
+                );
             }
             else
             {

@@ -28,12 +28,14 @@ row: 0
             Jaris\Uri::go("admin/types");
         }
 
+        $field_id = intval($_REQUEST["id"]);
+
         if(
             isset($_REQUEST["btnSave"]) &&
             !Jaris\Forms::requiredFieldEmpty("edit-type-fields")
         )
         {
-            $fields = Jaris\Fields::get($_REQUEST["id"], $_REQUEST["type_name"]);
+            $fields = Jaris\Fields::get($field_id, $_REQUEST["type_name"]);
 
             $fields["variable_name"] = $_REQUEST["variable_name"];
             $fields["name"] = $_REQUEST["name"];
@@ -70,10 +72,20 @@ row: 0
                 $fields["groups"] = array();
             }
 
-            if(Jaris\Fields::edit($_REQUEST["id"], $fields, $_REQUEST["type_name"]))
+            if(Jaris\Fields::edit($field_id, $fields, $_REQUEST["type_name"]))
             {
                 Jaris\View::addMessage(
                     t("The content type field has been successfully modified.")
+                );
+
+                t("Edited field '{name}' on content type '{machine_name}'.");
+
+                Jaris\Logger::info(
+                    "Edited field '{name}' on content type '{machine_name}'.",
+                    array(
+                        "name" => $fields["name"],
+                        "machine_name" => $_REQUEST["type_name"]
+                    )
                 );
             }
             else
@@ -98,7 +110,7 @@ row: 0
         }
 
         $field_data = Jaris\Fields::get(
-            $_REQUEST["id"],
+            $field_id,
             $_REQUEST["type_name"]
         );
 

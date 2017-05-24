@@ -88,7 +88,7 @@ row: 0
                 for($i = 0; $i < count($_REQUEST["id"]); $i++)
                 {
                     $new_block_data = Jaris\Blocks::get(
-                        $_REQUEST["id"][$i],
+                        intval($_REQUEST["id"][$i]),
                         $_REQUEST["previous_position"][$i]
                     );
 
@@ -96,7 +96,7 @@ row: 0
 
                     if(
                         !Jaris\Blocks::edit(
-                            $_REQUEST["id"][$i],
+                            intval($_REQUEST["id"][$i]),
                             $_REQUEST["previous_position"][$i],
                             $new_block_data
                         )
@@ -112,7 +112,7 @@ row: 0
                     )
                     {
                         Jaris\Blocks::move(
-                            $_REQUEST["id"][$i],
+                            intval($_REQUEST["id"][$i]),
                             $_REQUEST["previous_position"][$i],
                             $_REQUEST["position"][$i]
                         );

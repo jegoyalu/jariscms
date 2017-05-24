@@ -32,8 +32,13 @@ row: 0
                         $categories_title .= " > ";
 
                         if(
-                            count($_REQUEST[$machine_name]) ==
-                            count(Jaris\Categories::getSubcategories($machine_name))
+                            count($_REQUEST[$machine_name])
+                            ==
+                            count(
+                                Jaris\Categories::getSubcategories(
+                                    $machine_name
+                                )
+                            )
                         )
                         {
                             $categories_title .= t("All");
@@ -44,10 +49,13 @@ row: 0
                             foreach($_REQUEST[$machine_name] as $subcategory_id)
                             {
                                 $subcategory_data = Jaris\Categories::getSubcategory(
-                                    $machine_name, $subcategory_id
+                                    $machine_name,
+                                    intval($subcategory_id)
                                 );
 
-                                $subcategory_titles .= t($subcategory_data["title"]) . " | ";
+                                $subcategory_titles .= t(
+                                    $subcategory_data["title"]
+                                ) . " | ";
                             }
 
                             $categories_title .= trim($subcategory_titles, "| ");
@@ -55,7 +63,8 @@ row: 0
                         else
                         {
                             $subcategory_data = Jaris\Categories::getSubcategory(
-                                $machine_name, $_REQUEST[$machine_name][0]
+                                $machine_name,
+                                intval($_REQUEST[$machine_name][0])
                             );
 
                             $categories_title .= t($subcategory_data["title"]);
@@ -135,10 +144,14 @@ row: 0
 
         $fields_head[] = array(
             "type" => "other",
-            "html_code" => "<fieldset style=\"margin-bottom: 5px;\" class=\"collapsible collapsed\">"
-            . "<legend><a class=\"expand\" href=\"javascript:void(0)\">" .
-            t("Search Options") .
-            "</a></legend>"
+            "html_code" => "<fieldset "
+                . "style=\"margin-bottom: 5px;\" class=\"collapsible collapsed\""
+                . ">"
+                . "<legend>"
+                . "<a class=\"expand\" href=\"javascript:void(0)\">"
+                . t("Search Options")
+                . "</a>"
+                . "</legend>"
         );
 
         $fieldset[] = array(
@@ -168,14 +181,19 @@ row: 0
         {
             $fields[] = array(
                 "type" => "other",
-                "html_code" => "<fieldset style=\"margin-bottom: 5px;\" class=\"collapsible collapsed\">"
+                "html_code" => "<fieldset "
+                    . "style=\"margin-bottom: 5px;\" "
+                    . "class=\"collapsible collapsed\""
+                    . ">"
             );
 
             $fields[] = array(
                 "type" => "other",
-                "html_code" => "<legend><a class=\"expand\" href=\"javascript:void(0)\">" .
-                    t("Sorting") .
-                    "</a></legend>"
+                "html_code" => "<legend>"
+                    . "<a class=\"expand\" href=\"javascript:void(0)\">"
+                    . t("Sorting")
+                    . "</a>"
+                    . "</legend>"
             );
 
             $ordering_options[t("Title ascending")] = "title_asc";
@@ -314,7 +332,10 @@ row: 0
             (isset($_REQUEST["page"]) && count($selected_categories) > 0)
         )
         {
-            $results = Jaris\Search::getResults($_REQUEST["page"], $results_per_page);
+            $results = Jaris\Search::getResults(
+                intval($_REQUEST["page"]),
+                $results_per_page
+            );
 
             //In case a search engine indexed a search page we research to be
             //able to show data since all search results are stored on
@@ -327,7 +348,7 @@ row: 0
                         $_REQUEST["keywords"],
                         null,
                         $selected_categories,
-                        $_REQUEST["page"],
+                        intval($_REQUEST["page"]),
                         $results_per_page
                     );
                 }
@@ -337,22 +358,31 @@ row: 0
                         "",
                         null,
                         $selected_categories,
-                        $_REQUEST["page"],
+                        intval($_REQUEST["page"]),
                         $results_per_page
                     );
                 }
 
                 $results = Jaris\Search::getResults(
-                    $_REQUEST["page"],
+                    intval($_REQUEST["page"]),
                     $results_per_page
                 );
             }
         }
 
-        print "<h2 class=\"search-results-title\">" . t("Results") . "</h2>\n";
+        print "<h2 class=\"search-results-title\">"
+            . t("Results")
+            . "</h2>\n"
+        ;
 
         //Print header template if available or default
-        if($header_template = Jaris\View::searchTemplate(Jaris\Uri::get(), $_REQUEST["type"], "header"))
+        if(
+            $header_template = Jaris\View::searchTemplate(
+                Jaris\Uri::get(),
+                $_REQUEST["type"],
+                "header"
+            )
+        )
         {
             ob_start();
             include($header_template);
@@ -381,10 +411,14 @@ row: 0
 
                 $type_image = Jaris\Types::getImageUrl(
                     $fields["type"],
-                    $search_settings["search_images_width"] ? $search_settings["search_images_width"] : 60,
-                    $search_settings["search_images_height"] ? $search_settings["search_images_height"] : null,
-                    $search_settings["search_images_aspect_ratio"] ? $search_settings["search_images_aspect_ratio"] : null,
-                    $search_settings["search_images_background_color"] ? $search_settings["search_images_background_color"] : null
+                    $search_settings["search_images_width"] ?
+                        $search_settings["search_images_width"] : 60,
+                    $search_settings["search_images_height"] ?
+                        $search_settings["search_images_height"] : null,
+                    $search_settings["search_images_aspect_ratio"] ?
+                        $search_settings["search_images_aspect_ratio"] : null,
+                    $search_settings["search_images_background_color"] ?
+                        $search_settings["search_images_background_color"] : null
                 );
 
                 $image = "";
@@ -399,10 +433,14 @@ row: 0
                             "src=\"" . Jaris\Uri::url(
                                 "image/" . $fields["uri"] . "/{$image_fields['name']}",
                                 array(
-                                    "w" => $search_settings["search_images_width"] ? $search_settings["search_images_width"] : 60,
-                                    "h" => $search_settings["search_images_height"] ? $search_settings["search_images_height"] : "",
-                                    "ar" => $search_settings["search_images_aspect_ratio"] ? $search_settings["search_images_aspect_ratio"] : "",
-                                    "bg" => $search_settings["search_images_background_color"] ? $search_settings["search_images_background_color"] : ""
+                                    "w" => $search_settings["search_images_width"] ?
+                                        $search_settings["search_images_width"] : 60,
+                                    "h" => $search_settings["search_images_height"] ?
+                                        $search_settings["search_images_height"] : "",
+                                    "ar" => $search_settings["search_images_aspect_ratio"] ?
+                                        $search_settings["search_images_aspect_ratio"] : "",
+                                    "bg" => $search_settings["search_images_background_color"] ?
+                                        $search_settings["search_images_background_color"] : ""
                                 )) .
                             "\" />" .
                             "</a>"
@@ -432,7 +470,12 @@ row: 0
             );
 
             //Print result template if available or default
-            if($result_template = Jaris\View::searchTemplate(Jaris\Uri::get(), $_REQUEST["type"]))
+            if(
+                $result_template = Jaris\View::searchTemplate(
+                    Jaris\Uri::get(),
+                    $_REQUEST["type"]
+                )
+            )
             {
                 ob_start();
                 include($result_template);
@@ -443,6 +486,8 @@ row: 0
             }
             else
             {
+                print "<div class=\"result\">\n";
+
                 print "<div class=\"title\">\n";
                 print "<li><a href=\"$url\">$title</a></li>\n";
                 print "</div>\n";
@@ -450,7 +495,11 @@ row: 0
                 print "<div class=\"text\">\n";
                 print "$image ";
 
-                foreach(Jaris\Search::getTypeFields($fields["type"]) as $label => $fields_name)
+                foreach(
+                    Jaris\Search::getTypeFields($fields["type"])
+                    as
+                    $label => $fields_name
+                )
                 {
                     if($fields_name == "content")
                     {
@@ -494,6 +543,8 @@ row: 0
 
                 print "<div style=\"clear: both\"></div>";
                 print "</div>\n";
+
+                print "</div>\n";
             }
         }
 
@@ -528,7 +579,10 @@ row: 0
         }
         elseif(isset($_REQUEST["page"]) && $results)
         {
-            Jaris\Search::printNavigation($_REQUEST["page"], $results_per_page);
+            Jaris\Search::printNavigation(
+                intval($_REQUEST["page"]),
+                $results_per_page
+            );
         }
 
         print "</div>\n";
@@ -542,7 +596,9 @@ row: 0
                 trim($search_settings["search_results_not_found"]) != ""
             )
             {
-                print Jaris\System::evalPHP($search_settings["search_results_not_found"]);
+                print Jaris\System::evalPHP(
+                    $search_settings["search_results_not_found"]
+                );
             }
             else
             {

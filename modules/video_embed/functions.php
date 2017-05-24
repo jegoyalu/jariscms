@@ -6,17 +6,28 @@
  * https://opensource.org/licenses/GPL-3.0.
  *
  * Jaris CMS module functions file
- *
- * @note File that stores all hook functions.
  */
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\View::SIGNAL_THEME_CONTENT,
     function(&$content, &$content_title, &$content_data)
     {
-        if(!Jaris\Pages::isSystem(Jaris\Uri::get()))
+        if(!Jaris\Pages::isSystem("", $content_data))
         {
             $settings = Jaris\Settings::getAll("video_embed");
+
+            $settings["content_types"] = unserialize(
+                $settings["content_types"]
+            );
+
+            if(
+                !empty($settings["content_types"])
+                &&
+                !in_array($content_data["type"], $settings["content_types"])
+            )
+            {
+                return;
+            }
 
             $width = !empty($settings["default_width"]) ?
                 $settings["default_width"]

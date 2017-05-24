@@ -1,5 +1,4 @@
 <?php
-use Jaris;
 /**
  * Copyright 2008, Jefferson González (JegoYalu.com)
  * This file is part of Jaris CMS and licensed under the GPL,
@@ -33,6 +32,10 @@ row: 0
                 Jaris\Modules::hook(Jaris\System::SIGNAL_CLEAR_PAGE_CACHE);
 
                 Jaris\View::addMessage(t("Page cache cleared successfully."));
+
+                t("Cleared page cache.");
+
+                Jaris\Logger::info("Cleared page cache.");
             }
             else
             {

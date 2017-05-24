@@ -34,11 +34,27 @@ row: 0
 
         $user_data = Jaris\Users::get($_REQUEST["username"]);
 
+        if(isset($user_data["superadmin"]) && $user_data["superadmin"])
+        {
+            Jaris\View::addMessage(t("Can not delete a super admin user."));
+            
+            Jaris\Uri::go("admin/users");
+        }
+
         if(isset($_REQUEST["btnYes"]))
         {
             if(Jaris\Users::delete($_REQUEST["username"]))
             {
                 Jaris\View::addMessage(t("User successfully deleted."));
+
+                t("Deleted user '{username}'.");
+
+                Jaris\Logger::info(
+                    "Deleted user '{username}'.",
+                    array(
+                        "username" => $_REQUEST["username"]
+                    )
+                );
             }
             else
             {

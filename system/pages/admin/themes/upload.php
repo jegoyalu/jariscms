@@ -60,6 +60,15 @@ row: 0
                 $zip->close();
 
                 Jaris\View::addMessage(t("Theme uploaded."));
+
+                t("Uploaded theme '{theme}'.");
+
+                Jaris\Logger::info(
+                    "Uploaded theme '{theme}'.",
+                    array(
+                        "theme" => $theme_name
+                    )
+                );
             }
             else
             {

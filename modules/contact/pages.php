@@ -47,3 +47,21 @@ row: 5
         admin/pages/contact-form/fields
     field;
 row;
+
+row: 6
+    field: uri
+        admin/pages/contact-form/archive
+    field;
+row;
+
+row: 7
+    field: uri
+        admin/pages/contact-form/archive/delete
+    field;
+row;
+
+row: 8
+    field: uri
+        admin/pages/contact-form/archive/edit
+    field;
+row;

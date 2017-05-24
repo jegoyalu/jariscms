@@ -27,6 +27,15 @@ row: 0
 
             if(file_exists($file))
             {
+                t("Backup sql database '{database}'.");
+
+                Jaris\Logger::info(
+                    "Backup sql database '{database}'.",
+                    array(
+                        "database" => $_REQUEST["name"]
+                    )
+                );
+
                 Jaris\FileSystem::printFile($file, $_REQUEST["name"], true, true);
             }
         }

@@ -37,6 +37,15 @@ row: 0
             if($message == "true")
             {
                 Jaris\View::addMessage(t("Type successfully deleted."));
+
+                t("Deleted content type '{machine_name}'.");
+
+                Jaris\Logger::info(
+                    "Deleted content type '{machine_name}'.",
+                    array(
+                        "machine_name" => $_REQUEST["type"]
+                    )
+                );
             }
             else
             {

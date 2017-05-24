@@ -5,9 +5,7 @@
  * check the LICENSE.txt file for version and details or visit
  * https://opensource.org/licenses/GPL-3.0.
  *
- * Jaris CMS module functions file
- *
- * @note File that stores all hook functions.
+ * Jaris CMS module functions file.
  */
 
 Jaris\Signals\SignalHandler::listenWithParams(
@@ -37,6 +35,9 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
         foreach($styles as $url)
         {
+            // Strip theme version information
+            $url = current(explode("?v=", $url));
+
             $file = str_replace($main_url, "", $url);
 
             if(file_exists($file))
@@ -174,6 +175,9 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
         foreach($scripts as $url)
         {
+            // Strip theme version information
+            $url = current(explode("?v=", $url));
+
             $file = str_replace($main_url, "", $url);
 
             if(

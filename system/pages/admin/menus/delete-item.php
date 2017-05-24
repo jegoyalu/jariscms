@@ -28,13 +28,28 @@ row: 0
             Jaris\Uri::go("admin/menus");
         }
 
-        $menu_data = Jaris\Menus::getItem($_REQUEST["id"], $_REQUEST["menu"]);
+        $id = intval($_REQUEST["id"]);
+
+        $menu_data = Jaris\Menus::getItem(
+            $id,
+            $_REQUEST["menu"]
+        );
 
         if(isset($_REQUEST["btnYes"]))
         {
-            if(Jaris\Menus::deleteItem($_REQUEST["id"], $_REQUEST["menu"]))
+            if(Jaris\Menus::deleteItem($id, $_REQUEST["menu"]))
             {
                 Jaris\View::addMessage(t("Menu item successfully deleted."));
+
+                t("Deleted menu item '{title}' from '{machine_name}'.");
+
+                Jaris\Logger::info(
+                    "Deleted menu item '{title}' from '{machine_name}'.",
+                    array(
+                        "title" => $menu_data["title"],
+                        "machine_name" => $_REQUEST["menu"]
+                    )
+                );
             }
             else
             {
@@ -55,7 +70,7 @@ row: 0
     <form class="menus-delete" method="post"
           action="<?php Jaris\Uri::url("admin/menus/delete") ?>"
     >
-        <input type="hidden" name="id" value="<?php print $_REQUEST["id"] ?>" />
+        <input type="hidden" name="id" value="<?php print $id ?>" />
         <input type="hidden" name="menu" value="<?php print $_REQUEST["menu"] ?>" />
         <div>
             <?php print t("Are you sure you want to delete the menu item?") ?>

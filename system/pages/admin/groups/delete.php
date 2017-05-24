@@ -37,6 +37,15 @@ row: 0
             if($message == "true")
             {
                 Jaris\View::addMessage(t("Group successfully deleted."));
+
+                t("Deleted group '{machine_name}'.");
+
+                Jaris\Logger::info(
+                    "Deleted group '{machine_name}'.",
+                    array(
+                        "machine_name" => $_REQUEST["group"]
+                    )
+                );
             }
             else
             {

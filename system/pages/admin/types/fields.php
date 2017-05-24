@@ -69,8 +69,10 @@ row: 0
 
         for($i = 0; $i < count($_REQUEST["id"]); $i++)
         {
+            $field_id = intval($_REQUEST["id"][$i]);
+
             $new_field_data = Jaris\Fields::get(
-                $_REQUEST["id"][$i],
+                $field_id,
                 $_REQUEST["type"]
             );
 
@@ -78,7 +80,7 @@ row: 0
 
             if(
                 !Jaris\Fields::edit(
-                    $_REQUEST["id"][$i],
+                    $field_id,
                     $new_field_data,
                     $_REQUEST["type"]
                 )

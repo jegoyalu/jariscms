@@ -28,16 +28,28 @@ row: 0
             Jaris\Uri::go("admin/types");
         }
 
+        $field_id = intval($_REQUEST["id"]);
+
         $field_data = Jaris\Fields::get(
-            $_REQUEST["id"],
+            $field_id,
             $_REQUEST["type_name"]
         );
 
         if(isset($_REQUEST["btnYes"]))
         {
-            if(Jaris\Fields::delete($_REQUEST["id"], $_REQUEST["type_name"]))
+            if(Jaris\Fields::delete($field_id, $_REQUEST["type_name"]))
             {
                 Jaris\View::addMessage(t("Type field successfully deleted."));
+
+                t("Delete field '{name}' from content type '{machine_name}'.");
+
+                Jaris\Logger::info(
+                    "Deleted field '{name}' from content type '{machine_name}'.",
+                    array(
+                        "name" => $field_data["name"],
+                        "machine_name" => $_REQUEST["type_name"]
+                    )
+                );
             }
             else
             {

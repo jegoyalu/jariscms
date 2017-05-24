@@ -19,17 +19,32 @@ row: 0
     <?php
         Jaris\Authentication::protectedPage(array("add_content"));
 
-        if(!Jaris\Authentication::hasTypeAccess("listing", Jaris\Authentication::currentUserGroup(), Jaris\Authentication::currentUser()))
+        if(
+            !Jaris\Authentication::hasTypeAccess(
+                "listing",
+                Jaris\Authentication::currentUserGroup(),
+                Jaris\Authentication::currentUser()
+            )
+        )
         {
             Jaris\Authentication::protectedPage();
         }
 
-        if(isset($_REQUEST["btnSave"]) && !Jaris\Forms::requiredFieldEmpty("add-listing"))
+        if(
+            isset($_REQUEST["btnSave"])
+            &&
+            !Jaris\Forms::requiredFieldEmpty("add-page-listing")
+        )
         {
             $fields["title"] = $_REQUEST["title"];
             $fields["content"] = $_REQUEST["content"];
 
-            if(Jaris\Authentication::groupHasPermission("add_edit_meta_content", Jaris\Authentication::currentUserGroup()))
+            if(
+                Jaris\Authentication::groupHasPermission(
+                    "add_edit_meta_content",
+                    Jaris\Authentication::currentUserGroup()
+                )
+            )
             {
                 $fields["meta_title"] = $_REQUEST["meta_title"];
                 $fields["description"] = $_REQUEST["description"];
@@ -63,6 +78,8 @@ row: 0
             $fields["display_more"] = $_REQUEST["display_more"];
             $fields["maximum_words"] = intval($_REQUEST["maximum_words"]);
             $fields["display_navigation"] = $_REQUEST["display_navigation"];
+            $fields["display_count_selector"] = $_REQUEST["display_count_selector"];
+            $fields["display_sorting_selector"] = $_REQUEST["display_sorting_selector"];
             $fields["results_per_page"] = intval($_REQUEST["results_per_page"]);
             $fields["results_per_row"] = intval($_REQUEST["results_per_row"]);
             $fields["thumbnail_show"] = $_REQUEST["thumbnail_show"];
@@ -71,7 +88,19 @@ row: 0
             $fields["thumbnail_bg"] = $_REQUEST["thumbnail_bg"];
             $fields["thumbnail_keep_aspectratio"] = $_REQUEST["thumbnail_keep_aspectratio"];
 
-            if(Jaris\Authentication::groupHasPermission("select_content_groups", Jaris\Authentication::currentUserGroup()))
+            if(Jaris\Modules::isInstalled("ecommerce"))
+            {
+                $fields["treat_as_products"] = $_REQUEST["treat_as_products"];
+                $fields["show_prices"] = $_REQUEST["show_prices"];
+                $fields["onsale_only"] = $_REQUEST["onsale_only"];
+            }
+
+            if(
+                Jaris\Authentication::groupHasPermission(
+                    "select_content_groups",
+                    Jaris\Authentication::currentUserGroup()
+                )
+            )
             {
                 $fields["groups"] = $_REQUEST["groups"];
 
@@ -110,13 +139,22 @@ row: 0
 
             $fields["categories"] = $categories;
 
-            if(Jaris\Authentication::groupHasPermission("input_format_content", Jaris\Authentication::currentUserGroup()) || Jaris\Authentication::isAdminLogged())
+            if(
+                Jaris\Authentication::groupHasPermission(
+                    "input_format_content",
+                    Jaris\Authentication::currentUserGroup()
+                )
+                ||
+                Jaris\Authentication::isAdminLogged()
+            )
             {
                 $fields["input_format"] = $_REQUEST["input_format"];
             }
             else
             {
-                $fields["input_format"] = Jaris\Types::getDefaultInputFormat("listing");
+                $fields["input_format"] = Jaris\Types::getDefaultInputFormat(
+                    "listing"
+                );
             }
 
             $fields["created_date"] = time();
@@ -129,7 +167,11 @@ row: 0
             $uri = "";
 
             if(
-                !Jaris\Authentication::groupHasPermission("manual_uri_content", Jaris\Authentication::currentUserGroup()) ||
+                !Jaris\Authentication::groupHasPermission(
+                    "manual_uri_content",
+                    Jaris\Authentication::currentUserGroup()
+                )
+                ||
                 $_REQUEST["uri"] == ""
             )
             {
@@ -142,15 +184,23 @@ row: 0
 
             if(Jaris\Pages::add($_REQUEST["uri"], $fields, $uri))
             {
-                Jaris\View::addMessage(t("The listing was successfully created."));
+                Jaris\View::addMessage(
+                    t("The listing was successfully created.")
+                );
             }
             else
             {
-                Jaris\View::addMessage(Jaris\System::errorMessage("write_error_data"), "error");
+                Jaris\View::addMessage(
+                    Jaris\System::errorMessage("write_error_data"),
+                    "error"
+                );
             }
 
             Jaris\Uri::go(
-                Jaris\Modules::getPageUri("admin/pages/listing/edit", "listing"),
+                Jaris\Modules::getPageUri(
+                    "admin/pages/listing/edit",
+                    "listing"
+                ),
                 array("uri" => $uri)
             );
         }
@@ -159,11 +209,8 @@ row: 0
             Jaris\Uri::go($_REQUEST["uri"]);
         }
 
-        $parameters["name"] = "add-listing";
-        $parameters["class"] = "add-listing";
-        $parameters["action"] = Jaris\Uri::url(
-            Jaris\Modules::getPageUri("admin/pages/listing/add", "listing")
-        );
+        $parameters["name"] = "add-page-listing";
+        $parameters["action"] = Jaris\Uri::url(Jaris\Uri::get());
         $parameters["method"] = "post";
 
         $categories = Jaris\Categories::getList("listing");
@@ -202,8 +249,58 @@ row: 0
 
         $fieldset[] = array("fields" => $fields);
 
+        if(Jaris\Modules::isInstalled("ecommerce"))
+        {
+            $fields_ecommerce[] = array(
+                "type" => "radio",
+                "name" => "treat_as_products",
+                "label" => t("Treat listing as products?"),
+                "value" => array(
+                    t("Yes") => true,
+                    t("No") => false
+                ),
+                "checked" => $_REQUEST["treat_as_products"],
+                "description" => t("If all selected content types on the filter are products the listing is treated as a listing of products.")
+            );
+
+            $fields_ecommerce[] = array(
+                "type" => "radio",
+                "name" => "show_prices",
+                "label" => t("Display prices?"),
+                "value" => array(
+                    t("Yes") => true,
+                    t("No") => false
+                ),
+                "checked" => $_REQUEST["show_prices"],
+                "description" => t("Display the product base price.")
+            );
+
+            $fields_ecommerce[] = array(
+                "type" => "radio",
+                "name" => "onsale_only",
+                "label" => t("On sale only?"),
+                "value" => array(
+                    t("Yes") => true,
+                    t("No") => false
+                ),
+                "checked" => $_REQUEST["onsale_only"],
+                "description" => t("Display only the products that are on sale.")
+            );
+
+            $fieldset[] = array(
+                "fields" => $fields_ecommerce,
+                "name" => t("E-commerce"),
+                "collapsible" => true,
+                "collapsed" => true,
+                "description" => t("Note: To treat the listed results as products, every content type selected on the filters section must be a valid product content type.")
+            );
+        }
+
         $criteria_types = array();
-        $criteria_types_list = Jaris\Types::getList(Jaris\Authentication::currentUserGroup());
+        $criteria_types_list = Jaris\Types::getList(
+            Jaris\Authentication::currentUserGroup()
+        );
+
         foreach($criteria_types_list as $machine_name => $type_fields)
         {
             $criteria_types[t(trim($type_fields["name"]))] = $machine_name;
@@ -284,7 +381,12 @@ row: 0
             "collapsed" => false
         );
 
-        $teaser_checked = $_REQUEST["layout"] == "teaser" || !isset($_REQUEST["layout"]) ? "checked" : "";
+        $teaser_checked =
+            $_REQUEST["layout"] == "teaser" || !isset($_REQUEST["layout"]) ?
+                "checked"
+                : "
+                "
+        ;
         $grid_checked = $_REQUEST["layout"] == "grid" ? "checked" : "";
         $list_checked = $_REQUEST["layout"] == "list" ? "checked" : "";
 
@@ -358,12 +460,38 @@ row: 0
         $fields_layout[] = array("type" => "other", "html_code" => "<br />");
 
         $fields_layout[] = array(
-            "type" => "checkbox",
+            "type" => "radio",
             "name" => "display_navigation",
-            "id" => "display_navigation",
             "label" => t("Display navigation?"),
-            "checked" => $_REQUEST["display_navigation"],
-            "value" => true
+            "value" => array(
+                t("Yes") => true,
+                t("No") => false
+            ),
+            "checked" => $_REQUEST["display_navigation"]
+        );
+
+        $fields_layout[] = array(
+            "type" => "radio",
+            "name" => "display_count_selector",
+            "label" => t("Display results per page selector?"),
+            "checked" => $_REQUEST["display_count_selector"],
+            "value" => array(
+                t("Yes") => true,
+                t("No") => false
+            ),
+            "description" => t("Enable the visitor to select the amount of results to display per page.")
+        );
+
+        $fields_layout[] = array(
+            "type" => "radio",
+            "name" => "display_sorting_selector",
+            "label" => t("Display sorting selector?"),
+            "checked" => $_REQUEST["display_sorting_selector"],
+            "value" => array(
+                t("Yes") => true,
+                t("No") => false
+            ),
+            "description" => t("Enable the visitor to select the sorting mode.")
         );
 
         $fields_layout[] = array(
@@ -442,7 +570,10 @@ row: 0
             "description" => t("The background color of the thumbnail in case is neccesary.")
         );
 
-        $fields_thumbnail[] = array("type" => "other", "html_code" => "<br />");
+        $fields_thumbnail[] = array(
+            "type" => "other",
+            "html_code" => "<br />"
+        );
 
         $fields_thumbnail[] = array(
             "type" => "checkbox",
@@ -460,7 +591,12 @@ row: 0
             "collapsed" => false
         );
 
-        if(Jaris\Authentication::groupHasPermission("add_edit_meta_content", Jaris\Authentication::currentUserGroup()))
+        if(
+            Jaris\Authentication::groupHasPermission(
+                "add_edit_meta_content",
+                Jaris\Authentication::currentUserGroup()
+            )
+        )
         {
             $fields_meta[] = array(
                 "type" => "textarea",
@@ -500,13 +636,21 @@ row: 0
         }
 
         if(
-            Jaris\Authentication::groupHasPermission("input_format_content", Jaris\Authentication::currentUserGroup()) ||
+            Jaris\Authentication::groupHasPermission(
+                "input_format_content",
+                Jaris\Authentication::currentUserGroup()
+            )
+            ||
             Jaris\Authentication::isAdminLogged()
         )
         {
             $fields_inputformats = array();
 
-            foreach(Jaris\InputFormats::getAll() as $machine_name => $fields_formats)
+            foreach(
+                Jaris\InputFormats::getAll()
+                as
+                $machine_name => $fields_formats
+            )
             {
                 $fields_inputformats[] = array(
                     "type" => "radio",
@@ -530,7 +674,12 @@ row: 0
             $fieldset[] = array("fields" => $extra_fields);
         }
 
-        if(Jaris\Authentication::groupHasPermission("select_content_groups", Jaris\Authentication::currentUserGroup()))
+        if(
+            Jaris\Authentication::groupHasPermission(
+                "select_content_groups",
+                Jaris\Authentication::currentUserGroup()
+            )
+        )
         {
             $fields_users_access[] = array(
                 "type" => "other",
@@ -561,7 +710,12 @@ row: 0
             );
         }
 
-        if(Jaris\Authentication::groupHasPermission("manual_uri_content", Jaris\Authentication::currentUserGroup()))
+        if(
+            Jaris\Authentication::groupHasPermission(
+                "manual_uri_content",
+                Jaris\Authentication::currentUserGroup()
+            )
+        )
         {
             $fields_other[] = array(
                 "type" => "text",

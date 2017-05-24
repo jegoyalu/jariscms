@@ -52,6 +52,16 @@ row: 0
                 Jaris\View::addMessage(
                     t("The menu item was successfully created.")
                 );
+
+                t("Added menu item '{title}' to '{machine_name}'.");
+
+                Jaris\Logger::info(
+                    "Added menu item '{title}' to '{machine_name}'.",
+                    array(
+                        "title" => $fields["title"],
+                        "machine_name" => $_REQUEST["menu"]
+                    )
+                );
             }
             else
             {

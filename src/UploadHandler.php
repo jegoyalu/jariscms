@@ -138,6 +138,9 @@ class UploadHandler
     {
         $val = trim($val);
         $last = strtolower($val[strlen($val) - 1]);
+
+        $val = intval($val);
+
         switch($last)
         {
             // The 'G' modifier is available since PHP 5.1.0
@@ -187,7 +190,7 @@ class UploadHandler
                 . $version_path . $file_name;
     }
 
-    protected function get_download_url($file_name, $version = null)
+    protected function get_download_url($file_name, $version = "")
     {
         if($this->options['download_via_php'])
         {

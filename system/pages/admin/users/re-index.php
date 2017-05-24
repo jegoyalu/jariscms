@@ -41,6 +41,12 @@ row: 0
                 Jaris\View::addMessage(
                     t("Indexation of users database completed.")
                 );
+
+                t("Re-indexed users database.");
+
+                Jaris\Logger::info(
+                    "Re-indexed users database."
+                );
             }
             else
             {

@@ -35,6 +35,15 @@ row: 0
 
             Jaris\View::addMessage(t("Database successfully deleted."));
 
+            t("Deleted sql database '{database}'.");
+
+            Jaris\Logger::info(
+                "Deleted sql database '{database}'.",
+                array(
+                    "database" => $_REQUEST["name"]
+                )
+            );
+
             Jaris\Uri::go("admin/settings/sqlite");
         }
         elseif(isset($_REQUEST["btnNo"]))

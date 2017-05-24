@@ -39,6 +39,7 @@ row: 0
                 $fields["position"] = $_REQUEST["position"];
                 $fields["mode"] = $_REQUEST["mode"];
                 $fields["attachment"] = $_REQUEST["attachment"];
+                $fields["background_size"] = $_REQUEST["background_size"];
                 $fields["background_color"] = $_REQUEST["background_color"];
                 $fields["responsive"] = $_REQUEST["responsive"];
                 $fields["max_width"] = $_REQUEST["max_width"];
@@ -233,6 +234,28 @@ row: 0
             "collapsed" => true
         );
 
+        $size_fields[] = array(
+            "type" => "radio",
+            "name" => "background_size",
+            "id" => "background_size",
+            "value" => array(
+                "cover" => "cover",
+                "auto" => "auto",
+                "contain" => "contain"
+            ),
+            "checked" => $_REQUEST["background_size"] ?
+                $_REQUEST["background_size"]
+                :
+                "cover"
+        );
+
+        $fieldset[] = array(
+            "name" => t("Size"),
+            "fields" => $size_fields,
+            "collapsible" => true,
+            "collapsed" => true
+        );
+
         $responsive[t("Enable")] = true;
         $responsive[t("Disable")] = false;
 
@@ -310,5 +333,3 @@ row: 0
         1
     field;
 row;
-
-

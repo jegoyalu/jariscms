@@ -28,8 +28,10 @@ row: 0
             Jaris\Uri::go("admin/menus");
         }
 
+        $item_id = intval($_REQUEST["id"]);
+
         $current_menu_data = Jaris\Menus::getItem(
-            $_REQUEST["id"],
+            $item_id,
             $_REQUEST["menu"]
         );
 
@@ -58,7 +60,7 @@ row: 0
             if($fields["parent"] == "root" && $_REQUEST["parent"] != "root")
             {
                 $new_parent_item = Jaris\Menus::getItem(
-                    $_REQUEST["parent"],
+                    intval($_REQUEST["parent"]),
                     $_REQUEST["menu"]
                 );
 
@@ -70,7 +72,7 @@ row: 0
                     $new_parent_item["parent"] = "root";
 
                     Jaris\Menus::editItem(
-                        $_REQUEST["parent"],
+                        intval($_REQUEST["parent"]),
                         $_REQUEST["menu"],
                         $new_parent_item
                     );
@@ -81,7 +83,7 @@ row: 0
 
             if(
                 Jaris\Menus::editItem(
-                    $_REQUEST["id"],
+                    $item_id,
                     $_REQUEST["menu"],
                     $fields
                 )
@@ -89,6 +91,16 @@ row: 0
             {
                 Jaris\View::addMessage(
                     t("The menu item was successfully edited.")
+                );
+
+                t("Edited menu item '{title}' from '{machine_name}'.");
+
+                Jaris\Logger::info(
+                    "Edited menu item '{title}' from '{machine_name}'.",
+                    array(
+                        "title" => $fields["title"],
+                        "machine_name" => $_REQUEST["menu"]
+                    )
                 );
             }
             else
@@ -112,7 +124,7 @@ row: 0
 
         foreach($menu_items_array as $id => $items)
         {
-            if($id != $_REQUEST["id"])
+            if($id != $item_id)
             {
                 $menus[$items["title"]] = "$id";
             }
@@ -126,7 +138,7 @@ row: 0
         $fields[] = array(
             "type" => "hidden",
             "name" => "id",
-            "value" => $_REQUEST["id"]
+            "value" => $item_id
         );
 
         $fields[] = array(

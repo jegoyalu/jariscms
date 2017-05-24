@@ -202,8 +202,10 @@ row: 0
 
             for($i = 0; $i < $image_count; $i++)
             {
+                $image_id = intval($_REQUEST["id"][$i]);
+
                 $image_data = Jaris\Pages\Images::get(
-                    $_REQUEST["id"][$i],
+                    $image_id,
                     $arguments["uri"]
                 );
 
@@ -212,7 +214,7 @@ row: 0
 
                 if(
                     !Jaris\Pages\Images::edit(
-                        $_REQUEST["id"][$i],
+                        $image_id,
                         $image_data,
                         $arguments["uri"]
                     )

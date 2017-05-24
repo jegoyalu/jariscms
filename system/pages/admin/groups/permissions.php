@@ -59,6 +59,15 @@ row: 0
                 Jaris\View::addMessage(
                     t("The changes have been successfully saved.")
                 );
+
+                t("Updated permissions for group '{machine_name}'.");
+
+                Jaris\Logger::info(
+                    "Updated permissions for group '{machine_name}'.",
+                    array(
+                        "machine_name" => $_REQUEST["group"]
+                    )
+                );
             }
             else
             {

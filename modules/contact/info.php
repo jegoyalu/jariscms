@@ -5,21 +5,24 @@
  * check the LICENSE.txt file for version and details or visit
  * https://opensource.org/licenses/GPL-3.0.
  *
- * Jaris CMS module info file
- *
- * @note You always need to create an info.php file for your modules.
+ * Jaris CMS module info file.
  */
 
 $module["name"] = "Contact Forms";
 $module["description"] = "Easily create contact forms without coding.";
-$module["version"] = "1.3.1";
+$module["version"] = "1.4";
 $module["author"] = "Jefferson González";
 $module["email"] = "jgonzalez@jegoyalu.com";
 $module["website"] = "http://www.jegoyalu.com";
 
-/**
+/*
 
 =Change Log=
+
+Version 1.4 - Date 04/22/2017
+
+    * Added ability to archive sent messages.
+    * Send the names of file attachment fields.
 
 Version 1.3.1 - Date 05/26/2016
 

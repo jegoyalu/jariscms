@@ -36,6 +36,15 @@ row: 0
             if(Jaris\Modules::install($_REQUEST["path"], $needs_dependency))
             {
                 Jaris\View::addMessage(t("Module successfully installed."));
+
+                t("Installed module '{module_name}'.");
+
+                Jaris\Logger::info(
+                    "Installed module '{module_name}'.",
+                    array(
+                        "module_name" => $_REQUEST["path"]
+                    )
+                );
             }
             else if(!$needs_dependency)
             {

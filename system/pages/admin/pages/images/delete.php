@@ -31,11 +31,19 @@ row: 0
             Jaris\Authentication::protectedPage();
         }
 
-        $image_data = Jaris\Pages\Images::get($_REQUEST["id"], $_REQUEST["uri"]);
+        $image_data = Jaris\Pages\Images::get(
+            $_REQUEST["id"],
+            $_REQUEST["uri"]
+        );
 
         if(isset($_REQUEST["btnYes"]))
         {
-            if(Jaris\Pages\Images::delete($_REQUEST["id"], $_REQUEST["uri"]))
+            if(
+                Jaris\Pages\Images::delete(
+                    intval($_REQUEST["id"]),
+                    $_REQUEST["uri"]
+                )
+            )
             {
                 Jaris\View::addMessage(t("Image successfully deleted."));
             }

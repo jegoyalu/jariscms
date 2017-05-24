@@ -35,6 +35,15 @@ row: 0
             if(Jaris\Modules::upgrade($_REQUEST["path"]))
             {
                 Jaris\View::addMessage(t("Module successfully upgraded."));
+
+                t("Upgraded module '{module_name}'.");
+
+                Jaris\Logger::info(
+                    "Upgraded module '{module_name}'.",
+                    array(
+                        "module_name" => $_REQUEST["path"]
+                    )
+                );
             }
             else
             {

@@ -53,7 +53,12 @@ row: 0
             foreach($_REQUEST["files"] as $file_id)
             {
                 //Delete page
-                if(!Jaris\Pages\Files::delete($file_id, $_REQUEST["uri"]))
+                if(
+                    !Jaris\Pages\Files::delete(
+                        intval($file_id),
+                        $_REQUEST["uri"]
+                    )
+                )
                 {
                     Jaris\View::addMessage(
                         Jaris\System::errorMessage("write_error_data"),

@@ -17,7 +17,7 @@ class System
  * Stores JarisCMS version number.
  * @var string
  */
-const VERSION = "6.1.3 MS";
+const VERSION = "6.3.0 MS";
 
 /**
  * Receives parameters: $page, $tabs
@@ -296,56 +296,95 @@ static function checkIfNotInstalled()
  */
 static function errorMessage($type)
 {
+    $message = "";
+    $message_orig = "";
+
     switch($type)
     {
         case "write_error_data":
-            return t("Check your write permissions on the data directory.");
+            $message .= t("Check your write permissions on the data directory.");
+            $message_orig .= "Check your write permissions on the data directory.";
+            break;
 
         case "write_error_language":
-            return t("Check your write permissions on the language directory.");
+            $message .= t("Check your write permissions on the language directory.");
+            $message_orig .= "Check your write permissions on the language directory.";
+            break;
 
         case "translations_not_moved":
-            return t("Translations could not be repositioned with the new uri. Check your write permissions on the language directory.");
+            $message .= t("Translations could not be repositioned with the new uri. Check your write permissions on the language directory.");
+            $message_orig .= "Translations could not be repositioned with the new uri. Check your write permissions on the language directory.";
+            break;
 
         case "translations_not_deleted":
-            return t("Translations could not be deleted. Check your write permissions on the language directory.");
+            $message .= t("Translations could not be deleted. Check your write permissions on the language directory.");
+            $message_orig .= "Translations could not be deleted. Check your write permissions on the language directory.";
+            break;
 
         case "image_file_type":
-            return t("The file type must be JPEG, PNG or GIF.");
+            $message .= t("The file type must be JPEG, PNG or GIF.");
+            $message_orig .= "The file type must be JPEG, PNG or GIF.";
+            break;
 
         case "group_exist":
-            return t("The group machine name is already in use.");
+            $message .= t("The group machine name is already in use.");
+            $message_orig .= "The group machine name is already in use.";
+            break;
 
         case "delete_system_group":
-            return t("This is a system group and can not be deleted.");
+            $message .= t("This is a system group and can not be deleted.");
+            $message_orig .= "This is a system group and can not be deleted.";
+            break;
 
         case "edit_system_group":
-            return t("This is a system group and its machine name can not be modified.");
+            $message .= t("This is a system group and its machine name can not be modified.");
+            $message_orig .= "This is a system group and its machine name can not be modified.";
+            break;
 
         case "menu_exist":
-            return t("The menu machine name is already in use.");
+            $message .= t("The menu machine name is already in use.");
+            $message_orig .= "The menu machine name is already in use.";
+            break;
 
         case "type_exist":
-            return t("The type machine name is already in use.");
+            $message .= t("The type machine name is already in use.");
+            $message_orig .= "The type machine name is already in use.";
+            break;
 
         case "input_format_exist":
-            return t("The input format machine name is already in use.");
+            $message .= t("The input format machine name is already in use.");
+            $message_orig .= "The input format machine name is already in use.";
+            break;
 
         case "category_exist":
-            return t("The category machine name is already in use.");
+            $message .= t("The category machine name is already in use.");
+            $message_orig .= "The category machine name is already in use.";
+            break;
 
         case "delete_system_type":
-            return t("This is a system type and can not be deleted.");
+            $message .= t("This is a system type and can not be deleted.");
+            $message_orig .= "This is a system type and can not be deleted.";
+            break;
 
         case "user_exist":
-            return t("The username is already in use.");
+            $message .= t("The username is already in use.");
+            $message_orig .= "The username is already in use.";
+            break;
 
         case "user_not_exist":
-            return t("Theres no user that match your criteria on the system.");
+            $message .= t("Theres no user that match your criteria on the system.");
+            $message_orig .= "Theres no user that match your criteria on the system.";
+            break;
 
         default:
-            return t("Operation could not be completed.");
+            $message .= t("Operation could not be completed.");
+            $message_orig .= "Operation could not be completed.";
+            break;
     }
+
+    Logger::error($message_orig);
+
+    return $message;
 }
 
 /**
@@ -858,9 +897,9 @@ static function generateAdminPageSections()
     if(Authentication::groupHasPermission("edit_settings", $group))
     {
         $settings[] = array(
-            "title" => t("Error Log"),
-            "url" => Uri::url("admin/settings/errors"),
-            "description" => t("View system registered errors.")
+            "title" => t("Log"),
+            "url" => Uri::url("admin/settings/log"),
+            "description" => t("View the system log.")
         );
     }
 
@@ -1316,6 +1355,7 @@ static function cachePageIfPossible($uri, $page_data)
                 "" . strpos($path, "sqlite/cache") . "" == "" &&
                 "" . strpos($path, "sqlite/search_engine") . "" == "" &&
                 "" . strpos($path, "sqlite/users") . "" == "" &&
+                "" . strpos($path, "sqlite/log") . "" == "" &&
                 "" . strpos($path, "sqlite/errors_log") . "" == "" &&
                 "" . strpos($path, "sqlite/api_keys") . "" == "" &&
                 "" . strpos($path, "sqlite/readme.txt") . "" == ""
@@ -1527,7 +1567,13 @@ static function savePageToCacheIfPossible($uri, $page_data, $content)
     //on next page run in order to cache the html that points to the static
     //image url's
     if($static_images_generated)
-        return;
+    {
+        foreach(Site::$static_images_to_generate as $image_url=>$image_set)
+        {
+            if(strpos($content, $image_url) !== false)
+                return;
+        }
+    }
 
     $page_path = Pages::getPath($uri) . "/data.php";
 

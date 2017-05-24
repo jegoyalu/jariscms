@@ -30,7 +30,7 @@ row: 0
 
         $subcategory_data = Jaris\Categories::getSubcategory(
             $_REQUEST["category"],
-            $_REQUEST["id"]
+            intval($_REQUEST["id"])
         );
 
         if(isset($_REQUEST["btnYes"]))
@@ -38,11 +38,21 @@ row: 0
             if(
                 Jaris\Categories::deleteSubcategory(
                     $_REQUEST["category"],
-                    $_REQUEST["id"]
+                    intval($_REQUEST["id"])
                 )
             )
             {
                 Jaris\View::addMessage(t("Subcategory successfully deleted."));
+
+                t("Deleted subcategory '{title}' on '{machine_name}'.");
+
+                Jaris\Logger::info(
+                    "Deleted subcategory '{title}' on '{machine_name}'.",
+                    array(
+                        "title" => $subcategory_data["title"],
+                        "machine_name" => $_REQUEST["category"]
+                    )
+                );
             }
             else
             {

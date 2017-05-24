@@ -143,7 +143,7 @@ static function stripHTMLTags($text, $allowed_tags = "", $allowed_atts="")
     $allowed_atts_array = explode(",", $allowed_atts);
 
     if(
-        count($allowed_atts_array) > 0 &&
+        $allowed_atts_array[0] != "" &&
         function_exists("simplexml_load_string")
     )
     {
@@ -193,7 +193,7 @@ static function stripHTMLTags($text, $allowed_tags = "", $allowed_atts="")
         {
             // In case simplexml fails due to invalid html
             // we strip all tags and replace newlines with breaks.
-            return str_replace("\n", "<br />", strip_tags($text, ''));
+            return str_replace("\n", "<br>", strip_tags($text, ''));
         }
     }
 

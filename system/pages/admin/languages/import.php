@@ -118,6 +118,15 @@ row: 0
                         " <b>$count_updated</b> " .
                         t("strings")
                     );
+
+                    t("Imported strings for language '{code}'.");
+
+                    Jaris\Logger::info(
+                        "Imported strings for language '{code}'.",
+                        array(
+                            "code" => $_REQUEST["code"]
+                        )
+                    );
                 }
 
                 Jaris\Uri::go(

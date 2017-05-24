@@ -54,6 +54,15 @@ row: 0
                 Jaris\View::addMessage(
                     t("Your settings have been successfully saved.")
                 );
+
+                t("Edited content type '{machine_name}' upload settings.");
+
+                Jaris\Logger::info(
+                    "Edited content type '{machine_name}' upload settings.",
+                    array(
+                        "machine_name" => $_REQUEST["type"]
+                    )
+                );
             }
             else
             {

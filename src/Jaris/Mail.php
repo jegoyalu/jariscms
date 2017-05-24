@@ -59,22 +59,21 @@ static function send(
     $mail->msgHTML($html_message);
     $mail->WordWrap = 50;
     $mail->Sender = $sender;
+    $mail->From = $sender;
 
     if(count($from) > 0)
     {
         foreach($from as $from_name => $from_email)
         {
-            $mail->setFrom($from_email, $from_name);
+            $mail->FromName = $from_name;
+            $mail->From = $from_email;
 
             break;
         }
     }
     else
     {
-        $mail->setFrom(
-            $sender,
-            Settings::get('mailer_from_name', 'main')
-        );
+        $mail->FromName = Settings::get('mailer_from_name', 'main');
     }
 
     switch(Settings::get('mailer', 'main'))
@@ -83,15 +82,31 @@ static function send(
             $mail->isSendmail();
             break;
         case 'smtp':{
-            include_once("include/third_party/phpmailer/class.smtp.php");
-
             $mail->isSMTP();
 
+            if(!Settings::get("smtp_cert_validation", "main"))
+            {
+                $mail->SMTPOptions = array(
+                    'ssl' => array(
+                        'verify_peer' => false,
+                        'verify_peer_name' => false,
+                        'allow_self_signed' => true
+                    )
+                );
+            }
+
             $mail->SMTPAuth = (bool) Settings::get('smtp_auth', 'main');
+
             if(Settings::get('smtp_ssl', 'main'))
             {
                 $mail->SMTPSecure = 'ssl';
             }
+
+            if($encryption = Settings::get('smtp_encryption', 'main'))
+            {
+                $mail->SMTPSecure = trim($encryption);
+            }
+
             $mail->Host = Settings::get('smtp_host', 'main');
             $mail->Port = intval(Settings::get('smtp_port', 'main'));
 
@@ -134,7 +149,31 @@ static function send(
             $mail->addAttachment($file_path);
     }
 
-    return $mail->send();
+    $sent = $mail->send();
+
+    if(!$sent)
+    {
+        $to_email = "";
+
+        foreach($to as $name => $email)
+        {
+            $to_email = $email;
+            break;
+        }
+
+        t("Failed to send e-mail '{subject}' to {email} with error: {error}.");
+
+        Logger::alert(
+            "Failed to send e-mail '{subject}' to {email} with error: {error}.",
+            array(
+                "subject" => $subject,
+                "email" => $to_email,
+                "error" => $mail->ErrorInfo
+            )
+        );
+    }
+
+    return $sent;
 }
 
 /**

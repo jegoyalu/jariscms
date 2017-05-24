@@ -55,11 +55,11 @@ row: 0
             array("category" => $_REQUEST["category"])
         );
 
-        function print_subcategories(
+        $print_subcategories = function(
             $category_name,
             $parent = "root",
             $position = ""
-        )
+        ) use (&$print_subcategories)
         {
             $category_data = Jaris\Categories::get($category_name);
 
@@ -142,14 +142,14 @@ row: 0
 
                     print "</tr>\n";
 
-                    print_subcategories(
+                    $print_subcategories(
                         $category_name,
                         "$id",
                         $position . "&nbsp;&nbsp;&nbsp;"
                     );
                 }
             }
-        }
+        };
 
         if(isset($_REQUEST["btnSave"]))
         {
@@ -159,7 +159,7 @@ row: 0
             {
                 $subcategory_data = Jaris\Categories::getSubcategory(
                     $_REQUEST["category"],
-                    $_REQUEST["subcategory_id"][$i]
+                    intval($_REQUEST["subcategory_id"][$i])
                 );
 
                 $subcategory_data["order"] = $i;
@@ -173,7 +173,7 @@ row: 0
                 {
                     $new_parent_subcategory = Jaris\Categories::getSubcategory(
                         $_REQUEST["category"],
-                        $_REQUEST["parent"][$i]
+                        intval($_REQUEST["parent"][$i])
                     );
 
                     if(
@@ -186,7 +186,7 @@ row: 0
                         Jaris\Categories::editSubcategory(
                             $_REQUEST["category"],
                             $new_parent_subcategory,
-                            $_REQUEST["parent"][$i]
+                            intval($_REQUEST["parent"][$i])
                         );
                     }
                 }
@@ -198,8 +198,9 @@ row: 0
                     !Jaris\Categories::editSubcategory(
                         $_REQUEST["category"],
                         $subcategory_data,
-                        $_REQUEST["subcategory_id"][$i])
+                        intval($_REQUEST["subcategory_id"][$i])
                     )
+                )
                 {
                     Jaris\View::addMessage($_REQUEST["category"]);
                     Jaris\View::addMessage($_REQUEST["subcategory_id"][$i]);
@@ -265,7 +266,7 @@ row: 0
 
             print "</tr></thead><tbody>\n";
 
-            print_subcategories($_REQUEST["category"]);
+            $print_subcategories($_REQUEST["category"]);
 
             print "</tbody></table>\n";
         }

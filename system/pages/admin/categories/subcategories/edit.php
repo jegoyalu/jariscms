@@ -30,7 +30,7 @@ row: 0
 
         $current_subcategory_data = Jaris\Categories::getSubcategory(
             $_REQUEST["category"],
-            $_REQUEST["id"]
+            intval($_REQUEST["id"])
         );
 
         if(
@@ -50,7 +50,7 @@ row: 0
             {
                 $new_parent_subcategory = Jaris\Categories::getSubcategory(
                     $_REQUEST["category"],
-                    $_REQUEST["id"]
+                    intval($_REQUEST["id"])
                 );
 
                 if(
@@ -63,7 +63,7 @@ row: 0
                     Jaris\Categories::editSubcategory(
                         $_REQUEST["category"],
                         $new_parent_subcategory,
-                        $_REQUEST["id"]
+                        intval($_REQUEST["id"])
                     );
                 }
             }
@@ -74,12 +74,22 @@ row: 0
                 Jaris\Categories::editSubcategory(
                     $_REQUEST["category"],
                     $fields,
-                    $_REQUEST["id"]
+                    intval($_REQUEST["id"])
                 )
             )
             {
                 Jaris\View::addMessage(
                     t("The subcategory was successfully edited.")
+                );
+
+                t("Edited subcategory '{title}' on '{machine_name}'.");
+
+                Jaris\Logger::info(
+                    "Edited subcategory '{title}' on '{machine_name}'.",
+                    array(
+                        "title" => $fields["title"],
+                        "machine_name" => $_REQUEST["category"]
+                    )
                 );
             }
             else

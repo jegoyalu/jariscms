@@ -26,7 +26,7 @@ row: 0
             Jaris\Uri::go("admin/settings/api");
         }
 
-        $key_data = api_key_get_data_by_id($_REQUEST["id"]);
+        $key_data = Jaris\ApiKey::getDataById($_REQUEST["id"]);
 
         if(
             isset($_REQUEST["btnSave"]) &&
@@ -37,14 +37,23 @@ row: 0
             $key_data["username"] =$_REQUEST["username"];
             $key_data["ip_host"] =$_REQUEST["ip_host"];
 
-            api_key_edit($key_data["key"], $key_data);
+            Jaris\ApiKey::edit($key_data["key"], $key_data);
 
             if(isset($_REQUEST["permissions"]))
-                api_key_set_permissions($key_data["key"], $_REQUEST["permissions"]);
+                Jaris\ApiKey::setPermissions($key_data["key"], $_REQUEST["permissions"]);
             else
-                api_key_set_permissions($key_data["key"], array());
+                Jaris\ApiKey::setPermissions($key_data["key"], array());
 
             Jaris\View::addMessage(t("The api key has been successfully updated."));
+
+            t("Edited api key '{key}'.");
+
+            Jaris\Logger::info(
+                "Edited api key '{key}'.",
+                array(
+                    "key" => $key_data["key"]
+                )
+            );
 
             Jaris\Uri::go("admin/settings/api");
         }
@@ -53,7 +62,7 @@ row: 0
             Jaris\Uri::go("admin/settings/api");
         }
 
-        $permissions = api_get_permissions_list();
+        $permissions = Jaris\Api::getPermissionsList();
 
         $parameters["name"] = "api-edit-key";
         $parameters["class"] = "api-edit-key";

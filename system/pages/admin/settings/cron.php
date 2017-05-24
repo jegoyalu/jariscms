@@ -23,6 +23,10 @@ row: 0
 
         if(isset($_REQUEST["btnYes"]))
         {
+            t("Cron executed manually.");
+
+            Jaris\Logger::info("Cron executed manually.");
+
             Jaris\Uri::go("cron.php", array("return" => "admin/settings/advanced"));
         }
         elseif(isset($_REQUEST["btnNo"]))

@@ -1,6 +1,49 @@
 Changes Log
 ================================================================================
 
+Version 6.3.0 - Date 29/04/2017
+
+    * Fixed subcategories list page issue on php 7.1
+    * Added version string as parameter to theme included css files.
+    * Added version string as parameter to theme included js files.
+    * Fixed blocking file downloads by closing session.
+    * Improved sending files to browser.
+    * Fixed Util::stripHTMLTags not stripping breaks.
+    * Added Date::getElapsedDays function.
+    * Check if file exists on Jaris class autoloader.
+    * Fixed mailer smpt issues.
+
+Version 6.2.2 - Date 04/02/2017
+
+    * Fixed upload mechanism to work with PHP 7.1
+    * Other code fixes to conform with the stricter
+      requirements that are now part of PHP 7.1
+    * Fixed numeric issue in UploadHandler class do to
+      PHP 7.1 changes.
+    * Added composer.json support to get dependencies
+      needed by the run.sh script.
+    * Improved run.sh to support command options and
+      make use of the downloaded composer dependencies.
+
+Version 6.2.1 - Date 04/02/2017
+
+    * Fixed static images generation.
+    * Improved static image generation detection.
+    * Fixed search results.
+    * Added birth_date_readable to the generated users csv file.
+
+Version 6.2 - Date 21/01/2017
+
+    * Added Jaris\Logger class in order to log system events like
+      adding/deleting/editing users, etc...
+    * Added interface to view the system events log.
+    * Modified most administration interface to log changes into the
+      system events log.
+    * Log e-mail messages that fail to sent on the system events log.
+    * Log error messages thrown by core functions to the system events log.
+    * Added superadmin functionality to prevent a malicious admin user
+      from deleting all administrative accounts.
+
 Version 6.1.3 - Date 13/12/2016
 
     * Added settings to store api keys for third party api providers, starting
@@ -15,6 +58,7 @@ Version 6.1.3 - Date 13/12/2016
       issues on apache with gzip turned on.
     * Added $prefix parameter to Categories::generateFields in order to be
       able to modify the variable names of generated category fields.
+    * Moved parsing of blocks and menus after the page content is parsed.
 
 Version 6.1.2 - Date 18/10/2016
 

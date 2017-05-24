@@ -151,7 +151,7 @@ static function addStyle($path, $arguments = array())
  * @param array $arguments Arguments if the javascript file is dynamic.
  * @original add_script
  */
-static function addScript($path, $arguments = null)
+static function addScript($path, $arguments = array())
 {
     $current_url = Uri::url($path, $arguments);
 
@@ -690,6 +690,7 @@ static function getStylesHTML($styles)
 
     $styles_code = "";
     $theme_dir = rtrim(Themes::directory($theme), "/");
+    $theme_info = Themes::get($theme);
     $style_dir = $theme_dir . "/css";
     $style_files = array();
 
@@ -723,7 +724,10 @@ static function getStylesHTML($styles)
 
         if($extension == "css")
         {
-            $styles[] = Uri::url("$file_path");
+            $styles[] = Uri::url(
+                "$file_path",
+                array("v" => $theme_info["version"])
+            );
         }
     }
 
@@ -775,6 +779,7 @@ static function getScriptsHTML($scripts)
 
     $scripts_code = "";
     $theme_dir = rtrim(Themes::directory($theme), "/");
+    $theme_info = Themes::get($theme);
     $js_dir = $theme_dir . "/js";
     $js_files = array();
 
@@ -800,7 +805,10 @@ static function getScriptsHTML($scripts)
 
         if($extension == "js")
         {
-            $scripts[] = Uri::url("$file_path");
+            $scripts[] = Uri::url(
+                "$file_path",
+                array("v" => $theme_info["version"])
+            );
         }
     }
 

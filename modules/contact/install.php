@@ -22,6 +22,45 @@ function contact_install()
     $new_type["description"] = "To create a contact form page.";
 
     Jaris\Types::add("contact-form", $new_type);
+
+    // Create income database
+    if(!Jaris\Sql::dbExists("contact_archive"))
+    {
+        //Income database
+        $db = Jaris\Sql::open("contact_archive");
+
+        Jaris\Sql::query(
+            "create table contact_archive ("
+            . "id integer primary key, "
+            . "created_date text, "
+            . "day integer, "
+            . "month integer, "
+            . "year integer, "
+            . "uri text, "
+            . "message text, "
+            . "from_info text, "
+            . "fields text, "
+            . "fields_value text, "
+            . "attachments text"
+            . ")",
+            $db
+        );
+
+        Jaris\Sql::query(
+            "create index contact_archive_index "
+            . "on contact_archive ("
+            . "id desc, "
+            . "created_date desc, "
+            . "day desc, "
+            . "month desc, "
+            . "year desc, "
+            . "uri desc "
+            . ")",
+            $db
+        );
+
+        Jaris\Sql::close($db);
+    }
 }
 
 ?>

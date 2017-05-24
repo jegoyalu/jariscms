@@ -10,7 +10,7 @@
 
 $module["name"] = t("Content Listing");
 $module["description"] = t("To create pages that display a list of content by a given set of criteria.");
-$module["version"] = "1.4.6";
+$module["version"] = "1.5.1";
 $module["author"] = "Jefferson González";
 $module["email"] = "jgonzalez@jegoyalu.com";
 $module["website"] = "http://www.jegoyalu.com";
@@ -18,6 +18,16 @@ $module["website"] = "http://www.jegoyalu.com";
 /*
 
 =Change Log=
+
+Version 1.5.1 - Date 10/05/2017
+
+    * Added option to only display on sale products on ecommerce mode.
+
+Version 1.5 - Date 08/05/2017
+
+    * Added additional functionality if ecommerce module is installed.
+    * Added display sorting selector.
+    * Added display amount to show selector.
 
 Version 1.4.6 - Date 24/08/2016
 

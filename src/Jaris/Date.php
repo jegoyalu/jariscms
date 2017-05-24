@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Jefferson González <jgonzalez@jegoyalu.com>
- * @license https://opensource.org/licenses/GPL-3.0 
+ * @license https://opensource.org/licenses/GPL-3.0
  * @link http://github.com/jegoyalu/jariscms Source code.
  */
 
@@ -12,7 +12,7 @@ namespace Jaris;
  */
 class Date
 {
-    
+
 /**
  * static function that returns a days of the month array ready
  * for selects on generate form functions.
@@ -80,13 +80,17 @@ static function getYears($additional_years=0)
 
 /**
  * Get the amount of time in a easy to read human format.
- * @param int $timestamp
+ * @param int $fromtimestamp Should be lower number than $totimestamp
+ * @param int $totimestamp Should be higher number than $fromtimestamp
  * @return string
  * @original get_time_elapsed
  */
-static function getElapsedTime($timestamp)
+static function getElapsedTime($fromtimestamp, $totimestamp=0)
 {
-    $etime = time() - $timestamp;
+    if($totimestamp == 0)
+        $totimestamp = time();
+
+    $etime = $totimestamp - $fromtimestamp;
 
     if($etime < 1)
     {
@@ -122,6 +126,34 @@ static function getElapsedTime($timestamp)
             );
         }
     }
+}
+
+/**
+ * Get the amount of days from one timestamp to the other.
+ * @param int $fromtimestamp Should be lower number than $totimestamp
+ * @param int $totimestamp Should be higher number than $fromtimestamp
+ * @return int
+ */
+static function getElapsedDays($fromtimestamp, $totimestamp=0)
+{
+    if($totimestamp == 0)
+        $totimestamp = time();
+
+    $etime = $totimestamp - $fromtimestamp;
+
+    if($etime < 1)
+    {
+        return 0;
+    }
+
+    $days = $etime / (24 * 60 * 60);
+
+    if($days >= 1)
+    {
+        return round($days);
+    }
+
+    return 0;
 }
 
 }

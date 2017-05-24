@@ -56,6 +56,15 @@ row: 0
                 if(Jaris\InputFormats::edit($_REQUEST["input_format"], $fields))
                 {
                     Jaris\View::addMessage(t("Your changes have been saved."));
+
+                    t("Edited input format '{machine_name}'.");
+
+                    Jaris\Logger::info(
+                        "Edited input format '{machine_name}'.",
+                        array(
+                            "machine_name" => $_REQUEST["input_format"]
+                        )
+                    );
                 }
                 else
                 {

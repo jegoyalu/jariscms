@@ -6,19 +6,26 @@
  * https://opensource.org/licenses/GPL-3.0.
  *
  * Jaris CMS module info file
- *
- * @note You always need to create an info.php file for your modules.
  */
 
 $module["name"] = t("Hiawatha Cache");
 $module["description"] = t("Stores a cgi call output to the internal cache system of hiawatha when a url was successfully cached by JarisCMS built-in cache system.");
-$module["version"] = "1.0.2";
+$module["version"] = "1.0.4";
 $module["author"] = "Jefferson González";
 $module["email"] = "jgonzalez@jegoyalu.com";
 $module["website"] = "http://www.jegoyalu.com";
 
 
 /*
+
+Version 1.0.4 - Date 15/03/2017
+
+    * Removed Content-Length header since it seems it is working
+      now without it and using it causes issues.
+
+Version 1.0.3 - Date 07/03/2017
+
+    * Fixed non numeric value issue.
 
 Version 1.0.2 - Date 08/10/2016
 

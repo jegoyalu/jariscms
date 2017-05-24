@@ -12,7 +12,7 @@
 
 $module["name"] = t("Calendar");
 $module["description"] = t("Adds the ability to create calendars for publishing any kind of event or activity.");
-$module["version"] = "1.8";
+$module["version"] = "1.9";
 $module["author"] = "Jefferson González";
 $module["email"] = "jgonzalez@jegoyalu.com";
 $module["website"] = "http://www.jegoyalu.com";
@@ -20,6 +20,11 @@ $module["website"] = "http://www.jegoyalu.com";
 /*
 
 =Change Log=
+
+Version 1.9 - Date 26/02/2017
+
+    * Fixed issue on event edit/delete not allowing the author of an event
+      to delete or edit its own event.
 
 Version 1.8 - Date 03/12/2016
 

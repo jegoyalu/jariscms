@@ -50,6 +50,15 @@ row: 0
             )
             {
                 Jaris\View::addMessage(t("Module successfully deleted."));
+
+                t("Deleted module '{module_name}'.");
+
+                Jaris\Logger::info(
+                    "Deleted module '{module_name}'.",
+                    array(
+                        "module_name" => $_REQUEST["path"]
+                    )
+                );
             }
             else
             {

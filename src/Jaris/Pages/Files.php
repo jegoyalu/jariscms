@@ -312,34 +312,7 @@ static function printIt($file_uri)
         //Call print file hooks to allow modules customization
         Modules::hook("hook_print_file", $uri, $page_data, $file_uri, $file_data);
 
-        //First reset headers
-        header("Pragma: ");   //This one is set to no-cache so we disable it
-        header("Cache-Control: ");  //also set to no cache
-        header("Last-Modified: ");  //We try to reset to only send one date
-        header("Expires: ");   //We try to reset to only send one expiration date
-        header("X-Powered-By: "); //We remove the php powered by since we want to pass as normal file
-        //Set headers
-        header("Content-Disposition: inline; filename=" . urlencode($file_data['name']));
-        header("Content-Type: {$file_data['mime-type']}");
-        header("Content-Description: File Transfer");
-
-        //Strange problem with swf files not been fully downloaded.
-        if("" . strpos($file_data['name'], ".swf") . "" == "")
-            header("Content-Length: " . filesize($file_array["path"]));
-
-        //Print file to browser
-        ob_end_clean();
-        flush();
-
-        $fp = fopen($file_array["path"], "r");
-        while(!feof($fp))
-        {
-            echo fread($fp, 65536);
-            flush();
-        }
-        fclose($fp);
-
-        exit;
+        \Jaris\FileSystem::printFile($file_array["path"], $file_data["name"]);
     }
     else
     {

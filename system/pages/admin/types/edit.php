@@ -88,6 +88,15 @@ row: 0
                 if(Jaris\Types::edit($_REQUEST["type"], $fields))
                 {
                     Jaris\View::addMessage(t("Your changes have been saved."));
+
+                    t("Edited content type '{machine_name}'.");
+
+                    Jaris\Logger::info(
+                        "Edited content type '{machine_name}'.",
+                        array(
+                            "machine_name" => $_REQUEST["type"]
+                        )
+                    );
                 }
                 else
                 {
@@ -219,7 +228,7 @@ row: 0
             "fields" => $fields_inputformats,
             "name" => t("Default Input Format")
         );
-        
+
         $fields_approval = array();
 
         foreach(Jaris\Groups::getList() as $group_name => $machine_name)
@@ -228,11 +237,11 @@ row: 0
             {
                 continue;
             }
-            
+
             $fields_approval[] = array(
                 "type" => "checkbox",
                 "label" => t($group_name),
-                "checked" => $type_data["requires_approval"][$machine_name] ? 
+                "checked" => $type_data["requires_approval"][$machine_name] ?
                     true : false,
                 "name" => "requires_approval[$machine_name]",
                 "description" => t(Jaris\Groups::get($machine_name)["description"])

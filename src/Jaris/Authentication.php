@@ -325,13 +325,13 @@ static function protectedPage($permissions = array())
  * @return bool True if has permissions false otherwise.
  * @original user_has_permissions
  */
-static function userHasPermissions($permissions, $username = null)
+static function userHasPermissions($permissions, $username = "")
 {
     if(!self::isAdminLogged())
     {
         $group = self::currentUserGroup();
 
-        if($username != null)
+        if($username)
         {
             $user_data = Users::get($username);
             $group = $user_data["group"];

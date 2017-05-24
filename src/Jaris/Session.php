@@ -66,6 +66,21 @@ static function startIfUserLogged()
 }
 
 /**
+ * Close current session. Useful if current task
+ * doesn't needs a session anymore and we need to unlock
+ * the session for other requests to succeed in parallel.
+ */
+static function close()
+{
+    if(self::$session_started)
+    {
+        session_write_close();
+
+        self::$session_started = false;
+    }
+}
+
+/**
  * Unregisters and destroys a session with all its data.
  */
 static function destroy()
