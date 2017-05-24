@@ -1,20 +1,20 @@
 #!/usr/bin/env bash
 # Script with various utilities related to JarisCMS development.
 
-cd "$(dirname $0)"
+cd "$(dirname "$0")" || exit
 
 PHAN_PATH=vendor/etsy/phan/phan
 PHPLOC_PATH=vendor/phploc/phploc/phploc
 APIGEN_PATH=vendor/apigen/apigen/bin/apigen
 
-PHP_FOUND=`command -v php`
+PHP_FOUND=$(command -v php)
 
 if [ "$PHP_FOUND" = "" ]; then
     echo "Please install php (http://php.net/)"
     exit
 fi
 
-COMPOSER_FOUND=`command -v composer`
+COMPOSER_FOUND=$(command -v composer)
 
 if [ "$COMPOSER_FOUND" = "" ]; then
     echo "Please install composer (http://getcomposer.org/)"
@@ -61,14 +61,14 @@ showhelp()
     sanityze_cmd=$sanityze_cmd"              4 spaces instead of tabs and unix line endings instead of windows.\n"
     sanityze_cmd=$sanityze_cmd"              (requires: perl)"
 
-    local loc_cmd="  \e[32mloc\e[0m         Count the amount of lines of code (requres: phploc)."
+    local loc_cmd="  \e[32mloc\e[0m         Count the amount of lines of code (requires: phploc)."
 
     local loc_opt='  -core    Core sources.\n'
     loc_opt=$loc_opt'  -pages   Core pages sources.\n'
     loc_opt=$loc_opt'  -mods    Module sources.\n'
     loc_opt=$loc_opt'  -all     All sources. (default)'
 
-    echo -e $heading
+    echo -e "$heading"
 
     case $1 in
         'phan' )
@@ -122,6 +122,7 @@ showhelp()
             echo -e "$geanytags_cmd"
             echo -e "$tags_cmd"
             echo -e "$docs_cmd"
+            echo -e "$loc_cmd"
             echo -e "$sanityze_cmd"
             ;;
     esac
@@ -153,14 +154,14 @@ runprofiler()
     php -d zend_extension=xdebug.so \
         -d xdebug.profiler_enable=1 \
         -d xdebug.profiler_append=1 \
-        -d xdebug.profiler_output_dir=`pwd` \
+        -d xdebug.profiler_output_dir="$(pwd)" \
         -d xdebug.profiler_output_name=cachegrind.out \
         -S localhost:$port router.php
 }
 
 runhhvm()
 {
-    HHVM_FOUND=`command -v hhvm`
+    HHVM_FOUND=$(command -v hhvm)
 
     if [ "$HHVM_FOUND" = "" ]; then
         echo "Please install hhvm (http://hhvm.com/)"
@@ -182,7 +183,7 @@ runphan()
             echo "Checking core functions:"
             echo "========================================================================="
             $PHAN_PATH --minimum-severity=0 --backward-compatibility-checks \
-                --progress-bar `find src` index.php upload.php uris.php cron.php
+                --progress-bar $(find src) index.php upload.php uris.php cron.php
             exit
             ;;
         '-pages' )
@@ -190,8 +191,8 @@ runphan()
             echo "========================================================================="
             $PHAN_PATH --minimum-severity=0 --backward-compatibility-checks \
                 --progress-bar \
-                `find src` \
-                `find ./system -name "*.php"`
+                $(find src) \
+                $(find ./system -name "*.php")
             exit
             ;;
         '-mods' )
@@ -199,8 +200,8 @@ runphan()
             echo "========================================================================="
             $PHAN_PATH --minimum-severity=0 --backward-compatibility-checks \
                 --progress-bar \
-                `find src` \
-                `find ./modules -name "*.php"`
+                $(find src) \
+                $(find ./modules -name "*.php")
             exit
             ;;
         * )
@@ -212,7 +213,7 @@ runphan()
 
 rungeanytags()
 {
-    GEANY_FOUND=`command -v geany`
+    GEANY_FOUND=$(command -v geany)
 
     if [ "$GEANY_FOUND" = "" ]; then
         echo "Please install geany (http://geany.org/)"
@@ -220,11 +221,11 @@ rungeanytags()
     fi
 
     geany -g jariscms.php.tags \
-        `find . -type f -iname "*.php"`
+        $(find . -type f -iname "*.php")
 
-    mkdir -p $HOME/.config/geany/tags/
+    mkdir -p "$HOME"/.config/geany/tags/
 
-    cp -f jariscms.php.tags $HOME/.config/geany/tags/
+    cp -f jariscms.php.tags "$HOME"/.config/geany/tags/
 
     echo
     echo "======================================="
@@ -235,7 +236,7 @@ rungeanytags()
 
 runsanityzer()
 {
-    PERL_FOUND=`command -v perl`
+    PERL_FOUND=$(command -v perl)
 
     if [ "$PERL_FOUND" = "" ]; then
         echo "Please install perl (http://www.perl.org/)"
@@ -263,24 +264,24 @@ END_HEREDOC
     total_updated=0
     total_unchanged=0
 
-    for file in `eval $find_command`; do
+    for file in $(eval $find_command); do
         echo -n "Formatting ${file}... "
 
-        original_md5sum=`md5sum $file`
+        original_md5sum=$(md5sum "$file")
 
         # replace windows new lines with unix ones
-        perl -i -pe 's|\r\n$|\n|' $file
+        perl -i -pe 's|\r\n$|\n|' "$file"
 
         # trim lines
-        perl -i -pe 's|\s+\n$|\n|' $file
+        perl -i -pe 's|\s+\n$|\n|' "$file"
 
         # replace tabs with 4 spaces
-        expand -t 4 $file > expand.temp
-        cat expand.temp > $file
+        expand -t 4 "$file" > expand.temp
+        cat expand.temp > "$file"
         rm expand.temp
         #perl -i -pe 's|\t|    |g' $file
 
-        new_md5sum=`md5sum $file`
+        new_md5sum=$(md5sum "$file")
 
         total=$(($total + 1))
 
@@ -302,7 +303,7 @@ END_HEREDOC
 
 runctags()
 {
-    CTAGS_FOUND=`command -v ctags`
+    CTAGS_FOUND=$(command -v ctags)
 
     if [ "$CTAGS_FOUND" = "" ]; then
         echo "Please install ctags (http://ctags.sourceforge.net/)"
@@ -331,21 +332,21 @@ runloc()
 {
     case $1 in
         '-core' )
-            $PHPLOC_PATH --progress `find src`
+            $PHPLOC_PATH --progress $(find src)
             exit
             ;;
         '-pages' )
-            $PHPLOC_PATH --progress `find system/pages`
+            $PHPLOC_PATH --progress $(find system/pages)
             exit
             ;;
         '-mods' )
-            $PHPLOC_PATH --progress `find modules -name "*.php"`
+            $PHPLOC_PATH --progress $(find modules -name "*.php")
             exit
             ;;
         * )
-            $PHPLOC_PATH --progress `find src` \
-                `find system/pages` \
-                `find modules -name "*.php"`
+            $PHPLOC_PATH --progress $(find src) \
+                $(find system/pages) \
+                $(find modules -name "*.php")
             exit
             ;;
     esac
