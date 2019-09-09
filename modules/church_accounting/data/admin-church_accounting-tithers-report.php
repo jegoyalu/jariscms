@@ -17,12 +17,11 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("view_income_church_accounting"));
+        Jaris\Authentication::protectedPage(["view_income_church_accounting"]);
 
         $tither_data = church_accounting_tither_get($_REQUEST["id"]);
 
-        if(!is_array($tither_data))
-        {
+        if (!is_array($tither_data)) {
             Jaris\Uri::go(
                 Jaris\Modules::getPageUri(
                     "admin/church-accounting/tithers",
@@ -31,25 +30,22 @@ row: 0
             );
         }
 
-        $options = array();
+        $options = [];
 
         $month =  0;
-        if(trim($_REQUEST["month"]) != "")
-        {
+        if (trim($_REQUEST["month"]) != "") {
             $month = intval($_REQUEST["month"]);
             $options[] = "month=$month";
         }
 
         $year = 0;
-        if(trim($_REQUEST["year"]) != "")
-        {
+        if (trim($_REQUEST["year"]) != "") {
             $year = intval($_REQUEST["year"]);
             $options[] = "year=$year";
         }
 
         $where = "";
-        if(count($options) > 0)
-        {
+        if (count($options) > 0) {
             $where = " and " . implode(" and ", $options);
         }
 
@@ -65,11 +61,11 @@ row: 0
                 "admin/church-accounting/tithers/report/print",
                 "church_accounting"
             ),
-            array(
+            [
                 "month" => $_REQUEST["month"],
                 "year" => $_REQUEST["year"],
                 "id" => $_REQUEST["id"]
-            )
+            ]
         );
 
         print "<form class=\"filter-results\" method=\"get\" action=\""
@@ -81,12 +77,10 @@ row: 0
         print "<div style=\"float: left\">";
         print t("Month:") . " <select name=\"month\">\n";
         print "<option value=\"\">" . t("All") . "</option>\n";
-        foreach(Jaris\Date::getMonths() as $month_name=>$month_value)
-        {
+        foreach (Jaris\Date::getMonths() as $month_name=>$month_value) {
             $selected = "";
 
-            if($_REQUEST["month"] == $month_value)
-            {
+            if ($_REQUEST["month"] == $month_value) {
                 $selected = "selected=\"selected\"";
             }
 
@@ -96,12 +90,10 @@ row: 0
 
         print t("Year:") . " <select onchange=\"javascript: this.form.submit()\" name=\"year\">\n";
         print "<option value=\"\">" . t("All") . "</option>\n";
-        foreach(Jaris\Date::getYears() as $year_index=>$year_value)
-        {
+        foreach (Jaris\Date::getYears() as $year_index=>$year_value) {
             $selected = "";
 
-            if($_REQUEST["year"] == $year_value)
-            {
+            if ($_REQUEST["year"] == $year_value) {
                 $selected = "selected=\"selected\"";
             }
 
@@ -118,13 +110,14 @@ row: 0
         $theme = Jaris\Site::$theme;
 
         ob_start();
-        if(file_exists(Jaris\Themes::directory($theme) . "church-accounting-tither-report.php"))
+        if (file_exists(Jaris\Themes::directory($theme) . "church-accounting-tither-report.php")) {
             include(Jaris\Themes::directory($theme) . "church-accounting-tither-report.php");
-        else
+        } else {
             include(
                 Jaris\Modules::directory("church_accounting")
                 . "templates/church-accounting-tither-report.php"
             );
+        }
         $output = ob_get_contents();
         ob_end_clean();
 

@@ -12,50 +12,46 @@
 
  Jaris\Signals\SignalHandler::listenWithParams(
      Jaris\Site::SIGNAL_PAGE_DATA,
-    function(&$page_data)
-    {
-        global $comments_display;
+     function (&$page_data) {
+         global $comments_display;
 
-        if(empty($page_data[0]["type"]))
-            return;
+         if (empty($page_data[0]["type"])) {
+             return;
+         }
 
-        $comment_settings = comments_get_settings($page_data[0]["type"]);
+         $comment_settings = comments_get_settings($page_data[0]["type"]);
 
-        if($comment_settings["enabled"])
-        {
-            if(
+         if ($comment_settings["enabled"]) {
+             if (
                 Jaris\Authentication::groupHasPermission(
                     "view_comments",
                     Jaris\Authentication::currentUserGroup()
                 )
-            )
-            {
-                Jaris\View::addStyle(
+            ) {
+                 Jaris\View::addStyle(
                     Jaris\Modules::directory("comments")
                         . "styles/comments.css"
                 );
 
-                Jaris\View::addSystemScript("optional/jquery.limit.js");
+                 Jaris\View::addSystemScript("optional/jquery.limit.js");
 
-                Jaris\View::addScript(
+                 Jaris\View::addScript(
                     Jaris\Modules::directory("comments")
                         . "scripts/comments.js"
                 );
 
-                $comments_display = true;
-            }
-        }
-    }
+                 $comments_display = true;
+             }
+         }
+     }
 );
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\View::SIGNAL_THEME_SCRIPTS,
-    function(&$scripts, &$scripts_code)
-    {
+    function (&$scripts, &$scripts_code) {
         global $comments_display;
 
-        if($comments_display)
-        {
+        if ($comments_display) {
             $page_data = Jaris\Site::$page_data;
 
             $comment_settings = comments_get_settings($page_data[0]["type"]);
@@ -126,22 +122,20 @@ SCRIPT;
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\View::SIGNAL_THEME_CONTENT,
-    function(&$content, &$content_title, &$content_data)
-    {
-        if(empty($content_data["type"]))
+    function (&$content, &$content_title, &$content_data) {
+        if (empty($content_data["type"])) {
             return;
+        }
 
         $comment_settings = comments_get_settings($content_data["type"]);
 
-        if($comment_settings["enabled"])
-        {
-            if(
+        if ($comment_settings["enabled"]) {
+            if (
                 Jaris\Authentication::groupHasPermission(
                     "view_comments",
                     Jaris\Authentication::currentUserGroup()
                 )
-            )
-            {
+            ) {
                 $comments_content = comments_print_post();
 
                 $comments_content .= "<h3 class=\"comments-head\">"
@@ -149,44 +143,39 @@ Jaris\Signals\SignalHandler::listenWithParams(
                     . "</h3>"
                 ;
 
-                if(Jaris\Authentication::isUserLogged())
-                {
+                if (Jaris\Authentication::isUserLogged()) {
                     $comments_content .= "<div class=\"comments-header-buttons\">";
 
-                    if(Jaris\Authentication::isAdminLogged())
-                    {
+                    if (Jaris\Authentication::isAdminLogged()) {
                         $comments_content .= "<a class=\"button subscribe-all\" href=\"" .
                             Jaris\Uri::url(
                                 Jaris\Modules::getPageUri("comments/subscribe-all", "comments"),
-                                array("uri" => Jaris\Uri::get())
+                                ["uri" => Jaris\Uri::get()]
                             ) . "\" title=\"" .
                             t("subscribe all users that have participated on the comments to receive notifications") .
                             "\">" . t("Subscribe All") . "</a>"
                         ;
                     }
 
-                    if(
+                    if (
                         comments_notifications_is_subscribed(
                             Jaris\Authentication::currentUser(),
                             Jaris\Uri::get()
                         )
-                    )
-                    {
+                    ) {
                         $comments_content .= "<a class=\"button subscribe\" href=\"" .
                             Jaris\Uri::url(
                                 Jaris\Modules::getPageUri("comments/unsubscribe", "comments"),
-                                array("uri" => Jaris\Uri::get())
+                                ["uri" => Jaris\Uri::get()]
                             ) . "\" title=\"" .
                             t("do not receive e-mail notifications of new comments") .
                             "\">" . t("Unsubscribe") . "</a>"
                         ;
-                    }
-                    else
-                    {
+                    } else {
                         $comments_content .= "<a class=\"button unsubscribe\" href=\"" .
                             Jaris\Uri::url(
                                 Jaris\Modules::getPageUri("comments/subscribe", "comments"),
-                                array("uri" => Jaris\Uri::get())
+                                ["uri" => Jaris\Uri::get()]
                             ) . "\" title=\"" .
                             t("receive e-mail notifications of new comments") .
                             "\">" . t("Subscribe") . "</a>"
@@ -209,10 +198,8 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\Groups::SIGNAL_SET_GROUP_PERMISSION,
-    function(&$permissions, $group)
-    {
-        if($group != "guest")
-        {
+    function (&$permissions, $group) {
+        if ($group != "guest") {
             $comments["view_comments"] = t("View");
             $comments["add_comments"] = t("Add");
             $comments["edit_comments"] = t("Edit");
@@ -221,9 +208,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
             $comments["manage_comments_flags"] = t("Manage Flags");
 
             $permissions[t("Comments")] = $comments;
-        }
-        else
-        {
+        } else {
             $comments["view_comments"] = t("View");
             $comments["flag_comments"] = t("Flag");
 
@@ -234,24 +219,20 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\System::SIGNAL_GENERATE_ADMIN_PAGE,
-    function(&$sections)
-    {
+    function (&$sections) {
         $group = Jaris\Authentication::currentUserGroup();
 
         $title = t("Content");
 
-        foreach($sections as $index => $sub_section)
-        {
-            if($sub_section["title"] == $title)
-            {
-                if(
+        foreach ($sections as $index => $sub_section) {
+            if ($sub_section["title"] == $title) {
+                if (
                     Jaris\Authentication::groupHasPermission(
                         "manage_comments_flags",
                         Jaris\Authentication::currentUserGroup()
                     )
-                )
-                {
-                    $sub_section["sub_sections"][] = array(
+                ) {
+                    $sub_section["sub_sections"][] = [
                         "title" => t("Manage Comment Flags"),
                         "url" => Jaris\Uri::url(
                             Jaris\Modules::getPageUri(
@@ -260,7 +241,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
                             )
                         ),
                         "description" => t("To see which comments has been flagged and delete them.")
-                    );
+                    ];
 
                     $sections[$index]["sub_sections"] = $sub_section["sub_sections"];
                 }
@@ -273,8 +254,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\Pages::SIGNAL_DELETE_PAGE,
-    function(&$page, &$page_path)
-    {
+    function (&$page, &$page_path) {
         $fields["uri"] = $page;
 
         Jaris\Sql::escapeArray($fields);
@@ -289,43 +269,38 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\Users::SIGNAL_PRINT_USER_PAGE,
-    function(&$content, &$tabs)
-    {
-        if(
+    function (&$content, &$tabs) {
+        if (
             Jaris\Authentication::groupHasPermission(
                 "add_comments",
                 Jaris\Authentication::currentUserGroup()
             )
-        )
-        {
-            $tabs[t("Comments")] = array(
+        ) {
+            $tabs[t("Comments")] = [
                 "uri" => Jaris\Modules::getPageUri(
                     "comments/user",
                     "comments"
                 )
-            );
+            ];
         }
     }
 );
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\View::SIGNAL_THEME_TABS,
-    function(&$tabs_array)
-    {
-        if(Jaris\Uri::get() == "admin/types/edit")
-        {
-            $tabs_array[0][t("Comments")] = array(
+    function (&$tabs_array) {
+        if (Jaris\Uri::get() == "admin/types/edit") {
+            $tabs_array[0][t("Comments")] = [
                 "uri" => Jaris\Modules::getPageUri("admin/types/comments", "comments"),
-                "arguments" => array("type" => $_REQUEST["type"])
-            );
+                "arguments" => ["type" => $_REQUEST["type"]]
+            ];
         }
     }
 );
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\Site::SIGNAL_CRONJOB,
-    function()
-    {
+    function () {
         $db = Jaris\Sql::open("comments");
 
         // Get the count of comments in order to open/close database while sending notifications
@@ -337,8 +312,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
         unset($results);
         Jaris\Sql::close($db);
 
-        for($comment = 0; $comment < $comments_count; $comment++)
-        {
+        for ($comment = 0; $comment < $comments_count; $comment++) {
             $db = Jaris\Sql::open("comments");
 
             $result = Jaris\Sql::query(
@@ -369,8 +343,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
             $data_comment = Jaris\Sql::fetchArray($result_page_comments);
             unset($result_page_comments);
 
-            if($data_comment["reply_to"] > 0)
-            {
+            if ($data_comment["reply_to"] > 0) {
                 $result_page_comments = Jaris\Sql::query(
                     "select * from comments where id={$data_comment["reply_to"]}",
                     $db_page_comments
@@ -406,8 +379,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
             Jaris\Sql::close($db_subscribers);
 
-            for($subscriber = 0; $subscriber < $subscribers_count; $subscriber++)
-            {
+            for ($subscriber = 0; $subscriber < $subscribers_count; $subscriber++) {
                 $db_subscribers = Jaris\Sql::open(
                     "comments_subscribers",
                     comments_page_path($data["uri"])
@@ -431,28 +403,25 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
                 $notify = true;
 
-                if($notification_type == "replies")
-                {
-                    if($reply_to != $data_subscribers["user"])
-                    {
+                if ($notification_type == "replies") {
+                    if ($reply_to != $data_subscribers["user"]) {
                         $notify = false;
                     }
-                }
-                elseif($notification_type == "none")
-                {
+                } elseif ($notification_type == "none") {
                     $notify = false;
                 }
 
                 // Notifications to content author are sent from add/comment
-                if($page_data["author"] == $data_subscribers["user"])
+                if ($page_data["author"] == $data_subscribers["user"]) {
                     $notify = false;
+                }
 
-                if($data_comment["user"] == $data_subscribers["user"])
+                if ($data_comment["user"] == $data_subscribers["user"]) {
                     $notify = false;
+                }
 
-                if($notify)
-                {
-                    $to = array();
+                if ($notify) {
+                    $to = [];
                     $to[$user_data["name"]] = $user_data["email"];
 
                     $subject = t("A new comment has been posted on:")
@@ -460,18 +429,20 @@ Jaris\Signals\SignalHandler::listenWithParams(
                         . $page_data["title"]
                     ;
 
-                    if($notification_type == "replies")
+                    if ($notification_type == "replies") {
                         $subject = t("A new reply has been posted on:")
                             . " "
                             . $page_data["title"]
                         ;
+                    }
 
                     $html_message = t("A user posted the following comment:") . "<br /><br />";
 
-                    if($notification_type == "replies")
+                    if ($notification_type == "replies") {
                         $html_message = t("A user replied with the following comment:")
                             . "<br /><br />"
                         ;
+                    }
 
                     $html_message .= "<b>"
                         . $comment_user_data["name"]
@@ -490,7 +461,8 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
                     $html_message .= "<a target=\"_blank\" href=\"" .
                         Jaris\Uri::url(
-                            "admin/user", array("return" => $data["uri"])
+                            "admin/user",
+                            ["return" => $data["uri"]]
                         ) . "\">" . Jaris\Uri::url($data["uri"]) . "</a>"
                     ;
 

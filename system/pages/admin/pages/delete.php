@@ -15,8 +15,7 @@ exit;
 row: 0
     field: title
     <?php
-        if(!isset($_REQUEST["uri"]))
-        {
+        if (!isset($_REQUEST["uri"])) {
             Jaris\Uri::go("");
         }
 
@@ -28,85 +27,74 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("delete_content"));
+        Jaris\Authentication::protectedPage(["delete_content"]);
 
-        if(!Jaris\Pages::userIsOwner($_REQUEST["uri"]))
-        {
+        if (!Jaris\Pages::userIsOwner($_REQUEST["uri"])) {
             Jaris\Authentication::protectedPage();
         }
 
-        $arguments = array(
+        $arguments = [
             "uri" => $_REQUEST["uri"]
-        );
+        ];
 
         //Tabs
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
                 "edit_content",
                 Jaris\Authentication::currentUserGroup()
             )
-        )
-        {
+        ) {
             Jaris\View::addTab(t("Edit"), "admin/pages/edit", $arguments);
         }
         Jaris\View::addTab(t("View"), $_REQUEST["uri"]);
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
                 "view_content_blocks",
                 Jaris\Authentication::currentUserGroup()
             )
-        )
-        {
+        ) {
             Jaris\View::addTab(t("Blocks"), "admin/pages/blocks", $arguments);
         }
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
                 "view_images",
                 Jaris\Authentication::currentUserGroup()
             )
-        )
-        {
+        ) {
             Jaris\View::addTab(t("Images"), "admin/pages/images", $arguments);
         }
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
                 "view_files",
                 Jaris\Authentication::currentUserGroup()
             )
-        )
-        {
+        ) {
             Jaris\View::addTab(t("Files"), "admin/pages/files", $arguments);
         }
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
                 "translate_languages",
                 Jaris\Authentication::currentUserGroup()
             )
-        )
-        {
+        ) {
             Jaris\View::addTab(t("Translate"), "admin/pages/translate", $arguments);
         }
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
                 "delete_content",
                 Jaris\Authentication::currentUserGroup()
             )
-        )
-        {
+        ) {
             Jaris\View::addTab(t("Delete"), "admin/pages/delete", $arguments);
         }
 
         $page_data = Jaris\Pages::get($_REQUEST["uri"]);
 
-        if(isset($_REQUEST["btnYes"]))
-        {
+        if (isset($_REQUEST["btnYes"])) {
             //Delete page
-            if(Jaris\Pages::delete($_REQUEST["uri"]))
-            {
+            if (Jaris\Pages::delete($_REQUEST["uri"])) {
                 Jaris\View::addMessage(t("Page successfully deleted."));
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(
                     Jaris\System::errorMessage("write_error_data"),
                     "error"
@@ -114,48 +102,37 @@ row: 0
             }
 
             //Also delete page translations
-            if(Jaris\Translate::deletePage($_REQUEST["uri"]))
-            {
+            if (Jaris\Translate::deletePage($_REQUEST["uri"])) {
                 Jaris\View::addMessage(t("Translations successfully deleted."));
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(
                     Jaris\System::errorMessage("translations_not_deleted"),
                     "error"
                 );
             }
 
-            if(
+            if (
                 !Jaris\Authentication::groupHasPermission(
                     "view_content",
                     Jaris\Authentication::currentUserGroup()
                 )
-            )
-            {
+            ) {
                 Jaris\Uri::go("admin/user/content");
-            }
-            else
-            {
+            } else {
                 Jaris\Uri::go("admin/pages");
             }
-        }
-        elseif(isset($_REQUEST["btnNo"]))
-        {
-            if(
+        } elseif (isset($_REQUEST["btnNo"])) {
+            if (
                 Jaris\Authentication::groupHasPermission(
                     "edit_content",
                     Jaris\Authentication::currentUserGroup()
                 )
-            )
-            {
+            ) {
                 Jaris\Uri::go(
                     "admin/pages/edit",
-                    array("uri" => $_REQUEST["uri"])
+                    ["uri" => $_REQUEST["uri"]]
                 );
-            }
-            else
-            {
+            } else {
                 Jaris\Uri::go($_REQUEST["uri"]);
             }
         }

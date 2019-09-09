@@ -19,27 +19,26 @@ class Date
  *
  * @return array A list of day numbers.
  */
-static function getDays(): array
-{
-    $dates = array();
-
-    for($i = 1; $i <= 31; $i++)
+    public static function getDays(): array
     {
-        $dates[$i] = $i;
+        $dates = [];
+
+        for ($i = 1; $i <= 31; $i++) {
+            $dates[$i] = $i;
+        }
+
+        return $dates;
     }
 
-    return $dates;
-}
-
-/**
- * static function that returns a months array ready for selects
- * on generate form functions.
- *
- * @return array A list of month days.
- */
-static function getMonths(): array
-{
-    $months = array(
+    /**
+     * static function that returns a months array ready for selects
+     * on generate form functions.
+     *
+     * @return array A list of month days.
+     */
+    public static function getMonths(): array
+    {
+        $months = [
         t("January") => 1,
         t("February") => 2,
         t("March") => 3,
@@ -52,125 +51,121 @@ static function getMonths(): array
         t("October") => 10,
         t("November") => 11,
         t("December") => 12
-    );
+    ];
 
-    return $months;
-}
-
-/**
- * static function that returns a years array ready for
- * selects on generate form functions.
- *
- * @param int $additional_years
- *
- * @return array A list of year numbers.
- */
-static function getYears(int $additional_years=0): array
-{
-    $current_year = date("Y", time());
-    $current_year += $additional_years;
-
-    $years = array();
-
-    for($i = 1900; $i <= $current_year; $i++)
-    {
-        $years[$i] = $i;
+        return $months;
     }
 
-    arsort($years);
-
-    return $years;
-}
-
-/**
- * Get the amount of time in a easy to read human format.
- *
- * @param int $fromtimestamp Should be lower number than $totimestamp
- * @param int $totimestamp Should be higher number than $fromtimestamp
- * @param bool $ago Enables or disables the addition of ago predicate.
- *
- * @return string
- */
-static function getElapsedTime(
-    int $fromtimestamp, int $totimestamp=0, bool $ago = true
-): string
-{
-    if($totimestamp == 0)
-        $totimestamp = time();
-
-    $etime = $totimestamp - $fromtimestamp;
-
-    if($etime < 1)
+    /**
+     * static function that returns a years array ready for
+     * selects on generate form functions.
+     *
+     * @param int $additional_years
+     *
+     * @return array A list of year numbers.
+     */
+    public static function getYears(int $additional_years=0): array
     {
-        return t('0 seconds');
+        $current_year = date("Y", time());
+        $current_year += $additional_years;
+
+        $years = [];
+
+        for ($i = 1900; $i <= $current_year; $i++) {
+            $years[$i] = $i;
+        }
+
+        arsort($years);
+
+        return $years;
     }
 
-    $a = array(
-        12 * 30 * 24 * 60 * 60 => array(t('year'), t('years')),
-        30 * 24 * 60 * 60 => array(t('month'), t('months')),
-        24 * 60 * 60 => array(t('day'), t('days')),
-        60 * 60 => array(t('hour'), t('hours')),
-        60 => array(t('minute'), t('minutes')),
-        1 => array(t('second'), t('seconds'))
-    );
+    /**
+     * Get the amount of time in a easy to read human format.
+     *
+     * @param int $fromtimestamp Should be lower number than $totimestamp
+     * @param int $totimestamp Should be higher number than $fromtimestamp
+     * @param bool $ago Enables or disables the addition of ago predicate.
+     *
+     * @return string
+     */
+    public static function getElapsedTime(
+    int $fromtimestamp,
+    int $totimestamp=0,
+    bool $ago = true
+): string {
+        if ($totimestamp == 0) {
+            $totimestamp = time();
+        }
 
-    foreach($a as $secs => $labels)
-    {
-        $d = $etime / $secs;
+        $etime = $totimestamp - $fromtimestamp;
 
-        if($d >= 1)
-        {
-            $time = round($d);
+        if ($etime < 1) {
+            return t('0 seconds');
+        }
 
-            if($time > 1)
-                $period = $labels[1];
-            else
-                $period = $labels[0];
+        $a = [
+        12 * 30 * 24 * 60 * 60 => [t('year'), t('years')],
+        30 * 24 * 60 * 60 => [t('month'), t('months')],
+        24 * 60 * 60 => [t('day'), t('days')],
+        60 * 60 => [t('hour'), t('hours')],
+        60 => [t('minute'), t('minutes')],
+        1 => [t('second'), t('seconds')]
+    ];
 
-            $output = t('{time} {period} ago');
+        foreach ($a as $secs => $labels) {
+            $d = $etime / $secs;
 
-            if(!$ago)
-            {
-                $output = t('{time} {period}');
-            }
+            if ($d >= 1) {
+                $time = round($d);
 
-            return str_replace(
-                array("{time}", "{period}"),
-                array($time, $period),
+                if ($time > 1) {
+                    $period = $labels[1];
+                } else {
+                    $period = $labels[0];
+                }
+
+                $output = t('{time} {period} ago');
+
+                if (!$ago) {
+                    $output = t('{time} {period}');
+                }
+
+                return str_replace(
+                ["{time}", "{period}"],
+                [$time, $period],
                 $output
             );
+            }
         }
     }
-}
 
-/**
- * Get the amount of days from one timestamp to the other.
- *
- * @param int $fromtimestamp Should be lower number than $totimestamp
- * @param int $totimestamp Should be higher number than $fromtimestamp
- *
- * @return int
- */
-static function getElapsedDays(int $fromtimestamp, int $totimestamp=0): int
-{
-    if($totimestamp == 0)
-        $totimestamp = time();
-
-    $etime = $totimestamp - $fromtimestamp;
-
-    if($etime < 1)
+    /**
+     * Get the amount of days from one timestamp to the other.
+     *
+     * @param int $fromtimestamp Should be lower number than $totimestamp
+     * @param int $totimestamp Should be higher number than $fromtimestamp
+     *
+     * @return int
+     */
+    public static function getElapsedDays(int $fromtimestamp, int $totimestamp=0): int
     {
+        if ($totimestamp == 0) {
+            $totimestamp = time();
+        }
+
+        $etime = $totimestamp - $fromtimestamp;
+
+        if ($etime < 1) {
+            return 0;
+        }
+
+        $days = $etime / (24 * 60 * 60);
+
+        if ($days >= 1) {
+            return (int) round($days);
+        }
+
         return 0;
     }
-
-    $days = $etime / (24 * 60 * 60);
-
-    if($days >= 1)
-    {
-        return (int) round($days);
-    }
-
-    return 0;
-}
-
 }

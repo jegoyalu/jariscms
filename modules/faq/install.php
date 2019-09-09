@@ -20,5 +20,3 @@ function faq_install()
 
     Jaris\Types::add("faq", $new_type);
 }
-
-?>

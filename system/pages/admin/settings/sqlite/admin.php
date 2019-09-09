@@ -19,28 +19,31 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("edit_settings"));
+        Jaris\Authentication::protectedPage(["edit_settings"]);
     ?>
     <?php
         function adminer_object()
         {
-            class AdminerJaris extends Adminer {
-                function name() {
+            class AdminerJaris extends Adminer
+            {
+                public function name()
+                {
                     // custom name in title and heading
                     return Jaris\Settings::get("title", "main");
                 }
 
-                function login($login, $password) {
+                public function login($login, $password)
+                {
                     // validate user submitted credentials
                     return true;
                 }
 
-                function databases($flush=false) {
+                public function databases($flush=false)
+                {
                     $databases = Jaris\Sql::listDB();
                     sort($databases);
 
-                    foreach($databases as &$db)
-                    {
+                    foreach ($databases as &$db) {
                         $db = Jaris\Site::dataDir() . "sqlite/" . $db;
                     }
 

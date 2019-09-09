@@ -19,30 +19,26 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("view_languages"));
+        Jaris\Authentication::protectedPage(["view_languages"]);
 
         $info = null;
 
-        if(isset($_REQUEST["code"]))
-        {
+        if (isset($_REQUEST["code"])) {
             $info = Jaris\Language::getInfo($_REQUEST["code"]);
-        }
-        else
-        {
+        } else {
             Jaris\Uri::go("admin/languages");
         }
 
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
                 "edit_languages",
                 Jaris\Authentication::currentUserGroup()
             )
-        )
-        {
+        ) {
             Jaris\View::addTab(
                 t("Edit Info"),
                 "admin/languages/edit-info",
-                array("code" => $_REQUEST["code"])
+                ["code" => $_REQUEST["code"]]
             );
         }
     ?>
@@ -71,7 +67,7 @@ row: 0
                 </a>
             </div>
 
-            <?php if(trim($info["contributors"]) != ""){ ?>
+            <?php if (trim($info["contributors"]) != "") { ?>
                 <hr />
                 <div>
                     <span class="label"><?php print t("Contributors:") ?></span>

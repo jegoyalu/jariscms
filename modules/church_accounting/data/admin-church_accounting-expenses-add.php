@@ -17,7 +17,7 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("add_expenses_church_accounting"));
+        Jaris\Authentication::protectedPage(["add_expenses_church_accounting"]);
     ?>
     <script type="text/javascript">
         row_id = 1;
@@ -71,12 +71,11 @@ row: 0
     </script>
     <?php
 
-        if(
+        if (
             isset($_REQUEST["btnSave"]) &&
             !Jaris\Forms::requiredFieldEmpty("add-expense")
-        )
-        {
-            $data = array(
+        ) {
+            $data = [
                 "day" => $_REQUEST["day"],
                 "month" => $_REQUEST["month"],
                 "year" => $_REQUEST["year"],
@@ -84,44 +83,38 @@ row: 0
                 "description" => $_REQUEST["description"],
                 "prepared_by" => $_REQUEST["prepared_by"],
                 "verified_by" => $_REQUEST["verified_by"]
-            );
+            ];
 
-            $ckecks = array();
-            if(isset($_REQUEST["checks"]["number"]))
-            {
-                foreach($_REQUEST["checks"]["number"] as $index=>$value)
-                {
-                    $checks[] = array(
+            $ckecks = [];
+            if (isset($_REQUEST["checks"]["number"])) {
+                foreach ($_REQUEST["checks"]["number"] as $index=>$value) {
+                    $checks[] = [
                         "number"=>$value,
                         "paid_to"=>$_REQUEST["checks"]["paid_to"][$index],
                         "amount"=>$_REQUEST["checks"]["amount"][$index]
-                    );
+                    ];
                 }
             }
             $data["checks"] = $checks;
 
-            $items = array();
-            if(isset($_REQUEST["items_data"]["description"]))
-            {
-                foreach($_REQUEST["items_data"]["description"] as $index=>$value)
-                {
-                    $items[] = array(
+            $items = [];
+            if (isset($_REQUEST["items_data"]["description"])) {
+                foreach ($_REQUEST["items_data"]["description"] as $index=>$value) {
+                    $items[] = [
                         "description"=>$value,
                         "amount"=>$_REQUEST["items_data"]["amount"][$index]
-                    );
+                    ];
                 }
             }
             $data["items_data"] = $items;
 
-            $attachments = array();
-            if(is_array($_FILES["attachments"]["name"]))
-            {
-                foreach($_FILES["attachments"]["name"] as $file_index => $file_name)
-                {
-                    $attachments[] = array(
+            $attachments = [];
+            if (is_array($_FILES["attachments"]["name"])) {
+                foreach ($_FILES["attachments"]["name"] as $file_index => $file_name) {
+                    $attachments[] = [
                         "name" => $file_name,
                         "tmp_name" => $_FILES["attachments"]["tmp_name"][$file_index]
-                    );
+                    ];
                 }
             }
             $data["attachments"] = $attachments;
@@ -136,9 +129,7 @@ row: 0
                     "church_accounting"
                 )
             );
-        }
-        elseif(isset($_REQUEST["btnCancel"]))
-        {
+        } elseif (isset($_REQUEST["btnCancel"])) {
             Jaris\Uri::go(
                 Jaris\Modules::getPageUri(
                     "admin/church-accounting/expenses",
@@ -152,7 +143,7 @@ row: 0
         $parameters["action"] = Jaris\Uri::url(Jaris\Uri::get());
         $parameters["method"] = "post";
 
-        $fields_date[] = array(
+        $fields_date[] = [
             "type" => "select",
             "name" => "day",
             "label" => t("Day:"),
@@ -160,9 +151,9 @@ row: 0
             "selected" => isset($_REQUEST["day"]) ?
                 $_REQUEST["day"] : date("j", time()),
             "inline" => true
-        );
+        ];
 
-        $fields_date[] = array(
+        $fields_date[] = [
             "type" => "select",
             "name" => "month",
             "label" => t("Month:"),
@@ -170,9 +161,9 @@ row: 0
             "selected" => isset($_REQUEST["month"]) ?
                 $_REQUEST["month"] : date("n", time()),
             "inline" => true
-        );
+        ];
 
-        $fields_date[] = array(
+        $fields_date[] = [
             "type" => "select",
             "name" => "year",
             "label" => t("Year:"),
@@ -180,45 +171,43 @@ row: 0
             "selected" => isset($_REQUEST["year"]) ?
                 $_REQUEST["year"] : date("Y", time()),
             "inline" => true
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "name" => t("Date"),
             "fields" => $fields_date,
             "description" => t("Date when the offerings where received.")
-        );
+        ];
 
         $categories = church_accounting_category_list(
             ChurchAccountingCategory::EXPENSE
         );
 
-        $categories_list = array();
-        foreach($categories as $category_id=>$category_name)
-        {
+        $categories_list = [];
+        foreach ($categories as $category_id=>$category_name) {
             $categories_list[t($category_name)] = $category_id;
         }
 
-        if(count($categories_list) > 0)
-        {
-            $fields[] = array(
+        if (count($categories_list) > 0) {
+            $fields[] = [
                 "type" => "select",
                 "name" => "category",
                 "value" => $categories_list,
                 "selected" => $_REQUEST["category"],
                 "label" => t("Category:"),
                 "description" => t("The category that best apply for this entry.")
-            );
+            ];
         }
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "textarea",
             "name" => "description",
             "value" => $_REQUEST["description"],
             "label" => t("Description:"),
             "description" => t("A brief or detailed description about the expenses.")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
         $items_html = "<table id=\"items-data-table\" style=\"width: 100%\">";
         $items_html .= "<thead>";
@@ -233,14 +222,14 @@ row: 0
         $items_html .= "</table>";
         $items_html .= "<a id=\"add-item-data\" style=\"cursor: pointer; display: block; margin-top: 8px\">" . t("Add expense") . "</a>";
 
-        $fields_items[] = array("type" => "other", "html_code" => $items_html);
+        $fields_items[] = ["type" => "other", "html_code" => $items_html];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "name" => t("Expenses"),
             "fields" => $fields_items,
             "collapsible" => true,
             "description" => t("A list of expenses.")
-        );
+        ];
 
         $subject_html = "<table id=\"items-table\" style=\"width: 100%\">";
         $subject_html .= "<thead>";
@@ -256,60 +245,60 @@ row: 0
         $subject_html .= "</table>";
         $subject_html .= "<a id=\"add-item\" style=\"cursor: pointer; display: block; margin-top: 8px\">" . t("Add check") . "</a>";
 
-        $fields_checks[] = array("type" => "other", "html_code" => $subject_html);
+        $fields_checks[] = ["type" => "other", "html_code" => $subject_html];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "name" => t("Checks"),
             "fields" => $fields_checks,
             "collapsible" => true,
             "description" => t("Checks used to pay the expenses.")
-        );
+        ];
 
-        $fields_attachments[] = array(
+        $fields_attachments[] = [
             "type" => "file",
             "name" => "attachments",
             "multiple" => true,
             "label" => t("Files:")
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "name" => t("Attachments"),
             "fields" => $fields_attachments,
             "collapsible" => true,
             "description" => t("You can attach any file type like photos of checks, etc...")
-        );
+        ];
 
-        $fields_other[] = array(
+        $fields_other[] = [
             "type" => "user",
             "name" => "prepared_by",
             "value" => isset($_REQUEST["prepared_by"]) ?
                 $_REQUEST["prepared_by"] : Jaris\Authentication::currentUser(),
             "label" => t("Prepared by:"),
             "description" => t("The treasurer or person who entered this data.")
-        );
+        ];
 
-        $fields_other[] = array(
+        $fields_other[] = [
             "type" => "user",
             "name" => "verified_by",
             "value" => isset($_REQUEST["verified_by"]) ?
                 $_REQUEST["verified_by"] : "",
             "label" => t("Verified by:"),
             "description" => t("The sub-treasurer or person who verified this data.")
-        );
+        ];
 
-        $fields_other[] = array(
+        $fields_other[] = [
             "type" => "submit",
             "name" => "btnSave",
             "value" => t("Save")
-        );
+        ];
 
-        $fields_other[] = array(
+        $fields_other[] = [
             "type" => "submit",
             "name" => "btnCancel",
             "value" => t("Cancel")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields_other);
+        $fieldset[] = ["fields" => $fields_other];
 
         print Jaris\Forms::generate($parameters, $fieldset);
     ?>

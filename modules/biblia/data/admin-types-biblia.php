@@ -17,39 +17,33 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("view_types", "edit_types"));
+        Jaris\Authentication::protectedPage(["view_types", "edit_types"]);
 
         //Get exsiting settings or defualt ones if main settings table doesn't exist
         $settings = biblia_get_settings($_REQUEST["type"]);
 
-        if(isset($_REQUEST["btnSave"]))
-        {
-            $data = array(
+        if (isset($_REQUEST["btnSave"])) {
+            $data = [
                 "enabled" => $_REQUEST["enabled"],
                 "biblia" => $_REQUEST["biblia"]
-            );
+            ];
 
             //Check if write is possible and continue to write settings
-            if(Jaris\Settings::save($_REQUEST["type"], serialize($data), "biblia"))
-            {
+            if (Jaris\Settings::save($_REQUEST["type"], serialize($data), "biblia")) {
                 Jaris\View::addMessage("Tus configuraciones fueron guardadas.");
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(Jaris\System::errorMessage("write_error_data"), "error");
             }
 
-            Jaris\Uri::go("admin/types/edit", array("type" => $_REQUEST["type"]));
-        }
-        elseif(isset($_REQUEST["btnCancel"]))
-        {
-            Jaris\Uri::go("admin/types/edit", array("type" => $_REQUEST["type"]));
+            Jaris\Uri::go("admin/types/edit", ["type" => $_REQUEST["type"]]);
+        } elseif (isset($_REQUEST["btnCancel"])) {
+            Jaris\Uri::go("admin/types/edit", ["type" => $_REQUEST["type"]]);
         }
 
         Jaris\View::addTab(
             t("Edit Type"),
             "admin/types/edit",
-            array("type" => $_REQUEST["type"])
+            ["type" => $_REQUEST["type"]]
         );
 
         $parameters["name"] = "edit-biblia-settings";
@@ -57,54 +51,53 @@ row: 0
         $parameters["action"] = Jaris\Uri::url(Jaris\Uri::get());
         $parameters["method"] = "post";
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "hidden",
             "name" => "type",
             "value" => $_REQUEST["type"]
-        );
+        ];
 
         $enabled[t("Enable")] = true;
         $enabled[t("Disable")] = false;
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "radio",
             "name" => "enabled",
             "id" => "enabled",
             "value" => $enabled,
             "checked" => $settings["enabled"],
             "description" => "Convertir versículos en enlaces que lleven a la sección de biblia."
-        );
+        ];
 
         $biblias = biblia_get_all();
-        $biblias_list = array();
+        $biblias_list = [];
 
-        foreach($biblias as $biblia => $biblia_data)
-        {
+        foreach ($biblias as $biblia => $biblia_data) {
             $biblias_list[$biblia_data["codigo"]] = $biblia;
         }
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "select",
             "selected" => $settings["biblia"],
             "name" => "biblia",
             "value" => $biblias_list,
             "label" => t("Versión:"),
             "id" => "biblia"
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnSave",
             "value" => t("Save")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnCancel",
             "value" => t("Cancel")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
         print Jaris\Forms::generate($parameters, $fieldset);
     ?>

@@ -19,27 +19,22 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("edit_settings"));
+        Jaris\Authentication::protectedPage(["edit_settings"]);
 
         $path = "";
-        $lines = array();
+        $lines = [];
 
-        if(isset($_REQUEST["page"]))
-        {
+        if (isset($_REQUEST["page"])) {
             $path = Jaris\Pages::getPath($_REQUEST["page"]) . "/data.php";
 
             $page_data = Jaris\Pages::get($_REQUEST["page"]);
 
             $lines = explode("\n", $page_data["content"]);
-        }
-        elseif(isset($_REQUEST["include"]))
-        {
+        } elseif (isset($_REQUEST["include"])) {
             $path = $_REQUEST["include"];
 
             $lines = explode("\n", file_get_contents($path));
-        }
-        else
-        {
+        } else {
             Jaris\Uri::go("admin/settings/errors");
         }
     ?>
@@ -79,8 +74,10 @@ row: 0
         <p><?php print $path ?></p>
 
         <table>
-        <?php foreach($lines as $pos=>$line){ ?>
-        <tr class="line <?php if($pos+1 == $_REQUEST["line"]){print "line-error";} ?>">
+        <?php foreach ($lines as $pos=>$line) { ?>
+        <tr class="line <?php if ($pos+1 == $_REQUEST["line"]) {
+        print "line-error";
+    } ?>">
             <td class="number">
                 <a name="l<?php print $pos+1 ?>"></a>
                 <?php print $pos+1 ?>

@@ -20,42 +20,35 @@ row: 0
     field: content
     <?php
         Jaris\Authentication::protectedPage(
-            array("view_types", "delete_types")
+    ["view_types", "delete_types"]
         );
 
-        if(!isset($_REQUEST["type"]))
-        {
+        if (!isset($_REQUEST["type"])) {
             Jaris\Uri::go("admin/types");
         }
 
         $type_data = Jaris\Types::get($_REQUEST["type"]);
 
-        if(isset($_REQUEST["btnYes"]))
-        {
+        if (isset($_REQUEST["btnYes"])) {
             $message = Jaris\Types::delete($_REQUEST["type"]);
 
-            if($message == "true")
-            {
+            if ($message == "true") {
                 Jaris\View::addMessage(t("Type successfully deleted."));
 
                 t("Deleted content type '{machine_name}'.");
 
                 Jaris\Logger::info(
                     "Deleted content type '{machine_name}'.",
-                    array(
+                    [
                         "machine_name" => $_REQUEST["type"]
-                    )
+                    ]
                 );
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage($message, "error");
             }
 
             Jaris\Uri::go("admin/types");
-        }
-        elseif(isset($_REQUEST["btnNo"]))
-        {
+        } elseif (isset($_REQUEST["btnNo"])) {
             Jaris\Uri::go("admin/types");
         }
     ?>

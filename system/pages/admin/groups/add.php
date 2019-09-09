@@ -19,20 +19,18 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("view_groups", "add_groups"));
+        Jaris\Authentication::protectedPage(["view_groups", "add_groups"]);
 
-        if(
+        if (
             isset($_REQUEST["btnSave"]) &&
             !Jaris\Forms::requiredFieldEmpty("add-group")
-        )
-        {
+        ) {
             $fields["name"] = $_REQUEST["name"];
             $fields["description"] = $_REQUEST["description"];
 
             $message = Jaris\Groups::add($_REQUEST["machine_name"], $fields);
 
-            if($message == "true")
-            {
+            if ($message == "true") {
                 Jaris\View::addMessage(
                     t("The group has been successfully created.")
                 );
@@ -41,21 +39,17 @@ row: 0
 
                 Jaris\Logger::info(
                     "Added group '{machine_name}'.",
-                    array(
+                    [
                         "machine_name" => $_REQUEST["machine_name"]
-                    )
+                    ]
                 );
-            }
-            else
-            {
+            } else {
                 //An error ocurred so display the error message
                 Jaris\View::addMessage($message, "error");
             }
 
             Jaris\Uri::go("admin/groups");
-        }
-        elseif(isset($_REQUEST["btnCancel"]))
-        {
+        } elseif (isset($_REQUEST["btnCancel"])) {
             Jaris\Uri::go("admin/groups");
         }
 
@@ -64,7 +58,7 @@ row: 0
         $parameters["action"] = Jaris\Uri::url("admin/groups/add");
         $parameters["method"] = "post";
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "value" => isset($_REQUEST["machine_name"]) ?
                 $_REQUEST["machine_name"] : "",
@@ -73,9 +67,9 @@ row: 0
             "id" => "machine_name",
             "required" => true,
             "description" => t("A readable machine name, like for example: my-group.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "value" => isset($_REQUEST["name"]) ?
                 $_REQUEST["name"] : "",
@@ -84,9 +78,9 @@ row: 0
             "id" => "name",
             "required" => true,
             "description" => t("A human readable name like for example: My Group.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "name" => "description",
             "value" => isset($_REQUEST["description"]) ?
@@ -95,21 +89,21 @@ row: 0
             "id" => "description",
             "required" => true,
             "description" => t("A brief description of the group.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnSave",
             "value" => t("Save")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnCancel",
             "value" => t("Cancel")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
         print Jaris\Forms::generate($parameters, $fieldset);
     ?>

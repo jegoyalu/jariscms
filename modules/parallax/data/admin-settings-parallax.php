@@ -17,7 +17,7 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("edit_settings"));
+        Jaris\Authentication::protectedPage(["edit_settings"]);
 
         Jaris\View::addTab(
             t("Add Parallax"),
@@ -31,8 +31,7 @@ row: 0
 
         $backgrounds = unserialize($parallax_settings["parallax_backgrounds"]);
 
-        if(is_array($backgrounds) && count($backgrounds) > 0)
-        {
+        if (is_array($backgrounds) && count($backgrounds) > 0) {
             print "<table class=\"navigation-list\">";
             print "<thead>";
             print "<tr>";
@@ -41,14 +40,13 @@ row: 0
             print "</tr>";
             print "</thead>";
 
-            foreach($backgrounds as $background_id => $background)
-            {
+            foreach ($backgrounds as $background_id => $background) {
                 $edit_url = Jaris\Uri::url(
                     Jaris\Modules::getPageUri(
                         "admin/settings/parallax/edit",
                         "parallax"
                     ),
-                    array("id" => $background_id)
+                    ["id" => $background_id]
                 );
 
                 $delete_url = Jaris\Uri::url(
@@ -56,7 +54,7 @@ row: 0
                         "admin/settings/parallax/delete",
                         "parallax"
                     ),
-                    array("id" => $background_id)
+                    ["id" => $background_id]
                 );
 
                 print "<tr>";
@@ -75,9 +73,7 @@ row: 0
             }
 
             print "</table>";
-        }
-        else
-        {
+        } else {
             Jaris\View::addMessage(
                 t("No parallax background available.")
             );

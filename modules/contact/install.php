@@ -24,8 +24,7 @@ function contact_install()
     Jaris\Types::add("contact-form", $new_type);
 
     // Create income database
-    if(!Jaris\Sql::dbExists("contact_archive"))
-    {
+    if (!Jaris\Sql::dbExists("contact_archive")) {
         //Income database
         $db = Jaris\Sql::open("contact_archive");
 
@@ -62,5 +61,3 @@ function contact_install()
         Jaris\Sql::close($db);
     }
 }
-
-?>

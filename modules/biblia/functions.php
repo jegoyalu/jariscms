@@ -12,19 +12,17 @@
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\Site::SIGNAL_PAGE_DATA,
-    function(&$page_data)
-    {
+    function (&$page_data) {
         $uri = Jaris\Uri::get();
 
-        if($uri == "biblia/buscar")
+        if ($uri == "biblia/buscar") {
             return;
+        }
 
         $segments = explode("/", $uri);
 
-        if($segments[0] == "biblia")
-        {
-            if(isset($_REQUEST["btnView"]))
-            {
+        if ($segments[0] == "biblia") {
+            if (isset($_REQUEST["btnView"])) {
                 $versiculo = trim($_REQUEST["versiculo"]) != "" ?
                     "#" . $_REQUEST["versiculo"]
                     :
@@ -44,26 +42,19 @@ Jaris\Signals\SignalHandler::listenWithParams(
             }
 
 
-            if(count($segments) == 2)
-            {
+            if (count($segments) == 2) {
                 $_REQUEST["biblia"] = $segments[1];
                 $_REQUEST["libro"] = "genesis";
                 $_REQUEST["capitulo"] = 1;
-            }
-            elseif(count($segments) == 3)
-            {
+            } elseif (count($segments) == 3) {
                 $_REQUEST["biblia"] = $segments[1];
                 $_REQUEST["libro"] = $segments[2];
                 $_REQUEST["capitulo"] = 1;
-            }
-            elseif(count($segments) == 4)
-            {
+            } elseif (count($segments) == 4) {
                 $_REQUEST["biblia"] = $segments[1];
                 $_REQUEST["libro"] = $segments[2];
                 $_REQUEST["capitulo"] = $segments[3];
-            }
-            elseif(count($segments) == 5)
-            {
+            } elseif (count($segments) == 5) {
                 $_REQUEST["biblia"] = $segments[1];
                 $_REQUEST["libro"] = $segments[2];
                 $_REQUEST["capitulo"] = $segments[3];
@@ -81,17 +72,16 @@ Jaris\Signals\SignalHandler::listenWithParams(
                 $page_data[0]["title"]
             );
 
-            if(
+            if (
                 isset($_REQUEST["libro"])
                 &&
                 isset($_REQUEST["capitulo"])
                 &&
                 isset($_REQUEST["versiculo"])
-            )
-            {
+            ) {
                 $page_data[0]["meta_title"] = biblia_get_libro_label(
-                        $_REQUEST["libro"],
-                        $_REQUEST["biblia"]
+                    $_REQUEST["libro"],
+                    $_REQUEST["biblia"]
                     )
                     . " "
                     . intval($_REQUEST["capitulo"])
@@ -100,24 +90,20 @@ Jaris\Signals\SignalHandler::listenWithParams(
                     . " - "
                     . biblia_get_title($_REQUEST["biblia"]);
                 ;
-            }
-            elseif(isset($_REQUEST["libro"]) && isset($_REQUEST["capitulo"]))
-            {
+            } elseif (isset($_REQUEST["libro"]) && isset($_REQUEST["capitulo"])) {
                 $page_data[0]["meta_title"] = biblia_get_libro_label(
-                        $_REQUEST["libro"],
-                        $_REQUEST["biblia"]
+                    $_REQUEST["libro"],
+                    $_REQUEST["biblia"]
                     )
                     . " "
                     . intval($_REQUEST["capitulo"])
                     . " - "
                     . biblia_get_title($_REQUEST["biblia"]);
                 ;
-            }
-            elseif(isset($_REQUEST["libro"]))
-            {
+            } elseif (isset($_REQUEST["libro"])) {
                 $page_data[0]["meta_title"] = biblia_get_libro_label(
-                        $_REQUEST["libro"],
-                        $_REQUEST["biblia"]
+                    $_REQUEST["libro"],
+                    $_REQUEST["biblia"]
                     )
                     . " - "
                     . biblia_get_title($_REQUEST["biblia"]);
@@ -129,12 +115,10 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\View::SIGNAL_THEME_CONTENT,
-    function(&$content, &$content_title, &$content_data)
-    {
+    function (&$content, &$content_title, &$content_data) {
         $biblia_settings = biblia_get_settings($content_data["type"]);
 
-        if($biblia_settings["enabled"])
-        {
+        if ($biblia_settings["enabled"]) {
             $content = biblia_convertir_versos(
                 $content,
                 $biblia_settings["biblia"]
@@ -145,14 +129,12 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\View::SIGNAL_THEME_TABS,
-    function(&$tabs_array)
-    {
-        if(Jaris\Uri::get() == "admin/types/edit")
-        {
-            $tabs_array[0]["Biblia"] = array(
+    function (&$tabs_array) {
+        if (Jaris\Uri::get() == "admin/types/edit") {
+            $tabs_array[0]["Biblia"] = [
                 "uri" => Jaris\Modules::getPageUri("admin/types/biblia", "biblia"),
-                "arguments" => array("type" => $_REQUEST["type"])
-            );
+                "arguments" => ["type" => $_REQUEST["type"]]
+            ];
         }
     }
 );

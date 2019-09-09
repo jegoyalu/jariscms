@@ -19,55 +19,47 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("edit_content"));
+        Jaris\Authentication::protectedPage(["edit_content"]);
 
-        if(!Jaris\Pages::userIsOwner($_REQUEST["uri"]))
-        {
+        if (!Jaris\Pages::userIsOwner($_REQUEST["uri"])) {
             Jaris\Authentication::protectedPage();
         }
 
         $message = contact_archive_message_get($_REQUEST["id"]);
 
-        if(empty($message))
-        {
+        if (empty($message)) {
             Jaris\Uri::go(
                 Jaris\Modules::getPageUri(
                     "admin/pages/contact-form/archive",
                     "contact"
                 ),
-                array("uri" => $_REQUEST["uri"])
+                ["uri" => $_REQUEST["uri"]]
             );
         }
 
-        $arguments = array(
+        $arguments = [
             "uri" => $_REQUEST["uri"]
-        );
+        ];
         $page_data = Jaris\Pages::get($_REQUEST["uri"]);
 
         //Tabs
-        if(Jaris\Authentication::groupHasPermission("edit_content", Jaris\Authentication::currentUserGroup()))
-        {
+        if (Jaris\Authentication::groupHasPermission("edit_content", Jaris\Authentication::currentUserGroup())) {
             Jaris\View::addTab(t("Edit"), "admin/pages/edit", $arguments);
         }
         Jaris\View::addTab(t("View"), $_REQUEST["uri"]);
-        if(Jaris\Authentication::groupHasPermission("view_content_blocks", Jaris\Authentication::currentUserGroup()))
-        {
+        if (Jaris\Authentication::groupHasPermission("view_content_blocks", Jaris\Authentication::currentUserGroup())) {
             Jaris\View::addTab(t("Blocks"), "admin/pages/blocks", $arguments);
         }
-        if(Jaris\Authentication::groupHasPermission("view_images", Jaris\Authentication::currentUserGroup()))
-        {
+        if (Jaris\Authentication::groupHasPermission("view_images", Jaris\Authentication::currentUserGroup())) {
             Jaris\View::addTab(t("Images"), "admin/pages/images", $arguments);
         }
-        if(Jaris\Authentication::groupHasPermission("view_files", Jaris\Authentication::currentUserGroup()))
-        {
+        if (Jaris\Authentication::groupHasPermission("view_files", Jaris\Authentication::currentUserGroup())) {
             Jaris\View::addTab(t("Files"), "admin/pages/files", $arguments);
         }
-        if(Jaris\Authentication::groupHasPermission("translate_languages", Jaris\Authentication::currentUserGroup()))
-        {
+        if (Jaris\Authentication::groupHasPermission("translate_languages", Jaris\Authentication::currentUserGroup())) {
             Jaris\View::addTab(t("Translate"), "admin/pages/translate", $arguments);
         }
-        if($page_data["message_archive"])
-        {
+        if ($page_data["message_archive"]) {
             Jaris\View::addTab(
                 t("Messages Archive"),
                 Jaris\Modules::getPageUri(
@@ -77,20 +69,17 @@ row: 0
                 $arguments
             );
         }
-        if(Jaris\Authentication::groupHasPermission("delete_content", Jaris\Authentication::currentUserGroup()))
-        {
+        if (Jaris\Authentication::groupHasPermission("delete_content", Jaris\Authentication::currentUserGroup())) {
             Jaris\View::addTab(t("Delete"), "admin/pages/delete", $arguments);
         }
 
         print $message["message"];
 
-        if(!empty($message["attachments"]))
-        {
+        if (!empty($message["attachments"])) {
             print "<h3>" . t("Attachments") . "</h3>";
 
             print "<ul>";
-            foreach($message["attachments"] as $attachment)
-            {
+            foreach ($message["attachments"] as $attachment) {
                 $url = print_url(
                     Jaris\Files::get(
                         $attachment,

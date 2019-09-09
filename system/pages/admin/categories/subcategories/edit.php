@@ -20,11 +20,10 @@ row: 0
     field: content
     <?php
         Jaris\Authentication::protectedPage(
-            array("view_subcategories", "edit_subcategories")
+    ["view_subcategories", "edit_subcategories"]
         );
 
-        if(!isset($_REQUEST["id"]) || !isset($_REQUEST["category"]))
-        {
+        if (!isset($_REQUEST["id"]) || !isset($_REQUEST["category"])) {
             Jaris\Uri::go("admin/categories");
         }
 
@@ -33,11 +32,10 @@ row: 0
             intval($_REQUEST["id"])
         );
 
-        if(
+        if (
             isset($_REQUEST["btnSave"]) &&
             !Jaris\Forms::requiredFieldEmpty("edit-subcategories")
-        )
-        {
+        ) {
             $fields = $current_subcategory_data;
 
             $fields["title"] = $_REQUEST["title"];
@@ -46,18 +44,16 @@ row: 0
 
             //Checks if client is trying to move a root parent subcategory to
             //its own subcategory and makes subs category root
-            if($fields["parent"] == "root" && $_REQUEST["parent"] != "root")
-            {
+            if ($fields["parent"] == "root" && $_REQUEST["parent"] != "root") {
                 $new_parent_subcategory = Jaris\Categories::getSubcategory(
                     $_REQUEST["category"],
                     intval($_REQUEST["id"])
                 );
 
-                if(
+                if (
                     "" . $new_parent_subcategory["parent"] . "" ==
                     "" . $_REQUEST["id"] . ""
-                )
-                {
+                ) {
                     $new_parent_subcategory["parent"] = "root";
 
                     Jaris\Categories::editSubcategory(
@@ -70,14 +66,13 @@ row: 0
 
             $fields["parent"] = $_REQUEST["parent"];
 
-            if(
+            if (
                 Jaris\Categories::editSubcategory(
                     $_REQUEST["category"],
                     $fields,
                     intval($_REQUEST["id"])
                 )
-            )
-            {
+            ) {
                 Jaris\View::addMessage(
                     t("The subcategory was successfully edited.")
                 );
@@ -86,14 +81,12 @@ row: 0
 
                 Jaris\Logger::info(
                     "Edited subcategory '{title}' on '{machine_name}'.",
-                    array(
+                    [
                         "title" => $fields["title"],
                         "machine_name" => $_REQUEST["category"]
-                    )
+                    ]
                 );
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(
                     Jaris\System::errorMessage("write_error_data"),
                     "error"
@@ -102,14 +95,12 @@ row: 0
 
             Jaris\Uri::go(
                 "admin/categories/subcategories",
-                array("category" => $_REQUEST["category"])
+                ["category" => $_REQUEST["category"]]
             );
-        }
-        elseif(isset($_REQUEST["btnCancel"]))
-        {
+        } elseif (isset($_REQUEST["btnCancel"])) {
             Jaris\Uri::go(
                 "admin/categories/subcategories",
-                array("category" => $_REQUEST["category"])
+                ["category" => $_REQUEST["category"]]
             );
         }
 
@@ -119,10 +110,8 @@ row: 0
             $_REQUEST["category"]
         );
 
-        foreach($subcategories_array as $id => $items)
-        {
-            if($id != $_REQUEST["id"])
-            {
+        foreach ($subcategories_array as $id => $items) {
+            if ($id != $_REQUEST["id"]) {
                 $subcategories[$items["title"]] = "$id";
             }
         }
@@ -132,59 +121,59 @@ row: 0
         $parameters["action"] = Jaris\Uri::url("admin/categories/subcategories/edit");
         $parameters["method"] = "post";
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "hidden",
             "name" => "id",
             "value" => $_REQUEST["id"]
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "hidden",
             "name" => "category",
             "value" => $_REQUEST["category"]
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "name" => "title",
             "label" => t("Title:"),
             "id" => "title",
             "value" => $current_subcategory_data["title"],
             "required" => true
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "name" => "description",
             "label" => t("Description:"),
             "id" => "description",
             "value" => $current_subcategory_data["description"]
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "select",
             "name" => "parent",
             "selected" => trim($current_subcategory_data["parent"]),
             "label" => t("Parent:"),
             "id" => "parent",
             "value" => $subcategories
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
-        $fields_submit[] = array(
+        $fields_submit[] = [
             "type" => "submit",
             "name" => "btnSave",
             "value" => t("Save")
-        );
+        ];
 
-        $fields_submit[] = array(
+        $fields_submit[] = [
             "type" => "submit",
             "name" => "btnCancel",
             "value" => t("Cancel")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields_submit);
+        $fieldset[] = ["fields" => $fields_submit];
 
         print Jaris\Forms::generate($parameters, $fieldset);
     ?>

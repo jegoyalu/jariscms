@@ -27,8 +27,7 @@ function calendar_install()
     Jaris\Types::add("calendar", $new_type);
 
     //Create calendar events database
-    if(!Jaris\Sql::dbExists("calendar_events"))
-    {
+    if (!Jaris\Sql::dbExists("calendar_events")) {
         $db = Jaris\Sql::open("calendar_events");
 
         Jaris\Sql::query(
@@ -73,8 +72,7 @@ function calendar_install()
     }
 
     //Create calendar events database
-    if(!Jaris\Sql::dbExists("calendar_repeat_month"))
-    {
+    if (!Jaris\Sql::dbExists("calendar_repeat_month")) {
         $db = Jaris\Sql::open("calendar_repeat_month");
 
         Jaris\Sql::query(
@@ -100,5 +98,3 @@ function calendar_install()
         Jaris\Sql::close($db);
     }
 }
-
-?>

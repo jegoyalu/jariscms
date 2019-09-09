@@ -18,264 +18,244 @@ row: 0
     field: content
     <?php
         Jaris\Api::init(
-            array(
-                "add" => array(
+    [
+                "add" => [
                     "description" => "Adds a new category.",
-                    "parameters" => array(
+                    "parameters" => [
                         "name" => "Machine name of the category.",
-                        "data" => array(
+                        "data" => [
                             "description" => "The category data array.",
-                            "elements" => array(
+                            "elements" => [
                                 "name" => "A human readable name like for example: My Category.",
                                 "description" => "A brief description of the category.",
                                 "multiple" => "Enable multiple selection (bool).",
                                 "sorting" => "To enable or disable automatic sorting (bool).",
                                 "display_subcategories" => "Display all the subcategories on the generated menu (bool).",
                                 "order" => "The order in which the category is displayed (int)."
-                            ),
-                            "elements_required" => array(
+                            ],
+                            "elements_required" => [
                                 "name", "description"
-                            )
-                        )
-                    ),
-                    "parameters_required" => array(
+                            ]
+                        ]
+                    ],
+                    "parameters_required" => [
                         "name",
                         "data"
-                    ),
-                    "errors" => array(
+                    ],
+                    "errors" => [
                         "1010" => "Category already exists.",
                         "1020" => "Failed to create the category."
-                    ),
+                    ],
                     "permissions" => "add_category_core"
-                ),
-                "add_update" => array(
+                ],
+                "add_update" => [
                     "description" => "Edit an existing category or creates it if doesn't exists.",
-                    "parameters" => array(
+                    "parameters" => [
                         "name" => "Machine name of the category.",
-                        "data" => array(
+                        "data" => [
                             "description" => "The category data array.",
-                            "elements" => array(
+                            "elements" => [
                                 "name" => "A human readable name like for example: My Category.",
                                 "description" => "A brief description of the category.",
                                 "multiple" => "Enable multiple selection (bool).",
                                 "sorting" => "To enable or disable automatic sorting (bool).",
                                 "display_subcategories" => "Display all the subcategories on the generated menu (bool).",
                                 "order" => "The order in which the category is displayed (int)."
-                            ),
-                            "elements_required" => array(
+                            ],
+                            "elements_required" => [
                                 "name", "description"
-                            )
-                        )
-                    ),
-                    "parameters_required" => array(
+                            ]
+                        ]
+                    ],
+                    "parameters_required" => [
                         "name",
                         "data"
-                    ),
-                    "errors" => array(
+                    ],
+                    "errors" => [
                         "1020" => "Failed to create the category.",
                         "1040" => "Failed to edit the category."
-                    ),
-                    "permissions" => array(
+                    ],
+                    "permissions" => [
                         "add_category_core",
                         "edit_category_core"
-                    )
-                ),
-                "edit" => array(
+                    ]
+                ],
+                "edit" => [
                     "description" => "Edit an existing category.",
-                    "parameters" => array(
+                    "parameters" => [
                         "name" => "Machine name of the category.",
-                        "data" => array(
+                        "data" => [
                             "description" => "The category data array.",
-                            "elements" => array(
+                            "elements" => [
                                 "name" => "A human readable name like for example: My Category.",
                                 "description" => "A brief description of the category.",
                                 "multiple" => "Enable multiple selection (bool).",
                                 "sorting" => "To enable or disable automatic sorting (bool).",
                                 "display_subcategories" => "Display all the subcategories on the generated menu (bool).",
                                 "order" => "The order in which the category is displayed (int)."
-                            ),
-                            "elements_required" => array(
+                            ],
+                            "elements_required" => [
                                 "name", "description"
-                            )
-                        )
-                    ),
-                    "parameters_required" => array(
+                            ]
+                        ]
+                    ],
+                    "parameters_required" => [
                         "name",
                         "data"
-                    ),
-                    "errors" => array(
+                    ],
+                    "errors" => [
                         "1030" => "Category does not exists.",
                         "1040" => "Failed to edit the category."
-                    ),
+                    ],
                     "permissions" => "edit_category_core"
-                ),
-                "delete" => array(
+                ],
+                "delete" => [
                     "description" => "Delete an existing category.",
-                    "parameters" => array(
+                    "parameters" => [
                         "name" => "Machine name of the category."
-                    ),
-                    "parameters_required" => array(
+                    ],
+                    "parameters_required" => [
                         "name"
-                    ),
-                    "errors" => array(
+                    ],
+                    "errors" => [
                         "1030" => "Category does not exists.",
                         "1050" => "Failed to delete the category."
-                    ),
+                    ],
                     "permissions" => "delete_category_core"
-                ),
-                "get" => array(
+                ],
+                "get" => [
                     "description" => "Get an existing category.",
-                    "parameters" => array(
+                    "parameters" => [
                         "name" => "Machine name of the category."
-                    ),
-                    "parameters_required" => array(
+                    ],
+                    "parameters_required" => [
                         "name"
-                    ),
-                    "response" => array(
-                        "data" => array(
+                    ],
+                    "response" => [
+                        "data" => [
                             "description" => "The category data.",
-                            "elements" => array(
+                            "elements" => [
                                 "name" => "A human readable name like for example: My Category.",
                                 "description" => "A brief description of the category.",
                                 "multiple" => "Enable multiple selection (bool).",
                                 "sorting" => "To enable or disable automatic sorting (bool).",
                                 "display_subcategories" => "Display all the subcategories on the generated menu (bool).",
                                 "order" => "The order in which the category is displayed (int)."
-                            )
-                        )
-                    ),
-                    "errors" => array(
+                            ]
+                        ]
+                    ],
+                    "errors" => [
                         "1030" => "Category does not exists."
-                    ),
+                    ],
                     "permissions" => "get_category_core"
-                ),
-                "get_all" => array(
+                ],
+                "get_all" => [
                     "description" => "Get the list of all categories.",
-                    "parameters" => array(
+                    "parameters" => [
                         "type" => "Optional content type where categories belong."
-                    ),
-                    "response" => array(
-                        "categories" => array(
+                    ],
+                    "response" => [
+                        "categories" => [
                             "description" => "The array of categories using the category machine name as elements index.",
-                            "elements" => array(
+                            "elements" => [
                                 "name" => "A human readable name like for example: My Category.",
                                 "description" => "A brief description of the category.",
                                 "multiple" => "Enable multiple selection (bool).",
                                 "sorting" => "To enable or disable automatic sorting (bool).",
                                 "display_subcategories" => "Display all the subcategories on the generated menu (bool).",
                                 "order" => "The order in which the category is displayed (int)."
-                            )
-                        )
-                    ),
+                            ]
+                        ]
+                    ],
                     "permissions" => "get_category_core"
-                )
-            )
+                ]
+            ]
         );
 
         $action = Jaris\Api::getAction();
 
-        if($action == "add")
-        {
-            if(file_exists(Jaris\Categories::getPath($_REQUEST["name"])))
-            {
+        if ($action == "add") {
+            if (file_exists(Jaris\Categories::getPath($_REQUEST["name"]))) {
                 Jaris\Api::sendErrorResponse(
                     1010,
                     "Category already exists."
                 );
             }
 
-            if(
+            if (
                 Jaris\Categories::add(
                     $_REQUEST["name"],
                     Jaris\Api::decodeParam("data")
                 )
                 !=
                 "true"
-            )
-            {
+            ) {
                 Jaris\Api::sendErrorResponse(
                     1020,
                     "Failed to create the category."
                 );
             }
-        }
-        elseif($action == "add_update")
-        {
-            if(!file_exists(Jaris\Categories::getPath($_REQUEST["name"])))
-            {
-                if(
+        } elseif ($action == "add_update") {
+            if (!file_exists(Jaris\Categories::getPath($_REQUEST["name"]))) {
+                if (
                     Jaris\Categories::add(
                         $_REQUEST["name"],
                         Jaris\Api::decodeParam("data")
                     )
                     !=
                     "true"
-                )
-                {
+                ) {
                     Jaris\Api::sendErrorResponse(
                         1020,
                         "Failed to create the category."
                     );
                 }
-            }
-            elseif(
+            } elseif (
                 !Jaris\Categories::edit(
                     $_REQUEST["name"],
                     Jaris\Api::decodeParam("data")
                 )
-            )
-            {
+            ) {
                 Jaris\Api::sendErrorResponse(
                     1040,
                     "Failed to edit the category."
                 );
             }
-        }
-        elseif($action == "edit")
-        {
-            if(!file_exists(Jaris\Categories::getPath($_REQUEST["name"])))
-            {
+        } elseif ($action == "edit") {
+            if (!file_exists(Jaris\Categories::getPath($_REQUEST["name"]))) {
                 Jaris\Api::sendErrorResponse(
                     1030,
                     "Category does not exists."
                 );
             }
 
-            if(
+            if (
                 !Jaris\Categories::edit(
                     $_REQUEST["name"],
                     Jaris\Api::decodeParam("data")
                 )
-            )
-            {
+            ) {
                 Jaris\Api::sendErrorResponse(
                     1040,
                     "Failed to edit the category."
                 );
             }
-        }
-        elseif($action == "delete")
-        {
-            if(!file_exists(Jaris\Categories::getPath($_REQUEST["name"])))
-            {
+        } elseif ($action == "delete") {
+            if (!file_exists(Jaris\Categories::getPath($_REQUEST["name"]))) {
                 Jaris\Api::sendErrorResponse(
                     1030,
                     "Category does not exists."
                 );
             }
 
-            if(!Jaris\Categories::delete($_REQUEST["name"]))
-            {
+            if (!Jaris\Categories::delete($_REQUEST["name"])) {
                 Jaris\Api::sendErrorResponse(
                     1050,
                     "Failed to delete the category."
                 );
             }
-        }
-        elseif($action == "get")
-        {
-            if(!file_exists(Jaris\Categories::getPath($_REQUEST["name"])))
-            {
+        } elseif ($action == "get") {
+            if (!file_exists(Jaris\Categories::getPath($_REQUEST["name"]))) {
                 Jaris\Api::sendErrorResponse(
                     1030,
                     "Category does not exists."
@@ -285,9 +265,7 @@ row: 0
             $category = Jaris\Categories::get($_REQUEST["name"]);
 
             Jaris\Api::addResponse("data", $category);
-        }
-        elseif($action == "get_all")
-        {
+        } elseif ($action == "get_all") {
             $categories = Jaris\Categories::getList($_REQUEST["type"] ?? "");
 
             Jaris\Api::addResponse("categories", $categories);

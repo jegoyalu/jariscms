@@ -16,12 +16,11 @@ class Autoloader
      * The jaris content management system class autoloader.
      * @param string $class_name
      */
-    static function load($class_name)
+    public static function load($class_name)
     {
         $file = str_replace("\\", "/", $class_name) . ".php";
 
-        if(file_exists(__DIR__ . "/" . $file))
-        {
+        if (file_exists(__DIR__ . "/" . $file)) {
             include(__DIR__ . "/" . $file);
 
             return;
@@ -33,14 +32,11 @@ class Autoloader
         // src directory can be stored as ModuleName/Class.php instead of
         // Jaris/Module/ModuleName/Class.php
         $file = str_replace("Jaris/Module/", "", $file);
-        foreach(Modules::getInstalled() as $module)
-        {
+        foreach (Modules::getInstalled() as $module) {
             $module_src = Modules::directory($module) . "src";
 
-            if(is_dir($module_src))
-            {
-                if(file_exists($module_src . "/" . $file))
-                {
+            if (is_dir($module_src)) {
+                if (file_exists($module_src . "/" . $file)) {
                     include($module_src . "/" . $file);
 
                     return;
@@ -52,8 +48,8 @@ class Autoloader
     /**
      * Provides an easy way to register the jaris autoloader for you.
      */
-    static function register()
+    public static function register()
     {
-        spl_autoload_register(array('Jaris\Autoloader', 'load'));
+        spl_autoload_register(['Jaris\Autoloader', 'load']);
     }
 }

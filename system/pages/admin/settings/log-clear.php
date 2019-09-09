@@ -19,10 +19,9 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("edit_settings"));
+        Jaris\Authentication::protectedPage(["edit_settings"]);
 
-        if(isset($_REQUEST["btnYes"]))
-        {
+        if (isset($_REQUEST["btnYes"])) {
             unlink(Jaris\Site::dataDir() . "sqlite/log");
 
             Jaris\View::addMessage(t("Successfully removed all logged messages."));
@@ -34,9 +33,7 @@ row: 0
             );
 
             Jaris\Uri::go("admin/settings/log");
-        }
-        elseif(isset($_REQUEST["btnNo"]))
-        {
+        } elseif (isset($_REQUEST["btnNo"])) {
             Jaris\Uri::go("admin/settings/log");
         }
     ?>

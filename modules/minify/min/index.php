@@ -8,8 +8,7 @@
  */
 
 //If running in cli mode
-if(php_sapi_name() != "cli")
-{
+if (php_sapi_name() != "cli") {
     exit;
 }
 
@@ -23,8 +22,8 @@ Minify_Loader::register();
 
 Minify::$uploaderHoursBehind = $min_uploaderHoursBehind;
 Minify::setCache(
-    isset($min_cachePath) ? $min_cachePath : ''
-    ,$min_cacheFileLocking
+    isset($min_cachePath) ? $min_cachePath : '',
+    $min_cacheFileLocking
 );
 
 if ($min_documentRoot) {
@@ -64,7 +63,6 @@ if (isset($_GET['f']) || isset($_GET['g'])) {
         $min_serveController = new Minify_Controller_MinApp();
     }
     Minify::serve($min_serveController, $min_serveOptions);
-
 } elseif ($min_enableBuilder) {
     header('Location: builder/');
     exit();

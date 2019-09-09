@@ -20,31 +20,28 @@ row: 0
     field: content
     <?php
         Jaris\Authentication::protectedPage(
-            array("view_languages", "edit_languages")
+    ["view_languages", "edit_languages"]
         );
 
         //Prevent editing non existing language code
-        if(!isset($_REQUEST["code"]) || trim($_REQUEST["code"]) == "")
-        {
+        if (!isset($_REQUEST["code"]) || trim($_REQUEST["code"]) == "") {
             Jaris\Uri::go("admin/languages");
         }
 
         $language_details = Jaris\Language::getInfo($_REQUEST["code"]);
 
-        if(
+        if (
             isset($_REQUEST["btnSave"]) &&
             !Jaris\Forms::requiredFieldEmpty("edit-language")
-        )
-        {
-            if(
+        ) {
+            if (
                 Jaris\Language::edit(
                     $_REQUEST["code"],
                     $_REQUEST["translator"],
                     $_REQUEST["translator_email"],
                     $_REQUEST["contributors"]
                 )
-            )
-            {
+            ) {
                 Jaris\View::addMessage(
                     t("The language was successfully modified.")
                 );
@@ -53,13 +50,11 @@ row: 0
 
                 Jaris\Logger::info(
                     "Edited language '{code}' info.",
-                    array(
+                    [
                         "code" => $_REQUEST["code"]
-                    )
+                    ]
                 );
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(
                     Jaris\System::errorMessage("write_error_language"),
                     "error"
@@ -67,9 +62,7 @@ row: 0
             }
 
             Jaris\Uri::go("admin/languages");
-        }
-        elseif(isset($_REQUEST["btnCancel"]))
-        {
+        } elseif (isset($_REQUEST["btnCancel"])) {
             Jaris\Uri::go("admin/languages");
         }
 
@@ -78,64 +71,64 @@ row: 0
         $parameters["action"] = Jaris\Uri::url("admin/languages/edit-info");
         $parameters["method"] = "post";
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "name" => "code",
             "value" => $_REQUEST["code"],
             "label" => t("Code:"),
             "id" => "code",
             "readonly" => true
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "name" => "name",
             "value" => $language_details["name"],
             "label" => t("Name:"),
             "id" => "name",
             "readonly" => true
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "name" => "translator",
             "value" => $language_details["translator"],
             "label" => t("Translator:"),
             "id" => "translator",
             "description" => t("Main translator for this language.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "name" => "translator_email",
             "value" => $language_details["translator_email"],
             "label" => t("E-mail:"),
             "id" => "translator_email",
             "description" => t("E-mail of the main translator.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "textarea",
             "name" => "contributors",
             "value" => $language_details["contributors"],
             "label" => t("Contributors:"),
             "id" => "contributors",
             "description" => t("A list of contributors seperated by a new line for this translation.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnSave",
             "value" => t("Save")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnCancel",
             "value" => t("Cancel")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
         print Jaris\Forms::generate($parameters, $fieldset);
     ?>

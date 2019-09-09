@@ -59,8 +59,7 @@ row: 0
 
         $page = 1;
 
-        if(isset($_REQUEST["page"]))
-        {
+        if (isset($_REQUEST["page"])) {
             $page = $_REQUEST["page"];
         }
 
@@ -81,8 +80,7 @@ row: 0
         print "</tr>";
         print "</thead>";
 
-        foreach($polls as $uri)
-        {
+        foreach ($polls as $uri) {
             $polls_data = Jaris\Pages::get($uri);
 
             print "<tr>";
@@ -95,12 +93,12 @@ row: 0
 
             $edit_url = Jaris\Uri::url(
                 Jaris\Modules::getPageUri("admin/polls/edit", "polls"),
-                array("uri" => $uri)
+                ["uri" => $uri]
             );
 
             $delete_url = Jaris\Uri::url(
                 "admin/pages/delete",
-                array("uri" => $uri)
+                ["uri" => $uri]
             );
 
             print "<td>" .

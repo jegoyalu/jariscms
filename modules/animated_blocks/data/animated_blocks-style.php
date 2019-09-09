@@ -19,8 +19,7 @@ row: 0
 
     field: content
     <?php
-        if(!isset($_REQUEST["id"]) || !isset($_REQUEST["position"]))
-        {
+        if (!isset($_REQUEST["id"]) || !isset($_REQUEST["position"])) {
             print "0";
             return;
         }
@@ -47,11 +46,11 @@ row: 0
         width: 100%;
         border:  <?php print $settings["border_style"] ?> <?php print $settings["border_width"] ?> #<?php print $settings["border_color"] ?>;
 
-        <?php if(!$settings["background_transparent"]){ ?>
+        <?php if (!$settings["background_transparent"]) { ?>
         background-color: #<?php print $settings["background_color"] ?> !important;
         <?php } ?>
 
-        <?php if($settings["image_as_background"] && $settings["image_as_background_keep_ar"]){ ?>
+        <?php if ($settings["image_as_background"] && $settings["image_as_background_keep_ar"]) { ?>
         background-size: contain !important;
         background-position: center center !important;
         <?php } ?>
@@ -96,7 +95,7 @@ row: 0
         padding:   <?php print $settings["description_padding"] ?>;
     }
 
-<?php if($settings["display_pager"]){ ?>
+<?php if ($settings["display_pager"]) { ?>
 
     #<?php print $pager_id ?>
     {
@@ -126,7 +125,7 @@ row: 0
 
 <?php } ?>
 
-<?php if(!$settings["image_as_background"]){ ?>
+<?php if (!$settings["image_as_background"]) { ?>
 
     #<?php print $id ?> .animated-block-image
     {
@@ -137,7 +136,7 @@ row: 0
     }
 <?php } ?>
 
-<?php if($settings["display_navigation"]){ ?>
+<?php if ($settings["display_navigation"]) { ?>
     #<?php print $prev_id ?>
     {
         float: left;

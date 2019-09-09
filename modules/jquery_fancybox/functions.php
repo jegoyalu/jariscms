@@ -12,10 +12,10 @@
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\System::SIGNAL_GET_SYSTEM_STYLES,
-    function(&$styles)
-    {
+    function (&$styles) {
         $display_rule = Jaris\Settings::get(
-            "display_rule", "jquery-fancybox"
+            "display_rule",
+            "jquery-fancybox"
         );
 
         $pages = explode(
@@ -23,15 +23,12 @@ Jaris\Signals\SignalHandler::listenWithParams(
             Jaris\Settings::get("pages", "jquery-fancybox")
         );
 
-        if($display_rule == "all_except_listed")
-        {
-            foreach($pages as $page_check)
-            {
+        if ($display_rule == "all_except_listed") {
+            foreach ($pages as $page_check) {
                 $page_check = trim($page_check);
 
                 //Check if no pages listed and print jquery fancybox styles.
-                if($page_check == "")
-                {
+                if ($page_check == "") {
                     $styles[] = Jaris\Uri::url(
                         Jaris\Modules::directory("jquery_fancybox")
                             . "css/jquery.fancybox.min.css"
@@ -41,15 +38,14 @@ Jaris\Signals\SignalHandler::listenWithParams(
                 }
 
                 $page_check = str_replace(
-                    array("/", "/*"),
-                    array("\\/", "/.*"),
+                    ["/", "/*"],
+                    ["\\/", "/.*"],
                     $page_check
                 );
 
                 $page_check = "/^$page_check\$/";
 
-                if(preg_match($page_check, Jaris\Uri::get()))
-                {
+                if (preg_match($page_check, Jaris\Uri::get())) {
                     return;
                 }
             }
@@ -58,23 +54,19 @@ Jaris\Signals\SignalHandler::listenWithParams(
                 Jaris\Modules::directory("jquery_fancybox")
                     . "css/jquery.fancybox.min.css"
             );
-        }
-        else if($display_rule == "just_listed")
-        {
-            foreach($pages as $page_check)
-            {
+        } elseif ($display_rule == "just_listed") {
+            foreach ($pages as $page_check) {
                 $page_check = trim($page_check);
 
                 $page_check = str_replace(
-                    array("/", "/*"),
-                    array("\\/", "/.*"),
+                    ["/", "/*"],
+                    ["\\/", "/.*"],
                     $page_check
                 );
 
                 $page_check = "/^$page_check\$/";
 
-                if(preg_match($page_check, Jaris\Uri::get()))
-                {
+                if (preg_match($page_check, Jaris\Uri::get())) {
                     $styles[] = Jaris\Uri::url(
                         Jaris\Modules::directory("jquery_fancybox")
                             . "css/jquery.fancybox.min.css"
@@ -89,8 +81,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\System::SIGNAL_GET_SYSTEM_SCRIPTS,
-    function(&$scripts)
-    {
+    function (&$scripts) {
         $base_url = Jaris\Site::$base_url;
 
         $display_rule = Jaris\Settings::get(
@@ -103,15 +94,12 @@ Jaris\Signals\SignalHandler::listenWithParams(
             Jaris\Settings::get("pages", "jquery-fancybox")
         );
 
-        if($display_rule == "all_except_listed")
-        {
-            foreach($pages as $page_check)
-            {
+        if ($display_rule == "all_except_listed") {
+            foreach ($pages as $page_check) {
                 $page_check = trim($page_check);
 
                 //Check if no pages listed and print jquery fancybox styles.
-                if($page_check == "")
-                {
+                if ($page_check == "") {
                     $scripts[] = Jaris\Uri::url(
                         Jaris\Modules::directory("jquery_fancybox")
                             . "js/jquery.fancybox.min.js"
@@ -121,15 +109,14 @@ Jaris\Signals\SignalHandler::listenWithParams(
                 }
 
                 $page_check = str_replace(
-                    array("/", "/*"),
-                    array("\\/", "/.*"),
+                    ["/", "/*"],
+                    ["\\/", "/.*"],
                     $page_check
                 );
 
                 $page_check = "/^$page_check\$/";
 
-                if(preg_match($page_check, Jaris\Uri::get()))
-                {
+                if (preg_match($page_check, Jaris\Uri::get())) {
                     return;
                 }
             }
@@ -138,23 +125,19 @@ Jaris\Signals\SignalHandler::listenWithParams(
                 Jaris\Modules::directory("jquery_fancybox")
                     . "js/jquery.fancybox.min.js"
             );
-        }
-        else if($display_rule == "just_listed")
-        {
-            foreach($pages as $page_check)
-            {
+        } elseif ($display_rule == "just_listed") {
+            foreach ($pages as $page_check) {
                 $page_check = trim($page_check);
 
                 $page_check = str_replace(
-                    array("/", "/*"),
-                    array("\\/", "/.*"),
+                    ["/", "/*"],
+                    ["\\/", "/.*"],
                     $page_check
                 );
 
                 $page_check = "/^$page_check\$/";
 
-                if(preg_match($page_check, Jaris\Uri::get()))
-                {
+                if (preg_match($page_check, Jaris\Uri::get())) {
                     $scripts[] = Jaris\Uri::url(
                         Jaris\Modules::directory("jquery_fancybox")
                             . "js/jquery.fancybox.min.js"
@@ -169,17 +152,15 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\View::SIGNAL_THEME_TABS,
-    function(&$tabs_array)
-    {
-        if(Jaris\Uri::get() == "admin/settings")
-        {
-            $tabs_array[0][t("Jquery fancybox")] = array(
+    function (&$tabs_array) {
+        if (Jaris\Uri::get() == "admin/settings") {
+            $tabs_array[0][t("Jquery fancybox")] = [
                 "uri" => Jaris\Modules::getPageUri(
                     "admin/settings/jquery/fancybox",
                     "jquery_fancybox"
                 ),
-                "arguments" => array()
-            );
+                "arguments" => []
+            ];
         }
     }
 );

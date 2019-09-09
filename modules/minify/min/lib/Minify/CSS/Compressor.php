@@ -18,7 +18,8 @@
  * @author Stephen Clay <steve@mrclay.org>
  * @author http://code.google.com/u/1stvamp/ (Issue 64 patch)
  */
-class Minify_CSS_Compressor {
+class Minify_CSS_Compressor
+{
 
     /**
      * Minify a CSS string
@@ -29,7 +30,7 @@ class Minify_CSS_Compressor {
      *
      * @return string
      */
-    public static function process($css, $options = array())
+    public static function process($css, $options = [])
     {
         $obj = new Minify_CSS_Compressor($options);
         return $obj->_process($css);
@@ -53,7 +54,8 @@ class Minify_CSS_Compressor {
      *
      * @param array $options (currently ignored)
      */
-    private function __construct($options) {
+    private function __construct($options)
+    {
         $this->_options = $options;
     }
 
@@ -78,8 +80,7 @@ class Minify_CSS_Compressor {
         $css = preg_replace('@:\\s*/\\*\\s*\\*/@', ':/*keep*/', $css);
 
         // apply callback to all valid comments (and strip out surrounding ws
-        $css = preg_replace_callback('@\\s*/\\*([\\s\\S]*?)\\*/\\s*@'
-            ,array($this, '_commentCB'), $css);
+        $css = preg_replace_callback('@\\s*/\\*([\\s\\S]*?)\\*/\\s*@', [$this, '_commentCB'], $css);
 
         // remove ws around { } and last semicolon in declaration block
         $css = preg_replace('/\\s*{\\s*/', '{', $css);
@@ -120,16 +121,13 @@ class Minify_CSS_Compressor {
                 \\s*
                 [^~>+,\\s]+      # selector part
                 {                # open declaration block
-            /x'
-            ,array($this, '_selectorsCB'), $css);
+            /x', [$this, '_selectorsCB'], $css);
 
         // minimize hex colors
-        $css = preg_replace('/([^=])#([a-f\\d])\\2([a-f\\d])\\3([a-f\\d])\\4([\\s;\\}])/i'
-            , '$1#$2$3$4$5', $css);
+        $css = preg_replace('/([^=])#([a-f\\d])\\2([a-f\\d])\\3([a-f\\d])\\4([\\s;\\}])/i', '$1#$2$3$4$5', $css);
 
         // remove spaces between font families
-        $css = preg_replace_callback('/font-family:([^;}]+)([;}])/'
-            ,array($this, '_fontFamilyCB'), $css);
+        $css = preg_replace_callback('/font-family:([^;}]+)([;}])/', [$this, '_fontFamilyCB'], $css);
 
         $css = preg_replace('/@import\\s+url/', '@import url', $css);
 
@@ -143,8 +141,7 @@ class Minify_CSS_Compressor {
         $css = preg_replace('/
             ((?:padding|margin|border|outline):\\d+(?:px|em)?) # 1 = prop : 1st numeric value
             \\s+
-            /x'
-            ,"$1\n", $css);
+            /x', "$1\n", $css);
 
         // prevent triggering IE6 bug: http://www.crankygeek.com/ie6pebug/
         $css = preg_replace('/:first-l(etter|ine)\\{/', ':first-l$1 {', $css);

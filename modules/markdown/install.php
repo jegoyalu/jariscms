@@ -12,9 +12,8 @@
 
 function markdown_install()
 {
-    if(!Jaris\InputFormats::get("markdown"))
-    {
-        $fields = array();
+    if (!Jaris\InputFormats::get("markdown")) {
+        $fields = [];
 
         $fields["name"] = "Markdown";
         $fields["description"] = "Automatically generates html code for markdown syntax.";
@@ -27,5 +26,3 @@ function markdown_install()
         Jaris\InputFormats::add("markdown", $fields);
     }
 }
-
-?>

@@ -19,26 +19,23 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("edit_settings"));
+        Jaris\Authentication::protectedPage(["edit_settings"]);
 
-        if(
+        if (
             !isset($_REQUEST["btnUpload"]) &&
             !isset($_REQUEST["btnCancel"])
-        )
-        {
+        ) {
             Jaris\View::addMessage(
                 t("By uploading a theme you will override any existing system one with your version."),
                 t("Warning")
             );
         }
 
-        if(
+        if (
             isset($_REQUEST["btnUpload"]) &&
             !Jaris\Forms::requiredFieldEmpty("theme-upload")
-        )
-        {
-            if(class_exists("ZipArchive"))
-            {
+        ) {
+            if (class_exists("ZipArchive")) {
                 $zip = new ZipArchive;
 
                 $zip->open($_FILES["theme_file"]["tmp_name"]);
@@ -46,8 +43,7 @@ row: 0
                 // Remove all previous files.
                 $theme_name = $zip->getNameIndex(0);
 
-                if(is_dir(Jaris\Themes::getUploadPath() . $theme_name))
-                {
+                if (is_dir(Jaris\Themes::getUploadPath() . $theme_name)) {
                     Jaris\FileSystem::recursiveRemoveDir(
                         Jaris\Themes::getUploadPath() . $theme_name
                     );
@@ -65,13 +61,11 @@ row: 0
 
                 Jaris\Logger::info(
                     "Uploaded theme '{theme}'.",
-                    array(
+                    [
                         "theme" => $theme_name
-                    )
+                    ]
                 );
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(
                     t("ZipArchive extension not enabled. Could not extract zip file."),
                     "error"
@@ -79,9 +73,7 @@ row: 0
             }
 
             Jaris\Uri::go("admin/themes");
-        }
-        elseif(isset($_REQUEST["btnCancel"]))
-        {
+        } elseif (isset($_REQUEST["btnCancel"])) {
             Jaris\Uri::go("admin/themes");
         }
 
@@ -91,28 +83,28 @@ row: 0
         $parameters["method"] = "post";
         $parameters["enctype"] = "multipart/form-data";
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "file",
             "label" => t("Theme file:"),
             "name" => "theme_file",
             "id" => "theme_file",
             "valid_types" => "zip",
             "description" => t("A valid theme zip file.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnUpload",
             "value" => t("Upload")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnCancel",
             "value" => t("Cancel")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
         print Jaris\Forms::generate($parameters, $fieldset);
     ?>

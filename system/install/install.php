@@ -44,19 +44,17 @@ $language = Jaris\Language::getCurrent();
 Jaris\Site::$language = $language;
 
 //For security skip page and go to index if already installed.
-if(
+if (
     file_exists(Jaris\Site::dataDir() . "settings/main.php") &&
     Jaris\Settings::get("mailer_from_name", "main") &&
     $_REQUEST["action"] != "finalize_installation" &&
     $_REQUEST["action"] != "cleanurl_check"
-)
-{
+) {
     Jaris\Uri::go("");
 }
 
 //Create sites/default if not exists
-if(!file_exists("sites/default"))
-{
+if (!file_exists("sites/default")) {
     //Disable max execution time in case of slow copy
     ini_set('max_execution_time', '0');
 
@@ -68,62 +66,57 @@ $step_title = "";
 $content = "";
 $error_message = "";
 
-if(isset($_REQUEST["language"]))
-{
+if (isset($_REQUEST["language"])) {
     Jaris\Language::setCurrent($_REQUEST["language"]);
 }
 
 //Welcome page for installation
-if(!isset($_REQUEST["action"]) || $_REQUEST["action"] == "")
-{
+if (!isset($_REQUEST["action"]) || $_REQUEST["action"] == "") {
     $step_title = t("Select a language", "install.po");
 
     $languages_temp = Jaris\Language::getInstalled();
-    $languages = array();
-    foreach($languages_temp as $value => $label)
-    {
+    $languages = [];
+    foreach ($languages_temp as $value => $label) {
         $languages[$label] = $value;
     }
 
     $parameters["action"] = $_SERVER["PHP_SELF"];
     $parameters["method"] = "post";
 
-    $fields[] = array(
+    $fields[] = [
         "type" => "select",
         "name" => "language",
         "id" => "language",
         "label" => t("Language:", "install.po"),
         "value" => $languages, "selected" => "en"
-    );
+    ];
 
-    $fields[] = array(
+    $fields[] = [
         "type" => "hidden",
         "name" => "action",
         "value" => "begin"
-    );
+    ];
 
-    $fields[] = array(
+    $fields[] = [
         "type" => "other",
         "html_code" => "<div style=\"text-align: right; margin-top: 30px;\">"
-    );
+    ];
 
-    $fields[] = array(
+    $fields[] = [
         "type" => "submit",
         "name" => "next",
         "value" => t("Continue", "install.po")
-    );
+    ];
 
-    $fields[] = array(
+    $fields[] = [
         "type" => "other",
         "html_code" => "</div>"
-    );
+    ];
 
-    $fieldset[] = array("fields" => $fields);
+    $fieldset[] = ["fields" => $fields];
 
     $content .= Jaris\Forms::generate($parameters, $fieldset);
-}
-elseif(isset($_REQUEST["action"]) && $_REQUEST["action"] == "begin")
-{
+} elseif (isset($_REQUEST["action"]) && $_REQUEST["action"] == "begin") {
     $step_title = t("Installation Wizard", "install.po");
 
     $content = t("<b>Welcome</b> to Jaris CMS installation wizard! To install it you just need some minimun system requirements to have a working enviroment. Before we continue you should know that <b>Jaris CMS</b> does not requires any relational database like mysql since it has its own engine written on php to store data. So in order to make it work you need to set write permissions to the user account that is running the php parser.<br />", "install.po")
@@ -140,30 +133,29 @@ elseif(isset($_REQUEST["action"]) && $_REQUEST["action"] == "begin")
     $parameters["action"] = $_SERVER["PHP_SELF"] . "?action=check_requirements";
     $parameters["method"] = "post";
 
-    $fields[] = array(
+    $fields[] = [
         "type" => "other",
         "html_code" => "<div style=\"text-align: right; margin-top: 30px;\">"
-    );
+    ];
 
-    $fields[] = array(
+    $fields[] = [
         "type" => "submit",
         "name" => "next",
         "value" => t("Check Requirements", "install.po")
-    );
+    ];
 
-    $fields[] = array(
+    $fields[] = [
         "type" => "other",
         "html_code" => "</div>"
-    );
+    ];
 
-    $fieldset[] = array("fields" => $fields);
+    $fieldset[] = ["fields" => $fields];
 
     $content .= Jaris\Forms::generate($parameters, $fieldset);
 }
 
 //Requirements check
-elseif(isset($_REQUEST["action"]) && $_REQUEST["action"] == "check_requirements")
-{
+elseif (isset($_REQUEST["action"]) && $_REQUEST["action"] == "check_requirements") {
     $php_version_fine = false;
     $php_gd_fine = false;
     $data_writable = false;
@@ -175,8 +167,7 @@ elseif(isset($_REQUEST["action"]) && $_REQUEST["action"] == "check_requirements"
 
     //Check php verison.
     $content .= "<tr>";
-    if(substr(PHP_VERSION, 0, 1) > 5 && substr(PHP_VERSION, 2, 1) > 0)
-    {
+    if (substr(PHP_VERSION, 0, 1) > 5 && substr(PHP_VERSION, 2, 1) > 0) {
         $content .= "<td>";
         $content .= "<b>".t("PHP version installed:", "install.po")."</b> "
             . substr(PHP_VERSION, 0, 5)
@@ -191,9 +182,7 @@ elseif(isset($_REQUEST["action"]) && $_REQUEST["action"] == "check_requirements"
         $content .= "</td>";
 
         $php_version_fine = true;
-    }
-    else
-    {
+    } else {
         $content .= "<td>";
         $content .= "<b>" . t("PHP version installed:", "install.po") . "</b> "
             . substr(PHP_VERSION, 0, 5) . " "
@@ -217,8 +206,7 @@ elseif(isset($_REQUEST["action"]) && $_REQUEST["action"] == "check_requirements"
 
     //Check if php gd is installed
     $content .= "<tr>";
-    if(extension_loaded('gd') && function_exists('gd_info'))
-    {
+    if (extension_loaded('gd') && function_exists('gd_info')) {
         $content .= "<td>";
         $content .= "<b>" . t("PHP GD library:", "install.po") . "</b> "
             . t("available", "install.po")
@@ -233,9 +221,7 @@ elseif(isset($_REQUEST["action"]) && $_REQUEST["action"] == "check_requirements"
         $content .= "</td>";
 
         $php_gd_fine = true;
-    }
-    else
-    {
+    } else {
         $content .= "<td>";
         $content .= "<b>" . t("PHP GD library:", "install.po") . "</b> "
             . t("not available", "install.po")
@@ -254,8 +240,7 @@ elseif(isset($_REQUEST["action"]) && $_REQUEST["action"] == "check_requirements"
 
     //Check if sites directory is writable
     $content .= "<tr>";
-    if(is_writable('sites'))
-    {
+    if (is_writable('sites')) {
         $content .= "<td>";
         $content .= "<b>" . t("Write permissions on sites directory:", "install.po") . "</b> "
             . t("yes", "install.po")
@@ -270,9 +255,7 @@ elseif(isset($_REQUEST["action"]) && $_REQUEST["action"] == "check_requirements"
         $content .= "</td>";
 
         $data_writable = true;
-    }
-    else
-    {
+    } else {
         $content .= "<td>";
         $content .= "<b>" . t("Write permissions on sites directory:", "install.po") . "</b> "
             . t("no", "install.po")
@@ -292,8 +275,7 @@ elseif(isset($_REQUEST["action"]) && $_REQUEST["action"] == "check_requirements"
 
     //Check if sqlite is available
     $content .= "<tr>";
-    if(function_exists('sqlite_open') || class_exists("SQLite3"))
-    {
+    if (function_exists('sqlite_open') || class_exists("SQLite3")) {
         $content .= "<td>";
         $content .= "<b>" . t("PHP SQLite library:", "install.po") . "</b> "
             . t("yes", "install.po")
@@ -308,9 +290,7 @@ elseif(isset($_REQUEST["action"]) && $_REQUEST["action"] == "check_requirements"
         $content .= "</td>";
 
         $php_sqlite_fine = true;
-    }
-    else
-    {
+    } else {
         $content .= "<td>";
         $content .= "<b>" . t("PHP SQLite library:", "install.po") . "</b> "
             . t("no", "install.po")
@@ -331,63 +311,58 @@ elseif(isset($_REQUEST["action"]) && $_REQUEST["action"] == "check_requirements"
 
     $content .= "</table>";
 
-    if($php_version_fine && $php_gd_fine && $data_writable && $php_sqlite_fine)
-    {
+    if ($php_version_fine && $php_gd_fine && $data_writable && $php_sqlite_fine) {
         $parameters["action"] = $_SERVER["PHP_SELF"] . "?action=site_details";
         $parameters["method"] = "post";
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "other",
             "html_code" => "<div style=\"text-align: right; margin-top: 30px;\">"
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "next",
             "value" => t("Continue", "install.po")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "other",
             "html_code" => "</div>"
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
         $content .= Jaris\Forms::generate($parameters, $fieldset);
-    }
-    else
-    {
+    } else {
         $parameters["action"] = $_SERVER["PHP_SELF"] . "?action=check_requirements";
         $parameters["method"] = "post";
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "other",
             "html_code" => "<div style=\"text-align: right; margin-top: 30px;\">"
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "next",
             "value" => t("Re-check Requirements.", "install.po")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "other",
             "html_code" => "</div>"
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
         $content .= Jaris\Forms::generate($parameters, $fieldset);
     }
 }
 
 //Enter site details
-elseif(isset($_REQUEST["action"]) && $_REQUEST["action"] == "site_details")
-{
-    if(isset($_REQUEST["finish"]))
-    {
+elseif (isset($_REQUEST["action"]) && $_REQUEST["action"] == "site_details") {
+    if (isset($_REQUEST["finish"])) {
         $username = $_REQUEST["username"];
 
         $fields = Jaris\Users::get($username);
@@ -398,37 +373,23 @@ elseif(isset($_REQUEST["action"]) && $_REQUEST["action"] == "site_details")
 
         $error = false;
 
-        if(trim($_REQUEST["password"]) == "")
-        {
+        if (trim($_REQUEST["password"]) == "") {
             $error = true;
-        }
-        else if($_REQUEST["password"] == $_REQUEST["verify_password"])
-        {
+        } elseif ($_REQUEST["password"] == $_REQUEST["verify_password"]) {
             $fields["password"] = $_REQUEST["password"];
-        }
-        elseif($_REQUEST["password"] != $_REQUEST["verify_password"])
-        {
+        } elseif ($_REQUEST["password"] != $_REQUEST["verify_password"]) {
             $error = true;
         }
 
-        if(!$error)
-        {
-            if(trim($username) == "" || strlen(trim($username)) < 3)
-            {
+        if (!$error) {
+            if (trim($username) == "" || strlen(trim($username)) < 3) {
                 $error_message = t("Please provide a username.", "install.po");
-            }
-            elseif(trim($_REQUEST["name"]) == "")
-            {
+            } elseif (trim($_REQUEST["name"]) == "") {
                 $error_message = t("Please provide your fullname.", "install.po");
-            }
-            elseif(trim($_REQUEST["email"]) == "")
-            {
+            } elseif (trim($_REQUEST["email"]) == "") {
                 $error_message = t("Please provide your e-mail.", "install.po");
-            }
-            elseif(Jaris\Forms::validUsername($username))
-            {
-                if($_REQUEST["distro"] != "none")
-                {
+            } elseif (Jaris\Forms::validUsername($username)) {
+                if ($_REQUEST["distro"] != "none") {
                     Jaris\FileSystem::recursiveCopyDir(
                         "system/install/distros/{$_REQUEST["distro"]}",
                         "sites/default"
@@ -438,24 +399,19 @@ elseif(isset($_REQUEST["action"]) && $_REQUEST["action"] == "site_details")
                 //Mark user account as active
                 $fields["status"] = 1;
 
-                if(Jaris\Users::get($username))
-                {
+                if (Jaris\Users::get($username)) {
                     $fields["password"] = crypt($_REQUEST["password"]);
                     Jaris\Users::edit($username, "administrator", $fields);
-                }
-                else
-                {
+                } else {
                     $fields["register_date"] = time();
                     Jaris\Users::add($username, "administrator", $fields);
                 }
 
-                if(trim($_REQUEST["title"]) != "" && trim($_REQUEST["base_url"]) != "")
-                {
+                if (trim($_REQUEST["title"]) != "" && trim($_REQUEST["base_url"]) != "") {
                     $footer_message = t("Powered by JarisCMS.", "install.po");
 
                     //Check if write is possible and continue to write settings
-                    if(Jaris\Settings::save("site_status", true, "main"))
-                    {
+                    if (Jaris\Settings::save("site_status", true, "main")) {
                         Jaris\Settings::save("title", $_REQUEST["title"], "main");
                         Jaris\Settings::save("slogan", $_REQUEST["slogan"], "main");
                         Jaris\Settings::save("timezone", $_REQUEST["timezone"], "main");
@@ -465,7 +421,7 @@ elseif(isset($_REQUEST["action"]) && $_REQUEST["action"] == "site_details")
                         Jaris\Settings::save("language", $language, "main");
                         Jaris\Settings::save("clean_urls", false, "main");
                         Jaris\Settings::save("theme", "default", "main");
-                        Jaris\Settings::save("themes_enabled", serialize(array("default")), "main");
+                        Jaris\Settings::save("themes_enabled", serialize(["default"]), "main");
                         Jaris\Settings::save("primary_menu", "primary", "main");
                         Jaris\Settings::save("secondary_menu", "secondary", "main");
                         Jaris\Settings::save("image_compression_maxwidth", "640", "main");
@@ -473,24 +429,16 @@ elseif(isset($_REQUEST["action"]) && $_REQUEST["action"] == "site_details")
 
                         header("Location: " . $base_url . "/install.php?action=mailing_details");
                         exit;
-                    }
-                    else
-                    {
+                    } else {
                         $error_message = t("Configuration could not be save. Check your write permissions on the sites directory.", "install.po");
                     }
-                }
-                else
-                {
+                } else {
                     $error_message = t("You need to provide all the fields", "install.po");
                 }
-            }
-            else
-            {
+            } else {
                 $error_message = t("The administrator login name is invalid.", "install.po");
             }
-        }
-        else
-        {
+        } else {
             $error_message = t("Your password does not match. Try again.", "install.po");
         }
     }
@@ -502,165 +450,164 @@ elseif(isset($_REQUEST["action"]) && $_REQUEST["action"] == "site_details")
     $parameters["action"] = $_SERVER["PHP_SELF"] . "?action=site_details";
     $parameters["method"] = "post";
 
-    $fields[] = array(
+    $fields[] = [
         "type" => "text",
         "name" => "title",
         "label" => t("Site title:", "install.po"),
         "value" => $_REQUEST["title"] ? $_REQUEST["title"] : $title,
         "required" => true,
         "inline" => true
-    );
+    ];
 
-    $fields[] = array(
+    $fields[] = [
         "type" => "text",
         "name" => "slogan",
         "label" => t("Slogan:", "install.po"),
         "value" => $_REQUEST["slogan"],
         "inline" => true
-    );
+    ];
 
     $timezones_list = Jaris\Timezones::getList();
-    $timezones = array();
-    foreach($timezones_list as $timezone_text)
-    {
+    $timezones = [];
+    foreach ($timezones_list as $timezone_text) {
         $timezones["$timezone_text"] = "$timezone_text";
     }
 
-    $fields[] = array(
+    $fields[] = [
         "type" => "select",
         "label" => t("Default timezone:", "install.po"),
         "name" => "timezone",
         "id" => "timezone",
         "value" => $timezones,
         "selected" => $_REQUEST["timezone"]
-    );
+    ];
 
-    $fields[] = array(
+    $fields[] = [
         "type" => "other",
         "html_code" => "<br />"
-    );
+    ];
 
-    $fields[] = array(
+    $fields[] = [
         "type" => "checkbox",
         "name" => "auto_detect_base_url",
         "label" => t("Auto detect base url?", "install.po"),
         "checked" => $_REQUEST["auto_detect_base_url"] ?
             $_REQUEST["auto_detect_base_url"] : true,
         "description" => t("Automatically detects domain even if you change it. Mandatory on multisites.")
-    );
+    ];
 
-    $fields[] = array(
+    $fields[] = [
         "type" => "text",
         "name" => "base_url",
         "label" => t("Base url:", "install.po"),
         "required" => true,
         "value" => $_REQUEST["base_url"] ?
             $_REQUEST["base_url"] : str_replace("/install", "", $base_url)
-    );
+    ];
 
-    $fields[] = array(
+    $fields[] = [
         "type" => "text",
         "name" => "username",
         "label" => t("Administrator login name:", "install.po"),
         "value" => $_REQUEST["username"],
         "required" => true
-    );
+    ];
 
-    $fields[] = array(
+    $fields[] = [
         "type" => "text",
         "name" => "name",
         "label" => t("Administrator full name:", "install.po"),
         "value" => $_REQUEST["name"],
         "required" => true
-    );
+    ];
 
-    $fields[] = array(
+    $fields[] = [
         "type" => "text",
         "name" => "email",
         "label" => t("Administrator e-mail:", "install.po"),
         "value" => $_REQUEST["email"],
         "required" => true
-    );
+    ];
 
-    $fields[] = array(
+    $fields[] = [
         "type" => "password",
         "name" => "password",
         "label" => t("Administrator password:", "install.po"),
         "required" => true
-    );
+    ];
 
-    $fields[] = array(
+    $fields[] = [
         "type" => "password",
         "name" => "verify_password",
         "label" => t("Re-enter administrator password:", "install.po"),
         "required" => true
-    );
+    ];
 
-    $distros = array(t("None") => "none");
+    $distros = [t("None") => "none"];
     $distros_all = scandir("system/install/distros");
 
-    foreach($distros_all as $dir_path)
-    {
-        if($dir_path == "." || $dir_path == "..")
+    foreach ($distros_all as $dir_path) {
+        if ($dir_path == "." || $dir_path == "..") {
             continue;
+        }
 
-        if(!is_dir("system/install/distros/$dir_path"))
+        if (!is_dir("system/install/distros/$dir_path")) {
             continue;
+        }
 
         $distros[ucwords(str_replace("_", " ", $dir_path))] = $dir_path;
     }
 
-    $fields[] = array(
+    $fields[] = [
         "type" => "select",
         "name" => "distro",
         "label" => t("Distribution template:", "install.po"),
         "value" => $distros,
         "selected" => $_REQUEST["distro"]
-    );
+    ];
 
-    $fields[] = array(
+    $fields[] = [
         "type" => "other",
         "html_code" => "<div style=\"text-align: right; margin-top: 30px;\">"
-    );
+    ];
 
-    $fields[] = array(
+    $fields[] = [
         "type" => "submit",
         "name" => "finish",
         "value" => t("Continue", "install.po")
-    );
+    ];
 
-    $fields[] = array("type" => "other", "html_code" => "</div>");
+    $fields[] = ["type" => "other", "html_code" => "</div>"];
 
-    $fieldset[] = array("fields" => $fields);
+    $fieldset[] = ["fields" => $fields];
 
     $content .= Jaris\Forms::generate($parameters, $fieldset);
 }
 
 //Enter mailing details
-elseif(isset($_REQUEST["action"]) && $_REQUEST["action"] == "mailing_details")
-{
-    if(isset($_REQUEST["save_mail"]))
-    {
+elseif (isset($_REQUEST["action"]) && $_REQUEST["action"] == "mailing_details") {
+    if (isset($_REQUEST["save_mail"])) {
         $error = false;
 
-        if(
+        if (
             trim($_REQUEST["mailer_from_name"]) == "" ||
             trim($_REQUEST["mailer_from_email"]) == ""
-        )
-        {
+        ) {
             $error = true;
         }
 
-        if(!$error)
-        {
+        if (!$error) {
             //Check if write is possible and continue to write settings
-            if(Jaris\Settings::save("mailer", $_REQUEST["mailer"], "main"))
-            {
+            if (Jaris\Settings::save("mailer", $_REQUEST["mailer"], "main")) {
                 Jaris\Settings::save(
-                    "mailer_from_name", $_REQUEST["mailer_from_name"], "main"
+                    "mailer_from_name",
+                    $_REQUEST["mailer_from_name"],
+                    "main"
                 );
                 Jaris\Settings::save(
-                    "mailer_from_email", $_REQUEST["mailer_from_email"], "main"
+                    "mailer_from_email",
+                    $_REQUEST["mailer_from_email"],
+                    "main"
                 );
 
                 Jaris\Settings::save("smtp_auth", $_REQUEST["smtp_auth"], "main");
@@ -672,14 +619,10 @@ elseif(isset($_REQUEST["action"]) && $_REQUEST["action"] == "mailing_details")
 
                 header("Location: " . $base_url . "/install.php?action=cleanurl_check");
                 exit;
-            }
-            else
-            {
+            } else {
                 $error_message = t("Configuration could not be save. Check your write permissions on the sites directory.", "install.po");
             }
-        }
-        else
-        {
+        } else {
             $error_message = t("You need to provide all the fields", "install.po");
         }
     }
@@ -699,16 +642,16 @@ elseif(isset($_REQUEST["action"]) && $_REQUEST["action"] == "mailing_details")
 
     $site_settings = Jaris\Settings::getAll("main");
 
-    $fields_main[] = array(
+    $fields_main[] = [
         "type" => "select",
         "label" => t("Mailing system:"),
         "name" => "mailer",
         "id" => "mailer",
         "value" => $mailer,
         "selected" => $site_settings["mailer"]
-    );
+    ];
 
-    $fields_main[] = array(
+    $fields_main[] = [
         "type" => "text",
         "label" => t("From name:"),
         "name" => "mailer_from_name",
@@ -716,9 +659,9 @@ elseif(isset($_REQUEST["action"]) && $_REQUEST["action"] == "mailing_details")
         "value" => $site_settings["mailer_from_name"],
         "required" => true,
         "description" => t("The name used on the from email.")
-    );
+    ];
 
-    $fields_main[] = array(
+    $fields_main[] = [
         "type" => "text",
         "label" => t("From e-mail:"),
         "name" => "mailer_from_email",
@@ -726,94 +669,93 @@ elseif(isset($_REQUEST["action"]) && $_REQUEST["action"] == "mailing_details")
         "value" => $site_settings["mailer_from_email"],
         "required" => true,
         "description" => t("The email used on the from email.")
-    );
+    ];
 
-    $fieldset[] = array("fields" => $fields_main);
+    $fieldset[] = ["fields" => $fields_main];
 
     $stmp_options[t("Enable")] = true;
     $stmp_options[t("Disable")] = false;
 
-    $fields_smtp[] = array(
+    $fields_smtp[] = [
         "type" => "select",
         "label" => t("Authentication:"),
         "name" => "smtp_auth",
         "id" => "smtp_auth",
         "value" => $stmp_options,
         "selected" => $site_settings["smtp_auth"]
-    );
+    ];
 
-    $fields_smtp[] = array(
+    $fields_smtp[] = [
         "type" => "select",
         "label" => t("SSL:"),
         "name" => "smtp_ssl",
         "id" => "smtp_ssl",
         "value" => $stmp_options,
         "selected" => $site_settings["smtp_ssl"]
-    );
+    ];
 
-    $fields_smtp[] = array(
+    $fields_smtp[] = [
         "type" => "text",
         "label" => t("Host:"),
         "name" => "smtp_host",
         "id" => "smtp_host",
         "value" => $site_settings["smtp_host"]
-    );
+    ];
 
-    $fields_smtp[] = array(
+    $fields_smtp[] = [
         "type" => "text",
         "label" => t("Port:"),
         "name" => "smtp_port",
         "id" => "smtp_port",
         "value" => $site_settings["smtp_port"]
-    );
+    ];
 
-    $fields_smtp[] = array(
+    $fields_smtp[] = [
         "type" => "text",
         "label" => t("Username:"),
         "name" => "smtp_user",
         "id" => "smtp_user",
         "value" => $site_settings["smtp_user"]
-    );
+    ];
 
-    $fields_smtp[] = array(
+    $fields_smtp[] = [
         "type" => "password",
         "label" => t("Password:"),
         "name" => "smtp_pass",
         "id" => "smtp_pass",
         "value" => $site_settings["smtp_pass"]
-    );
+    ];
 
-    $fieldset[] = array(
+    $fieldset[] = [
         "name" => t("SMTP Configuration"),
         "fields" => $fields_smtp,
         "collapsible" => true,
         "collapsed" => false
-    );
+    ];
 
-    $fields[] = array(
+    $fields[] = [
         "type" => "other",
         "html_code" => "<div style=\"text-align: right; margin-top: 30px;\">"
-    );
+    ];
 
-    $fields[] = array(
+    $fields[] = [
         "type" => "submit",
         "name" => "save_mail",
         "value" => t("Continue", "install.po")
-    );
+    ];
 
-    $fields[] = array(
+    $fields[] = [
         "type" => "other",
         "html_code" => "</div>"
-    );
+    ];
 
-    $fieldset[] = array("fields" => $fields);
+    $fieldset[] = ["fields" => $fields];
 
     $content .= Jaris\Forms::generate($parameters, $fieldset);
 }
 
 //Check if clean URL are available
-elseif(isset($_REQUEST["action"]) && $_REQUEST["action"] == "cleanurl_check")
-{
+elseif (isset($_REQUEST["action"]) && $_REQUEST["action"] == "cleanurl_check") {
     $step_title = t("Step Four - Clean URL Check", "install.po");
 
     $content .= t("Url rewrites make url's more readable and easy to acess. Here are the results of the test:", "install.po");
@@ -824,21 +766,16 @@ elseif(isset($_REQUEST["action"]) && $_REQUEST["action"] == "cleanurl_check")
 
     $has_clean_url = false;
 
-    if(php_sapi_name() == "cli-server")
-    {
+    if (php_sapi_name() == "cli-server") {
         $has_clean_url = true;
-    }
-    elseif(Jaris\Uri::urlExists($url . "/search"))
-    {
+    } elseif (Jaris\Uri::urlExists($url . "/search")) {
         $has_clean_url = true;
     }
 
-    if($has_clean_url)
-    {
+    if ($has_clean_url) {
         $cleanurl = Jaris\Settings::get("clean_urls", "main");
 
-        if(!$cleanurl)
-        {
+        if (!$cleanurl) {
             Jaris\Settings::save("clean_urls", true, "main");
         }
 
@@ -846,9 +783,7 @@ elseif(isset($_REQUEST["action"]) && $_REQUEST["action"] == "cleanurl_check")
             t("SUPPORTED and Activated", "install.po") .
             "</span>"
         ;
-    }
-    else
-    {
+    } else {
         $content .= "<span class=\"bad\">" .
             t("NOT SUPPORTED", "install.po") .
             "</span>"
@@ -862,30 +797,29 @@ elseif(isset($_REQUEST["action"]) && $_REQUEST["action"] == "cleanurl_check")
     $parameters["action"] = $_SERVER["PHP_SELF"] . "?action=finalize_installation";
     $parameters["method"] = "post";
 
-    $fields[] = array(
+    $fields[] = [
         "type" => "other",
         "html_code" => "<div style=\"text-align: right; margin-top: 30px;\">"
-    );
+    ];
 
-    $fields[] = array(
+    $fields[] = [
         "type" => "submit",
         "name" => "next",
         "value" => t("Continue", "install.po")
-    );
+    ];
 
-    $fields[] = array(
+    $fields[] = [
         "type" => "other",
         "html_code" => "</div>"
-    );
+    ];
 
-    $fieldset[] = array("fields" => $fields);
+    $fieldset[] = ["fields" => $fields];
 
     $content .= Jaris\Forms::generate($parameters, $fieldset);
 }
 
 //Finalize Installation
-else if(isset($_REQUEST["action"]) && $_REQUEST["action"] == "finalize_installation")
-{
+elseif (isset($_REQUEST["action"]) && $_REQUEST["action"] == "finalize_installation") {
     $step_title = t("Step Five - You are done!", "install.po");
 
     $content = t("<b>Congratulations,</b> you have successfully installed Jaris content management system. To visit your index site click", "install.po")
@@ -1184,9 +1118,9 @@ else if(isset($_REQUEST["action"]) && $_REQUEST["action"] == "finalize_installat
             <div class="container">
                 <?php
                     print str_replace(
-                        array("Jaris CMS", " - "),
-                        array("<div>Jaris CMS</div>", ""),
-                        t("Jaris CMS - Installation Script", "install.po")
+    ["Jaris CMS", " - "],
+    ["<div>Jaris CMS</div>", ""],
+    t("Jaris CMS - Installation Script", "install.po")
                     );
                 ?>
             </div>
@@ -1198,7 +1132,7 @@ else if(isset($_REQUEST["action"]) && $_REQUEST["action"] == "finalize_installat
                     <?php print $step_title ?>
                 </h2>
 
-                <?php if($error_message){ ?>
+                <?php if ($error_message) { ?>
                 <div id="error">
                     <?php print $error_message ?>
                 </div>

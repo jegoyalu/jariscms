@@ -19,26 +19,23 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("install_modules"));
+        Jaris\Authentication::protectedPage(["install_modules"]);
 
-        if(
+        if (
             !isset($_REQUEST["btnUpload"]) &&
             !isset($_REQUEST["btnCancel"])
-        )
-        {
+        ) {
             Jaris\View::addMessage(
                 t("By uploading a module you will override any existing system one with your version."),
                 t("Warning")
             );
         }
 
-        if(
+        if (
             isset($_REQUEST["btnUpload"]) &&
             !Jaris\Forms::requiredFieldEmpty("module-upload")
-        )
-        {
-            if(class_exists("ZipArchive"))
-            {
+        ) {
+            if (class_exists("ZipArchive")) {
                 $zip = new ZipArchive;
 
                 $zip->open($_FILES["module_file"]["tmp_name"]);
@@ -46,8 +43,7 @@ row: 0
                 // Remove all previous files.
                 $module_name = $zip->getNameIndex(0);
 
-                if(is_dir(Jaris\Modules::getUploadPath() . $module_name))
-                {
+                if (is_dir(Jaris\Modules::getUploadPath() . $module_name)) {
                     Jaris\FileSystem::recursiveRemoveDir(
                         Jaris\Modules::getUploadPath() . $module_name
                     );
@@ -65,13 +61,11 @@ row: 0
 
                 Jaris\Logger::info(
                     "Uploaded module '{module_name}'.",
-                    array(
+                    [
                         "module_name" => $module_name
-                    )
+                    ]
                 );
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(
                     t("ZipArchive extension not enabled. Could not extract zip file."),
                     "error"
@@ -79,9 +73,7 @@ row: 0
             }
 
             Jaris\Uri::go("admin/modules");
-        }
-        elseif(isset($_REQUEST["btnCancel"]))
-        {
+        } elseif (isset($_REQUEST["btnCancel"])) {
             Jaris\Uri::go("admin/modules");
         }
 
@@ -91,28 +83,28 @@ row: 0
         $parameters["method"] = "post";
         $parameters["enctype"] = "multipart/form-data";
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "file",
             "label" => t("Module file:"),
             "name" => "module_file",
             "id" => "module_file",
             "valid_types" => "zip",
             "description" => t("A valid module zip file.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnUpload",
             "value" => t("Upload")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnCancel",
             "value" => t("Cancel")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
         print Jaris\Forms::generate($parameters, $fieldset);
     ?>

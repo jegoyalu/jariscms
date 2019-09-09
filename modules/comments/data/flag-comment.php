@@ -17,26 +17,23 @@ row: 0
 
     field: content
     <?php
-        if(isset($_REQUEST["s"]) && Jaris\Authentication::currentUser() == "Guest")
-        {
+        if (isset($_REQUEST["s"]) && Jaris\Authentication::currentUser() == "Guest") {
             session_destroy();
             session_id($_REQUEST["s"]);
             session_start();
         }
 
-        Jaris\Authentication::protectedPage(array("flag_comments"));
+        Jaris\Authentication::protectedPage(["flag_comments"]);
 
-        if(
+        if (
             isset($_REQUEST["id"]) &&
             isset($_REQUEST["page"]) &&
             isset($_REQUEST["type"]) &&
             isset($_REQUEST["user"])
-        )
-        {
+        ) {
             $type_settings = comments_get_settings($_REQUEST["type"]);
 
-            if($type_settings["enabled"])
-            {
+            if ($type_settings["enabled"]) {
                 comments_flag(
                     $_REQUEST["id"],
                     $_REQUEST["page"],

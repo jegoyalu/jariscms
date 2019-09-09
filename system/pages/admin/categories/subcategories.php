@@ -19,10 +19,9 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("view_subcategories"));
+        Jaris\Authentication::protectedPage(["view_subcategories"]);
 
-        if(!isset($_REQUEST["category"]))
-        {
+        if (!isset($_REQUEST["category"])) {
             Jaris\Uri::go("admin/categories");
         }
     ?>
@@ -52,55 +51,46 @@ row: 0
         Jaris\View::addTab(
             t("Create Subcategory"),
             "admin/categories/subcategories/add",
-            array("category" => $_REQUEST["category"])
+            ["category" => $_REQUEST["category"]]
         );
 
         Jaris\View::addTab(
             t("Bulk Subcategory Add"),
             "admin/categories/subcategories/add-bulk",
-            array("category" => $_REQUEST["category"])
+            ["category" => $_REQUEST["category"]]
         );
 
-        $print_subcategories = function(
+        $print_subcategories = function (
             $category_name,
             $parent = "root",
             $position = ""
-        ) use (&$print_subcategories)
-        {
+        ) use (&$print_subcategories) {
             $category_data = Jaris\Categories::get($category_name);
 
-            if(!$category_data["sorting"])
-            {
+            if (!$category_data["sorting"]) {
                 $subcategories_list = Jaris\Data::sort(
                     Jaris\Categories::getChildSubcategories($category_name, $parent),
                     "order"
                 );
-            }
-            else
-            {
+            } else {
                 $subcategories_list = Jaris\Data::sort(
                     Jaris\Categories::getChildSubcategories($category_name, $parent),
                     "title"
                 );
             }
 
-            if($subcategories_list)
-            {
-                foreach($subcategories_list as $id => $fields)
-                {
+            if ($subcategories_list) {
+                foreach ($subcategories_list as $id => $fields) {
                     $select = "<select name=\"parent[]\">\n";
-                    $subcategories_for_parent["root"] = array("title" => "&lt;root&gt;");
+                    $subcategories_for_parent["root"] = ["title" => "&lt;root&gt;"];
                     $subcategories_for_parent += Jaris\Categories::getSubcategories($category_name);
-                    foreach($subcategories_for_parent as $select_id => $select_fields)
-                    {
+                    foreach ($subcategories_for_parent as $select_id => $select_fields) {
                         $selected = "";
-                        if("" . $fields["parent"] . "" == "" . $select_id . "")
-                        {
+                        if ("" . $fields["parent"] . "" == "" . $select_id . "") {
                             $selected = "selected";
                         }
 
-                        if("" . $select_id . "" != "" . $id . "")
-                        {
+                        if ("" . $select_id . "" != "" . $id . "") {
                             $select .= "<option $selected value=\"$select_id\">" .
                                 t($select_fields['title']) .
                                 "</option>\n"
@@ -157,12 +147,10 @@ row: 0
             }
         };
 
-        if(isset($_REQUEST["btnSave"]))
-        {
+        if (isset($_REQUEST["btnSave"])) {
             $saved = true;
 
-            for($i = 0; $i < count($_REQUEST["subcategory_id"]); $i++)
-            {
+            for ($i = 0; $i < count($_REQUEST["subcategory_id"]); $i++) {
                 $subcategory_data = Jaris\Categories::getSubcategory(
                     $_REQUEST["category"],
                     intval($_REQUEST["subcategory_id"][$i])
@@ -172,21 +160,19 @@ row: 0
 
                 //Checks if client is trying to move a root parent subcategory
                 //to its own subcategory and makes subs category root
-                if(
+                if (
                     $subcategory_data["parent"] == "root" &&
                     $_REQUEST["parent"][$i] != "root"
-                )
-                {
+                ) {
                     $new_parent_subcategory = Jaris\Categories::getSubcategory(
                         $_REQUEST["category"],
                         intval($_REQUEST["parent"][$i])
                     );
 
-                    if(
+                    if (
                         "" . $new_parent_subcategory["parent"] . "" ==
                         "" . $_REQUEST["subcategory_id"][$i] . ""
-                    )
-                    {
+                    ) {
                         $new_parent_subcategory["parent"] = "root";
 
                         Jaris\Categories::editSubcategory(
@@ -200,14 +186,13 @@ row: 0
                 $subcategory_data["parent"] = $_REQUEST["parent"][$i];
 
 
-                if(
+                if (
                     !Jaris\Categories::editSubcategory(
                         $_REQUEST["category"],
                         $subcategory_data,
                         intval($_REQUEST["subcategory_id"][$i])
                     )
-                )
-                {
+                ) {
                     Jaris\View::addMessage($_REQUEST["category"]);
                     Jaris\View::addMessage($_REQUEST["subcategory_id"][$i]);
                     $saved = false;
@@ -215,12 +200,9 @@ row: 0
                 }
             }
 
-            if($saved)
-            {
+            if ($saved) {
                 Jaris\View::addMessage(t("Your changes have been saved."));
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(
                     Jaris\System::errorMessage("write_error_data"),
                     "error"
@@ -229,7 +211,7 @@ row: 0
 
             Jaris\Uri::go(
                 "admin/categories/subcategories",
-                array("category" => $_REQUEST["category"])
+                ["category" => $_REQUEST["category"]]
             );
         }
     ?>
@@ -259,8 +241,7 @@ row: 0
             "order"
         );
 
-        if(count($subcategories_list) > 0)
-        {
+        if (count($subcategories_list) > 0) {
             print "<table class=\"subcategories-list\">\n";
 
             print "<thead><tr>\n";
@@ -275,9 +256,7 @@ row: 0
             $print_subcategories($_REQUEST["category"]);
 
             print "</tbody></table>\n";
-        }
-        else
-        {
+        } else {
             print t("No subcategories available.") . "<br />\n";
         }
     ?>

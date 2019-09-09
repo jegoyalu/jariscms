@@ -19,17 +19,14 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("edit_settings"));
+        Jaris\Authentication::protectedPage(["edit_settings"]);
 
-        if(!isset($_REQUEST["name"]))
-        {
+        if (!isset($_REQUEST["name"])) {
             Jaris\Uri::go("admin/settings/sqlite");
         }
 
-        if(isset($_REQUEST["btnYes"]))
-        {
-            if(Jaris\Sql::dbExists($_REQUEST["name"]))
-            {
+        if (isset($_REQUEST["btnYes"])) {
+            if (Jaris\Sql::dbExists($_REQUEST["name"])) {
                 unlink(Jaris\Site::dataDir() . "sqlite/" . $_REQUEST["name"]);
             }
 
@@ -39,15 +36,13 @@ row: 0
 
             Jaris\Logger::info(
                 "Deleted sql database '{database}'.",
-                array(
+                [
                     "database" => $_REQUEST["name"]
-                )
+                ]
             );
 
             Jaris\Uri::go("admin/settings/sqlite");
-        }
-        elseif(isset($_REQUEST["btnNo"]))
-        {
+        } elseif (isset($_REQUEST["btnNo"])) {
             Jaris\Uri::go("admin/settings/sqlite");
         }
     ?>

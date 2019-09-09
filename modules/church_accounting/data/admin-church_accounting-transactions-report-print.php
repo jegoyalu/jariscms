@@ -17,40 +17,32 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("view_income_church_accounting"));
+        Jaris\Authentication::protectedPage(["view_income_church_accounting"]);
 
         $day = "";
-        if(trim($_REQUEST["day"]) != "")
-        {
+        if (trim($_REQUEST["day"]) != "") {
             $day = intval($_REQUEST["day"]);
             $options[] = "day=$day";
         }
 
         $month = date("n");
-        if(trim($_REQUEST["month"]) != "")
-        {
+        if (trim($_REQUEST["month"]) != "") {
             $month = intval($_REQUEST["month"]);
             $options[] = "month=$month";
-        }
-        else
-        {
+        } else {
             $options[] = "month=$month";
         }
 
         $year = date("Y");
-        if(trim($_REQUEST["year"]) != "")
-        {
+        if (trim($_REQUEST["year"]) != "") {
             $year = intval($_REQUEST["year"]);
             $options[] = "year=$year";
-        }
-        else
-        {
+        } else {
             $options[] = "year=$year";
         }
 
         $where = "";
-        if(count($options) > 0)
-        {
+        if (count($options) > 0) {
             $where = implode(" and ", $options);
         }
 
@@ -58,13 +50,14 @@ row: 0
         $theme = Jaris\Site::$theme;
 
         ob_start();
-        if(file_exists(Jaris\Themes::directory($theme) . "church-accounting-transactions-report-print.php"))
+        if (file_exists(Jaris\Themes::directory($theme) . "church-accounting-transactions-report-print.php")) {
             include(Jaris\Themes::directory($theme) . "church-accounting-transactions-report-print.php");
-        else
+        } else {
             include(
                 Jaris\Modules::directory("church_accounting")
                 . "templates/church-accounting-transactions-report-print.php"
             );
+        }
         $output = ob_get_contents();
         ob_end_clean();
 

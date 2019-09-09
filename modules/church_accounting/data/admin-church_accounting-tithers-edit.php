@@ -17,12 +17,11 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("manage_tithers_church_accounting"));
+        Jaris\Authentication::protectedPage(["manage_tithers_church_accounting"]);
 
         $tither_data = church_accounting_tither_get($_REQUEST["id"]);
 
-        if(!is_array($tither_data))
-        {
+        if (!is_array($tither_data)) {
             Jaris\Uri::go(
                 Jaris\Modules::getPageUri(
                     "admin/church-accounting/tithers",
@@ -37,7 +36,7 @@ row: 0
                 "admin/church-accounting/income/tithes/add",
                 "church_accounting"
             ),
-            array("tid" => $_REQUEST["id"])
+            ["tid" => $_REQUEST["id"]]
         );
 
         Jaris\View::addTab(
@@ -46,7 +45,7 @@ row: 0
                 "admin/church-accounting/income/tither-offerings/add",
                 "church_accounting"
             ),
-            array("tid" => $_REQUEST["id"])
+            ["tid" => $_REQUEST["id"]]
         );
 
         Jaris\View::addTab(
@@ -55,15 +54,14 @@ row: 0
                 "admin/church-accounting/tithers/report",
                 "church_accounting"
             ),
-            array("id" => $_REQUEST["id"])
+            ["id" => $_REQUEST["id"]]
         );
 
-        if(
+        if (
             isset($_REQUEST["btnSave"]) &&
             !Jaris\Forms::requiredFieldEmpty("edit-tither")
-        )
-        {
-            $data = array(
+        ) {
+            $data = [
                 "first_name" => $_REQUEST["first_name"],
                 "last_name" => $_REQUEST["last_name"],
                 "maiden_name" => $_REQUEST["maiden_name"],
@@ -71,7 +69,7 @@ row: 0
                 "email" => $_REQUEST["email"],
                 "phone" => $_REQUEST["phone"],
                 "mobile_phone" => $_REQUEST["mobile_phone"]
-            );
+            ];
 
             church_accounting_tither_edit($tither_data["id"], $data);
 
@@ -83,9 +81,7 @@ row: 0
                     "church_accounting"
                 )
             );
-        }
-        elseif(isset($_REQUEST["btnCancel"]))
-        {
+        } elseif (isset($_REQUEST["btnCancel"])) {
             Jaris\Uri::go(
                 Jaris\Modules::getPageUri(
                     "admin/church-accounting/tithers",
@@ -99,13 +95,13 @@ row: 0
         $parameters["action"] = Jaris\Uri::url(Jaris\Uri::get());
         $parameters["method"] = "post";
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "hidden",
             "name" => "id",
             "value" => $tither_data["id"]
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "name" => "first_name",
             "value" => isset($_REQUEST["first_name"]) ?
@@ -113,9 +109,9 @@ row: 0
                 :
                 $tither_data["first_name"],
             "label" => t("First name:")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "name" => "last_name",
             "value" => isset($_REQUEST["last_name"]) ?
@@ -123,9 +119,9 @@ row: 0
                 :
                 $tither_data["last_name"],
             "label" => t("Last name:")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "name" => "maiden_name",
             "value" => isset($_REQUEST["maiden_name"]) ?
@@ -133,9 +129,9 @@ row: 0
                 :
                 $tither_data["maiden_name"],
             "label" => t("Maiden name:")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "textarea",
             "name" => "postal_address",
             "value" => isset($_REQUEST["postal_address"]) ?
@@ -143,9 +139,9 @@ row: 0
                 :
                 $tither_data["postal_address"],
             "label" => t("Postal address:")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "name" => "email",
             "value" => isset($_REQUEST["email"]) ?
@@ -153,9 +149,9 @@ row: 0
                 :
                 $tither_data["email"],
             "label" => t("E-mail:")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "name" => "phone",
             "value" => isset($_REQUEST["phone"]) ?
@@ -163,9 +159,9 @@ row: 0
                 :
                 $tither_data["phone"],
             "label" => t("Phone:")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "name" => "mobile_phone",
             "value" => isset($_REQUEST["mobile_phone"]) ?
@@ -173,21 +169,21 @@ row: 0
                 :
                 $tither_data["mobile_phone"],
             "label" => t("Mobile phone:")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnSave",
             "value" => t("Save")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnCancel",
             "value" => t("Cancel")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
         print Jaris\Forms::generate($parameters, $fieldset);
     ?>

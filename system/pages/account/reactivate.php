@@ -20,51 +20,42 @@ row: 0
         $message = "";
         $reactivation_link = "";
 
-        if(!isset($_REQUEST["u"]))
-        {
+        if (!isset($_REQUEST["u"])) {
             $message = t("Error: Invalid account.");
         }
 
         $user_data = Jaris\Users::get($_REQUEST["u"]);
 
-        if(!$user_data)
-        {
+        if (!$user_data) {
             $message = t("Error: Invalid account.");
         }
 
-        if(
+        if (
             $message == ""
-        )
-        {
-            if($user_data["email_activated"] == "0")
-            {
-                if(Jaris\Mail::sendEmailActivation($_REQUEST["u"]))
-                {
+        ) {
+            if ($user_data["email_activated"] == "0") {
+                if (Jaris\Mail::sendEmailActivation($_REQUEST["u"])) {
                     $message = t("The activation e-mail was successfully sent.");
 
                     t("Account re-activation e-mail sent for '{username}'.");
 
                     Jaris\Logger::info(
                         "Account re-activation e-mail sent for '{username}'.",
-                        array(
+                        [
                             "username" => $_REQUEST["u"]
-                        )
+                        ]
                     );
-                }
-                else
-                {
+                } else {
                     $message = t("Error: An error occured while trying to send the activation email, please try again later.");
                 }
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(
                     t("Account already activated. Please login.")
                 );
 
                 Jaris\Uri::go(
                     "admin/user",
-                    array("username" => $user_data["email"])
+                    ["username" => $user_data["email"]]
                 );
             }
         }

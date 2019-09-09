@@ -17,18 +17,16 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("edit_settings"));
+        Jaris\Authentication::protectedPage(["edit_settings"]);
 
-        if(isset($_REQUEST["btnSave"]))
-        {
-            if(
+        if (isset($_REQUEST["btnSave"])) {
+            if (
                 Jaris\Settings::save(
                     "description_words",
                     strval(intval($_REQUEST["description_words"])),
                     "rss"
                 )
-            )
-            {
+            ) {
                 Jaris\Settings::save(
                     "images_enable",
                     strval(intval($_REQUEST["images_enable"])),
@@ -54,9 +52,7 @@ row: 0
                 );
 
                 Jaris\View::addMessage(t("Your changes have been saved."));
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(
                     Jaris\System::errorMessage("write_error_data")
                 );
@@ -82,7 +78,7 @@ row: 0
         );
         $parameters["method"] = "post";
 
-        $fields_main[] = array(
+        $fields_main[] = [
             "type" => "text",
             "name" => "description_words",
             "label" => t("Description lenght:"),
@@ -92,16 +88,16 @@ row: 0
                 "45",
             "required" => true,
             "description" => t("The amount of words to include on the description of the rss item. Default is 45")
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "fields" => $fields_main
-        );
+        ];
 
         $display_images[t("Enable")] = true;
         $display_images[t("Disable")] = false;
 
-        $fields_images[] = array(
+        $fields_images[] = [
             "type" => "radio",
             "name" => "images_enable",
             "value" => $display_images,
@@ -109,9 +105,9 @@ row: 0
                 $rss_settings["images_enable"]
                 :
                 true
-        );
+        ];
 
-        $fields_images[] = array(
+        $fields_images[] = [
             "type" => "text",
             "name" => "images_width",
             "label" => t("Images width:"),
@@ -121,9 +117,9 @@ row: 0
                 "512",
             "required" => true,
             "description" => t("The widht in pixels for the rss images. Default is 512")
-        );
+        ];
 
-        $fields_images[] = array(
+        $fields_images[] = [
             "type" => "text",
             "name" => "images_height",
             "label" => t("Images height:"),
@@ -133,14 +129,14 @@ row: 0
                 "384",
             "required" => true,
             "description" => t("The height in pixels for the rss images. Default is 384")
-        );
+        ];
 
-        $fields_images[] = array(
+        $fields_images[] = [
             "type" => "other",
             "html_code" => "<br />"
-        );
+        ];
 
-        $fields_images[] = array(
+        $fields_images[] = [
             "type" => "checkbox",
             "name" => "images_keep_aspect_raio",
             "label" => t("Keep aspect ratio?"),
@@ -149,28 +145,28 @@ row: 0
                 :
                 true,
             "value" => true
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "fields" => $fields_images,
             "name" => t("Images"),
             "collasible" => true,
             "collapsed" => false
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnSave",
             "value" => t("Save")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnCancel",
             "value" => t("Cancel")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
         print Jaris\Forms::generate($parameters, $fieldset);
     ?>

@@ -12,7 +12,7 @@ namespace Puente\DOM;
  * data inside the user browser.
  */
 class LocalStorage extends ADomObject
-{   
+{
     /**
      * Constructor.
      *
@@ -28,7 +28,7 @@ class LocalStorage extends ADomObject
      *
      * @param string $name
      * @param string $value
-     * 
+     *
      * @return \Puente\DOM\LocalStorage
      */
     public function setItem(string $name, string $value): self
@@ -42,7 +42,7 @@ class LocalStorage extends ADomObject
      * Removes the specified local storage item.
      *
      * @param string $name
-     * 
+     *
      * @return \Puente\DOM\LocalStorage
      */
     public function removeItem(string $name): self
@@ -54,7 +54,7 @@ class LocalStorage extends ADomObject
 
     /**
      * Remove all local storage items.
-     * 
+     *
      * @return \Puente\DOM\LocalStorage
      */
     public function clear(): self

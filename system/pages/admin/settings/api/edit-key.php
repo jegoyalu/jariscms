@@ -19,30 +19,29 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("edit_keys_api"));
+        Jaris\Authentication::protectedPage(["edit_keys_api"]);
 
-        if(!Jaris\Sql::dbExists("api_keys") || !isset($_REQUEST["id"]))
-        {
+        if (!Jaris\Sql::dbExists("api_keys") || !isset($_REQUEST["id"])) {
             Jaris\Uri::go("admin/settings/api");
         }
 
         $key_data = Jaris\ApiKey::getDataById($_REQUEST["id"]);
 
-        if(
+        if (
             isset($_REQUEST["btnSave"]) &&
             !Jaris\Forms::requiredFieldEmpty("api-edit-key")
-        )
-        {
+        ) {
             $key_data["description"] =$_REQUEST["description"];
             $key_data["username"] =$_REQUEST["username"];
             $key_data["ip_host"] =$_REQUEST["ip_host"];
 
             Jaris\ApiKey::edit($key_data["key"], $key_data);
 
-            if(isset($_REQUEST["permissions"]))
+            if (isset($_REQUEST["permissions"])) {
                 Jaris\ApiKey::setPermissions($key_data["key"], $_REQUEST["permissions"]);
-            else
-                Jaris\ApiKey::setPermissions($key_data["key"], array());
+            } else {
+                Jaris\ApiKey::setPermissions($key_data["key"], []);
+            }
 
             Jaris\View::addMessage(t("The api key has been successfully updated."));
 
@@ -50,15 +49,13 @@ row: 0
 
             Jaris\Logger::info(
                 "Edited api key '{key}'.",
-                array(
+                [
                     "key" => $key_data["key"]
-                )
+                ]
             );
 
             Jaris\Uri::go("admin/settings/api");
-        }
-        elseif(isset($_REQUEST["btnCancel"]))
-        {
+        } elseif (isset($_REQUEST["btnCancel"])) {
             Jaris\Uri::go("admin/settings/api");
         }
 
@@ -69,64 +66,61 @@ row: 0
         $parameters["action"] = Jaris\Uri::url("admin/settings/api/edit-key");
         $parameters["method"] = "post";
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "hidden",
             "name" => "id",
             "value" => $_REQUEST["id"]
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "name" => "key",
             "value" => $key_data["key"],
             "label" => t("Key:"),
             "readonly" => true
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "name" => "description",
             "value" => $key_data["description"],
             "label" => t("Description:"),
             "required" => true,
             "description" => t("A brief description of the key purpose.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "user",
             "name" => "username",
             "value" => $key_data["username"],
             "label" => t("Username:"),
             "description" => t("An optional username to associate to the key.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "textarea",
             "name" => "ip_host",
             "value" => $key_data["ip_host"],
             "label" => t("IP or Host:"),
             "description" => t("A list separated by comma (,) of ip addresses or host that can use the apikey. Eg: 192.168.1.1, host.mydynip.com")
-        );
+        ];
 
-        if(count($permissions) > 0)
-        {
-            $fields[] = array(
+        if (count($permissions) > 0) {
+            $fields[] = [
                 "type" => "other",
                 "html_code" => "<h2>"
                     . t("Permissions")
                     . "</h2>"
-            );
+            ];
         }
 
-        $fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
-        foreach($permissions as $group => $permissions_list)
-        {
-            $fields = array();
+        foreach ($permissions as $group => $permissions_list) {
+            $fields = [];
 
-            foreach($permissions_list as $machine_name => $human_name)
-            {
-                $fields[] = array(
+            foreach ($permissions_list as $machine_name => $human_name) {
+                $fields[] = [
                     "type" => "checkbox",
                     "checked" => isset($key_data["permissions"][$machine_name]) ?
                         $key_data["permissions"][$machine_name]
@@ -135,30 +129,30 @@ row: 0
                     "name" => "permissions[$machine_name]",
                     "label" => $human_name,
                     "id" => $machine_name
-                );
+                ];
             }
 
-            $fieldset[] = array(
+            $fieldset[] = [
                 "name" => $group,
                 "fields" => $fields,
                 "collapsible" => true,
                 "collapsed" => true
-            );
+            ];
         }
 
-        $fields_submit[] = array(
+        $fields_submit[] = [
             "type" => "submit",
             "name" => "btnSave",
             "value" => t("Save")
-        );
+        ];
 
-        $fields_submit[] = array(
+        $fields_submit[] = [
             "type" => "submit",
             "name" => "btnCancel",
             "value" => t("Cancel")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields_submit);
+        $fieldset[] = ["fields" => $fields_submit];
 
         print Jaris\Forms::generate($parameters, $fieldset);
     ?>

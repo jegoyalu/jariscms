@@ -9,13 +9,11 @@
 function calendar_upgrade()
 {
     // Remove obsolete featured products type.
-    if(isset(Jaris\Types::getList()["featured-product"]))
-    {
+    if (isset(Jaris\Types::getList()["featured-product"])) {
         Jaris\Types::delete("featured-product");
     }
 
-    if(Jaris\Sql::dbExists("ecommerce_coupons"))
-    {
+    if (Jaris\Sql::dbExists("ecommerce_coupons")) {
         $data = Jaris\Sql::getDataList(
             "ecommerce_coupons",
             "ecommerce_coupons",
@@ -23,8 +21,7 @@ function calendar_upgrade()
             1
         );
 
-        if(!isset($data[0]["max_usage_type"]))
-        {
+        if (!isset($data[0]["max_usage_type"])) {
             $db = Jaris\Sql::open("ecommerce_coupons");
 
             Jaris\Sql::query(
@@ -39,8 +36,7 @@ function calendar_upgrade()
             );
         }
 
-        if(!isset($data[0]["product_types"]))
-        {
+        if (!isset($data[0]["product_types"])) {
             $db = Jaris\Sql::open("ecommerce_coupons");
 
             Jaris\Sql::query(
@@ -55,8 +51,7 @@ function calendar_upgrade()
             );
         }
 
-        if(!isset($data[0]["type_categories"]))
-        {
+        if (!isset($data[0]["type_categories"])) {
             $db = Jaris\Sql::open("ecommerce_coupons");
 
             Jaris\Sql::query(
@@ -72,8 +67,7 @@ function calendar_upgrade()
         }
     }
 
-    if(Jaris\Sql::dbExists("ecommerce_inventory"))
-    {
+    if (Jaris\Sql::dbExists("ecommerce_inventory")) {
         $data = Jaris\Sql::getDataList(
             "ecommerce_inventory",
             "ecommerce_inventory",
@@ -81,8 +75,7 @@ function calendar_upgrade()
             1
         );
 
-        if(!isset($data[0]["upc_code"]))
-        {
+        if (!isset($data[0]["upc_code"])) {
             $db = Jaris\Sql::open("ecommerce_inventory");
 
             Jaris\Sql::query(
@@ -97,8 +90,7 @@ function calendar_upgrade()
             );
         }
 
-        if(!isset($data[0]["variation"]))
-        {
+        if (!isset($data[0]["variation"])) {
             $db = Jaris\Sql::open("ecommerce_inventory");
 
             Jaris\Sql::query(

@@ -20,16 +20,14 @@ row: 0
     field: content
     <?php
         Jaris\Authentication::protectedPage(
-            array("view_menus", "delete_menus")
+    ["view_menus", "delete_menus"]
         );
 
-        if(!isset($_REQUEST["menu"]))
-        {
+        if (!isset($_REQUEST["menu"])) {
             Jaris\Uri::go("admin/menus");
         }
 
-        if(isset($_REQUEST["btnYes"]))
-        {
+        if (isset($_REQUEST["btnYes"])) {
             //Store the current primary and secondary menus names
             $primary = Jaris\Settings::get("primary_menu", "main");
             $secondary = Jaris\Settings::get("secondary_menu", "main");
@@ -44,19 +42,14 @@ row: 0
 
             //Check if no primary or secondary menu configuration
             //exist and checks if system default
-            if(!$primary && $_REQUEST["menu"] == "primary")
-            {
+            if (!$primary && $_REQUEST["menu"] == "primary") {
                 $is_primary = true;
-            }
-            elseif(!$secondary && $_REQUEST["menu"] == "secondary")
-            {
+            } elseif (!$secondary && $_REQUEST["menu"] == "secondary") {
                 $is_secondary = true;
             }
 
-            if(!$is_primary && !$is_secondary)
-            {
-                if(Jaris\Menus::delete($_REQUEST["menu"]))
-                {
+            if (!$is_primary && !$is_secondary) {
+                if (Jaris\Menus::delete($_REQUEST["menu"])) {
                     //Delete the menu block
                     Jaris\Blocks::deleteByField("menu_name", $_REQUEST["menu"]);
 
@@ -66,30 +59,23 @@ row: 0
 
                     Jaris\Logger::info(
                         "Deleted menu '{machine_name}'.",
-                        array(
+                        [
                             "machine_name" => $_REQUEST["menu"]
-                        )
+                        ]
                     );
-                }
-                else
-                {
+                } else {
                     Jaris\View::addMessage(
                         Jaris\System::errorMessage("write_error_data"),
                         "error"
                     );
                 }
-            }
-            else
-            {
-                if($is_primary)
-                {
+            } else {
+                if ($is_primary) {
                     Jaris\View::addMessage(
                         t("Can't delete primary menu."),
                         "error"
                     );
-                }
-                else
-                {
+                } else {
                     Jaris\View::addMessage(
                         t("Can't delete secondary menu."),
                         "error"
@@ -98,9 +84,7 @@ row: 0
             }
 
             Jaris\Uri::go("admin/menus");
-        }
-        elseif(isset($_REQUEST["btnNo"]))
-        {
+        } elseif (isset($_REQUEST["btnNo"])) {
             Jaris\Uri::go("admin/menus");
         }
     ?>

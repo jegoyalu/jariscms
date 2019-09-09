@@ -19,7 +19,7 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("view_groups"));
+        Jaris\Authentication::protectedPage(["view_groups"]);
 
         Jaris\View::addTab(t("Users"), "admin/users");
         Jaris\View::addTab(t("Create Group"), "admin/groups/add");
@@ -40,8 +40,7 @@ row: 0
 
         print "</tr></thead>\n";
 
-        foreach($groups as $name => $machine_name)
-        {
+        foreach ($groups as $name => $machine_name) {
             $group_data = Jaris\Groups::get($machine_name);
             $description = $group_data["description"];
 
@@ -52,17 +51,17 @@ row: 0
 
             $edit_url = Jaris\Uri::url(
                 "admin/groups/edit",
-                array("group" => $machine_name)
+                ["group" => $machine_name]
             );
 
             $permissions_url = Jaris\Uri::url(
                 "admin/groups/permissions",
-                array("group" => $machine_name)
+                ["group" => $machine_name]
             );
 
             $delete_url = Jaris\Uri::url(
                 "admin/groups/delete",
-                array("group" => $machine_name)
+                ["group" => $machine_name]
             );
 
             $edit_text = t("Edit");

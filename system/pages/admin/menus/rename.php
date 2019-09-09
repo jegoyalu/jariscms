@@ -19,42 +19,36 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("view_menus", "edit_menus"));
+        Jaris\Authentication::protectedPage(["view_menus", "edit_menus"]);
 
-        if(!isset($_REQUEST["current_name"]))
-        {
+        if (!isset($_REQUEST["current_name"])) {
             Jaris\Uri::go("admin/menus");
         }
 
-        if(
+        if (
             isset($_REQUEST["btnSave"]) &&
             !Jaris\Forms::requiredFieldEmpty("rename-menu")
-        )
-        {
+        ) {
             $message = Jaris\Menus::rename(
                 $_REQUEST["current_name"],
                 $_REQUEST["new_name"]
             );
 
-            if($message == "true")
-            {
+            if ($message == "true") {
                 //If it is  primary or secondary menu change main config also.
-                if(
+                if (
                     Jaris\Settings::get("primary_menu", "main") ==
                     $_REQUEST["current_name"]
-                )
-                {
+                ) {
                     Jaris\Settings::save(
                         "primary_menu",
                         $_REQUEST["new_name"],
                         "main"
                     );
-                }
-                elseif(
+                } elseif (
                     Jaris\Settings::get("secondary_menu", "main") ==
                     $_REQUEST["current_name"]
-                )
-                {
+                ) {
                     Jaris\Settings::save(
                         "secondary_menu",
                         $_REQUEST["new_name"],
@@ -86,21 +80,17 @@ row: 0
 
                 Jaris\Logger::info(
                     "Renamed menu '{machine_name}' to '{new_machine_name}'.",
-                    array(
+                    [
                         "machine_name" => $_REQUEST["current_name"],
                         "new_machine_name" => $_REQUEST["new_name"]
-                    )
+                    ]
                 );
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage($message, "error");
             }
 
             Jaris\Uri::go("admin/menus");
-        }
-        elseif(isset($_REQUEST["btnCancel"]))
-        {
+        } elseif (isset($_REQUEST["btnCancel"])) {
             Jaris\Uri::go("admin/menus");
         }
 
@@ -109,13 +99,13 @@ row: 0
         $parameters["action"] = Jaris\Uri::url("admin/menus/rename");
         $parameters["method"] = "post";
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "hidden",
             "value" => $_REQUEST["current_name"],
             "name" => "current_name"
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "value" => $_REQUEST["current_name"],
             "name" => "new_name",
@@ -123,21 +113,21 @@ row: 0
             "id" => "new_name",
             "description" => t("A machine readable name. For example: my-menu"),
             "required" => true
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnSave",
             "value" => t("Save")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnCancel",
             "value" => t("Cancel")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
         print Jaris\Forms::generate($parameters, $fieldset);
     ?>

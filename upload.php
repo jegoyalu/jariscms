@@ -13,8 +13,7 @@ require 'src/Autoloader.php';
 Jaris\Autoloader::register();
 
 //Include backward compatible functions if include dir exists
-if(file_exists("include/forms.php"))
-{
+if (file_exists("include/forms.php")) {
     require 'src/DeprecatedFunctions.php';
 }
 
@@ -33,8 +32,7 @@ Jaris\System::checkIfNotInstalled();
 //Check if site status is online to continue
 Jaris\Site::checkIfOffline();
 
-if(Jaris\Forms::canUpload())
-{
+if (Jaris\Forms::canUpload()) {
     error_reporting(E_ALL | E_STRICT);
 
     $upload_path = str_replace(
@@ -46,16 +44,15 @@ if(Jaris\Forms::canUpload())
         )
     );
 
-    if(!is_dir($upload_path))
-    {
+    if (!is_dir($upload_path)) {
         Jaris\FileSystem::makeDir($upload_path, 0755, true);
     }
 
     $upload_handler = new UploadHandler(
-        array(
+        [
             'script_url' => Jaris\Uri::url("upload.php"),
             "upload_dir" => $upload_path,
             'delete_type' => 'POST'
-        )
+        ]
     );
 }

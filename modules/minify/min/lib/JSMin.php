@@ -54,7 +54,8 @@
  * @link http://code.google.com/p/jsmin-php/
  */
 
-class JSMin {
+class JSMin
+{
     const ORD_LF            = 10;
     const ORD_SPACE         = 32;
     const ACTION_KEEP_A     = 1;
@@ -128,7 +129,7 @@ class JSMin {
                 if ($this->b === ' ') {
                     $command = self::ACTION_DELETE_A_B;
 
-                    // in case of mbstring.func_overload & 2, must check for null b,
+                // in case of mbstring.func_overload & 2, must check for null b,
                     // otherwise mb_strpos will give WARNING
                 } elseif ($this->b === null
                           || (false === strpos('{[(+-!~', $this->b)
@@ -187,11 +188,12 @@ class JSMin {
                 $this->lastByteOut = $this->a;
 
                 // fallthrough intentional
+                // no break
             case self::ACTION_DELETE_A: // 2
                 $this->a = $this->b;
                 if ($this->a === "'" || $this->a === '"') { // string literal
                     $str = $this->a; // in case needed for exception
-                    for(;;) {
+                    for (;;) {
                         $this->output .= $this->a;
                         $this->lastByteOut = $this->a;
 
@@ -201,7 +203,8 @@ class JSMin {
                         }
                         if ($this->isEOF($this->a)) {
                             throw new JSMin_UnterminatedStringException(
-                                "JSMin: Unterminated String at byte {$this->inputIndex}: {$str}");
+                                "JSMin: Unterminated String at byte {$this->inputIndex}: {$str}"
+                            );
                         }
                         $str .= $this->a;
                         if ($this->a === '\\') {
@@ -215,16 +218,17 @@ class JSMin {
                 }
 
                 // fallthrough intentional
+                // no break
             case self::ACTION_DELETE_A_B: // 3
                 $this->b = $this->next();
                 if ($this->b === '/' && $this->isRegexpLiteral()) {
                     $this->output .= $this->a . $this->b;
                     $pattern = '/'; // keep entire pattern in case we need to report it in the exception
-                    for(;;) {
+                    for (;;) {
                         $this->a = $this->get();
                         $pattern .= $this->a;
                         if ($this->a === '[') {
-                            for(;;) {
+                            for (;;) {
                                 $this->output .= $this->a;
                                 $this->a = $this->get();
                                 $pattern .= $this->a;
@@ -239,7 +243,8 @@ class JSMin {
                                 if ($this->isEOF($this->a)) {
                                     throw new JSMin_UnterminatedRegExpException(
                                         "JSMin: Unterminated set in RegExp at byte "
-                                            . $this->inputIndex .": {$pattern}");
+                                            . $this->inputIndex .": {$pattern}"
+                                    );
                                 }
                             }
                         }
@@ -252,7 +257,8 @@ class JSMin {
                             $pattern .= $this->a;
                         } elseif ($this->isEOF($this->a)) {
                             throw new JSMin_UnterminatedRegExpException(
-                                "JSMin: Unterminated RegExp at byte {$this->inputIndex}: {$pattern}");
+                                "JSMin: Unterminated RegExp at byte {$this->inputIndex}: {$pattern}"
+                            );
                         }
                         $this->output .= $this->a;
                         $this->lastByteOut = $this->a;
@@ -382,7 +388,7 @@ class JSMin {
     {
         $this->get();
         $comment = '';
-        for(;;) {
+        for (;;) {
             $get = $this->get();
             if ($get === '*') {
                 if ($this->peek() === '/') { // end of comment reached
@@ -394,7 +400,7 @@ class JSMin {
                             $this->keptComment = "\n";
                         }
                         $this->keptComment .= "/*!" . substr($comment, 1) . "*/\n";
-                    } else if (preg_match('/^@(?:cc_on|if|elif|else|end)\\b/', $comment)) {
+                    } elseif (preg_match('/^@(?:cc_on|if|elif|else|end)\\b/', $comment)) {
                         // IE conditional
                         $this->keptComment .= "/*{$comment}*/";
                     }
@@ -402,7 +408,8 @@ class JSMin {
                 }
             } elseif ($get === null) {
                 throw new JSMin_UnterminatedCommentException(
-                    "JSMin: Unterminated comment at byte {$this->inputIndex}: /*{$comment}");
+                    "JSMin: Unterminated comment at byte {$this->inputIndex}: /*{$comment}"
+                );
             }
             $comment .= $get;
         }
@@ -432,6 +439,12 @@ class JSMin {
     }
 }
 
-class JSMin_UnterminatedStringException extends Exception {}
-class JSMin_UnterminatedCommentException extends Exception {}
-class JSMin_UnterminatedRegExpException extends Exception {}
+class JSMin_UnterminatedStringException extends Exception
+{
+}
+class JSMin_UnterminatedCommentException extends Exception
+{
+}
+class JSMin_UnterminatedRegExpException extends Exception
+{
+}

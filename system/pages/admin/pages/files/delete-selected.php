@@ -21,20 +21,17 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("delete_files"));
+        Jaris\Authentication::protectedPage(["delete_files"]);
 
-        if(!isset($_REQUEST["uri"]))
-        {
+        if (!isset($_REQUEST["uri"])) {
             Jaris\Uri::go("");
         }
 
-        if(!Jaris\Pages::userIsOwner($_REQUEST["uri"]))
-        {
+        if (!Jaris\Pages::userIsOwner($_REQUEST["uri"])) {
             Jaris\Authentication::protectedPage();
         }
 
-        if(!isset($_REQUEST["files"]) || count($_REQUEST["files"]) <= 0)
-        {
+        if (!isset($_REQUEST["files"]) || count($_REQUEST["files"]) <= 0) {
             Jaris\View::addMessage(
                 t("Please select the files to delete."),
                 "error"
@@ -42,24 +39,21 @@ row: 0
 
             Jaris\Uri::go(
                 "admin/pages/files",
-                array(
+                [
                     "uri" => $_REQUEST["uri"]
-                )
+                ]
             );
         }
 
-        if(isset($_REQUEST["btnYes"]))
-        {
-            foreach($_REQUEST["files"] as $file_id)
-            {
+        if (isset($_REQUEST["btnYes"])) {
+            foreach ($_REQUEST["files"] as $file_id) {
                 //Delete page
-                if(
+                if (
                     !Jaris\Pages\Files::delete(
                         intval($file_id),
                         $_REQUEST["uri"]
                     )
-                )
-                {
+                ) {
                     Jaris\View::addMessage(
                         Jaris\System::errorMessage("write_error_data"),
                         "error"
@@ -67,9 +61,9 @@ row: 0
 
                     Jaris\Uri::go(
                         "admin/pages/files",
-                        array(
+                        [
                             "uri" => $_REQUEST["uri"]
-                        )
+                        ]
                     );
                 }
             }
@@ -78,18 +72,16 @@ row: 0
 
             Jaris\Uri::go(
                 "admin/pages/files",
-                array(
+                [
                     "uri" => $_REQUEST["uri"]
-                )
+                ]
             );
-        }
-        elseif(isset($_REQUEST["btnNo"]))
-        {
+        } elseif (isset($_REQUEST["btnNo"])) {
             Jaris\Uri::go(
                 "admin/pages/files",
-                array(
+                [
                     "uri" => $_REQUEST["uri"]
-                )
+                ]
             );
         }
 
@@ -100,7 +92,7 @@ row: 0
           action="<?php Jaris\Uri::url("admin/pages/files/delete-selected") ?>"
     >
         <input type="hidden" name="uri" value="<?php print $_REQUEST["uri"] ?>" />
-    <?php foreach($_REQUEST["files"] as $file_id){ ?>
+    <?php foreach ($_REQUEST["files"] as $file_id) { ?>
         <input type="hidden" name="files[]" value="<?php print $file_id ?>" />
     <?php } ?>
 
@@ -109,7 +101,7 @@ row: 0
         <div>
             <?php print t("Are you sure you want to delete the listed files?") ?>
             <ul>
-            <?php foreach($_REQUEST["files"] as $file_id){ ?>
+            <?php foreach ($_REQUEST["files"] as $file_id) { ?>
                 <li style="padding-bottom: 3px;">
                     <a
                         target="_blank"

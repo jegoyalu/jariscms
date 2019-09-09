@@ -17,13 +17,11 @@ row: 0
 
     field: content
     <?php
-        if(!Jaris\Authentication::hasTypeAccess("blog", Jaris\Authentication::currentUserGroup()))
-        {
+        if (!Jaris\Authentication::hasTypeAccess("blog", Jaris\Authentication::currentUserGroup())) {
             Jaris\Authentication::protectedPage();
         }
 
-        if(Jaris\Authentication::groupHasPermission("add_content", Jaris\Authentication::currentUserGroup()))
-        {
+        if (Jaris\Authentication::groupHasPermission("add_content", Jaris\Authentication::currentUserGroup())) {
             Jaris\View::addTab(
                 t("View Blog"),
                 Jaris\Modules::getPageUri("blog/user", "blog") . "/" . Jaris\Authentication::currentUser()
@@ -37,7 +35,7 @@ row: 0
             Jaris\View::addTab(
                 t("Add Post"),
                 Jaris\Modules::getPageUri("admin/pages/add", "blog"),
-                array("type" => "blog")
+                ["type" => "blog"]
             );
         }
 
@@ -48,8 +46,7 @@ row: 0
 
         $page = 1;
 
-        if(isset($_REQUEST["page"]))
-        {
+        if (isset($_REQUEST["page"])) {
             $page = $_REQUEST["page"];
         }
 
@@ -98,18 +95,16 @@ row: 0
         print "</tr>";
         print "</thead>";
 
-        foreach($blogs as $blog_data)
-        {
+        foreach ($blogs as $blog_data) {
             $page_data = Jaris\Pages::get($blog_data["uri"]);
 
             $images = Jaris\Pages\Images::getList($blog_data["uri"]);
             $thumbnail = false;
 
-            foreach($images as $image)
-            {
+            foreach ($images as $image) {
                 $thumbnail = Jaris\Uri::url(
                     "image/" . $blog_data["uri"] . "/0",
-                    array("w" => 100, "h" => 60)
+                    ["w" => 100, "h" => 60]
                 );
 
                 break;
@@ -118,8 +113,7 @@ row: 0
             print "<tr>";
 
             print "<td>";
-            if($thumbnail)
-            {
+            if ($thumbnail) {
                 print "<a href=\"" . Jaris\Uri::url($blog_data["uri"]) . "\"><img alt=\"{$page_data['title']}\" src=\"$thumbnail\" /></a>";
             }
             print "</td>";
@@ -139,8 +133,8 @@ row: 0
             print "<td>" . $page_data["views"] . "</td>";
 
             $view_url = Jaris\Uri::url($blog_data["uri"]);
-            $edit_url = Jaris\Uri::url("admin/pages/edit", array("uri" => $blog_data["uri"]));
-            $delete_url = Jaris\Uri::url("admin/pages/delete", array("uri" => $blog_data["uri"]));
+            $edit_url = Jaris\Uri::url("admin/pages/edit", ["uri" => $blog_data["uri"]]);
+            $delete_url = Jaris\Uri::url("admin/pages/delete", ["uri" => $blog_data["uri"]]);
 
             print "<td>";
 

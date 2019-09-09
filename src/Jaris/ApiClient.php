@@ -44,7 +44,6 @@ Sample Usage:
 
 namespace Jaris;
 
-
 /**
  * Facilitates doing api calls to api's written with jariscms api framework.
  */
@@ -101,13 +100,14 @@ class ApiClient
      * @param bool $enable_ssl
      */
     public function __construct(
-        string $api_url, string $api_key, bool $enable_ssl=true
-    )
-    {
+        string $api_url,
+        string $api_key,
+        bool $enable_ssl=true
+    ) {
         $this->api_url = $api_url;
         $this->api_key = $api_key;
         $this->enable_ssl = $enable_ssl;
-        $this->parameters = array();
+        $this->parameters = [];
         $this->token = "";
     }
 
@@ -137,7 +137,7 @@ class ApiClient
      */
     public function clearParameters(): void
     {
-        $this->parameters = array();
+        $this->parameters = [];
     }
 
     /**
@@ -158,27 +158,23 @@ class ApiClient
      */
     public function sendRequest(): void
     {
-        if($this->token == "")
-        {
+        if ($this->token == "") {
             $this->GetNewToken();
         }
 
-        $parameters = array(
+        $parameters = [
             "token" => $this->token,
             "action" => $this->action
-        );
+        ];
 
         $parameters = array_merge($parameters, $this->parameters);
 
         $this->doRequest($parameters);
 
-        $response = array();
-        try
-        {
+        $response = [];
+        try {
             $response = $this->getResponse();
-        }
-        catch(\Exception $e)
-        {
+        } catch (\Exception $e) {
             throw new \Exception(
                 $e->getMessage(),
                 $e->getCode()
@@ -187,10 +183,8 @@ class ApiClient
 
         $this->clearParameters();
 
-        if(isset($response["error"]))
-        {
-            switch($response["error"]["code"])
-            {
+        if (isset($response["error"])) {
+            switch ($response["error"]["code"]) {
                 case "20":
                 case "30":
                     $this->GetNewToken();
@@ -225,8 +219,7 @@ class ApiClient
     {
         $response = json_decode($this->getResponseBody(), true);
 
-        if(!is_array($response))
-        {
+        if (!is_array($response)) {
             throw new \Exception(
                 "Internal server error",
                 500
@@ -267,23 +260,20 @@ class ApiClient
      */
     private function getNewToken()
     {
-        $parameters = array(
+        $parameters = [
             "key" => $this->api_key
-        );
+        ];
 
         $this->doRequest($parameters);
 
         $response = $this->getResponse();
 
-        if(isset($response["error"]))
-        {
+        if (isset($response["error"])) {
             throw new \Exception(
                 $response["error"]["message"],
                 $response["error"]["code"]
             );
-        }
-        else
-        {
+        } else {
             $this->token = $response["token"];
         }
     }
@@ -301,26 +291,22 @@ class ApiClient
     {
         $url_info = parse_url($this->api_url);
 
-        $values = array();
+        $values = [];
 
-        foreach($parameters as $key=>$value)
-        {
-            if(is_array($value))
+        foreach ($parameters as $key=>$value) {
+            if (is_array($value)) {
                 $value = json_encode($value);
+            }
 
             $values[] = "$key=".urlencode($value);
         }
 
-        $data_string = implode("&",$values);
+        $data_string = implode("&", $values);
 
-        if(empty($url_info["port"]))
-        {
-            if(!$this->enable_ssl)
-            {
+        if (empty($url_info["port"])) {
+            if (!$this->enable_ssl) {
                 $url_info["port"] = 80;
-            }
-            else
-            {
+            } else {
                 $url_info["port"] = 443;
             }
         }
@@ -343,8 +329,7 @@ class ApiClient
 
         $fp = fsockopen($url, $url_info["port"], $errno, $errstr, 120);
 
-        if(!$fp)
-        {
+        if (!$fp) {
             throw new \Exception(
                 "Could not connect to host with error: " . $errstr,
                 $errno
@@ -354,8 +339,7 @@ class ApiClient
         fputs($fp, $request);
 
         $result = "";
-        while(!feof($fp))
-        {
+        while (!feof($fp)) {
             $result .= fgets($fp, 128);
         }
 
@@ -383,10 +367,8 @@ class ApiClient
      */
     public static function uncompressData($data)
     {
-        if($new_data = base64_decode($data))
-        {
-            if($new_data = gzuncompress($new_data))
-            {
+        if ($new_data = base64_decode($data)) {
+            if ($new_data = gzuncompress($new_data)) {
                 return $new_data;
             }
         }

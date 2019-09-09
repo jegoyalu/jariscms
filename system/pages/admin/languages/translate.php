@@ -19,10 +19,9 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("translate_languages"));
+        Jaris\Authentication::protectedPage(["translate_languages"]);
 
-        if(!isset($_REQUEST["code"]))
-        {
+        if (!isset($_REQUEST["code"])) {
             Jaris\Uri::go("");
         }
 
@@ -31,8 +30,7 @@ row: 0
         $save = isset($_REQUEST["save"]) ? $_REQUEST["save"] : "";
 
         //Display translation form
-        if(isset($type) && $type == "page")
-        {
+        if (isset($type) && $type == "page") {
             $uri = $_REQUEST["uri"];
             $original_data = Jaris\Pages::get($uri, $language_code);
 
@@ -41,44 +39,44 @@ row: 0
             $parameters["action"] = Jaris\Uri::url("admin/languages/translate");
             $parameters["method"] = "post";
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "hidden",
                 "name" => "uri",
                 "value" => $uri
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "hidden",
                 "name" => "code",
                 "value" => $language_code
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "hidden",
                 "name" => "save",
                 "value" => "page"
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "text",
                 "value" => $original_data["title"],
                 "name" => "title",
                 "label" => t("Title:"),
                 "id" => "title",
                 "required" => true
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "textarea",
                 "value" => $original_data["content"],
                 "name" => "content",
                 "label" => t("Content:"),
                 "id" => "content"
-            );
+            ];
 
-            $fieldset[] = array("fields" => $fields);
+            $fieldset[] = ["fields" => $fields];
 
-            $fields_meta[] = array(
+            $fields_meta[] = [
                 "type" => "textarea",
                 "value" => $original_data["meta_title"],
                 "name" => "meta_title",
@@ -86,9 +84,9 @@ row: 0
                 "id" => "meta_title",
                 "limit" => 70,
                 "description" => t("Overrides the original page title on search engine results. Leave blank for default.")
-            );
+            ];
 
-            $fields_meta[] = array(
+            $fields_meta[] = [
                 "type" => "textarea",
                 "value" => $original_data["description"],
                 "name" => "description",
@@ -96,42 +94,40 @@ row: 0
                 "id" => "description",
                 "limit" => 160,
                 "description" => t("Used to generate the meta description for search engines. Leave blank for default.")
-            );
+            ];
 
-            $fields_meta[] = array(
+            $fields_meta[] = [
                 "type" => "textarea",
                 "value" => $original_data["keywords"],
                 "name" => "keywords",
                 "label" => t("Keywords:"),
                 "id" => "keywords",
                 "description" => t("List of words seperated by comma (,) used to generate the meta keywords for search engines. Leave blank for default.")
-            );
+            ];
 
-            $fieldset[] = array(
+            $fieldset[] = [
                 "fields" => $fields_meta,
                 "name" => t("Meta tags"),
                 "collapsible" => true,
                 "collapsed" => true
-            );
+            ];
 
-            $fields_buttons[] = array(
+            $fields_buttons[] = [
                 "type" => "submit",
                 "name" => "btnSave",
                 "value" => t("Save")
-            );
+            ];
 
-            $fields_buttons[] = array(
+            $fields_buttons[] = [
                 "type" => "submit",
                 "name" => "btnCancel",
                 "value" => t("Cancel")
-            );
+            ];
 
-            $fieldset[] = array("fields" => $fields_buttons);
+            $fieldset[] = ["fields" => $fields_buttons];
 
             print Jaris\Forms::generate($parameters, $fieldset);
-        }
-        elseif(isset($type) && $type == "block")
-        {
+        } elseif (isset($type) && $type == "block") {
             $id = intval($_REQUEST["id"]);
             $position = $_REQUEST["position"];
 
@@ -147,92 +143,83 @@ row: 0
             $parameters["action"] = Jaris\Uri::url("admin/languages/translate");
             $parameters["method"] = "post";
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "hidden",
                 "name" => "id",
                 "value" => $id
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "hidden",
                 "name" => "position",
                 "value" => $position
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "hidden",
                 "name" => "code",
                 "value" => $language_code
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "hidden",
                 "name" => "save",
                 "value" => "block"
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "text",
                 "name" => "description",
                 "label" => t("Description:"),
                 "id" => "description",
                 "value" => $original_data["description"],
                 "required" => true
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "text",
                 "name" => "title",
                 "label" => t("Title:"),
                 "id" => "title",
                 "value" => $original_data["title"]
-            );
+            ];
 
-            if(!$original_data["is_system"])
-            {
-                $fields[] = array(
+            if (!$original_data["is_system"]) {
+                $fields[] = [
                     "type" => "textarea",
                     "name" => "content",
                     "label" => t("Content:"),
                     "id" => "content",
                     "value" => $original_data["content"]
-                );
+                ];
             }
 
-            $fieldset[] = array("fields" => $fields);
+            $fieldset[] = ["fields" => $fields];
 
-            $fields_other[] = array(
+            $fields_other[] = [
                 "type" => "submit",
                 "name" => "btnSave",
                 "value" => t("Save")
-            );
+            ];
 
-            $fields_other[] = array(
+            $fields_other[] = [
                 "type" => "submit",
                 "name" => "btnCancel",
                 "value" => t("Cancel")
-            );
+            ];
 
-            $fieldset[] = array("fields" => $fields_other);
+            $fieldset[] = ["fields" => $fields_other];
 
             print Jaris\Forms::generate($parameters, $fieldset);
-        }
-        elseif(isset($type) && $type == "content-block")
-        {
-
-        }
-        elseif(isset($type) && $type == "menu")
-        {
-
+        } elseif (isset($type) && $type == "content-block") {
+        } elseif (isset($type) && $type == "menu") {
         }
 
         //Save translations
-        if(isset($save) && $save == "page")
-        {
+        if (isset($save) && $save == "page") {
             $uri = $_REQUEST["uri"];
 
-            if(isset($_REQUEST["btnSave"]))
-            {
+            if (isset($_REQUEST["btnSave"])) {
                 $original_data = Jaris\Pages::get($uri, $language_code);
 
                 $original_data["title"] = $_REQUEST["title"];
@@ -241,43 +228,36 @@ row: 0
                 $original_data["description"] = $_REQUEST["description"];
                 $original_data["keywords"] = $_REQUEST["keywords"];
 
-                if(!Jaris\Translate::page($uri, $original_data, $language_code))
-                {
+                if (!Jaris\Translate::page($uri, $original_data, $language_code)) {
                     Jaris\View::addMessage(
                         t("Check your write permissions on the <b>language</b> directory."),
                         "error"
                     );
-                }
-                else
-                {
+                } else {
                     Jaris\View::addMessage(t("Translation saved successfully!"));
 
                     t("Translated page '{uri}' to '{code}'.");
 
                     Jaris\Logger::info(
                         "Translated page '{uri}' to '{code}'.",
-                        array(
+                        [
                             "uri" => $uri,
                             "code" => $language_code
-                        )
+                        ]
                     );
                 }
             }
 
             Jaris\Uri::go($uri);
-        }
-        elseif(isset($save) && $save == "block")
-        {
+        } elseif (isset($save) && $save == "block") {
             $id = intval($_REQUEST["id"]);
             $position = $_REQUEST["position"];
 
-            if(isset($_REQUEST["btnSave"]))
-            {
+            if (isset($_REQUEST["btnSave"])) {
                 $original_data = Jaris\Blocks::get($id, $position);
                 $block_title = $original_data["title"];
 
-                if(!isset($original_data["id"]))
-                {
+                if (!isset($original_data["id"])) {
                     $original_data["id"] = Jaris\Blocks::getNewId();
                     Jaris\Blocks::edit($id, $position, $original_data);
                 }
@@ -285,43 +265,33 @@ row: 0
                 $original_data["description"] = $_REQUEST["description"];
                 $original_data["title"] = $_REQUEST["title"];
 
-                if(isset($_REQUEST["content"]))
-                {
+                if (isset($_REQUEST["content"])) {
                     $original_data["content"] = $_REQUEST["content"];
                 }
 
-                if(!Jaris\Translate::block($original_data, $language_code))
-                {
+                if (!Jaris\Translate::block($original_data, $language_code)) {
                     Jaris\View::addMessage(
                         t("Check your write permissions on the <b>language</b> directory."),
                         "error"
                     );
-                }
-                else
-                {
+                } else {
                     Jaris\View::addMessage(t("Translation saved successfully!"));
 
                     t("Translated global block '{title}' to '{code}'.");
 
                     Jaris\Logger::info(
                         "Translated global block '{title}' to '{code}'.",
-                        array(
+                        [
                             "title" => $block_title,
                             "code" => $language_code
-                        )
+                        ]
                     );
                 }
             }
 
             Jaris\Uri::go("admin/blocks");
-        }
-        elseif(isset($save) && $save == "content-block")
-        {
-
-        }
-        elseif(isset($save) && $save == "menu")
-        {
-
+        } elseif (isset($save) && $save == "content-block") {
+        } elseif (isset($save) && $save == "menu") {
         }
     ?>
     field;

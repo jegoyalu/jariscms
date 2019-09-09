@@ -18,11 +18,10 @@ row: 0
     field: content
     <?php
         Jaris\Authentication::protectedPage(
-            array("manage_groups_church_attendance")
+    ["manage_groups_church_attendance"]
         );
 
-        if($_REQUEST["id"] < 4)
-        {
+        if ($_REQUEST["id"] < 4) {
             Jaris\View::addMessage(
                 t("You can not delete the predefined Courses."),
                 "error"
@@ -38,8 +37,7 @@ row: 0
 
         $element_data = church_attendance_courses_get($_REQUEST["id"]);
 
-        if(isset($_REQUEST["btnYes"]))
-        {
+        if (isset($_REQUEST["btnYes"])) {
             church_attendance_courses_delete($element_data["id"]);
 
             Jaris\View::addMessage(t("Course successfully deleted."));
@@ -50,9 +48,7 @@ row: 0
                     "church_attendance"
                 )
             );
-        }
-        elseif(isset($_REQUEST["btnNo"]))
-        {
+        } elseif (isset($_REQUEST["btnNo"])) {
             Jaris\Uri::go(
                 Jaris\Modules::getPageUri(
                     "admin/settings/church-attendance/courses",

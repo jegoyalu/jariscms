@@ -13,4 +13,3 @@ $language["name"] = "Spanish";
 $language["translator"] = "Jefferson González";
 $language["translator_email"] = "jgonzalez@jegoyalu.com";
 $language["contributors"] = "";
-?>

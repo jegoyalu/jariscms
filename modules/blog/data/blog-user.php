@@ -16,23 +16,17 @@ row: 0
     field: title
     <?php
         $user = "";
-        if(empty($_REQUEST["user"]))
-        {
+        if (empty($_REQUEST["user"])) {
             Jaris\Uri::go("");
-        }
-        else
-        {
+        } else {
             $user = strval($_REQUEST["user"]);
         }
 
         $blog_data = blog_get_from_db($user);
 
-        if($blog_data["title"])
-        {
+        if ($blog_data["title"]) {
             print $blog_data["title"];
-        }
-        else
-        {
+        } else {
             print $user;
         }
         print " " . t("blog");
@@ -42,29 +36,29 @@ row: 0
     field: content
     <?php
         Jaris\View::addStyle(
-            Jaris\Modules::directory("blog") . "styles/post.css"
+        Jaris\Modules::directory("blog") . "styles/post.css"
         );
 
         $user = strval($_REQUEST["user"]);
 
         $user_data = Jaris\Users::get($user);
 
-        if(
+        if (
             Jaris\Authentication::isUserLogged()
             &&
             Jaris\Authentication::currentUser() == $user
-        )
-        {
-            if(
+        ) {
+            if (
                 Jaris\Authentication::groupHasPermission(
-                    "add_content", $user_data["group"]
+                    "add_content",
+                    $user_data["group"]
                 )
                 &&
                 Jaris\Authentication::hasTypeAccess(
-                    "blog", $user_data["group"]
+                    "blog",
+                    $user_data["group"]
                 )
-            )
-            {
+            ) {
                 Jaris\View::addTab(
                     t("Manage Blog"),
                     Jaris\Modules::getPageUri("users/blog", "blog")
@@ -73,7 +67,7 @@ row: 0
                 Jaris\View::addTab(
                     t("Add Post"),
                     Jaris\Modules::getPageUri("admin/pages/add", "blog"),
-                    array("type" => "blog")
+                    ["type" => "blog"]
                 );
             }
         }
@@ -81,42 +75,37 @@ row: 0
         Jaris\View::addTab(
             t("Subscriptions"),
             Jaris\Modules::getPageUri("blog/subscriptions", "blog"),
-            array("user" => $user)
+            ["user" => $user]
         );
 
-        if(
+        if (
             Jaris\Authentication::isUserLogged()
             &&
             Jaris\Authentication::currentUser() != $user
-        )
-        {
-            if(
+        ) {
+            if (
                 !blog_subscribed(
                     $user,
                     Jaris\Authentication::currentUser()
                 )
-            )
-            {
+            ) {
                 Jaris\View::addTab(
                     t("Subscribe"),
                     Jaris\Modules::getPageUri("blog/subscribe", "blog"),
-                    array("user" => $user)
+                    ["user" => $user]
                 );
-            }
-            else
-            {
+            } else {
                 Jaris\View::addTab(
                     t("Unsubscribe"),
                     Jaris\Modules::getPageUri("blog/unsubscribe", "blog"),
-                    array("user" => $user)
+                    ["user" => $user]
                 );
             }
         }
 
         $blog_data = blog_get_from_db($user);
 
-        if($blog_data["description"])
-        {
+        if ($blog_data["description"]) {
             print "<div class=\"blog-description\">"
                 . $blog_data['description']
                 . "</div>"
@@ -125,8 +114,7 @@ row: 0
 
         $page = 1;
 
-        if(isset($_REQUEST["page"]))
-        {
+        if (isset($_REQUEST["page"])) {
             $page = $_REQUEST["page"];
         }
 
@@ -134,10 +122,9 @@ row: 0
         $year_query = "";
         $where = "";
 
-        $arguments = array();
+        $arguments = [];
 
-        if(isset($_REQUEST["m"]))
-        {
+        if (isset($_REQUEST["m"])) {
             $_REQUEST["m"] = intval($_REQUEST["m"]);
 
             $month = str_replace("'", "''", $_REQUEST["m"]);
@@ -146,8 +133,7 @@ row: 0
             $arguments["m"] = $_REQUEST["m"];
         }
 
-        if(isset($_REQUEST["y"]))
-        {
+        if (isset($_REQUEST["y"])) {
             $_REQUEST["y"] = intval($_REQUEST["y"]);
 
             $year = str_replace("'", "''", $_REQUEST["y"]);
@@ -156,8 +142,7 @@ row: 0
             $arguments["y"] = $_REQUEST["y"];
         }
 
-        if(isset($_REQUEST["m"]) || isset($_REQUEST["y"]))
-        {
+        if (isset($_REQUEST["m"]) || isset($_REQUEST["y"])) {
             $where = "where {$month_query}{$year_query}";
         }
 
@@ -185,8 +170,7 @@ row: 0
             $database_path
         );
 
-        foreach($post as $post_data)
-        {
+        foreach ($post as $post_data) {
             print blog_theme($post_data);
         }
 

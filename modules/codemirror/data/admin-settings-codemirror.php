@@ -35,27 +35,23 @@ row: 0
     </style>
 
     <?php
-        Jaris\Authentication::protectedPage(array("edit_settings"));
+        Jaris\Authentication::protectedPage(["edit_settings"]);
 
         $classes = unserialize(Jaris\Settings::get("teaxtarea_id", "codemirror"));
         $forms_to_display = unserialize(Jaris\Settings::get("forms", "codemirror"));
         $groups = unserialize(Jaris\Settings::get("groups", "codemirror"));
 
-        if(isset($_REQUEST["btnSave"], $_REQUEST["group"]))
-        {
+        if (isset($_REQUEST["btnSave"], $_REQUEST["group"])) {
             $classes[$_REQUEST["group"]] = $_REQUEST["teaxtarea_id"];
             $forms_to_display[$_REQUEST["group"]] = $_REQUEST["forms"];
             $groups[$_REQUEST["group"]] = $_REQUEST["groups"];
 
-            if(Jaris\Settings::save("teaxtarea_id", serialize($classes), "codemirror"))
-            {
+            if (Jaris\Settings::save("teaxtarea_id", serialize($classes), "codemirror")) {
                 Jaris\Settings::save("forms", serialize($forms_to_display), "codemirror");
                 Jaris\Settings::save("groups", serialize($groups), "codemirror");
 
                 Jaris\View::addMessage(t("Your changes have been saved."));
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(Jaris\System::errorMessage("write_error_data"));
             }
 
@@ -83,8 +79,7 @@ row: 0
         $groups_list = Jaris\Groups::getList();
         $groups_list[] = "guest";
 
-        foreach($groups_list as $group)
-        {
+        foreach ($groups_list as $group) {
             $group_data = Jaris\Groups::get($group);
 
             print "<tr>\n";
@@ -99,7 +94,7 @@ row: 0
 
             $edit_url = Jaris\Uri::url(
                 Jaris\Modules::getPageUri("admin/settings/codemirror", "codemirror"),
-                array("group" => $group)
+                ["group" => $group]
             );
 
             print "<td>\n";
@@ -113,8 +108,7 @@ row: 0
 
         print "<br />";
 
-        if(isset($_REQUEST["group"]))
-        {
+        if (isset($_REQUEST["group"])) {
             $parameters["name"] = "codemirror-settings";
             $parameters["class"] = "codemirror-settings";
             $parameters["action"] = Jaris\Uri::url(
@@ -122,19 +116,19 @@ row: 0
             );
             $parameters["method"] = "post";
 
-            $fields_enable[] = array("type" => "other", "html_code" => "<br />");
+            $fields_enable[] = ["type" => "other", "html_code" => "<br />"];
 
-            $fields_enable[] = array(
+            $fields_enable[] = [
                 "type" => "checkbox",
                 "checked" => $groups[$_REQUEST["group"]],
                 "name" => "groups",
                 "label" => t("Enable Codemirror?"),
                 "id" => "groups"
-            );
+            ];
 
-            $fieldset[] = array("fields" => $fields_enable);
+            $fieldset[] = ["fields" => $fields_enable];
 
-            $fields_pages[] = array(
+            $fields_pages[] = [
                 "type" => "textarea",
                 "name" => "teaxtarea_id",
                 "label" => t("Textarea Id:"),
@@ -144,9 +138,9 @@ row: 0
                     :
                     "content, return",
                 "description" => t("List of textarea id's seperated by comma (,).")
-            );
+            ];
 
-            $fields_pages[] = array(
+            $fields_pages[] = [
                 "type" => "textarea",
                 "name" => "forms",
                 "label" => t("Form names:"),
@@ -155,33 +149,33 @@ row: 0
                     $forms_to_display[$_REQUEST["group"]]
                     :
                     "add-page-pages,edit-page-pages,translate-page,add-page-block,block-page-edit,add-block,block-edit,add-page-block-page"
-            );
+            ];
 
-            $fieldset[] = array(
+            $fieldset[] = [
                 "fields" => $fields_pages,
                 "name" => "Forms to display",
                 "description" => t("List of form names seperated by comma (,).")
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "hidden",
                 "name" => "group",
                 "value" => $_REQUEST["group"]
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "submit",
                 "name" => "btnSave",
                 "value" => t("Save")
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "submit",
                 "name" => "btnCancel",
                 "value" => t("Cancel")
-            );
+            ];
 
-            $fieldset[] = array("fields" => $fields);
+            $fieldset[] = ["fields" => $fields];
 
             $group_data = Jaris\Groups::get($_REQUEST["group"]);
 

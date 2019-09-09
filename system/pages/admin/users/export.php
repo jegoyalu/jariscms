@@ -19,7 +19,7 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("view_users"));
+        Jaris\Authentication::protectedPage(["view_users"]);
 
         Jaris\View::addTab(t("Navigation View"), "admin/users");
         Jaris\View::addTab(t("List View"), "admin/users/list");
@@ -30,24 +30,21 @@ row: 0
 
         $users_csv = Jaris\Site::dataDir() . "users/users.csv";
 
-        if(file_exists($users_csv))
-        {
+        if (file_exists($users_csv)) {
             Jaris\View::addTab(
                 t("Download Last Generated"),
                 "admin/users/export",
-                array("download" => 1),
+                ["download" => 1],
                 1
             );
         }
 
         $page = 1;
 
-        if(isset($_REQUEST["btnYes"]))
-        {
+        if (isset($_REQUEST["btnYes"])) {
             $file = fopen($users_csv, "w");
 
-            if($file)
-            {
+            if ($file) {
                 ini_set('max_execution_time', '0');
 
                 fputs(
@@ -61,8 +58,7 @@ row: 0
                 $select = "select * from users";
                 $result = Jaris\Sql::query($select, $db);
 
-                while($data = Jaris\Sql::fetchArray($result))
-                {
+                while ($data = Jaris\Sql::fetchArray($result)) {
                     $data["register_date_readable"] = date(
                         "m/d/Y g:i:s a",
                         $data["register_date"]
@@ -86,21 +82,15 @@ row: 0
                 );
 
                 Jaris\FileSystem::printFile($users_csv, "users.csv", true, true);
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(
                     Jaris\System::errorMessage("write_error_data"),
                     "error"
                 );
             }
-        }
-        elseif(isset($_REQUEST["download"]))
-        {
+        } elseif (isset($_REQUEST["download"])) {
             Jaris\FileSystem::printFile($users_csv, "users.csv", true, true);
-        }
-        elseif(isset($_REQUEST["btnNo"]))
-        {
+        } elseif (isset($_REQUEST["btnNo"])) {
             Jaris\Uri::go("admin/users");
         }
     ?>

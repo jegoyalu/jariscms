@@ -19,7 +19,7 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("view_types"));
+        Jaris\Authentication::protectedPage(["view_types"]);
     ?>
     <script>
         $(document).ready(function() {
@@ -44,7 +44,7 @@ row: 0
 
         Jaris\View::addTab(t("Create Type"), "admin/types/add");
 
-        $types = array();
+        $types = [];
         $types_array = Jaris\Types::getList();
         $types_array = Jaris\Data::sort($types_array, "order");
     ?>
@@ -55,28 +55,22 @@ row: 0
     >
 
     <?php
-        if(isset($_REQUEST["btnSave"]))
-        {
+        if (isset($_REQUEST["btnSave"])) {
             $saved = true;
 
-            for($i = 0; $i < count($_REQUEST["type_name"]); $i++)
-            {
+            for ($i = 0; $i < count($_REQUEST["type_name"]); $i++) {
                 $new_type_data = Jaris\Types::get($_REQUEST["type_name"][$i]);
                 $new_type_data["order"] = $i;
 
-                if(!Jaris\Types::edit($_REQUEST["type_name"][$i], $new_type_data))
-                {
+                if (!Jaris\Types::edit($_REQUEST["type_name"][$i], $new_type_data)) {
                     $saved = false;
                     break;
                 }
             }
 
-            if($saved)
-            {
+            if ($saved) {
                 Jaris\View::addMessage(t("Your changes have been saved."));
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(
                     Jaris\System::errorMessage("write_error_data"),
                     "error"
@@ -99,8 +93,7 @@ row: 0
 
         print "<tbody>\n";
 
-        foreach($types_array as $machine_name => $fields)
-        {
+        foreach ($types_array as $machine_name => $fields) {
             print "<tr>\n";
 
             $order = !empty($fields['order']) ? $fields['order'] : "0";
@@ -117,17 +110,17 @@ row: 0
 
             $edit_url = Jaris\Uri::url(
                 "admin/types/edit",
-                array("type" => $machine_name)
+                ["type" => $machine_name]
             );
 
             $fields_url = Jaris\Uri::url(
                 "admin/types/fields",
-                array("type" => $machine_name)
+                ["type" => $machine_name]
             );
 
             $delete_url = Jaris\Uri::url(
                 "admin/types/delete",
-                array("type" => $machine_name)
+                ["type" => $machine_name]
             );
 
             $edit_text = t("Edit");

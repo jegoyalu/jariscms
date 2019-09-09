@@ -17,16 +17,14 @@ row: 0
 
     field: content
     <?php
-        if(!Jaris\Authentication::hasTypeAccess("blog", Jaris\Authentication::currentUserGroup()))
-        {
+        if (!Jaris\Authentication::hasTypeAccess("blog", Jaris\Authentication::currentUserGroup())) {
             Jaris\Authentication::protectedPage();
         }
 
         //Get exsiting settings or defualt ones if main settings table doesn't exist
         $blog_settings = blog_get_main_settings();
 
-        if(isset($_REQUEST["btnSave"]) && !Jaris\Forms::requiredFieldEmpty("blog-edit"))
-        {
+        if (isset($_REQUEST["btnSave"]) && !Jaris\Forms::requiredFieldEmpty("blog-edit")) {
             $fields["title"] = substr(Jaris\Util::stripHTMLTags($_REQUEST["title"]), 0, 80);
             $fields["description"] = substr(Jaris\Util::stripHTMLTags($_REQUEST["description"]), 0, 500);
             $fields["tags"] = substr(Jaris\Util::stripHTMLTags($_REQUEST["tags"]), 0, 300);
@@ -39,9 +37,7 @@ row: 0
             Jaris\View::addMessage(t("Blog settings successfully updated."));
 
             Jaris\Uri::go(Jaris\Modules::getPageUri("users/blog", "blog"));
-        }
-        elseif(isset($_REQUEST["btnCancel"]))
-        {
+        } elseif (isset($_REQUEST["btnCancel"])) {
             Jaris\Uri::go(Jaris\Modules::getPageUri("users/blog", "blog"));
         }
 
@@ -54,21 +50,20 @@ row: 0
         );
         $parameters["method"] = "post";
 
-        if($blog_settings["main_category"] != "")
-        {
+        if ($blog_settings["main_category"] != "") {
             $fields = Jaris\Categories::generateFields(
-                array(
-                    "{$blog_settings['main_category']}" => array(
+                [
+                    "{$blog_settings['main_category']}" => [
                         $blog_data["category"]
-                    )
-                ),
+                    ]
+                ],
                 $blog_settings["main_category"]
             );
 
             $fields[0]["label"] = t("Category:");
         }
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "limit" => 80,
             "name" => "title",
@@ -76,9 +71,9 @@ row: 0
             "id" => "title",
             "value" => $blog_data["title"],
             "description" => t("The title or name of the blog.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "textarea",
             "name" => "description",
             "limit" => 500,
@@ -86,9 +81,9 @@ row: 0
             "id" => "description",
             "value" => $blog_data["description"],
             "description" => t("A brief description of the blog.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "textarea",
             "name" => "tags",
             "limit" => 300,
@@ -96,21 +91,21 @@ row: 0
             "id" => "tags",
             "value" => $blog_data["tags"],
             "description" => t("A list of words seperated by space that describe the blog.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnSave",
             "value" => t("Save")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnCancel",
             "value" => t("Cancel")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
         print Jaris\Forms::generate($parameters, $fieldset);
     ?>

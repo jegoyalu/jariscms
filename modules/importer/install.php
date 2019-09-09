@@ -20,5 +20,3 @@ function importer_install()
         ) . "\">" . t("Go to importer") . "</a>"
     );
 }
-
-?>

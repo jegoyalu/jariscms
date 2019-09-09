@@ -45,12 +45,11 @@
 
 <?php
 
-if(
+if (
     ($month > 0 && $year > 0) ||
     ($month <= 0 && $year > 0) ||
     ($month <= 0 && $year <= 0)
-)
-{
+) {
     print "<hr />";
 
     print "<strong>";
@@ -70,8 +69,7 @@ if(
 
     $months = array_flip(Jaris\Date::getMonths());
 
-    if($month > 0)
-    {
+    if ($month > 0) {
         print "<h2>" . $months[$month] . " / " . $year . "</h2>";
 
         print "<table class=\"report-table\">";
@@ -91,8 +89,7 @@ if(
             $db
         );
 
-        while($data = Jaris\Sql::fetchArray($result))
-        {
+        while ($data = Jaris\Sql::fetchArray($result)) {
             print "<tr>";
 
             $total += $data["total"];
@@ -118,10 +115,7 @@ if(
             . "\$" . number_format($total, 2, ".", ",")
             . "</p>"
         ;
-    }
-
-    elseif($month <= 0 && $year > 0)
-    {
+    } elseif ($month <= 0 && $year > 0) {
         print "<h2>" . t("Year:") . " " . $year . "</h2>";
 
         print "<table class=\"report-table\">";
@@ -134,8 +128,7 @@ if(
 
         print "<tbody>";
 
-        foreach($months as $month_number=>$month_label)
-        {
+        foreach ($months as $month_number=>$month_label) {
             $result = Jaris\Sql::query(
                 "select sum(total) as grand_total "
                 . "from church_accounting_income "
@@ -146,8 +139,9 @@ if(
 
             $data = Jaris\Sql::fetchArray($result);
 
-            if(!is_array($data))
-                $data = array("grand_total"=>0);
+            if (!is_array($data)) {
+                $data = ["grand_total"=>0];
+            }
 
             print "<tr>";
 
@@ -170,10 +164,7 @@ if(
             . "\$" . number_format($total, 2, ".", ",")
             . "</p>"
         ;
-    }
-
-    else
-    {
+    } else {
         print "<h2>" . t("All time report") . "</h2>";
 
         print "<table class=\"report-table\">";
@@ -186,8 +177,7 @@ if(
 
         print "<tbody>";
 
-        foreach(Jaris\Date::getYears() as $year_value)
-        {
+        foreach (Jaris\Date::getYears() as $year_value) {
             $result = Jaris\Sql::query(
                 "select sum(total) as grand_total "
                 . "from church_accounting_income "
@@ -198,8 +188,9 @@ if(
 
             $data = Jaris\Sql::fetchArray($result);
 
-            if(!is_array($data) || $data["grand_total"] == null)
+            if (!is_array($data) || $data["grand_total"] == null) {
                 continue;
+            }
 
             print "<tr>";
 

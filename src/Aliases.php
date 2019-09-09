@@ -17,7 +17,7 @@ function get_current_language()
     return Jaris\Language::getCurrent();
 }
 
-function print_url($uri, $arguments = array())
+function print_url($uri, $arguments = [])
 {
     return Jaris\Uri::url($uri, $arguments);
 }

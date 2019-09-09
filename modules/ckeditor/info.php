@@ -19,7 +19,7 @@ $module["website"] = "http://ckeditor.com/";
 
 Version 1.2.5 - Date 10/06/2019
 
-    * Option to the default style.css of site current theme for 
+    * Option to the default style.css of site current theme for
       edited content.
 
 Version 1.2.4 - Date 31/07/2018

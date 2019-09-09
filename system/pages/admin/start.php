@@ -20,8 +20,7 @@ row: 0
     field: content
     <?php
         //Stop unauthorized access
-        if(!Jaris\Authentication::isUserLogged())
-        {
+        if (!Jaris\Authentication::isUserLogged()) {
             Jaris\Authentication::protectedPage();
         }
 

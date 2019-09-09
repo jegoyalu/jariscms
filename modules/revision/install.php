@@ -21,5 +21,3 @@ function revision_install()
         "</a>"
     );
 }
-
-?>

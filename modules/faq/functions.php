@@ -10,10 +10,8 @@
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\Site::SIGNAL_PAGE_DATA,
-    function(&$page_data)
-    {
-        if($page_data[0]["type"] == "faq")
-        {
+    function (&$page_data) {
+        if ($page_data[0]["type"] == "faq") {
             Jaris\View::addStyle(Jaris\Modules::directory("faq")
                 . "styles/jquery.simpleFAQ.css")
             ;
@@ -27,19 +25,19 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\Forms::SIGNAL_GENERATE_FORM,
-    function(&$parameters, &$fieldsets)
-    {
-        if(
+    function (&$parameters, &$fieldsets) {
+        if (
             Jaris\Uri::get() == "admin/pages/add" &&
             $parameters["name"] == "add-page-faq"
-        )
-        {
+        ) {
             Jaris\View::addScript(Jaris\Modules::directory("faq")
                 . "scripts/questions.js")
             ;
 
             $attributes_html = Jaris\Forms::beginFieldset(
-                t("Questions"), true, false
+                t("Questions"),
+                true,
+                false
             );
 
             $attributes_html .= "<script>\n"
@@ -68,11 +66,10 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
             $attributes_html .= Jaris\Forms::endFieldset();
 
-            $field = array("type"=>"other", "html_code"=>$attributes_html);
+            $field = ["type"=>"other", "html_code"=>$attributes_html];
 
             Jaris\Forms::addFieldAfter($field, "content", $fieldsets);
-        }
-        elseif(
+        } elseif (
             (
                 Jaris\Uri::get() == "admin/pages/edit" &&
                 $parameters["name"] == "edit-page-faq"
@@ -81,27 +78,22 @@ Jaris\Signals\SignalHandler::listenWithParams(
                 Jaris\Uri::get() == "admin/languages/translate" &&
                 $_REQUEST["type"] == "page"
             )
-        )
-        {
+        ) {
             $page_data = Jaris\Pages::get($_REQUEST["uri"]);
 
-            if(
+            if (
                 Jaris\Uri::get() == "admin/languages/translate" &&
                 $page_data["type"] != "faq"
-            )
-            {
+            ) {
                 return;
-            }
-            elseif(Jaris\Uri::get() == "admin/languages/translate")
-            {
+            } elseif (Jaris\Uri::get() == "admin/languages/translate") {
                 $page_data = Jaris\Pages::get(
                     $_REQUEST["uri"],
                     $_REQUEST["code"]
                 );
             }
 
-            if(isset($page_data["questions"]))
-            {
+            if (isset($page_data["questions"])) {
                 $page_data["questions"] = unserialize($page_data["questions"]);
             }
 
@@ -113,11 +105,13 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
             Jaris\View::addScript(
                 Jaris\Modules::getPageUri("js/faq/add-question", "faq"),
-                array("uri" => $_REQUEST["uri"])
+                ["uri" => $_REQUEST["uri"]]
             );
 
             $attributes_html = Jaris\Forms::beginFieldset(
-                t("Questions"), true, true
+                t("Questions"),
+                true,
+                true
             );
 
             $attributes_html .= '<script>
@@ -151,12 +145,10 @@ Jaris\Signals\SignalHandler::listenWithParams(
             $question_id = 1;
             $editor_html = "";
 
-            if(is_array($page_data["questions"]))
-            {
+            if (is_array($page_data["questions"])) {
                 $questions = "";
 
-                foreach($page_data["questions"] as $question=>$answer)
-                {
+                foreach ($page_data["questions"] as $question=>$answer) {
                     $question = htmlspecialchars($question);
                     $answer = htmlspecialchars($answer);
 
@@ -214,20 +206,17 @@ Jaris\Signals\SignalHandler::listenWithParams(
                 $editor_html .= 'if(typeof whizzywig == "object")' . "\n";
                 $editor_html .= '{' . "\n";
 
-                for($current_id=1; $current_id<=$question_id; $current_id++)
-                {
+                for ($current_id=1; $current_id<=$question_id; $current_id++) {
                     $editor_html .= '  whizzywig.makeWhizzyWig("answer-"+'.$current_id.', "all");' . "\n";
                 }
 
                 $editor_html .= '}' . "\n";
 
-                if(Jaris\Modules::isInstalled("ckeditor"))
-                {
+                if (Jaris\Modules::isInstalled("ckeditor")) {
                     $editor_html .= 'else if(typeof CKEDITOR == "object")' . "\n";
                     $editor_html .= '{' . "\n";
 
-                    for($current_id=1; $current_id<=$question_id; $current_id++)
-                    {
+                    for ($current_id=1; $current_id<=$question_id; $current_id++) {
                         $editor_html .= ckeditor_textarea_replace(
                             "answer-$current_id"
                         );
@@ -259,7 +248,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
             $attributes_html .= Jaris\Forms::endFieldset();
 
-            $field = array("type"=>"other", "html_code"=>$attributes_html);
+            $field = ["type"=>"other", "html_code"=>$attributes_html];
 
             Jaris\Forms::addFieldAfter($field, "content", $fieldsets);
         }
@@ -268,16 +257,12 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\Pages::SIGNAL_CREATE_PAGE,
-    function(&$uri, &$data, &$path)
-    {
-        if($data["type"] == "faq")
-        {
-            $questions = array();
+    function (&$uri, &$data, &$path) {
+        if ($data["type"] == "faq") {
+            $questions = [];
 
-            if(is_array($_REQUEST["question_title"]))
-            {
-                foreach($_REQUEST["question_title"] as $pos=>$title)
-                {
+            if (is_array($_REQUEST["question_title"])) {
+                foreach ($_REQUEST["question_title"] as $pos=>$title) {
                     $questions[$title] = $_REQUEST["question_answer"][$pos];
                 }
 
@@ -289,16 +274,12 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\Pages::SIGNAL_EDIT_PAGE_DATA,
-    function(&$page, &$new_data, &$page_path)
-    {
-        if($new_data["type"] == "faq")
-        {
-            $questions = array();
+    function (&$page, &$new_data, &$page_path) {
+        if ($new_data["type"] == "faq") {
+            $questions = [];
 
-            if(is_array($_REQUEST["question_title"]))
-            {
-                foreach($_REQUEST["question_title"] as $pos=>$title)
-                {
+            if (is_array($_REQUEST["question_title"])) {
+                foreach ($_REQUEST["question_title"] as $pos=>$title) {
                     $questions[$title] = $_REQUEST["question_answer"][$pos];
                 }
 
@@ -310,13 +291,10 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\Translate::SIGNAL_TRANSLATE_PAGE,
-    function(&$page, &$new_data, &$language_code)
-    {
-        if($new_data["type"] == "faq")
-        {
+    function (&$page, &$new_data, &$language_code) {
+        if ($new_data["type"] == "faq") {
             //Keep original questions translation when editing the page
-            if(Jaris\Uri::get() == "admin/pages/edit")
-            {
+            if (Jaris\Uri::get() == "admin/pages/edit") {
                 $translation_data = Jaris\Pages::get(
                     $page,
                     $language_code
@@ -328,12 +306,10 @@ Jaris\Signals\SignalHandler::listenWithParams(
             }
 
             //This code gets executed when translating.
-            $questions = array();
+            $questions = [];
 
-            if(is_array($_REQUEST["question_title"]))
-            {
-                foreach($_REQUEST["question_title"] as $pos=>$title)
-                {
+            if (is_array($_REQUEST["question_title"])) {
+                foreach ($_REQUEST["question_title"] as $pos=>$title) {
                     $questions[$title] = $_REQUEST["question_answer"][$pos];
                 }
 
@@ -345,23 +321,18 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\View::SIGNAL_THEME_CONTENT,
-    function(&$content, &$content_title, &$content_data)
-    {
-        if($content_data["type"] == "faq")
-        {
-            if(isset($content_data["questions"]))
-            {
+    function (&$content, &$content_title, &$content_data) {
+        if ($content_data["type"] == "faq") {
+            if (isset($content_data["questions"])) {
                 $content_data["questions"] = unserialize(
                     $content_data["questions"]
                 );
             }
 
-            if(is_array($content_data["questions"]))
-            {
+            if (is_array($content_data["questions"])) {
                 $faq = '<ul id="faqs">' . "\n";
 
-                foreach($content_data["questions"] as $question=>$answer)
-                {
+                foreach ($content_data["questions"] as $question=>$answer) {
                     $question = htmlspecialchars_decode($question);
                     $answer = htmlspecialchars_decode($answer);
 

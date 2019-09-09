@@ -19,7 +19,7 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("edit_settings"));
+        Jaris\Authentication::protectedPage(["edit_settings"]);
 
         Jaris\View::addTab(
             t("Add"),
@@ -31,7 +31,7 @@ row: 0
         );
     ?>
 
-    <?php if(count($popups) > 0){ ?>
+    <?php if (count($popups) > 0) { ?>
     <table class="popups-list navigation-list">
         <thead>
             <tr>
@@ -40,17 +40,17 @@ row: 0
             </tr>
         </thead>
         <tbody>
-            <?php foreach($popups as $popup_id=>$popup){ ?>
+            <?php foreach ($popups as $popup_id=>$popup) { ?>
             <tr>
                 <td><?php print $popup["description"] ?></td>
                 <td>
                     <?php
                         $edit_url = Jaris\Uri::url(
-                            Jaris\Modules::getPageUri(
+        Jaris\Modules::getPageUri(
                                 "admin/settings/popup/edit",
                                 "popup"
                             ),
-                            array("id"=>$popup_id)
+        ["id"=>$popup_id]
                         );
 
                         $delete_url = Jaris\Uri::url(
@@ -58,7 +58,7 @@ row: 0
                                 "admin/settings/popup/delete",
                                 "popup"
                             ),
-                            array("id"=>$popup_id)
+                            ["id"=>$popup_id]
                         );
                     ?>
                     <a href="<?php print $edit_url ?>">
@@ -72,7 +72,7 @@ row: 0
             <?php } ?>
         </tbody>
     </table>
-    <?php } else{ ?>
+    <?php } else { ?>
         <h3><?php print t("Click add to create a new popup.") ?></h3>
     <?php } ?>
     field;

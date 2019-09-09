@@ -27,7 +27,7 @@ row: 0
             . "/revisions/" . $revision . ".php"
         ;
 
-        if(
+        if (
             !isset($_REQUEST["uri"])
             ||
             !isset($_REQUEST["rev"])
@@ -39,36 +39,30 @@ row: 0
             !file_exists(Jaris\Pages::getPath($_REQUEST["uri"]) . "/data.php")
             ||
             !file_exists($revision_file)
-        )
-        {
+        ) {
             Jaris\Uri::go("access-denied");
         }
 
-        if(!Jaris\Pages::userIsOwner($_REQUEST["uri"]))
-        {
+        if (!Jaris\Pages::userIsOwner($_REQUEST["uri"])) {
             Jaris\Authentication::protectedPage();
         }
 
-        Jaris\Authentication::protectedPage(array("revert_revisions"));
+        Jaris\Authentication::protectedPage(["revert_revisions"]);
 
 
-        if(isset($_REQUEST["btnYes"]))
-        {
+        if (isset($_REQUEST["btnYes"])) {
             $revision_data = Jaris\Data::get(0, $revision_file);
             $page_data_path = Jaris\Pages::getPath($_REQUEST["uri"])
                 . "/data.php"
             ;
 
-            if(Jaris\Data::edit(0, $revision_data, $page_data_path))
-            {
+            if (Jaris\Data::edit(0, $revision_data, $page_data_path)) {
                 Jaris\View::addMessage(
                     t("Revert to revision was successfull.")
                 );
 
                 Jaris\Uri::go($_REQUEST["uri"]);
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(
                     Jaris\System::errorMessage("write_error_data"),
                     "error"
@@ -76,15 +70,13 @@ row: 0
 
                 Jaris\Uri::go(
                     Jaris\Modules::getPageUri("revisions", "revision"),
-                    array("uri" => $_REQUEST["uri"])
+                    ["uri" => $_REQUEST["uri"]]
                 );
             }
-        }
-        elseif(isset($_REQUEST["btnNo"]))
-        {
+        } elseif (isset($_REQUEST["btnNo"])) {
             Jaris\Uri::go(
                 Jaris\Modules::getPageUri("revisions", "revision"),
-                array("uri" => $_REQUEST["uri"])
+                ["uri" => $_REQUEST["uri"]]
             );
         }
     ?>

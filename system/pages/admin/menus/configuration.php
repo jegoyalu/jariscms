@@ -19,10 +19,9 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("configure_menus"));
+        Jaris\Authentication::protectedPage(["configure_menus"]);
 
-        if(isset($_REQUEST["btnSave"]))
-        {
+        if (isset($_REQUEST["btnSave"])) {
             Jaris\Settings::save("primary_menu", $_REQUEST["primary"], "main");
             Jaris\Settings::save("secondary_menu", $_REQUEST["secondary"], "main");
 
@@ -35,9 +34,7 @@ row: 0
             );
 
             Jaris\Uri::go("admin/menus");
-        }
-        else if(isset($_REQUEST["btnCancel"]))
-        {
+        } elseif (isset($_REQUEST["btnCancel"])) {
             Jaris\Uri::go("admin/menus");
         }
 
@@ -48,17 +45,16 @@ row: 0
 
         $menu_list = Jaris\Menus::getList();
 
-        $menus = array();
+        $menus = [];
 
-        foreach($menu_list as $name)
-        {
+        foreach ($menu_list as $name) {
             $menus[$name] = $name;
         }
 
         $current_primary = Jaris\Settings::get("primary_menu", "main");
         $current_secondary = Jaris\Settings::get("secondary_menu", "main");
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "select",
             "name" => "primary",
             "selected" => $current_primary ? $current_primary : "primary",
@@ -66,9 +62,9 @@ row: 0
             "id" => "primary",
             "value" => $menus,
             "description" => t("Menu returned on the \$primary_links template variable")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "select",
             "name" => "secondary",
             "selected" => $current_secondary ? $current_secondary : "secondary",
@@ -76,21 +72,21 @@ row: 0
             "id" => "secondary",
             "value" => $menus,
             "description" => t("Menu returned on the \$secondary_links template variable")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnSave",
             "value" => t("Save")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnCancel",
             "value" => t("Cancel")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
         print Jaris\Forms::generate($parameters, $fieldset);
     ?>

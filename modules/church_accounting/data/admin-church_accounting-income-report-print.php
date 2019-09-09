@@ -17,36 +17,34 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("view_income_church_accounting"));
+        Jaris\Authentication::protectedPage(["view_income_church_accounting"]);
 
-        if(trim($_REQUEST["month"]) != "")
-        {
+        if (trim($_REQUEST["month"]) != "") {
             $month = intval($_REQUEST["month"]);
             $options[] = "month=$month";
         }
 
-        if(trim($_REQUEST["year"]) != "")
-        {
+        if (trim($_REQUEST["year"]) != "") {
             $year = intval($_REQUEST["year"]);
             $options[] = "year=$year";
         }
 
         $where = "";
-        if(count($options) > 0)
-        {
+        if (count($options) > 0) {
             $where = " and " . implode(" and ", $options);
         }
 
         $theme = Jaris\Site::$theme;
 
         ob_start();
-        if(file_exists(Jaris\Themes::directory($theme) . "church-accounting-report-print.php"))
+        if (file_exists(Jaris\Themes::directory($theme) . "church-accounting-report-print.php")) {
             include(Jaris\Themes::directory($theme) . "church-accounting-report-print.php");
-        else
+        } else {
             include(
                 Jaris\Modules::directory("church_accounting")
                 . "templates/church-accounting-report-print.php"
             );
+        }
         $output = ob_get_contents();
         ob_end_clean();
 

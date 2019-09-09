@@ -13,8 +13,7 @@
 function comments_install()
 {
     //Create comments data base
-    if(!Jaris\Sql::dbExists("comments"))
-    {
+    if (!Jaris\Sql::dbExists("comments")) {
         $db = Jaris\Sql::open("comments");
 
         Jaris\Sql::query(
@@ -43,5 +42,3 @@ function comments_install()
         Jaris\Sql::close($db);
     }
 }
-
-?>

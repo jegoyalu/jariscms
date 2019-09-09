@@ -10,8 +10,7 @@
 
 function minify_upgrade()
 {
-    if(!is_dir(Jaris\Files::getDir("minify")))
-    {
+    if (!is_dir(Jaris\Files::getDir("minify"))) {
         Jaris\FileSystem::makeDir(
             Jaris\Files::getDir("minify"),
             0755,
@@ -19,5 +18,3 @@ function minify_upgrade()
         );
     }
 }
-
-?>

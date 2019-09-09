@@ -19,18 +19,14 @@ row: 0
     <?php
         Jaris\Authentication::protectedPage();
 
-        if(isset($_REQUEST["uri"]) && Jaris\Authentication::isAdminLogged())
-        {
+        if (isset($_REQUEST["uri"]) && Jaris\Authentication::isAdminLogged()) {
             $page_data = Jaris\Pages::get($_REQUEST["uri"]);
 
-            if($page_data)
-            {
-                if(!$page_data["is_system"])
-                {
+            if ($page_data) {
+                if (!$page_data["is_system"]) {
                     // Older versions of comments module did not supported notifications
                     // so we need to generate the subscribers database
-                    if(Jaris\Sql::dbExists("comments", comments_page_path($_REQUEST["uri"])))
-                    {
+                    if (Jaris\Sql::dbExists("comments", comments_page_path($_REQUEST["uri"]))) {
                         $db_page_comments = Jaris\Sql::open(
                             "comments",
                             comments_page_path($_REQUEST["uri"])
@@ -41,8 +37,7 @@ row: 0
                             $db_page_comments
                         );
 
-                        while($data_page_comments = Jaris\Sql::fetchArray($result_page_comments))
-                        {
+                        while ($data_page_comments = Jaris\Sql::fetchArray($result_page_comments)) {
                             comments_notifications_initial_subscribe(
                                 $data_page_comments["user"],
                                 $_REQUEST["uri"]

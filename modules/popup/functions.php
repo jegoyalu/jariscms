@@ -10,24 +10,20 @@
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\System::SIGNAL_GENERATE_ADMIN_PAGE,
-    function(&$sections)
-    {
+    function (&$sections) {
         $group = Jaris\Authentication::currentUserGroup();
 
         $title = t("Settings");
 
-        foreach($sections as $index => $sub_section)
-        {
-            if($sub_section["title"] == $title)
-            {
-                if(
+        foreach ($sections as $index => $sub_section) {
+            if ($sub_section["title"] == $title) {
+                if (
                     Jaris\Authentication::groupHasPermission(
                         "edit_settings",
                         Jaris\Authentication::currentUserGroup()
                     )
-                )
-                {
-                    $sub_section["sub_sections"][] = array(
+                ) {
+                    $sub_section["sub_sections"][] = [
                         "title" => t("Popups"),
                         "url" => Jaris\Uri::url(
                             Jaris\Modules::getPageUri(
@@ -36,7 +32,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
                             )
                         ),
                         "description" => t("Create or manage popup messages.")
-                    );
+                    ];
 
                     $sections[$index]["sub_sections"] = $sub_section["sub_sections"];
                 }
@@ -49,120 +45,101 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\Site::SIGNAL_INITIALIZATION,
-    function()
-    {
+    function () {
         $popups = Jaris\Data::parse(
             Jaris\Site::dataDir() . "settings/popup.php",
             false
         );
 
-        foreach($popups as $popup_id=>$popup)
-        {
+        foreach ($popups as $popup_id=>$popup) {
             $groups = unserialize($popup["groups"]);
             $display_rule = $popup["display_rule"];
             $pages = array_map('trim', explode(",", trim($popup["pages"])));
 
             // Check groups
-            if(
+            if (
                 count($groups) > 0
                 &&
                 !in_array(Jaris\Authentication::currentUserGroup(), $groups)
-            )
-            {
+            ) {
                 continue;
             }
 
             // Check display rule
             $can_display = true;
 
-            if($display_rule == "all_except_listed")
-            {
-                foreach($pages as $page_check)
-                {
+            if ($display_rule == "all_except_listed") {
+                foreach ($pages as $page_check) {
                     $page_check = str_replace(
-                        array("/", "*"),
-                        array("\\/", ".*"),
+                        ["/", "*"],
+                        ["\\/", ".*"],
                         $page_check
                     );
 
                     $page_check = "/^$page_check\$/";
 
-                    if(preg_match($page_check, Jaris\Uri::get()))
-                    {
+                    if (preg_match($page_check, Jaris\Uri::get())) {
                         $can_display = false;
                         break;
                     }
                 }
-            }
-            else if($display_rule == "just_listed")
-            {
+            } elseif ($display_rule == "just_listed") {
                 $page_found = false;
 
-                foreach($pages as $page_check)
-                {
+                foreach ($pages as $page_check) {
                     $page_check = str_replace(
-                        array("/", "*"),
-                        array("\\/", ".*"),
+                        ["/", "*"],
+                        ["\\/", ".*"],
                         $page_check
                     );
 
                     $page_check = "/^$page_check\$/";
 
-                    if(preg_match($page_check, Jaris\Uri::get()))
-                    {
+                    if (preg_match($page_check, Jaris\Uri::get())) {
                         $page_found = true;
                         break;
                     }
                 }
 
-                if(!$page_found)
-                {
+                if (!$page_found) {
                     $can_display = false;
                 }
             }
 
-            if(!$can_display)
-            {
+            if (!$can_display) {
                 continue;
             }
 
             // Check return condition
-            if(trim($popup["condition"]) != "")
-            {
-                if(!eval('?>' . $popup["condition"]))
-                {
+            if (trim($popup["condition"]) != "") {
+                if (!eval('?>' . $popup["condition"])) {
                     continue;
                 }
             }
 
             Jaris\Session::start();
 
-            $_SESSION["popup"][Jaris\Uri::get()] = array(
+            $_SESSION["popup"][Jaris\Uri::get()] = [
                 "id" => $popup_id,
                 "message" => Jaris\System::evalPHP($popup["message"]),
                 "shown" => false
-            );
+            ];
         }
     }
 );
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\View::SIGNAL_THEME_CONTENT,
-    function(&$content, &$content_title, &$content_data)
-    {
-        if(!Jaris\Session::exists())
-        {
+    function (&$content, &$content_title, &$content_data) {
+        if (!Jaris\Session::exists()) {
             return;
         }
 
         Jaris\Session::start();
 
-        if(isset($_SESSION["popup"]))
-        {
-            foreach($_SESSION["popup"] as $popup_uri=>$popup_data)
-            {
-                if(Jaris\Uri::get() == $popup_uri)
-                {
+        if (isset($_SESSION["popup"])) {
+            foreach ($_SESSION["popup"] as $popup_uri=>$popup_data) {
+                if (Jaris\Uri::get() == $popup_uri) {
                     $content .= '<div class="popup-message" '
                         . 'id="popup-'.$popup_data["id"].'" '
                         . 'style="display: none;">'
@@ -177,17 +154,14 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\System::SIGNAL_GET_SYSTEM_STYLES,
-    function(&$styles)
-    {
-        if(!Jaris\Session::exists())
-        {
+    function (&$styles) {
+        if (!Jaris\Session::exists()) {
             return;
         }
 
         Jaris\Session::start();
 
-        if(isset($_SESSION["popup"]))
-        {
+        if (isset($_SESSION["popup"])) {
             $styles[] = Jaris\Uri::url(
                 Jaris\Modules::directory("popup")
                     . "styles/jquery.simplepopup.css"
@@ -198,31 +172,25 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\View::SIGNAL_THEME_SCRIPTS,
-    function(&$scripts, &$scripts_code)
-    {
-        if(!Jaris\Session::exists())
-        {
+    function (&$scripts, &$scripts_code) {
+        if (!Jaris\Session::exists()) {
             return;
         }
 
         Jaris\Session::start();
 
-        if(isset($_SESSION["popup"]))
-        {
+        if (isset($_SESSION["popup"])) {
             $script_file_added = false;
             $popups = $_SESSION["popup"];
 
-            foreach($popups as $popup_uri=>$popup_data)
-            {
-                if(Jaris\Uri::get() == $popup_uri)
-                {
+            foreach ($popups as $popup_uri=>$popup_data) {
+                if (Jaris\Uri::get() == $popup_uri) {
                     $popup = Jaris\Data::get(
                         $popup_data["id"],
                         Jaris\Site::dataDir() . "settings/popup.php"
                     );
 
-                    if(!$script_file_added)
-                    {
+                    if (!$script_file_added) {
                         $script_file = Jaris\Uri::url(
                             Jaris\Modules::directory("popup")
                                 . "scripts/jquery.simplepopup.js"
@@ -257,28 +225,22 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\View::SIGNAL_THEME_DISPLAY,
-    function()
-    {
-        if(!Jaris\Session::exists())
-        {
+    function () {
+        if (!Jaris\Session::exists()) {
             return;
         }
 
         Jaris\Session::start();
 
-        if(isset($_SESSION["popup"]))
-        {
+        if (isset($_SESSION["popup"])) {
             $popups = $_SESSION["popup"];
-            foreach($popups as $popup_uri=>$popup_data)
-            {
-                if(Jaris\Uri::get() == $popup_uri && $popup_data["shown"])
-                {
+            foreach ($popups as $popup_uri=>$popup_data) {
+                if (Jaris\Uri::get() == $popup_uri && $popup_data["shown"]) {
                     unset($_SESSION["popup"][$popup_uri]);
                 }
             }
 
-            if(count($_SESSION["popup"]) <= 0)
-            {
+            if (count($_SESSION["popup"]) <= 0) {
                 unset($_SESSION["popup"]);
             }
         }

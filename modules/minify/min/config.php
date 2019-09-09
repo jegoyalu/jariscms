@@ -14,17 +14,14 @@ function get_min_cache_dir($main_dir)
     $orig_main_dir = $main_dir;
 
     //For being able to run scripts from command line
-    if(!isset($_SERVER["HTTP_HOST"]))
-    {
+    if (!isset($_SERVER["HTTP_HOST"])) {
         //Check if http host was passed on the command line
-        if(isset($_REQUEST["HTTP_HOST"]))
-        {
+        if (isset($_REQUEST["HTTP_HOST"])) {
             $_SERVER["HTTP_HOST"] = $_REQUEST["HTTP_HOST"];
         }
 
         //if no http_host passed then return default
-        else
-        {
+        else {
             $main_dir .= "sites/default/files/minify";
 
             return $main_dir;
@@ -40,8 +37,7 @@ function get_min_cache_dir($main_dir)
         )
     ) . "/files/minify";
 
-    if(!is_dir($main_dir))
-    {
+    if (!is_dir($main_dir)) {
         return $orig_main_dir . "sites/default/files/minify";
     }
 
@@ -101,16 +97,13 @@ $min_cachePath = str_replace(
     $_SERVER['DOCUMENT_ROOT'] . $_SERVER['PHP_SELF']
 );
 
-if(preg_match("/sites\/(.*)\/modules\/minify/", $min_cachePath))
-{
+if (preg_match("/sites\/(.*)\/modules\/minify/", $min_cachePath)) {
     $min_cachePath = str_replace(
         "modules/minify/",
         "files/minify",
         $min_cachePath
     );
-}
-else
-{
+} else {
     $min_cachePath = get_min_cache_dir(
         str_replace("modules/minify/", "", $min_cachePath)
     );

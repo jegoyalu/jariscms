@@ -19,25 +19,22 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("edit_settings"));
+        Jaris\Authentication::protectedPage(["edit_settings"]);
 
         //Get exsiting settings or defualt ones if main
         //settings table doesn't exist
         $settings = null;
 
-        if(!($settings = Jaris\Settings::getAll("keys")))
-        {
+        if (!($settings = Jaris\Settings::getAll("keys"))) {
             $settings["google_maps"] = "";
         }
 
-        if(
+        if (
             isset($_REQUEST["btnSave"]) &&
             !Jaris\Forms::requiredFieldEmpty("edit-site-advanced-settings")
-        )
-        {
+        ) {
             //Check if write is possible and continue to write settings
-            if(Jaris\Settings::save("google_maps", $_REQUEST["google_maps"], "keys"))
-            {
+            if (Jaris\Settings::save("google_maps", $_REQUEST["google_maps"], "keys")) {
                 Jaris\View::addMessage(
                     t("Your settings have been successfully saved.")
                 );
@@ -45,9 +42,7 @@ row: 0
                 t("Edited global api keys.");
 
                 Jaris\Logger::info("Edited global api keys.");
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(
                     Jaris\System::errorMessage("write_error_data"),
                     "error"
@@ -55,9 +50,7 @@ row: 0
             }
 
             Jaris\Uri::go("admin/settings/advanced");
-        }
-        elseif(isset($_REQUEST["btnCancel"]))
-        {
+        } elseif (isset($_REQUEST["btnCancel"])) {
             Jaris\Uri::go("admin/settings/advanced");
         }
 
@@ -66,28 +59,28 @@ row: 0
         $parameters["action"] = Jaris\Uri::url("admin/settings/advanced/keys");
         $parameters["method"] = "post";
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "label" => t("Google Maps:"),
             "name" => "google_maps",
             "id" => "google_maps",
             "value" => $settings["google_maps"],
             "description" => t("The key used for the components that depend on the google maps api.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnSave",
             "value" => t("Save")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnCancel",
             "value" => t("Cancel")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
         print Jaris\Forms::generate($parameters, $fieldset);
     ?>

@@ -18,7 +18,7 @@ row: 0
     field: content
     <?php
         Jaris\Authentication::protectedPage(
-            array("manage_members_church_attendance")
+    ["manage_members_church_attendance"]
         );
 
         Jaris\View::addTab(
@@ -63,14 +63,12 @@ row: 0
 
         $page = 1;
 
-        if(isset($_REQUEST["page"]))
-        {
+        if (isset($_REQUEST["page"])) {
             $page = $_REQUEST["page"];
         }
 
         $month = "";
-        if(empty($_REQUEST["month"]))
-        {
+        if (empty($_REQUEST["month"])) {
             $_REQUEST["month"] = date("n", time());
         }
         $month .= "birth_month=" . intval($_REQUEST["month"]);
@@ -103,12 +101,12 @@ row: 0
         $parameters["action"] = Jaris\Uri::url(Jaris\Uri::get());
         $parameters["method"] = "get";
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "select",
             "name" => "month",
             "label" => t("Filter by month:"),
             "value" => array_merge(
-                array(t("Current") => ""),
+                [t("Current") => ""],
                 Jaris\Date::getMonths()
             ),
             "selected" => isset($_REQUEST["month"]) ?
@@ -116,14 +114,14 @@ row: 0
                 :
                 "",
             "code" => 'onchange="javascript: this.form.submit()"'
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "name" => t("Filter Results"),
             "fields" => $fields,
             "collapsible" => true,
             "collapsed" => !isset($_REQUEST["month"])
-        );
+        ];
 
         print Jaris\Forms::generate($parameters, $fieldset);
 
@@ -133,9 +131,9 @@ row: 0
             "admin/church-attendance/members/by-birthdate",
             "church_attendance",
             20,
-            array(
+            [
                 "month" => $_REQUEST["month"]
-            )
+            ]
         );
 
         $months_list = Jaris\Date::getMonths();
@@ -151,8 +149,7 @@ row: 0
         print "</thead>";
 
         print "<tbody>";
-        foreach($members as $member_data)
-        {
+        foreach ($members as $member_data) {
             print "<tr>";
 
             $edit_url = Jaris\Uri::url(
@@ -160,7 +157,7 @@ row: 0
                     "admin/church-attendance/members/edit",
                     "church_attendance"
                 ),
-                array("id"=>$member_data["id"])
+                ["id"=>$member_data["id"]]
             );
 
             print "<td>"
@@ -199,9 +196,9 @@ row: 0
             "admin/church-attendance/members/by-birthdate",
             "church_attendance",
             20,
-            array(
+            [
                 "month" => $_REQUEST["month"]
-            )
+            ]
         );
     ?>
     field;

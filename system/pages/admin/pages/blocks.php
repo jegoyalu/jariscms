@@ -19,10 +19,9 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("view_content_blocks"));
+        Jaris\Authentication::protectedPage(["view_content_blocks"]);
 
-        if(!isset($_REQUEST["uri"]))
-        {
+        if (!isset($_REQUEST["uri"])) {
             Jaris\Uri::go("");
         }
     ?>
@@ -74,8 +73,7 @@ row: 0
     </script>
 
     <?php
-        if(!Jaris\Pages::userIsOwner($_REQUEST["uri"]))
-        {
+        if (!Jaris\Pages::userIsOwner($_REQUEST["uri"])) {
             Jaris\Authentication::protectedPage();
         }
 
@@ -85,30 +83,28 @@ row: 0
         $base_url = Jaris\Site::$base_url;
 
         $page_uri = $_REQUEST["uri"];
-        $arguments = array(
+        $arguments = [
             "uri" => $_REQUEST["uri"]
-        );
+        ];
 
         //Tabs
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
                 "edit_content",
                 Jaris\Authentication::currentUserGroup()
             )
-        )
-        {
+        ) {
             Jaris\View::addTab(t("Edit"), "admin/pages/edit", $arguments);
         }
 
         Jaris\View::addTab(t("View"), $_REQUEST["uri"]);
 
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
                 "view_content_blocks",
                 Jaris\Authentication::currentUserGroup()
             )
-        )
-        {
+        ) {
             Jaris\View::addTab(
                 t("Blocks"),
                 "admin/pages/blocks",
@@ -116,33 +112,30 @@ row: 0
             );
         }
 
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
                 "view_images",
                 Jaris\Authentication::currentUserGroup()
             )
-        )
-        {
+        ) {
             Jaris\View::addTab(t("Images"), "admin/pages/images", $arguments);
         }
 
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
                 "view_files",
                 Jaris\Authentication::currentUserGroup()
             )
-        )
-        {
+        ) {
             Jaris\View::addTab(t("Files"), "admin/pages/files", $arguments);
         }
 
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
                 "translate_languages",
                 Jaris\Authentication::currentUserGroup()
             )
-        )
-        {
+        ) {
             Jaris\View::addTab(
                 t("Translate"),
                 "admin/pages/translate",
@@ -150,13 +143,12 @@ row: 0
             );
         }
 
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
                 "delete_content",
                 Jaris\Authentication::currentUserGroup()
             )
-        )
-        {
+        ) {
             Jaris\View::addTab(
                 t("Delete"),
                 "admin/pages/delete",
@@ -164,13 +156,12 @@ row: 0
             );
         }
 
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
                 "add_content_blocks",
                 Jaris\Authentication::currentUserGroup()
             )
-        )
-        {
+        ) {
             Jaris\View::addTab(
                 t("Create Block"),
                 "admin/pages/blocks/add",
@@ -179,13 +170,12 @@ row: 0
             );
         }
 
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
                 "add_content_blocks",
                 Jaris\Authentication::currentUserGroup()
             )
-        )
-        {
+        ) {
             Jaris\View::addTab(
                 t("Create Post Block"),
                 "admin/pages/blocks/add/post",
@@ -194,13 +184,12 @@ row: 0
             );
         }
 
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
                 "edit_post_settings_content_blocks",
                 Jaris\Authentication::currentUserGroup()
             )
-        )
-        {
+        ) {
             Jaris\View::addTab(
                 t("Post Settings"),
                 "admin/pages/blocks/post/settings",
@@ -218,18 +207,16 @@ row: 0
         />
 
     <?php
-        if(
+        if (
             isset($_REQUEST["btnSave"]) &&
             Jaris\Authentication::groupHasPermission(
                 "edit_content_blocks",
                 Jaris\Authentication::currentUserGroup()
             )
-        )
-        {
+        ) {
             $saved = true;
 
-            for($i = 0; $i < count($_REQUEST["id"]); $i++)
-            {
+            for ($i = 0; $i < count($_REQUEST["id"]); $i++) {
                 $block_id = intval($_REQUEST["id"][$i]);
 
                 $new_block_data = Jaris\Blocks::get(
@@ -240,24 +227,22 @@ row: 0
 
                 $new_block_data["order"] = $i;
 
-                if(
+                if (
                     !Jaris\Blocks::edit(
                         $block_id,
                         $_REQUEST["previous_position"][$i],
                         $new_block_data,
                         $page_uri
                     )
-                )
-                {
+                ) {
                     $saved = false;
                     break;
                 }
 
-                if(
+                if (
                     $_REQUEST["previous_position"][$i] !=
                     $_REQUEST["position"][$i]
-                )
-                {
+                ) {
                     Jaris\Blocks::move(
                         $block_id,
                         $_REQUEST["previous_position"][$i],
@@ -267,12 +252,9 @@ row: 0
                 }
             }
 
-            if($saved)
-            {
+            if ($saved) {
                 Jaris\View::addMessage(t("Your changes have been saved."));
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(
                     Jaris\System::errorMessage("write_error_data"),
                     "error"
@@ -300,8 +282,7 @@ row: 0
 
         print "</tr></thead>\n";
 
-        foreach($block_positions as $block_caption => $block_name)
-        {
+        foreach ($block_positions as $block_caption => $block_name) {
             print "<tbody>";
             print "<tr><td colspan=\"4\">";
             print "<h3>" . t($block_caption) . "</h3>";
@@ -313,14 +294,13 @@ row: 0
                 "order"
             );
 
-            if(count($blocks_list) > 0)
-            {
+            if (count($blocks_list) > 0) {
                 print "<tbody><tr class=\"head\">\n";
 
                 print "<td>" . t("Order") . "</td>\n";
                 print "<td>" . t("Description") . "</td>\n";
                 print "<td>" . t("Position") . "</td>\n";
-                if(
+                if (
                     Jaris\Authentication::groupHasPermission(
                         "edit_content_blocks",
                         Jaris\Authentication::currentUserGroup()
@@ -329,8 +309,7 @@ row: 0
                         "delete_content_blocks",
                         Jaris\Authentication::currentUserGroup()
                     )
-                )
-                {
+                ) {
                     print "<td>" . t("Operation") . "</td>\n";
                 }
 
@@ -338,8 +317,7 @@ row: 0
 
                 print "<tbody class=\"$block_name blocks\">\n";
 
-                foreach($blocks_list as $id => $fields)
-                {
+                foreach ($blocks_list as $id => $fields) {
                     print "<tr>\n";
 
                     print "<td>\n";
@@ -353,8 +331,7 @@ row: 0
 
                     print "<td>\n";
                     print "<select name=\"position[]\">\n";
-                    foreach($block_positions as $caption => $position)
-                    {
+                    foreach ($block_positions as $caption => $position) {
                         $selected = $block_name == $position ? " selected" : "";
                         print "<option $selected value=\"$position\">" .
                             $caption .
@@ -368,7 +345,7 @@ row: 0
                     $url_arguments["id"] = $id;
                     $url_arguments["position"] = $block_name;
 
-                    if(
+                    if (
                         Jaris\Authentication::groupHasPermission(
                             "edit_content_blocks",
                             Jaris\Authentication::currentUserGroup()
@@ -377,16 +354,14 @@ row: 0
                             "delete_content_blocks",
                             Jaris\Authentication::currentUserGroup()
                         )
-                    )
-                    {
+                    ) {
                         print "<td>";
-                        if(
+                        if (
                             Jaris\Authentication::groupHasPermission(
                                 "edit_content_blocks",
                                 Jaris\Authentication::currentUserGroup()
                             )
-                        )
-                        {
+                        ) {
                             print "<a href=\"" .
                                 Jaris\Uri::url(
                                     "admin/pages/blocks/edit",
@@ -397,13 +372,12 @@ row: 0
                             ;
                         }
 
-                        if(
+                        if (
                             Jaris\Authentication::groupHasPermission(
                                 "delete_content_blocks",
                                 Jaris\Authentication::currentUserGroup()
                             )
-                        )
-                        {
+                        ) {
                             print "<a href=\"" .
                                 Jaris\Uri::url(
                                     "admin/pages/blocks/delete",
@@ -420,9 +394,7 @@ row: 0
                 }
 
                 print "</tbody>\n";
-            }
-            else
-            {
+            } else {
                 print "<tbody>";
                 print "<tr><td colspan=\"4\">";
                 print t("No block available.");
@@ -434,7 +406,7 @@ row: 0
         print "</table>\n";
     ?>
 
-    <?php if(Jaris\Authentication::groupHasPermission("edit_content_blocks", Jaris\Authentication::currentUserGroup())){ ?>
+    <?php if (Jaris\Authentication::groupHasPermission("edit_content_blocks", Jaris\Authentication::currentUserGroup())) { ?>
         <div>
             <br />
             <input class="form-submit" type="submit"

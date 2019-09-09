@@ -19,7 +19,7 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("view_languages"));
+        Jaris\Authentication::protectedPage(["view_languages"]);
 
         Jaris\View::addTab(t("Add Language"), "admin/languages/add");
 
@@ -37,15 +37,13 @@ row: 0
 
         $title = t("View language info.");
 
-        foreach($languages as $code => $name)
-        {
-            if($code != "en")
-            {
+        foreach ($languages as $code => $name) {
+            if ($code != "en") {
                 print "<tr>\n";
 
                 print "<td>";
                 print "<a title=\"$title\" href=\"" .
-                    Jaris\Uri::url("admin/languages/info", array("code" => $code)) .
+                    Jaris\Uri::url("admin/languages/info", ["code" => $code]) .
                     "\">" .
                     $code .
                     "</a>"
@@ -56,7 +54,7 @@ row: 0
 
                 $edit_url = Jaris\Uri::url(
                     "admin/languages/edit",
-                    array("code" => $code)
+                    ["code" => $code]
                 );
 
                 $edit_text = t("Edit strings");

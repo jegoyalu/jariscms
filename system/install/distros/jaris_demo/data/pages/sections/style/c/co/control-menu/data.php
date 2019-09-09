@@ -9,12 +9,13 @@ row: 0
 
 	field: content
 		<?php
-		if(!Jaris\Authentication::isUserLogged())
-		    return;
-		
-		$menu_colors = Jaris\Settings::getAll("control_menu");
-		    ?>
-		    <?php if(isset($menu_colors["main_bar_background"])){ ?>
+        if (!Jaris\Authentication::isUserLogged()) {
+            return;
+        }
+        
+        $menu_colors = Jaris\Settings::getAll("control_menu");
+            ?>
+		    <?php if (isset($menu_colors["main_bar_background"])) { ?>
 		/*<style>*/
 		#control-menu
 		{

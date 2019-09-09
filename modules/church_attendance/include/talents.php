@@ -76,11 +76,10 @@ function church_attendance_talent_get($id)
 
 function church_attendance_talent_list()
 {
-    static $list = array();
+    static $list = [];
 
-    if(empty($list))
-    {
-        $list = array();
+    if (empty($list)) {
+        $list = [];
 
         $db = Jaris\Sql::open("church_attendance_talents");
 
@@ -90,8 +89,7 @@ function church_attendance_talent_list()
 
         $result = Jaris\Sql::query($select, $db);
 
-        while($data = Jaris\Sql::fetchArray($result))
-        {
+        while ($data = Jaris\Sql::fetchArray($result)) {
             $list[$data["id"]] = $data["label"];
         }
 

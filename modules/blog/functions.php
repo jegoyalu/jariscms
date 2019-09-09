@@ -12,10 +12,8 @@
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\Pages::SIGNAL_CREATE_PAGE,
-    function(&$page, &$data, &$path)
-    {
-        if($data["type"] == "blog")
-        {
+    function (&$page, &$data, &$path) {
+        if ($data["type"] == "blog") {
             blog_add_post($page, $data);
         }
     }
@@ -23,14 +21,12 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\Pages::SIGNAL_EDIT_PAGE_DATA,
-    function(&$page, &$new_data, &$page_path)
-    {
+    function (&$page, &$new_data, &$page_path) {
         $username = $new_data["author"];
         $user_data = Jaris\Users::get($username);
 
         //Check user has blog permissions
-        if(!Jaris\Authentication::hasTypeAccess("blog", $user_data["group"]))
-        {
+        if (!Jaris\Authentication::hasTypeAccess("blog", $user_data["group"])) {
             return;
         }
 
@@ -39,15 +35,13 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
         //Ensure that if user changed content type from blog to
         //another to delete the post from the blog listing
-        if($new_data["type"] != "blog")
-        {
+        if ($new_data["type"] != "blog") {
             blog_delete_post($page, $username);
         }
 
         //If some one took an existing content and changed the
         //content type from another one to blog and it to the users post list
-        else
-        {
+        else {
             $db_path = str_replace(
                 "data.php",
                 "",
@@ -67,8 +61,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
             Jaris\Sql::close($db);
 
-            if(!is_array($in_db))
-            {
+            if (!is_array($in_db)) {
                 blog_add_post($page, $new_data);
             }
         }
@@ -77,12 +70,10 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\Pages::SIGNAL_MOVE_PAGE,
-    function(&$actual_uri, &$new_uri)
-    {
+    function (&$actual_uri, &$new_uri) {
         $page_data = Jaris\Pages::get($actual_uri);
 
-        if($page_data["type"] == "blog")
-        {
+        if ($page_data["type"] == "blog") {
             blog_edit_post($actual_uri, $new_uri, $page_data["author"]);
         }
     }
@@ -90,12 +81,10 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\Pages::SIGNAL_DELETE_PAGE,
-    function(&$page, &$page_path)
-    {
+    function (&$page, &$page_path) {
         $page_data = Jaris\Pages::get($page);
 
-        if($page_data["type"] == "blog")
-        {
+        if ($page_data["type"] == "blog") {
             blog_delete_post($page, $page_data["author"]);
         }
     }
@@ -103,30 +92,25 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\Users::SIGNAL_DELETE_USER,
-    function(&$username, &$group)
-    {
+    function (&$username, &$group) {
         blog_delete_from_db($username);
     }
 );
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\Site::SIGNAL_PAGE_DATA,
-    function(&$page_data)
-    {
+    function (&$page_data) {
         $segments = explode("/", Jaris\Uri::get());
 
-        if(count($segments) == 3)
-        {
-            if($segments[0] == "blog" && $segments[1] == "user")
-            {
-                if($user_data = Jaris\Users::get($segments[2]))
-                {
-                    if(
+        if (count($segments) == 3) {
+            if ($segments[0] == "blog" && $segments[1] == "user") {
+                if ($user_data = Jaris\Users::get($segments[2])) {
+                    if (
                         Jaris\Authentication::hasTypeAccess(
-                            "blog", $user_data["group"]
+                            "blog",
+                            $user_data["group"]
                         )
-                    )
-                    {
+                    ) {
                         $_REQUEST["user"] = $segments[2];
 
                         blog_create_if_not_exists($_REQUEST["user"]);
@@ -152,50 +136,45 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\Users::SIGNAL_PRINT_USER_PAGE,
-    function(&$content, &$tabs)
-    {
-        if(
+    function (&$content, &$tabs) {
+        if (
             Jaris\Authentication::hasTypeAccess(
-                "blog", Jaris\Authentication::currentUserGroup()
+                "blog",
+                Jaris\Authentication::currentUserGroup()
             )
-        )
-        {
-            $tabs[t("Blog")] = array(
+        ) {
+            $tabs[t("Blog")] = [
                 "uri" => Jaris\Modules::getPageUri("users/blog", "blog")
-            );
+            ];
         }
     }
 );
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\View::SIGNAL_THEME_TABS,
-    function(&$tabs_array)
-    {
-        if(Jaris\Uri::get() == "admin/settings")
-        {
-            $tabs_array[0][t("Blog")] = array(
+    function (&$tabs_array) {
+        if (Jaris\Uri::get() == "admin/settings") {
+            $tabs_array[0][t("Blog")] = [
                 "uri" => Jaris\Modules::getPageUri(
-                    "admin/settings/blog", "blog"
+                    "admin/settings/blog",
+                    "blog"
                 ),
-                "arguments" => array()
-            );
+                "arguments" => []
+            ];
         }
     }
 );
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\View::SIGNAL_CONTENT_TEMPLATE,
-    function(&$page, &$type, &$template_path)
-    {
+    function (&$page, &$type, &$template_path) {
         $theme = Jaris\Site::$theme;
         $default_template = Jaris\Themes::directory($theme) . "content.php";
 
         $page_data = Jaris\Pages::get(Jaris\Uri::get());
 
-        if($template_path == $default_template)
-        {
-            if($page_data["type"] == "blog")
-            {
+        if ($template_path == $default_template) {
+            if ($page_data["type"] == "blog") {
                 $template_path = Jaris\Modules::directory("blog")
                     . "templates/content-blog.php"
                 ;

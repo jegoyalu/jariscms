@@ -19,18 +19,16 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("delete_theme"));
+        Jaris\Authentication::protectedPage(["delete_theme"]);
 
-        if(empty($_REQUEST["path"]))
-        {
+        if (empty($_REQUEST["path"])) {
             Jaris\Uri::go("admin/themes");
         }
 
-        if(
+        if (
             Jaris\Themes::directory($_REQUEST["path"]) ==
             "themes/" . $_REQUEST["path"] . "/"
-        )
-        {
+        ) {
             Jaris\View::addMessage(
                 "System themes can not be deleted.",
                 "error"
@@ -39,27 +37,23 @@ row: 0
             Jaris\Uri::go("admin/themes");
         }
 
-        if(isset($_REQUEST["btnYes"]))
-        {
-            if(
+        if (isset($_REQUEST["btnYes"])) {
+            if (
                 Jaris\FileSystem::recursiveRemoveDir(
                     Jaris\Themes::directory($_REQUEST["path"])
                 )
-            )
-            {
+            ) {
                 Jaris\View::addMessage(t("Theme successfully deleted."));
 
                 t("Deleted theme '{theme}'.");
 
                 Jaris\Logger::info(
                     "Deleted theme '{theme}'.",
-                    array(
+                    [
                         "theme" => $_REQUEST["path"]
-                    )
+                    ]
                 );
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(
                     Jaris\System::errorMessage("write_error_data"),
                     "error"
@@ -67,9 +61,7 @@ row: 0
             }
 
             Jaris\Uri::go("admin/themes");
-        }
-        elseif(isset($_REQUEST["btnNo"]))
-        {
+        } elseif (isset($_REQUEST["btnNo"])) {
             Jaris\Uri::go("admin/themes");
         }
 

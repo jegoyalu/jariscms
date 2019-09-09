@@ -13,12 +13,11 @@
             . $event_data["year"]
         ;
 
-        if(
+        if (
             $event_data["day"] != $event_data["day_to"] ||
             $event_data["month"] != $event_data["month_to"] ||
             $event_data["year"] != $event_data["year_to"]
-        )
-        {
+        ) {
             print "&nbsp;&nbsp;-&nbsp;&nbsp;"
                 . $event_data["day_to"] . "/"
                 . $months[$event_data["month_to"]] . "/"
@@ -46,14 +45,14 @@
     <?php print $description ?>
 </div>
 
-<?php if(trim($place) != "") { ?>
+<?php if (trim($place) != "") { ?>
 <div class="place">
     <strong><?php print t("Place:") ?></strong>
     <?php print $place ?>
 </div>
 <?php } ?>
 
-<?php if(!empty($event_data["latitude"]) && !empty($event_data["longitude"])){ ?>
+<?php if (!empty($event_data["latitude"]) && !empty($event_data["longitude"])) { ?>
 <div class="map">
     <strong><?php print t("Map:") ?></strong>
     <div id="map" style="width: 100%; height: 300px"></div>
@@ -75,13 +74,12 @@
 </div>
 <?php } ?>
 
-<?php if(count($images) > 0){ ?>
+<?php if (count($images) > 0) { ?>
 <div class="images">
     <strong><?php print t("Images:") ?></strong>
 
     <?php
-        foreach($images as $image)
-        {
+        foreach ($images as $image) {
             $image_path = Jaris\Files::getDir()
                 . "calendar/" .  str_replace("/", "-", $uri) . "/"
                 . $image
@@ -99,13 +97,12 @@
 </div>
 <?php } ?>
 
-<?php if(count($files) > 0){ ?>
+<?php if (count($files) > 0) { ?>
 <div class="documents">
     <strong><?php print t("Documents:") ?></strong>
 
     <?php
-        foreach($files as $file)
-        {
+        foreach ($files as $file) {
             $file_path = Jaris\Files::getDir()
                 . "calendar/" .  str_replace("/", "-", $uri) . "/"
                 . $file
@@ -119,7 +116,7 @@
 </div>
 <?php } ?>
 
-<?php if($url){ ?>
+<?php if ($url) { ?>
 <div class="url">
     <a href="<?php print $url ?>" target="_blank">
         <?php print t("Register") ?>

@@ -17,40 +17,34 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("add_images"));
+        Jaris\Authentication::protectedPage(["add_images"]);
 
         $groups = Jaris\Settings::get("groups", "ckeditor") ?
             unserialize(Jaris\Settings::get("groups", "ckeditor")) : false
         ;
 
         //Check if current user is on one of the groups that can use the editor
-        if($groups)
-        {
+        if ($groups) {
             $user_is_in_group = false;
-            foreach($groups as $machine_name => $value)
-            {
-                if(Jaris\Authentication::currentUserGroup() == $machine_name && $value)
-                {
+            foreach ($groups as $machine_name => $value) {
+                if (Jaris\Authentication::currentUserGroup() == $machine_name && $value) {
                     $user_is_in_group = true;
                     break;
                 }
             }
 
-            if(!Jaris\Authentication::isAdminLogged() && !$user_is_in_group)
-            {
+            if (!Jaris\Authentication::isAdminLogged() && !$user_is_in_group) {
                 exit;
             }
         }
 
-        if(empty($_REQUEST["uri"]) || trim($_REQUEST["uri"]) == "")
-        {
+        if (empty($_REQUEST["uri"]) || trim($_REQUEST["uri"]) == "") {
             exit;
         }
 
         $uri = $_REQUEST["uri"];
 
-        if(!Jaris\Pages::userIsOwner($uri))
-        {
+        if (!Jaris\Pages::userIsOwner($uri)) {
             Jaris\Authentication::protectedPage();
         }
     ?>
@@ -90,40 +84,34 @@ row: 0
 
     $image_count = count(Jaris\Pages\Images::getList($uri));
 
-    if($maximum_images == "0")
-    {
+    if ($maximum_images == "0") {
         $message = t("Image uploads not permitted for this content type.");
         $error = true;
-    }
-    elseif($image_count >= $maximum_images && $maximum_images != "-1")
-    {
+    } elseif ($image_count >= $maximum_images && $maximum_images != "-1") {
         $message = t("Maximum image uploads reached.");
         $error = true;
     }
 
-    if(!$error)
-    {
+    if (!$error) {
         //Image compression configurations
         $image_compression = Jaris\Settings::get("image_compression", "main");
         $has_width_edit_permission = Jaris\Authentication::groupHasPermission(
-            "edit_upload_width", Jaris\Authentication::currentUserGroup()
+            "edit_upload_width",
+            Jaris\Authentication::currentUserGroup()
         );
         $max_width = Jaris\Settings::get("image_compression_maxwidth", "main");
         $image_quality = Jaris\Settings::get("image_compression_quality", "main");
 
         //Resize and compress image
-        if($image_compression)
-        {
+        if ($image_compression) {
             $file = $_FILES["upload"];
 
             $image_info = getimagesize($file["tmp_name"]);
 
-            if($image_info[0] > $max_width)
-            {
+            if ($image_info[0] > $max_width) {
                 $image = Jaris\Images::get($file["tmp_name"], $max_width);
 
-                switch($image_info["mime"])
-                {
+                switch ($image_info["mime"]) {
                     case "image/jpeg":
                         imagejpeg(
                             $image["binary_data"],
@@ -159,8 +147,7 @@ row: 0
             $file_name
         );
 
-        if($message == "true")
-        {
+        if ($message == "true") {
             $message = "";
 
             $url = Jaris\Uri::url("image/$uri/$file_name");

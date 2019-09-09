@@ -19,17 +19,15 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("delete_keys_api"));
+        Jaris\Authentication::protectedPage(["delete_keys_api"]);
 
-        if(!Jaris\Sql::dbExists("api_keys") || !isset($_REQUEST["id"]))
-        {
+        if (!Jaris\Sql::dbExists("api_keys") || !isset($_REQUEST["id"])) {
             Jaris\Uri::go("admin/settings/api");
         }
 
         $key_data = Jaris\ApiKey::getDataById($_REQUEST["id"]);
 
-        if(isset($_REQUEST["btnYes"]))
-        {
+        if (isset($_REQUEST["btnYes"])) {
             //Delete page
             Jaris\ApiKey::delete($key_data["key"]);
 
@@ -39,15 +37,13 @@ row: 0
 
             Jaris\Logger::info(
                 "Deleted api key '{key}'.",
-                array(
+                [
                     "key" => $key_data["key"]
-                )
+                ]
             );
 
             Jaris\Uri::go("admin/settings/api");
-        }
-        elseif(isset($_REQUEST["btnNo"]))
-        {
+        } elseif (isset($_REQUEST["btnNo"])) {
             Jaris\Uri::go("admin/settings/api");
         }
     ?>

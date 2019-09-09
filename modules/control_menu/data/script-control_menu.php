@@ -18,8 +18,9 @@ row: 0
 
     field: content
     <?php
-        if(!Jaris\Authentication::isUserLogged())
+        if (!Jaris\Authentication::isUserLogged()) {
             return;
+        }
 
         $sections = Jaris\System::generateAdminPageSections();
 
@@ -35,18 +36,15 @@ row: 0
 
             $html .= "<ul>";
 
-            foreach($sections as $section_details)
-            {
+            foreach ($sections as $section_details) {
                 $html .= "<li>";
 
                 $html .= "<a>{$section_details['title']}</a>";
 
-                if(count($section_details["sub_sections"]) > 0)
-                {
+                if (count($section_details["sub_sections"]) > 0) {
                     $html .= "<ul>";
 
-                    foreach($section_details["sub_sections"] as $fields)
-                    {
+                    foreach ($section_details["sub_sections"] as $fields) {
                         $html .= "<li>";
                         $html .= "<a href=\"{$fields['url']}\">{$fields['title']}</a>";
                         $html .= "</li>";
@@ -70,23 +68,19 @@ row: 0
                 "</a>"
             ;
 
-            if(count($sections) > 0)
-            {
+            if (count($sections) > 0) {
                 $html .= "<div class=\"view\"><a></a></div>";
             }
 
             $html .= "<ul>";
 
-            foreach($sections as $section_details)
-            {
+            foreach ($sections as $section_details) {
                 $html .= "<li>";
 
-                if(count($section_details["sub_sections"]) > 0)
-                {
+                if (count($section_details["sub_sections"]) > 0) {
                     $html .= "<ul>";
 
-                    foreach($section_details["sub_sections"] as $fields)
-                    {
+                    foreach ($section_details["sub_sections"] as $fields) {
                         $html .= "<li>";
                         $html .= "<a href=\"{$fields['url']}\">{$fields['title']}</a>";
                         $html .= "</li>";
@@ -104,12 +98,10 @@ row: 0
 
             $html .= "<div class=\"right\">";
 
-            if(Jaris\Authentication::isAdminLogged())
-            {
+            if (Jaris\Authentication::isAdminLogged()) {
                 $html .= "<a class=\"about\" title=\"" . t("about jariscms") . "\" href=\"" . Jaris\Uri::url("admin/settings/about") . "\"></a>";
 
-                if($help_link = Jaris\Settings::get("help_link", "control_menu"))
-                {
+                if ($help_link = Jaris\Settings::get("help_link", "control_menu")) {
                     $html .= "<a class=\"help\" target=\"_blank\" title=\"" . t("help") . "\" href=\"" . Jaris\Uri::url($help_link) . "\"></a>";
                 }
             }

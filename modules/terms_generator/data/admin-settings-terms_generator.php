@@ -17,43 +17,41 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("edit_settings"));
+        Jaris\Authentication::protectedPage(["edit_settings"]);
 
-        if(
+        if (
             isset($_REQUEST["btnSave"]) &&
             !Jaris\Forms::requiredFieldEmpty("terms-generator")
-        )
-        {
+        ) {
             // Add / Edit terms page
             $terms_page = Jaris\Pages::get($_REQUEST["terms_uri"]);
 
-            if(!$terms_page)
-            {
-                $terms_page = array(
+            if (!$terms_page) {
+                $terms_page = [
                     "title" => "Terms and Conditions",
                     "content" => "",
                     "input_format" => "full_html",
-                    "groups" => array(),
-                    "users" => array(),
+                    "groups" => [],
+                    "users" => [],
                     "created_date" => time(),
                     "author" => Jaris\Authentication::currentUser(),
                     "type" => "page"
-                );
+                ];
 
                 Jaris\Pages::add($_REQUEST["terms_uri"], $terms_page, $terms_uri);
             }
 
             $terms_page["content"] = str_replace(
-                array(
+                [
                     "[the company]",
                     "[contact us]",
                     "[last updated]"
-                ),
-                array(
+                ],
+                [
                     $_REQUEST["company"],
                     Jaris\Uri::url($_REQUEST["contact"]),
                     date("n/j/Y", time())
-                ),
+                ],
                 file_get_contents(
                     Jaris\Modules::directory("terms_generator")
                         . "templates/terms_and_conditions.txt"
@@ -65,33 +63,32 @@ row: 0
             // Add / Edit privacy page
             $privacy_page = Jaris\Pages::get($_REQUEST["privacy_uri"]);
 
-            if(!$privacy_page)
-            {
-                $privacy_page = array(
+            if (!$privacy_page) {
+                $privacy_page = [
                     "title" => "Privacy Policy",
                     "content" => "",
                     "input_format" => "full_html",
-                    "groups" => array(),
-                    "users" => array(),
+                    "groups" => [],
+                    "users" => [],
                     "created_date" => time(),
                     "author" => Jaris\Authentication::currentUser(),
                     "type" => "page"
-                );
+                ];
 
                 Jaris\Pages::add($_REQUEST["privacy_uri"], $privacy_page, $privacy_uri);
             }
 
             $privacy_page["content"] = str_replace(
-                array(
+                [
                     "[the company]",
                     "[contact us]",
                     "[last updated]"
-                ),
-                array(
+                ],
+                [
                     $_REQUEST["company"],
                     Jaris\Uri::url($_REQUEST["contact"]),
                     date("n/j/Y", time())
-                ),
+                ],
                 file_get_contents(
                     Jaris\Modules::directory("terms_generator")
                         . "templates/privacy_policy.txt"
@@ -101,40 +98,38 @@ row: 0
             Jaris\Pages::edit($_REQUEST["privacy_uri"], $privacy_page);
 
             // Add / Edit return policy page
-            if(trim($_REQUEST["return_uri"]) != "")
-            {
+            if (trim($_REQUEST["return_uri"]) != "") {
                 $returns_page = Jaris\Pages::get($_REQUEST["return_uri"]);
 
-                if(!$returns_page)
-                {
-                    $returns_page = array(
+                if (!$returns_page) {
+                    $returns_page = [
                         "title" => "Return Policy",
                         "content" => "",
                         "input_format" => "full_html",
-                        "groups" => array(),
-                        "users" => array(),
+                        "groups" => [],
+                        "users" => [],
                         "created_date" => time(),
                         "author" => Jaris\Authentication::currentUser(),
                         "type" => "page"
-                    );
+                    ];
 
                     Jaris\Pages::add($_REQUEST["return_uri"], $returns_page, $returns_uri);
                 }
 
                 $returns_page["content"] = str_replace(
-                    array(
+                    [
                         "[the company]",
                         "[contact us]",
                         "[last updated]",
                         "[return days]"
-                    ),
-                    array(
+                    ],
+                    [
                         $_REQUEST["company"],
                         Jaris\Uri::url($_REQUEST["contact"]),
                         date("n/j/Y", time()),
                         trim($_REQUEST["return_days"]) == "" ?
                             "30" : $_REQUEST["return_days"]
-                    ),
+                    ],
                     file_get_contents(
                         Jaris\Modules::directory("terms_generator")
                             . "templates/return_policy.txt"
@@ -147,9 +142,7 @@ row: 0
             Jaris\View::addMessage(t("Terms generated successfully!"));
 
             Jaris\Uri::go("admin/settings");
-        }
-        elseif(isset($_REQUEST["btnCancel"]))
-        {
+        } elseif (isset($_REQUEST["btnCancel"])) {
             Jaris\Uri::go("admin/settings");
         }
 
@@ -163,68 +156,68 @@ row: 0
         );
         $parameters["method"] = "post";
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "name" => "company",
             "label" => t("Company name:"),
             "description" => t("The company name as it will appear on the generated terms."),
             "required" => true
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "uri",
             "name" => "contact",
             "label" => t("Contact us:"),
             "description" => t("The uri of existing contact us page."),
             "required" => true
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "uri",
             "name" => "terms_uri",
             "label" => t("Terms and conditions:"),
             "value" => "terms-and-conditions",
             "description" => t("The uri of the terms and conditions page to create. Note that if the provided uri exists the content of that page will be overwritten."),
             "required" => true
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "uri",
             "name" => "privacy_uri",
             "label" => t("Privacy policy:"),
             "value" => "privacy-policy",
             "description" => t("The uri of the privacy policy page to create. Note that if the provided uri exists the content of that page will be overwritten."),
             "required" => true
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "uri",
             "name" => "return_uri",
             "label" => t("Return policy:"),
             "description" => t("The uri of the return policy page to create. Note that if the provided uri exists the content of that page will be overwritten.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "uri",
             "name" => "return_days",
             "label" => t("Return policy:"),
             "value" => 30,
             "description" => t("The amount of days for applicable return after doing the order.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnSave",
             "value" => t("Save")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnCancel",
             "value" => t("Cancel")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
         print Jaris\Forms::generate($parameters, $fieldset);
     ?>

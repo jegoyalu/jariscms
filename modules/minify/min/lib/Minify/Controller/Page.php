@@ -11,7 +11,8 @@
  * @package Minify
  * @author Stephen Clay <steve@mrclay.org>
  */
-class Minify_Controller_Page extends Minify_Controller_Base {
+class Minify_Controller_Page extends Minify_Controller_Base
+{
 
     /**
      * Set up source of HTML content
@@ -33,18 +34,19 @@ class Minify_Controller_Page extends Minify_Controller_Base {
      *
      * @todo Add 'file' option to read HTML file.
      */
-    public function setupSources($options) {
+    public function setupSources($options)
+    {
         if (isset($options['file'])) {
-            $sourceSpec = array(
+            $sourceSpec = [
                 'filepath' => $options['file']
-            );
+            ];
             $f = $options['file'];
         } else {
             // strip controller options
-            $sourceSpec = array(
+            $sourceSpec = [
                 'content' => $options['content']
                 ,'id' => $options['id']
-            );
+            ];
             $f = $options['id'];
             unset($options['content'], $options['id']);
         }
@@ -53,10 +55,10 @@ class Minify_Controller_Page extends Minify_Controller_Base {
 
         if (isset($options['minifyAll'])) {
             // this will be the 2nd argument passed to Minify_HTML::minify()
-            $sourceSpec['minifyOptions'] = array(
-                'cssMinifier' => array('Minify_CSS', 'minify')
-                ,'jsMinifier' => array('JSMin', 'minify')
-            );
+            $sourceSpec['minifyOptions'] = [
+                'cssMinifier' => ['Minify_CSS', 'minify']
+                ,'jsMinifier' => ['JSMin', 'minify']
+            ];
             unset($options['minifyAll']);
         }
         $this->sources[] = new Minify_Source($sourceSpec);
@@ -65,4 +67,3 @@ class Minify_Controller_Page extends Minify_Controller_Base {
         return $options;
     }
 }
-

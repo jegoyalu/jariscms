@@ -9,8 +9,9 @@
  * for inspection.
  */
 
-if(php_sapi_name() != "cli")
+if (php_sapi_name() != "cli") {
     exit;
+}
 
 chdir(__DIR__ . "/../");
 
@@ -25,20 +26,17 @@ $_SERVER["HTTP_HOST"] = "localhost";
 error_reporting(E_ALL);
 
 set_error_handler(
-    function ($errno, $errmsg, $filename, $linenum, $vars)
-    {
+    function ($errno, $errmsg, $filename, $linenum, $vars) {
         static $errortype=null;
 
         // Skip errors that are supressed by a @
-        if(error_reporting() === 0)
-        {
+        if (error_reporting() === 0) {
             return true;
         }
 
         //Since searching for translation is slow with do it just once.
-        if(!is_array($errortype))
-        {
-            $errortype = array(
+        if (!is_array($errortype)) {
+            $errortype = [
                 E_ERROR => 'Error',
                 E_WARNING => 'Warning',
                 E_PARSE => 'Parsing Error',
@@ -52,7 +50,7 @@ set_error_handler(
                 E_USER_NOTICE => 'User Notice',
                 E_STRICT => 'Runtime Notice',
                 E_RECOVERABLE_ERROR => 'Catchable Fatal Error'
-            );
+            ];
         }
 
         // Comment the if line in order to uncover more issues like
@@ -63,8 +61,7 @@ set_error_handler(
                 . " in " . $filename . " on line " . $linenum
             ;
 
-            if(strpos($output, "eval()") !== false)
-            {
+            if (strpos($output, "eval()") !== false) {
                 print "<strong style=\"color: red;\">"
                     . $output . " - " . $_REQUEST["p"]
                     . "</strong>"
@@ -130,25 +127,16 @@ $visual_uri = Jaris\Uri::get();
 
 //Skips all the data procesing if image or file and display it.
 $page_type = Jaris\Uri::type($page);
-if($page_type == "image")
-{
+if ($page_type == "image") {
     $image_path = Jaris\Uri::getImagePath($page);
     Jaris\Images::show($image_path);
-}
-elseif($page_type == "user_picture")
-{
+} elseif ($page_type == "user_picture") {
     Jaris\Images::printUserPic($page);
-}
-elseif($page_type == "user_profile")
-{
+} elseif ($page_type == "user_profile") {
     Jaris\Users::showProfile($page);
-}
-elseif($page_type == "file")
-{
+} elseif ($page_type == "file") {
     Jaris\Pages\Files::printIt($page);
-}
-elseif($page_type == "category")
-{
+} elseif ($page_type == "category") {
     Jaris\Categories::showResults($page);
 }
 
@@ -162,22 +150,19 @@ Jaris\Site::$page_data[0] = Jaris\Pages::get($page, Jaris\Site::$language);
 Jaris\Modules::hook("hook_page_data", Jaris\Site::$page_data);
 
 //Check if the current user can view the current content
-if(!Jaris\Pages::userHasAccess(Jaris\Site::$page_data[0]))
-{
+if (!Jaris\Pages::userHasAccess(Jaris\Site::$page_data[0])) {
     Jaris\Uri::go("access-denied");
 }
 
 // If rendering mode is set skip directly to printing the page content.
-if(
+if (
     isset(Jaris\Site::$page_data[0]["rendering_mode"]) &&
     Jaris\Site::$page_data[0]["is_system"]
-)
-{
+) {
     $special_rendering = false;
 
     //Set adequate content type and enconding
-    switch(Jaris\Site::$page_data[0]["rendering_mode"])
-    {
+    switch (Jaris\Site::$page_data[0]["rendering_mode"]) {
         case "api":
             header('Content-Type: text/plain; charset=utf-8', true);
             $special_rendering = true;
@@ -200,8 +185,7 @@ if(
             break;
     }
 
-    if($special_rendering)
-    {
+    if ($special_rendering) {
         print Jaris\System::evalPHP(Jaris\Site::$page_data[0]['content']);
         exit;
     }
@@ -278,8 +262,7 @@ Jaris\Blocks::moveByTheme(
 );
 
 //In case of page not found
-if(!Jaris\Site::$page_data[0])
-{
+if (!Jaris\Site::$page_data[0]) {
     Jaris\Site::$page_data = Jaris\System::pageNotFound();
 }
 
@@ -297,27 +280,21 @@ $secondary_links = Jaris\View::getLinksHTML($secondary_links_data, "secondary-li
 Jaris\System::addEditTab(Jaris\Site::$page_data[0]);
 
 //Set the page title
-if(
+if (
     Jaris\Pages::isSystem(false, Jaris\Site::$page_data[0]) ||
     ($page_type == "category" && $page == "search") ||
     $page == "user"
-)
-{
+) {
     //Parse the title if is system page
     Jaris\Site::$title = t(Jaris\System::evalPHP(Jaris\Site::$page_data[0]["title"]))
         . " - " . t(Jaris\Site::$title)
     ;
-}
-else
-{
+} else {
     //Just translate if not system page
-    if(trim(Jaris\Site::$page_data[0]["meta_title"]) != "")
-    {
+    if (trim(Jaris\Site::$page_data[0]["meta_title"]) != "") {
         //If meta title is available use it
         Jaris\Site::$title = t(Jaris\Site::$page_data[0]["meta_title"]);
-    }
-    else
-    {
+    } else {
         Jaris\Site::$title = t(Jaris\Site::$page_data[0]["title"])
             . " - " . t(Jaris\Site::$title)
         ;

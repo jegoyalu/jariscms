@@ -14,5 +14,3 @@ function markdown_uninstall()
 {
     Jaris\InputFormats::delete("markdown");
 }
-
-?>

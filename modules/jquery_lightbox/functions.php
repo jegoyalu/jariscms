@@ -12,20 +12,16 @@
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\System::SIGNAL_GET_SYSTEM_STYLES,
-    function(&$styles)
-    {
+    function (&$styles) {
         $display_rule = Jaris\Settings::get("display_rule", "jquery-lightbox");
         $pages = explode(",", Jaris\Settings::get("pages", "jquery-lightbox"));
 
-        if($display_rule == "all_except_listed")
-        {
-            foreach($pages as $page_check)
-            {
+        if ($display_rule == "all_except_listed") {
+            foreach ($pages as $page_check) {
                 $page_check = trim($page_check);
 
                 //Check if no pages listed and print jquery lightbox styles.
-                if($page_check == "")
-                {
+                if ($page_check == "") {
                     $styles[] = Jaris\Uri::url(
                         Jaris\Modules::directory("jquery_lightbox")
                             . "lightbox/css/lightbox.css"
@@ -35,15 +31,14 @@ Jaris\Signals\SignalHandler::listenWithParams(
                 }
 
                 $page_check = str_replace(
-                    array("/", "*"),
-                    array("\\/", ".*"),
+                    ["/", "*"],
+                    ["\\/", ".*"],
                     $page_check
                 );
 
                 $page_check = "/^$page_check\$/";
 
-                if(preg_match($page_check, Jaris\Uri::get()))
-                {
+                if (preg_match($page_check, Jaris\Uri::get())) {
                     return;
                 }
             }
@@ -52,23 +47,19 @@ Jaris\Signals\SignalHandler::listenWithParams(
                 Jaris\Modules::directory("jquery_lightbox")
                     . "lightbox/css/lightbox.css"
             );
-        }
-        else if($display_rule == "just_listed")
-        {
-            foreach($pages as $page_check)
-            {
+        } elseif ($display_rule == "just_listed") {
+            foreach ($pages as $page_check) {
                 $page_check = trim($page_check);
 
                 $page_check = str_replace(
-                    array("/", "*"),
-                    array("\\/", ".*"),
+                    ["/", "*"],
+                    ["\\/", ".*"],
                     $page_check
                 );
 
                 $page_check = "/^$page_check\$/";
 
-                if(preg_match($page_check, Jaris\Uri::get()))
-                {
+                if (preg_match($page_check, Jaris\Uri::get())) {
                     $styles[] = Jaris\Uri::url(
                         Jaris\Modules::directory("jquery_lightbox")
                             . "lightbox/css/lightbox.css"
@@ -83,8 +74,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\System::SIGNAL_GET_SYSTEM_SCRIPTS,
-    function(&$scripts)
-    {
+    function (&$scripts) {
         global $jquery_lightbox_display;
 
         $display_rule = Jaris\Settings::get(
@@ -97,15 +87,12 @@ Jaris\Signals\SignalHandler::listenWithParams(
             Jaris\Settings::get("pages", "jquery-lightbox")
         );
 
-        if($display_rule == "all_except_listed")
-        {
-            foreach($pages as $page_check)
-            {
+        if ($display_rule == "all_except_listed") {
+            foreach ($pages as $page_check) {
                 $page_check = trim($page_check);
 
                 //Check if no pages listed and print jquery lightbox styles.
-                if($page_check == "")
-                {
+                if ($page_check == "") {
                     $scripts[] = Jaris\Uri::url(
                         Jaris\Modules::directory("jquery_lightbox")
                             . "lightbox/jquery.lightbox.js"
@@ -117,15 +104,14 @@ Jaris\Signals\SignalHandler::listenWithParams(
                 }
 
                 $page_check = str_replace(
-                    array("/", "*"),
-                    array("\\/", ".*"),
+                    ["/", "*"],
+                    ["\\/", ".*"],
                     $page_check
                 );
 
                 $page_check = "/^$page_check\$/";
 
-                if(preg_match($page_check, Jaris\Uri::get()))
-                {
+                if (preg_match($page_check, Jaris\Uri::get())) {
                     return;
                 }
             }
@@ -136,23 +122,19 @@ Jaris\Signals\SignalHandler::listenWithParams(
             );
 
             $jquery_lightbox_display = true;
-        }
-        else if($display_rule == "just_listed")
-        {
-            foreach($pages as $page_check)
-            {
+        } elseif ($display_rule == "just_listed") {
+            foreach ($pages as $page_check) {
                 $page_check = trim($page_check);
 
                 $page_check = str_replace(
-                    array("/", "*"),
-                    array("\\/", ".*"),
+                    ["/", "*"],
+                    ["\\/", ".*"],
                     $page_check
                 );
 
                 $page_check = "/^$page_check\$/";
 
-                if(preg_match($page_check, Jaris\Uri::get()))
-                {
+                if (preg_match($page_check, Jaris\Uri::get())) {
                     $scripts[] = Jaris\Uri::url(
                         Jaris\Modules::directory("jquery_lightbox")
                             . "lightbox/jquery.lightbox.js"
@@ -169,12 +151,10 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\View::SIGNAL_THEME_SCRIPTS,
-    function(&$scripts, &$scripts_code)
-    {
+    function (&$scripts, &$scripts_code) {
         global $jquery_lightbox_display;
 
-        if($jquery_lightbox_display)
-        {
+        if ($jquery_lightbox_display) {
             $url = Jaris\Uri::url(
                 Jaris\Modules::directory("jquery_lightbox")
                     . "lightbox/images"
@@ -207,17 +187,15 @@ SCRIPT;
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\View::SIGNAL_THEME_TABS,
-    function(&$tabs_array)
-    {
-        if(Jaris\Uri::get() == "admin/settings")
-        {
-            $tabs_array[0][t("Jquery Lightbox")] = array(
+    function (&$tabs_array) {
+        if (Jaris\Uri::get() == "admin/settings") {
+            $tabs_array[0][t("Jquery Lightbox")] = [
                 "uri" => Jaris\Modules::getPageUri(
                     "admin/settings/jquery/lightbox",
                     "jquery_lightbox"
                 ),
-                "arguments" => array()
-            );
+                "arguments" => []
+            ];
         }
     }
 );

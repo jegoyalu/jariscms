@@ -17,12 +17,11 @@ function control_menu_install()
         " <a href=\"" .
         Jaris\Uri::url(
             Jaris\Modules::getPageUri(
-                "admin/settings/control-menu", "control_menu"
+                "admin/settings/control-menu",
+                "control_menu"
             )
         ) . "\">" .
         t("Configure Now") .
         "</a>"
     );
 }
-
-?>

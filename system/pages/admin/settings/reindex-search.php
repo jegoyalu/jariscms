@@ -19,14 +19,12 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("edit_settings"));
+        Jaris\Authentication::protectedPage(["edit_settings"]);
 
-        if(isset($_REQUEST["btnYes"]))
-        {
+        if (isset($_REQUEST["btnYes"])) {
             ini_set('max_execution_time', '0');
 
-            if(Jaris\Search::reindex())
-            {
+            if (Jaris\Search::reindex()) {
                 Jaris\View::addMessage(
                     t("Indexation of SQLite search database completed.")
                 );
@@ -34,9 +32,7 @@ row: 0
                 t("Re-indexed search database.");
 
                 Jaris\Logger::info("Re-indexed search database.");
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(
                     Jaris\System::errorMessage("write_error_data"),
                     "error"
@@ -44,9 +40,7 @@ row: 0
             }
 
             Jaris\Uri::go("admin/settings/advanced");
-        }
-        elseif(isset($_REQUEST["btnNo"]))
-        {
+        } elseif (isset($_REQUEST["btnNo"])) {
             Jaris\Uri::go("admin/settings/advanced");
         }
     ?>

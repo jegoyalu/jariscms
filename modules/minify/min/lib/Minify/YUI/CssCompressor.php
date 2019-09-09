@@ -20,7 +20,8 @@
  *
  * @package Minify
  */
-class Minify_YUI_CssCompressor {
+class Minify_YUI_CssCompressor
+{
 
     /**
      * Minify a CSS string
@@ -47,7 +48,7 @@ class Minify_YUI_CssCompressor {
         // Remove the spaces before the things that should not have spaces before them.
         // But, be careful not to turn "p :link {...}" into "p:link{...}"
         // Swap out any pseudo-class colons with the token, and then swap back.
-        $css = preg_replace_callback("@(^|\\})(([^\\{:])+:)+([^\\{]*\\{)@", array($this, '_removeSpacesCB'), $css);
+        $css = preg_replace_callback("@(^|\\})(([^\\{:])+:)+([^\\{]*\\{)@", [$this, '_removeSpacesCB'], $css);
 
         $css = preg_replace("@\\s+([!{};:>+\\(\\)\\],])@", "$1", $css);
         $css = str_replace("___PSEUDOCLASSCOLON___", ":", $css);
@@ -74,7 +75,7 @@ class Minify_YUI_CssCompressor {
 
         // Shorten colors from rgb(51,102,153) to #336699
         // This makes it more likely that it'll get further compressed in the next step.
-        $css = preg_replace_callback("@rgb\\s*\\(\\s*([0-9,\\s]+)\\s*\\)@", array($this, '_shortenRgbCB'), $css);
+        $css = preg_replace_callback("@rgb\\s*\\(\\s*([0-9,\\s]+)\\s*\\)@", [$this, '_shortenRgbCB'], $css);
 
         // Shorten colors from #AABBCC to #ABC. Note that we want to make sure
         // the color is not preceded by either ", " or =. Indeed, the property
@@ -82,7 +83,7 @@ class Minify_YUI_CssCompressor {
         // would become
         //     filter: chroma(color="#FFF");
         // which makes the filter break in IE.
-        $css = preg_replace_callback("@([^\"'=\\s])(\\s*)#([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])@", array($this, '_shortenHexCB'), $css);
+        $css = preg_replace_callback("@([^\"'=\\s])(\\s*)#([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])@", [$this, '_shortenHexCB'], $css);
 
         // Remove empty rules.
         $css = preg_replace("@[^\\}]+\\{;\\}@", "", $css);

@@ -16,7 +16,7 @@ row: 0
     field;
 
     field: content
-    <?php if(isset($_REQUEST["id"])){ ?>
+    <?php if (isset($_REQUEST["id"])) { ?>
 
         <?php
             $parallax_settings = Jaris\Settings::getAll("parallax");
@@ -26,9 +26,9 @@ row: 0
         ?>
 
         $(document).ready(function(){
-            <?php if(empty($background["element"])){ ?>
+            <?php if (empty($background["element"])) { ?>
             var parallaxContainer = $('<div class="parallax parallax-<?php print intval($_REQUEST["id"]); ?>" />');
-            <?php } else{ ?>
+            <?php } else { ?>
             var parallaxContainer = $('<?php print $background["element"]; ?>');
             <?php } ?>
 
@@ -41,7 +41,7 @@ row: 0
                 "fixed"
             );
 
-            <?php if(empty($background["element"])){ ?>
+            <?php if (empty($background["element"])) { ?>
             $("body > *").appendTo(parallaxContainer);
             parallaxContainer.appendTo("body");
             <?php } ?>

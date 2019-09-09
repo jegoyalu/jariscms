@@ -19,18 +19,16 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("edit_input_formats"));
+        Jaris\Authentication::protectedPage(["edit_input_formats"]);
 
-        if(!isset($_REQUEST["input_format"]))
-        {
+        if (!isset($_REQUEST["input_format"])) {
             Jaris\Uri::go("admin/input-formats");
         }
 
-        if(
+        if (
             isset($_REQUEST["btnSave"]) &&
             !Jaris\Forms::requiredFieldEmpty("edit-input-format")
-        )
-        {
+        ) {
             $fields["name"] = $_REQUEST["name"];
             $fields["description"] = $_REQUEST["description"];
             $fields["allowed_tags"] = $_REQUEST["allowed_tags"];
@@ -41,8 +39,7 @@ row: 0
 
             $error = false;
 
-            if($_REQUEST["name"] == "" || $_REQUEST["description"] == "")
-            {
+            if ($_REQUEST["name"] == "" || $_REQUEST["description"] == "") {
                 $error = true;
 
                 Jaris\View::addMessage(
@@ -51,23 +48,19 @@ row: 0
                 );
             }
 
-            if(!$error)
-            {
-                if(Jaris\InputFormats::edit($_REQUEST["input_format"], $fields))
-                {
+            if (!$error) {
+                if (Jaris\InputFormats::edit($_REQUEST["input_format"], $fields)) {
                     Jaris\View::addMessage(t("Your changes have been saved."));
 
                     t("Edited input format '{machine_name}'.");
 
                     Jaris\Logger::info(
                         "Edited input format '{machine_name}'.",
-                        array(
+                        [
                             "machine_name" => $_REQUEST["input_format"]
-                        )
+                        ]
                     );
-                }
-                else
-                {
+                } else {
                     Jaris\View::addMessage(
                         Jaris\System::errorMessage("write_error_data"),
                         "error"
@@ -76,9 +69,7 @@ row: 0
 
                 Jaris\Uri::go("admin/input-formats");
             }
-        }
-        elseif(isset($_REQUEST["btnCancel"]))
-        {
+        } elseif (isset($_REQUEST["btnCancel"])) {
             Jaris\Uri::go("admin/input-formats");
         }
 
@@ -89,13 +80,13 @@ row: 0
         $parameters["action"] = Jaris\Uri::url("admin/input-formats/edit");
         $parameters["method"] = "post";
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "hidden",
             "value" => $_REQUEST["input_format"],
             "name" => "input_format"
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "readonly" => true,
             "value" => $_REQUEST["input_format"],
@@ -103,9 +94,9 @@ row: 0
             "label" => t("Machine name:"),
             "id" => "machine-name",
             "description" => t("The machine name of the input format.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "value" => $input_format_data["name"],
             "name" => "name",
@@ -113,9 +104,9 @@ row: 0
             "id" => "name",
             "required" => true,
             "description" => t("A human readable name like for example: My Input Format.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "value" => $input_format_data["description"],
             "name" => "description",
@@ -123,91 +114,91 @@ row: 0
             "id" => "description",
             "required" => true,
             "description" => t("A brief description of the input format.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "textarea",
             "value" => $input_format_data["allowed_tags"],
             "name" => "allowed_tags",
             "label" => t("Allowed tags:"),
             "id" => "allowed_tags",
             "description" => t("A list of the allowed tags for this input format. Example: &lt;a&gt;&lt;img&gt;&lt;p&gt;&lt;h1&gt;&lt;h2&gt;&lt;h3&gt;&lt;h4&gt;&lt;h5&gt;&lt;h6&gt;&lt;address&gt;&lt;pre&gt;&lt;br&gt;&lt;b&gt;&lt;i&gt;&lt;strong&gt;&lt;em&gt;&lt;u&gt;&lt;ul&gt;&lt;ol&gt;&lt;li&gt;")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "textarea",
             "value" => $input_format_data["allowed_atts"],
             "name" => "allowed_atts",
             "label" => t("Allowed attributes:"),
             "id" => "allowed_atts",
             "description" => t("A list of the allowed attributes separated by comma. Example: href,src,alt,align,target")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
         $true_false[t("Enable")] = true;
         $true_false[t("Disable")] = false;
 
-        $parse_url_fields[] = array(
+        $parse_url_fields[] = [
             "type" => "radio",
             "name" => "parse_url",
             "id" => "parse_url",
             "value" => $true_false,
             "checked" => $input_format_data["parse_url"]
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "name" => t("Parse url's"),
             "fields" => $parse_url_fields,
             "collapsible" => true,
             "description" => t("To enable or disable parsing of url's.")
-        );
+        ];
 
-        $parse_email_fields[] = array(
+        $parse_email_fields[] = [
             "type" => "radio",
             "name" => "parse_email",
             "id" => "parse_email",
             "value" => $true_false,
             "checked" => $input_format_data["parse_email"]
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "name" => t("Parse emails"),
             "fields" => $parse_email_fields,
             "collapsible" => true,
             "description" => t("To enable or disable parsing of emails.")
-        );
+        ];
 
-        $parse_line_ends_fields[] = array(
+        $parse_line_ends_fields[] = [
             "type" => "radio",
             "name" => "parse_line_breaks",
             "id" => "parse_line_breaks",
             "value" => $true_false,
             "checked" => $input_format_data["parse_line_breaks"]
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "name" => t("Convert line breaks"),
             "fields" => $parse_line_ends_fields,
             "collapsible" => true,
             "description" => t("To enable or disable conversion of line breaks to &lt;br&gt; tag.")
-        );
+        ];
 
-        $fields_submit[] = array(
+        $fields_submit[] = [
             "type" => "submit",
             "name" => "btnSave",
             "value" => t("Save")
-        );
+        ];
 
-        $fields_submit[] = array(
+        $fields_submit[] = [
             "type" => "submit",
             "name" => "btnCancel",
             "value" => t("Cancel")
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "fields" => $fields_submit
-        );
+        ];
 
         print Jaris\Forms::generate($parameters, $fieldset);
     ?>

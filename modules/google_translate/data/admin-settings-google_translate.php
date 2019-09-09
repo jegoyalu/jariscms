@@ -17,24 +17,20 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("edit_settings"));
+        Jaris\Authentication::protectedPage(["edit_settings"]);
 
         Jaris\View::addTab(t("Settings"), "admin/settings");
 
-        if(isset($_REQUEST["btnSave"]))
-        {
-            if(
+        if (isset($_REQUEST["btnSave"])) {
+            if (
                 Jaris\Settings::save(
                     "input_language",
                     $_REQUEST["input_language"],
                     "google_translate"
                 )
-            )
-            {
+            ) {
                 Jaris\View::addMessage(t("Your changes have been saved."));
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(Jaris\System::errorMessage("write_error_data"));
             }
 
@@ -107,7 +103,7 @@ row: 0
         $languages[t("Welsh")] = "cy";
         $languages[t("Yiddish")] = "yi";
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "select",
             "label" => t("Input language:"),
             "name" => "input_language",
@@ -115,21 +111,21 @@ row: 0
             "value" => $languages,
             "selected" => $settings["input_language"],
             "description" => t("The original language of the website.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnSave",
             "value" => t("Save")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnCancel",
             "value" => t("Cancel")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
         print Jaris\Forms::generate($parameters, $fieldset);
     ?>

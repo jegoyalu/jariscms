@@ -19,18 +19,16 @@ row: 0
 
     field: content
     <?php
-        if(
+        if (
             !Jaris\Authentication::groupHasPermission(
                 "view_content",
                 Jaris\Authentication::currentUserGroup()
             )
-        )
-        {
+        ) {
             Jaris\Uri::go("admin/user/content");
         }
 
-        if(isset($_REQUEST["uri"]))
-        {
+        if (isset($_REQUEST["uri"])) {
             Jaris\View::addMessage(
                 t("You are currently navigating:") . " " . $_REQUEST["uri"],
                 "normal"
@@ -45,47 +43,38 @@ row: 0
                 Jaris\Site::dataDir() . "pages"
             );
 
-            $sections = array();
-            $alphabet = array();
-            $pages = array();
+            $sections = [];
+            $alphabet = [];
+            $pages = [];
 
             //Store Data
-            foreach($navigation as $link)
-            {
-                if($link["type"] == "section")
-                {
+            foreach ($navigation as $link) {
+                if ($link["type"] == "section") {
                     $sections[] = $link;
                 }
             }
 
-            foreach($navigation as $link)
-            {
-                if($link["type"] == "alphabet")
-                {
+            foreach ($navigation as $link) {
+                if ($link["type"] == "alphabet") {
                     $alphabet[] = $link;
                 }
             }
 
-            foreach($navigation as $link)
-            {
-                if($link["type"] == "page")
-                {
+            foreach ($navigation as $link) {
+                if ($link["type"] == "page") {
                     $pages[] = $link;
                 }
             }
 
             //Display Data
-            if(count($sections) > 0)
-            {
+            if (count($sections) > 0) {
                 print "<h3>" . t("Sections") . "</h3>";
                 print "<ul>";
-                foreach($sections as $link)
-                {
-                    if($link["type"] == "section")
-                    {
+                foreach ($sections as $link) {
+                    if ($link["type"] == "section") {
                         $url = Jaris\Uri::url(
                             "admin/pages",
-                            array("uri" => $link['path'])
+                            ["uri" => $link['path']]
                         );
 
                         print "<li><a href=\"$url\">{$link['current']}</a></li>";
@@ -94,17 +83,14 @@ row: 0
                 print "</ul>";
             }
 
-            if(count($alphabet) > 0)
-            {
+            if (count($alphabet) > 0) {
                 print "<h3>" . t("Alphabetical") . "</h3>";
                 print "<fieldset>";
-                foreach($alphabet as $link)
-                {
-                    if($link["type"] == "alphabet")
-                    {
+                foreach ($alphabet as $link) {
+                    if ($link["type"] == "alphabet") {
                         $url = Jaris\Uri::url(
                             "admin/pages",
-                            array("uri" => $link['path'])
+                            ["uri" => $link['path']]
                         );
 
                         print "<a href=\"$url\">{$link['current']}</a> &nbsp;";
@@ -113,19 +99,16 @@ row: 0
                 print "</fieldset>";
             }
 
-            if(count($pages) > 0)
-            {
+            if (count($pages) > 0) {
                 print "<h3>" . t("Pages") . "</h3>";
                 print "<ul>";
-                foreach($pages as $link)
-                {
-                    if($link["type"] == "page")
-                    {
+                foreach ($pages as $link) {
+                    if ($link["type"] == "page") {
                         $uri = Jaris\Uri::getFromPath($link['path']);
 
                         $url = Jaris\Uri::url(
                             "admin/pages/edit",
-                            array("uri" => $uri)
+                            ["uri" => $uri]
                         );
 
                         print "<li><a href=\"$url\">{$link['current']}</a></li>";
@@ -133,15 +116,13 @@ row: 0
                 }
                 print "</ul>";
             }
-        }
-        else
-        {
+        } else {
             Jaris\View::addTab(t("List View"), "admin/pages/list");
             Jaris\View::addTab(t("Create Page"), "admin/pages/types");
 
-            $pages = Jaris\Uri::url("admin/pages", array("uri" => "singles"));
+            $pages = Jaris\Uri::url("admin/pages", ["uri" => "singles"]);
 
-            $sections = Jaris\Uri::url("admin/pages", array("uri" => "sections"));
+            $sections = Jaris\Uri::url("admin/pages", ["uri" => "sections"]);
 
             print "<h3>" . t("Navigation") . "</h3>";
             print "<a href=\"$pages\">" . t("Singles") . "</<a><br />";

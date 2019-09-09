@@ -18,26 +18,19 @@ row: 0
     field: content
     <?php
         $id = 0;
-        if(!isset($_REQUEST["id"]) || intval($_REQUEST["id"]) <= 0)
-        {
+        if (!isset($_REQUEST["id"]) || intval($_REQUEST["id"]) <= 0) {
             Jaris\Uri::go("");
-        }
-        else
-        {
+        } else {
             $id = intval($_REQUEST["id"]);
         }
 
-        if(!isset($_REQUEST["uri"]) || trim($_REQUEST["uri"]) == "")
-        {
+        if (!isset($_REQUEST["uri"]) || trim($_REQUEST["uri"]) == "") {
             Jaris\Uri::go("");
-        }
-        elseif(!($page_data = Jaris\Pages::get($_REQUEST["uri"])))
-        {
+        } elseif (!($page_data = Jaris\Pages::get($_REQUEST["uri"]))) {
             Jaris\Uri::go("");
         }
 
-        if($page_data["type"] != "calendar")
-        {
+        if ($page_data["type"] != "calendar") {
             Jaris\Uri::go("");
         }
 
@@ -47,29 +40,24 @@ row: 0
 
         $is_page_owner = Jaris\Pages::userIsOwner($uri, $page_data);
 
-        if(
-            $event_data["author"] != Jaris\Authentication::currentUser())
-        {
-            if(!$is_page_owner)
-            {
+        if (
+            $event_data["author"] != Jaris\Authentication::currentUser()) {
+            if (!$is_page_owner) {
                 Jaris\Authentication::protectedPage();
             }
         }
 
-        if(isset($_REQUEST["btnYes"]))
-        {
+        if (isset($_REQUEST["btnYes"])) {
             calendar_event_delete($id, $uri);
 
             Jaris\Uri::go(
                 Jaris\Modules::getPageUri("admin/calendar/events", "calendar"),
-                array("uri" => $uri)
+                ["uri" => $uri]
             );
-        }
-        elseif(isset($_REQUEST["btnNo"]))
-        {
+        } elseif (isset($_REQUEST["btnNo"])) {
             Jaris\Uri::go(
                 Jaris\Modules::getPageUri("admin/calendar/events", "calendar"),
-                array("uri" => $uri)
+                ["uri" => $uri]
             );
         }
     ?>

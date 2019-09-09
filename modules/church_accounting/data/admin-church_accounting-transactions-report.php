@@ -17,7 +17,7 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("view_income_church_accounting"));
+        Jaris\Authentication::protectedPage(["view_income_church_accounting"]);
 
         Jaris\View::addTab(
             t("Print"),
@@ -25,45 +25,37 @@ row: 0
                 "admin/church-accounting/transactions/report/print",
                 "church_accounting"
             ),
-            array(
+            [
                 "day" => $_REQUEST["day"],
                 "month" => $_REQUEST["month"],
                 "year" => $_REQUEST["year"]
-            )
+            ]
         );
 
         $day = "";
-        if(trim($_REQUEST["day"]) != "")
-        {
+        if (trim($_REQUEST["day"]) != "") {
             $day = intval($_REQUEST["day"]);
             $options[] = "day=$day";
         }
 
         $month = date("n");
-        if(trim($_REQUEST["month"]) != "")
-        {
+        if (trim($_REQUEST["month"]) != "") {
             $month = intval($_REQUEST["month"]);
             $options[] = "month=$month";
-        }
-        else
-        {
+        } else {
             $options[] = "month=$month";
         }
 
         $year = date("Y");
-        if(trim($_REQUEST["year"]) != "")
-        {
+        if (trim($_REQUEST["year"]) != "") {
             $year = intval($_REQUEST["year"]);
             $options[] = "year=$year";
-        }
-        else
-        {
+        } else {
             $options[] = "year=$year";
         }
 
         $where = "";
-        if(count($options) > 0)
-        {
+        if (count($options) > 0) {
             $where = implode(" and ", $options);
         }
 
@@ -74,12 +66,10 @@ row: 0
         print "<div style=\"float: left\">";
         print t("Day:") . " <select name=\"day\">\n";
         print "<option value=\"\">" . t("All") . "</option>\n";
-        foreach(Jaris\Date::getDays() as $day_value)
-        {
+        foreach (Jaris\Date::getDays() as $day_value) {
             $selected = "";
 
-            if($day == $day_value)
-            {
+            if ($day == $day_value) {
                 $selected = "selected=\"selected\"";
             }
 
@@ -89,12 +79,10 @@ row: 0
 
         print t("Month:") . " <select name=\"month\">\n";
         print "<option value=\"\">" . t("All") . "</option>\n";
-        foreach(Jaris\Date::getMonths() as $month_name=>$month_value)
-        {
+        foreach (Jaris\Date::getMonths() as $month_name=>$month_value) {
             $selected = "";
 
-            if($month == $month_value)
-            {
+            if ($month == $month_value) {
                 $selected = "selected=\"selected\"";
             }
 
@@ -104,12 +92,10 @@ row: 0
 
         print t("Year:") . " <select onchange=\"javascript: this.form.submit()\" name=\"year\">\n";
         print "<option value=\"\">" . t("All") . "</option>\n";
-        foreach(Jaris\Date::getYears() as $year_value)
-        {
+        foreach (Jaris\Date::getYears() as $year_value) {
             $selected = "";
 
-            if($year == $year_value)
-            {
+            if ($year == $year_value) {
                 $selected = "selected=\"selected\"";
             }
 
@@ -126,13 +112,14 @@ row: 0
         $theme = Jaris\Site::$theme;
 
         ob_start();
-        if(file_exists(Jaris\Themes::directory($theme) . "church-accounting-transactions-report.php"))
+        if (file_exists(Jaris\Themes::directory($theme) . "church-accounting-transactions-report.php")) {
             include(Jaris\Themes::directory($theme) . "church-accounting-transactions-report.php");
-        else
+        } else {
             include(
                 Jaris\Modules::directory("church_accounting")
                 . "templates/church-accounting-transactions-report.php"
             );
+        }
         $output = ob_get_contents();
         ob_end_clean();
 

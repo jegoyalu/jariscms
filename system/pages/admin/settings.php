@@ -19,7 +19,7 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("edit_settings"));
+        Jaris\Authentication::protectedPage(["edit_settings"]);
 
         Jaris\View::addTab(t("Themes"), "admin/themes");
         Jaris\View::addTab(t("Mailer"), "admin/settings/mailer");
@@ -28,8 +28,7 @@ row: 0
         //settings table doesn't exist
         $site_settings = null;
 
-        if(!($site_settings = Jaris\Settings::getAll("main")))
-        {
+        if (!($site_settings = Jaris\Settings::getAll("main"))) {
             $site_status = "The site is down for mantainance, sorry for any "
                 . "inconvenience it may cause you. Try again later."
             ;
@@ -62,9 +61,7 @@ row: 0
             $site_settings["image_static_serving"] = false;
             $site_settings["home_page"] = "home";
             $site_settings["page_not_found"] = "";
-        }
-        else
-        {
+        } else {
             $site_status = "The site is down for mantainance, sorry for any "
                 . "inconvenience it may cause you. Try again later."
             ;
@@ -142,11 +139,9 @@ row: 0
             $site_settings["registration_groups_approval"]
         );
 
-        if(isset($_REQUEST["btnSave"]) && !Jaris\Forms::requiredFieldEmpty("edit-site-settings"))
-        {
+        if (isset($_REQUEST["btnSave"]) && !Jaris\Forms::requiredFieldEmpty("edit-site-settings")) {
             //Check if write is possible and continue to write settings
-            if(Jaris\Settings::save("site_status", $_REQUEST["site_status"], "main"))
-            {
+            if (Jaris\Settings::save("site_status", $_REQUEST["site_status"], "main")) {
                 Jaris\Settings::save("site_status_title", $_REQUEST["site_status_title"], "main");
                 Jaris\Settings::save("site_status_description", $_REQUEST["site_status_description"], "main");
                 Jaris\Settings::save("title", $_REQUEST["title"], "main");
@@ -181,9 +176,7 @@ row: 0
                 Jaris\Settings::save("page_not_found", $_REQUEST["page_not_found"], "main");
 
                 Jaris\View::addMessage(t("Your settings have been successfully saved."));
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(
                     Jaris\System::errorMessage("write_error_data"),
                     "error"
@@ -191,9 +184,7 @@ row: 0
             }
 
             Jaris\Uri::go("admin/settings");
-        }
-        elseif(isset($_REQUEST["btnCancel"]))
-        {
+        } elseif (isset($_REQUEST["btnCancel"])) {
             Jaris\Uri::go("admin/settings");
         }
 
@@ -205,239 +196,236 @@ row: 0
         $sitestatus[t("Online")] = true;
         $sitestatus[t("Offline")] = false;
 
-        $sitestatus_fields[] = array(
+        $sitestatus_fields[] = [
             "type" => "radio",
             "name" => "site_status",
             "id" => "site_status",
             "value" => $sitestatus,
             "checked" => $site_settings["site_status"]
-        );
+        ];
 
-        $sitestatus_fields[] = array(
+        $sitestatus_fields[] = [
             "type" => "text",
             "name" => "site_status_title",
             "label" => t("Status title:"),
             "id" => "site_status_title",
             "value" => $site_settings["site_status_title"],
             "description" => t("A brief description of site status like: Under Construction")
-        );
+        ];
 
-        $sitestatus_fields[] = array(
+        $sitestatus_fields[] = [
             "type" => "textarea",
             "name" => "site_status_description",
             "label" => t("Status Description:"),
             "id" => "site_status_description",
             "value" => $site_settings["site_status_description"],
             "description" => t("A detailed description of the site status.")
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "name" => t("Site Status"),
             "fields" => $sitestatus_fields,
             "collapsible" => true,
             "collapsed" => true
-        );
+        ];
 
-        $text_fields[] = array(
+        $text_fields[] = [
             "type" => "text",
             "name" => "title",
             "label" => t("Site title:"),
             "id" => "site-title",
             "value" => $site_settings["title"],
             "required" => true
-        );
+        ];
 
-        $text_fields[] = array(
+        $text_fields[] = [
             "type" => "other",
             "html_code" => "<br />"
-        );
+        ];
 
-        $text_fields[] = array(
+        $text_fields[] = [
             "type" => "checkbox",
             "checked" => $site_settings["auto_detect_base_url"],
             "label" => t("Auto detect base url?"),
             "name" => "auto_detect_base_url",
             "id" => "auto_detect_base_url"
-        );
+        ];
 
-        $text_fields[] = array(
+        $text_fields[] = [
             "type" => "text",
             "name" => "base_url",
             "label" => t("Site url:"),
             "id" => "site-url",
             "value" => $site_settings["base_url"]
-        );
+        ];
 
-        $text_fields[] = array(
+        $text_fields[] = [
             "type" => "textarea",
             "name" => "slogan",
             "label" => t("Slogan:"),
             "id" => "slogan",
             "value" => $site_settings["slogan"],
             "description" => t("A short phrase that describes your company or organization goals.")
-        );
+        ];
 
-        $text_fields[] = array("type" => "textarea",
+        $text_fields[] = ["type" => "textarea",
             "name" => "footer_message",
             "label" => t("Footer message:"),
             "id" => "footer-message",
             "value" => $site_settings["footer_message"]
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "name" => t("Site info"),
             "fields" => $text_fields,
             "collapsible" => true,
             "collapsed" => true
-        );
+        ];
 
         $temp_languages = Jaris\Language::getInstalled();
         $languages[t("auto-detect")] = "autodetect";
-        foreach(Jaris\Language::getInstalled() as $code => $name)
-        {
+        foreach (Jaris\Language::getInstalled() as $code => $name) {
             $languages[$name] = $code;
         }
 
-        $language_fields[] = array(
+        $language_fields[] = [
             "type" => "select",
             "name" => "language",
             "label" => t("Site language:"),
             "id" => "language",
             "value" => $languages,
             "selected" => $site_settings["language"]
-        );
+        ];
 
         $timezones_list = Jaris\Timezones::getList();
-        $timezones = array();
+        $timezones = [];
 
-        foreach($timezones_list as $timezone_text)
-        {
+        foreach ($timezones_list as $timezone_text) {
             $timezones["$timezone_text"] = "$timezone_text";
         }
 
-        $language_fields[] = array(
+        $language_fields[] = [
             "type" => "select",
             "label" => t("Timezone:"),
             "name" => "timezone",
             "id" => "timezone",
             "value" => $timezones,
             "selected" => $site_settings["timezone"]
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "name" => t("Language and Timezone"),
             "fields" => $language_fields,
             "collapsible" => true,
             "collapsed" => true
-        );
+        ];
 
         $new_registrations[t("Enable")] = true;
         $new_registrations[t("Disable")] = false;
 
-        $new_registration_fields[] = array(
+        $new_registration_fields[] = [
             "type" => "radio",
             "name" => "new_registrations",
             "id" => "new_registrations",
             "value" => $new_registrations,
             "checked" => $site_settings["new_registrations"]
-        );
+        ];
 
-        $new_registration_fields[] = array(
+        $new_registration_fields[] = [
             "type" => "other",
             "html_code" => "<h4>" . t("Require e-mail activation?") . "</h4>"
-        );
+        ];
 
-        $new_registration_fields[] = array(
+        $new_registration_fields[] = [
             "type" => "radio",
             "name" => "registration_needs_activation",
             "id" => "registration_needs_activation",
             "value" => $new_registrations,
             "checked" => $site_settings["registration_needs_activation"]
-        );
+        ];
 
-        $new_registration_fields[] = array(
+        $new_registration_fields[] = [
             "type" => "other",
             "html_code" => "<h4>" . t("Require administrator approval?") . "</h4>"
-        );
+        ];
 
-        $new_registration_fields[] = array(
+        $new_registration_fields[] = [
             "type" => "radio",
             "name" => "registration_needs_approval",
             "id" => "registration_needs_approval",
             "value" => $new_registrations,
             "checked" => $site_settings["registration_needs_approval"]
-        );
+        ];
 
-        $new_registration_fields[] = array(
+        $new_registration_fields[] = [
             "type" => "other",
             "html_code" => "<h4>" . t("Registrator can select group?") . "</h4>"
-        );
+        ];
 
-        $new_registration_fields[] = array(
+        $new_registration_fields[] = [
             "type" => "radio",
             "name" => "registration_can_select_group",
             "id" => "registration_can_select_group",
             "value" => $new_registrations,
             "checked" => $site_settings["registration_can_select_group"]
-        );
+        ];
 
-        $new_registration_fields[] = array(
+        $new_registration_fields[] = [
             "type" => "other",
             "html_code" => "<h4>" . t("Groups the registrator can select") . "</h4>"
-        );
+        ];
 
-        $new_registration_fields[] = array(
+        $new_registration_fields[] = [
             "type" => "other",
             "html_code" => "<table class=\"groups-list\">"
-        );
+        ];
 
-        $new_registration_fields[] = array(
+        $new_registration_fields[] = [
             "type" => "other",
             "html_code" => "<thead>"
-        );
+        ];
 
-        $new_registration_fields[] = array(
+        $new_registration_fields[] = [
             "type" => "other",
             "html_code" => "<tr>"
-        );
+        ];
 
-        $new_registration_fields[] = array(
+        $new_registration_fields[] = [
             "type" => "other",
             "html_code" => "<td>" . t("Enable") . "</td>"
-        );
+        ];
 
-        $new_registration_fields[] = array(
+        $new_registration_fields[] = [
             "type" => "other",
             "html_code" => "<td>" . t("Group") . "</td>"
-        );
+        ];
 
-        $new_registration_fields[] = array(
+        $new_registration_fields[] = [
             "type" => "other",
             "html_code" => "<td>" . t("Description") . "</td>"
-        );
+        ];
 
-        $new_registration_fields[] = array(
+        $new_registration_fields[] = [
             "type" => "other",
             "html_code" => "<td>" . t("Requires Approval") . "</td>"
-        );
+        ];
 
-        $new_registration_fields[] = array(
+        $new_registration_fields[] = [
             "type" => "other",
             "html_code" => "</tr>"
-        );
+        ];
 
-        $new_registration_fields[] = array(
+        $new_registration_fields[] = [
             "type" => "other",
             "html_code" => "</thead>"
-        );
+        ];
 
-        $new_registration_fields[] = array(
+        $new_registration_fields[] = [
             "type" => "other",
             "html_code" => "<tbody>"
-        );
+        ];
 
-        foreach(Jaris\Groups::getList() as $group_name => $group_machine_name)
-        {
+        foreach (Jaris\Groups::getList() as $group_name => $group_machine_name) {
             $group_data = Jaris\Groups::get($group_machine_name);
 
             $group_html_code = "<tr>";
@@ -445,28 +433,24 @@ row: 0
             $group_checked = "";
             $group_approval_checked = "";
 
-            if(is_array($site_settings["registration_groups"]))
-            {
-                if(
+            if (is_array($site_settings["registration_groups"])) {
+                if (
                     in_array(
                         $group_machine_name,
                         $site_settings["registration_groups"]
                     )
-                )
-                {
+                ) {
                     $group_checked = "checked=\"checked\"";
                 }
             }
 
-            if(is_array($site_settings["registration_groups_approval"]))
-            {
-                if(
+            if (is_array($site_settings["registration_groups_approval"])) {
+                if (
                     in_array(
                         $group_machine_name,
                         $site_settings["registration_groups_approval"]
                     )
-                )
-                {
+                ) {
                     $group_approval_checked = "checked=\"checked\"";
                 }
             }
@@ -478,169 +462,169 @@ row: 0
 
             $group_html_code .= "</tr>";
 
-            $new_registration_fields[] = array(
+            $new_registration_fields[] = [
                 "type" => "other",
                 "html_code" => $group_html_code
-            );
+            ];
         }
 
-        $new_registration_fields[] = array(
+        $new_registration_fields[] = [
             "type" => "other",
             "html_code" => "</tbody></table>"
-        );
+        ];
 
-        $new_registration_fields[] = array(
+        $new_registration_fields[] = [
             "type" => "textarea",
             "name" => "registration_benefits",
             "label" => t("Benefits:"),
             "value" => $site_settings["registration_benefits"],
             "description" => t("This will be displayed on My Account (admin/user) login page. You can input html and php code.")
-        );
+        ];
 
-        $new_registration_fields[] = array(
+        $new_registration_fields[] = [
             "type" => "textarea",
             "name" => "registration_welcome_message",
             "label" => t("Welcome message:"),
             "value" => $site_settings["registration_welcome_message"],
             "description" => t("A message that is sent to user after a successful registration. You can input html and php code. The following placeholders can be used: {name}, {username}, {email}, {gender}, {group}")
-        );
+        ];
 
-        $new_registration_fields[] = array(
+        $new_registration_fields[] = [
             "type" => "textarea",
             "name" => "registration_terms",
             "label" => t("Terms and conditions:"),
             "id" => "registration_terms",
             "value" => $site_settings["registration_terms"],
             "description" => t("The terms and conditions users have to agree before registering.")
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "name" => t("New registrations"),
             "fields" => $new_registration_fields,
             "collapsible" => true,
             "collapsed" => true,
             "description" => t("Enables or disable public registrations to the site at the register page.")
-        );
+        ];
 
         $user_profiles[t("Enable")] = true;
         $user_profiles[t("Disable")] = false;
 
-        $user_profiles_fields[] = array(
+        $user_profiles_fields[] = [
             "type" => "radio",
             "name" => "user_profiles",
             "id" => "user_profiles",
             "value" => $user_profiles,
             "checked" => $site_settings["user_profiles"]
-        );
+        ];
 
-        $user_profiles_fields[] = array(
+        $user_profiles_fields[] = [
             "type" => "other",
             "html_code" => "<h4>" . t("Public profiles") . "</h4>"
-        );
+        ];
 
-        $user_profiles_fields[] = array(
+        $user_profiles_fields[] = [
             "type" => "radio",
             "name" => "user_profiles_public",
             "id" => "user_profiles_public",
             "value" => $user_profiles,
             "checked" => $site_settings["user_profiles_public"]
-        );
+        ];
 
-        $user_profiles_fields[] = array(
+        $user_profiles_fields[] = [
             "type" => "other",
             "html_code" => "<h4>" . t("Personal Text Lenght") . "</h4>"
-        );
+        ];
 
-        $user_profiles_fields[] = array(
+        $user_profiles_fields[] = [
             "type" => "text",
             "name" => "user_profiles_personal_text_lenght",
             "id" => "user_profiles_personal_text_lenght",
             "value" => $site_settings["user_profiles_personal_text_lenght"]
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "name" => t("User profiles"),
             "fields" => $user_profiles_fields,
             "collapsible" => true,
             "collapsed" => true
-        );
+        ];
 
         $user_picture[t("Enable")] = true;
         $user_picture[t("Disable")] = false;
 
-        $user_fields[] = array(
+        $user_fields[] = [
             "type" => "radio",
             "name" => "user_picture",
             "id" => "user_picture",
             "value" => $user_picture,
             "checked" => $site_settings["user_picture"]
-        );
+        ];
 
-        $user_fields[] = array(
+        $user_fields[] = [
             "type" => "text",
             "label" => t("Size:"),
             "name" => "user_picture_size",
             "id" => "user_picture_size",
             "value" => $site_settings["user_picture_size"],
             "description" => t("The maximun width and height of the picture in the format 100x150 where 100 = width and 150 height.")
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "name" => t("User picture"),
             "fields" => $user_fields,
             "collapsible" => true,
             "collapsed" => true
-        );
+        ];
 
         $breadcrumbs[t("Enable")] = true;
         $breadcrumbs[t("Disable")] = false;
 
-        $breadcrumb_fields[] = array(
+        $breadcrumb_fields[] = [
             "type" => "radio",
             "name" => "breadcrumbs",
             "id" => "breadcrumbs",
             "value" => $breadcrumbs,
             "checked" => $site_settings["breadcrumbs"]
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "name" => t("Breadcrumbs"),
             "fields" => $breadcrumb_fields,
             "collapsible" => true,
             "collapsed" => true,
             "description" => "Enable or disable breadcrumps navigation."
-        );
+        ];
 
         $image_compression[t("Enable")] = true;
         $image_compression[t("Disable")] = false;
 
-        $image_uploads[] = array(
+        $image_uploads[] = [
             "type" => "radio",
             "name" => "image_compression",
             "id" => "image_compression",
             "value" => $image_compression,
             "checked" => $site_settings["image_compression"]
-        );
+        ];
 
-        $image_uploads[] = array(
+        $image_uploads[] = [
             "type" => "text",
             "label" => t("Maximun width:"),
             "name" => "image_compression_maxwidth",
             "id" => "image_compression_maxwidth",
             "value" => $site_settings["image_compression_maxwidth"],
             "description" => t("The maximun width for uploaded images.")
-        );
+        ];
 
-        $image_uploads[] = array(
+        $image_uploads[] = [
             "type" => "text",
             "label" => t("Image quality:"),
             "name" => "image_compression_quality",
             "id" => "image_compression_quality",
             "value" => $site_settings["image_compression_quality"],
             "description" => t("A range from 0 (worst quality, smaller file) to 100 (best quality, biggest file) for jpeg files.")
-        );
+        ];
 
-        $image_uploads[] = array(
+        $image_uploads[] = [
             "type" => "radio",
             "name" => "image_static_serving",
             "id" => "image_static_serving",
@@ -648,60 +632,60 @@ row: 0
             "label" => t("Static Serving"),
             "checked" => $site_settings["image_static_serving"],
             "description" => t("Enabling this option will store processed image files in a public directory named 'images', this way the web server becomes in charge of serving images directly instead of serving them from php script which improves performance. The only drawback is that images are not protected from public access.")
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "name" => t("Image compression"),
             "fields" => $image_uploads,
             "collapsible" => true,
             "collapsed" => true
-        );
+        ];
 
-        $home_fields[] = array(
+        $home_fields[] = [
             "type" => "uri",
             "label" => t("Uri:"),
             "name" => "home_page",
             "id" => "home_page",
             "value" => $site_settings["home_page"],
             "description" => t("The uri to the page used as the home page.")
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "name" => t("Home page"),
             "fields" => $home_fields,
             "collapsible" => true,
             "collapsed" => true
-        );
+        ];
 
-        $page_not_found_fields[] = array(
+        $page_not_found_fields[] = [
             "type" => "uri",
             "label" => t("Uri:"),
             "name" => "page_not_found",
             "id" => "page_not_found",
             "value" => $site_settings["page_not_found"],
             "description" => t("The uri to the page used as the page not found result.")
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "name" => t("Page not found"),
             "fields" => $page_not_found_fields,
             "collapsible" => true,
             "collapsed" => true
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnSave",
             "value" => t("Save")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnCancel",
             "value" => t("Cancel")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
         print Jaris\Forms::generate($parameters, $fieldset);
     ?>

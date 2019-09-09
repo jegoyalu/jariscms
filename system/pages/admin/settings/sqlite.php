@@ -19,7 +19,7 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("edit_settings"));
+        Jaris\Authentication::protectedPage(["edit_settings"]);
 
         Jaris\View::addTab(
             t("Upload Database Backup"),
@@ -39,17 +39,17 @@ row: 0
 
         sort($databases);
 
-        foreach($databases as $name)
-        {
-            if($name == "readme.txt")
+        foreach ($databases as $name) {
+            if ($name == "readme.txt") {
                 continue;
+            }
 
             print "<tr>\n";
 
             print "<td>" . $name . "</td>\n";
 
             $edit_url = Jaris\Uri::url(
-                    "admin/settings/sqlite/admin"
+                "admin/settings/sqlite/admin"
                 )
                 . "?sqlite="
                 . "&username="
@@ -60,14 +60,14 @@ row: 0
 
             $backup_url = Jaris\Uri::url(
                 "admin/settings/sqlite/backup",
-                array("name" => $name)
+                ["name" => $name]
             );
 
             $backup_text = t("Backup");
 
             $delete_url = Jaris\Uri::url(
                 "admin/settings/sqlite/delete",
-                array("name" => $name)
+                ["name" => $name]
             );
 
             $delete_text = t("Delete");

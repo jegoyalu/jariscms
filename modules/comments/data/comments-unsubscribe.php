@@ -17,16 +17,13 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("view_comments"));
+        Jaris\Authentication::protectedPage(["view_comments"]);
 
-        if(isset($_REQUEST["uri"]) && Jaris\Authentication::isUserLogged())
-        {
+        if (isset($_REQUEST["uri"]) && Jaris\Authentication::isUserLogged()) {
             $page_data = Jaris\Pages::get($_REQUEST["uri"]);
 
-            if($page_data)
-            {
-                if(!$page_data["is_system"])
-                {
+            if ($page_data) {
+                if (!$page_data["is_system"]) {
                     comments_notifications_unsubscribe(
                         Jaris\Authentication::currentUser(),
                         $_REQUEST["uri"]

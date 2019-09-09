@@ -9,32 +9,28 @@ row: 0
 
 	field: content
 		<?php
-		$groups = Jaris\Settings::get("groups", "ckeditor") ?
-		    unserialize(Jaris\Settings::get("groups", "ckeditor")) : false
-		;
-		
-		//Check if current user is on one of the groups that can use the editor
-		if($groups)
-		{
-		    $user_is_in_group = false;
-		    foreach($groups as $machine_name => $value)
-		    {
-		        if(Jaris\Authentication::currentUserGroup() == $machine_name && $value)
-		        {
-		            $user_is_in_group = true;
-		            break;
-		        }
-		    }
-		
-		    if(!Jaris\Authentication::isAdminLogged() && !$user_is_in_group)
-		    {
-		        print "<h2>Access Denied</h2>";
-		        exit;
-		    }
-		}
-		
-		$uri = $_REQUEST["uri"];
-		    ?>
+        $groups = Jaris\Settings::get("groups", "ckeditor") ?
+            unserialize(Jaris\Settings::get("groups", "ckeditor")) : false
+        ;
+        
+        //Check if current user is on one of the groups that can use the editor
+        if ($groups) {
+            $user_is_in_group = false;
+            foreach ($groups as $machine_name => $value) {
+                if (Jaris\Authentication::currentUserGroup() == $machine_name && $value) {
+                    $user_is_in_group = true;
+                    break;
+                }
+            }
+        
+            if (!Jaris\Authentication::isAdminLogged() && !$user_is_in_group) {
+                print "<h2>Access Denied</h2>";
+                exit;
+            }
+        }
+        
+        $uri = $_REQUEST["uri"];
+            ?>
 		
 		    <!DOCTYPE html>
 		    <html>
@@ -113,29 +109,25 @@ row: 0
 		
 		    <div id="files" >
 		<?php
-		$files = Jaris\Pages\Files::getList($uri);
-		
-		if($files)
-		{
-		    foreach($files as $file)
-		    {
-		        $url = Jaris\Uri::url("file/$uri/{$file['name']}");
-		        $file_class = end(explode(".", $file['name']));
-		        $file_description = trim($file["description"]) != "" ?
-		            $file["description"] : $file["name"]
-		        ;
-		
-		        $flist .= "<a title=\"$file_description\" class=\"$file_class\" href='#' onclick='WantThis(\"$url\")'>"
-		            . "<div>" . $file['name'] . "</div>"
-		            . "</a>";
-		    }
-		    echo $flist;
-		}
-		else
-		{
-		    print "<h2>" . t("No files available.") . "</h2>";
-		}
-		?>
+        $files = Jaris\Pages\Files::getList($uri);
+        
+        if ($files) {
+            foreach ($files as $file) {
+                $url = Jaris\Uri::url("file/$uri/{$file['name']}");
+                $file_class = end(explode(".", $file['name']));
+                $file_description = trim($file["description"]) != "" ?
+                    $file["description"] : $file["name"]
+                ;
+        
+                $flist .= "<a title=\"$file_description\" class=\"$file_class\" href='#' onclick='WantThis(\"$url\")'>"
+                    . "<div>" . $file['name'] . "</div>"
+                    . "</a>";
+            }
+            echo $flist;
+        } else {
+            print "<h2>" . t("No files available.") . "</h2>";
+        }
+        ?>
 		    </div>
 		    </div>
 		

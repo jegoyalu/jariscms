@@ -10,4 +10,3 @@
 
 //For security the file content is skipped from the world eyes :)
 exit;
-?>

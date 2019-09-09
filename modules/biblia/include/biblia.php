@@ -2,24 +2,21 @@
 
 function biblia_get_all()
 {
-    $biblias_list = array();
+    $biblias_list = [];
 
     $biblias = scandir(
         Jaris\Modules::directory("biblia") . "biblias"
     );
 
-    foreach($biblias as $biblia)
-    {
-        if($biblia != "." && $biblia != "..")
-        {
+    foreach ($biblias as $biblia) {
+        if ($biblia != "." && $biblia != "..") {
             $db = biblia_open($biblia);
 
             $result = Jaris\Sql::query("select * from info", $db);
 
             $data = Jaris\Sql::fetchArray($result);
 
-            if($data)
-            {
+            if ($data) {
                 $biblias_list[$biblia] = $data;
             }
 
@@ -32,23 +29,21 @@ function biblia_get_all()
 
 function biblia_get_form_fields($form_name, $biblia)
 {
-    if(!isset($_REQUEST["libro"]))
-    {
+    if (!isset($_REQUEST["libro"])) {
         $_REQUEST["libro"] = "genesis";
         $_REQUEST["capitulo"] = "1";
     }
 
-    $fields = array();
+    $fields = [];
 
     $libros = biblia_get_libros_machine();
 
-    $libros_list = array();
-    foreach($libros as $libro_machine => $libro_data)
-    {
+    $libros_list = [];
+    foreach ($libros as $libro_machine => $libro_data) {
         $libros_list[$libro_data[1]] = $libro_machine;
     }
 
-    $fields[] = array(
+    $fields[] = [
         "type" => "select",
         "selected" => $_REQUEST["libro"],
         "name" => "libro",
@@ -56,22 +51,21 @@ function biblia_get_form_fields($form_name, $biblia)
         "label" => t("Libro:"),
         "id" => "libro",
         "inline" => true
-    );
+    ];
 
     $libro_valid = false;
     $capitulo_valid = false;
-    $capitulos_list = array();
-    $versiculos_list = array();
+    $capitulos_list = [];
+    $versiculos_list = [];
 
-    if(
+    if (
         isset($_REQUEST["libro"])
         &&
         in_array($_REQUEST["libro"], $libros_list)
-    )
-    {
+    ) {
         $capitulos_list = array_filter(
             array_merge(
-                array(0),
+                [0],
                 range(
                     1,
                     biblia_get_capitulos($_REQUEST["libro"], $biblia)
@@ -82,17 +76,16 @@ function biblia_get_form_fields($form_name, $biblia)
         $libro_valid = true;
     }
 
-    if(
+    if (
         $libro_valid
         &&
         isset($_REQUEST["capitulo"])
         &&
         in_array($_REQUEST["capitulo"], $capitulos_list)
-    )
-    {
+    ) {
         $capitulo_valid = true;
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "select",
             "selected" => isset($_REQUEST["capitulo"]) ?
                 $_REQUEST["capitulo"] : "",
@@ -101,7 +94,7 @@ function biblia_get_form_fields($form_name, $biblia)
             "label" => t("Capítulo:"),
             "id" => "capitulo",
             "inline" => true
-        );
+        ];
 
         $versiculos_count = biblia_get_versiculos(
             $_REQUEST["capitulo"],
@@ -109,16 +102,13 @@ function biblia_get_form_fields($form_name, $biblia)
             $biblia
         );
 
-        $versiculos_list = array("Todo" => "");
+        $versiculos_list = ["Todo" => ""];
 
-        for($i=1; $i<=$versiculos_count; $i++)
-        {
+        for ($i=1; $i<=$versiculos_count; $i++) {
             $versiculos_list[$i] = $i;
         }
-    }
-    else
-    {
-        $fields[] = array(
+    } else {
+        $fields[] = [
             "type" => "select",
             "selected" => "",
             "name" => "capitulo",
@@ -126,12 +116,11 @@ function biblia_get_form_fields($form_name, $biblia)
             "label" => t("Capítulo:"),
             "id" => "capitulo",
             "inline" => true
-        );
+        ];
     }
 
-    if($libro_valid && $capitulo_valid && count($versiculos_list) > 0)
-    {
-        $fields[] = array(
+    if ($libro_valid && $capitulo_valid && count($versiculos_list) > 0) {
+        $fields[] = [
             "type" => "select",
             "selected" => isset($_REQUEST["versiculo"])
                 &&
@@ -142,31 +131,28 @@ function biblia_get_form_fields($form_name, $biblia)
             "label" => t("Versículo:"),
             "id" => "versiculo",
             "inline" => true
-        );
-    }
-    else
-    {
-        $fields[] = array(
+        ];
+    } else {
+        $fields[] = [
             "type" => "select",
             "selected" => "",
             "name" => "versiculo",
-            "value" => array(),
+            "value" => [],
             "label" => t("Versículo:"),
             "id" => "versiculo",
             "inline" => true
-        );
+        ];
     }
 
     $biblias = biblia_get_all();
 
-    $biblias_list = array();
+    $biblias_list = [];
 
-    foreach($biblias as $biblia => $biblia_data)
-    {
+    foreach ($biblias as $biblia => $biblia_data) {
         $biblias_list[$biblia_data["codigo"]] = $biblia;
     }
 
-    $fields[] = array(
+    $fields[] = [
         "type" => "select",
         "selected" => $_REQUEST["biblia"] ?? "",
         "name" => "biblia",
@@ -174,19 +160,19 @@ function biblia_get_form_fields($form_name, $biblia)
         "label" => t("Versión:"),
         "id" => "biblia",
         "inline" => true
-    );
+    ];
 
-    $fields[] = array(
+    $fields[] = [
         "type" => "submit",
         "name" => "btnView",
         "value" => "Ver"
-    );
+    ];
 
     $api_url = Jaris\Uri::url(
         Jaris\Modules::getPageUri("api/biblia", "biblia")
     );
 
-    $fields[] = array(
+    $fields[] = [
         "type" => "other",
         "html_code" => '<script>'
             . '$(document).ready(function(){'
@@ -199,7 +185,7 @@ function biblia_get_form_fields($form_name, $biblia)
             . ');'
             . '});'
             . '</script>'
-    );
+    ];
 
     Jaris\View::addScript(
         Jaris\Modules::directory("biblia") . "scripts/navigation.js"
@@ -210,8 +196,7 @@ function biblia_get_form_fields($form_name, $biblia)
 
 function biblia_get_title($bible)
 {
-    if(biblia_exists($bible))
-    {
+    if (biblia_exists($bible)) {
         $db = biblia_open($bible);
 
         $result = Jaris\Sql::query("select * from info", $db);
@@ -220,8 +205,7 @@ function biblia_get_title($bible)
 
         Jaris\Sql::close($db);
 
-        if($data)
-        {
+        if ($data) {
             return $data["nombre"] . " - " . $data["yyyy"];
         }
     }
@@ -231,13 +215,13 @@ function biblia_get_title($bible)
 
 function biblia_open($bible)
 {
-    if(!file_exists(Jaris\Modules::directory("biblia") . "biblias/$bible"))
-    {
+    if (!file_exists(Jaris\Modules::directory("biblia") . "biblias/$bible")) {
         Jaris\Uri::go("biblia");
     }
 
     return Jaris\Sql::open(
-        $bible, Jaris\Modules::directory("biblia") . "biblias"
+        $bible,
+        Jaris\Modules::directory("biblia") . "biblias"
     );
 }
 
@@ -316,8 +300,7 @@ function biblia_get_capitulo($capitulo, $libro, $biblia)
         $db
     );
 
-    while($data = Jaris\Sql::fetchArray($result))
-    {
+    while ($data = Jaris\Sql::fetchArray($result)) {
         yield $data;
     }
 
@@ -343,8 +326,7 @@ function biblia_get_versiculo($versiculo, $capitulo, $libro, $biblia)
         $db
     );
 
-    while($data = Jaris\Sql::fetchArray($result))
-    {
+    while ($data = Jaris\Sql::fetchArray($result)) {
         yield $data;
     }
 
@@ -364,24 +346,18 @@ function biblia_get_versiculo_text($versiculos)
     $versiculos_comma_parts = explode(",", $versiculos);
     $versiculos_text = "";
 
-    if(count($versiculos_parts) > 1)
-    {
+    if (count($versiculos_parts) > 1) {
         $versiculos_text = intval($versiculos_parts[0])
             . "-"
             . $versiculos_parts[1]
         ;
-    }
-    elseif(count($versiculos_comma_parts) > 1)
-    {
-        foreach($versiculos_comma_parts as $value)
-        {
+    } elseif (count($versiculos_comma_parts) > 1) {
+        foreach ($versiculos_comma_parts as $value) {
             $versiculos_text .= intval($value) . ",";
         }
 
         $versiculos_text = rtrim($versiculos_text, ",");
-    }
-    else
-    {
+    } else {
         $versiculos_text = intval($versiculos);
     }
 
@@ -390,8 +366,7 @@ function biblia_get_versiculo_text($versiculos)
 
 function biblia_get_previous_link($capitulo, $libro, $biblia)
 {
-    if($capitulo > 1)
-    {
+    if ($capitulo > 1) {
         return '<a href="'
             . Jaris\Uri::url(
                 Jaris\Modules::getPageUri("biblia", "biblia")
@@ -409,39 +384,34 @@ function biblia_get_previous_link($capitulo, $libro, $biblia)
             . ($capitulo-1)
             . "</a>"
         ;
-    }
-    else
-    {
+    } else {
         $libros = biblia_get_libros_machine();
         $codigo = $libros[$libro][0];
         $libros = biblia_get_libros();
         $prev = false;
-        foreach($libros as $libro_code => $libro_label)
-        {
-            if($libro_code == $codigo)
-            {
+        foreach ($libros as $libro_code => $libro_label) {
+            if ($libro_code == $codigo) {
                 break;
             }
 
             $prev = $libro_label;
         }
 
-        if($prev)
-        {
+        if ($prev) {
             $libro_machine = preg_replace(
                 "/ +/",
                 "-",
                 str_replace(
-                    array(
+                    [
                         "á", "é", "í", "ó", "ú", "ñ",
                         "Á", "É", "Í", "Ó", "Ú", "Ñ",
                         "ü", "Ü", "-"
-                    ),
-                    array(
+                    ],
+                    [
                         "a", "e", "i", "o", "u", "n",
                         "a", "e", "i", "o", "u", "n",
                         "u", "u", " "
-                    ),
+                    ],
                     trim(strtolower($prev))
                 )
             );
@@ -475,8 +445,7 @@ function biblia_get_next_link($capitulo, $libro, $biblia)
 {
     $capitulos_count = biblia_get_capitulos($libro, $biblia);
 
-    if($capitulo < $capitulos_count)
-    {
+    if ($capitulo < $capitulos_count) {
         return '<a href="'
             . Jaris\Uri::url(
                 Jaris\Modules::getPageUri("biblia", "biblia")
@@ -494,44 +463,38 @@ function biblia_get_next_link($capitulo, $libro, $biblia)
             . " &gt;&gt;"
             . "</a>"
         ;
-    }
-    else
-    {
+    } else {
         $libros = biblia_get_libros_machine();
         $codigo = $libros[$libro][0];
         $libros = biblia_get_libros();
         $next = false;
         $one_more = false;
-        foreach($libros as $libro_code => $libro_label)
-        {
-            if($one_more)
-            {
+        foreach ($libros as $libro_code => $libro_label) {
+            if ($one_more) {
                 $next = $libro_label;
                 break;
             }
 
-            if($libro_code == $codigo)
-            {
+            if ($libro_code == $codigo) {
                 $one_more = true;
             }
         }
 
-        if($next)
-        {
+        if ($next) {
             $libro_machine = preg_replace(
                 "/ +/",
                 "-",
                 str_replace(
-                    array(
+                    [
                         "á", "é", "í", "ó", "ú", "ñ",
                         "Á", "É", "Í", "Ó", "Ú", "Ñ",
                         "ü", "Ü", "-"
-                    ),
-                    array(
+                    ],
+                    [
                         "a", "e", "i", "o", "u", "n",
                         "a", "e", "i", "o", "u", "n",
                         "u", "u", " "
-                    ),
+                    ],
                     trim(strtolower($next))
                 )
             );
@@ -561,14 +524,11 @@ function biblia_get_next_link($capitulo, $libro, $biblia)
 
 function biblia_get_settings($type)
 {
-    $settings = array();
-    if(!($settings = Jaris\Settings::get($type, "biblia")))
-    {
+    $settings = [];
+    if (!($settings = Jaris\Settings::get($type, "biblia"))) {
         $settings["enabled"] = false;
         $settings["biblia"] = "sagradas-escrituras-1569";
-    }
-    else
-    {
+    } else {
         $settings = unserialize($settings);
 
         $settings["enabled"] = $settings["enabled"] ?
@@ -589,7 +549,7 @@ function biblia_get_settings($type)
 
 function biblia_convertir_versos($texto, $biblia="sagradas-escrituras-1569")
 {
-    $acentos = array(
+    $acentos = [
         "G\\&eacute;nesis",
         "\\&Eacute;xodo",
         "Lev\\&iacute;tico",
@@ -628,36 +588,35 @@ function biblia_convertir_versos($texto, $biblia="sagradas-escrituras-1569")
         "Malaquias",
         "Galatas",
         "Filemon"
-    );
+    ];
 
     $books = biblia_get_libros();
     $books_union = implode("|", array_merge($books, $acentos));
 
     $content = preg_replace_callback(
         "/($books_union) +([0-9]+) *:* *([0-9\\-\\,]*)/",
-        function($matches) use ($biblia) {
+        function ($matches) use ($biblia) {
             $libro_machine = preg_replace(
                 "/ +/",
                 "-",
                 str_replace(
-                    array(
+                    [
                         "&aacute;", "&eacute;", "&iacute;", "&oacute;", "&iacute;",
                         "á", "é", "í", "ó", "ú", "ñ",
                         "Á", "É", "Í", "Ó", "Ú", "Ñ",
                         "ü", "Ü", "-"
-                    ),
-                    array(
+                    ],
+                    [
                         "a", "e", "i", "o", "u",
                         "a", "e", "i", "o", "u", "n",
                         "a", "e", "i", "o", "u", "n",
                         "u", "u", " "
-                    ),
+                    ],
                     trim(strtolower($matches[1]))
                 )
             );
 
-            if(count($matches) == 4 && !empty($matches[3]))
-            {
+            if (count($matches) == 4 && !empty($matches[3])) {
                 $link = Jaris\Uri::url(
                     Jaris\Modules::getPageUri("biblia", "biblia")
                     . "/"
@@ -669,9 +628,7 @@ function biblia_convertir_versos($texto, $biblia="sagradas-escrituras-1569")
                     . "/"
                     . $matches[3]
                 );
-            }
-            elseif(count($matches) >= 3)
-            {
+            } elseif (count($matches) >= 3) {
                 $link = Jaris\Uri::url(
                     Jaris\Modules::getPageUri("biblia", "biblia")
                     . "/"
@@ -693,32 +650,31 @@ function biblia_convertir_versos($texto, $biblia="sagradas-escrituras-1569")
 
 function biblia_get_libros_machine()
 {
-    $libros = array();
+    $libros = [];
 
-    foreach(biblia_get_libros() as $codigo => $libro)
-    {
+    foreach (biblia_get_libros() as $codigo => $libro) {
         $libro_machine = preg_replace(
             "/ +/",
             "-",
             str_replace(
-                array(
+                [
                     "á", "é", "í", "ó", "ú", "ñ",
                     "Á", "É", "Í", "Ó", "Ú", "Ñ",
                     "ü", "Ü", "-"
-                ),
-                array(
+                ],
+                [
                     "a", "e", "i", "o", "u", "n",
                     "a", "e", "i", "o", "u", "n",
                     "u", "u", " "
-                ),
+                ],
                 trim(strtolower($libro))
             )
         );
 
-        $libros[$libro_machine] = array(
+        $libros[$libro_machine] = [
             $codigo,
             $libro
-        );
+        ];
     }
 
     return $libros;
@@ -726,7 +682,7 @@ function biblia_get_libros_machine()
 
 function biblia_get_libros()
 {
-    $libros = array(
+    $libros = [
         "01O" => "Génesis",
         "02O" => "Éxodo",
         "03O" => "Levítico",
@@ -793,7 +749,7 @@ function biblia_get_libros()
         "64N" => "3 Juan",
         "65N" => "Judas",
         "66N" => "Apocalipsis"
-    );
+    ];
 
     return $libros;
 }

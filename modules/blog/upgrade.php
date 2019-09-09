@@ -27,5 +27,3 @@ function blog_upgrade()
     //Remove navigate by categories block
     Jaris\Blocks::deleteByField("block_name", "blog_categories_blogs");
 }
-
-?>

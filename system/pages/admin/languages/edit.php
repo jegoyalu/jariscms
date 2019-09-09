@@ -20,12 +20,11 @@ row: 0
     field: content
     <?php
         Jaris\Authentication::protectedPage(
-            array("view_languages", "edit_languages")
+    ["view_languages", "edit_languages"]
         );
 
         //Prevent editing non existing language code
-        if(!isset($_REQUEST["code"]) || trim($_REQUEST["code"]) == "")
-        {
+        if (!isset($_REQUEST["code"]) || trim($_REQUEST["code"]) == "") {
             Jaris\Uri::go("admin/languages");
         }
 
@@ -35,41 +34,39 @@ row: 0
             $_REQUEST["current_page"] : 1
         ;
 
-        if(isset($_REQUEST["btnCancel"]))
-        {
+        if (isset($_REQUEST["btnCancel"])) {
             Jaris\Uri::go(
                 "admin/languages/edit",
-                array("code" => $lang_code, "current_page" => $current_page)
+                ["code" => $lang_code, "current_page" => $current_page]
             );
         }
 
         //Add string form
-        if(isset($_REQUEST["action"]) && $_REQUEST["action"] == "add")
-        {
+        if (isset($_REQUEST["action"]) && $_REQUEST["action"] == "add") {
             $parameters["name"] = "add-language-string";
             $parameters["class"] = "add-language-string";
             $parameters["action"] = Jaris\Uri::url("admin/languages/edit");
             $parameters["method"] = "get";
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "hidden",
                 "value" => "save_new",
                 "name" => "action"
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "hidden",
                 "value" => $current_page,
                 "name" => "current_page"
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "hidden",
                 "value" => $lang_code,
                 "name" => "code"
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "text",
                 "code" => "style=\"width: 100%\"",
                 "name" => "original",
@@ -77,9 +74,9 @@ row: 0
                 "id" => "original",
                 "required" => true,
                 "description" => t("Original string to translate.")
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "text",
                 "code" => "style=\"width: 100%\"",
                 "name" => "translation",
@@ -87,35 +84,33 @@ row: 0
                 "id" => "translation",
                 "required" => true,
                 "description" => t("Meaning of the original text in this language.")
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "submit",
                 "name" => "btnSave",
                 "value" => t("Save")
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "submit",
                 "name" => "btnCancel",
                 "value" => t("Cancel")
-            );
+            ];
 
-            $fieldset[] = array("fields" => $fields);
+            $fieldset[] = ["fields" => $fields];
 
             print Jaris\Forms::generate($parameters, $fieldset);
         }
 
         //Edit exisiting string form
-        elseif(isset($_REQUEST["action"]) && $_REQUEST["action"] == "edit")
-        {
+        elseif (isset($_REQUEST["action"]) && $_REQUEST["action"] == "edit") {
             //Get and sort strings
             $strings_sorted = Jaris\Language::getStrings($lang_code);
             $strings_sorted = Jaris\Data::sort($strings_sorted, "original");
-            $strings = array();
+            $strings = [];
             $string_index = 0;
-            foreach($strings_sorted as $string_fields)
-            {
+            foreach ($strings_sorted as $string_fields) {
                 $strings[$string_index] = $string_fields;
                 $string_index++;
             }
@@ -127,31 +122,31 @@ row: 0
             $parameters["action"] = Jaris\Uri::url("admin/languages/edit#$position");
             $parameters["method"] = "get";
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "hidden",
                 "value" => "save_changes",
                 "name" => "action"
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "hidden",
                 "value" => $current_page,
                 "name" => "current_page"
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "hidden",
                 "value" => $lang_code,
                 "name" => "code"
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "hidden",
                 "value" => $position,
                 "name" => "position"
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "text",
                 "code" => "style=\"width: 100%\"",
                 "value" => $strings[$position]["original"],
@@ -160,9 +155,9 @@ row: 0
                 "id" => "original",
                 "readonly" => true,
                 "description" => t("Original string to translate.")
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "text",
                 "code" => "style=\"width: 100%\"",
                 "value" => $strings[$position]["translation"],
@@ -170,53 +165,48 @@ row: 0
                 "label" => t("Translation:"),
                 "id" => "translation",
                 "description" => t("Meaning of the original text in this language.")
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "submit",
                 "name" => "btnSave",
                 "value" => t("Save")
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "submit",
                 "name" => "btnCancel",
                 "value" => t("Cancel")
-            );
+            ];
 
-            $fieldset[] = array("fields" => $fields);
+            $fieldset[] = ["fields" => $fields];
 
             print Jaris\Forms::generate($parameters, $fieldset);
         }
 
         //Save new string function
-        elseif(
+        elseif (
             isset($_REQUEST["action"]) &&
             $_REQUEST["action"] == "save_new" &&
             !Jaris\Forms::requiredFieldEmpty("add-language-string")
-        )
-        {
+        ) {
             $original = $_REQUEST["original"];
             $translation = $_REQUEST["translation"];
 
-            if(isset($_REQUEST["btnSave"]))
-            {
-                if(Jaris\Language::addString($lang_code, $original, $translation))
-                {
+            if (isset($_REQUEST["btnSave"])) {
+                if (Jaris\Language::addString($lang_code, $original, $translation)) {
                     Jaris\View::addMessage(t("Changes successfully saved."));
 
                     t("Added new language string '{string}' to '{code}'.");
 
                     Jaris\Logger::info(
                         "Added new language string '{string}' to '{code}'.",
-                        array(
+                        [
                             "string" => $original,
                             "code" => $lang_code
-                        )
+                        ]
                     );
-                }
-                else
-                {
+                } else {
                     Jaris\View::addMessage(
                         t("Check your write permissions on the <b>language</b> directory."),
                         "error"
@@ -228,18 +218,16 @@ row: 0
         }
 
         //Save modified string function
-        elseif(
+        elseif (
             isset($_REQUEST["action"]) &&
             $_REQUEST["action"] == "save_changes"
-        )
-        {
+        ) {
             //Get and sort strings
             $strings_sorted = Jaris\Language::getStrings($lang_code);
             $strings_sorted = Jaris\Data::sort($strings_sorted, "original");
-            $strings = array();
+            $strings = [];
             $string_index = 0;
-            foreach($strings_sorted as $string_fields)
-            {
+            foreach ($strings_sorted as $string_fields) {
                 $strings[$string_index] = $string_fields;
                 $string_index++;
             }
@@ -247,30 +235,26 @@ row: 0
             $position = $_REQUEST["position"];
             $translation = $_REQUEST["translation"];
 
-            if(isset($_REQUEST["btnSave"]))
-            {
-                if(
+            if (isset($_REQUEST["btnSave"])) {
+                if (
                     Jaris\Language::addString(
                         $lang_code,
                         $strings[$position]["original"],
                         $translation
                     )
-                )
-                {
+                ) {
                     Jaris\View::addMessage(t("Changes successfully saved."));
 
                     t("Modified language string '{string}' to '{code}'.");
 
                     Jaris\Logger::info(
                         "Modified language string '{string}' to '{code}'.",
-                        array(
+                        [
                             "string" => $strings[$position]["original"],
                             "code" => $lang_code
-                        )
+                        ]
                     );
-                }
-                else
-                {
+                } else {
                     Jaris\View::addMessage(
                         t("Check your write permissions on the <b>language</b> directory."),
                         "error"
@@ -282,15 +266,13 @@ row: 0
         }
 
         //Delete exisiting string form
-        elseif(isset($_REQUEST["action"]) && $_REQUEST["action"] == "delete")
-        {
+        elseif (isset($_REQUEST["action"]) && $_REQUEST["action"] == "delete") {
             //Get and sort strings
             $strings_sorted = Jaris\Language::getStrings($lang_code);
             $strings_sorted = Jaris\Data::sort($strings_sorted, "original");
-            $strings = array();
+            $strings = [];
             $string_index = 0;
-            foreach($strings_sorted as $string_fields)
-            {
+            foreach ($strings_sorted as $string_fields) {
                 $strings[$string_index] = $string_fields;
                 $string_index++;
             }
@@ -313,42 +295,36 @@ row: 0
         }
 
         //Delete exisiting string function
-        elseif(
+        elseif (
             isset($_REQUEST["action"]) &&
             $_REQUEST["action"] == "delete_now"
-        )
-        {
+        ) {
             //Get and sort strings
             $strings_sorted = Jaris\Language::getStrings($lang_code);
             $strings_sorted = Jaris\Data::sort($strings_sorted, "original");
-            $strings = array();
+            $strings = [];
             $string_index = 0;
-            foreach($strings_sorted as $string_fields)
-            {
+            foreach ($strings_sorted as $string_fields) {
                 $strings[$string_index] = $string_fields;
                 $string_index++;
             }
 
             $position = $_REQUEST["position"];
 
-            if(isset($_REQUEST["btnYes"]))
-            {
-                if(Jaris\Language::deleteString($lang_code, $strings[$position]["original"]))
-                {
+            if (isset($_REQUEST["btnYes"])) {
+                if (Jaris\Language::deleteString($lang_code, $strings[$position]["original"])) {
                     Jaris\View::addMessage(t("String successfully removed."));
 
                     t("Removed language string '{string}' to '{code}'.");
 
                     Jaris\Logger::info(
                         "Removed language string '{string}' to '{code}'.",
-                        array(
+                        [
                             "string" => $strings[$position]["original"],
                             "code" => $lang_code
-                        )
+                        ]
                     );
-                }
-                else
-                {
+                } else {
                     Jaris\View::addMessage(
                         t("Check your write permissions on the <b>language</b> directory."),
                         "error"
@@ -361,18 +337,17 @@ row: 0
 
 
         //Print list of strings
-        if(!isset($_REQUEST["action"]))
-        {
+        if (!isset($_REQUEST["action"])) {
             Jaris\View::addTab(
                 t("Add string"),
                 "admin/languages/edit",
-                array("action" => "add", "code" => $lang_code)
+                ["action" => "add", "code" => $lang_code]
             );
 
             Jaris\View::addTab(
                 t("Import strings"),
                 "admin/languages/import",
-                array("code" => $lang_code)
+                ["code" => $lang_code]
             );
 
             $amount_translated = Jaris\Language::amountTranslated($lang_code);
@@ -390,10 +365,9 @@ row: 0
             //Get and sort strings
             $strings_sorted = Jaris\Language::getStrings($lang_code);
             $strings_sorted = Jaris\Data::sort($strings_sorted, "original");
-            $strings = array();
+            $strings = [];
             $string_index = 0;
-            foreach($strings_sorted as $string_fields)
-            {
+            foreach ($strings_sorted as $string_fields) {
                 $strings[$string_index] = $string_fields;
                 $string_index++;
             }
@@ -408,10 +382,10 @@ row: 0
             $previous_page = $current_page > 1 ?
                 "<a href=\"" . Jaris\Uri::url(
                     "admin/languages/edit",
-                    array(
+                    [
                         "code" => $lang_code,
                         "current_page" => $current_page - 1
-                    )
+                    ]
                 ) . "\"> &lt;&lt; " . t("Previous") . "</a>"
                 :
                 ""
@@ -420,10 +394,10 @@ row: 0
             $next_page = $current_page >= 1 && $current_page != $page_count ?
                 "<a href=\"" . Jaris\Uri::url(
                     "admin/languages/edit",
-                    array(
+                    [
                         "code" => $lang_code,
                         "current_page" => $current_page + 1
-                    )
+                    ]
                 ) . "\">" . t("Next") . " &gt;&gt;</a>"
                 :
                 ""
@@ -447,14 +421,12 @@ row: 0
 
             print "</tr></thead>\n";
 
-            if($current_page > 1)
-            {
-                for(
+            if ($current_page > 1) {
+                for (
                     $i = ($current_page - 1) * $strings_per_page;
                     $i < ($current_page - 1) * $strings_per_page + 20 && $i < $strings_amount;
                     $i++
-                )
-                {
+                ) {
                     print "<tr>\n";
 
                     print "<td>";
@@ -465,24 +437,24 @@ row: 0
 
                     $edit_url = Jaris\Uri::url(
                         "admin/languages/edit",
-                        array(
+                        [
                             "code" => $lang_code,
                             "action" => "edit",
                             "position" => $i,
                             "current_page" => $current_page
-                        )
+                        ]
                     );
 
                     $edit_text = t("Edit");
 
                     $delete_url = Jaris\Uri::url(
                         "admin/languages/edit",
-                        array(
+                        [
                             "code" => $lang_code,
                             "action" => "delete",
                             "position" => $i,
                             "current_page" => $current_page
-                        )
+                        ]
                     );
 
                     $delete_text = t("Delete");
@@ -494,13 +466,11 @@ row: 0
 
                     print "</tr>\n";
                 }
-            }
-            else
-            {
-                for($i = 0; $i < $strings_per_page; $i++)
-                {
-                    if(!isset($strings[$i]))
+            } else {
+                for ($i = 0; $i < $strings_per_page; $i++) {
+                    if (!isset($strings[$i])) {
                         continue;
+                    }
 
                     print "<tr>\n";
 
@@ -512,24 +482,24 @@ row: 0
 
                     $edit_url = Jaris\Uri::url(
                         "admin/languages/edit",
-                        array(
+                        [
                             "code" => $lang_code,
                             "action" => "edit",
                             "position" => $i,
                             "current_page" => $current_page
-                        )
+                        ]
                     );
 
                     $edit_text = t("Edit");
 
                     $delete_url = Jaris\Uri::url(
                         "admin/languages/edit",
-                        array(
+                        [
                             "code" => $lang_code,
                             "action" => "delete",
                             "position" => $i,
                             "current_page" => $current_page
-                        )
+                        ]
                     );
 
                     $delete_text = t("Delete");
@@ -552,11 +522,9 @@ row: 0
             print "<input type=\"hidden\" name=\"code\" value=\"$lang_code\" />";
             print t("Goto Page:") . " <select name=\"current_page\">";
 
-            for($i = 1; $i <= $page_count; $i++)
-            {
+            for ($i = 1; $i <= $page_count; $i++) {
                 $selected = "";
-                if($current_page == $i)
-                {
+                if ($current_page == $i) {
                     $selected = "selected";
                 }
 
@@ -572,10 +540,10 @@ row: 0
             $previous_page = $current_page > 1 ?
                 "<a href=\"" . Jaris\Uri::url(
                     "admin/languages/edit",
-                    array(
+                    [
                         "code" => $lang_code,
                         "current_page" => $current_page - 1
-                    )
+                    ]
                 ) . "\"> &lt;&lt; " . t("Previous") . "</a>"
                 :
                 ""
@@ -584,10 +552,10 @@ row: 0
             $next_page = $current_page >= 1 && $current_page != $page_count ?
                 "<a href=\"" . Jaris\Uri::url(
                     "admin/languages/edit",
-                    array(
+                    [
                         "code" => $lang_code,
                         "current_page" => $current_page + 1
-                    )
+                    ]
                 ) . "\">" . t("Next") . " &gt;&gt;</a>"
                 :
                 ""

@@ -18,21 +18,19 @@ row: 0
     field: content
     <?php
         Jaris\View::addStyle(
-            Jaris\Modules::directory("blog") . "styles/list.css"
+    Jaris\Modules::directory("blog") . "styles/list.css"
         );
 
         $page = 1;
 
-        if(isset($_REQUEST["page"]))
-        {
+        if (isset($_REQUEST["page"])) {
             $page = $_REQUEST["page"];
         }
 
         $category = "";
         $category_navigation = "";
 
-        if(isset($_REQUEST["c"]))
-        {
+        if (isset($_REQUEST["c"])) {
             $category = $_REQUEST["c"];
             $category_navigation = $_REQUEST["c"];
 
@@ -40,26 +38,22 @@ row: 0
         }
 
         $blogs_count = 0;
-        if($category != "")
-        {
+        if ($category != "") {
             $blogs_count = Jaris\Sql::countColumn(
                 "blog",
                 "blogs",
                 "id",
                 "where category='$category'"
             );
-        }
-        else
-        {
+        } else {
             $blogs_count = Jaris\Sql::countColumn("blog", "blogs", "id");
         }
 
         print "<h2>" . t("Total Blogs:") . " " . $blogs_count . "</h2>";
 
-        $blogs = array();
+        $blogs = [];
 
-        if($category != "")
-        {
+        if ($category != "") {
             $blogs = Jaris\Sql::getDataList(
                 "blog",
                 "blogs",
@@ -67,22 +61,16 @@ row: 0
                 20,
                 "where category='$category' order by created_timestamp desc"
             );
-        }
-        else
-        {
+        } else {
             $blogs = Jaris\Sql::getDataList("blog", "blogs", $page - 1, 20);
         }
 
-        foreach($blogs as $data)
-        {
+        foreach ($blogs as $data) {
             $user_data = Jaris\Users::get($data["user"]);
 
-            if($user_data["picture"])
-            {
+            if ($user_data["picture"]) {
                 $picture = Jaris\Uri::url("image/user/" . $data["user"]);
-            }
-            else
-            {
+            } else {
                 $picture = Jaris\Uri::url(
                     Jaris\Modules::directory("blog") . "images/no-picture.png"
                 );
@@ -112,8 +100,7 @@ row: 0
                 . "</div>\n"
             ;
 
-            if($data["description"])
-            {
+            if ($data["description"]) {
                 print "<div class=\"description\">" .
                     $data["description"] .
                     "</div>\n"
@@ -124,8 +111,7 @@ row: 0
             print "</div>\n";
         }
 
-        if(count($blogs) <= 0)
-        {
+        if (count($blogs) <= 0) {
             Jaris\View::addMessage(
                 t("No available blogs on the system yet. Register an account and start posting")
             );
@@ -139,7 +125,7 @@ row: 0
             "blog/browser",
             "blog",
             20,
-            array("c" => $category_navigation)
+            ["c" => $category_navigation]
         );
     ?>
     field;

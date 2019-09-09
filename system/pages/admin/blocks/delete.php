@@ -20,11 +20,10 @@ row: 0
     field: content
     <?php
         Jaris\Authentication::protectedPage(
-            array("view_blocks", "delete_blocks")
+    ["view_blocks", "delete_blocks"]
         );
 
-        if(!isset($_REQUEST["id"]) || !isset($_REQUEST["position"]))
-        {
+        if (!isset($_REQUEST["id"]) || !isset($_REQUEST["position"])) {
             Jaris\Uri::go("admin/blocks");
         }
 
@@ -33,8 +32,7 @@ row: 0
             $_REQUEST["position"]
         );
 
-        if($block_data["is_system"])
-        {
+        if ($block_data["is_system"]) {
             Jaris\View::addMessage(
                 t("Can't delete system generated block."),
                 "error"
@@ -43,29 +41,25 @@ row: 0
             Jaris\Uri::go("admin/blocks");
         }
 
-        if(isset($_REQUEST["btnYes"]))
-        {
-            if(
+        if (isset($_REQUEST["btnYes"])) {
+            if (
                 Jaris\Blocks::delete(
                     intval($_REQUEST["id"]),
                     $_REQUEST["position"]
                 )
-            )
-            {
+            ) {
                 Jaris\View::addMessage(t("Block successfully deleted."));
 
                 t("Deleted global block '{title}' on {position}.");
 
                 Jaris\Logger::info(
                     "Deleted global block '{title}' on {position}.",
-                    array(
+                    [
                         "title" => $block_data["title"],
                         "position" => $_REQUEST["position"]
-                    )
+                    ]
                 );
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(
                     Jaris\System::errorMessage("write_error_data"),
                     "error"
@@ -73,9 +67,7 @@ row: 0
             }
 
             Jaris\Uri::go("admin/blocks");
-        }
-        elseif(isset($_REQUEST["btnNo"]))
-        {
+        } elseif (isset($_REQUEST["btnNo"])) {
             Jaris\Uri::go("admin/blocks");
         }
     ?>

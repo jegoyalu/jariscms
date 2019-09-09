@@ -17,30 +17,26 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("edit_settings"));
+        Jaris\Authentication::protectedPage(["edit_settings"]);
 
-        if(isset($_REQUEST["btnSave"]) && !Jaris\Forms::requiredFieldEmpty("backgrounds-multi-add"))
-        {
-            $fields = array();
+        if (isset($_REQUEST["btnSave"]) && !Jaris\Forms::requiredFieldEmpty("backgrounds-multi-add")) {
+            $fields = [];
 
-            if($_FILES["images"]["type"][0] == "image/png" ||
+            if ($_FILES["images"]["type"][0] == "image/png" ||
                 $_FILES["images"]["type"][0] == "image/jpeg" ||
                 $_FILES["images"]["type"][0] == "image/pjpeg" ||
                 $_FILES["images"]["type"][0] == "image/gif"
-            )
-            {
-                foreach($_FILES["images"]["name"] as $file_index => $file_name)
-                {
-                    if($_FILES["images"]["type"][$file_index] == "image/png" ||
+            ) {
+                foreach ($_FILES["images"]["name"] as $file_index => $file_name) {
+                    if ($_FILES["images"]["type"][$file_index] == "image/png" ||
                         $_FILES["images"]["type"][$file_index] == "image/jpeg" ||
                         $_FILES["images"]["type"][$file_index] == "image/pjpeg" ||
                         $_FILES["images"]["type"][$file_index] == "image/gif"
-                    )
-                    {
-                        $file = array(
+                    ) {
+                        $file = [
                             "name" => $file_name,
                             "tmp_name" => $_FILES["images"]["tmp_name"][$file_index]
-                        );
+                        ];
 
                         $fields["images"][] = Jaris\Files::addUpload(
                             $file,
@@ -50,8 +46,7 @@ row: 0
                 }
 
                 //Chmod all uploaded image files to 0755
-                foreach($fields["images"] as $image_file)
-                {
+                foreach ($fields["images"] as $image_file) {
                     chmod(Jaris\Files::get($image_file, "backgrounds"), 0755);
                 }
 
@@ -81,25 +76,23 @@ row: 0
                 $fields["display_rule"] = $_REQUEST["display_rule"];
                 $fields["pages"] = $_REQUEST["pages"];
 
-                if($fields["images"])
-                {
+                if ($fields["images"]) {
                     $backgrounds_settings = Jaris\Settings::getAll("backgrounds");
                     $backgrounds = unserialize($backgrounds_settings["backgrounds"]);
 
-                    if(!is_array($backgrounds))
-                    {
-                        $backgrounds = array();
+                    if (!is_array($backgrounds)) {
+                        $backgrounds = [];
                     }
 
                     $backgrounds[] = $fields;
 
-                    if(
+                    if (
                         Jaris\Settings::save(
                             "backgrounds",
-                            serialize($backgrounds), "backgrounds"
+                            serialize($backgrounds),
+                            "backgrounds"
                         )
-                    )
-                    {
+                    ) {
                         Jaris\View::addMessage(t("Backgrounds successfully added."));
 
                         Jaris\Uri::go(
@@ -108,31 +101,23 @@ row: 0
                                 "backgrounds"
                             )
                         );
-                    }
-                    else
-                    {
+                    } else {
                         Jaris\View::addMessage(Jaris\System::errorMessage("write_error_data"), "error");
                     }
-                }
-                else
-                {
+                } else {
                     Jaris\View::addMessage(
                         t("The images could not be moved to files/backgrounds directory."),
                         "error"
                     );
                 }
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(Jaris\System::errorMessage("image_file_type"), "error");
             }
 
             //Uninitialize fields variable to not
             //conflict with form generation below
-            $fields = array();
-        }
-        elseif(isset($_REQUEST["btnCancel"]))
-        {
+            $fields = [];
+        } elseif (isset($_REQUEST["btnCancel"])) {
             Jaris\Uri::go(
                 Jaris\Modules::getPageUri(
                     "admin/settings/backgrounds",
@@ -152,7 +137,7 @@ row: 0
         );
         $parameters["method"] = "post";
 
-        $fields_main[] = array(
+        $fields_main[] = [
             "type" => "text",
             "label" => t("Description:"),
             "value" => $_REQUEST["description"],
@@ -160,9 +145,9 @@ row: 0
             "id" => "description",
             "description" => t("Description of the background image like for example: January 2011 special product promotion."),
             "required" => true
-        );
+        ];
 
-        $fields_main[] = array(
+        $fields_main[] = [
             "type" => "file",
             "name" => "images",
             "multiple" => true,
@@ -170,27 +155,27 @@ row: 0
             "label" => t("Background images:"),
             "id" => "images",
             "required" => true
-        );
+        ];
 
-        $fields_main[] = array(
+        $fields_main[] = [
             "type" => "text",
             "label" => t("Element:"),
             "value" => $_REQUEST["element"],
             "name" => "element",
             "id" => "element",
             "description" => t("The css selector of an explicit element to put the background images.")
-        );
+        ];
 
-        $fields_main[] = array(
+        $fields_main[] = [
             "type" => "text",
             "label" => t("Top position:"),
             "value" => $_REQUEST["top"],
             "name" => "top",
             "id" => "top",
             "description" => t("The top position of the background images in pixels, for example 200. Default is 0")
-        );
+        ];
 
-        $fields_main[] = array(
+        $fields_main[] = [
             "type" => "text",
             "name" => "fade_speed",
             "value" => $_REQUEST["fade_speed"] ?
@@ -201,9 +186,9 @@ row: 0
             "id" => "fade_speed",
             "required" => true,
             "description" => t("The speed of the fade effect in milliseconds.")
-        );
+        ];
 
-        $fields_main[] = array(
+        $fields_main[] = [
             "type" => "text",
             "name" => "rotation_speed",
             "value" => $_REQUEST["rotation_speed"] ?
@@ -214,14 +199,14 @@ row: 0
             "id" => "rotation_speed",
             "required" => true,
             "description" => t("The time in milliseconds an image is displayed before changing to the next one.")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields_main);
+        $fieldset[] = ["fields" => $fields_main];
 
         $attachment[t("Scroll")] = "scroll";
         $attachment[t("Fixed")] = "fixed";
 
-        $attachment_fields[] = array(
+        $attachment_fields[] = [
             "type" => "radio",
             "name" => "attachment",
             "id" => "attachment",
@@ -230,27 +215,27 @@ row: 0
                 $_REQUEST["attachment"]
                 :
                 "fixed"
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "name" => t("Attachment"),
             "fields" => $attachment_fields,
             "collapsible" => true,
             "collapsed" => true
-        );
+        ];
 
         $stretch[t("No")] = 0;
         $stretch[t("Yes")] = 1;
 
-        $stretch_fields[] = array(
+        $stretch_fields[] = [
             "type" => "radio",
             "name" => "stretch",
             "id" => "stretch",
             "value" => $stretch,
             "checked" => $_REQUEST["stretch"] ? $_REQUEST["stretch"] : 1
-        );
+        ];
 
-        $stretch_fields[] = array(
+        $stretch_fields[] = [
             "type" => "radio",
             "name" => "responsive_stretch",
             "id" => "responsive_stretch",
@@ -258,9 +243,9 @@ row: 0
             "value" => $stretch,
             "checked" => $_REQUEST["responsive_stretch"] ? $_REQUEST["responsive_stretch"] : 0,
             "description" => t("When enabled the image will be stretched according to window size")
-        );
+        ];
 
-        $stretch_fields[] = array(
+        $stretch_fields[] = [
             "type" => "text",
             "name" => "min_width",
             "value" => $_REQUEST["min_width"] ? $_REQUEST["min_width"] : '0',
@@ -268,9 +253,9 @@ row: 0
             "id" => "min_width",
             "required" => true,
             "description" => t("The minimum width for resized images. Default: 0 to disable this feature.")
-        );
+        ];
 
-        $stretch_fields[] = array(
+        $stretch_fields[] = [
             "type" => "text",
             "name" => "min_height",
             "value" => $_REQUEST["min_height"] ? $_REQUEST["min_height"] : '0',
@@ -278,9 +263,9 @@ row: 0
             "id" => "min_height",
             "required" => true,
             "description" => t("The minimum height for resized images. Default: 0 to disable this feature.")
-        );
+        ];
 
-        $stretch_fields[] = array(
+        $stretch_fields[] = [
             "type" => "text",
             "name" => "max_width",
             "value" => $_REQUEST["max_width"] ? $_REQUEST["max_width"] : '0',
@@ -288,9 +273,9 @@ row: 0
             "id" => "max_width",
             "required" => true,
             "description" => t("The maximum width for resized images. Default: 0 to disable this feature.")
-        );
+        ];
 
-        $stretch_fields[] = array(
+        $stretch_fields[] = [
             "type" => "text",
             "name" => "max_height",
             "value" => $_REQUEST["max_height"] ? $_REQUEST["max_height"] : '0',
@@ -298,111 +283,110 @@ row: 0
             "id" => "max_height",
             "required" => true,
             "description" => t("The maximum height for resized images. Default: 0 to disable this feature.")
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "name" => t("Stretch Image"),
             "fields" => $stretch_fields,
             "collapsible" => true,
             "collapsed" => true
-        );
+        ];
 
         $center_horizontally[t("No")] = 0;
         $center_horizontally[t("Yes")] = 1;
 
-        $center_horizontally_fields[] = array(
+        $center_horizontally_fields[] = [
             "type" => "radio",
             "name" => "centerx",
             "id" => "centerx",
             "value" => $center_horizontally,
             "checked" => $_REQUEST["centerx"] ? $_REQUEST["centerx"] : 0
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "name" => t("Center Image Horizontally"),
             "fields" => $center_horizontally_fields,
             "collapsible" => true,
             "collapsed" => true
-        );
+        ];
 
         $center_vertically[t("No")] = 0;
         $center_vertically[t("Yes")] = 1;
 
-        $center_vertically_fields[] = array(
+        $center_vertically_fields[] = [
             "type" => "radio",
             "name" => "centery",
             "id" => "centery",
             "value" => $center_vertically,
             "checked" => $_REQUEST["centery"] ? $_REQUEST["centery"] : 0
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "name" => t("Center Image Vertically"),
             "fields" => $center_vertically_fields,
             "collapsible" => true,
             "collapsed" => true
-        );
+        ];
 
-        $languages = array(
+        $languages = [
             t("All") => ""
-        );
+        ];
 
-        foreach(Jaris\Language::getInstalled() as $lang_code => $lang_name)
-        {
+        foreach (Jaris\Language::getInstalled() as $lang_code => $lang_name) {
             $languages[t($lang_name)] = $lang_code;
         }
 
-        $fields_language[] = array(
+        $fields_language[] = [
             "type" => "radio",
             "name" => "background_language",
             "value" => $languages,
             "checked" => $_REQUEST["background_language"] ?? ""
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "fields" => $fields_language,
             "name" => t("Site language"),
             "description" => t("Select the language of the page in which backgrounds are displayed.")
-        );
+        ];
 
         $display_rules[t("Display in all pages except the listed ones.")] = "all_except_listed";
         $display_rules[t("Just display on the listed pages.")] = "just_listed";
 
-        $fields_pages[] = array(
+        $fields_pages[] = [
             "type" => "radio",
             "checked" => "all_except_listed",
             "name" => "display_rule",
             "id" => "display_rule",
             "value" => $display_rules
-        );
+        ];
 
-        $fields_pages[] = array(
+        $fields_pages[] = [
             "type" => "uriarea",
             "name" => "pages",
             "label" => t("Pages:"),
             "id" => "pages",
             "value" => $_REQUEST["pages"]
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "fields" => $fields_pages,
             "name" => t("Pages to display"),
             "description" => t("List of uri's seperated by comma (,). Also supports the wildcard (*), for example: my-section/*")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnSave",
             "value" => t("Save")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnCancel",
             "value" => t("Cancel")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
         print Jaris\Forms::generate($parameters, $fieldset);
     ?>

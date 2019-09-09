@@ -20,11 +20,10 @@ row: 0
     field: content
     <?php
         Jaris\Authentication::protectedPage(
-            array("view_users", "delete_users")
+    ["view_users", "delete_users"]
         );
 
-        if(empty($_REQUEST["username"]))
-        {
+        if (empty($_REQUEST["username"])) {
             Jaris\Uri::go("admin/users/list");
         }
 
@@ -34,30 +33,25 @@ row: 0
 
         $user_data = Jaris\Users::get($_REQUEST["username"]);
 
-        if(isset($user_data["superadmin"]) && $user_data["superadmin"])
-        {
+        if (isset($user_data["superadmin"]) && $user_data["superadmin"]) {
             Jaris\View::addMessage(t("Can not delete a super admin user."));
 
             Jaris\Uri::go("admin/users/list");
         }
 
-        if(isset($_REQUEST["btnYes"]))
-        {
-            if(Jaris\Users::delete($_REQUEST["username"]))
-            {
+        if (isset($_REQUEST["btnYes"])) {
+            if (Jaris\Users::delete($_REQUEST["username"])) {
                 Jaris\View::addMessage(t("User successfully deleted."));
 
                 t("Deleted user '{username}'.");
 
                 Jaris\Logger::info(
                     "Deleted user '{username}'.",
-                    array(
+                    [
                         "username" => $_REQUEST["username"]
-                    )
+                    ]
                 );
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(
                     Jaris\System::errorMessage("write_error_data"),
                     "error"
@@ -65,9 +59,7 @@ row: 0
             }
 
             Jaris\Uri::go("admin/users/list");
-        }
-        elseif(isset($_REQUEST["btnNo"]))
-        {
+        } elseif (isset($_REQUEST["btnNo"])) {
             Jaris\Uri::go("admin/users/edit", $arguments);
         }
     ?>

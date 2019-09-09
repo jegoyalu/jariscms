@@ -19,18 +19,15 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("edit_settings"));
+        Jaris\Authentication::protectedPage(["edit_settings"]);
 
-        if(isset($_REQUEST["btnYes"]))
-        {
+        if (isset($_REQUEST["btnYes"])) {
             t("Cron executed manually.");
 
             Jaris\Logger::info("Cron executed manually.");
 
-            Jaris\Uri::go("cron.php", array("return" => "admin/settings/advanced"));
-        }
-        elseif(isset($_REQUEST["btnNo"]))
-        {
+            Jaris\Uri::go("cron.php", ["return" => "admin/settings/advanced"]);
+        } elseif (isset($_REQUEST["btnNo"])) {
             Jaris\Uri::go("admin/settings/advanced");
         }
     ?>
@@ -54,12 +51,9 @@ row: 0
         $time = Jaris\Settings::get("last_cron_jobs_run", "main");
         $date = date("m/d/Y g:i:s a", intval($time));
 
-        if(!$time)
-        {
+        if (!$time) {
             print t("never");
-        }
-        else
-        {
+        } else {
             print $date;
         }
     ?>

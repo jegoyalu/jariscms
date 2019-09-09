@@ -17,3 +17,4 @@ Jaris.workspace
 index.php.combined
 jariscms.php.tags
 cachegrind.out
+.php_cs.cache

@@ -13,4 +13,3 @@ $language["name"] = "";
 $language["translator"] = "";
 $language["translator_email"] = "";
 $language["contributors"] = "";
-?>

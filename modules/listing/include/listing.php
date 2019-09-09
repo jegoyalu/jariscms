@@ -8,50 +8,40 @@
 
 function listing_category_fields($selected = null, $main_category = "", $type = "")
 {
-    $fields = array();
+    $fields = [];
 
-    $categories_list = array();
+    $categories_list = [];
 
-    if(!$main_category)
-    {
+    if (!$main_category) {
         $categories_list = Jaris\Categories::getList($type);
-    }
-    else
-    {
+    } else {
         $categories_list[$main_category] = Jaris\Categories::get(
             $main_category
         );
     }
 
-    if($categories_list)
-    {
-        foreach($categories_list as $machine_name => $values)
-        {
+    if ($categories_list) {
+        foreach ($categories_list as $machine_name => $values) {
             $subcategories = Jaris\Categories::getSubcategoriesInParentOrder(
                 $machine_name
             );
 
-            $select_values = array();
+            $select_values = [];
             /* if(!$values["multiple"])
               {
               $select_values[t("-None Selected-")] = "-1";
               } */
 
-            foreach($subcategories as $id => $sub_values)
-            {
+            foreach ($subcategories as $id => $sub_values) {
                 //In case person created categories with the same name
-                if(isset($select_values[t($sub_values["title"])]))
-                {
+                if (isset($select_values[t($sub_values["title"])])) {
                     $title = t($sub_values["title"]) . " ";
-                    while(isset($select_values[$title]))
-                    {
+                    while (isset($select_values[$title])) {
                         $title .= " ";
                     }
 
                     $select_values[$title] = $id;
-                }
-                else
-                {
+                } else {
                     $select_values[t($sub_values["title"])] = $id;
                 }
             }
@@ -64,11 +54,9 @@ function listing_category_fields($selected = null, $main_category = "", $type = 
 
             $multiple = true;
 
-            if(count($select_values) >= 1)
-            {
-                if(is_array($selected) && count($selected) > 0)
-                {
-                    $fields[] = array(
+            if (count($select_values) >= 1) {
+                if (is_array($selected) && count($selected) > 0) {
+                    $fields[] = [
                         "type" => "select",
                         "inline" => true,
                         "multiple" => $multiple,
@@ -77,11 +65,9 @@ function listing_category_fields($selected = null, $main_category = "", $type = 
                         "label" => t($values["name"]),
                         "id" => "filter_category_" . $machine_name,
                         "value" => $select_values
-                    );
-                }
-                else
-                {
-                    $fields[] = array(
+                    ];
+                } else {
+                    $fields[] = [
                         "type" => "select",
                         "inline" => true,
                         "multiple" => $multiple,
@@ -89,7 +75,7 @@ function listing_category_fields($selected = null, $main_category = "", $type = 
                         "label" => t($values["name"]),
                         "id" => "filter_category_" . $machine_name,
                         "value" => $select_values
-                    );
+                    ];
                 }
             }
         }
@@ -99,49 +85,45 @@ function listing_category_fields($selected = null, $main_category = "", $type = 
 }
 
 function listing_category_filter_fields(
-    $selected = null, $main_category = "", $type = "", $prefix = "",
-    $show_count = false, $field_type="select"
-)
-{
-    $fields = array();
+    $selected = null,
+    $main_category = "",
+    $type = "",
+    $prefix = "",
+    $show_count = false,
+    $field_type="select"
+) {
+    $fields = [];
 
-    $categories_list = array();
-    if(!$main_category)
-    {
+    $categories_list = [];
+    if (!$main_category) {
         $categories_list = Jaris\Categories::getList($type);
-    }
-    else
-    {
+    } else {
         $categories_list[$main_category] = Jaris\Categories::get($main_category);
     }
 
-    foreach($categories_list as $machine_name => $values)
-    {
+    foreach ($categories_list as $machine_name => $values) {
         $subcategories = Jaris\Categories::getSubcategoriesInParentOrder(
-            $machine_name, "root", "", true
+            $machine_name,
+            "root",
+            "",
+            true
         );
 
-        $select_values = array();
-        if(/*!$values["multiple"] &&*/ $field_type == "select")
-        {
+        $select_values = [];
+        if (/*!$values["multiple"] &&*/ $field_type == "select") {
             $select_values[t("-None Selected-")] = "-1";
         }
 
-        foreach($subcategories as $id => $sub_values)
-        {
+        foreach ($subcategories as $id => $sub_values) {
             //In case person created categories with the same name
-            if(isset($select_values[t($sub_values["title"])]))
-            {
+            if (isset($select_values[t($sub_values["title"])])) {
                 $title = $sub_values["title"] . " ";
-                while(isset($select_values[$title]))
-                {
+                while (isset($select_values[$title])) {
                     $title .= " ";
                 }
 
                 $select_values[$title] = $id;
-            }
-            else
-            {
+            } else {
                 $select_values[$sub_values["title"]] = $id;
             }
         }
@@ -152,11 +134,9 @@ function listing_category_filter_fields(
             $multiple = true;
         }*/
 
-        if($field_type == "select" && count($select_values) > 1)
-        {
-            if(count($selected) > 0)
-            {
-                $fields[] = array(
+        if ($field_type == "select" && count($select_values) > 1) {
+            if (count($selected) > 0) {
+                $fields[] = [
                     "type" => "select",
                     "multiple" => $multiple,
                     "selected" => $selected[$prefix . $machine_name],
@@ -165,11 +145,9 @@ function listing_category_filter_fields(
                     "id" => $prefix . $machine_name,
                     "code" => "onchange=\"this.form.submit();\"",
                     "value" => $select_values
-                );
-            }
-            else
-            {
-                $fields[] = array(
+                ];
+            } else {
+                $fields[] = [
                     "type" => "select",
                     "multiple" => $multiple,
                     "name" => "$prefix{$machine_name}[]",
@@ -177,14 +155,12 @@ function listing_category_filter_fields(
                     "id" => $prefix . $machine_name,
                     "code" => "onchange=\"this.form.submit();\"",
                     "value" => $select_values
-                );
+                ];
             }
         }
-        if($field_type == "radio" && count($select_values) > 1)
-        {
-            if(count($selected) > 0)
-            {
-                $fields[] = array(
+        if ($field_type == "radio" && count($select_values) > 1) {
+            if (count($selected) > 0) {
+                $fields[] = [
                     "type" => "radio",
                     "checked" => $selected[$prefix . $machine_name][0],
                     "name" => "$prefix{$machine_name}[]",
@@ -193,11 +169,9 @@ function listing_category_filter_fields(
                     "value" => $select_values,
                     "code" => "onchange=\"this.form.submit();\"",
                     "horizontal_list" => true
-                );
-            }
-            else
-            {
-                $fields[] = array(
+                ];
+            } else {
+                $fields[] = [
                     "type" => "radio",
                     "name" => "$prefix{$machine_name}[]",
                     "label" => t($values["name"]),
@@ -205,14 +179,11 @@ function listing_category_filter_fields(
                     "value" => $select_values,
                     "code" => "onchange=\"this.form.submit();\"",
                     "horizontal_list" => true
-                );
+                ];
             }
-        }
-        elseif(count($select_values) > 1)
-        {
-            if(count($selected) > 0)
-            {
-                $fields[] = array(
+        } elseif (count($select_values) > 1) {
+            if (count($selected) > 0) {
+                $fields[] = [
                     "type" => "checkbox",
                     "checked" => $selected[$prefix . $machine_name],
                     "name" => "$prefix{$machine_name}",
@@ -220,18 +191,16 @@ function listing_category_filter_fields(
                     "id" => $prefix . $machine_name,
                     "value" => $select_values,
                     "horizontal_list" => true
-                );
-            }
-            else
-            {
-                $fields[] = array(
+                ];
+            } else {
+                $fields[] = [
                     "type" => "checkbox",
                     "name" => "$prefix{$machine_name}",
                     "label" => t($values["name"]),
                     "id" => $prefix . $machine_name,
                     "value" => $select_values,
                     "horizontal_list" => true
-                );
+                ];
             }
         }
     }
@@ -243,50 +212,42 @@ function listing_print_results($uri, $content_data)
 {
     $page = 1;
 
-    if(isset($_REQUEST["page"]))
-    {
+    if (isset($_REQUEST["page"])) {
         $page = intval($_REQUEST["page"]);
     }
 
     $types = "";
 
-    if(
+    if (
         is_array($content_data["filter_types"]) &&
         count($content_data["filter_types"]) > 0
-    )
-    {
+    ) {
         $types = "and (";
-        foreach($content_data["filter_types"] as $type)
-        {
+        foreach ($content_data["filter_types"] as $type) {
             $types .= "type='$type' or ";
         }
 
         $types = rtrim($types, " or");
 
         $types .= ")";
-    }
-    else
-    {
-        $content_data["filter_types"] = array();
+    } else {
+        $content_data["filter_types"] = [];
     }
 
     // Handle ecommerce settings
     $ecommerce_installed = Jaris\Modules::isInstalled("ecommerce");
     $ecommerce_product_types = false;
 
-    if(
+    if (
         !empty($content_data["treat_as_products"])
         &&
         $ecommerce_installed
-    )
-    {
+    ) {
         $ecommerce_product_types = true;
         $product_types = ecommerce_get_product_types();
 
-        foreach($content_data["filter_types"] as $type)
-        {
-            if(!isset($product_types[$type]))
-            {
+        foreach ($content_data["filter_types"] as $type) {
+            if (!isset($product_types[$type])) {
                 $ecommerce_product_types = false;
                 break;
             }
@@ -302,18 +263,15 @@ function listing_print_results($uri, $content_data)
     $realty_installed = Jaris\Modules::isInstalled("realty");
     $realty_product_types = false;
 
-    if(
+    if (
         !empty($content_data["treat_as_properties"])
         &&
         $realty_installed
-    )
-    {
+    ) {
         $realty_product_types = true;
 
-        foreach($content_data["filter_types"] as $type)
-        {
-            if($type != "property")
-            {
+        foreach ($content_data["filter_types"] as $type) {
+            if ($type != "property") {
                 $realty_product_types = false;
                 break;
             }
@@ -334,8 +292,7 @@ function listing_print_results($uri, $content_data)
     $realty_foreclosure = "";
     $realty_commercial = "";
 
-    if($realty_properties)
-    {
+    if ($realty_properties) {
         $realty_type = !empty($content_data["realty_type"]) ?
             " and sub_category ='".$content_data["realty_type"]."'"
             :
@@ -360,24 +317,19 @@ function listing_print_results($uri, $content_data)
             ""
         ;
 
-        if(
+        if (
             isset($content_data["realty_category"])
             &&
             trim($content_data["realty_category"]) != ""
-        )
-        {
-
+        ) {
             $realty_category = " and category='".$content_data["realty_category"]."'";
-        }
-        elseif(
+        } elseif (
             $_REQUEST["sub_category"] == "rent"
-        )
-        {
+        ) {
             $category_list = realty_get_categories("rent");
 
             $realty_category .= "and category in (";
-            foreach($category_list as $category_name)
-            {
+            foreach ($category_list as $category_name) {
                 $realty_category .= "'"
                     . str_replace("'", "''", $category_name)
                     . "',"
@@ -393,21 +345,15 @@ function listing_print_results($uri, $content_data)
             ""
         ;
 
-        if($content_data["realty_foreclosure"] == "y")
-        {
+        if ($content_data["realty_foreclosure"] == "y") {
             $realty_foreclosure = " and is_foreclosure = '1'";
-        }
-        elseif($content_data["realty_foreclosure"] == "n")
-        {
+        } elseif ($content_data["realty_foreclosure"] == "n") {
             $realty_foreclosure = " and is_foreclosure = '0'";
         }
 
-        if($content_data["realty_commercial"] == "y")
-        {
+        if ($content_data["realty_commercial"] == "y") {
             $realty_commercial = " and is_commercial = '1'";
-        }
-        elseif($content_data["realty_commercial"] == "n")
-        {
+        } elseif ($content_data["realty_commercial"] == "n") {
             $realty_commercial = " and is_commercial = '0'";
         }
     }
@@ -416,20 +362,17 @@ function listing_print_results($uri, $content_data)
     $reviews_installed = Jaris\Modules::isInstalled("reviews");
     $reviews_enabled_types = false;
 
-    if(
+    if (
         !empty($content_data["show_reviews"])
         &&
         $reviews_installed
-    )
-    {
+    ) {
         $reviews_enabled_types = true;
 
-        foreach($content_data["filter_types"] as $type)
-        {
+        foreach ($content_data["filter_types"] as $type) {
             $review_settings = reviews_get_settings($type);
 
-            if(empty($review_settings["enabled"]))
-            {
+            if (empty($review_settings["enabled"])) {
                 $reviews_enabled_types = false;
                 break;
             }
@@ -446,16 +389,14 @@ function listing_print_results($uri, $content_data)
     $authors = "";
     $authors_list = explode(",", $content_data["filter_authors"]);
 
-    if(
+    if (
         is_array($authors_list) &&
         count($authors_list) > 0 &&
         trim($authors_list[0]) != ""
-    )
-    {
+    ) {
         $authors = "and (";
 
-        foreach($authors_list as $author)
-        {
+        foreach ($authors_list as $author) {
             $authors .= "author='" . trim($author) . "' or ";
         }
 
@@ -467,43 +408,35 @@ function listing_print_results($uri, $content_data)
     $has_categories = "";
     $where_categories = "";
 
-    if(count($content_data["filter_types"]) == 1)
-    {
+    if (count($content_data["filter_types"]) == 1) {
         $categories = Jaris\Categories::getList(
             $content_data["filter_types"][0]
         );
 
-        $categories_filter = array();
+        $categories_filter = [];
 
-        foreach($categories as $cat_name => $cat_fields)
-        {
-            if(isset($_REQUEST[$cat_name]))
-            {
+        foreach ($categories as $cat_name => $cat_fields) {
+            if (isset($_REQUEST[$cat_name])) {
                 $categories_filter[$cat_name] = $_REQUEST[$cat_name];
             }
         }
 
-        if(count($categories_filter) > 0)
-        {
+        if (count($categories_filter) > 0) {
             $content_data["filter_categories"] = $categories_filter;
         }
     }
 
-    if(
+    if (
         is_array($content_data["filter_categories"]) &&
         count($content_data["filter_categories"]) > 0
-    )
-    {
+    ) {
         $categories = serialize($content_data["filter_categories"]);
 
-        if($content_data["category_matching"] != "match_partial")
-        {
+        if ($content_data["category_matching"] != "match_partial") {
             $has_categories = ", "
                 . "hascategories(categories, '$categories') as has_category"
             ;
-        }
-        else
-        {
+        } else {
             $has_categories = ", "
                 . "hassomecategories(categories, '$categories') as has_category"
             ;
@@ -514,8 +447,7 @@ function listing_print_results($uri, $content_data)
 
     $ordering = "";
     $where_date = "";
-    switch($content_data["filter_ordering"])
-    {
+    switch ($content_data["filter_ordering"]) {
         case "date_desc":
             $ordering = "order by created_date desc";
             break;
@@ -553,16 +485,14 @@ function listing_print_results($uri, $content_data)
             break;
     }
 
-    if(
+    if (
         !empty($content_data["display_sorting_selector"])
         &&
         isset($_REQUEST["s"])
         &&
         trim($_REQUEST["s"]) != ""
-    )
-    {
-        switch($_REQUEST["s"])
-        {
+    ) {
+        switch ($_REQUEST["s"]) {
             case "rd":
                 $ordering = "order by created_date desc";
                 break;
@@ -577,10 +507,8 @@ function listing_print_results($uri, $content_data)
                 break;
         }
 
-        if($ecommerce_products)
-        {
-            switch($_REQUEST["s"])
-            {
+        if ($ecommerce_products) {
+            switch ($_REQUEST["s"]) {
                 case "pd":
                     $ordering = "order by price desc";
                     break;
@@ -590,10 +518,8 @@ function listing_print_results($uri, $content_data)
             }
         }
 
-        if($reviews_enabled)
-        {
-            switch($_REQUEST["s"])
-            {
+        if ($reviews_enabled) {
+            switch ($_REQUEST["s"]) {
                 case "sd":
                     $ordering = "order by reviews_score desc";
                     break;
@@ -615,8 +541,7 @@ function listing_print_results($uri, $content_data)
 
     $on_sale = "";
 
-    if($ecommerce_products)
-    {
+    if ($ecommerce_products) {
         $on_sale = !empty($content_data["onsale_only"]) ?
             " and on_sale != ''"
             :
@@ -625,8 +550,7 @@ function listing_print_results($uri, $content_data)
 
         Jaris\Sql::attach("ecommerce_inventory", $db);
 
-        if($reviews_enabled)
-        {
+        if ($reviews_enabled) {
             Jaris\Sql::attach("reviews", $db);
 
             $query .= "select haspermission(groups, '$group') as has_permissions, "
@@ -640,9 +564,7 @@ function listing_print_results($uri, $content_data)
                 . "has_permissions > 0 and has_user_permissions > 0 and "
                 . "approved='a' $types $authors $where_date $where_categories $on_sale "
             ;
-        }
-        else
-        {
+        } else {
             $query .= "select haspermission(groups, '$group') as has_permissions, "
                 . "hasuserpermission(users, '$user') as has_user_permissions, "
                 . "count(a.uri) as uri_count $has_categories from uris a "
@@ -655,13 +577,10 @@ function listing_print_results($uri, $content_data)
         }
 
         $query = str_replace("type=", "a.type=", $query);
-    }
-    elseif($realty_properties)
-    {
+    } elseif ($realty_properties) {
         Jaris\Sql::attach("realty_properties", $db);
 
-        if($reviews_enabled)
-        {
+        if ($reviews_enabled) {
             Jaris\Sql::attach("reviews", $db);
 
             $query .= "select haspermission(groups, '$group') as has_permissions, "
@@ -678,9 +597,7 @@ function listing_print_results($uri, $content_data)
                 . "$realty_category $realty_status $realty_foreclosure "
                 . "$realty_commercial"
             ;
-        }
-        else
-        {
+        } else {
             $query .= "select haspermission(groups, '$group') as has_permissions, "
                 . "hasuserpermission(users, '$user') as has_user_permissions, "
                 . "count(a.uri) as uri_count $has_categories from uris a "
@@ -696,9 +613,7 @@ function listing_print_results($uri, $content_data)
         }
 
         $query = str_replace("type=", "a.type=", $query);
-    }
-    elseif($reviews_enabled)
-    {
+    } elseif ($reviews_enabled) {
         Jaris\Sql::attach("reviews", $db);
 
         $query .= "select haspermission(groups, '$group') as has_permissions, "
@@ -712,9 +627,7 @@ function listing_print_results($uri, $content_data)
         ;
 
         $query = str_replace("type=", "a.type=", $query);
-    }
-    else
-    {
+    } else {
         $query .= "select haspermission(groups, '$group') as has_permissions, "
             . "hasuserpermission(users, '$user') as has_user_permissions, "
             . "count(uri) as uri_count $has_categories from uris "
@@ -727,16 +640,14 @@ function listing_print_results($uri, $content_data)
 
     $result = Jaris\Sql::query($query, $db);
 
-    while($data_count = Jaris\Sql::fetchArray($result))
-    {
+    while ($data_count = Jaris\Sql::fetchArray($result)) {
         $results_count = $data_count["uri_count"];
         break;
     }
 
     Jaris\Sql::close($db);
 
-    if($reviews_enabled && $results_count > 0)
-    {
+    if ($reviews_enabled && $results_count > 0) {
         Jaris\View::addScript(
             Jaris\Modules::directory("reviews")
                 . "scripts/raty/js/jquery.raty.min.js"
@@ -746,9 +657,8 @@ function listing_print_results($uri, $content_data)
             Jaris\Modules::directory("reviews") . "scripts/raty/img/"
         );
 
-        $hints_list = array();
-        for($i=1; $i<=$reviews_max_score; $i++)
-        {
+        $hints_list = [];
+        for ($i=1; $i<=$reviews_max_score; $i++) {
             $hints_list[] = $i;
         }
 
@@ -796,12 +706,10 @@ function listing_print_results($uri, $content_data)
             intval($content_data["results_per_page"])
     ;
 
-    if($ecommerce_products)
-    {
+    if ($ecommerce_products) {
         Jaris\Sql::attach("ecommerce_inventory", $db);
 
-        if($reviews_enabled)
-        {
+        if ($reviews_enabled) {
             Jaris\Sql::attach("reviews", $db);
 
             $query .= "select a.uri, haspermission(groups, '$group') as has_permissions, "
@@ -820,9 +728,7 @@ function listing_print_results($uri, $content_data)
                 . "approved='a' $types $authors $where_date $where_categories $on_sale $ordering "
                 . "limit ".(($page-1)*$limit).", ".$limit
             ;
-        }
-        else
-        {
+        } else {
             $query .= "select a.uri, haspermission(groups, '$group') as has_permissions, "
                 . "hasuserpermission(users, '$user') as has_user_permissions "
                 . "$has_categories from uris a "
@@ -836,13 +742,10 @@ function listing_print_results($uri, $content_data)
         }
 
         $query = str_replace("type=", "a.type=", $query);
-    }
-    elseif($realty_properties)
-    {
+    } elseif ($realty_properties) {
         Jaris\Sql::attach("realty_properties", $db);
 
-        if($reviews_enabled)
-        {
+        if ($reviews_enabled) {
             Jaris\Sql::attach("reviews", $db);
 
             $query .= "select haspermission(groups, '$group') as has_permissions, "
@@ -864,9 +767,7 @@ function listing_print_results($uri, $content_data)
                 . "$realty_commercial $ordering "
                 . "limit ".(($page-1)*$limit).", ".$limit
             ;
-        }
-        else
-        {
+        } else {
             $query .= "select haspermission(groups, '$group') as has_permissions, "
                 . "hasuserpermission(users, '$user') as has_user_permissions, "
                 . "$has_categories from uris a "
@@ -883,9 +784,7 @@ function listing_print_results($uri, $content_data)
         }
 
         $query = str_replace("type=", "a.type=", $query);
-    }
-    elseif($reviews_enabled)
-    {
+    } elseif ($reviews_enabled) {
         Jaris\Sql::attach("reviews", $db);
 
         $query .= "select a.uri, haspermission(groups, '$group') as has_permissions, "
@@ -904,9 +803,7 @@ function listing_print_results($uri, $content_data)
         ;
 
         $query = str_replace("type=", "a.type=", $query);
-    }
-    else
-    {
+    } else {
         $query .= "select uri, haspermission(groups, '$group') as has_permissions, "
             . "hasuserpermission(users, '$user') as has_user_permissions "
             . "$has_categories from uris "
@@ -921,13 +818,11 @@ function listing_print_results($uri, $content_data)
 
     $result = Jaris\Sql::query($query, $db);
 
-    $results = array();
-    if($fields = Jaris\Sql::fetchArray($result))
-    {
+    $results = [];
+    if ($fields = Jaris\Sql::fetchArray($result)) {
         $results[] = $fields;
 
-        while($fields = Jaris\Sql::fetchArray($result))
-        {
+        while ($fields = Jaris\Sql::fetchArray($result)) {
             $results[] = $fields;
         }
     }
@@ -937,39 +832,34 @@ function listing_print_results($uri, $content_data)
     // Generate output
     $output = "";
 
-    if(
+    if (
         !empty($content_data["display_count_selector"])
         ||
         !empty($content_data["display_sorting_selector"])
-    )
-    {
+    ) {
         $parameters["class"] = "filter-listing-results";
         $parameters["action"] = Jaris\Uri::url(Jaris\Uri::get());
         $parameters["method"] = "get";
 
-        if(count($content_data["filter_types"]) == 1)
-        {
+        if (count($content_data["filter_types"]) == 1) {
             $categories = Jaris\Categories::getList(
                 $content_data["filter_types"][0]
             );
 
-            foreach($categories as $cat_name => $cat_fields)
-            {
-                if(isset($_REQUEST[$cat_name]))
-                {
-                    foreach($_REQUEST[$cat_name] as $cat_value)
-                    {
-                        $fields[] = array(
+            foreach ($categories as $cat_name => $cat_fields) {
+                if (isset($_REQUEST[$cat_name])) {
+                    foreach ($_REQUEST[$cat_name] as $cat_value) {
+                        $fields[] = [
                             "type" => "hidden",
                             "name" => $cat_name."[]",
                             "value" => $cat_value
-                        );
+                        ];
                     }
                 }
             }
         }
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "other",
             "html_code" =>
                 '<style>'
@@ -980,31 +870,28 @@ function listing_print_results($uri, $content_data)
                 . 'class="content-list-options" '
                 . 'style="display: flex; justify-content: flex-end" '
                 . '>'
-        );
+        ];
 
-        if(!empty($content_data["display_sorting_selector"]))
-        {
-            $sorting_list = array(
+        if (!empty($content_data["display_sorting_selector"])) {
+            $sorting_list = [
                 t("Default") => "",
                 t("Name Ascending") => "na",
                 t("Name Descending") => "nd",
                 t("Newest First") => "rd",
                 t("Newest Last") => "ra",
-            );
+            ];
 
-            if($ecommerce_products)
-            {
+            if ($ecommerce_products) {
                 $sorting_list[t("Price Lowest")] = 'pa';
                 $sorting_list[t("Price Highest")] = 'pd';
             }
 
-            if($reviews_enabled)
-            {
+            if ($reviews_enabled) {
                 $sorting_list[t("Lowest Rating")] = 'sa';
                 $sorting_list[t("Highest Rating")] = 'sd';
             }
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "select",
                 "name" => "s",
                 "label" => t("Sort by:"),
@@ -1015,20 +902,19 @@ function listing_print_results($uri, $content_data)
                     "",
                 "code" => 'onchange="javascript: this.form.submit()"',
                 "inline" => true
-            );
+            ];
         }
 
-        if(!empty($content_data["display_count_selector"]))
-        {
-            $amount_list = array(
+        if (!empty($content_data["display_count_selector"])) {
+            $amount_list = [
                 t("Default") => "",
                 "25" => 25,
                 "50" => 50,
                 "75" => 75,
                 "100" => 100
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "select",
                 "name" => "a",
                 "label" => t("Results per page:"),
@@ -1039,23 +925,22 @@ function listing_print_results($uri, $content_data)
                     "",
                 "code" => 'onchange="javascript: this.form.submit()"',
                 "inline" => true
-            );
+            ];
         }
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "other",
             "html_code" => '</div>'
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "fields" => $fields
-        );
+        ];
 
         $output .= Jaris\Forms::generate($parameters, $fieldset);
     }
 
-    if($content_data["layout"] == "list")
-    {
+    if ($content_data["layout"] == "list") {
         ob_start();
         include(listing_result_template($uri, "all", "list-header"));
         $output .= ob_get_contents();
@@ -1066,14 +951,12 @@ function listing_print_results($uri, $content_data)
     $current_product = 1;
     $products_count = count($results);
 
-    if($content_data["layout"] == "grid")
-    {
+    if ($content_data["layout"] == "grid") {
         $output .= "<table class=\"listing-grid-table\">";
         $output .= "<tbody>";
     }
 
-    foreach($results as $fields)
-    {
+    foreach ($results as $fields) {
         $page_data = Jaris\Pages::get(
             $fields["uri"],
             Jaris\Language::getCurrent()
@@ -1104,19 +987,16 @@ function listing_print_results($uri, $content_data)
 
         $price = "";
 
-        if($ecommerce_products && !empty($content_data["show_prices"]))
-        {
+        if ($ecommerce_products && !empty($content_data["show_prices"])) {
             $price = ecommerce_get_product_price($page_data, $group);
 
             $price_plain = $price;
 
-            if($price)
-            {
+            if ($price) {
                 $price = '$' . number_format($price, 2, ".", ",");
             }
 
-            if(!empty($page_data["on_sale"]))
-            {
+            if (!empty($page_data["on_sale"])) {
                 $price = '<div class="on-sale">'
                     . '<span>' . t("on sale") . '</span> '
                     . $price
@@ -1127,8 +1007,7 @@ function listing_print_results($uri, $content_data)
 
         $reviews_score = "";
 
-        if($reviews_enabled)
-        {
+        if ($reviews_enabled) {
             $reviews_score = '<span class="listing-review-score">'
                 . $fields["reviews_score"] * $reviews_max_score
                 . '</span>'
@@ -1146,18 +1025,15 @@ function listing_print_results($uri, $content_data)
         $image = null;
         $image_url = null;
 
-        if($image_list)
-        {
-            foreach($image_list as $id => $image_fields)
-            {
+        if ($image_list) {
+            foreach ($image_list as $id => $image_fields) {
                 $image_name = $image_fields["name"];
                 $image_description = $image_fields["description"];
                 break;
             }
         }
 
-        if($image_name)
-        {
+        if ($image_name) {
             $image = !$content_data["thumbnail_show"] ?
                 false
                 :
@@ -1167,27 +1043,25 @@ function listing_print_results($uri, $content_data)
                 "\" src=\"" .
                 Jaris\Uri::url(
                     "image/" . $fields["uri"] . "/$image_name",
-                    array(
+                    [
                         "w" => $content_data["thumbnail_width"],
                         "h" => $content_data["thumbnail_height"],
                         "ar" => $content_data["thumbnail_keep_aspectratio"],
                         "bg" => $content_data["thumbnail_bg"]
-                    )
+                    ]
                 ) . "\" /></a>"
             ;
 
             $image_url = Jaris\Uri::url(
                 "image/" . $fields["uri"] . "/$image_name",
-                array(
+                [
                     "w" => $content_data["thumbnail_width"],
                     "h" => $content_data["thumbnail_height"],
                     "ar" => $content_data["thumbnail_keep_aspectratio"],
                     "bg" => $content_data["thumbnail_bg"]
-                )
+                ]
             );
-        }
-        else
-        {
+        } else {
             $type_image = Jaris\Types::getImageUrl(
                 $page_data["type"],
                 $content_data["thumbnail_width"],
@@ -1196,8 +1070,7 @@ function listing_print_results($uri, $content_data)
                 $content_data["thumbnail_bg"]
             );
 
-            if($type_image != "")
-            {
+            if ($type_image != "") {
                 $type_data = Jaris\Types::get($page_data["type"]);
                 $image_name = $type_data['image'];
 
@@ -1225,15 +1098,12 @@ function listing_print_results($uri, $content_data)
         ;
 
         $layout = $content_data["layout"];
-        if($content_data["layout"] == "list")
-        {
+        if ($content_data["layout"] == "list") {
             $layout = "list-content";
         }
 
-        if($content_data["layout"] == "grid")
-        {
-            if($column == 1)
-            {
+        if ($content_data["layout"] == "grid") {
+            if ($column == 1) {
                 $output .= "<tr>";
             }
 
@@ -1245,34 +1115,28 @@ function listing_print_results($uri, $content_data)
         $output .= ob_get_contents();
         ob_end_clean();
 
-        if($content_data["layout"] == "grid")
-        {
+        if ($content_data["layout"] == "grid") {
             $output .= "</td>";
 
-            if($column == $content_data["results_per_row"])
-            {
+            if ($column == $content_data["results_per_row"]) {
                 $column = 1;
                 $output .= "</tr>";
-            }
-            else
-            {
-                if($current_product != $products_count)
+            } else {
+                if ($current_product != $products_count) {
                     $column++;
+                }
             }
         }
 
         $current_product++;
     }
 
-    if($content_data["layout"] == "grid")
-    {
-        if(
+    if ($content_data["layout"] == "grid") {
+        if (
             ($column != $content_data["results_per_row"] && $column != 1) ||
             (($products_count % $content_data["results_per_row"]) > 0)
-        )
-        {
-            for($column; $column != $content_data["results_per_row"]; $column++)
-            {
+        ) {
+            for ($column; $column != $content_data["results_per_row"]; $column++) {
                 $output .= "<td></td>";
             }
 
@@ -1283,8 +1147,7 @@ function listing_print_results($uri, $content_data)
         $output .= "</table>";
     }
 
-    if($content_data["layout"] == "list")
-    {
+    if ($content_data["layout"] == "list") {
         ob_start();
 
         include(listing_result_template($uri, "all", "list-footer"));
@@ -1294,32 +1157,26 @@ function listing_print_results($uri, $content_data)
         ob_end_clean();
     }
 
-    if($content_data["display_navigation"])
-    {
+    if ($content_data["display_navigation"]) {
         ob_start();
 
-        $arguments = array();
+        $arguments = [];
 
-        if(isset($_REQUEST["s"]))
-        {
+        if (isset($_REQUEST["s"])) {
             $arguments["s"] = $_REQUEST["s"];
         }
 
-        if(isset($_REQUEST["a"]))
-        {
+        if (isset($_REQUEST["a"])) {
             $arguments["a"] = $_REQUEST["a"];
         }
 
-        if(count($content_data["filter_types"]) == 1)
-        {
+        if (count($content_data["filter_types"]) == 1) {
             $categories = Jaris\Categories::getList(
                 $content_data["filter_types"][0]
             );
 
-            foreach($categories as $cat_name => $cat_fields)
-            {
-                if(isset($_REQUEST[$cat_name]))
-                {
+            foreach ($categories as $cat_name => $cat_fields) {
+                if (isset($_REQUEST[$cat_name])) {
                     $arguments[$cat_name] = $_REQUEST[$cat_name];
                 }
             }
@@ -1345,44 +1202,37 @@ function listing_print_results($uri, $content_data)
 function listing_block_print_results($uri, $content_data)
 {
     $types = "";
-    if(
+    if (
         is_array($content_data["filter_types"])
         &&
         count($content_data["filter_types"]) > 0
-    )
-    {
+    ) {
         $types = "and (";
-        foreach($content_data["filter_types"] as $type)
-        {
+        foreach ($content_data["filter_types"] as $type) {
             $types .= "type='$type' or ";
         }
 
         $types = rtrim($types, " or");
 
         $types .= ")";
-    }
-    else
-    {
-        $content_data["filter_types"] = array();
+    } else {
+        $content_data["filter_types"] = [];
     }
 
     // Handle ecommerce settings
     $ecommerce_installed = Jaris\Modules::isInstalled("ecommerce");
     $ecommerce_product_types = false;
 
-    if(
+    if (
         !empty($content_data["treat_as_products"])
         &&
         $ecommerce_installed
-    )
-    {
+    ) {
         $ecommerce_product_types = true;
         $product_types = ecommerce_get_product_types();
 
-        foreach($content_data["filter_types"] as $type)
-        {
-            if(!isset($product_types[$type]))
-            {
+        foreach ($content_data["filter_types"] as $type) {
+            if (!isset($product_types[$type])) {
                 $ecommerce_product_types = false;
                 break;
             }
@@ -1396,8 +1246,7 @@ function listing_block_print_results($uri, $content_data)
 
     $on_sale = "";
 
-    if($ecommerce_products)
-    {
+    if ($ecommerce_products) {
         $on_sale = !empty($content_data["onsale_only"]) ?
             " and on_sale != ''"
             :
@@ -1409,18 +1258,15 @@ function listing_block_print_results($uri, $content_data)
     $realty_installed = Jaris\Modules::isInstalled("realty");
     $realty_product_types = false;
 
-    if(
+    if (
         !empty($content_data["treat_as_properties"])
         &&
         $realty_installed
-    )
-    {
+    ) {
         $realty_product_types = true;
 
-        foreach($content_data["filter_types"] as $type)
-        {
-            if($type != "property")
-            {
+        foreach ($content_data["filter_types"] as $type) {
+            if ($type != "property") {
                 $realty_product_types = false;
                 break;
             }
@@ -1441,8 +1287,7 @@ function listing_block_print_results($uri, $content_data)
     $realty_foreclosure = "";
     $realty_commercial = "";
 
-    if($realty_properties)
-    {
+    if ($realty_properties) {
         $realty_type = !empty($content_data["realty_type"]) ?
             " and sub_category ='".$content_data["realty_type"]."'"
             :
@@ -1467,24 +1312,19 @@ function listing_block_print_results($uri, $content_data)
             ""
         ;
 
-        if(
+        if (
             isset($content_data["realty_category"])
             &&
             trim($content_data["realty_category"]) != ""
-        )
-        {
-
+        ) {
             $realty_category = " and category='".$content_data["realty_category"]."'";
-        }
-        elseif(
+        } elseif (
             $_REQUEST["sub_category"] == "rent"
-        )
-        {
+        ) {
             $category_list = realty_get_categories("rent");
 
             $realty_category .= "and category in (";
-            foreach($category_list as $category_name)
-            {
+            foreach ($category_list as $category_name) {
                 $realty_category .= "'"
                     . str_replace("'", "''", $category_name)
                     . "',"
@@ -1500,37 +1340,29 @@ function listing_block_print_results($uri, $content_data)
             ""
         ;
 
-        if($content_data["realty_foreclosure"] == "y")
-        {
+        if ($content_data["realty_foreclosure"] == "y") {
             $realty_foreclosure = " and is_foreclosure = '1'";
-        }
-        elseif($content_data["realty_foreclosure"] == "n")
-        {
+        } elseif ($content_data["realty_foreclosure"] == "n") {
             $realty_foreclosure = " and is_foreclosure = '0'";
         }
 
-        if($content_data["realty_commercial"] == "y")
-        {
+        if ($content_data["realty_commercial"] == "y") {
             $realty_commercial = " and is_commercial = '1'";
-        }
-        elseif($content_data["realty_commercial"] == "n")
-        {
+        } elseif ($content_data["realty_commercial"] == "n") {
             $realty_commercial = " and is_commercial = '0'";
         }
     }
 
     $authors = "";
     $authors_list = explode(",", $content_data["filter_authors"]);
-    if(
+    if (
         is_array($authors_list) &&
         count($authors_list) > 0 &&
         trim($authors_list[0]) != ""
-    )
-    {
+    ) {
         $authors = "and (";
 
-        foreach($authors_list as $author)
-        {
+        foreach ($authors_list as $author) {
             $authors .= "author='" . trim($author) . "' or ";
         }
 
@@ -1542,21 +1374,17 @@ function listing_block_print_results($uri, $content_data)
     $has_categories = "";
     $where_categories = "";
 
-    if(
+    if (
         is_array($content_data["filter_categories"]) &&
         count($content_data["filter_categories"]) > 0
-    )
-    {
+    ) {
         $categories = serialize($content_data["filter_categories"]);
 
-        if($content_data["category_matching"] != "match_partial")
-        {
+        if ($content_data["category_matching"] != "match_partial") {
             $has_categories = ", "
                 . "hascategories(categories, '$categories') as has_category"
             ;
-        }
-        else
-        {
+        } else {
             $has_categories = ", "
                 . "hassomecategories(categories, '$categories') as has_category"
             ;
@@ -1567,8 +1395,7 @@ function listing_block_print_results($uri, $content_data)
 
     $ordering = "";
     $where_date = "";
-    switch($content_data["filter_ordering"])
-    {
+    switch ($content_data["filter_ordering"]) {
         case "date_desc":
             $ordering = "order by created_date desc";
             break;
@@ -1607,7 +1434,7 @@ function listing_block_print_results($uri, $content_data)
     }
 
     $skip_current = "";
-    if(
+    if (
         !empty($content_data["skip_current_page"])
         ||
         (
@@ -1615,15 +1442,13 @@ function listing_block_print_results($uri, $content_data)
             &&
             !empty($content_data["related_to_current_page"])
         )
-    )
-    {
+    ) {
         $skip_current = "uri <> '" . Jaris\Uri::get() . "' and ";
     }
 
     $related_select = "";
     $related_where = "";
-    if(!empty($content_data["related_to_current_page"]))
-    {
+    if (!empty($content_data["related_to_current_page"])) {
         $displayed_page_data = Jaris\Pages::get(
             Jaris\Uri::get(),
             Jaris\Language::getCurrent()
@@ -1661,8 +1486,7 @@ function listing_block_print_results($uri, $content_data)
 
     $limit = intval($content_data["results_to_show"]);
 
-    if($ecommerce_products)
-    {
+    if ($ecommerce_products) {
         Jaris\Sql::attach("ecommerce_inventory", $db);
 
         $query .= "select a.uri, haspermission(groups, '$group') as has_permissions, "
@@ -1680,9 +1504,7 @@ function listing_block_print_results($uri, $content_data)
         ;
 
         $query = str_replace("type=", "a.type=", $query);
-    }
-    elseif($realty_properties)
-    {
+    } elseif ($realty_properties) {
         Jaris\Sql::attach("realty_properties", $db);
 
         $query .= "select a.uri, haspermission(groups, '$group') as has_permissions, "
@@ -1702,9 +1524,7 @@ function listing_block_print_results($uri, $content_data)
         ;
 
         $query = str_replace("type=", "a.type=", $query);
-    }
-    else
-    {
+    } else {
         $query .= "select uri, haspermission(groups, '$group') as has_permissions, "
             . "hasuserpermission(users, '$user') as has_user_permissions "
             . "$has_categories $related_select from uris "
@@ -1720,13 +1540,11 @@ function listing_block_print_results($uri, $content_data)
 
     $result = Jaris\Sql::query($query, $db);
 
-    $results = array();
-    if($fields = Jaris\Sql::fetchArray($result))
-    {
+    $results = [];
+    if ($fields = Jaris\Sql::fetchArray($result)) {
         $results[] = $fields;
 
-        while($fields = Jaris\Sql::fetchArray($result))
-        {
+        while ($fields = Jaris\Sql::fetchArray($result)) {
             $results[] = $fields;
         }
     }
@@ -1735,10 +1553,10 @@ function listing_block_print_results($uri, $content_data)
 
     $output = '<div id="listing-block-container-'.$content_data["id"].'" class="listing-block-container">';
 
-    foreach($results as $fields)
-    {
+    foreach ($results as $fields) {
         $page_data = Jaris\Pages::get(
-            $fields["uri"], Jaris\Language::getCurrent()
+            $fields["uri"],
+            Jaris\Language::getCurrent()
         );
 
         $title = !$content_data["display_title"] ?
@@ -1766,19 +1584,16 @@ function listing_block_print_results($uri, $content_data)
 
         $price = "";
 
-        if($ecommerce_products && !empty($content_data["show_prices"]))
-        {
+        if ($ecommerce_products && !empty($content_data["show_prices"])) {
             $price = ecommerce_get_product_price($page_data, $group);
 
             $price_plain = $price;
 
-            if($price)
-            {
+            if ($price) {
                 $price = '$' . number_format($price, 2, ".", ",");
             }
 
-            if(!empty($page_data["on_sale"]))
-            {
+            if (!empty($page_data["on_sale"])) {
                 $price = '<div class="on-sale">'
                     . '<span>' . t("on sale") . '</span> '
                     . $price
@@ -1792,18 +1607,15 @@ function listing_block_print_results($uri, $content_data)
         $image_description = null;
         $image = null;
 
-        if($image_list)
-        {
-            foreach($image_list as $id => $image_fields)
-            {
+        if ($image_list) {
+            foreach ($image_list as $id => $image_fields) {
                 $image_name = $image_fields["name"];
                 $image_description = $image_fields["description"];
                 break;
             }
         }
 
-        if($image_name)
-        {
+        if ($image_name) {
             $image = !$content_data["thumbnail_show"] ?
                 false
                 :
@@ -1814,17 +1626,15 @@ function listing_block_print_results($uri, $content_data)
                 "\" src=\"" .
                 Jaris\Uri::url(
                     "image/" . $fields["uri"] . "/$image_name",
-                    array(
+                    [
                         "w" => $content_data["thumbnail_width"],
                         "h" => $content_data["thumbnail_height"],
                         "ar" => $content_data["thumbnail_keep_aspectratio"],
                         "bg" => $content_data["thumbnail_bg"]
-                    )
+                    ]
                 ) . "\" /></a>"
             ;
-        }
-        else
-        {
+        } else {
             $type_image = Jaris\Types::getImageUrl(
                 $page_data["type"],
                 $content_data["thumbnail_width"],
@@ -1833,8 +1643,7 @@ function listing_block_print_results($uri, $content_data)
                 $content_data["thumbnail_bg"]
             );
 
-            if($type_image != "")
-            {
+            if ($type_image != "") {
                 $type_data = Jaris\Types::get($page_data["type"]);
                 $image_name = $type_data['image'];
 
@@ -1893,24 +1702,15 @@ function listing_result_template($page, $results_type = "all", $template_type = 
 
     $template_path = "";
 
-    if(file_exists($current_page_result_type))
-    {
+    if (file_exists($current_page_result_type)) {
         $template_path = $current_page_result_type;
-    }
-    elseif(file_exists($current_page))
-    {
+    } elseif (file_exists($current_page)) {
         $template_path = $current_page;
-    }
-    elseif(file_exists($current_results_type))
-    {
+    } elseif (file_exists($current_results_type)) {
         $template_path = $current_results_type;
-    }
-    elseif(file_exists($current_template))
-    {
+    } elseif (file_exists($current_template)) {
         $template_path = $current_template;
-    }
-    else
-    {
+    } else {
         $template_path = Jaris\Modules::directory("listing")
             . "templates/listing-$template_type.php"
         ;
@@ -1918,5 +1718,3 @@ function listing_result_template($page, $results_type = "all", $template_type = 
 
     return $template_path;
 }
-
-?>

@@ -13,8 +13,7 @@
 function church_attendance_install()
 {
     // Create income database
-    if(!Jaris\Sql::dbExists("church_attendance_reunions"))
-    {
+    if (!Jaris\Sql::dbExists("church_attendance_reunions")) {
         //Income database
         $db = Jaris\Sql::open("church_attendance_reunions");
 
@@ -58,8 +57,7 @@ function church_attendance_install()
     }
 
     // Income/Expenses category database
-    if(!Jaris\Sql::dbExists("church_attendance_groups"))
-    {
+    if (!Jaris\Sql::dbExists("church_attendance_groups")) {
         $db = Jaris\Sql::open("church_attendance_groups");
 
         Jaris\Sql::query(
@@ -79,28 +77,27 @@ function church_attendance_install()
         );
 
         // Strings to assist poedit or other translation tools.
-        $strings = array(
+        $strings = [
             // Income
             t("Gentlemen"),
             t("Ladies"),
             t("Boys"),
             t("Girls"),
             t("Other")
-        );
+        ];
 
         //Default income categories
-        $groups = array(
+        $groups = [
             "Gentlemen",
             "Ladies",
             "Boys",
             "Girls",
             "Other"
-        );
+        ];
 
         Jaris\Sql::beginTransaction($db);
 
-        foreach($groups as $group)
-        {
+        foreach ($groups as $group) {
             $insert = "insert into church_attendance_groups "
                 . "(label) "
                 . "values("
@@ -117,8 +114,7 @@ function church_attendance_install()
     }
 
     // Courses list
-    if(!Jaris\Sql::dbExists("church_attendance_courses"))
-    {
+    if (!Jaris\Sql::dbExists("church_attendance_courses")) {
         $db = Jaris\Sql::open("church_attendance_courses");
 
         Jaris\Sql::query(
@@ -138,25 +134,24 @@ function church_attendance_install()
         );
 
         // Strings to assist poedit or other translation tools.
-        $strings = array(
+        $strings = [
             t("Discipleschip 101"),
             t("Discipleschip 102"),
             t("Institute"),
             t("Other")
-        );
+        ];
 
         //Default income categories
-        $groups = array(
+        $groups = [
             "Discipleschip 101",
             "Discipleschip 102",
             "Institute",
             "Other"
-        );
+        ];
 
         Jaris\Sql::beginTransaction($db);
 
-        foreach($groups as $group)
-        {
+        foreach ($groups as $group) {
             $insert = "insert into church_attendance_courses "
                 . "(label) "
                 . "values("
@@ -173,8 +168,7 @@ function church_attendance_install()
     }
 
     // Courses count
-    if(!Jaris\Sql::dbExists("church_attendance_courses_count"))
-    {
+    if (!Jaris\Sql::dbExists("church_attendance_courses_count")) {
         $db = Jaris\Sql::open("church_attendance_courses_count");
 
         Jaris\Sql::query(
@@ -198,8 +192,7 @@ function church_attendance_install()
     }
 
     // Talents list
-    if(!Jaris\Sql::dbExists("church_attendance_talents"))
-    {
+    if (!Jaris\Sql::dbExists("church_attendance_talents")) {
         $db = Jaris\Sql::open("church_attendance_talents");
 
         Jaris\Sql::query(
@@ -219,7 +212,7 @@ function church_attendance_install()
         );
 
         // Strings to assist poedit or other translation tools.
-        $strings = array(
+        $strings = [
             t("Graphic Design"),
             t("Adults Teacher"),
             t("Poetry Compositor"),
@@ -238,10 +231,10 @@ function church_attendance_install()
             t("Computers"),
             t("Counseling"),
             t("Hand out treaties")
-        );
+        ];
 
         //Default income categories
-        $groups = array(
+        $groups = [
             "Graphic Design",
             "Adults Teacher",
             "Poetry Compositor",
@@ -260,12 +253,11 @@ function church_attendance_install()
             "Computers",
             "Counseling",
             "Hand out treaties"
-        );
+        ];
 
         Jaris\Sql::beginTransaction($db);
 
-        foreach($groups as $group)
-        {
+        foreach ($groups as $group) {
             $insert = "insert into church_attendance_talents "
                 . "(label) "
                 . "values("
@@ -282,8 +274,7 @@ function church_attendance_install()
     }
 
     // Talents count
-    if(!Jaris\Sql::dbExists("church_attendance_talents_count"))
-    {
+    if (!Jaris\Sql::dbExists("church_attendance_talents_count")) {
         $db = Jaris\Sql::open("church_attendance_talents_count");
 
         Jaris\Sql::query(
@@ -307,8 +298,7 @@ function church_attendance_install()
     }
 
     // Members database
-    if(!Jaris\Sql::dbExists("church_attendance_members"))
-    {
+    if (!Jaris\Sql::dbExists("church_attendance_members")) {
         $db = Jaris\Sql::open("church_attendance_members");
 
         Jaris\Sql::query(
@@ -378,8 +368,7 @@ function church_attendance_install()
     }
 
     // Assistance registry database
-    if(!Jaris\Sql::dbExists("church_attendance_registry"))
-    {
+    if (!Jaris\Sql::dbExists("church_attendance_registry")) {
         $db = Jaris\Sql::open("church_attendance_registry");
 
         Jaris\Sql::query(

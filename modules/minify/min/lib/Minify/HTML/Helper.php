@@ -10,7 +10,8 @@
  * @package Minify
  * @author Stephen Clay <steve@mrclay.org>
  */
-class Minify_HTML_Helper {
+class Minify_HTML_Helper
+{
     public $rewriteWorks = true;
     public $minAppUri = '/min';
     public $groupsConfigFile = '';
@@ -28,16 +29,16 @@ class Minify_HTML_Helper {
      *   'groupsConfigFile' : specify if different
      * @return string
      */
-    public static function getUri($keyOrFiles, $opts = array())
+    public static function getUri($keyOrFiles, $opts = [])
     {
-        $opts = array_merge(array( // default options
+        $opts = array_merge([ // default options
             'farExpires' => true
             ,'debug' => false
             ,'charset' => 'UTF-8'
             ,'minAppUri' => '/min'
             ,'rewriteWorks' => true
             ,'groupsConfigFile' => ''
-        ), $opts);
+        ], $opts);
         $h = new self;
         $h->minAppUri = $opts['minAppUri'];
         $h->rewriteWorks = $opts['rewriteWorks'];
@@ -155,7 +156,7 @@ class Minify_HTML_Helper {
     }
 
     protected $_groupKey = null; // if present, URI will be like g=...
-    protected $_filePaths = array();
+    protected $_filePaths = [];
     protected $_lastModified = null;
 
 
@@ -167,7 +168,8 @@ class Minify_HTML_Helper {
      * @param int $pos index to check
      * @return mixed a common char or '' if any do not match
      */
-    protected static function _getCommonCharAtPos($arr, $pos) {
+    protected static function _getCommonCharAtPos($arr, $pos)
+    {
         if (!isset($arr[0][$pos])) {
             return '';
         }
@@ -191,7 +193,8 @@ class Minify_HTML_Helper {
      * @param string $minRoot root-relative URI of the "min" application
      * @return string
      */
-    protected static function _getShortestUri($paths, $minRoot = '/min/') {
+    protected static function _getShortestUri($paths, $minRoot = '/min/')
+    {
         $pos = 0;
         $base = '';
         while (true) {

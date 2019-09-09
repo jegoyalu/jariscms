@@ -29,33 +29,28 @@ row: 0
         $message = "";
         $reactivation_link = "";
 
-        if(!isset($_REQUEST["u"]) || !isset($_REQUEST["c"]))
-        {
+        if (!isset($_REQUEST["u"]) || !isset($_REQUEST["c"])) {
             $message = t("Error: Invalid activation data.");
         }
 
         $user_data = Jaris\Users::get($_REQUEST["u"]);
 
-        if(!$user_data || $user_data["activation_code"] != $_REQUEST["c"])
-        {
+        if (!$user_data || $user_data["activation_code"] != $_REQUEST["c"]) {
             $message = t("Error: Invalid activation data.");
 
-            if($user_data)
-            {
+            if ($user_data) {
                 $reactivation_link = Jaris\Uri::url(
                     "account/reactivate",
-                    array("u" => $_REQUEST["u"])
+                    ["u" => $_REQUEST["u"]]
                 );
             }
         }
 
-        if(
+        if (
             $message == "" &&
             isset($_REQUEST["a"])
-        )
-        {
-            if($user_data["email_activated"] == "0")
-            {
+        ) {
+            if ($user_data["email_activated"] == "0") {
                 $user_data["email_activated"] = "1";
 
                 Jaris\Users::edit(
@@ -74,51 +69,45 @@ row: 0
 
                 Jaris\Logger::info(
                     "Account '{username}' activated.",
-                    array(
+                    [
                         "username" => $_REQUEST["u"]
-                    )
+                    ]
                 );
 
                 Jaris\Uri::go(
                     "admin/user",
-                    array("username" => $user_data["email"])
+                    ["username" => $user_data["email"]]
                 );
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(
                     t("Account already activated. Please login.")
                 );
 
                 Jaris\Uri::go(
                     "admin/user",
-                    array("username" => $user_data["email"])
+                    ["username" => $user_data["email"]]
                 );
             }
         }
 
         $activation_link = Jaris\Uri::url(
             "account/activate",
-            array(
+            [
                 "u" => $_REQUEST["u"],
                 "c" => $_REQUEST["c"],
                 "a" => 1
-            )
+            ]
         );
 
-        if($message == "")
-        {
+        if ($message == "") {
             print '<a class="activation-link" href="'.$activation_link.'">'
                 . t("Click to Activate")
                 . '</a>'
             ;
-        }
-        else
-        {
+        } else {
             print '<h3>'.$message.'</h3>';
 
-            if($reactivation_link)
-            {
+            if ($reactivation_link) {
                 print '<a class="activation-link" href="'.$reactivation_link.'">'
                     . t("Resend Account Activation E-mail")
                     . '</a>'

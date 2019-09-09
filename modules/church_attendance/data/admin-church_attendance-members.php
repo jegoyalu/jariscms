@@ -18,7 +18,7 @@ row: 0
     field: content
     <?php
         Jaris\Authentication::protectedPage(
-            array("manage_members_church_attendance")
+    ["manage_members_church_attendance"]
         );
 
         Jaris\View::addTab(
@@ -63,16 +63,13 @@ row: 0
 
         $page = 1;
 
-        if(isset($_REQUEST["page"]))
-        {
+        if (isset($_REQUEST["page"])) {
             $page = $_REQUEST["page"];
         }
 
         $is_member = "(is_member=0 or is_member=1)";
-        if(!empty($_REQUEST["m"]) || "".$_REQUEST["m"]."" == "0")
-        {
-            switch($_REQUEST["m"])
-            {
+        if (!empty($_REQUEST["m"]) || "".$_REQUEST["m"]."" == "0") {
+            switch ($_REQUEST["m"]) {
                 case "1":
                     $is_member = "is_member=1";
                     break;
@@ -85,56 +82,47 @@ row: 0
         }
 
         $group = "";
-        if(!empty($_REQUEST["g"]))
-        {
+        if (!empty($_REQUEST["g"])) {
             $group_val = intval($_REQUEST["g"]);
             $group = "group_id=$group_val";
         }
 
         $discipleship = "";
-        if(
+        if (
             !empty($_REQUEST["d"])
             ||
             "".$_REQUEST["d"]."" == "0"
-        )
-        {
+        ) {
             $discipleship_val = intval($_REQUEST["d"]);
             $discipleship = "taken_discipleship=$discipleship_val";
         }
 
         $accepted = "";
-        if(
+        if (
             !empty($_REQUEST["a"])
             ||
             "".$_REQUEST["a"]."" == "0"
-        )
-        {
-            if($_REQUEST["a"])
-            {
+        ) {
+            if ($_REQUEST["a"]) {
                 $accepted = "year_accepted_christ>1";
-            }
-            else
-            {
+            } else {
                 $accepted = "year_accepted_christ=1";
             }
         }
 
         $baptized = "";
-        if(
+        if (
             !empty($_REQUEST["b"])
             ||
             "".$_REQUEST["b"]."" == "0"
-        )
-        {
+        ) {
             $baptized_val = intval($_REQUEST["b"]);
             $baptized = "baptized=$baptized_val";
         }
 
         $sorting = "order by last_visit_date asc";
-        if(!empty($_REQUEST["s"]))
-        {
-            switch($_REQUEST["s"])
-            {
+        if (!empty($_REQUEST["s"])) {
+            switch ($_REQUEST["s"]) {
                 case "la":
                     $sorting = "order by last_visit_date asc";
                     break;
@@ -151,66 +139,47 @@ row: 0
 
         $where = "";
 
-        if($is_member || $group || $discipleship || $accepted || $baptized)
-        {
+        if ($is_member || $group || $discipleship || $accepted || $baptized) {
             $where .= "where ";
         }
 
-        if($is_member)
-        {
+        if ($is_member) {
             $where .= "$is_member ";
         }
 
-        if($group)
-        {
-            if($where == "where ")
-            {
+        if ($group) {
+            if ($where == "where ") {
                 $where .= "$group ";
-            }
-            else
-            {
+            } else {
                 $where .= "and $group ";
             }
         }
 
-        if($discipleship)
-        {
-            if($where == "where ")
-            {
+        if ($discipleship) {
+            if ($where == "where ") {
                 $where .= "$discipleship ";
-            }
-            else
-            {
+            } else {
                 $where .= "and $discipleship ";
             }
         }
 
-        if($accepted)
-        {
-            if($where == "where ")
-            {
+        if ($accepted) {
+            if ($where == "where ") {
                 $where .= "$accepted ";
-            }
-            else
-            {
+            } else {
                 $where .= "and $accepted ";
             }
         }
 
-        if($baptized)
-        {
-            if($where == "where ")
-            {
+        if ($baptized) {
+            if ($where == "where ") {
                 $where .= "$baptized ";
-            }
-            else
-            {
+            } else {
                 $where .= "and $baptized ";
             }
         }
 
-        if($sorting)
-        {
+        if ($sorting) {
             $where .= "$sorting ";
         }
 
@@ -240,31 +209,30 @@ row: 0
         $parameters["action"] = Jaris\Uri::url(Jaris\Uri::get());
         $parameters["method"] = "get";
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "select",
             "name" => "m",
             "label" => t("Member status:"),
-            "value" => array(
+            "value" => [
                 t("All") => "",
                 t("Visitors") => "0",
                 t("Members") => "1",
                 t("Inactive") => "2"
-            ),
+            ],
             "selected" => isset($_REQUEST["m"]) ?
                 $_REQUEST["m"]
                 :
                 "",
             "code" => 'onchange="javascript: this.form.submit()"',
             "inline" => true
-        );
+        ];
 
-        $groups_list = array(t("All") => "");
-        foreach(church_attendance_group_list() as $group_id => $group_name)
-        {
+        $groups_list = [t("All") => ""];
+        foreach (church_attendance_group_list() as $group_id => $group_name) {
             $groups_list[t($group_name)] = $group_id;
         }
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "select",
             "name" => "g",
             "label" => t("Group:"),
@@ -275,78 +243,78 @@ row: 0
                 "",
             "code" => 'onchange="javascript: this.form.submit()"',
             "inline" => true
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "select",
             "name" => "d",
             "label" => t("Discipleship:"),
-            "value" => array(
+            "value" => [
                 t("All") => "",
                 t("No") => "0",
                 t("Yes") => "1"
-            ),
+            ],
             "selected" => isset($_REQUEST["d"]) ?
                 $_REQUEST["d"]
                 :
                 "",
             "code" => 'onchange="javascript: this.form.submit()"',
             "inline" => true
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "select",
             "name" => "a",
             "label" => t("Accepted Christ:"),
-            "value" => array(
+            "value" => [
                 t("All") => "",
                 t("No") => "0",
                 t("Yes") => "1"
-            ),
+            ],
             "selected" => isset($_REQUEST["a"]) ?
                 $_REQUEST["a"]
                 :
                 "",
             "code" => 'onchange="javascript: this.form.submit()"',
             "inline" => true
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "select",
             "name" => "b",
             "label" => t("Baptized:"),
-            "value" => array(
+            "value" => [
                 t("All") => "",
                 t("No") => "0",
                 t("Yes") => "1"
-            ),
+            ],
             "selected" => isset($_REQUEST["b"]) ?
                 $_REQUEST["b"]
                 :
                 "",
             "code" => 'onchange="javascript: this.form.submit()"',
             "inline" => true
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "select",
             "name" => "s",
             "label" => t("Sort by:"),
-            "value" => array(
+            "value" => [
                 t("Recent Visit Last") => "la",
                 t("Recent Visit First") => "ld",
                 t("Name Ascending") => "na",
                 t("Name Descending") => "nd"
-            ),
+            ],
             "selected" => isset($_REQUEST["s"]) ?
                 $_REQUEST["s"]
                 :
                 "",
             "code" => 'onchange="javascript: this.form.submit()"',
             "inline" => true
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "name" => t("Filter Results"),
             "fields" => $fields,
             "collapsible" => true,
@@ -356,7 +324,7 @@ row: 0
                 && !isset($_REQUEST["a"])
                 && !isset($_REQUEST["b"])
                 && !isset($_REQUEST["s"])
-        );
+        ];
 
         print Jaris\Forms::generate($parameters, $fieldset);
 
@@ -366,13 +334,13 @@ row: 0
             "admin/church-attendance/members",
             "church_attendance",
             20,
-            array(
+            [
                 "m" => $_REQUEST["m"],
                 "g" => $_REQUEST["g"],
                 "s" => $_REQUEST["s"],
                 "d" => $_REQUEST["d"],
                 "a" => $_REQUEST["a"]
-            )
+            ]
         );
 
         $months_list = Jaris\Date::getMonths();
@@ -389,8 +357,7 @@ row: 0
         print "</thead>";
 
         print "<tbody>";
-        foreach($members as $member_data)
-        {
+        foreach ($members as $member_data) {
             print "<tr>";
 
             $edit_url = Jaris\Uri::url(
@@ -398,7 +365,7 @@ row: 0
                     "admin/church-attendance/members/edit",
                     "church_attendance"
                 ),
-                array("id"=>$member_data["id"])
+                ["id"=>$member_data["id"]]
             );
 
             print "<td>"
@@ -416,8 +383,7 @@ row: 0
             ;
 
             print "<td>";
-            if(is_numeric($member_data["last_visit_date"]))
-            {
+            if (is_numeric($member_data["last_visit_date"])) {
                 print date("j", $member_data["last_visit_date"])
                     . "/"
                     . $months_list[date("n", $member_data["last_visit_date"])]
@@ -432,7 +398,7 @@ row: 0
                     "admin/church-attendance/members/delete",
                     "church_attendance"
                 ),
-                array("id"=>$member_data["id"])
+                ["id"=>$member_data["id"]]
             );
 
             print "<td>"
@@ -453,13 +419,13 @@ row: 0
             "admin/church-attendance/members",
             "church_attendance",
             20,
-            array(
+            [
                 "m" => $_REQUEST["m"],
                 "g" => $_REQUEST["g"],
                 "s" => $_REQUEST["s"],
                 "d" => $_REQUEST["d"],
                 "a" => $_REQUEST["a"]
-            )
+            ]
         );
     ?>
     field;

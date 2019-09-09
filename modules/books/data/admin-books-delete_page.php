@@ -21,54 +21,42 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("delete_content"));
+        Jaris\Authentication::protectedPage(["delete_content"]);
 
-        if(!Jaris\Pages::userIsOwner($_REQUEST["page"]))
-        {
+        if (!Jaris\Pages::userIsOwner($_REQUEST["page"])) {
             Jaris\Authentication::protectedPage();
         }
 
         $book_data = Jaris\Pages::get($_REQUEST["book"], Jaris\Language::getCurrent());
         $page_data = Jaris\Pages::get($_REQUEST["page"], Jaris\Language::getCurrent());
 
-        if(!$book_data || $book_data["type"] != "book")
-        {
+        if (!$book_data || $book_data["type"] != "book") {
             Jaris\View::addMessage(t("No valid parent book given."), "error");
             Jaris\Uri::go("");
         }
 
-        if(!$page_data || $page_data["type"] != "book-page")
-        {
+        if (!$page_data || $page_data["type"] != "book-page") {
             Jaris\View::addMessage(t("Trying to delete a non book page."), "error");
             Jaris\Uri::go("");
         }
 
-        if(isset($_REQUEST["btnYes"]))
-        {
+        if (isset($_REQUEST["btnYes"])) {
             //Delete page
-            if(Jaris\Pages::delete($_REQUEST["page"]))
-            {
+            if (Jaris\Pages::delete($_REQUEST["page"])) {
                 Jaris\View::addMessage(t("Book page successfully deleted."));
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(Jaris\System::errorMessage("write_error_data"), "error");
             }
 
             //Also delete page translations
-            if(Jaris\Translate::deletePage($_REQUEST["page"]))
-            {
+            if (Jaris\Translate::deletePage($_REQUEST["page"])) {
                 Jaris\View::addMessage(t("Translations successfully deleted."));
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(Jaris\System::errorMessage("translations_not_deleted"), "error");
             }
 
             Jaris\Uri::go($_REQUEST["book"]);
-        }
-        elseif(isset($_REQUEST["btnNo"]))
-        {
+        } elseif (isset($_REQUEST["btnNo"])) {
             Jaris\Uri::go($_REQUEST["book"]);
         }
     ?>

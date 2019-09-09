@@ -20,11 +20,10 @@ row: 0
     field: content
     <?php
         Jaris\Authentication::protectedPage(
-            array("view_types_fields", "delete_types_fields")
+    ["view_types_fields", "delete_types_fields"]
         );
 
-        if(!isset($_REQUEST["id"]) || !isset($_REQUEST["type_name"]))
-        {
+        if (!isset($_REQUEST["id"]) || !isset($_REQUEST["type_name"])) {
             Jaris\Uri::go("admin/types");
         }
 
@@ -35,38 +34,36 @@ row: 0
             $_REQUEST["type_name"]
         );
 
-        if(isset($_REQUEST["btnYes"]))
-        {
-            if(Jaris\Fields::delete($field_id, $_REQUEST["type_name"]))
-            {
+        if (isset($_REQUEST["btnYes"])) {
+            if (Jaris\Fields::delete($field_id, $_REQUEST["type_name"])) {
                 Jaris\View::addMessage(t("Type field successfully deleted."));
 
                 t("Delete field '{name}' from content type '{machine_name}'.");
 
                 Jaris\Logger::info(
                     "Deleted field '{name}' from content type '{machine_name}'.",
-                    array(
+                    [
                         "name" => $field_data["name"],
                         "machine_name" => $_REQUEST["type_name"]
-                    )
+                    ]
                 );
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(
                     Jaris\System::errorMessage("write_error_data"),
                     "error"
                 );
             }
 
-            Jaris\Uri::go("admin/types/fields", array(
-                "type" => $_REQUEST["type_name"])
+            Jaris\Uri::go(
+                "admin/types/fields",
+                [
+                "type" => $_REQUEST["type_name"]]
             );
-        }
-        elseif(isset($_REQUEST["btnNo"]))
-        {
-            Jaris\Uri::go("admin/types/fields", array(
-                "type" => $_REQUEST["type_name"])
+        } elseif (isset($_REQUEST["btnNo"])) {
+            Jaris\Uri::go(
+                "admin/types/fields",
+                [
+                "type" => $_REQUEST["type_name"]]
             );
         }
     ?>

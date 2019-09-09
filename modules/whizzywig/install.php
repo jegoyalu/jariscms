@@ -19,8 +19,7 @@ function whizzywig_install()
                 "admin/settings/whizzywig",
                 "whizzywig"
             )
-        ) . "\">" . t("Configure Now") . "</a>")
+        ) . "\">" . t("Configure Now") . "</a>"
+    )
     ;
 }
-
-?>

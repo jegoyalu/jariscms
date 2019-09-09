@@ -46,8 +46,7 @@
 
 <?php
 
-if(true)
-{
+if (true) {
     // Print income
     print "<hr />";
 
@@ -68,9 +67,8 @@ if(true)
     print "</thead>";
 
     print "<tbody>";
-    $results_data = array();
-    foreach($categories as $cat_id=>$cat_name)
-    {
+    $results_data = [];
+    foreach ($categories as $cat_id=>$cat_name) {
         $result = Jaris\Sql::query(
             "select sum(total) as grand_total "
             . "from church_accounting_income "
@@ -87,8 +85,7 @@ if(true)
 
     arsort($results_data);
 
-    foreach($results_data as $cat_name=>$grand_total)
-    {
+    foreach ($results_data as $cat_name=>$grand_total) {
         print "<tr>";
 
         print "<td>" . t($cat_name) . "</td>";
@@ -129,9 +126,8 @@ if(true)
     print "</thead>";
 
     print "<tbody>";
-    $results_data = array();
-    foreach($categories as $cat_id=>$cat_name)
-    {
+    $results_data = [];
+    foreach ($categories as $cat_id=>$cat_name) {
         $result = Jaris\Sql::query(
             "select sum(total) as grand_total "
             . "from church_accounting_expenses "
@@ -148,8 +144,7 @@ if(true)
 
     arsort($results_data);
 
-    foreach($results_data as $cat_name=>$grand_total)
-    {
+    foreach ($results_data as $cat_name=>$grand_total) {
         print "<tr>";
 
         print "<td>" . t($cat_name) . "</td>";

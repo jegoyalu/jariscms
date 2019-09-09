@@ -10,19 +10,19 @@ $book_pages = books_get_book_pages($content_data["book"]);
 
 <div class="content">
 
-<?php if($header){?><div class="content-header"><?php print $header ?></div><?php } ?>
+<?php if ($header) {?><div class="content-header"><?php print $header ?></div><?php } ?>
 
     <table>
         <tr>
-            <?php if($left){?><td class="content-left"><?php print $left ?></td><?php } ?>
+            <?php if ($left) {?><td class="content-left"><?php print $left ?></td><?php } ?>
             <td class="content">
-                <?php if($center){?>
+                <?php if ($center) {?>
                 <div class="content-center">
                     <?php print $center ?>
                 </div>
                 <?php } ?>
                 <?php print $content; ?>
-                <?php if($toc = books_get_toc($book_pages, Jaris\Uri::get())){ ?>
+                <?php if ($toc = books_get_toc($book_pages, Jaris\Uri::get())) { ?>
                 <div class="book-page-toc">
                     <h3><?php print t("Subsections") ?></h3>
 
@@ -46,12 +46,12 @@ $book_pages = books_get_book_pages($content_data["book"]);
                     </tbody>
                 </table>
             </td>
-            <?php if($right || ($side_toc = books_get_side_toc($book_pages, $book_pages[Jaris\Uri::get()]))){?>
+            <?php if ($right || ($side_toc = books_get_side_toc($book_pages, $book_pages[Jaris\Uri::get()]))) {?>
             <td class="content-right"><?php print "<h2>".t("Related Sections")."</h3>" . $side_toc ?><?php print $right ?></td>
             <?php } ?>
         </tr>
     </table>
 
-<?php if($footer){?><div class="content-footer"><?php print $footer ?></div><?php } ?>
+<?php if ($footer) {?><div class="content-footer"><?php print $footer ?></div><?php } ?>
 
 </div>

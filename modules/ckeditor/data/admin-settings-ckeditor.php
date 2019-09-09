@@ -33,7 +33,7 @@ row: 0
     </style>
 
     <?php
-        Jaris\Authentication::protectedPage(array("edit_settings"));
+        Jaris\Authentication::protectedPage(["edit_settings"]);
 
         $actual_items = unserialize(
             Jaris\Settings::get("toolbar_items", "ckeditor")
@@ -60,8 +60,7 @@ row: 0
             Jaris\Settings::get("disable_editor", "ckeditor")
         );
 
-        if(isset($_REQUEST["btnSave"], $_REQUEST["group"]))
-        {
+        if (isset($_REQUEST["btnSave"], $_REQUEST["group"])) {
             $actual_items[$_REQUEST["group"]] = $_REQUEST["toolbar_items"];
             $use_site_css[$_REQUEST["group"]] = $_REQUEST["use_site_css"];
             $uicolor[$_REQUEST["group"]] = $_REQUEST["uicolor"];
@@ -71,40 +70,51 @@ row: 0
             $groups[$_REQUEST["group"]] = $_REQUEST["groups"];
             $disable_editor[$_REQUEST["group"]] = $_REQUEST["disable_editor"];
 
-            if(
+            if (
                 Jaris\Settings::save(
-                    "toolbar_items", 
-                    serialize($actual_items), 
+                    "toolbar_items",
+                    serialize($actual_items),
                     "ckeditor"
                 )
-            )
-            {
+            ) {
                 Jaris\Settings::save(
-                    "use_site_css", serialize($use_site_css), "ckeditor"
+                    "use_site_css",
+                    serialize($use_site_css),
+                    "ckeditor"
                 );
                 Jaris\Settings::save(
-                    "uicolor", serialize($uicolor), "ckeditor"
+                    "uicolor",
+                    serialize($uicolor),
+                    "ckeditor"
                 );
                 Jaris\Settings::save(
-                    "plugins", serialize($plugins), "ckeditor"
+                    "plugins",
+                    serialize($plugins),
+                    "ckeditor"
                 );
                 Jaris\Settings::save(
-                    "teaxtarea_id", serialize($classes), "ckeditor"
+                    "teaxtarea_id",
+                    serialize($classes),
+                    "ckeditor"
                 );
                 Jaris\Settings::save(
-                    "forms", serialize($forms_to_display), "ckeditor"
+                    "forms",
+                    serialize($forms_to_display),
+                    "ckeditor"
                 );
                 Jaris\Settings::save(
-                    "groups", serialize($groups), "ckeditor"
+                    "groups",
+                    serialize($groups),
+                    "ckeditor"
                 );
                 Jaris\Settings::save(
-                    "disable_editor", serialize($disable_editor), "ckeditor"
+                    "disable_editor",
+                    serialize($disable_editor),
+                    "ckeditor"
                 );
 
                 Jaris\View::addMessage(t("Your changes have been saved."));
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(
                     Jaris\System::errorMessage("write_error_data")
                 );
@@ -112,7 +122,7 @@ row: 0
 
             Jaris\Uri::go(
                 Jaris\Modules::getPageUri(
-                    "admin/settings/ckeditor", 
+                    "admin/settings/ckeditor",
                     "ckeditor"
                 )
             );
@@ -139,8 +149,7 @@ row: 0
         $groups_list = Jaris\Groups::getList();
         $groups_list[] = "guest";
 
-        foreach($groups_list as $group)
-        {
+        foreach ($groups_list as $group) {
             $group_data = Jaris\Groups::get($group);
 
             print "<tr>\n";
@@ -155,9 +164,10 @@ row: 0
 
             $edit_url = Jaris\Uri::url(
                 Jaris\Modules::getPageUri(
-                    "admin/settings/ckeditor", "ckeditor"
+                    "admin/settings/ckeditor",
+                    "ckeditor"
                 ),
-                array("group" => $group)
+                ["group" => $group]
             );
 
             print "<td>\n";
@@ -171,27 +181,26 @@ row: 0
 
         print "<br />";
 
-        if(isset($_REQUEST["group"]))
-        {
+        if (isset($_REQUEST["group"])) {
             $parameters["name"] = "ckeditor-settings";
             $parameters["class"] = "ckeditor-settings";
             $parameters["action"] = Jaris\Uri::url(Jaris\Uri::get());
             $parameters["method"] = "post";
 
-            $fields_enable_ckeditor[] = array(
+            $fields_enable_ckeditor[] = [
                 "type" => "other",
                 "html_code" => "<br />"
-            );
+            ];
 
-            $fields_enable_ckeditor[] = array(
+            $fields_enable_ckeditor[] = [
                 "type" => "checkbox",
                 "checked" => $groups[$_REQUEST["group"]],
                 "name" => "groups",
                 "label" => t("Enable ckeditor?"),
                 "id" => "groups"
-            );
+            ];
 
-            $fieldset[] = array("fields" => $fields_enable_ckeditor);
+            $fieldset[] = ["fields" => $fields_enable_ckeditor];
 
             $toolbar_editor_url = Jaris\Uri::url(
                 Jaris\Modules::directory("ckeditor")
@@ -226,11 +235,11 @@ row: 0
                     'Here you can '
                     . '<a target="_blank" href="%s">alter</a> '
                     . 'the ckeditor configuration.'
-                ), 
+                ),
                 $toolbar_editor_url
             );
 
-            $fields_first[] = array(
+            $fields_first[] = [
                 "type" => "textarea",
                 "description" => $description,
                 "value" => $actual_items[$_REQUEST["group"]] ?
@@ -238,9 +247,9 @@ row: 0
                 "name" => "toolbar_items",
                 "label" => t("Configuration:"),
                 "id" => "toolbar_items"
-            );
+            ];
 
-            $fields_first[] = array(
+            $fields_first[] = [
                 "type" => "color",
                 "name" => "uicolor",
                 "label" => t("Configuration:"),
@@ -248,32 +257,32 @@ row: 0
                 "value" => $uicolor[$_REQUEST["group"]] ?
                     $uicolor[$_REQUEST["group"]] : "FFFFFF",
                 "description" => t("Main color of the editor interface."),
-            );
+            ];
 
-            $fieldset[] = array("fields" => $fields_first);
+            $fieldset[] = ["fields" => $fields_first];
 
-            $fields_plugins[] = array(
+            $fields_plugins[] = [
                 "type" => "checkbox",
                 "name" => "plugins",
                 "label" => t("Check all plugins to enable:"),
                 "id" => "plugins",
-                "value" => array(
+                "value" => [
                     "QuickTable" => "quicktable",
                     "YouTube" => "youtube",
                     "CodeMirror" => "codemirror"
-                ),
+                ],
                 "checked" => $plugins[$_REQUEST["group"]] ?
                     $plugins[$_REQUEST["group"]]
                     :
-                    array("quicktable", "youtube", "codemirror")
-            );
+                    ["quicktable", "youtube", "codemirror"]
+            ];
 
-            $fieldset[] = array(
+            $fieldset[] = [
                 "fields" => $fields_plugins,
                 "name" => "Plugins"
-            );
+            ];
 
-            $fields_pages[] = array(
+            $fields_pages[] = [
                 "type" => "textarea",
                 "name" => "teaxtarea_id",
                 "label" => t("Textarea Id:"),
@@ -285,9 +294,9 @@ row: 0
                         . "registration_welcome_message,registration_benefits,"
                         . "footer-message,site_status_description",
                 "description" => t("List of textarea id's seperated by comma (,).")
-            );
+            ];
 
-            $fields_pages[] = array(
+            $fields_pages[] = [
                 "type" => "textarea",
                 "name" => "forms",
                 "label" => t("Form names:"),
@@ -313,56 +322,56 @@ row: 0
                     . "animated-blocks-add,animated-blocks-edit,"
                     . "listing-blocks-add,listing-blocks-edit,"
                     . "edit-site-settings"
-            );
+            ];
 
-            $fieldset[] = array(
+            $fieldset[] = [
                 "fields" => $fields_pages,
                 "name" => "Forms to display",
                 "description" => t("List of form names seperated by comma (,).")
-            );
+            ];
 
-            $fields_disable_editor[] = array(
+            $fields_disable_editor[] = [
                 "type" => "other",
                 "html_code" => "<br />"
-            );
+            ];
 
-            $fields_disable_editor[] = array(
+            $fields_disable_editor[] = [
                 "type" => "checkbox",
                 "checked" => $disable_editor[$_REQUEST["group"]],
                 "name" => "disable_editor",
                 "label" => t("Show disable editor button?"),
                 "id" => "disable_editor"
-            );
+            ];
 
-            $fields_disable_editor[] = array(
+            $fields_disable_editor[] = [
                 "type" => "checkbox",
                 "checked" => $use_site_css[$_REQUEST["group"]],
                 "name" => "use_site_css",
                 "label" => t("Use default site css for content editor?"),
                 "id" => "use_site_css"
-            );
+            ];
 
-            $fieldset[] = array("fields" => $fields_disable_editor);
+            $fieldset[] = ["fields" => $fields_disable_editor];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "hidden",
                 "name" => "group",
                 "value" => $_REQUEST["group"]
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "submit",
                 "name" => "btnSave",
                 "value" => t("Save")
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "submit",
                 "name" => "btnCancel",
                 "value" => t("Cancel")
-            );
+            ];
 
-            $fieldset[] = array("fields" => $fields);
+            $fieldset[] = ["fields" => $fields];
 
             $group_data = Jaris\Groups::get($_REQUEST["group"]);
 

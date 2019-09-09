@@ -20,33 +20,28 @@ row: 0
     field: content
     <?php
         Jaris\Authentication::protectedPage(
-            array("view_categories", "delete_categories")
+    ["view_categories", "delete_categories"]
         );
 
-        if(!isset($_REQUEST["category"]))
-        {
+        if (!isset($_REQUEST["category"])) {
             Jaris\Uri::go("admin/categories");
         }
 
         $category_data = Jaris\Categories::get($_REQUEST["category"]);
 
-        if(isset($_REQUEST["btnYes"]))
-        {
-            if(Jaris\Categories::delete($_REQUEST["category"]))
-            {
+        if (isset($_REQUEST["btnYes"])) {
+            if (Jaris\Categories::delete($_REQUEST["category"])) {
                 Jaris\View::addMessage(t("Category successfully deleted."));
 
                 t("Deleted category '{machine_name}'.");
 
                 Jaris\Logger::info(
                     "Deleted category '{machine_name}'.",
-                    array(
+                    [
                         "machine_name" => $_REQUEST["category"]
-                    )
+                    ]
                 );
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(
                     Jaris\System::errorMessage("write_error_data"),
                     "error"
@@ -54,9 +49,7 @@ row: 0
             }
 
             Jaris\Uri::go("admin/categories");
-        }
-        elseif(isset($_REQUEST["btnNo"]))
-        {
+        } elseif (isset($_REQUEST["btnNo"])) {
             Jaris\Uri::go("admin/categories");
         }
     ?>

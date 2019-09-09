@@ -30,5 +30,3 @@ function books_install()
 
     Jaris\Types::add("book-page", $bookpage_fields);
 }
-
-?>

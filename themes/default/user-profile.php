@@ -13,7 +13,7 @@
         <img src="<?php print Jaris\Users::getPictureUrl($username) ?>" />
     </td>
 
-    <?php if($personal_text){ ?>
+    <?php if ($personal_text) { ?>
         <td class="personal-text">
             <?php print $personal_text ?>
         </td>

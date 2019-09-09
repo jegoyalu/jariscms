@@ -17,8 +17,7 @@ function simplemde_install()
                 "admin/settings/simplemde",
                 "simplemde"
             )
-        ) . "\">" . t("Configure Now") . "</a>")
+        ) . "\">" . t("Configure Now") . "</a>"
+    )
     ;
 }
-
-?>

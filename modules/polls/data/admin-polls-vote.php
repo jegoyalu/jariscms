@@ -17,17 +17,14 @@ row: 0
 
     field: content
     <?php
-        if(isset($_REQUEST["uri"]))
-        {
-            if(
+        if (isset($_REQUEST["uri"])) {
+            if (
                 !isset($_COOKIE["poll"][$_REQUEST["uri"]]) &&
                 !poll_expired($_REQUEST["uri"])
-            )
-            {
+            ) {
                 $page_data = Jaris\Pages::get($_REQUEST["uri"]);
 
-                if($page_data["type"] == "poll")
-                {
+                if ($page_data["type"] == "poll") {
                     $page_data["option_value"] = unserialize(
                         $page_data["option_value"]
                     );
@@ -49,23 +46,16 @@ row: 0
 
                     Jaris\View::addMessage(t("Your vote was successfully submitted."));
                 }
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(t("You have already voted!"), "error");
             }
 
-            if(isset($_REQUEST["actual_uri"]))
-            {
+            if (isset($_REQUEST["actual_uri"])) {
                 Jaris\Uri::go($_REQUEST["actual_uri"]);
-            }
-            else
-            {
+            } else {
                 Jaris\Uri::go($_REQUEST["uri"]);
             }
-        }
-        else
-        {
+        } else {
             Jaris\Uri::go("");
         }
     ?>

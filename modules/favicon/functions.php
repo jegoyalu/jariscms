@@ -12,17 +12,18 @@
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\View::SIGNAL_GET_META_TAGS,
-    function(&$meta_tags)
-    {
+    function (&$meta_tags) {
         $settings = Jaris\Settings::getAll("favicon");
 
         $url = Jaris\Uri::url(Jaris\Files::getDir("favicon"));
 
-        if(!isset($settings["favicon_enable"]))
+        if (!isset($settings["favicon_enable"])) {
             return;
+        }
 
-        if(!$settings["favicon_enable"])
+        if (!$settings["favicon_enable"]) {
             return;
+        }
 
         $meta_tags .=
             '<link rel="apple-touch-icon-precomposed" sizes="57x57" href="'.$url.'apple-touch-icon-57x57.png" />' . "\n"
@@ -51,24 +52,20 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\System::SIGNAL_GENERATE_ADMIN_PAGE,
-    function(&$sections)
-    {
+    function (&$sections) {
         $group = Jaris\Authentication::currentUserGroup();
 
         $title = t("Settings");
 
-        foreach($sections as $index => $sub_section)
-        {
-            if($sub_section["title"] == $title)
-            {
-                if(
+        foreach ($sections as $index => $sub_section) {
+            if ($sub_section["title"] == $title) {
+                if (
                     Jaris\Authentication::groupHasPermission(
                         "edit_settings",
                         Jaris\Authentication::currentUserGroup()
                     )
-                )
-                {
-                    $sub_section["sub_sections"][] = array(
+                ) {
+                    $sub_section["sub_sections"][] = [
                         "title" => t("Favicon"),
                         "url" => Jaris\Uri::url(
                             Jaris\Modules::getPageUri(
@@ -77,7 +74,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
                             )
                         ),
                         "description" => t("Set or modify the favorite icon of the site.")
-                    );
+                    ];
 
                     $sections[$index]["sub_sections"] = $sub_section["sub_sections"];
                 }
@@ -90,17 +87,15 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\View::SIGNAL_THEME_TABS,
-    function(&$tabs_array)
-    {
-        if(Jaris\Uri::get() == "admin/settings")
-        {
-            $tabs_array[0][t("Favicon")] = array(
+    function (&$tabs_array) {
+        if (Jaris\Uri::get() == "admin/settings") {
+            $tabs_array[0][t("Favicon")] = [
                 "uri" => Jaris\Modules::getPageUri(
                     "admin/settings/favicon",
                     "favicon"
                 ),
-                "arguments" => array()
-            );
+                "arguments" => []
+            ];
         }
     }
 );

@@ -21,5 +21,3 @@ function codemirror_install()
         "</a>"
     );
 }
-
-?>

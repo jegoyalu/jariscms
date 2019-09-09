@@ -12,16 +12,12 @@
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\System::SIGNAL_SAVE_PAGE_TO_CACHE,
-    function(&$uri, &$page_data, &$content)
-    {
+    function (&$uri, &$page_data, &$content) {
         $cache_expire = Jaris\Settings::get("cache_expire", "main");
 
-        if($cache_expire <= 0 || $cache_expire > 3600)
-        {
+        if ($cache_expire <= 0 || $cache_expire > 3600) {
             $seconds = 3600;
-        }
-        elseif($cache_expire <= 3600)
-        {
+        } elseif ($cache_expire <= 3600) {
             $seconds = $cache_expire;
         }
 
@@ -38,16 +34,12 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\System::SIGNAL_CACHE_PAGE,
-    function(&$uri, &$page_data, &$content)
-    {
+    function (&$uri, &$page_data, &$content) {
         $cache_expire = Jaris\Settings::get("cache_expire", "main");
 
-        if($cache_expire <= 0 || $cache_expire > 3600)
-        {
+        if ($cache_expire <= 0 || $cache_expire > 3600) {
             $seconds = 3600;
-        }
-        elseif($cache_expire <= 3600)
-        {
+        } elseif ($cache_expire <= 3600) {
             $seconds = $cache_expire;
         }
 
@@ -64,22 +56,18 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\System::SIGNAL_CLEAR_PAGE_CACHE,
-    function()
-    {
+    function () {
         header("X-Hiawatha-Cache-Remove: all");
     }
 );
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\Pages::SIGNAL_EDIT_PAGE_DATA,
-    function(&$page, &$new_data, &$page_path)
-    {
-        if(Jaris\Settings::get("enable_cache", "main"))
-        {
+    function (&$page, &$new_data, &$page_path) {
+        if (Jaris\Settings::get("enable_cache", "main")) {
             $uri = "/$page";
 
-            if(Jaris\Settings::get("home_page", "main") == $page)
-            {
+            if (Jaris\Settings::get("home_page", "main") == $page) {
                 $uri = "/";
             }
 
@@ -90,14 +78,11 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\Pages::SIGNAL_DELETE_PAGE,
-    function(&$page, &$page_path)
-    {
-        if(Jaris\Settings::get("enable_cache", "main"))
-        {
+    function (&$page, &$page_path) {
+        if (Jaris\Settings::get("enable_cache", "main")) {
             $uri = "/$page";
 
-            if(Jaris\Settings::get("home_page", "main") == $page)
-            {
+            if (Jaris\Settings::get("home_page", "main") == $page) {
                 $uri = "/";
             }
 

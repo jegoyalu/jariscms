@@ -17,34 +17,29 @@ row: 0
 
     field: content
     <?php
-        if(isset($_REQUEST["s"]) && Jaris\Authentication::currentUser() == "Guest")
-        {
+        if (isset($_REQUEST["s"]) && Jaris\Authentication::currentUser() == "Guest") {
             session_destroy();
             session_id($_REQUEST["s"]);
             session_start();
         }
 
-        Jaris\Authentication::protectedPage(array("delete_comments"));
+        Jaris\Authentication::protectedPage(["delete_comments"]);
 
-        if(!Jaris\Authentication::isAdminLogged())
-        {
-            if(!comments_is_from_current_user($_REQUEST["id"], $_REQUEST["page"]))
-            {
+        if (!Jaris\Authentication::isAdminLogged()) {
+            if (!comments_is_from_current_user($_REQUEST["id"], $_REQUEST["page"])) {
                 Jaris\Authentication::protectedPage();
             }
         }
 
-        if(
+        if (
             isset($_REQUEST["id"]) &&
             isset($_REQUEST["page"]) &&
             isset($_REQUEST["type"]) &&
             isset($_REQUEST["user"])
-        )
-        {
+        ) {
             $type_settings = comments_get_settings($_REQUEST["type"]);
 
-            if($type_settings["enabled"])
-            {
+            if ($type_settings["enabled"]) {
                 comments_delete(
                     $_REQUEST["id"],
                     $_REQUEST["page"],

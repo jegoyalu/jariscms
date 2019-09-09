@@ -1,11 +1,11 @@
 <div class="listing-block">
-    <?php if($image){ ?>
+    <?php if ($image) { ?>
     <div class="list-image">
         <?php print $image ?>
     </div>
     <?php } ?>
 
-    <?php if($title){ ?>
+    <?php if ($title) { ?>
     <div class="list-title">
         <?php print $title ?>
     </div>
@@ -13,19 +13,19 @@
 
     <div style="clear: both"></div>
 
-    <?php if($summary){ ?>
+    <?php if ($summary) { ?>
     <div class="list-summary">
         <?php print $summary ?>
     </div>
     <?php } ?>
 
-    <?php if($price){ ?>
+    <?php if ($price) { ?>
     <div class="list-price">
         <?php print $price ?>
     </div>
     <?php } ?>
 
-    <?php if($view_more){ ?>
+    <?php if ($view_more) { ?>
     <div class="list-view-more">
         <?php print $view_more ?>
     </div>

@@ -17,17 +17,14 @@ row: 0
 
     field: content
         <?php
-            Jaris\Authentication::protectedPage(array("edit_income_church_accounting"));
+            Jaris\Authentication::protectedPage(["edit_income_church_accounting"]);
 
             $elements = explode("/", $_REQUEST["f"]);
             $file = Jaris\Site::dataDir() . "church_accounting/{$_REQUEST["f"]}";
 
-            if(file_exists($file))
-            {
+            if (file_exists($file)) {
                 Jaris\FileSystem::printFile($file, $elements[2]);
-            }
-            else
-            {
+            } else {
                 Jaris\Site::setHTTPStatus(404);
                 print t("The file does not exist.");
             }

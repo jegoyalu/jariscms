@@ -14,8 +14,7 @@ function church_accounting_attachments_add($file, $month, $year)
 {
     $path = Jaris\Site::dataDir() . "church_accounting/$year/$month";
 
-    if(!is_dir($path))
-    {
+    if (!is_dir($path)) {
         Jaris\FileSystem::makeDir($path, 0755, true);
     }
 

@@ -14,8 +14,7 @@ $display_simplemde_on_current_page = false;
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\Forms::SIGNAL_GENERATE_FORM,
-    function(&$parameters, &$fieldsets)
-    {
+    function (&$parameters, &$fieldsets) {
         global $display_simplemde_on_current_page;
 
         $user_group = Jaris\Authentication::currentUserGroup();
@@ -33,32 +32,32 @@ Jaris\Signals\SignalHandler::listenWithParams(
             Jaris\Settings::get("disable_editor", "simplemde")
         );
 
-        if(!is_array($textarea_id))
-            $textarea_id = array();
-
-        if(!is_array($forms_to_display))
-            $forms_to_display = array();
-
-        if(!is_array($groups))
-            $groups = array();
-
-        if(!is_array($disable_editor))
-            $disable_editor = array();
-
-        if(!$textarea_id[$user_group])
-        {
-            $textarea_id[$user_group] = "content,pre_content,sub_content";
+        if (!is_array($textarea_id)) {
+            $textarea_id = [];
         }
-        else
-        {
+
+        if (!is_array($forms_to_display)) {
+            $forms_to_display = [];
+        }
+
+        if (!is_array($groups)) {
+            $groups = [];
+        }
+
+        if (!is_array($disable_editor)) {
+            $disable_editor = [];
+        }
+
+        if (!$textarea_id[$user_group]) {
+            $textarea_id[$user_group] = "content,pre_content,sub_content";
+        } else {
             $textarea_id[$user_group] = explode(
                 ",",
                 $textarea_id[$user_group]
             );
         }
 
-        if(!$forms_to_display[$user_group])
-        {
+        if (!$forms_to_display[$user_group]) {
             $forms_to_display[$user_group] =
                 "add-page-pages,edit-page-pages,translate-page,"
                 . "add-page-block,block-page-edit,add-block,block-edit,"
@@ -78,9 +77,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
                 . "animated-blocks-add,animated-blocks-edit,"
                 . "listing-blocks-add,listing-blocks-edit"
             ;
-        }
-        else
-        {
+        } else {
             $forms_to_display[$user_group] = explode(
                 ",",
                 $forms_to_display[$user_group]
@@ -88,35 +85,28 @@ Jaris\Signals\SignalHandler::listenWithParams(
         }
 
         //Check if current user is on one of the groups that can use the editor
-        if(!$groups[$user_group])
-        {
+        if (!$groups[$user_group]) {
             return;
         }
 
-        foreach(
+        foreach (
             $forms_to_display[$user_group]
             as
             $form_name
-        )
-        {
+        ) {
             $form_name = trim($form_name);
 
-            if($parameters["name"] == $form_name)
-            {
-                if($disable_editor[$user_group])
-                {
-                    if(isset($_REQUEST["disable_simplemde"]))
-                    {
+            if ($parameters["name"] == $form_name) {
+                if ($disable_editor[$user_group]) {
+                    if (isset($_REQUEST["disable_simplemde"])) {
                         Jaris\Session::addCookie("disable_simplemde", 1);
                     }
-                    if(isset($_REQUEST["enable_simplemde"]))
-                    {
+                    if (isset($_REQUEST["enable_simplemde"])) {
                         Jaris\Session::removeCookie("disable_simplemde");
                     }
                 }
 
-                foreach($textarea_id[$user_group] as $id)
-                {
+                foreach ($textarea_id[$user_group] as $id) {
                     $id = trim($id);
 
                     $full_id = $parameters["name"] . "-" . $id;
@@ -131,88 +121,74 @@ Jaris\Signals\SignalHandler::listenWithParams(
                     var simplemde = new SimpleMDE({ element: $('#$full_id')[0] });
                     </script>";
 
-                    $fields = array();
+                    $fields = [];
 
-                    foreach($fieldsets as $fieldsets_index => $fieldset_fields)
-                    {
+                    foreach ($fieldsets as $fieldsets_index => $fieldset_fields) {
                         $found = false;
-                        $fields = array();
+                        $fields = [];
 
-                        foreach(
+                        foreach (
                             $fieldset_fields["fields"]
                             as
                             $fields_index => $values
-                        )
-                        {
-                            if(!isset($values["id"]))
-                            {
+                        ) {
+                            if (!isset($values["id"])) {
                                 $values["id"] = $values["name"];
                             }
 
-                            if(
+                            if (
                                 $values["type"] == "textarea" &&
                                 $values["id"] == $id
-                            )
-                            {
-                                if($disable_editor[$user_group])
-                                {
-                                    if($_COOKIE["disable_simplemde"])
-                                    {
-                                        $fields[] = array(
+                            ) {
+                                if ($disable_editor[$user_group]) {
+                                    if ($_COOKIE["disable_simplemde"]) {
+                                        $fields[] = [
                                             "type" => "submit",
                                             "name" => "enable_simplemde",
                                             "value" => t("Enable Editor")
-                                        );
+                                        ];
 
                                         $fields[] = $values;
-                                    }
-                                    else
-                                    {
+                                    } else {
                                         $values["code"] = "style=\"width: 100%\" width=\"100%\"";
                                         $values["class"] = "simplemde";
 
                                         $fields[] = $values;
 
-                                        $fields[] = array(
+                                        $fields[] = [
                                             "type" => "other",
                                             "html_code" => $disable . $editor
-                                        );
+                                        ];
                                     }
-                                }
-                                else
-                                {
+                                } else {
                                     $values["code"] = "style=\"width: 100%\" width=\"100%\"";
                                     $values["class"] = "simplemde";
 
                                     $fields[] = $values;
 
-                                    $fields[] = array(
+                                    $fields[] = [
                                         "type" => "other",
                                         "html_code" => $editor
-                                    );
+                                    ];
                                 }
 
-                                $new_fields = array();
+                                $new_fields = [];
 
-                                foreach(
+                                foreach (
                                     $fieldset_fields["fields"]
                                     as
                                     $check_index => $field_data
-                                )
-                                {
+                                ) {
                                     //Copy new fields to the position of
                                     //replaced textarea with simplemde
-                                    if($check_index == $fields_index)
-                                    {
-                                        foreach($fields as $field)
-                                        {
+                                    if ($check_index == $fields_index) {
+                                        foreach ($fields as $field) {
                                             $new_fields[] = $field;
                                         }
                                     }
 
                                     //Copy the other fields on the fieldset
-                                    else
-                                    {
+                                    else {
                                         $new_fields[] = $field_data;
                                     }
                                 }
@@ -242,12 +218,10 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\System::SIGNAL_GET_SYSTEM_STYLES,
-    function(&$styles)
-    {
+    function (&$styles) {
         global $display_simplemde_on_current_page;
 
-        if($display_simplemde_on_current_page)
-        {
+        if ($display_simplemde_on_current_page) {
             $styles[] = Jaris\Uri::url(
                 Jaris\Modules::directory("simplemde")
                     . "simplemde/simplemde.min.css"
@@ -258,12 +232,10 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\System::SIGNAL_GET_SYSTEM_SCRIPTS,
-    function(&$scripts)
-    {
+    function (&$scripts) {
         global $display_simplemde_on_current_page;
 
-        if($display_simplemde_on_current_page)
-        {
+        if ($display_simplemde_on_current_page) {
             //$scripts[] = "//cdn.simplemde.com/4.5.8/standard/simplemde.js";
 
             $scripts[] = Jaris\Uri::url(
@@ -276,17 +248,15 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\View::SIGNAL_THEME_TABS,
-    function(&$tabs_array)
-    {
-        if(Jaris\Uri::get() == "admin/settings")
-        {
-            $tabs_array[0][t("Simple Markdown Editor")] = array(
+    function (&$tabs_array) {
+        if (Jaris\Uri::get() == "admin/settings") {
+            $tabs_array[0][t("Simple Markdown Editor")] = [
                 "uri" => Jaris\Modules::getPageUri(
                     "admin/settings/simplemde",
                     "simplemde"
                 ),
-                "arguments" => array()
-            );
+                "arguments" => []
+            ];
         }
     }
 );

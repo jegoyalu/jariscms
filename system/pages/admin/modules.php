@@ -19,7 +19,7 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("view_modules"));
+        Jaris\Authentication::protectedPage(["view_modules"]);
 
         Jaris\View::addSystemScript("optional/jquery.inlinesearch.js");
     ?>
@@ -51,13 +51,12 @@ row: 0
 
         $modules = Jaris\Modules::getAll();
 
-        foreach($modules as $module_path => $module_info)
-        {
+        foreach ($modules as $module_path => $module_info) {
             $title = t("View module info.");
 
             $more_url = Jaris\Uri::url(
                 "admin/modules/view",
-                array("path" => $module_path)
+                ["path" => $module_path]
             );
 
             $installed_version = Jaris\Modules::getInstalledVersion(
@@ -74,80 +73,71 @@ row: 0
             ;
 
             print "<td>";
-            if(Jaris\Modules::isInstalled($module_path))
-            {
+            if (Jaris\Modules::isInstalled($module_path)) {
                 print t("Enabled")
-                    . "<br />" 
-                    . t("Version installed:") 
-                    . " " 
+                    . "<br />"
+                    . t("Version installed:")
+                    . " "
                     . $installed_version
                 ;
 
-                if($installed_version < $module_info["version"])
-                {
-                    print "<br />" 
-                        . t("Actual version:") 
-                        . " " 
+                if ($installed_version < $module_info["version"]) {
+                    print "<br />"
+                        . t("Actual version:")
+                        . " "
                         . $module_info["version"]
                     ;
                 }
-            }
-            else
-            {
+            } else {
                 print t("Disabled")
-                    . "<br />" 
-                    . t("Version:") 
-                    . " " 
+                    . "<br />"
+                    . t("Version:")
+                    . " "
                     . $module_info["version"]
                 ;
             }
             print "</td>\n";
 
             print "<td>";
-            if(!Jaris\Modules::isInstalled($module_path))
-            {
+            if (!Jaris\Modules::isInstalled($module_path)) {
                 print "<a href=\"" .
                     Jaris\Uri::url(
                         "admin/modules/install",
-                        array("path" => $module_path)
+                        ["path" => $module_path]
                     ) . "\">" .
                     t("Install") .
                     "</a>"
                 ;
 
-                if(
-                    Jaris\Modules::directory($module_path) 
-                    != 
+                if (
+                    Jaris\Modules::directory($module_path)
+                    !=
                     "modules/$module_path/"
-                )
-                {
+                ) {
                     print "&nbsp;<a href=\"" .
                         Jaris\Uri::url(
                             "admin/modules/delete",
-                            array("path" => $module_path)
+                            ["path" => $module_path]
                         ) . "\">" .
                         t("Delete") .
                         "</a>"
                     ;
                 }
-            }
-            else
-            {
+            } else {
                 print "<a href=\"" .
                     Jaris\Uri::url(
                         "admin/modules/uninstall",
-                        array("path" => $module_path)
+                        ["path" => $module_path]
                     ) . "\">" .
                     t("Uninstall") .
                     "</a>"
                 ;
 
-                if($installed_version < $module_info["version"])
-                {
+                if ($installed_version < $module_info["version"]) {
                     print "&nbsp;<a href=\"" .
                         Jaris\Uri::url(
                             "admin/modules/upgrade",
-                            array("path" => $module_path)
+                            ["path" => $module_path]
                         ) . "\">" .
                         t("Upgrade") .
                         "</a>"
@@ -157,19 +147,14 @@ row: 0
             print "</td>\n";
 
             print "<td>";
-            if(isset($module_info["dependencies"]))
-            {
+            if (isset($module_info["dependencies"])) {
                 $dependencies = "";
-                foreach($module_info["dependencies"] as $dependency_name)
-                {
+                foreach ($module_info["dependencies"] as $dependency_name) {
                     $dependency_data = Jaris\Modules::get($dependency_name);
 
-                    if($dependency_data)
-                    {
+                    if ($dependency_data) {
                         $dependencies .= $dependency_data["name"] . ", ";
-                    }
-                    else
-                    {
+                    } else {
                         $dependencies .= $dependency_name . ", ";
                     }
 

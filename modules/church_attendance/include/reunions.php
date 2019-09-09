@@ -8,7 +8,7 @@
  * Functions to manage church accounting income/expenses categories.
  */
 
-function church_attendance_reunion_add($data, $members=array())
+function church_attendance_reunion_add($data, $members=[])
 {
     $activity_date = strtotime(
         "{$data['day']}-{$data['month']}-{$data['year']}"
@@ -66,8 +66,7 @@ function church_attendance_reunion_add($data, $members=array())
 
     Jaris\Sql::beginTransaction($db_members);
 
-    foreach($members as $member_data)
-    {
+    foreach ($members as $member_data) {
         $member_data = explode(",", $member_data);
 
         $insert = "insert into church_attendance_registry "
@@ -87,8 +86,7 @@ function church_attendance_reunion_add($data, $members=array())
 
         Jaris\Sql::query($insert, $db);
 
-        if($activity_date > $member_data[3])
-        {
+        if ($activity_date > $member_data[3]) {
             $update_member = "update church_attendance_members set "
                 . "last_visit_date = '$activity_date' "
                 . "where id=".$member_data[0]
@@ -107,7 +105,7 @@ function church_attendance_reunion_add($data, $members=array())
     Jaris\Sql::close($db);
 }
 
-function church_attendance_reunion_edit($id, $data, $members=array())
+function church_attendance_reunion_edit($id, $data, $members=[])
 {
     $activity_date = strtotime(
         "{$data['day']}-{$data['month']}-{$data['year']}"
@@ -165,8 +163,7 @@ function church_attendance_reunion_edit($id, $data, $members=array())
 
     Jaris\Sql::beginTransaction($db_members);
 
-    foreach($members as $member_data)
-    {
+    foreach ($members as $member_data) {
         $member_data = explode(",", $member_data);
 
         $insert = "insert into church_attendance_registry "
@@ -186,8 +183,7 @@ function church_attendance_reunion_edit($id, $data, $members=array())
 
         Jaris\Sql::query($insert, $db);
 
-        if($activity_date > $member_data[3])
-        {
+        if ($activity_date > $member_data[3]) {
             $update_member = "update church_attendance_members set "
                 . "last_visit_date = '$activity_date' "
                 . "where id=".$member_data[0]

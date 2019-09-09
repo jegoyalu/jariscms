@@ -19,12 +19,10 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("edit_settings"));
+        Jaris\Authentication::protectedPage(["edit_settings"]);
 
-        if(isset($_REQUEST["btnYes"]))
-        {
-            if(Jaris\Images::clearCache())
-            {
+        if (isset($_REQUEST["btnYes"])) {
+            if (Jaris\Images::clearCache()) {
                 Jaris\View::addMessage(
                     t("Image cache cleared successfully.")
                 );
@@ -32,9 +30,7 @@ row: 0
                 t("Cleared image cache.");
 
                 Jaris\Logger::info("Cleared image cache.");
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(
                     Jaris\System::errorMessage("write_error_data"),
                     "error"
@@ -42,9 +38,7 @@ row: 0
             }
 
             Jaris\Uri::go("admin/settings/advanced");
-        }
-        elseif(isset($_REQUEST["btnNo"]))
-        {
+        } elseif (isset($_REQUEST["btnNo"])) {
             Jaris\Uri::go("admin/settings/advanced");
         }
     ?>

@@ -12,19 +12,17 @@
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\View::SIGNAL_THEME_TABS,
-    function(&$tabs_array)
-    {
+    function (&$tabs_array) {
         $uri = Jaris\Uri::get();
-        switch($uri)
-        {
+        switch ($uri) {
             case "admin/settings":
-                $tabs_array[1][t("Google Translate")] = array(
+                $tabs_array[1][t("Google Translate")] = [
                     "uri" => Jaris\Modules::getPageUri(
                         "admin/settings/google-translate",
                         "google_translate"
                     ),
-                    "arguments" => array()
-                );
+                    "arguments" => []
+                ];
 
                 break;
         }

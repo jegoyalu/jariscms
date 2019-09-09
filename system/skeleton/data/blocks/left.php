@@ -27,29 +27,29 @@ row: 0
         $parameters["action"] = Jaris\Uri::url("admin/user");
         $parameters["method"] = "post";
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "name" => "username",
             "label" => t("Username:"),
             "id" => "block-username",
             "required" => true
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "password",
             "name" => "password",
             "label" => t("Password:"),
             "id" => "block-password",
             "required" => true
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "login",
             "value" => t("Login")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
         print Jaris\Forms::generate($parameters, $fieldset);
     ?>
@@ -69,12 +69,9 @@ row: 0
 
     field: return
     <?php
-        if(Jaris\Authentication::isUserLogged() || Jaris\Uri::get() == "admin/user")
-        {
+        if (Jaris\Authentication::isUserLogged() || Jaris\Uri::get() == "admin/user") {
             print "false";
-        }
-        else
-        {
+        } else {
             print "true";
         }
     ?>
@@ -97,11 +94,11 @@ row: 1
     field: content
     <?php
         print Jaris\View::getLinksHTML(
-            Jaris\Data::sort(
+        Jaris\Data::sort(
                 Jaris\Menus::getChildItems("navigation"),
                 "order"
             ),
-            "navigation"
+        "navigation"
         );
     ?>
     field;
@@ -116,12 +113,9 @@ row: 1
 
     field: return
     <?php
-        if(Jaris\Authentication::isUserLogged())
-        {
+        if (Jaris\Authentication::isUserLogged()) {
             print "true";
-        }
-        else
-        {
+        } else {
             print "false";
         }
     ?>

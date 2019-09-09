@@ -22,20 +22,16 @@ row: 0
         ;
 
         //Check if current user is on one of the groups that can use the editor
-        if($groups)
-        {
+        if ($groups) {
             $user_is_in_group = false;
-            foreach($groups as $machine_name => $value)
-            {
-                if(Jaris\Authentication::currentUserGroup() == $machine_name && $value)
-                {
+            foreach ($groups as $machine_name => $value) {
+                if (Jaris\Authentication::currentUserGroup() == $machine_name && $value) {
                     $user_is_in_group = true;
                     break;
                 }
             }
 
-            if(!Jaris\Authentication::isAdminLogged() && !$user_is_in_group)
-            {
+            if (!Jaris\Authentication::isAdminLogged() && !$user_is_in_group) {
                 print "<h2>Access Denied</h2>";
                 exit;
             }
@@ -96,21 +92,17 @@ row: 0
     <?php
         $images = Jaris\Pages\Images::getList($uri);
 
-        if($uri && $images)
-        {
+        if ($uri && $images) {
             $image_list = "";
 
-            foreach($images as $id => $fields)
-            {
+            foreach ($images as $id => $fields) {
                 $image_url = Jaris\Uri::url("image/$uri/{$fields['name']}");
-                $image_thumbnail = Jaris\Uri::url("image/$uri/{$fields['name']}", array("w" => "100"));
+                $image_thumbnail = Jaris\Uri::url("image/$uri/{$fields['name']}", ["w" => "100"]);
                 $image_list .= "<a title=\"{$fields['description']}\" href='#' onclick='WantThis(\"$image_url\", \"{$fields['description']}\")'><img src=\"$image_thumbnail\" /></a>";
             }
 
             print $image_list;
-        }
-        else
-        {
+        } else {
             print "<h2>" . t("No images available.") . "</h2>";
         }
     ?>

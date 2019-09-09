@@ -9,7 +9,7 @@
 
     <div style="clear: both"></div>
 
-    <?php if($reply_to && !$include_replies){ ?>
+    <?php if ($reply_to && !$include_replies) { ?>
     <div class="comment-reply-to">
       <?php print t("Reply to:") . " " . $reply_user_data["name"]; ?>
     </div>
@@ -17,7 +17,7 @@
 
     <div class="comment-content"><?php print $content ?></div>
 
-    <?php if($include_replies){ ?>
+    <?php if ($include_replies) { ?>
     <div class="comment-replies">
       <?php print $replies ?>
     </div>

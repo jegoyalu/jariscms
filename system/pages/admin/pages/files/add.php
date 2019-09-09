@@ -19,15 +19,13 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("add_files"));
+        Jaris\Authentication::protectedPage(["add_files"]);
 
-        if(!isset($_REQUEST["uri"]))
-        {
+        if (!isset($_REQUEST["uri"])) {
             Jaris\Uri::go("");
         }
 
-        if(!Jaris\Pages::userIsOwner($_REQUEST["uri"]))
-        {
+        if (!Jaris\Pages::userIsOwner($_REQUEST["uri"])) {
             Jaris\Authentication::protectedPage();
         }
 
@@ -45,45 +43,41 @@ row: 0
         ;
         $file_count = count(Jaris\Pages\Files::getList($_REQUEST["uri"]));
 
-        if($maximum_files == "0")
-        {
+        if ($maximum_files == "0") {
             Jaris\View::addMessage(
                 t("File uploads not permitted for this content type.")
             );
 
             Jaris\Uri::go(
                 "admin/pages/files",
-                array("uri" => $_REQUEST["uri"])
+                ["uri" => $_REQUEST["uri"]]
             );
-        }
-        elseif($file_count >= $maximum_files && $maximum_files != "-1")
-        {
+        } elseif ($file_count >= $maximum_files && $maximum_files != "-1") {
             Jaris\View::addMessage(t("Maximum file uploads reached."));
 
             Jaris\Uri::go(
                 "admin/pages/files",
-                array("uri" => $_REQUEST["uri"])
+                ["uri" => $_REQUEST["uri"]]
             );
         }
 
-        $arguments = array("uri" => $_REQUEST["uri"]);
+        $arguments = ["uri" => $_REQUEST["uri"]];
 
-        if(
+        if (
             isset($_REQUEST["btnSave"]) &&
             !Jaris\Forms::requiredFieldEmpty("add-file")
-        )
-        {
+        ) {
             $message = "";
-            foreach($_FILES["file"]["name"] as $file_index => $file_name)
-            {
-                if($file_count >= $maximum_files && $maximum_files != "-1")
+            foreach ($_FILES["file"]["name"] as $file_index => $file_name) {
+                if ($file_count >= $maximum_files && $maximum_files != "-1") {
                     break;
+                }
 
-                $file = array(
+                $file = [
                     "name" => $file_name,
                     "tmp_name" => $_FILES["file"]["tmp_name"][$file_index],
                     "type" => $_FILES["file"]["type"][$file_index]
-                );
+                ];
 
                 $message = Jaris\Pages\Files::add(
                     $file,
@@ -91,28 +85,22 @@ row: 0
                     $_REQUEST["uri"]
                 );
 
-                if($message == "true")
-                {
+                if ($message == "true") {
                     $file_count++;
 
                     continue;
-                }
-                else
-                {
+                } else {
                     Jaris\View::addMessage($message, "error");
                     break;
                 }
             }
 
-            if($message == "true")
-            {
+            if ($message == "true") {
                 Jaris\View::addMessage(t("The file was successfully added."));
             }
 
             Jaris\Uri::go("admin/pages/files", $arguments);
-        }
-        elseif(isset($_REQUEST["btnCancel"]))
-        {
+        } elseif (isset($_REQUEST["btnCancel"])) {
             Jaris\Uri::go("admin/pages/files", $arguments);
         }
 
@@ -122,13 +110,13 @@ row: 0
         $parameters["method"] = "post";
         $parameters["enctype"] = "multipart/form-data";
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "hidden",
             "name" => "uri",
             "value" => $_REQUEST["uri"]
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "file",
             "name" => "file",
             "description_field" => true,
@@ -136,21 +124,21 @@ row: 0
             "label" => t("File:"),
             "id" => "file",
             "required" => true
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnSave",
             "value" => t("Save")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnCancel",
             "value" => t("Cancel")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
         print Jaris\Forms::generate($parameters, $fieldset);
     ?>

@@ -18,9 +18,9 @@ class Timezones
  *
  * @return array List of timezones strings.
  */
-static function getList(): array
-{
-    $timezones = array(
+    public static function getList(): array
+    {
+        $timezones = [
         "Africa/Abidjan",
         "Africa/Accra",
         "Africa/Addis_Ababa",
@@ -585,11 +585,10 @@ static function getList(): array
         "W-SU",
         "WET",
         "Zulu"
-    );
+    ];
 
-    sort($timezones);
+        sort($timezones);
 
-    return $timezones;
-}
-
+        return $timezones;
+    }
 }

@@ -10,7 +10,8 @@
  * @package Minify
  * @author Stephen Clay <steve@mrclay.org>
  */
-class Minify_Loader {
+class Minify_Loader
+{
     public function loadClass($class)
     {
         $file = dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR;
@@ -20,9 +21,9 @@ class Minify_Loader {
         }
     }
 
-    static public function register()
+    public static function register()
     {
         $inst = new self();
-        spl_autoload_register(array($inst, 'loadClass'));
+        spl_autoload_register([$inst, 'loadClass']);
     }
 }

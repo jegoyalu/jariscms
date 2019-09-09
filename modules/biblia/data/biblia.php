@@ -15,43 +15,37 @@ exit;
 row: 0
     field: title
     <?php
-        if(!isset($_REQUEST["biblia"]))
-        {
+        if (!isset($_REQUEST["biblia"])) {
             print "Lista de biblias de dominio público";
-        }
-        elseif(
+        } elseif (
             isset($_REQUEST["libro"])
             &&
             isset($_REQUEST["capitulo"])
             &&
             isset($_REQUEST["versiculo"])
-        )
-        {
+        ) {
             print biblia_get_libro_label(
-                    $_REQUEST["libro"], $_REQUEST["biblia"]
+                $_REQUEST["libro"],
+                $_REQUEST["biblia"]
                 )
                 . " "
                 . intval($_REQUEST["capitulo"])
                 . ":"
                 . biblia_get_versiculo_text($_REQUEST["versiculo"])
             ;
-        }
-        elseif(isset($_REQUEST["libro"]) && isset($_REQUEST["capitulo"]))
-        {
+        } elseif (isset($_REQUEST["libro"]) && isset($_REQUEST["capitulo"])) {
             print biblia_get_libro_label(
-                    $_REQUEST["libro"], $_REQUEST["biblia"]
+                $_REQUEST["libro"],
+                $_REQUEST["biblia"]
                 ) . " " . intval($_REQUEST["capitulo"])
             ;
-        }
-        elseif(isset($_REQUEST["libro"]))
-        {
+        } elseif (isset($_REQUEST["libro"])) {
             print biblia_get_libro_label(
-                    $_REQUEST["libro"], $_REQUEST["biblia"]
+                $_REQUEST["libro"],
+                $_REQUEST["biblia"]
                 )
             ;
-        }
-        else
-        {
+        } else {
             print biblia_get_title($_REQUEST["biblia"]);
         }
     ?>
@@ -60,17 +54,15 @@ row: 0
     field: content
     <?php
         Jaris\View::addStyle(
-            Jaris\Modules::directory("biblia") . "styles/biblia.css"
+        Jaris\Modules::directory("biblia") . "styles/biblia.css"
         );
 
-        if(!isset($_REQUEST["biblia"]))
-        {
+        if (!isset($_REQUEST["biblia"])) {
             print '<div id="biblias">';
 
             $biblias = biblia_get_all();
 
-            foreach($biblias as $biblia_doc => $biblia)
-            {
+            foreach ($biblias as $biblia_doc => $biblia) {
                 print '<div class="biblia">';
 
                 $title_url = Jaris\Uri::url(
@@ -113,11 +105,9 @@ row: 0
             }
 
             print '</div>';
-        }
-        elseif(
+        } elseif (
             isset($_REQUEST["biblia"]) && isset($_REQUEST["versiculo"])
-        )
-        {
+        ) {
             print "<h3 class=\"version-titulo\">"
                 . biblia_get_title($_REQUEST["biblia"])
                 . "</h3>"
@@ -127,23 +117,17 @@ row: 0
             $versiculos_comma_parts = explode(",", $_REQUEST["versiculo"]);
             $versiculos_text = biblia_get_versiculo_text($_REQUEST["versiculo"]);
 
-            if(count($versiculos_parts) > 1)
-            {
+            if (count($versiculos_parts) > 1) {
                 $versiculos = range($versiculos_parts[0], $versiculos_parts[1]);
-            }
-            elseif(count($versiculos_comma_parts) > 1)
-            {
+            } elseif (count($versiculos_comma_parts) > 1) {
                 $versiculos = $versiculos_comma_parts;
-            }
-            else
-            {
-                $versiculos = array($_REQUEST["versiculo"]);
+            } else {
+                $versiculos = [$_REQUEST["versiculo"]];
             }
 
             print '<div id="versiculos">';
-            foreach($versiculos as $versiculo_numero)
-            {
-                foreach(
+            foreach ($versiculos as $versiculo_numero) {
+                foreach (
                     biblia_get_versiculo(
                         $versiculo_numero,
                         $_REQUEST["capitulo"],
@@ -152,8 +136,7 @@ row: 0
                     )
                     as
                     $versiculo
-                )
-                {
+                ) {
                     print '<div class="versiculo v'.$versiculo["versiculo"].'">'
                         . '<a id="'.$versiculo["versiculo"].'"></a>'
                         . '<strong>' . $versiculo["versiculo"] . '</strong> '
@@ -189,17 +172,15 @@ row: 0
                 . "</a>"
                 . '</div>'
             ;
-        }
-        elseif(
+        } elseif (
             isset($_REQUEST["biblia"])
-        )
-        {
+        ) {
             print "<h3 class=\"version-titulo\">"
                 . biblia_get_title($_REQUEST["biblia"])
                 . "</h3>"
             ;
 
-            $parameters = array();
+            $parameters = [];
             $parameters["name"] = "biblia";
             $parameters["action"] = Jaris\Uri::url(
                 Jaris\Modules::getPageUri("biblia", "biblia")
@@ -208,20 +189,20 @@ row: 0
 
             $fields = biblia_get_form_fields("biblia", $_REQUEST["biblia"]);
 
-            $fieldset = array();
+            $fieldset = [];
 
-            $fieldset[] = array(
+            $fieldset[] = [
                 "fields" => $fields
-            );
+            ];
 
             print Jaris\Forms::generate($parameters, $fieldset);
 
             $link = Jaris\Uri::url(
                 Jaris\Modules::getPageUri("biblia/buscar", "biblia"),
-                array(
+                [
                     "libro" => $_REQUEST["libro"],
                     "biblia" => $_REQUEST["biblia"]
-                )
+                ]
             );
 
             print '<div style="text-align: center; margin-top: 10px; margin-bottom: 10px;">'
@@ -232,7 +213,7 @@ row: 0
             ;
 
             print '<div id="versiculos">';
-            foreach(
+            foreach (
                 biblia_get_capitulo(
                     $_REQUEST["capitulo"],
                     $_REQUEST["libro"],
@@ -240,8 +221,7 @@ row: 0
                 )
                 as
                 $versiculo
-            )
-            {
+            ) {
                 $link = Jaris\Uri::url(
                     Jaris\Modules::getPageUri("biblia", "biblia")
                     . "/"

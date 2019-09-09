@@ -13,13 +13,13 @@ row: 0
 
 	field: content
 		<?php
-		print Jaris\View::getLinksHTML(
-            Jaris\Data::sort(
-		        Jaris\Menus::getChildItems("primary"),
-		        "order"
-		    ),
-		    "primary"
-		);
+        print Jaris\View::getLinksHTML(
+    Jaris\Data::sort(
+                Jaris\Menus::getChildItems("primary"),
+                "order"
+            ),
+    "primary"
+        );
         ?>
 	field;
 
@@ -74,13 +74,13 @@ row: 1
 
 	field: content
 		<?php
-		print Jaris\View::getLinksHTML(
+        print Jaris\View::getLinksHTML(
             Jaris\Data::sort(
-		        Jaris\Menus::getChildItems("secondary"),
-		        "order"
-		    ),
-		    "secondary"
-		);
+                Jaris\Menus::getChildItems("secondary"),
+                "order"
+            ),
+            "secondary"
+        );
         ?>
 	field;
 
@@ -135,32 +135,32 @@ row: 2
 
 	field: content
 		<?php
-		$parameters["class"] = "block-search";
-		$parameters["action"] = Jaris\Uri::url("search");
-		$parameters["method"] = "get";
+        $parameters["class"] = "block-search";
+        $parameters["action"] = Jaris\Uri::url("search");
+        $parameters["method"] = "get";
 
-		$fields[] = array(
-		    "type" => "hidden",
-		    "name" => "search",
-		    "value" => 1
-		);
+        $fields[] = [
+            "type" => "hidden",
+            "name" => "search",
+            "value" => 1
+        ];
 
-		$fields[] = array(
-		    "type" => "text",
-		    "name" => "keywords",
-		    "id" => "search",
-		    "value" => empty($_REQUEST["keywords"]) ?
-		        "" : $_REQUEST["keywords"]
-		);
+        $fields[] = [
+            "type" => "text",
+            "name" => "keywords",
+            "id" => "search",
+            "value" => empty($_REQUEST["keywords"]) ?
+                "" : $_REQUEST["keywords"]
+        ];
 
-		$fields[] = array(
-		    "type" => "submit",
-		    "value" => t("Search")
-		);
+        $fields[] = [
+            "type" => "submit",
+            "value" => t("Search")
+        ];
 
-		$fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
-		print Jaris\Forms::generate($parameters, $fieldset);
+        print Jaris\Forms::generate($parameters, $fieldset);
         ?>
 	field;
 
@@ -178,14 +178,11 @@ row: 2
 
 	field: return
 		<?php
-		if(Jaris\Uri::get() == "search")
-		{
-		    print "false";
-		}
-		else
-		{
-		    print "true";
-		}
+        if (Jaris\Uri::get() == "search") {
+            print "false";
+        } else {
+            print "true";
+        }
         ?>
 	field;
 
@@ -220,35 +217,35 @@ row: 3
 
 	field: content
 		<?php
-		$parameters["class"] = "block-login";
-		$parameters["action"] = Jaris\Uri::url("admin/user");
-		$parameters["method"] = "post";
+        $parameters["class"] = "block-login";
+        $parameters["action"] = Jaris\Uri::url("admin/user");
+        $parameters["method"] = "post";
 
-		$fields[] = array(
-		    "type" => "text",
-		    "name" => "username",
-		    "label" => t("Username:"),
-		    "id" => "block-username",
-		    "required" => true
-		);
+        $fields[] = [
+            "type" => "text",
+            "name" => "username",
+            "label" => t("Username:"),
+            "id" => "block-username",
+            "required" => true
+        ];
 
-		$fields[] = array(
-		    "type" => "password",
-		    "name" => "password",
-		    "label" => t("Password:"),
-		    "id" => "block-password",
-		    "required" => true
-		);
+        $fields[] = [
+            "type" => "password",
+            "name" => "password",
+            "label" => t("Password:"),
+            "id" => "block-password",
+            "required" => true
+        ];
 
-		$fields[] = array(
-		    "type" => "submit",
-		    "name" => "login",
-		    "value" => t("Login")
-		);
+        $fields[] = [
+            "type" => "submit",
+            "name" => "login",
+            "value" => t("Login")
+        ];
 
-		$fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
-		print Jaris\Forms::generate($parameters, $fieldset);
+        print Jaris\Forms::generate($parameters, $fieldset);
         ?>
 	field;
 
@@ -266,17 +263,14 @@ row: 3
 
 	field: return
 		<?php
-		if(
+        if (
             Jaris\Authentication::isUserLogged() ||
             Jaris\Uri::url() == "admin/user"
-        )
-		{
-		    print "false";
-		}
-		else
-		{
-		    print "true";
-		}
+        ) {
+            print "false";
+        } else {
+            print "true";
+        }
         ?>
 	field;
 
@@ -311,13 +305,13 @@ row: 4
 
 	field: content
 		<?php
-		print Jaris\View::getLinksHTML(
+        print Jaris\View::getLinksHTML(
             Jaris\Data::sort(
-		        Jaris\Menus::getChildItems("navigation"),
-		        "order"
-		    ),
-		    "navigation"
-		);
+                Jaris\Menus::getChildItems("navigation"),
+                "order"
+            ),
+            "navigation"
+        );
         ?>
 	field;
 
@@ -331,15 +325,12 @@ row: 4
 
 	field: return
 		<?php
-		if(Jaris\Authentication::isUserLogged())
-		{
-		    print "true";
-		}
-		else
-		{
-		    print "false";
-		}
-		    ?>
+        if (Jaris\Authentication::isUserLogged()) {
+            print "true";
+        } else {
+            print "false";
+        }
+            ?>
 	field;
 
 	field: order
@@ -381,13 +372,13 @@ row: 5
 
 	field: content
 		<?php
-		print Jaris\View::getLinksHTML(
-            Jaris\Data::sort(
-		        Jaris\Menus::getChildItems("about"),
-		        "order"
-		    ),
-		    "about"
-		);
+        print Jaris\View::getLinksHTML(
+                Jaris\Data::sort(
+                Jaris\Menus::getChildItems("about"),
+                "order"
+            ),
+                "about"
+        );
         ?>
 	field;
 
@@ -442,13 +433,13 @@ row: 6
 
 	field: content
 		<?php
-		print Jaris\View::getLinksHTML(
+        print Jaris\View::getLinksHTML(
             Jaris\Data::sort(
-		        Jaris\Menus::getChildItems("extend"),
-		        "order"
-		    ),
-		    "extend"
-		);
+                Jaris\Menus::getChildItems("extend"),
+                "order"
+            ),
+            "extend"
+        );
         ?>
 	field;
 
@@ -503,13 +494,13 @@ row: 7
 
 	field: content
 		<?php
-		print Jaris\View::getLinksHTML(
+        print Jaris\View::getLinksHTML(
             Jaris\Data::sort(
-		        Jaris\Menus::getChildItems("support"),
-		        "order"
-		    ),
-		    "support"
-		);
+                Jaris\Menus::getChildItems("support"),
+                "order"
+            ),
+            "support"
+        );
         ?>
 	field;
 

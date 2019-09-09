@@ -17,19 +17,18 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("edit_settings"));
+        Jaris\Authentication::protectedPage(["edit_settings"]);
 
         $backgrounds_settings = Jaris\Settings::getAll("parallax");
         $backgrounds = unserialize($backgrounds_settings["parallax_backgrounds"]);
 
         $background = $backgrounds[intval($_REQUEST["id"])];
 
-        if(
+        if (
             isset($_REQUEST["btnSave"])
             &&
             !Jaris\Forms::requiredFieldEmpty("parallax-edit")
-        )
-        {
+        ) {
             $fields["description"] = $_REQUEST["description"];
             $fields["element"] = trim($_REQUEST["element"]);
             $fields["vertical_position"] = $_REQUEST["vertical_position"];
@@ -40,25 +39,21 @@ row: 0
             $fields["pages"] = $_REQUEST["pages"];
             $fields["image"] = $background["image"];
 
-            if(
+            if (
                 isset($_FILES["image"])
                 &&
                 file_exists($_FILES["image"]["tmp_name"])
-            )
-            {
-                if($_FILES["image"]["type"] == "image/png" ||
+            ) {
+                if ($_FILES["image"]["type"] == "image/png" ||
                     $_FILES["image"]["type"] == "image/jpeg" ||
                     $_FILES["image"]["type"] == "image/pjpeg" ||
                     $_FILES["image"]["type"] == "image/gif"
-                )
-                {
+                ) {
                     $fields["image"] = Jaris\Files::addUpload(
                         $_FILES["image"],
                         "parallax"
                     );
-                }
-                else
-                {
+                } else {
                     Jaris\View::addMessage(
                         Jaris\System::errorMessage("image_file_type"),
                         "error"
@@ -66,23 +61,20 @@ row: 0
                 }
             }
 
-            if($fields["image"])
-            {
+            if ($fields["image"]) {
                 $current_image = $background["image"];
 
                 $backgrounds[intval($_REQUEST["id"])] = $fields;
 
-                if(
+                if (
                     Jaris\Settings::save(
                         "parallax_backgrounds",
                         serialize($backgrounds),
                         "parallax"
                     )
-                )
-                {
+                ) {
                     //Remove old background
-                    if($current_image != $fields["image"])
-                    {
+                    if ($current_image != $fields["image"]) {
                         Jaris\Files::delete($current_image, "parallax");
 
                         chmod(
@@ -99,17 +91,13 @@ row: 0
                             "parallax"
                         )
                     );
-                }
-                else
-                {
+                } else {
                     Jaris\View::addMessage(
                         Jaris\System::errorMessage("write_error_data"),
                         "error"
                     );
                 }
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(
                     t("The image could not be moved to files/parallax directory."),
                     "error"
@@ -118,10 +106,8 @@ row: 0
 
             //Uninitialize fields variable to not
             //conflict with form generation below
-            $fields = array();
-        }
-        elseif(isset($_REQUEST["btnCancel"]))
-        {
+            $fields = [];
+        } elseif (isset($_REQUEST["btnCancel"])) {
             Jaris\Uri::go(
                 Jaris\Modules::getPageUri(
                     "admin/settings/parallax",
@@ -153,37 +139,37 @@ row: 0
             $background["pages"]
         ;
 
-        $fields_main[] = array(
+        $fields_main[] = [
             "type" => "hidden",
             "name" => "id",
             "value" => $_REQUEST["id"]
-        );
+        ];
 
-        $fields_main[] = array(
+        $fields_main[] = [
             "type" => "text",
             "label" => t("Description:"),
             "value" => $description,
             "name" => "description",
             "description" => t("Description of the background image like for example: January 2011 special product promotion."),
             "required" => true
-        );
+        ];
 
-        $fields_main[] = array(
+        $fields_main[] = [
             "type" => "other",
             "html_code" => "<div style=\"margin-top: 10px;\"><strong>" .
             t("Current image:") .
             "</strong><hr /><img width=\"300px\" src=\"" .
             Jaris\Uri::url(Jaris\Files::get($background["image"], "parallax")) .
             "\" /></div>"
-        );
+        ];
 
-        $fields_main[] = array(
+        $fields_main[] = [
             "type" => "file",
             "name" => "image",
             "label" => t("New background image file:")
-        );
+        ];
 
-        $fields_main[] = array(
+        $fields_main[] = [
             "type" => "text",
             "label" => t("Element:"),
             "value" => $_REQUEST["element"] ?
@@ -192,9 +178,9 @@ row: 0
                 $background["element"],
             "name" => "element",
             "description" => t("The css selector of an explicit element to put the background image.")
-        );
+        ];
 
-        $fields_main[] = array(
+        $fields_main[] = [
             "type" => "color",
             "label" => t("Background color:"),
             "value" => $_REQUEST["background_color"] ?
@@ -203,106 +189,106 @@ row: 0
                 $background["background_color"],
             "name" => "background_color",
             "description" => t("The overall background color of the body.")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields_main);
+        $fieldset[] = ["fields" => $fields_main];
 
-        $position_fields[] = array(
+        $position_fields[] = [
             "type" => "radio",
             "name" => "vertical_position",
             "label" => "Vertical:",
-            "value" => array(
+            "value" => [
                 t("Top") => "top",
                 t("Center") => "center",
                 t("Bottom") => "bottom"
-            ),
+            ],
             "checked" => $_REQUEST["vertical_position"] ?
                 $_REQUEST["vertical_position"]
                 :
                 $background["vertical_position"]
-        );
+        ];
 
-        $position_fields[] = array(
+        $position_fields[] = [
             "type" => "radio",
             "name" => "horizontal_position",
             "label" => "Horizontal:",
-            "value" => array(
+            "value" => [
                 t("Left") => "left",
                 t("Center") => "center",
                 t("Right") => "right"
-            ),
+            ],
             "checked" => $_REQUEST["horizontal_position"] ?
                 $_REQUEST["horizontal_position"]
                 :
                 $background["horizontal_position"]
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "name" => t("Position"),
             "fields" => $position_fields,
             "collapsible" => true,
             "collapsed" => true
-        );
+        ];
 
-        $size_fields[] = array(
+        $size_fields[] = [
             "type" => "radio",
             "name" => "background_size",
-            "value" => array(
+            "value" => [
                 "cover" => "cover",
                 "auto" => "auto",
                 "contain" => "contain"
-            ),
+            ],
             "checked" => $_REQUEST["background_size"] ?
                 $_REQUEST["background_size"]
                 :
                 $background["background_size"]
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "name" => t("Size"),
             "fields" => $size_fields,
             "collapsible" => true,
             "collapsed" => true
-        );
+        ];
 
         $display_rules[t("Display in all pages except the listed ones.")] = "all_except_listed";
         $display_rules[t("Just display on the listed pages.")] = "just_listed";
 
-        $fields_pages[] = array(
+        $fields_pages[] = [
             "type" => "radio",
             "checked" => $display_rule,
             "name" => "display_rule",
             "id" => "display_rule",
             "value" => $display_rules
-        );
+        ];
 
-        $fields_pages[] = array(
+        $fields_pages[] = [
             "type" => "uriarea",
             "name" => "pages",
             "label" => t("Pages:"),
             "id" => "pages",
             "value" => $pages
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "fields" => $fields_pages,
             "name" => "Pages to display",
             "description" => t("List of uri's separated by comma (,). Also supports the wildcard (*), for example: my-section/*")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnSave",
             "value" => t("Save")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnCancel",
             "value" => t("Cancel")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
         print Jaris\Forms::generate($parameters, $fieldset);
     ?>

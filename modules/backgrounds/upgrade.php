@@ -12,12 +12,10 @@
 
 function backgrounds_upgrade()
 {
-    if(is_dir("files/backgrounds"))
-    {
+    if (is_dir("files/backgrounds")) {
         $target = rtrim(Jaris\Files::getDir("backgrounds"), "/");
 
-        if(!is_dir($target))
-        {
+        if (!is_dir($target)) {
             Jaris\FileSystem::makeDir($target, 0755, true);
         }
 
@@ -27,5 +25,3 @@ function backgrounds_upgrade()
         );
     }
 }
-
-?>

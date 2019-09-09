@@ -18,21 +18,17 @@ row: 0
     field: content
     <?php
         Jaris\Authentication::protectedPage(
-            array("manage_groups_church_attendance")
+    ["manage_groups_church_attendance"]
         );
 
-        if(isset($_REQUEST["action"]))
-        {
-            if($_REQUEST["action"] == "add")
-            {
+        if (isset($_REQUEST["action"])) {
+            if ($_REQUEST["action"] == "add") {
                 church_attendance_group_add($_REQUEST["label"]);
-            }
-            elseif($_REQUEST["action"] == "edit")
-            {
-                foreach($_REQUEST["id"] as $index=>$id)
-                {
-                    if($id == "5")
+            } elseif ($_REQUEST["action"] == "edit") {
+                foreach ($_REQUEST["id"] as $index=>$id) {
+                    if ($id == "5") {
                         continue;
+                    }
 
                     church_attendance_group_edit(
                         $id,
@@ -53,36 +49,35 @@ row: 0
         );
         $parameters["method"] = "post";
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "hidden",
             "name" => "action",
             "value" => "add"
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "label" => t("Label:"),
             "name" => "label"
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnAdd",
             "value" => t("Add")
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "name" => t("Add Group"),
             "fields" => $fields,
             "collapsible" => true,
             "collapsed" => count($elements) > 0
-        );
+        ];
 
         print Jaris\Forms::generate($parameters, $fieldset);
 
         // List elements
-        if(is_array($elements) && count($elements) > 0)
-        {
+        if (is_array($elements) && count($elements) > 0) {
             print '<form action="'.Jaris\Uri::url(Jaris\Uri::get()).'" method="POST">';
             print '<input type="hidden" name="action" value="edit" />';
             print "<table class=\"navigation-list\">";
@@ -94,12 +89,10 @@ row: 0
             print "</thead>";
 
             print "<tbody>";
-            foreach($elements as $id=>$label)
-            {
+            foreach ($elements as $id=>$label) {
                 $readonly = "";
 
-                if($id == 5)
-                {
+                if ($id == 5) {
                     $readonly .= "readonly=\"readonly\"";
                 }
 
@@ -115,12 +108,11 @@ row: 0
                         "admin/settings/church-attendance/groups/delete",
                         "church_attendance"
                     ),
-                    array("id"=>$id)
+                    ["id"=>$id]
                 );
 
                 print "<td>";
-                if($id > 5)
-                {
+                if ($id > 5) {
                     print '<a href="'.$delete_url.'">'.t("Delete").'</a>';
                 }
                 print "</td>";

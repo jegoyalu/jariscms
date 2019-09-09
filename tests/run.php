@@ -6,13 +6,13 @@
  * https://opensource.org/licenses/GPL-3.0.
  */
 
-if(php_sapi_name() != "cli")
+if (php_sapi_name() != "cli") {
     exit;
+}
 
 chdir(__DIR__ . "/../");
 
-if(!is_dir("sites/default/data/users"))
-{
+if (!is_dir("sites/default/data/users")) {
     print "You must first make a valid jariscms installation.";
     exit;
 }
@@ -21,20 +21,17 @@ if(!is_dir("sites/default/data/users"))
 test_create_testing_account();
 
 // Create output directory.
-if(!is_dir("tests/out"))
-{
+if (!is_dir("tests/out")) {
     mkdir("tests/out");
 }
 
 // Create output directory.
-if(!is_dir("tests/out/pages_core"))
-{
+if (!is_dir("tests/out/pages_core")) {
     mkdir("tests/out/pages_core");
 }
 
 // Deletes test.log
-if(file_exists("tests/out/test.log"))
-{
+if (file_exists("tests/out/test.log")) {
     unlink("tests/out/test.log");
 }
 
@@ -52,9 +49,9 @@ file_put_contents(
 test_search_files(
     "system/pages",
     "/.*\.php/",
-    function($path){
+    function ($path) {
         $path = str_replace(
-            array("system/pages/", ".php"),
+            ["system/pages/", ".php"],
             "",
             $path
         );
@@ -78,15 +75,14 @@ test_save_errors();
  */
 function test_create_testing_account()
 {
-    if(!is_dir("sites/default/data/users/administrator/t/te/test"))
-    {
+    if (!is_dir("sites/default/data/users/administrator/t/te/test")) {
         // Create testing user account
         mkdir("sites/default/data/users/administrator/t/te/test", 0755, true);
     }
 
     file_put_contents(
         "sites/default/data/users/administrator/t/te/test/data.php",
-"
+        "
 <?php exit; ?>
 
 row: 0
@@ -131,9 +127,8 @@ function test_execute_page($path)
 {
     global $test_errors;
 
-    if(!is_array($test_errors))
-    {
-        $test_errors = array();
+    if (!is_array($test_errors)) {
+        $test_errors = [];
     }
 
     static $count = 1;
@@ -146,19 +141,14 @@ function test_execute_page($path)
 
     $output = "";
 
-    if(trim($output_parts[0]) == "" && isset($output_parts[1]))
-    {
+    if (trim($output_parts[0]) == "" && isset($output_parts[1])) {
         print "\033[32m(passed) \033[0m";
         $output .= "(passed) ";
-    }
-    elseif(trim($output_parts[0]) != "")
-    {
+    } elseif (trim($output_parts[0]) != "") {
         print "\033[31m(has errors) \033[0m";
         $output .= "(has errors) ";
         $is_error = true;
-    }
-    elseif(!isset($output_parts[1]))
-    {
+    } elseif (!isset($output_parts[1])) {
         print "\033[33m(no output warning) \033[0m";
         $output .= "(no output warning) ";
     }
@@ -166,30 +156,24 @@ function test_execute_page($path)
     print "Test $count: $path";
     $output .= "Test $count: $path";
 
-    if($is_error)
-    {
+    if ($is_error) {
         $errors = explode("\n", $output_parts[0]);
 
-        foreach($errors as $error)
-        {
-            if(trim($error) == "")
+        foreach ($errors as $error) {
+            if (trim($error) == "") {
                 continue;
+            }
 
-            if(strpos($error, "eval()") === false)
-            {
+            if (strpos($error, "eval()") === false) {
                 print "\n    " . $error;
             }
 
             $output .= "\n    " . $error;
 
-            if(trim($error) != "")
-            {
-                if(!isset($test_errors[$error]))
-                {
+            if (trim($error) != "") {
+                if (!isset($test_errors[$error])) {
                     $test_errors[$error] = 1;
-                }
-                else
-                {
+                } else {
                     $test_errors[$error]++;
                 }
             }
@@ -197,8 +181,7 @@ function test_execute_page($path)
     }
 
     // Save html output.
-    if(isset($output_parts[1]))
-    {
+    if (isset($output_parts[1])) {
         file_put_contents(
             "tests/out/pages_core/"
                 . str_replace("/", "-", $path)
@@ -219,8 +202,7 @@ function test_save_errors()
 {
     global $test_errors;
 
-    if(!is_array($test_errors) || count($test_errors) < 1)
-    {
+    if (!is_array($test_errors) || count($test_errors) < 1) {
         return;
     }
 
@@ -233,10 +215,8 @@ function test_save_errors()
 
     arsort($test_errors);
 
-    foreach($test_errors as $error=>$value)
-    {
-        if(strpos($error, "eval()") !== false)
-        {
+    foreach ($test_errors as $error=>$value) {
+        if (strpos($error, "eval()") !== false) {
             file_put_contents(
                 "tests/out/errors_eval.log",
                 $value . " - " . $error . "\n",
@@ -244,9 +224,7 @@ function test_save_errors()
             );
 
             $eval_log = true;
-        }
-        else
-        {
+        } else {
             file_put_contents(
                 "tests/out/errors.log",
                 $value . " - " . $error . "\n",
@@ -257,8 +235,7 @@ function test_save_errors()
         }
     }
 
-    if($error_log)
-    {
+    if ($error_log) {
         print "\nCheck tests/out/errors.log for a unified errors report.\n";
 
         file_put_contents(
@@ -269,8 +246,7 @@ function test_save_errors()
     }
 
 
-    if($eval_log)
-    {
+    if ($eval_log) {
         print "\nCheck tests/out/errors_eval.log for a unified eval() errors report.\n";
 
         file_put_contents(
@@ -295,25 +271,19 @@ function test_search_files($path, $pattern, $callback)
 {
     $directory = opendir($path);
 
-    while(($file = readdir($directory)) !== false)
-    {
+    while (($file = readdir($directory)) !== false) {
         $full_path = $path . "/" . $file;
 
-        if(is_file($full_path) && preg_match($pattern, $file))
-        {
+        if (is_file($full_path) && preg_match($pattern, $file)) {
             $stop_search = false;
 
             $callback($full_path, $stop_search);
 
-            if($stop_search)
-            {
+            if ($stop_search) {
                 return false;
             }
-        }
-        elseif($file != "." && $file != ".." && is_dir($full_path))
-        {
-            if(!test_search_files($full_path, $pattern, $callback))
-            {
+        } elseif ($file != "." && $file != ".." && is_dir($full_path)) {
+            if (!test_search_files($full_path, $pattern, $callback)) {
                 //if $stop_search was set to true
                 //we stop the rest of searches
                 return false;

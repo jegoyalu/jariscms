@@ -17,16 +17,12 @@
 ini_set('max_execution_time', '0');
 
 //If running in cli mode
-if(php_sapi_name() == "cli")
-{
+if (php_sapi_name() == "cli") {
     chdir(__DIR__);
 
-    if(isset($_SERVER["argv"][1]))
-    {
+    if (isset($_SERVER["argv"][1])) {
         $_REQUEST["HTTP_HOST"] = $_SERVER["argv"][1];
-    }
-    else
-    {
+    } else {
         $_REQUEST["HTTP_HOST"] = "localhost";
     }
 }
@@ -39,8 +35,7 @@ Jaris\Autoloader::register();
 require 'src/Aliases.php';
 
 //Include backward compatible functions if include dir exists
-if(file_exists("include/forms.php"))
-{
+if (file_exists("include/forms.php")) {
     require 'src/DeprecatedFunctions.php';
 }
 
@@ -48,8 +43,7 @@ if(file_exists("include/forms.php"))
 Jaris\Site::init();
 
 //Starts the main session for the user
-if(isset($_SERVER["SERVER_NAME"]))
-{
+if (isset($_SERVER["SERVER_NAME"])) {
     Jaris\Session::startIfUserLogged();
 }
 
@@ -66,8 +60,7 @@ Jaris\Site::checkIfOffline();
 $cron_file = fopen(Jaris\Site::dataDir() . "cron_running.lock", "w+");
 $cron_lock = flock($cron_file, LOCK_EX | LOCK_NB, $cron_wouldblock);
 
-if(!$cron_lock && $cron_wouldblock)
-{
+if (!$cron_lock && $cron_wouldblock) {
     exit;
 }
 
@@ -86,12 +79,9 @@ fclose($cron_file);
 unlink(Jaris\Site::dataDir() . "cron_running.lock");
 
 //If script was executed from control panel return to it
-if(isset($_REQUEST["return"]))
-{
+if (isset($_REQUEST["return"])) {
     Jaris\View::addMessage(t("All jobs successfully executed."));
     Jaris\Uri::go($_REQUEST["return"]);
-}
-else if(!Jaris\Authentication::isAdminLogged() && isset($_SERVER["SERVER_NAME"]))
-{
+} elseif (!Jaris\Authentication::isAdminLogged() && isset($_SERVER["SERVER_NAME"])) {
     Jaris\Uri::go("");
 }

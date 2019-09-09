@@ -20,19 +20,17 @@ row: 0
     field: content
     <?php
         Jaris\Authentication::protectedPage(
-            array("view_types_fields", "add_types_fields")
+    ["view_types_fields", "add_types_fields"]
         );
 
-        if(!isset($_REQUEST["type_name"]))
-        {
+        if (!isset($_REQUEST["type_name"])) {
             Jaris\Uri::go("admin/types");
         }
 
-        if(
+        if (
             isset($_REQUEST["btnSave"]) &&
             !Jaris\Forms::requiredFieldEmpty("add-type-fields")
-        )
-        {
+        ) {
             $fields["variable_name"] = $_REQUEST["variable_name"];
             $fields["name"] = $_REQUEST["name"];
             $fields["description"] = $_REQUEST["description"];
@@ -60,17 +58,13 @@ row: 0
             $fields["strip_html"] = $_REQUEST["strip_html"];
             $fields["position"] = "0";
 
-            if(is_array($_REQUEST["groups"]))
-            {
+            if (is_array($_REQUEST["groups"])) {
                 $fields["groups"] = $_REQUEST["groups"];
-            }
-            else
-            {
-                $fields["groups"] = array();
+            } else {
+                $fields["groups"] = [];
             }
 
-            if(Jaris\Fields::add($fields, $_REQUEST["type_name"]))
-            {
+            if (Jaris\Fields::add($fields, $_REQUEST["type_name"])) {
                 Jaris\View::addMessage(
                     t("The content type field has been successfully created.")
                 );
@@ -79,14 +73,12 @@ row: 0
 
                 Jaris\Logger::info(
                     "Added field '{name}' to content type '{machine_name}'.",
-                    array(
+                    [
                         "name" => $fields["name"],
                         "machine_name" => $_REQUEST["type_name"]
-                    )
+                    ]
                 );
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(
                     Jaris\System::errorMessage("write_error_data"),
                     "error"
@@ -95,14 +87,12 @@ row: 0
 
             Jaris\Uri::go(
                 "admin/types/fields",
-                array("type" => $_REQUEST["type_name"])
+                ["type" => $_REQUEST["type_name"]]
             );
-        }
-        elseif(isset($_REQUEST["btnCancel"]))
-        {
+        } elseif (isset($_REQUEST["btnCancel"])) {
             Jaris\Uri::go(
                 "admin/types/fields",
-                array("type" => $_REQUEST["type_name"])
+                ["type" => $_REQUEST["type_name"]]
             );
         }
 
@@ -111,13 +101,13 @@ row: 0
         $parameters["action"] = Jaris\Uri::url("admin/types/fields/add");
         $parameters["method"] = "post";
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "hidden",
             "name" => "type_name",
             "value" => $_REQUEST["type_name"]
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "value" => isset($_REQUEST["variable_name"]) ?
                 $_REQUEST["variable_name"] : "",
@@ -126,9 +116,9 @@ row: 0
             "id" => "variable_name",
             "required" => true,
             "description" => t("The name of the variable used for this field when generating the form code.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "value" => isset($_REQUEST["name"]) ?
                 $_REQUEST["name"] : "",
@@ -137,9 +127,9 @@ row: 0
             "id" => "name",
             "required" => true,
             "description" => t("A human readable name displayed when the form is generated.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "textarea",
             "value" => isset($_REQUEST["description"]) ?
                 $_REQUEST["description"] : "",
@@ -148,7 +138,7 @@ row: 0
             "id" => "description",
             "required" => true,
             "description" => t("A brief description of how the user should fill this field or it's purpose.")
-        );
+        ];
 
         $types[t("Check box")] = "checkbox";
         $types[t("Color selector")] = "color";
@@ -166,7 +156,7 @@ row: 0
         $types[t("Uri area")] = "uriarea";
         $types[t("Google Map Location")] = "gmap-location";
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "select",
             "value" => $types,
             "selected" => isset($_REQUEST["type"]) ?
@@ -175,9 +165,9 @@ row: 0
             "label" => t("Type:"),
             "id" => "type",
             "description" => t("The type of the form field.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "value" => isset($_REQUEST["limit"]) ?
                 $_REQUEST["limit"] : "",
@@ -185,9 +175,9 @@ row: 0
             "label" => t("Input limit:"),
             "id" => "limit",
             "description" => t("The maximun amount of character the user can insert if this is a text or textarea field. 0 for unlimited.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "textarea",
             "value" => isset($_REQUEST["default"]) ?
                 $_REQUEST["default"] : "",
@@ -195,14 +185,14 @@ row: 0
             "label" => t("Default value:"),
             "id" => "default",
             "description" => t("The default value for a text, textarea, password, hidden, other or a list like select, radio and checkbox.")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
         $multiple_upload[t("Enable")] = true;
         $multiple_upload[t("Disable")] = false;
 
-        $fields_image[] = array(
+        $fields_image[] = [
             "type" => "text",
             "value" => isset($_REQUEST["width"]) ?
                 $_REQUEST["width"] : "",
@@ -210,9 +200,9 @@ row: 0
             "label" => t("Image width:"),
             "id" => "width",
             "description" => t("Maximum width of the image in pixels in case this field is an image upload. 0 for unlimited.")
-        );
+        ];
 
-        $fields_image[] = array(
+        $fields_image[] = [
             "type" => "radio",
             "label" => t("Multiple upload?"),
             "name" => "image_multiple",
@@ -221,9 +211,9 @@ row: 0
             "checked" => isset($_REQUEST["image_multiple"]) ?
                 $_REQUEST["image_multiple"] : "",
             "description" => t("Enable or disable multiple image uploads.")
-        );
+        ];
 
-        $fields_image[] = array(
+        $fields_image[] = [
             "type" => "text",
             "value" => isset($_REQUEST["image_max"]) ?
                 $_REQUEST["image_max"] : "",
@@ -231,9 +221,9 @@ row: 0
             "label" => t("Maximum images:"),
             "id" => "image_max",
             "description" => t("The maximum amount of allowed images to upload if multiple is enabled, 0 for unlimited.")
-        );
+        ];
 
-        $fields_image[] = array(
+        $fields_image[] = [
             "type" => "radio",
             "value" => isset($_REQUEST["image_description"]) ?
                 $_REQUEST["image_description"] : "",
@@ -243,17 +233,17 @@ row: 0
             "checked" => isset($_REQUEST["image_description"]) ?
                 $_REQUEST["image_description"] : false,
             "description" => t("Allows entering a description for upload.")
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "fields" => $fields_image,
             "name" => t("Image upload"),
             "description" => t("Options used in case the type selected is a image upload."),
             "collapsible" => true,
             "collapsed" => true
-        );
+        ];
 
-        $fields_file[] = array(
+        $fields_file[] = [
             "type" => "textarea",
             "value" => isset($_REQUEST["extensions"]) ?
                 $_REQUEST["extensions"] : "",
@@ -261,9 +251,9 @@ row: 0
             "label" => t("File extensions:"),
             "id" => "extensions",
             "description" => t("A comma (,) seperated list of extensions allowed for upload in case of file upload. For example: txt, doc, pdf")
-        );
+        ];
 
-        $fields_file[] = array(
+        $fields_file[] = [
             "type" => "text",
             "value" => isset($_REQUEST["size"]) ?
                 $_REQUEST["size"] : "",
@@ -273,9 +263,9 @@ row: 0
             "description" => t("The maximum permitted file size in kilobytes. For example: 100k") .
                 " " . t("The maximum file upload size allowed by this server is:") .
                 " " . ini_get("upload_max_filesize")
-        );
+        ];
 
-        $fields_file[] = array(
+        $fields_file[] = [
             "type" => "radio",
             "label" => t("Multiple upload?"),
             "name" => "file_multiple",
@@ -284,9 +274,9 @@ row: 0
             "checked" => isset($_REQUEST["file_multiple"]) ?
                 $_REQUEST["file_multiple"] : "",
             "description" => t("Enable or disable multiple file uploads.")
-        );
+        ];
 
-        $fields_file[] = array(
+        $fields_file[] = [
             "type" => "text",
             "value" => isset($_REQUEST["file_max"]) ?
                 $_REQUEST["file_max"] : "",
@@ -294,9 +284,9 @@ row: 0
             "label" => t("Maximum files:"),
             "id" => "file_max",
             "description" => t("The maximum amount of allowed files to upload if multiple is enabled, 0 for unlimited.")
-        );
+        ];
 
-        $fields_file[] = array(
+        $fields_file[] = [
             "type" => "radio",
             "value" => isset($_REQUEST["file_description"]) ?
                 $_REQUEST["file_description"] : "",
@@ -306,17 +296,17 @@ row: 0
             "checked" => isset($_REQUEST["file_description"]) ?
                 $_REQUEST["file_description"] : "",
             "description" => t("Allows entering a description for upload.")
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "fields" => $fields_file,
             "name" => t("File upload"),
             "description" => t("Options used in case the type selected is a file upload."),
             "collapsible" => true,
             "collapsed" => true
-        );
+        ];
 
-        $fields_gmap[] = array(
+        $fields_gmap[] = [
             "type" => "text",
             "value" => isset($_REQUEST["lat_name"]) ?
                 $_REQUEST["lat_name"] : "",
@@ -324,9 +314,9 @@ row: 0
             "label" => t("Latitude name:"),
             "id" => "lat_name",
             "description" => t("Name of the latitude field.")
-        );
+        ];
 
-        $fields_gmap[] = array(
+        $fields_gmap[] = [
             "type" => "text",
             "value" => isset($_REQUEST["lat_value"]) ?
                 $_REQUEST["lat_value"] : "",
@@ -334,9 +324,9 @@ row: 0
             "label" => t("Latitude value:"),
             "id" => "lat_value",
             "description" => t("Default value for the latitude.")
-        );
+        ];
 
-        $fields_gmap[] = array(
+        $fields_gmap[] = [
             "type" => "text",
             "value" => isset($_REQUEST["lng_name"]) ?
                 $_REQUEST["lng_name"] : "",
@@ -344,9 +334,9 @@ row: 0
             "label" => t("Longitude name:"),
             "id" => "lng_name",
             "description" => t("Name of the longitude field.")
-        );
+        ];
 
-        $fields_gmap[] = array(
+        $fields_gmap[] = [
             "type" => "text",
             "value" => isset($_REQUEST["lng_value"]) ?
                 $_REQUEST["lng_value"] : "",
@@ -354,9 +344,9 @@ row: 0
             "label" => t("Longitude value:"),
             "id" => "lng_value",
             "description" => t("Default value for the longitude.")
-        );
+        ];
 
-        $fields_gmap[] = array(
+        $fields_gmap[] = [
             "type" => "text",
             "value" => isset($_REQUEST["map_zoom"]) ?
                 intval($_REQUEST["map_zoom"])
@@ -366,17 +356,17 @@ row: 0
             "label" => t("Zoom:"),
             "id" => "map_zoom",
             "description" => t("Initial amount of zoom for the map control.")
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "fields" => $fields_gmap,
             "name" => t("Google Map Location"),
             "collapsible" => true,
             "collapsed" => true,
             "description" => t("Options used in case the type selected is a google map location.")
-        );
+        ];
 
-        $fields_options[] = array(
+        $fields_options[] = [
             "type" => "checkbox",
             "checked" => isset($_REQUEST["readonly"]) ?
                 $_REQUEST["readonly"] : "",
@@ -384,9 +374,9 @@ row: 0
             "label" => t("Read only:"),
             "id" => "readonly",
             "description" => t("In case the field should be readonly.")
-        );
+        ];
 
-        $fields_options[] = array(
+        $fields_options[] = [
             "type" => "checkbox",
             "checked" => isset($_REQUEST["required"]) ?
                 $_REQUEST["required"] : "",
@@ -394,9 +384,9 @@ row: 0
             "label" => t("Required:"),
             "id" => "required",
             "description" => t("In case the field should be required.")
-        );
+        ];
 
-        $fields_options[] = array(
+        $fields_options[] = [
             "type" => "checkbox",
             "checked" => isset($_REQUEST["strip_html"]) ?
                 $_REQUEST["strip_html"] : "",
@@ -404,15 +394,15 @@ row: 0
             "label" => t("Strip html:"),
             "id" => "strip_html",
             "description" => t("To enable stripping of any html tags.")
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "fields" => $fields_options,
             "name" => t("Field options"),
             "description" => t("Special options for the field.")
-        );
+        ];
 
-        $fields_select[] = array(
+        $fields_select[] = [
             "type" => "textarea",
             "value" => isset($_REQUEST["values"]) ?
                 $_REQUEST["values"] : "",
@@ -420,9 +410,9 @@ row: 0
             "label" => t("Values:"),
             "id" => "valuess",
             "description" => t("A list of values seperated by comma for select, radio and checkbox.")
-        );
+        ];
 
-        $fields_select[] = array(
+        $fields_select[] = [
             "type" => "textarea",
             "value" => isset($_REQUEST["captions"]) ?
                 $_REQUEST["captions"] : "",
@@ -430,37 +420,37 @@ row: 0
             "label" => t("Captions:"),
             "id" => "captions",
             "description" => t("A list of captions seperated by comma in the same order entered in values in case it is a radio, checkbox or select.")
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "fields" => $fields_select,
             "name" => t("Multiple options"),
             "description" => t("Options used in case the type selected is a select, radio or checkbox.")
-        );
+        ];
 
         $fields_groups_access = Jaris\Groups::generateFields();
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "fields" => $fields_groups_access,
             "name" => t("Users Access"),
             "collapsed" => true,
             "collapsible" => true,
             "description" => t("Select the groups that can see this field. Don't select anything to display the field to everyone.")
-        );
+        ];
 
-        $fields_buttons[] = array(
+        $fields_buttons[] = [
             "type" => "submit",
             "name" => "btnSave",
             "value" => t("Save")
-        );
+        ];
 
-        $fields_buttons[] = array(
+        $fields_buttons[] = [
             "type" => "submit",
             "name" => "btnCancel",
             "value" => t("Cancel")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields_buttons);
+        $fieldset[] = ["fields" => $fields_buttons];
 
         print Jaris\Forms::generate($parameters, $fieldset);
     ?>

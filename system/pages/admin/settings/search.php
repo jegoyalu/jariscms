@@ -19,23 +19,21 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("edit_settings"));
+        Jaris\Authentication::protectedPage(["edit_settings"]);
 
         //Get exsiting settings or defualt ones
         //if main settings table doesn't exist
         $site_settings = Jaris\Settings::getAll("main");
 
-        if(isset($_REQUEST["btnSave"]))
-        {
+        if (isset($_REQUEST["btnSave"])) {
             //Check if write is possible and continue to write settings
-            if(
+            if (
                 Jaris\Settings::save(
                     "search_display_category_titles",
                     $_REQUEST["search_display_category_titles"],
                     "main"
                 )
-            )
-            {
+            ) {
                 Jaris\Settings::save(
                     "search_display_images",
                     $_REQUEST["search_display_images"],
@@ -78,8 +76,7 @@ row: 0
                     "main"
                 );
 
-                foreach(Jaris\Types::getList() as $machine_name => $data)
-                {
+                foreach (Jaris\Types::getList() as $machine_name => $data) {
                     Jaris\Settings::save(
                         "{$machine_name}_fields",
                         $_REQUEST["{$machine_name}_fields"],
@@ -94,9 +91,7 @@ row: 0
                 t("Edited search settings.");
 
                 Jaris\Logger::info("Edited search settings.");
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(
                     Jaris\System::errorMessage("write_error_data"),
                     "error"
@@ -104,9 +99,7 @@ row: 0
             }
 
             Jaris\Uri::go("admin/settings/search");
-        }
-        elseif(isset($_REQUEST["btnCancel"]))
-        {
+        } elseif (isset($_REQUEST["btnCancel"])) {
             Jaris\Uri::go("admin/settings/search");
         }
 
@@ -118,7 +111,7 @@ row: 0
         $display_category_titles[t("Enable")] = true;
         $display_category_titles[t("Disable")] = false;
 
-        $category_fields[] = array(
+        $category_fields[] = [
             "type" => "radio",
             "name" => "search_display_category_titles",
             "id" => "search_display_category_titles",
@@ -126,27 +119,27 @@ row: 0
             "checked" => isset($site_settings["search_display_category_titles"]) ?
                 $site_settings["search_display_category_titles"] : false,
             "description" => t("Enables displaying the searched categories as the title of the search page.")
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "name" => t("Display category titles?"),
             "fields" => $category_fields,
             "collapsible" => true
-        );
+        ];
 
         $display_images[t("Enable")] = true;
         $display_images[t("Disable")] = false;
 
-        $image_fields[] = array(
+        $image_fields[] = [
             "type" => "radio",
             "name" => "search_display_images",
             "id" => "search_display_images",
             "value" => $display_images,
             "checked" => isset($site_settings["search_display_images"]) ?
                 $site_settings["search_display_images"] : false
-        );
+        ];
 
-        $image_fields[] = array(
+        $image_fields[] = [
             "type" => "text",
             "label" => t("Width:"),
             "name" => "search_images_width",
@@ -154,9 +147,9 @@ row: 0
             "value" => isset($site_settings["search_images_width"]) ?
                 $site_settings["search_images_width"] : 60,
             "description" => t("The pixels width of the image displayed on search results. Default: 60px")
-        );
+        ];
 
-        $image_fields[] = array(
+        $image_fields[] = [
             "type" => "text",
             "label" => t("Height:"),
             "name" => "search_images_height",
@@ -164,23 +157,23 @@ row: 0
             "value" => isset($site_settings["search_images_height"]) ?
                 $site_settings["search_images_height"] : 60,
             "description" => t("The pixels height of the image displayed on search results. Default: 60px")
-        );
+        ];
 
-        $image_fields[] = array(
+        $image_fields[] = [
             "type" => "other",
             "html_code" => "<br />"
-        );
+        ];
 
-        $image_fields[] = array(
+        $image_fields[] = [
             "type" => "checkbox",
             "checked" => isset($site_settings["search_images_aspect_ratio"]) ?
                 $site_settings["search_images_aspect_ratio"] : false,
             "label" => t("Keep aspect ratio?"),
             "name" => "search_images_aspect_ratio",
             "id" => "search_images_aspect_ratio"
-        );
+        ];
 
-        $image_fields[] = array(
+        $image_fields[] = [
             "type" => "color",
             "label" => t("Background color:"),
             "name" => "search_images_background_color",
@@ -188,72 +181,71 @@ row: 0
             "value" => isset($site_settings["search_images_background_color"]) ?
                 $site_settings["search_images_background_color"] : "",
             "description" => t("The background color of images when forced aspect ratio in html notation, example: d3d3d3.")
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "name" => t("Display Images"),
             "fields" => $image_fields,
             "collapsible" => true
-        );
+        ];
 
         $image_types = isset($site_settings["search_images_types"]) ?
             unserialize($site_settings["search_images_types"])
             :
-            array()
+            []
         ;
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "name" => t("Types where displaying images"),
             "fields" => Jaris\Types::generateFields(
                 is_array($image_types) ?
-                    $image_types : array()
+                    $image_types : []
             ),
             "collapsible" => true
-        );
+        ];
 
-        $type_fields = array();
-        foreach(Jaris\Types::getList() as $machine_name => $data)
-        {
-            $type_fields[] = array(
+        $type_fields = [];
+        foreach (Jaris\Types::getList() as $machine_name => $data) {
+            $type_fields[] = [
                 "type" => "textarea",
                 "label" => t($data["name"]),
                 "name" => "{$machine_name}_fields",
                 "id" => "{$machine_name}_fields",
                 "value" => isset($site_settings["{$machine_name}_fields"]) ?
                     $site_settings["{$machine_name}_fields"] : "content"
-            );
+            ];
         }
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "name" => t("Content type fields"),
             "fields" => $type_fields,
             "collapsible" => true,
             "collapsed" => true,
             "description" => t("A list of field names in the format Label:field_name separated by comma for each content type that are displayed on search results. Example: Description:content, Page Views:views, etc.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "textarea",
             "label" => t("Results not found"),
             "name" => "search_results_not_found",
             "value" => isset($site_settings["search_results_not_found"]) ?
                 $site_settings["search_results_not_found"] : "",
             "description" => t("Optional content that is displayed when search results are not found, supports php code.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnSave",
             "value" => t("Save")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnCancel",
             "value" => t("Cancel")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
         print Jaris\Forms::generate($parameters, $fieldset);
     ?>

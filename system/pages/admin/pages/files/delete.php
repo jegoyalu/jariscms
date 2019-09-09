@@ -19,15 +19,13 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("delete_files"));
+        Jaris\Authentication::protectedPage(["delete_files"]);
 
-        if(!isset($_REQUEST["uri"]) || !isset($_REQUEST["id"]))
-        {
+        if (!isset($_REQUEST["uri"]) || !isset($_REQUEST["id"])) {
             Jaris\Uri::go("");
         }
 
-        if(!Jaris\Pages::userIsOwner($_REQUEST["uri"]))
-        {
+        if (!Jaris\Pages::userIsOwner($_REQUEST["uri"])) {
             Jaris\Authentication::protectedPage();
         }
 
@@ -38,14 +36,10 @@ row: 0
             $_REQUEST["uri"]
         );
 
-        if(isset($_REQUEST["btnYes"]))
-        {
-            if(Jaris\Pages\Files::delete($file_id, $_REQUEST["uri"]))
-            {
+        if (isset($_REQUEST["btnYes"])) {
+            if (Jaris\Pages\Files::delete($file_id, $_REQUEST["uri"])) {
                 Jaris\View::addMessage(t("File successfully deleted."));
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(
                     Jaris\System::errorMessage("write_error_data"),
                     "error"
@@ -54,14 +48,12 @@ row: 0
 
             Jaris\Uri::go(
                 "admin/pages/files",
-                array("uri" => $_REQUEST["uri"])
+                ["uri" => $_REQUEST["uri"]]
             );
-        }
-        elseif(isset($_REQUEST["btnNo"]))
-        {
+        } elseif (isset($_REQUEST["btnNo"])) {
             Jaris\Uri::go(
                 "admin/pages/files",
-                array("uri" => $_REQUEST["uri"])
+                ["uri" => $_REQUEST["uri"]]
             );
         }
     ?>

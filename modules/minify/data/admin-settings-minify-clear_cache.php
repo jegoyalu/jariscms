@@ -19,23 +19,17 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("edit_settings"));
+        Jaris\Authentication::protectedPage(["edit_settings"]);
 
-        if(isset($_REQUEST["btnYes"]))
-        {
-            if(Jaris\FileSystem::recursiveRemoveDir(Jaris\Files::getDir("minify"), true))
-            {
+        if (isset($_REQUEST["btnYes"])) {
+            if (Jaris\FileSystem::recursiveRemoveDir(Jaris\Files::getDir("minify"), true)) {
                 Jaris\View::addMessage(t("Minify cache cleared successfully."));
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(Jaris\System::errorMessage("write_error_data"), "error");
             }
 
             Jaris\Uri::go("admin/settings");
-        }
-        elseif(isset($_REQUEST["btnNo"]))
-        {
+        } elseif (isset($_REQUEST["btnNo"])) {
             Jaris\Uri::go("admin/settings");
         }
     ?>

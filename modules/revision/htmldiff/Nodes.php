@@ -23,8 +23,8 @@
  * Any element in the DOM tree of an HTML document.
  * @ingroup DifferenceEngine
  */
-class Node {
-
+class Node
+{
     public $parent;
 
     protected $parentTree;
@@ -33,23 +33,26 @@ class Node {
 
     public $whiteAfter = false;
 
-    function __construct($parent) {
+    public function __construct($parent)
+    {
         $this->parent = $parent;
     }
 
-    public function getParentTree() {
+    public function getParentTree()
+    {
         if (!isset($this->parentTree)) {
             if (!is_null($this->parent)) {
                 $this->parentTree = $this->parent->getParentTree();
                 $this->parentTree[] = $this->parent;
             } else {
-                $this->parentTree = array();
+                $this->parentTree = [];
             }
         }
         return $this->parentTree;
     }
 
-    public function getLastCommonParent(Node $other) {
+    public function getLastCommonParent(Node $other)
+    {
         $result = new LastCommonParentResult();
 
         $myParents = $this->getParentTree();
@@ -76,18 +79,20 @@ class Node {
             // there are tags left in this tree
             $result->indexInLastCommonParent = $myParents[$i - 1]->getIndexOf($myParents[$i]);
             $result->splittingNeeded = true;
-        } else if ($nbMyParents <= $nbOtherParents) {
+        } elseif ($nbMyParents <= $nbOtherParents) {
             $result->indexInLastCommonParent = $myParents[$i - 1]->getIndexOf($this);
         }
         return $result;
     }
 
-    public function setParent($parent) {
+    public function setParent($parent)
+    {
         $this->parent = $parent;
         unset($this->parentTree);
     }
 
-    public function inPre() {
+    public function inPre()
+    {
         $tree = $this->getParentTree();
         foreach ($tree as &$ancestor) {
             if ($ancestor->isPre()) {
@@ -102,32 +107,35 @@ class Node {
  * Node that can contain other nodes. Represents an HTML tag.
  * @ingroup DifferenceEngine
  */
-class TagNode extends Node {
-
-    public $children = array();
+class TagNode extends Node
+{
+    public $children = [];
 
     public $qName;
 
-    public $attributes = array();
+    public $attributes = [];
 
     public $openingTag;
 
-    function __construct($parent, $qName, /*array*/ $attributes) {
+    public function __construct($parent, $qName, /*array*/ $attributes)
+    {
         parent::__construct($parent);
         $this->qName = strtolower($qName);
-        foreach($attributes as $key => &$value){
+        foreach ($attributes as $key => &$value) {
             $this->attributes[strtolower($key)] = $value;
         }
         return $this->openingTag = Xml::openElement($this->qName, $this->attributes);
     }
 
-    public function addChildAbsolute(Node $node, $index) {
-        array_splice($this->children, $index, 0, array($node));
+    public function addChildAbsolute(Node $node, $index)
+    {
+        array_splice($this->children, $index, 0, [$node]);
     }
 
-    public function getIndexOf(Node $child) {
+    public function getIndexOf(Node $child)
+    {
         // don't trust array_search with objects
-        foreach ($this->children as $key => &$value){
+        foreach ($this->children as $key => &$value) {
             if ($value === $child) {
                 return $key;
             }
@@ -135,12 +143,14 @@ class TagNode extends Node {
         return null;
     }
 
-    public function getNbChildren() {
+    public function getNbChildren()
+    {
         return count($this->children);
     }
 
-    public function getMinimalDeletedSet($id, &$allDeleted, &$somethingDeleted) {
-        $nodes = array();
+    public function getMinimalDeletedSet($id, &$allDeleted, &$somethingDeleted)
+    {
+        $nodes = [];
 
         $allDeleted = false;
         $somethingDeleted = false;
@@ -163,13 +173,14 @@ class TagNode extends Node {
             }
         }
         if (!$hasNonDeletedDescendant) {
-            $nodes = array($this);
+            $nodes = [$this];
             $allDeleted = true;
         }
         return $nodes;
     }
 
-    public function splitUntil(TagNode $parent, Node $split, $includeLeft) {
+    public function splitUntil(TagNode $parent, Node $split, $includeLeft)
+    {
         $splitOccured = false;
         if ($parent !== $this) {
             $part1 = new TagNode(null, $this->qName, $this->attributes);
@@ -179,12 +190,11 @@ class TagNode extends Node {
 
             $onSplit = false;
             $pastSplit = false;
-            foreach ($this->children as &$child)
-            {
+            foreach ($this->children as &$child) {
                 if ($child === $split) {
                     $onSplit = true;
                 }
-                if(!$pastSplit || ($onSplit && $includeLeft)) {
+                if (!$pastSplit || ($onSplit && $includeLeft)) {
                     $child->setParent($part1);
                     $part1->children[] = $child;
                 } else {
@@ -216,19 +226,20 @@ class TagNode extends Node {
             }
         }
         return $splitOccured;
-
     }
 
-    private function removeChild($index) {
+    private function removeChild($index)
+    {
         unset($this->children[$index]);
         $this->children = array_values($this->children);
     }
 
-    public static $blocks = array('html', 'body','p','blockquote', 'h1',
+    public static $blocks = ['html', 'body','p','blockquote', 'h1',
         'h2', 'h3', 'h4', 'h5', 'pre', 'div', 'ul', 'ol', 'li', 'table',
-        'tbody', 'tr', 'td', 'th', 'br');
+        'tbody', 'tr', 'td', 'th', 'br'];
 
-    public function copyTree() {
+    public function copyTree()
+    {
         $newThis = new TagNode(null, $this->qName, $this->attributes);
         $newThis->whiteBefore = $this->whiteBefore;
         $newThis->whiteAfter = $this->whiteAfter;
@@ -240,12 +251,14 @@ class TagNode extends Node {
         return $newThis;
     }
 
-    public function getMatchRatio(TagNode $other) {
+    public function getMatchRatio(TagNode $other)
+    {
         $txtComp = new TextOnlyComparator($other);
         return $txtComp->getMatchRatio(new TextOnlyComparator($this));
     }
 
-    public function expandWhiteSpace() {
+    public function expandWhiteSpace()
+    {
         $shift = 0;
         $spaceAdded = false;
 
@@ -261,39 +274,42 @@ class TagNode extends Node {
             if (!$spaceAdded && $child->whiteBefore) {
                 $ws = new WhiteSpaceNode(null, ' ', $child->getLeftMostChild());
                 $ws->setParent($this);
-                $this->addChildAbsolute($ws,$i + ($shift++));
+                $this->addChildAbsolute($ws, $i + ($shift++));
             }
             if ($child->whiteAfter) {
                 $ws = new WhiteSpaceNode(null, ' ', $child->getRightMostChild());
                 $ws->setParent($this);
-                $this->addChildAbsolute($ws,$i + 1 + ($shift++));
+                $this->addChildAbsolute($ws, $i + 1 + ($shift++));
                 $spaceAdded = true;
             } else {
                 $spaceAdded = false;
             }
-
         }
     }
 
-    public function getLeftMostChild() {
+    public function getLeftMostChild()
+    {
         if (empty($this->children)) {
             return $this;
         }
         return $this->children[0]->getLeftMostChild();
     }
 
-    public function getRightMostChild() {
+    public function getRightMostChild()
+    {
         if (empty($this->children)) {
             return $this;
         }
         return $this->children[$this->getNbChildren() - 1]->getRightMostChild();
     }
 
-    public function isPre() {
-        return 0 == strcasecmp($this->qName,'pre');
+    public function isPre()
+    {
+        return 0 == strcasecmp($this->qName, 'pre');
     }
 
-    public static function toDiffLine(TagNode $node) {
+    public static function toDiffLine(TagNode $node)
+    {
         return $node->openingTag;
     }
 }
@@ -302,51 +318,58 @@ class TagNode extends Node {
  * Represents a piece of text in the HTML file.
  * @ingroup DifferenceEngine
  */
-class TextNode extends Node {
-
+class TextNode extends Node
+{
     public $text;
 
     public $modification;
 
-    function __construct($parent, $text) {
+    public function __construct($parent, $text)
+    {
         parent::__construct($parent);
         $this->modification = new Modification(Modification::NONE);
         $this->text = $text;
     }
 
-    public function copyTree() {
+    public function copyTree()
+    {
         $clone = clone $this;
         $clone->setParent(null);
         return $clone;
     }
 
-    public function getLeftMostChild() {
+    public function getLeftMostChild()
+    {
         return $this;
     }
 
-    public function getRightMostChild() {
+    public function getRightMostChild()
+    {
         return $this;
     }
 
-    public function getMinimalDeletedSet($id, &$allDeleted, &$somethingDeleted) {
+    public function getMinimalDeletedSet($id, &$allDeleted, &$somethingDeleted)
+    {
         if ($this->modification->type == Modification::REMOVED
-                    && $this->modification->id == $id){
+                    && $this->modification->id == $id) {
             $somethingDeleted = true;
             $allDeleted = true;
-            return array($this);
+            return [$this];
         }
-        return array();
+        return [];
     }
 
-    public function isSameText($other) {
+    public function isSameText($other)
+    {
         if (is_null($other) || ! $other instanceof TextNode) {
             return false;
         }
-        return str_replace('\n', ' ',$this->text) === str_replace('\n', ' ',$other->text);
+        return str_replace('\n', ' ', $this->text) === str_replace('\n', ' ', $other->text);
     }
 
-    public static function toDiffLine(TextNode $node) {
-        return str_replace('\n', ' ',$node->text);
+    public static function toDiffLine(TextNode $node)
+    {
+        return str_replace('\n', ' ', $node->text);
     }
 }
 
@@ -354,11 +377,12 @@ class TextNode extends Node {
  * @todo Document
  * @ingroup DifferenceEngine
  */
-class WhiteSpaceNode extends TextNode {
-
-    function __construct($parent, $s, Node $like = null) {
+class WhiteSpaceNode extends TextNode
+{
+    public function __construct($parent, $s, Node $like = null)
+    {
         parent::__construct($parent, $s);
-        if(!is_null($like) && $like instanceof TextNode) {
+        if (!is_null($like) && $like instanceof TextNode) {
             $newModification = clone $like->modification;
             $newModification->firstOfID = false;
             $this->modification = $newModification;
@@ -370,13 +394,15 @@ class WhiteSpaceNode extends TextNode {
  * Represents the root of a HTML document.
  * @ingroup DifferenceEngine
  */
-class BodyNode extends TagNode {
-
-    function __construct() {
-        parent::__construct(null, 'body', array());
+class BodyNode extends TagNode
+{
+    public function __construct()
+    {
+        parent::__construct(null, 'body', []);
     }
 
-    public function copyTree() {
+    public function copyTree()
+    {
         $newThis = new BodyNode();
         foreach ($this->children as &$child) {
             $newChild = $child->copyTree();
@@ -386,16 +412,19 @@ class BodyNode extends TagNode {
         return $newThis;
     }
 
-    public function getMinimalDeletedSet($id, &$allDeleted, &$somethingDeleted) {
-        $nodes = array();
+    public function getMinimalDeletedSet($id, &$allDeleted, &$somethingDeleted)
+    {
+        $nodes = [];
         foreach ($this->children as &$child) {
-            $childrenChildren = $child->getMinimalDeletedSet($id,
-                        $allDeleted, $somethingDeleted);
+            $childrenChildren = $child->getMinimalDeletedSet(
+                $id,
+                $allDeleted,
+                $somethingDeleted
+            );
             $nodes = array_merge($nodes, $childrenChildren);
         }
         return $nodes;
     }
-
 }
 
 /**
@@ -403,37 +432,38 @@ class BodyNode extends TagNode {
  * are independent visible objects on the page. They are logically a TextNode.
  * @ingroup DifferenceEngine
  */
-class ImageNode extends TextNode {
-
+class ImageNode extends TextNode
+{
     public $attributes;
 
-    function __construct(TagNode $parent, /*array*/ $attrs) {
-        if(!array_key_exists('src', $attrs)) {
-            HTMLDiffer::diffDebug( "Image without a source\n" );
+    public function __construct(TagNode $parent, /*array*/ $attrs)
+    {
+        if (!array_key_exists('src', $attrs)) {
+            HTMLDiffer::diffDebug("Image without a source\n");
             parent::__construct($parent, '<img></img>');
-        }else{
+        } else {
             parent::__construct($parent, '<img>' . strtolower($attrs['src']) . '</img>');
         }
         $this->attributes = $attrs;
     }
 
-    public function isSameText($other) {
+    public function isSameText($other)
+    {
         if (is_null($other) || ! $other instanceof ImageNode) {
             return false;
         }
         return $this->text === $other->text;
     }
-
 }
 
 /**
  * No-op node
  * @ingroup DifferenceEngine
  */
-class DummyNode extends Node {
-
-    function __construct() {
+class DummyNode extends Node
+{
+    public function __construct()
+    {
         // no op
     }
-
 }

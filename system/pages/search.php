@@ -13,25 +13,21 @@ exit;
 row: 0
     field: title
     <?php
-        if(Jaris\Settings::get("search_display_category_titles", "main"))
-        {
+        if (Jaris\Settings::get("search_display_category_titles", "main")) {
             $categories_title = "";
 
             $categories = Jaris\Categories::getList();
 
-            if($categories)
-            {
-                foreach($categories as $machine_name => $category_data)
-                {
-                    if(
+            if ($categories) {
+                foreach ($categories as $machine_name => $category_data) {
+                    if (
                         isset($_REQUEST[$machine_name]) &&
                         $_REQUEST[$machine_name][0] != "-1"
-                    )
-                    {
+                    ) {
                         $categories_title .= t($category_data["name"]);
                         $categories_title .= " > ";
 
-                        if(
+                        if (
                             count($_REQUEST[$machine_name])
                             ==
                             count(
@@ -39,15 +35,11 @@ row: 0
                                     $machine_name
                                 )
                             )
-                        )
-                        {
+                        ) {
                             $categories_title .= t("All");
-                        }
-                        elseif(count($_REQUEST[$machine_name]) > 1)
-                        {
+                        } elseif (count($_REQUEST[$machine_name]) > 1) {
                             $subcategory_titles = "";
-                            foreach($_REQUEST[$machine_name] as $subcategory_id)
-                            {
+                            foreach ($_REQUEST[$machine_name] as $subcategory_id) {
                                 $subcategory_data = Jaris\Categories::getSubcategory(
                                     $machine_name,
                                     intval($subcategory_id)
@@ -59,9 +51,7 @@ row: 0
                             }
 
                             $categories_title .= trim($subcategory_titles, "| ");
-                        }
-                        else
-                        {
+                        } else {
                             $subcategory_data = Jaris\Categories::getSubcategory(
                                 $machine_name,
                                 intval($_REQUEST[$machine_name][0])
@@ -75,17 +65,12 @@ row: 0
                 }
             }
 
-            if($categories_title != "")
-            {
+            if ($categories_title != "") {
                 print trim($categories_title, ", ");
-            }
-            else
-            {
+            } else {
                 print t("Search");
             }
-        }
-        else
-        {
+        } else {
             print t("Search");
         }
     ?>
@@ -100,40 +85,32 @@ row: 0
             :
             null
         ;
-        $type_display_image = array();
+        $type_display_image = [];
 
-        if(is_array($search_types))
-        {
-            foreach($search_types as $type)
-            {
+        if (is_array($search_types)) {
+            foreach ($search_types as $type) {
                 $type_display_image[$type] = 1;
             }
         }
 
         // To protect agains sql injections be sure $page is a int
-        if(empty($_REQUEST["page"]))
-        {
+        if (empty($_REQUEST["page"])) {
             $_REQUEST["page"] = 1;
-        }
-        else
-        {
+        } else {
             $_REQUEST["page"] = intval($_REQUEST["page"]);
         }
 
         //Delete search results from session variable if user clicks reset
-        if(isset($_REQUEST["btnReset"]))
-        {
+        if (isset($_REQUEST["btnReset"])) {
             unset($_REQUEST["keywords"]);
             Jaris\Search::reset();
         }
 
-        if(empty($_REQUEST["keywords"]))
-        {
+        if (empty($_REQUEST["keywords"])) {
             $_REQUEST["keywords"] = "";
         }
 
-        if(empty($_REQUEST["type"]))
-        {
+        if (empty($_REQUEST["type"])) {
             $_REQUEST["type"] = "";
         }
 
@@ -142,7 +119,7 @@ row: 0
         $parameters["id"] = "search-engine";
         $parameters["method"] = "get";
 
-        $fields_head[] = array(
+        $fields_head[] = [
             "type" => "other",
             "html_code" => "<fieldset "
                 . "style=\"margin-bottom: 5px;\" class=\"collapsible collapsed\""
@@ -152,49 +129,45 @@ row: 0
                 . t("Search Options")
                 . "</a>"
                 . "</legend>"
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "fields" => $fields_head,
             "collapsible" => false,
             "collapsed" => false
-        );
+        ];
 
-        $fields[] = array("type" => "hidden", "name" => "search", "value" => 1);
+        $fields[] = ["type" => "hidden", "name" => "search", "value" => 1];
 
         $categories = Jaris\Categories::getList($_REQUEST["type"]);
 
-        $selected_categories = array();
+        $selected_categories = [];
 
-        if($categories)
-        {
-            foreach($categories as $machine_name => $values)
-            {
-                if(isset($_REQUEST[$machine_name]))
-                {
+        if ($categories) {
+            foreach ($categories as $machine_name => $values) {
+                if (isset($_REQUEST[$machine_name])) {
                     $selected_categories[$machine_name] = $_REQUEST[$machine_name];
                 }
             }
         }
 
-        if(true)
-        {
-            $fields[] = array(
+        if (true) {
+            $fields[] = [
                 "type" => "other",
                 "html_code" => "<fieldset "
                     . "style=\"margin-bottom: 5px;\" "
                     . "class=\"collapsible\""
                     . ">"
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "other",
                 "html_code" => "<legend>"
                     . "<a class=\"collapse\" href=\"javascript:void(0)\">"
                     . t("Sorting")
                     . "</a>"
                     . "</legend>"
-            );
+            ];
 
             $ordering_options[t("Default")] = "";
             $ordering_options[t("Title ascending")] = "title_asc";
@@ -202,7 +175,7 @@ row: 0
             $ordering_options[t("Newest first")] = "newest";
             $ordering_options[t("Oldest first")] = "oldest";
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "select",
                 "code" => "onchange=\"this.form.submit()\"",
                 "name" => "order",
@@ -210,69 +183,68 @@ row: 0
                 "id" => "order",
                 "value" => $ordering_options,
                 "selected" => $_REQUEST["order"]
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "other",
                 "html_code" => "</fieldset>\n"
-            );
+            ];
         }
 
-        if(count($selected_categories) > 0)
-        {
+        if (count($selected_categories) > 0) {
             $fields_categories = Jaris\Categories::generateFields(
-                $selected_categories, "", $_REQUEST["type"]
+                $selected_categories,
+                "",
+                $_REQUEST["type"]
             );
 
-            foreach($fields_categories as $field_index=>$field_category)
-            {
+            foreach ($fields_categories as $field_index=>$field_category) {
                 $fields_categories[$field_index]["inline"] = true;
             }
 
-            $fieldset[] = array(
+            $fieldset[] = [
                 "fields" => $fields_categories,
                 "name" => t("Categories"),
                 "collapsible" => true,
                 "collapsed" => false
-            );
+            ];
         }
 
         $types[t("-All-")] = "";
         $types_array = Jaris\Types::getList();
-        foreach($types_array as $machine_name => $type_fields)
-        {
+        foreach ($types_array as $machine_name => $type_fields) {
             $types[t(trim($type_fields["name"]))] = $machine_name;
         }
 
-        $fields_type[] = array(
+        $fields_type[] = [
             "type" => "select",
             "code" => "onchange=\"this.form.submit()\"",
             "selected" => $_REQUEST["type"],
             "name" => "type",
             "id" => "type",
             "value" => $types
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "fields" => $fields_type,
             "name" => t("Content type"),
             "collapsible" => true,
             "collapsed" => false,
             "description" => t("The type of content you are searching.")
-        );
+        ];
 
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "other",
             "html_code" => "</fieldset>\n"
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "other",
             "html_code" => "<div style=\"clear: both\"></div>"
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "code" => "style=\"margin: 5px 0 5px 0; width: 400px; float: left\"",
             "name" => "keywords",
@@ -281,20 +253,20 @@ row: 0
             "value" => $_REQUEST["keywords"],
             "placeholder" => t("keywords..."),
             "autofocus" => true
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "code" => "style=\"float: left; margin: 4px 0 0 5px;\"",
             "value" => t("Search")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "other",
             "html_code" => "<div style=\"clear: both\"></div>"
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
         print Jaris\Forms::generate($parameters, $fieldset);
 
@@ -304,11 +276,9 @@ row: 0
             $_REQUEST["results_count"] : 10
         ;
 
-        $results = array();
-        if(isset($_REQUEST["search"]))
-        {
-            if(trim($_REQUEST["keywords"]) != "")
-            {
+        $results = [];
+        if (isset($_REQUEST["search"])) {
+            if (trim($_REQUEST["keywords"]) != "") {
                 Jaris\Search::start(
                     $_REQUEST["keywords"],
                     [],
@@ -316,9 +286,7 @@ row: 0
                     1,
                     $results_per_page
                 );
-            }
-            else if(count($categories) > 0)
-            {
+            } elseif (count($categories) > 0) {
                 Jaris\Search::start(
                     "",
                     [],
@@ -329,12 +297,10 @@ row: 0
             }
 
             $results = Jaris\Search::getResults(1, $results_per_page);
-        }
-        elseif(
+        } elseif (
             (isset($_REQUEST["page"]) && trim($_REQUEST["keywords"]) != "") ||
             (isset($_REQUEST["page"]) && count($selected_categories) > 0)
-        )
-        {
+        ) {
             $results = Jaris\Search::getResults(
                 intval($_REQUEST["page"]),
                 $results_per_page
@@ -343,10 +309,8 @@ row: 0
             //In case a search engine indexed a search page we research to be
             //able to show data since all search results are stored on
             //session variable
-            if(count($results) <= 0)
-            {
-                if(trim($_REQUEST["keywords"]) != "")
-                {
+            if (count($results) <= 0) {
+                if (trim($_REQUEST["keywords"]) != "") {
                     Jaris\Search::start(
                         $_REQUEST["keywords"],
                         [],
@@ -354,9 +318,7 @@ row: 0
                         intval($_REQUEST["page"]),
                         $results_per_page
                     );
-                }
-                else if(count($categories) > 0)
-                {
+                } elseif (count($categories) > 0) {
                     Jaris\Search::start(
                         "",
                         [],
@@ -373,8 +335,7 @@ row: 0
             }
         }
 
-        if(count($results) > 0)
-        {
+        if (count($results) > 0) {
             print "<h2 class=\"search-results-title\">"
                 . t("Results")
                 . "</h2>\n"
@@ -382,37 +343,32 @@ row: 0
         }
 
         //Print header template if available or default
-        if(
+        if (
             $header_template = Jaris\View::searchTemplate(
                 Jaris\Uri::get(),
                 $_REQUEST["type"],
                 "header"
             )
-        )
-        {
+        ) {
             ob_start();
             include($header_template);
             $html = ob_get_contents();
             ob_end_clean();
 
             print $html;
-        }
-        else
-        {
+        } else {
             print "<div class=\"search-results\">\n";
         }
 
-        foreach($results as $fields)
-        {
+        foreach ($results as $fields) {
             $url = Jaris\Uri::url($fields["uri"]);
 
             //Display content preview image
             $image = "";
-            if(
+            if (
                 $search_settings["search_display_images"] &&
                 isset($type_display_image[$fields["type"]])
-            )
-            {
+            ) {
                 $images = Jaris\Pages\Images::getList($fields["uri"]);
 
                 $type_image = Jaris\Types::getImageUrl(
@@ -428,17 +384,15 @@ row: 0
                 );
 
                 $image = "";
-                if(count($images) > 0)
-                {
-                    foreach($images as $id => $image_fields)
-                    {
+                if (count($images) > 0) {
+                    foreach ($images as $id => $image_fields) {
                         $image = "<a title=\"{$image_fields['description']}\" " .
                             "style=\"float: left; padding-right: 4px; " .
                             "padding-bottom: 4px;\" href=\"$url\">" .
                             "<img alt=\"{$image_fields['description']}\" " .
                             "src=\"" . Jaris\Uri::url(
                                 "image/" . $fields["uri"] . "/{$image_fields['name']}",
-                                array(
+                                [
                                     "w" => $search_settings["search_images_width"] ?
                                         $search_settings["search_images_width"] : 60,
                                     "h" => $search_settings["search_images_height"] ?
@@ -447,16 +401,15 @@ row: 0
                                         $search_settings["search_images_aspect_ratio"] : "",
                                     "bg" => $search_settings["search_images_background_color"] ?
                                         $search_settings["search_images_background_color"] : ""
-                                )) .
+                                ]
+                            ) .
                             "\" />" .
                             "</a>"
                         ;
 
                         break;
                     }
-                }
-                elseif($type_image != "")
-                {
+                } elseif ($type_image != "") {
                     $image = "<a title=\"{$image_fields['description']}\" "
                         . "style=\"float: left; padding-right: 4px; "
                         . "padding-bottom: 4px;\" href=\"$url\">"
@@ -476,22 +429,19 @@ row: 0
             );
 
             //Print result template if available or default
-            if(
+            if (
                 $result_template = Jaris\View::searchTemplate(
                     Jaris\Uri::get(),
                     $_REQUEST["type"]
                 )
-            )
-            {
+            ) {
                 ob_start();
                 include($result_template);
                 $html = ob_get_contents();
                 ob_end_clean();
 
                 print $html;
-            }
-            else
-            {
+            } else {
                 print "<div class=\"result\">\n";
 
                 print "<div class=\"title\">\n";
@@ -501,20 +451,15 @@ row: 0
                 print "<div class=\"text\">\n";
                 print "$image ";
 
-                foreach(
+                foreach (
                     Jaris\Search::getTypeFields($fields["type"])
                     as
                     $label => $fields_name
-                )
-                {
-                    if($fields_name == "content")
-                    {
-                        if(is_numeric($label))
-                        {
+                ) {
+                    if ($fields_name == "content") {
+                        if (is_numeric($label)) {
                             print "<div>" . $content . "</div>";
-                        }
-                        else
-                        {
+                        } else {
                             print "<span class=\"label\">" .
                                 $label .
                                 "</span> "
@@ -525,16 +470,12 @@ row: 0
                                 "</span> "
                             ;
                         }
-                    }
-                    else if(is_numeric($label))
-                    {
+                    } elseif (is_numeric($label)) {
                         print "<span class=\"value\">" .
                             $fields[$fields_name] .
                             "</span> "
                         ;
-                    }
-                    else
-                    {
+                    } else {
                         print "<span class=\"label\">" .
                             $label .
                             "</span> "
@@ -555,36 +496,30 @@ row: 0
         }
 
         //Print footer template if available or default
-        if(
+        if (
             $footer_template =
             Jaris\View::searchTemplate(
                 Jaris\Uri::get(),
                 $_REQUEST["type"],
                 "footer"
             )
-        )
-        {
+        ) {
             ob_start();
             include($footer_template);
             $html = ob_get_contents();
             ob_end_clean();
 
             print $html;
-        }
-        else
-        {
+        } else {
             print "</div>\n";
         }
 
         //Print page navigation menu
         print "<div class=\"search-results\">\n";
 
-        if(isset($_REQUEST["search"]) && $results)
-        {
+        if (isset($_REQUEST["search"]) && $results) {
             Jaris\Search::printNavigation(1, $results_per_page);
-        }
-        elseif(isset($_REQUEST["page"]) && $results)
-        {
+        } elseif (isset($_REQUEST["page"]) && $results) {
             Jaris\Search::printNavigation(
                 intval($_REQUEST["page"]),
                 $results_per_page
@@ -594,20 +529,16 @@ row: 0
         print "</div>\n";
 
         //If nothing was found
-        if(isset($_REQUEST["search"]) && !$results)
-        {
-            if(
+        if (isset($_REQUEST["search"]) && !$results) {
+            if (
                 isset($search_settings["search_results_not_found"])
                 &&
                 trim($search_settings["search_results_not_found"]) != ""
-            )
-            {
+            ) {
                 print Jaris\System::evalPHP(
                     $search_settings["search_results_not_found"]
                 );
-            }
-            else
-            {
+            } else {
                 print t("Nothing was found.");
             }
         }

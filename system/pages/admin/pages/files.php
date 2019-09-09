@@ -19,15 +19,13 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("view_files"));
+        Jaris\Authentication::protectedPage(["view_files"]);
 
-        if(!isset($_REQUEST["uri"]))
-        {
+        if (!isset($_REQUEST["uri"])) {
             Jaris\Uri::go("");
         }
 
-        if(!Jaris\Pages::userIsOwner($_REQUEST["uri"]))
-        {
+        if (!Jaris\Pages::userIsOwner($_REQUEST["uri"])) {
             Jaris\Authentication::protectedPage();
         }
     ?>
@@ -72,109 +70,101 @@ row: 0
 
         $file_count = count(Jaris\Pages\Files::getList($_REQUEST["uri"]));
 
-        if($maximum_files == "0")
-        {
+        if ($maximum_files == "0") {
             Jaris\View::addMessage(t("File uploads not permitted for this content type."));
-        }
-        elseif($file_count >= $maximum_files && $maximum_files != "-1")
-        {
+        } elseif ($file_count >= $maximum_files && $maximum_files != "-1") {
             Jaris\View::addMessage(t("Maximum file uploads reached."));
         }
 
-        $arguments = array(
+        $arguments = [
             "uri" => $_REQUEST["uri"]
-        );
+        ];
 
         //Tabs
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
-                "edit_content", Jaris\Authentication::currentUserGroup()
+                "edit_content",
+                Jaris\Authentication::currentUserGroup()
             )
-        )
-        {
+        ) {
             Jaris\View::addTab(t("Edit"), "admin/pages/edit", $arguments);
         }
 
         Jaris\View::addTab(t("View"), $_REQUEST["uri"]);
 
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
                 "view_content_blocks",
                 Jaris\Authentication::currentUserGroup()
             )
-        )
-        {
+        ) {
             Jaris\View::addTab(t("Blocks"), "admin/pages/blocks", $arguments);
         }
 
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
                 "view_images",
                 Jaris\Authentication::currentUserGroup()
             )
-        )
-        {
+        ) {
             Jaris\View::addTab(t("Images"), "admin/pages/images", $arguments);
         }
 
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
                 "view_files",
                 Jaris\Authentication::currentUserGroup()
             )
-        )
-        {
+        ) {
             Jaris\View::addTab(t("Files"), "admin/pages/files", $arguments);
         }
 
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
                 "translate_languages",
                 Jaris\Authentication::currentUserGroup()
             )
-        )
-        {
+        ) {
             Jaris\View::addTab(t("Translate"), "admin/pages/translate", $arguments);
         }
 
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
                 "delete_content",
                 Jaris\Authentication::currentUserGroup()
             )
-        )
-        {
+        ) {
             Jaris\View::addTab(t("Delete"), "admin/pages/delete", $arguments);
         }
 
-        if($maximum_files == "-1" || $file_count < $maximum_files)
-        {
-            if(
+        if ($maximum_files == "-1" || $file_count < $maximum_files) {
+            if (
                 Jaris\Authentication::groupHasPermission(
-                    "add_files", Jaris\Authentication::currentUserGroup()
+                    "add_files",
+                    Jaris\Authentication::currentUserGroup()
                 )
-            )
-            {
+            ) {
                 Jaris\View::addTab(
-                    t("Add File"), "admin/pages/files/add", $arguments, 1
+                    t("Add File"),
+                    "admin/pages/files/add",
+                    $arguments,
+                    1
                 );
             }
         }
 
-        if(
+        if (
             isset($_REQUEST["btnSave"]) &&
             Jaris\Authentication::groupHasPermission(
                 "edit_files",
                 Jaris\Authentication::currentUserGroup()
             )
-        )
-        {
+        ) {
             $file_count = count($_REQUEST["id"]);
 
             $saved = true;
 
-            for($i = 0; $i < $file_count; $i++)
-            {
+            for ($i = 0; $i < $file_count; $i++) {
                 $file_id = intval($_REQUEST["id"][$i]);
 
                 $file_data = Jaris\Pages\Files::get(
@@ -184,25 +174,21 @@ row: 0
 
                 $file_data["description"] = $_REQUEST["description"][$i];
 
-                if(
+                if (
                     !Jaris\Pages\Files::edit(
                         $file_id,
                         $file_data,
                         $arguments["uri"]
                     )
-                )
-                {
+                ) {
                     $saved = false;
                     break;
                 }
             }
 
-            if($saved)
-            {
+            if ($saved) {
                 Jaris\View::addMessage(t("Your changes have been saved."));
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(
                     Jaris\System::errorMessage("write_error_data"),
                     "error"
@@ -210,15 +196,12 @@ row: 0
             }
 
             Jaris\Uri::go("admin/pages/files", $arguments);
-        }
-        elseif(isset($_REQUEST["btnCancel"]))
-        {
+        } elseif (isset($_REQUEST["btnCancel"])) {
             Jaris\Uri::go("admin/pages/files", $arguments);
         }
 
 
-        if($files = Jaris\Pages\Files::getList($arguments["uri"]))
-        {
+        if ($files = Jaris\Pages\Files::getList($arguments["uri"])) {
             print "<form id=\"files-select\" method=\"post\" action=\""
                 . Jaris\Uri::url("admin/pages/files/delete-selected")
                 . "\">\n"
@@ -256,21 +239,19 @@ row: 0
             print "<td>" . t("Name") . "</td>\n";
             print "<td>" . t("Description") . "</td>\n";
 
-            if(
+            if (
                 Jaris\Authentication::groupHasPermission(
                     "delete_files",
                     Jaris\Authentication::currentUserGroup()
                 )
-            )
-            {
+            ) {
                 print "<td>" . t("Operation") . "</td>\n";
             }
             print "<td></td>\n";
             print "</tr>";
             print "</thead>\n";
 
-            foreach($files as $id => $fields)
-            {
+            foreach ($files as $id => $fields) {
                 print "<input type=\"hidden\" name=\"id[]\" value=\"$id\" />\n";
 
                 print "<tr>";
@@ -290,17 +271,16 @@ row: 0
                     . "</td>"
                 ;
 
-                if(
+                if (
                     Jaris\Authentication::groupHasPermission(
                         "delete_files",
                         Jaris\Authentication::currentUserGroup()
                     )
-                )
-                {
+                ) {
                     print "<td>"
                         . "<a href=\"" . Jaris\Uri::url(
                             "admin/pages/files/delete",
-                            array("uri" => $_REQUEST["uri"], "id" => $id)
+                            ["uri" => $_REQUEST["uri"], "id" => $id]
                         )
                         . "\">"
                         . t("Delete")
@@ -319,13 +299,12 @@ row: 0
 
             print "</table>";
 
-            if(
+            if (
                 Jaris\Authentication::groupHasPermission(
                     "edit_files",
                     Jaris\Authentication::currentUserGroup()
                 )
-            )
-            {
+            ) {
                 print "<input type=\"submit\" name=\"btnSave\" "
                     . "value=\"" . t("Save") . "\" /> &nbsp"
                 ;
@@ -336,22 +315,17 @@ row: 0
             }
 
             print "</form>";
-        }
-        else
-        {
-            if(
+        } else {
+            if (
                 Jaris\Authentication::groupHasPermission(
                     "add_files",
                     Jaris\Authentication::currentUserGroup()
                 )
-            )
-            {
+            ) {
                 Jaris\View::addMessage(
                     t("No file available click Add File to create one.")
                 );
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(t("No file available."));
             }
         }

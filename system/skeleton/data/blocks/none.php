@@ -24,11 +24,11 @@ row: 0
     field: content
     <?php
         print Jaris\View::getLinksHTML(
-            Jaris\Data::sort(
+    Jaris\Data::sort(
                 Jaris\Menus::getChildItems("primary"),
                 "order"
             ),
-            "primary"
+    "primary"
         );
     ?>
     field;
@@ -70,11 +70,11 @@ row: 1
     field: content
     <?php
         print Jaris\View::getLinksHTML(
-            Jaris\Data::sort(
+        Jaris\Data::sort(
                 Jaris\Menus::getChildItems("secondary"),
                 "order"
             ),
-            "secondary"
+        "secondary"
         );
     ?>
     field;

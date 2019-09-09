@@ -19,7 +19,7 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("view_types_fields"));
+        Jaris\Authentication::protectedPage(["view_types_fields"]);
     ?>
     <script>
         $(document).ready(function() {
@@ -39,8 +39,7 @@ row: 0
     </script>
 
     <?php
-        if(!isset($_REQUEST["type"]))
-        {
+        if (!isset($_REQUEST["type"])) {
             Jaris\Uri::go("admin/types");
         }
 
@@ -50,7 +49,7 @@ row: 0
         Jaris\View::addTab(
             t("Add Field"),
             "admin/types/fields/add",
-            array("type_name" => $_REQUEST["type"])
+            ["type_name" => $_REQUEST["type"]]
         );
 
         Jaris\View::addTab(t("Manage Types"), "admin/types");
@@ -63,12 +62,10 @@ row: 0
         <input type="hidden" name="type" value="<?php print $_REQUEST["type"] ?>" />
 
     <?php
-    if(isset($_REQUEST["btnSave"]))
-    {
+    if (isset($_REQUEST["btnSave"])) {
         $saved = true;
 
-        for($i = 0; $i < count($_REQUEST["id"]); $i++)
-        {
+        for ($i = 0; $i < count($_REQUEST["id"]); $i++) {
             $field_id = intval($_REQUEST["id"][$i]);
 
             $new_field_data = Jaris\Fields::get(
@@ -78,42 +75,35 @@ row: 0
 
             $new_field_data["position"] = $i;
 
-            if(
+            if (
                 !Jaris\Fields::edit(
                     $field_id,
                     $new_field_data,
                     $_REQUEST["type"]
                 )
-            )
-            {
+            ) {
                 $saved = false;
                 break;
             }
         }
 
-        if($saved)
-        {
+        if ($saved) {
             Jaris\View::addMessage(t("Your changes have been saved."));
-        }
-        else
-        {
+        } else {
             Jaris\View::addMessage(
                 Jaris\System::errorMessage("write_error_data"),
                 "error"
             );
         }
 
-        Jaris\Uri::go("admin/types/fields", array("type" => $_REQUEST["type"]));
+        Jaris\Uri::go("admin/types/fields", ["type" => $_REQUEST["type"]]);
     }
 
     $fields_array = Jaris\Fields::getList($_REQUEST["type"]);
 
-    if(!$fields_array)
-    {
+    if (!$fields_array) {
         print "<h3>" . t("No fields available click on Add Field to create one.") . "</h3>";
-    }
-    else
-    {
+    } else {
         print "<table class=\"types-list\">\n";
 
         print "<thead><tr>\n";
@@ -127,8 +117,7 @@ row: 0
 
         print "<tbody>\n";
 
-        foreach($fields_array as $id => $fields)
-        {
+        foreach ($fields_array as $id => $fields) {
             print "<tr>\n";
 
             print "<td>" .
@@ -142,12 +131,12 @@ row: 0
 
             $edit_url = Jaris\Uri::url(
                 "admin/types/fields/edit",
-                array("id" => $id, "type_name" => $_REQUEST["type"])
+                ["id" => $id, "type_name" => $_REQUEST["type"]]
             );
 
             $delete_url = Jaris\Uri::url(
                 "admin/types/fields/delete",
-                array("id" => $id, "type_name" => $_REQUEST["type"])
+                ["id" => $id, "type_name" => $_REQUEST["type"]]
             );
 
             $edit_text = t("Edit");

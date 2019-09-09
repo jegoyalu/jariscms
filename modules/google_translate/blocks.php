@@ -33,12 +33,9 @@ row: 0
     <?php
         $translante_language = "";
 
-        if($language = Jaris\Settings::get("input_language", "google_translate"))
-        {
+        if ($language = Jaris\Settings::get("input_language", "google_translate")) {
             $translante_language = $language;
-        }
-        else
-        {
+        } else {
             $translante_language = "en";
         }
     ?>

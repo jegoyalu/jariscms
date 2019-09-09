@@ -19,7 +19,7 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("edit_settings"));
+        Jaris\Authentication::protectedPage(["edit_settings"]);
 
         Jaris\View::addTab(t("System Log"), "admin/settings/log");
         Jaris\View::addTab(t("Errors Log"), "admin/settings/errors");
@@ -27,19 +27,17 @@ row: 0
         Jaris\View::addTab(
             t("Clear Log"),
             "admin/settings/log-clear",
-            array(),
+            [],
             1
         );
 
         $ordering = "order by date desc";
 
-        if(!isset($_REQUEST["ordering"]))
-        {
+        if (!isset($_REQUEST["ordering"])) {
             $_REQUEST["ordering"] = "";
         }
 
-        switch($_REQUEST["ordering"])
-        {
+        switch ($_REQUEST["ordering"]) {
             case "date_asc":
                 $ordering = "order by date asc";
                 break;
@@ -50,27 +48,22 @@ row: 0
 
         $page = 1;
 
-        if(isset($_REQUEST["page"]))
-        {
+        if (isset($_REQUEST["page"])) {
             $page = $_REQUEST["page"];
         }
 
-        $order_by = array(
+        $order_by = [
             t("Date Descending") => "date_desc",
             t("Date Ascending") => "date_asc"
-        );
+        ];
 
         print "<form method=\"get\" action=\"" . Jaris\Uri::url("admin/settings/log") . "\">\n";
         print "<input type=\"hidden\" name=\"page\" value=\"$page\" />\n";
         print t("Order by:") . " <select onchange=\"javascript: this.form.submit()\" name=\"ordering\">\n";
-        foreach($order_by as $order_title=>$order_value)
-        {
-            if($order_value == $_REQUEST["ordering"])
-            {
+        foreach ($order_by as $order_title=>$order_value) {
+            if ($order_value == $_REQUEST["ordering"]) {
                 print "<option selected value=\"$order_value\">$order_title</option>\n";
-            }
-            else
-            {
+            } else {
                 print "<option value=\"$order_value\">$order_title</option>\n";
             }
         }
@@ -99,12 +92,12 @@ row: 0
             "admin/settings/log",
             "",
             100,
-            array(
+            [
                 "ordering" => $_REQUEST["ordering"]
-            )
+            ]
         );
 
-        $level = array(
+        $level = [
             Jaris\Logger::EMERGENCY => t('Emergency'),
             Jaris\Logger::ALERT => t('Alert'),
             Jaris\Logger::CRITICAL => t('Critical'),
@@ -113,7 +106,7 @@ row: 0
             Jaris\Logger::NOTICE => t('Notice'),
             Jaris\Logger::INFO => t('Info'),
             Jaris\Logger::DEBUG => t('Debug')
-        );
+        ];
 
         print "<table class=\"navigation-list\">";
         print "<thead>";
@@ -129,8 +122,7 @@ row: 0
 
         print "<tbody>";
 
-        foreach($messages as $message)
-        {
+        foreach ($messages as $message) {
             $message["context"] = unserialize($message["context"]);
 
             print "<tr class=\"{$message["level"]}\">";
@@ -146,10 +138,8 @@ row: 0
 
             $message["message"] = t($message["message"]);
 
-            if(count($message["context"]) > 0)
-            {
-                foreach($message["context"] as $ctx_key=>$ctx_val)
-                {
+            if (count($message["context"]) > 0) {
+                foreach ($message["context"] as $ctx_key=>$ctx_val) {
                     $message["message"] = str_replace(
                         "{".$ctx_key."}",
                         $ctx_val,
@@ -184,9 +174,9 @@ row: 0
             "admin/settings/log",
             "",
             100,
-            array(
+            [
                 "ordering" => $_REQUEST["ordering"]
-            )
+            ]
         );
     ?>
     field;

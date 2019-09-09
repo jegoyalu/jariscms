@@ -60,7 +60,8 @@
  * @subpackage HTTP
  * @author Stephen Clay <steve@mrclay.org>
  */
-class HTTP_ConditionalGet {
+class HTTP_ConditionalGet
+{
 
     /**
      * Does the client have a valid copy of the requested resource?
@@ -233,7 +234,7 @@ class HTTP_ConditionalGet {
      *
      * @param array $options (default empty) additional options for constructor
      */
-    public static function check($lastModifiedTime = null, $isPublic = false, $options = array())
+    public static function check($lastModifiedTime = null, $isPublic = false, $options = [])
     {
         if (null !== $lastModifiedTime) {
             $options['lastModifiedTime'] = (int)$lastModifiedTime;
@@ -263,7 +264,7 @@ class HTTP_ConditionalGet {
         return gmdate('D, d M Y H:i:s \G\M\T', $time);
     }
 
-    protected $_headers = array();
+    protected $_headers = [];
     protected $_lmTime = null;
     protected $_etag = null;
     protected $_stripEtag = false;
@@ -339,7 +340,8 @@ class HTTP_ConditionalGet {
      *
      * @return string
      */
-    protected function normalizeEtag($etag) {
+    protected function normalizeEtag($etag)
+    {
         $etag = trim($etag);
         return $this->_stripEtag
             ? preg_replace('/;\\w\\w"$/', '"', $etag)

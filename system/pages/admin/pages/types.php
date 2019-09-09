@@ -19,9 +19,9 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("add_content"));
+        Jaris\Authentication::protectedPage(["add_content"]);
 
-        $types = array();
+        $types = [];
         $types_array = Jaris\Types::getList();
         $types_array = Jaris\Data::sort($types_array, "order");
 
@@ -37,37 +37,32 @@ row: 0
 
         $has_a_type_permission = false;
 
-        foreach($types_array as $machine_name => $fields)
-        {
-            if(
+        foreach ($types_array as $machine_name => $fields) {
+            if (
                 Jaris\Authentication::hasTypeAccess(
                     $machine_name,
                     Jaris\Authentication::currentUserGroup(),
                     Jaris\Authentication::currentUser()
                 )
-            )
-            {
+            ) {
                 print "<tr>\n";
 
                 print "<td>" . t($fields["name"]) . "</td>\n";
                 print "<td>" . t($fields["description"]) . "</td>\n";
 
                 $add_url = "";
-                if(isset($_REQUEST["uri"]) && trim($_REQUEST["uri"]) != "")
-                {
+                if (isset($_REQUEST["uri"]) && trim($_REQUEST["uri"]) != "") {
                     $add_url = Jaris\Uri::url(
                         "admin/pages/add",
-                        array(
+                        [
                             "type" => $machine_name,
                             "uri" => trim($_REQUEST["uri"])
-                        )
+                        ]
                     );
-                }
-                else
-                {
+                } else {
                     $add_url = Jaris\Uri::url(
                         "admin/pages/add",
-                        array("type" => $machine_name)
+                        ["type" => $machine_name]
                     );
                 }
 
@@ -85,8 +80,7 @@ row: 0
 
         print "</table>\n";
 
-        if(!$has_a_type_permission)
-        {
+        if (!$has_a_type_permission) {
             Jaris\View::addMessage(
                 t("You do not have permissions to add content of any type. Ask the administrator for access.")
             );

@@ -12,7 +12,7 @@
  */
 function books_get_books()
 {
-    $books = array();
+    $books = [];
 
     $db = Jaris\Sql::open("search_engine");
 
@@ -21,8 +21,7 @@ function books_get_books()
         $db
     );
 
-    while($data = Jaris\Sql::fetchArray($result))
-    {
+    while ($data = Jaris\Sql::fetchArray($result)) {
         $books[] = $data["uri"];
     }
 
@@ -54,25 +53,22 @@ function books_get_book_pages($uri)
  */
 function books_organize_pages(&$pages, $indet_amount=0, $indent_char="&nbsp;&nbsp;", $parent="")
 {
-    $organized = array();
+    $organized = [];
 
     $indet = "";
 
-    for($i=0; $i<$indet_amount; $i++)
-    {
+    for ($i=0; $i<$indet_amount; $i++) {
         $indet .= $indent_char;
     }
 
-    foreach($pages as $page_uri=>$page_parent)
-    {
-        if($page_parent == $parent)
-        {
+    foreach ($pages as $page_uri=>$page_parent) {
+        if ($page_parent == $parent) {
             $page_data = Jaris\Pages::get($page_uri, Jaris\Language::getCurrent());
 
-            $organized[$page_uri] = array(
+            $organized[$page_uri] = [
                 "title" => $indet . $page_data["title"],
                 "parent" => $page_parent
-            );
+            ];
 
             // Append the page sub sections.
             $sub_sections = books_organize_pages(
@@ -82,8 +78,9 @@ function books_organize_pages(&$pages, $indet_amount=0, $indent_char="&nbsp;&nbs
                 $page_uri
             );
 
-            if(count($sub_sections) > 0)
+            if (count($sub_sections) > 0) {
                 $organized += $sub_sections;
+            }
         }
     }
 
@@ -103,10 +100,8 @@ function books_get_toc(&$pages, $parent="")
     $output = "";
 
     $output .= '<ol>';
-    foreach($pages as $page_uri=>$page_parent)
-    {
-        if($page_parent == $parent)
-        {
+    foreach ($pages as $page_uri=>$page_parent) {
+        if ($page_parent == $parent) {
             $sections_found = true;
 
             $page_data = Jaris\Pages::get($page_uri, Jaris\Language::getCurrent());
@@ -124,8 +119,9 @@ function books_get_toc(&$pages, $parent="")
     }
     $output .= '</ol>';
 
-    if($sections_found)
+    if ($sections_found) {
         return $output;
+    }
 
     return "";
 }
@@ -145,8 +141,7 @@ function books_get_side_toc(&$pages, $parent="")
 
     $output .= '<ol>';
 
-    if($parent)
-    {
+    if ($parent) {
         $page_data = Jaris\Pages::get($parent, Jaris\Language::getCurrent());
 
         $output .= '<li>';
@@ -158,10 +153,8 @@ function books_get_side_toc(&$pages, $parent="")
 
     $output .= '<ol>';
 
-    foreach($pages as $page_uri=>$page_parent)
-    {
-        if($page_parent == $parent)
-        {
+    foreach ($pages as $page_uri=>$page_parent) {
+        if ($page_parent == $parent) {
             $page_data = Jaris\Pages::get($page_uri, Jaris\Language::getCurrent());
 
             $output .= '<li>';
@@ -182,8 +175,9 @@ function books_get_side_toc(&$pages, $parent="")
 
     $output .= '</ol>';
 
-    if($sections_found)
+    if ($sections_found) {
         return $output;
+    }
 
     return "";
 }
@@ -203,16 +197,15 @@ function book_get_page_previous($page)
 
     $previous = "";
 
-    foreach($book_data["book_pages"] as $page_uri=>$page_parent)
-    {
-        if($page_uri == $page)
+    foreach ($book_data["book_pages"] as $page_uri=>$page_parent) {
+        if ($page_uri == $page) {
             break;
+        }
 
         $previous = $page_uri;
     }
 
-    if($previous)
-    {
+    if ($previous) {
         $previous_page = Jaris\Pages::get($previous, Jaris\Language::getCurrent());
 
         return '<a href="'.  Jaris\Uri::url($previous).'">'
@@ -241,23 +234,19 @@ function book_get_page_next($page)
     $next = "";
     $page_found = false;
 
-    foreach($book_data["book_pages"] as $page_uri=>$page_parent)
-    {
-        if($page_uri == $page)
-        {
+    foreach ($book_data["book_pages"] as $page_uri=>$page_parent) {
+        if ($page_uri == $page) {
             $page_found = true;
             continue;
         }
 
-        if($page_found)
-        {
+        if ($page_found) {
             $next = $page_uri;
             break;
         }
     }
 
-    if($next)
-    {
+    if ($next) {
         $next_page = Jaris\Pages::get($next, Jaris\Language::getCurrent());
 
         return '<a href="'.  Jaris\Uri::url($next).'">'

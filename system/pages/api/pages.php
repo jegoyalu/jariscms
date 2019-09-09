@@ -19,14 +19,12 @@ row: 0
     <?php
         // We execute this without api functions processing for better
         // performance without the impact of api validation.
-        if(
+        if (
             !empty($_REQUEST["action"])
             &&
             $_REQUEST["action"] == "count_view"
-        )
-        {
-            if(!empty($_REQUEST["uri"]))
-            {
+        ) {
+            if (!empty($_REQUEST["uri"])) {
                 Jaris\Pages::countView($_REQUEST["uri"]);
             }
 
@@ -34,13 +32,13 @@ row: 0
         }
 
         Jaris\Api::init(
-            array(
-                "add" => array(
+            [
+                "add" => [
                     "description" => "Adds a new page.",
-                    "parameters" => array(
-                        "data" => array(
+                    "parameters" => [
+                        "data" => [
                             "description" => "The page data array.",
-                            "elements" => array(
+                            "elements" => [
                                 "uri" => "Uri or path of the page.",
                                 "title" => "The title of the page.",
                                 "content" => "HTML or PHP content of the page.",
@@ -54,27 +52,27 @@ row: 0
                                 "created_date" => "A valid timestamp.",
                                 "author" => "Username of author.",
                                 "type" => "Machine name of the page type."
-                            ),
-                            "elements_required" => array("title")
-                        )
-                    ),
-                    "parameters_required" => array(
+                            ],
+                            "elements_required" => ["title"]
+                        ]
+                    ],
+                    "parameters_required" => [
                         "data"
-                    ),
-                    "response" => array(
+                    ],
+                    "response" => [
                         "uri" => "Uri of the created page."
-                    ),
-                    "errors" => array(
+                    ],
+                    "errors" => [
                         "1010" => "Failed to create the page."
-                    ),
+                    ],
                     "permissions" => "add_page_core"
-                ),
-                "add_bulk" => array(
+                ],
+                "add_bulk" => [
                     "description" => "Adds multiple pages from a sqlite database.",
-                    "parameters" => array(
-                        "db" => array(
+                    "parameters" => [
+                        "db" => [
                             "description" => "Gzipped base64 encoded sqlite database with a table named 'pages' and a json encoded 'data' column containing the following fields:",
-                            "elements" => array(
+                            "elements" => [
                                 "uri" => "Uri or path of the page.",
                                 "title" => "The title of the page (required).",
                                 "content" => "HTML or PHP content of the page.",
@@ -88,29 +86,29 @@ row: 0
                                 "created_date" => "A valid timestamp.",
                                 "author" => "Username of author.",
                                 "type" => "Machine name of the page type."
-                            )
-                        )
-                    ),
-                    "parameters_required" => array(
+                            ]
+                        ]
+                    ],
+                    "parameters_required" => [
                         "db"
-                    ),
-                    "response" => array(
+                    ],
+                    "response" => [
                         "uris" => "Array of the created page URI's."
-                    ),
-                    "errors" => array(
+                    ],
+                    "errors" => [
                         "1060" => "Failed to uncompress database.",
                         "1070" => "Invalid database format.",
                         "1080" => "Failed to create all the pages."
-                    ),
+                    ],
                     "permissions" => "add_page_core"
-                ),
-                "edit" => array(
+                ],
+                "edit" => [
                     "description" => "Edit an existing page.",
-                    "parameters" => array(
+                    "parameters" => [
                         "uri" => "Uri or path of page.",
-                        "data" => array(
+                        "data" => [
                             "description" => "The page data array.",
-                            "elements" => array(
+                            "elements" => [
                                 "title" => "The title of the page.",
                                 "content" => "HTML or PHP content of the page.",
                                 "meta_title" => "The meta title of the page.",
@@ -125,26 +123,26 @@ row: 0
                                 "author" => "Username of author.",
                                 "last_edit_by" => "Username of latest changes author.",
                                 "type" => "Machine name of the page type."
-                            ),
-                            "elements_required" => array("title")
-                        )
-                    ),
-                    "parameters_required" => array(
+                            ],
+                            "elements_required" => ["title"]
+                        ]
+                    ],
+                    "parameters_required" => [
                         "uri",
                         "data"
-                    ),
-                    "errors" => array(
+                    ],
+                    "errors" => [
                         "1020" => "The page does not exists.",
                         "1030" => "Failed to edit the page."
-                    ),
+                    ],
                     "permissions" => "edit_page_core"
-                ),
-                "edit_bulk" => array(
+                ],
+                "edit_bulk" => [
                     "description" => "Edits multiple pages from a sqlite database.",
-                    "parameters" => array(
-                        "db" => array(
+                    "parameters" => [
+                        "db" => [
                             "description" => "Gzipped base64 encoded sqlite database with a table named 'pages' and a json encoded 'data' column containing the following fields:",
-                            "elements" => array(
+                            "elements" => [
                                 "uri" => "Uri or path of the page (required).",
                                 "title" => "The title of the page.",
                                 "content" => "HTML or PHP content of the page.",
@@ -158,65 +156,65 @@ row: 0
                                 "created_date" => "A valid timestamp.",
                                 "author" => "Username of author.",
                                 "type" => "Machine name of the page type."
-                            )
-                        )
-                    ),
-                    "parameters_required" => array(
+                            ]
+                        ]
+                    ],
+                    "parameters_required" => [
                         "db"
-                    ),
-                    "response" => array(
+                    ],
+                    "response" => [
                         "uris" => "Array of the edited page URI's."
-                    ),
-                    "errors" => array(
+                    ],
+                    "errors" => [
                         "1060" => "Failed to uncompress database.",
                         "1070" => "Invalid database format.",
                         "1090" => "Provided an item without URI.",
                         "1100" => "Failed to edit all the pages."
-                    ),
+                    ],
                     "permissions" => "edit_page_core"
-                ),
-                "delete" => array(
+                ],
+                "delete" => [
                     "description" => "Delete an existing page.",
-                    "parameters" => array(
+                    "parameters" => [
                         "uri" => "Uri or path of page."
-                    ),
-                    "parameters_required" => array(
+                    ],
+                    "parameters_required" => [
                         "uri"
-                    ),
-                    "errors" => array(
+                    ],
+                    "errors" => [
                         "1020" => "The page does not exists.",
                         "1040" => "Failed to delete the page."
-                    ),
+                    ],
                     "permissions" => "delete_page_core"
-                ),
-                "delete_bulk" => array(
+                ],
+                "delete_bulk" => [
                     "description" => "Deletes a list of existing pages.",
-                    "parameters" => array(
+                    "parameters" => [
                         "uris" => "Array of page URI's."
-                    ),
-                    "parameters_required" => array(
+                    ],
+                    "parameters_required" => [
                         "uris"
-                    ),
-                    "response" => array(
+                    ],
+                    "response" => [
                         "uris" => "Array of the deleted page URI's."
-                    ),
-                    "errors" => array(
+                    ],
+                    "errors" => [
                         "1110" => "Failed to delete all pages."
-                    ),
+                    ],
                     "permissions" => "delete_page_core"
-                ),
-                "get" => array(
+                ],
+                "get" => [
                     "description" => "Get an existing page.",
-                    "parameters" => array(
+                    "parameters" => [
                         "uri" => "Uri or path of page."
-                    ),
-                    "parameters_required" => array(
+                    ],
+                    "parameters_required" => [
                         "uri"
-                    ),
-                    "response" => array(
-                        "data" => array(
+                    ],
+                    "response" => [
+                        "data" => [
                             "description" => "The page data.",
-                            "elements" => array(
+                            "elements" => [
                                 "title" => "The title of the page.",
                                 "content" => "HTML or PHP content of the page.",
                                 "meta_title" => "The meta title of the page.",
@@ -231,46 +229,44 @@ row: 0
                                 "author" => "Username of author.",
                                 "last_edit_by" => "Username of latest changes author.",
                                 "type" => "Machine name of the page type."
-                            )
-                        )
-                    ),
-                    "errors" => array(
+                            ]
+                        ]
+                    ],
+                    "errors" => [
                         "1020" => "Page does not exists."
-                    ),
+                    ],
                     "permissions" => "get_page_core"
-                ),
-                "get_db" => array(
+                ],
+                "get_db" => [
                     "description" => "Get the pages database.",
-                    "response" => array(
+                    "response" => [
                         "db" => "Gzipped base64 encoded sqlite database with all pages."
-                    ),
-                    "errors" => array(
+                    ],
+                    "errors" => [
                         "1050" => "Pages database does not exists."
-                    ),
+                    ],
                     "permissions" => "get_page_core"
-                ),
-                "count_view" => array(
+                ],
+                "count_view" => [
                     "description" => "Increment the page views.",
-                    "parameters" => array(
+                    "parameters" => [
                         "uri" => "Uri or path of page."
-                    ),
-                    "parameters_required" => array(
+                    ],
+                    "parameters_required" => [
                         "uri"
-                    )
-                )
-            )
+                    ]
+                ]
+            ]
         );
 
         $action = Jaris\Api::getAction();
 
-        if($action == "add")
-        {
+        if ($action == "add") {
             $data = Jaris\Api::decodeParam("data");
 
-            if(
+            if (
                 empty($data["uri"])
-            )
-            {
+            ) {
                 $data["uri"] = Jaris\Types::generateURI(
                     $data["type"],
                     $data["title"],
@@ -278,33 +274,27 @@ row: 0
                 );
             }
 
-            if(empty($data["categories"]))
-            {
-                $data["categories"] = array();
+            if (empty($data["categories"])) {
+                $data["categories"] = [];
             }
 
-            if(empty($data["groups"]))
-            {
-                $data["groups"] = array();
+            if (empty($data["groups"])) {
+                $data["groups"] = [];
             }
 
-            if(empty($data["users"]))
-            {
-                $data["users"] = array();
+            if (empty($data["users"])) {
+                $data["users"] = [];
             }
 
-            if(empty($data["created_date"]))
-            {
+            if (empty($data["created_date"])) {
                 $data["created_date"] = time();
             }
 
-            if(empty($data["input_format"]))
-            {
+            if (empty($data["input_format"])) {
                 $data["input_format"] = "full_html";
             }
 
-            if(empty($data["type"]))
-            {
+            if (empty($data["type"])) {
                 $data["type"] = "page";
             }
 
@@ -314,33 +304,27 @@ row: 0
 
             $uri = "";
 
-            if(Jaris\Pages::add($page_uri, $data, $uri))
-            {
+            if (Jaris\Pages::add($page_uri, $data, $uri)) {
                 Jaris\Api::addResponse("uri", $uri);
-            }
-            else
-            {
+            } else {
                 Jaris\Api::sendErrorResponse(
                     1010,
                     "Failed to create the page."
                 );
             }
-        }
-        elseif($action == "add_bulk")
-        {
+        } elseif ($action == "add_bulk") {
             $db_name = Jaris\Users::generatePassword();
             $db_file = Jaris\Site::dataDir()
                 . "sqlite/"
                 . $db_name
             ;
 
-            if(
+            if (
                 !file_put_contents(
                     $db_file,
                     Jaris\Api::uncompressData($_REQUEST["db"])
                 )
-            )
-            {
+            ) {
                 Jaris\Api::sendErrorResponse(
                     1060,
                     "Failed to uncompress database."
@@ -351,8 +335,7 @@ row: 0
 
             $result = Jaris\Sql::query("select data from pages", $db);
 
-            if(!$result)
-            {
+            if (!$result) {
                 Jaris\Sql::close($db);
                 unlink($db_file);
 
@@ -362,14 +345,12 @@ row: 0
                 );
             }
 
-            $uris = array();
+            $uris = [];
 
-            while($data = Jaris\Sql::fetchArray($result))
-            {
+            while ($data = Jaris\Sql::fetchArray($result)) {
                 $data = Jaris\Api::decodeData($data["data"]);
 
-                if(empty($data["uri"]))
-                {
+                if (empty($data["uri"])) {
                     $data["uri"] = Jaris\Types::generateURI(
                         $data["type"] ?? "product",
                         $data["title"],
@@ -377,33 +358,27 @@ row: 0
                     );
                 }
 
-                if(empty($data["categories"]))
-                {
-                    $data["categories"] = array();
+                if (empty($data["categories"])) {
+                    $data["categories"] = [];
                 }
 
-                if(empty($data["groups"]))
-                {
-                    $data["groups"] = array();
+                if (empty($data["groups"])) {
+                    $data["groups"] = [];
                 }
 
-                if(empty($data["users"]))
-                {
-                    $data["users"] = array();
+                if (empty($data["users"])) {
+                    $data["users"] = [];
                 }
 
-                if(empty($data["created_date"]))
-                {
+                if (empty($data["created_date"])) {
                     $data["created_date"] = time();
                 }
 
-                if(empty($data["input_format"]))
-                {
+                if (empty($data["input_format"])) {
                     $data["input_format"] = "full_html";
                 }
 
-                if(empty($data["type"]))
-                {
+                if (empty($data["type"])) {
                     $data["type"] = "page";
                 }
 
@@ -413,12 +388,9 @@ row: 0
 
                 $uri = "";
 
-                if(Jaris\Pages::add($page_uri, $data, $uri))
-                {
+                if (Jaris\Pages::add($page_uri, $data, $uri)) {
                     $uris[] = $uri;
-                }
-                else
-                {
+                } else {
                     Jaris\Sql::close($db);
                     unlink($db_file);
 
@@ -436,13 +408,10 @@ row: 0
             unlink($db_file);
 
             Jaris\Api::addResponse("uris", $uris);
-        }
-        elseif($action == "edit")
-        {
+        } elseif ($action == "edit") {
             $page_data = Jaris\Pages::get($_REQUEST["uri"]);
 
-            if(!$page_data)
-            {
+            if (!$page_data) {
                 Jaris\Api::sendErrorResponse(
                     1020,
                     "The page does not exists."
@@ -451,37 +420,33 @@ row: 0
 
             $data = Jaris\Api::decodeParam("data");
 
-            foreach($data as $index => $value)
-            {
-                if($index == "uri")
+            foreach ($data as $index => $value) {
+                if ($index == "uri") {
                     continue;
+                }
 
                 $page_data[$index] = $value;
             }
 
-            if(!Jaris\Pages::edit($data["uri"], $page_data))
-            {
+            if (!Jaris\Pages::edit($data["uri"], $page_data)) {
                 Jaris\Api::sendErrorResponse(
                     1030,
                     "Failed to edit the page."
                 );
             }
-        }
-        elseif($action == "edit_bulk")
-        {
+        } elseif ($action == "edit_bulk") {
             $db_name = Jaris\Users::generatePassword();
             $db_file = Jaris\Site::dataDir()
                 . "sqlite/"
                 . $db_name
             ;
 
-            if(
+            if (
                 !file_put_contents(
                     $db_file,
                     Jaris\Api::uncompressData($_REQUEST["db"])
                 )
-            )
-            {
+            ) {
                 Jaris\Api::sendErrorResponse(
                     1060,
                     "Failed to uncompress database."
@@ -492,8 +457,7 @@ row: 0
 
             $result = Jaris\Sql::query("select data from pages", $db);
 
-            if(!$result)
-            {
+            if (!$result) {
                 Jaris\Sql::close($db);
                 unlink($db_file);
 
@@ -503,15 +467,13 @@ row: 0
                 );
             }
 
-            $uris = array();
+            $uris = [];
 
-            while($data = Jaris\Sql::fetchArray($result))
-            {
+            while ($data = Jaris\Sql::fetchArray($result)) {
                 $data = Jaris\Api::decodeData($data["data"]);
-                $page_data = array();
+                $page_data = [];
 
-                if(empty($data["uri"]))
-                {
+                if (empty($data["uri"])) {
                     Jaris\Sql::close($db);
                     unlink($db_file);
 
@@ -519,25 +481,23 @@ row: 0
                         1090,
                         "Provided an item without URI."
                     );
-                }
-                else
-                {
+                } else {
                     $page_data = Jaris\Pages::get($data["uri"]);
                 }
 
-                if(!$page_data)
+                if (!$page_data) {
                     continue;
+                }
 
-                foreach($data as $index => $value)
-                {
-                    if($index == "uri")
+                foreach ($data as $index => $value) {
+                    if ($index == "uri") {
                         continue;
+                    }
 
                     $page_data[$index] = $value;
                 }
 
-                if(!Jaris\Pages::edit($data["uri"], $page_data))
-                {
+                if (!Jaris\Pages::edit($data["uri"], $page_data)) {
                     Jaris\Sql::close($db);
                     unlink($db_file);
 
@@ -548,9 +508,7 @@ row: 0
                         1100,
                         "Failed to edit all the pages."
                     );
-                }
-                else
-                {
+                } else {
                     $uris[] = $data["uri"];
                 }
             }
@@ -559,49 +517,43 @@ row: 0
             unlink($db_file);
 
             Jaris\Api::addResponse("uris", $uris);
-        }
-        elseif($action == "delete")
-        {
+        } elseif ($action == "delete") {
             $page_data = Jaris\Pages::get($_REQUEST["uri"]);
 
-            if(!$page_data)
-            {
+            if (!$page_data) {
                 Jaris\Api::sendErrorResponse(
                     1020,
                     "The page does not exists."
                 );
             }
 
-            if(
+            if (
                 !Jaris\Pages::delete(
                     $_REQUEST["uri"]
                 )
-            )
-            {
+            ) {
                 Jaris\Api::sendErrorResponse(
                     1040,
                     "Failed to delete the page."
                 );
             }
-        }
-        elseif($action == "delete_bulk")
-        {
+        } elseif ($action == "delete_bulk") {
             $uris_recv = Jaris\Api::decodeParam("uris");
 
-            $uris = array();
+            $uris = [];
 
-            foreach($uris_recv as $uri)
-            {
-                if(empty($uri))
+            foreach ($uris_recv as $uri) {
+                if (empty($uri)) {
                     continue;
+                }
 
                 $page_data = Jaris\Pages::get($uri);
 
-                if(!$page_data)
+                if (!$page_data) {
                     continue;
+                }
 
-                if(!Jaris\Pages::delete($uri))
-                {
+                if (!Jaris\Pages::delete($uri)) {
                     // Add the pages that where deleted.
                     Jaris\Api::addResponse("uris", $uris);
 
@@ -609,21 +561,16 @@ row: 0
                         1110,
                         "Failed to delete all the pages."
                     );
-                }
-                else
-                {
+                } else {
                     $uris[] = $uri;
                 }
             }
 
             Jaris\Api::addResponse("uris", $uris);
-        }
-        elseif($action == "get")
-        {
+        } elseif ($action == "get") {
             $page_data = Jaris\Pages::get($_REQUEST["uri"]);
 
-            if(!$page_data)
-            {
+            if (!$page_data) {
                 Jaris\Api::sendErrorResponse(
                     1020,
                     "The page does not exists."
@@ -631,11 +578,8 @@ row: 0
             }
 
             Jaris\Api::addResponse("data", $page_data);
-        }
-        elseif($action == "get_db")
-        {
-            if(Jaris\Sql::dbExists("search_engine"))
-            {
+        } elseif ($action == "get_db") {
+            if (Jaris\Sql::dbExists("search_engine")) {
                 Jaris\Api::addResponse(
                     "db",
                     Jaris\Api::compressData(
@@ -645,9 +589,7 @@ row: 0
                         )
                     )
                 );
-            }
-            else
-            {
+            } else {
                 Jaris\Api::sendErrorResponse(
                     1050,
                     "Pages database does not exists."

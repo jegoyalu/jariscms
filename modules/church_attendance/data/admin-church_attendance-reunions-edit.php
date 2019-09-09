@@ -21,26 +21,22 @@ row: 0
     <?php
         //Stop unauthorized access
         Jaris\Authentication::protectedPage(
-            array("manage_reunions_church_attendance")
+            ["manage_reunions_church_attendance"]
         );
 
-        $reunion_data = array();
+        $reunion_data = [];
 
-        if(empty($_REQUEST["id"]))
-        {
+        if (empty($_REQUEST["id"])) {
             Jaris\Uri::go(
                 Jaris\Modules::getPageUri(
                     "admin/church-attendance/reunions",
                     "church_attendance"
                 )
             );
-        }
-        else
-        {
+        } else {
             $reunion_data = church_attendance_reunion_get($_REQUEST["id"]);
 
-            if(empty($reunion_data))
-            {
+            if (empty($reunion_data)) {
                 Jaris\View::addMessage(t("Invalid reunion."));
 
                 Jaris\Uri::go(
@@ -60,21 +56,19 @@ row: 0
             $db
         );
 
-        $members_present = array();
+        $members_present = [];
 
-        while($registry_data = Jaris\Sql::fetchArray($result))
-        {
+        while ($registry_data = Jaris\Sql::fetchArray($result)) {
             $members_present[$registry_data["member_id"]] = true;
         }
 
         Jaris\Sql::close($db);
 
-        if(
+        if (
             isset($_REQUEST["btnSave"]) &&
             !Jaris\Forms::requiredFieldEmpty("edit-reunion")
-        )
-        {
-            $data = array(
+        ) {
+            $data = [
                 "day" => $reunion_data["day"],
                 "month" => $reunion_data["month"],
                 "year" => $reunion_data["year"],
@@ -86,10 +80,12 @@ row: 0
                 "calendar_event_id" => $reunion_data["calendar_event_id"],
                 "calendar_uri" => $reunion_data["calendar_uri"],
                 "registered_by" => $reunion_data["registered_by"]
-            );
+            ];
 
             church_attendance_reunion_edit(
-                $_REQUEST["id"], $data, $_REQUEST["members"]
+                $_REQUEST["id"],
+                $data,
+                $_REQUEST["members"]
             );
 
             Jaris\View::addMessage("Reunion attendance successfully updated.");
@@ -100,9 +96,7 @@ row: 0
                     "church_attendance"
                 )
             );
-        }
-        elseif(isset($_REQUEST["btnCancel"]))
-        {
+        } elseif (isset($_REQUEST["btnCancel"])) {
             Jaris\Uri::go(
                 Jaris\Modules::getPageUri(
                     "admin/church-attendance/reunions",
@@ -129,24 +123,23 @@ row: 0
         $parameters["action"] = Jaris\Uri::url(Jaris\Uri::get());
         $parameters["method"] = "post";
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "hidden",
             "name" => "id",
             "value" => $_REQUEST["id"]
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "name" => "title",
             "label" => t("Reunion:"),
             "value" => $reunion_data["title"],
             "readonly" => true
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
-        foreach(church_attendance_group_list() as $group_id => $group_name)
-        {
+        foreach (church_attendance_group_list() as $group_id => $group_name) {
             $db = Jaris\Sql::open("church_attendance_members");
 
             $result = Jaris\Sql::query(
@@ -155,11 +148,10 @@ row: 0
                 $db
             );
 
-            $fields = array();
+            $fields = [];
 
-            while($member_data = Jaris\Sql::fetchArray($result))
-            {
-                $fields[] = array(
+            while ($member_data = Jaris\Sql::fetchArray($result)) {
+                $fields[] = [
                     "type" => "checkbox",
                     "name" => "members[]",
                     "label" => $member_data["first_name"]
@@ -172,13 +164,12 @@ row: 0
                         . "," . $member_data["gender"]
                         . "," . $member_data["last_visit_date"],
                     "checked" => isset($members_present[$member_data["id"]])
-                );
+                ];
             }
 
             Jaris\Sql::close($db);
 
-            if(!empty($fields))
-            {
+            if (!empty($fields)) {
                 $select_code = '<div style="text-align: right; padding: 4px; border-bottom: solid 1px #d3d3d3; margin-bottom: 10px;">'
                     . t("Select:")
                     . ' '
@@ -202,35 +193,35 @@ row: 0
                     . '</script>'
                 ;
 
-                $field_select = array();
+                $field_select = [];
 
-                $field_select[] = array(
+                $field_select[] = [
                     "type" => "other",
                     "html_code" => $select_code
-                );
+                ];
 
-                $fieldset[] = array(
+                $fieldset[] = [
                     "name" => t($group_name),
                     "fields" => array_merge($field_select, $fields),
                     "collapsible" => true,
                     "collapsed" => true
-                );
+                ];
             }
         }
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnSave",
             "value" => t("Save")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnCancel",
             "value" => t("Cancel")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
         print Jaris\Forms::generate($parameters, $fieldset);
     ?>

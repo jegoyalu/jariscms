@@ -32,7 +32,8 @@
  * @version     2.5.3 (GitHub Release)
  */
 
-class Mobile_Detect {
+class Mobile_Detect
+{
 
     // External info.
     protected $userAgent = null;
@@ -45,7 +46,7 @@ class Mobile_Detect {
     protected $detectionType = 'mobile'; // mobile, extended @todo: refactor this.
 
     // List of mobile devices (phones)
-    protected $phoneDevices = array(
+    protected $phoneDevices = [
         'iPhone'        => '(iPhone.*Mobile|iPod|iTunes)',
         'BlackBerry'    => 'BlackBerry|rim[0-9]+',
         'HTC'           => 'HTC|HTC.*(Sensation|Evo|Vision|Explorer|6800|8100|8900|A7272|S510e|C110e|Legend|Desire|T8282)|APX515CKT|Qtek9090|APA9292KT|HD_mini|Sensation.*Z710e|PG86100|Z715e|Desire.*(A8181|HD)|ADR6200|ADR6425|001HT|Inspire 4G',
@@ -62,9 +63,9 @@ class Mobile_Detect {
         // Most of the VEGA devices are legacy. PANTECH seem to be newer devices based on Android.
         'Pantech'       => 'PANTECH|IM-A850S|IM-A840S|IM-A830L|IM-A830K|IM-A830S|IM-A820L|IM-A810K|IM-A810S|IM-A800S|IM-T100K|IM-A725L|IM-A780L|IM-A775C|IM-A770K|IM-A760S|IM-A750K|IM-A740S|IM-A730S|IM-A720L|IM-A710K|IM-A690L|IM-A690S|IM-A650S|IM-A630K|IM-A600S|VEGA PTL21|PT003|P8010|ADR910L|P6030|P6020|P9070|P4100|P9060|P5000|CDM8992|TXT8045|ADR8995|IS11PT|P2030|P6010|P8000|PT002|IS06|CDM8999|P9050|PT001|TXT8040|P2020|P9020|P2000|P7040|P7000|C790',
         'GenericPhone'  => 'PDA;|PPC;|SAGEM|mmp|pocket|psp|symbian|Smartphone|smartfon|treo|up.browser|up.link|vodafone|wap|nokia|Series40|Series60|S60|SonyEricsson|N900|MAUI.*WAP.*Browser|LG-P500'
-    );
+    ];
     // List of tablet devices.
-    protected $tabletDevices = array(
+    protected $tabletDevices = [
         'BlackBerryTablet'  => 'PlayBook|RIM Tablet',
         'iPad'              => 'iPad|iPad.*Mobile', // @todo: check for mobile friendly emails topic.
         'NexusTablet'       => '^.*Android.*Nexus(((?:(?!Mobile))|(?:(\s(7|10).+))).)*$',
@@ -101,9 +102,9 @@ class Mobile_Detect {
         // @ref: http://www.telstra.com.au/home-phone/thub-2/
         'TelstraTablet'     => 'T-Hub2',
         'GenericTablet'     => 'Android.*\b97D\b|Tablet(?!.*PC)|ViewPad7|LG-V909|MID7015|BNTV250A|LogicPD Zoom2|\bA7EB\b|CatNova8|A1_07|CT704|CT1002|\bM721\b|hp-tablet',
-    );
+    ];
     // List of mobile Operating Systems.
-    protected $operatingSystems = array(
+    protected $operatingSystems = [
         'AndroidOS'         => 'Android',
         'BlackBerryOS'      => 'blackberry|rim tablet os',
         'PalmOS'            => 'PalmOS|avantgo|blazer|elaine|hiptop|palm|plucker|xiino',
@@ -126,9 +127,9 @@ class Mobile_Detect {
         'webOS'             => 'webOS|hpwOS',
         'badaOS'            => '\bBada\b',
         'BREWOS'            => 'BREW',
-    );
+    ];
     // List of mobile User Agents.
-    protected $userAgents = array(
+    protected $userAgents = [
         // @reference: https://developers.google.com/chrome/mobile/docs/user-agent
         'Chrome'          => '\bCrMo\b|CriOS|Android.*Chrome/[.0-9]* (Mobile)?',
         'Dolfin'          => '\bDolfin\b',
@@ -152,17 +153,17 @@ class Mobile_Detect {
         // @reference: http://en.wikipedia.org/wiki/Minimo
         // http://en.wikipedia.org/wiki/Vision_Mobile_Browser
         'GenericBrowser'  => 'NokiaBrowser|OviBrowser|SEMC.*Browser|FlyFlow|Minimo|NetFront|Novarra-Vision'
-    );
+    ];
     // Utilities.
-    protected $utilities = array(
+    protected $utilities = [
         'WebKit'        => '(webkit)[ /]([\w.]+)',
         'Bot'           => 'Googlebot|DoCoMo|YandexBot|bingbot|ia_archiver|AhrefsBot|Ezooms|GSLFbot|WBSearchBot|Twitterbot|TweetmemeBot|Twikle|PaperLiBot|Wotbox|UnwindFetchor|facebookexternalhit',
         'MobileBot'     => 'Googlebot-Mobile|DoCoMo|YahooSeeker/M1A1-R2D2',
-    );
+    ];
     // Properties list.
     // @reference: http://user-agent-string.info/list-of-ua#Mobile Browser
     const VER = '([\w._]+)';
-    protected $properties = array(
+    protected $properties = [
 
         // Build
         'Mobile'        => 'Mobile/[VER]',
@@ -185,7 +186,7 @@ class Mobile_Detect {
         'Firefox'       => 'Firefox/[VER]',
         'Fennec'        => 'Fennec/[VER]',
         // @reference: http://msdn.microsoft.com/en-us/library/ms537503(v=vs.85).aspx
-        'IEMobile'      => array('IEMobile/[VER];', 'IEMobile [VER]'),
+        'IEMobile'      => ['IEMobile/[VER];', 'IEMobile [VER]'],
         'MSIE'          => 'MSIE [VER];',
         // http://en.wikipedia.org/wiki/NetFront
         'NetFront'      => 'NetFront/[VER]',
@@ -207,7 +208,7 @@ class Mobile_Detect {
 
         // OS
         'Android'          => 'Android [VER]',
-        'BlackBerry'       => array('BlackBerry[\w]+/[VER]', 'BlackBerry.*Version/[VER]'),
+        'BlackBerry'       => ['BlackBerry[\w]+/[VER]', 'BlackBerry.*Version/[VER]'],
         'BREW'             => 'BREW [VER]',
         'Java'             => 'Java/[VER]',
         // @reference: http://windowsteamblog.com/windows_phone/b/wpdev/archive/2011/08/29/introducing-the-ie9-on-windows-phone-mango-user-agent-string.aspx
@@ -217,70 +218,64 @@ class Mobile_Detect {
         'Windows CE'       => 'Windows CE/[VER]',
         // http://social.msdn.microsoft.com/Forums/en-US/windowsdeveloperpreviewgeneral/thread/6be392da-4d2f-41b4-8354-8dcee20c85cd
         'Windows NT'       => 'Windows NT [VER]',
-        'Symbian'          => array('SymbianOS/[VER]', 'Symbian/[VER]'),
-        'webOS'            => array('webOS/[VER]', 'hpwOS/[VER];'),
+        'Symbian'          => ['SymbianOS/[VER]', 'Symbian/[VER]'],
+        'webOS'            => ['webOS/[VER]', 'hpwOS/[VER];'],
 
 
-    );
+    ];
 
-    function __construct(){
-
+    public function __construct()
+    {
         $this->setHttpHeaders();
         $this->setUserAgent();
 
         $this->setMobileDetectionRules();
         $this->setMobileDetectionRulesExtended();
-
     }
 
-    public function setHttpHeaders($httpHeaders = null){
-
-        if(!empty($httpHeaders)){
+    public function setHttpHeaders($httpHeaders = null)
+    {
+        if (!empty($httpHeaders)) {
             $this->httpHeaders = $httpHeaders;
         } else {
-            foreach($_SERVER as $key => $value){
-                if(substr($key,0,5)=='HTTP_'){
+            foreach ($_SERVER as $key => $value) {
+                if (substr($key, 0, 5)=='HTTP_') {
                     $this->httpHeaders[$key] = $value;
                 }
             }
         }
-
     }
 
-    public function setUserAgent($userAgent = null){
-
-        if(!empty($userAgent)){
+    public function setUserAgent($userAgent = null)
+    {
+        if (!empty($userAgent)) {
             $this->userAgent = $userAgent;
         } else {
             $this->userAgent    = isset($this->httpHeaders['HTTP_USER_AGENT']) ? $this->httpHeaders['HTTP_USER_AGENT'] : null;
 
-            if(empty($this->userAgent)){
+            if (empty($this->userAgent)) {
                 $this->userAgent = isset($this->httpHeaders['HTTP_X_DEVICE_USER_AGENT']) ? $this->httpHeaders['HTTP_X_DEVICE_USER_AGENT'] : null;
             }
             // Header can occur on devices using Opera Mini (can expose the real device type). Let's concatenate it (we need this extra info in the regexes).
-            if(!empty($this->httpHeaders['HTTP_X_OPERAMINI_PHONE_UA'])){
+            if (!empty($this->httpHeaders['HTTP_X_OPERAMINI_PHONE_UA'])) {
                 $this->userAgent .= ' '.$this->httpHeaders['HTTP_X_OPERAMINI_PHONE_UA'];
             }
         }
-
     }
 
-    function setDetectionType($type = null){
-
+    public function setDetectionType($type = null)
+    {
         $this->detectionType = (!empty($type) ? $type : 'mobile');
-
     }
 
-    public function getPhoneDevices(){
-
+    public function getPhoneDevices()
+    {
         return $this->phoneDevices;
-
     }
 
-    public function getTabletDevices(){
-
+    public function getTabletDevices()
+    {
         return $this->tabletDevices;
-
     }
 
     /**
@@ -288,7 +283,8 @@ class Mobile_Detect {
      *
      * This method is used for the magic methods $detect->is*()
      */
-    public function setMobileDetectionRules(){
+    public function setMobileDetectionRules()
+    {
         // Merge all rules together.
         $this->mobileDetectionRules = array_merge(
             $this->phoneDevices,
@@ -296,7 +292,6 @@ class Mobile_Detect {
             $this->operatingSystems,
             $this->userAgents
         );
-
     }
 
     /**
@@ -308,7 +303,8 @@ class Mobile_Detect {
      *
      * @return bool
      */
-    public function setMobileDetectionRulesExtended(){
+    public function setMobileDetectionRulesExtended()
+    {
 
         // Merge all rules together.
         $this->mobileDetectionRulesExtended = array_merge(
@@ -318,7 +314,6 @@ class Mobile_Detect {
             $this->userAgents,
             $this->utilities
         );
-
     }
 
     /**
@@ -326,24 +321,22 @@ class Mobile_Detect {
      */
     public function getRules()
     {
-
-        if($this->detectionType=='extended'){
+        if ($this->detectionType=='extended') {
             return $this->mobileDetectionRulesExtended;
         } else {
             return $this->mobileDetectionRules;
         }
-
     }
 
-/**
-* Check the HTTP headers for signs of mobile.
-* This is the fastest mobile check possible; it's used
-* inside isMobile() method.
-* @return boolean
-*/
-    public function checkHttpHeadersForMobile(){
-
-        if(
+    /**
+    * Check the HTTP headers for signs of mobile.
+    * This is the fastest mobile check possible; it's used
+    * inside isMobile() method.
+    * @return boolean
+    */
+    public function checkHttpHeadersForMobile()
+    {
+        if (
             isset($this->httpHeaders['HTTP_ACCEPT']) &&
                 (strpos($this->httpHeaders['HTTP_ACCEPT'], 'application/x-obml2d') !== false || // Opera Mini; @reference: http://dev.opera.com/articles/view/opera-binary-markup-language/
                  strpos($this->httpHeaders['HTTP_ACCEPT'], 'application/vnd.rim.html') !== false || // BlackBerry devices.
@@ -363,17 +356,15 @@ class Mobile_Detect {
             isset($this->httpHeaders['HTTP_X_MOBILE_GATEWAY'])          || // Reported by Verizon, Vodafone proxy system.
             isset($this->httpHeaders['HTTP_X_ATT_DEVICEID'])            || // Seend this on HTC Sensation. @ref: SensationXE_Beats_Z715e
             //HTTP_X_NETWORK_TYPE = WIFI
-            ( isset($this->httpHeaders['HTTP_UA_CPU']) &&
+            (
+                isset($this->httpHeaders['HTTP_UA_CPU']) &&
                     $this->httpHeaders['HTTP_UA_CPU'] == 'ARM'          // Seen this on a HTC.
             )
-        ){
-
+        ) {
             return true;
-
         }
 
         return false;
-
     }
 
     /**
@@ -386,12 +377,10 @@ class Mobile_Detect {
      */
     public function __call($name, $arguments)
     {
-
         $this->setDetectionType('mobile');
 
         $key = substr($name, 2);
         return $this->matchUAAgainstKey($key);
-
     }
 
     /**
@@ -400,19 +389,21 @@ class Mobile_Detect {
     * @param null $userAgent deprecated
     * @return boolean
     */
-    private function matchDetectionRulesAgainstUA($userAgent = null){
+    private function matchDetectionRulesAgainstUA($userAgent = null)
+    {
 
         // Begin general search.
-        foreach($this->getRules() as $_regex){
-            if(empty($_regex)){ continue; }
-            if( $this->match($_regex, $userAgent) ){
+        foreach ($this->getRules() as $_regex) {
+            if (empty($_regex)) {
+                continue;
+            }
+            if ($this->match($_regex, $userAgent)) {
                 //var_dump( $_regex );
                 return true;
             }
         }
 
         return false;
-
     }
 
     /**
@@ -424,19 +415,21 @@ class Mobile_Detect {
     * @param null $userAgent deprecated
     * @return mixed
     */
-    private function matchUAAgainstKey($key, $userAgent = null){
+    private function matchUAAgainstKey($key, $userAgent = null)
+    {
 
         // Make the keys lowercase so we can match: isIphone(), isiPhone(), isiphone(), etc.
         $key = strtolower($key);
         $_rules = array_change_key_case($this->getRules());
 
-        if(array_key_exists($key, $_rules)){
-            if(empty($_rules[$key])){ return null; }
+        if (array_key_exists($key, $_rules)) {
+            if (empty($_rules[$key])) {
+                return null;
+            }
             return $this->match($_rules[$key], $userAgent);
         }
 
         return false;
-
     }
 
     /**
@@ -446,10 +439,14 @@ class Mobile_Detect {
     * @param null $httpHeaders deprecated
     * @return bool
     */
-    public function isMobile($userAgent = null, $httpHeaders = null) {
-
-        if($httpHeaders){ $this->setHttpHeaders($httpHeaders); }
-        if($userAgent){ $this->setUserAgent($userAgent); }
+    public function isMobile($userAgent = null, $httpHeaders = null)
+    {
+        if ($httpHeaders) {
+            $this->setHttpHeaders($httpHeaders);
+        }
+        if ($userAgent) {
+            $this->setUserAgent($userAgent);
+        }
 
         $this->setDetectionType('mobile');
 
@@ -458,7 +455,6 @@ class Mobile_Detect {
         } else {
             return $this->matchDetectionRulesAgainstUA();
         }
-
     }
 
     /**
@@ -469,18 +465,17 @@ class Mobile_Detect {
      * @param null $httpHeaders deprecated
      * @return bool
     */
-    public function isTablet($userAgent = null, $httpHeaders = null) {
-
+    public function isTablet($userAgent = null, $httpHeaders = null)
+    {
         $this->setDetectionType('mobile');
 
-        foreach($this->tabletDevices as $_regex){
-            if($this->match($_regex, $userAgent)){
+        foreach ($this->tabletDevices as $_regex) {
+            if ($this->match($_regex, $userAgent)) {
                 return true;
             }
         }
 
         return false;
-
     }
 
     /**
@@ -493,23 +488,26 @@ class Mobile_Detect {
      * @param string $httpHeaders deprecated
      * @return bool|int|null
      */
-    public function is($key, $userAgent = null, $httpHeaders = null){
+    public function is($key, $userAgent = null, $httpHeaders = null)
+    {
 
 
         // Set the UA and HTTP headers only if needed (eg. batch mode).
-        if($httpHeaders) $this->setHttpHeaders($httpHeaders);
-        if($userAgent) $this->setUserAgent($userAgent);
+        if ($httpHeaders) {
+            $this->setHttpHeaders($httpHeaders);
+        }
+        if ($userAgent) {
+            $this->setUserAgent($userAgent);
+        }
 
         $this->setDetectionType('extended');
 
         return $this->matchUAAgainstKey($key);
-
     }
 
-    public function getOperatingSystems(){
-
+    public function getOperatingSystems()
+    {
         return $this->operatingSystems;
-
     }
 
     /**
@@ -527,23 +525,22 @@ class Mobile_Detect {
      *
      * @todo: search in the HTTP headers too.
      */
-    function match($regex, $userAgent=null){
+    public function match($regex, $userAgent=null)
+    {
 
         // Escape the special character which is the delimiter.
         $regex = str_replace('/', '\/', $regex);
 
         return (bool)preg_match('/'.$regex.'/is', (!empty($userAgent) ? $userAgent : $this->userAgent));
-
     }
 
     /**
      * Get the properties array.
      * @return array
      */
-    function getProperties(){
-
+    public function getProperties()
+    {
         return $this->properties;
-
     }
 
     /**
@@ -552,15 +549,14 @@ class Mobile_Detect {
      * @param $ver
      * @return int
      */
-    function prepareVersionNo($ver){
-
-        $ver = str_replace(array('_', ' ', '/'), array('.', '.', '.'), $ver);
+    public function prepareVersionNo($ver)
+    {
+        $ver = str_replace(['_', ' ', '/'], ['.', '.', '.'], $ver);
         $arrVer = explode('.', $ver, 2);
         $arrVer[1] = @str_replace('.', '', $arrVer[1]); // @todo: treat strings versions.
         $ver = (float)implode('.', $arrVer);
 
         return $ver;
-
     }
 
     /**
@@ -570,19 +566,18 @@ class Mobile_Detect {
      * @param string $propertyName
      * @return mixed $version
      */
-    function version($propertyName){
-
+    public function version($propertyName)
+    {
         $properties = $this->getProperties();
 
         // If the property is found in the User-Agent then move to the next step.
-        if(stripos($this->userAgent, $propertyName)!==false){
+        if (stripos($this->userAgent, $propertyName)!==false) {
 
             // Prepare the pattern to be matched.
             // Make sure we always deal with an array (string is converted).
             $properties[$propertyName] = (array)$properties[$propertyName];
 
-            foreach($properties[$propertyName] as $propertyMatchString){
-
+            foreach ($properties[$propertyName] as $propertyMatchString) {
                 $propertyPattern = str_replace('[VER]', self::VER, $propertyMatchString);
 
                 // Escape the special character which is the delimiter.
@@ -591,26 +586,23 @@ class Mobile_Detect {
                 // Identify and extract the version.
                 preg_match('/'.$propertyPattern.'/is', $this->userAgent, $match);
 
-                if(!empty($match[1])){
+                if (!empty($match[1])) {
                     $version = $this->prepareVersionNo($match[1]);
                     return $version;
                 }
-
             }
 
             return 0;
-
         }
 
         return false;
-
     }
 
-    function mobileGrade(){
-
+    public function mobileGrade()
+    {
         $isMobile = $this->isMobile();
 
-        if(
+        if (
             // Apple iOS 3.2-5.1 - Tested on the original iPad (4.3 / 5.0), iPad 2 (4.3), iPad 3 (5.1), original iPhone (3.1), iPhone 3 (3.2), 3GS (4.3), 4 (4.3 / 5.0), and 4S (5.1)
             $this->version('iPad')>=4.3 ||
             $this->version('iPhone')>=3.1 ||
@@ -620,7 +612,7 @@ class Mobile_Detect {
             // Android 3.1 (Honeycomb)  - Tested on the Samsung Galaxy Tab 10.1 and Motorola XOOM
             // Android 4.0 (ICS)  - Tested on a Galaxy Nexus. Note: transition performance can be poor on upgraded devices
             // Android 4.1 (Jelly Bean)  - Tested on a Galaxy Nexus and Galaxy 7
-            ( $this->version('Android')>2.1 && $this->is('Webkit') ) ||
+            ($this->version('Android')>2.1 && $this->is('Webkit')) ||
 
             // Windows Phone 7-7.5 - Tested on the HTC Surround (7.0) HTC Trophy (7.5), LG-E900 (7.5), Nokia Lumia 800
             $this->version('Windows Phone OS')>=7.0 ||
@@ -632,21 +624,21 @@ class Mobile_Detect {
             $this->match('Playbook.*Tablet') ||
 
             // Palm WebOS (1.4-2.0) - Tested on the Palm Pixi (1.4), Pre (1.4), Pre 2 (2.0)
-            ( $this->version('webOS')>=1.4 && $this->match('Palm|Pre|Pixi') ) ||
+            ($this->version('webOS')>=1.4 && $this->match('Palm|Pre|Pixi')) ||
             // Palm WebOS 3.0  - Tested on HP TouchPad
             $this->match('hp.*TouchPad') ||
 
             // Firefox Mobile (12 Beta) - Tested on Android 2.3 device
-            ( $this->is('Firefox') && $this->version('Firefox')>=12 ) ||
+            ($this->is('Firefox') && $this->version('Firefox')>=12) ||
 
             // Chrome for Android - Tested on Android 4.0, 4.1 device
-            ( $this->is('Chrome') && $this->is('AndroidOS') && $this->version('Android')>=4.0 ) ||
+            ($this->is('Chrome') && $this->is('AndroidOS') && $this->version('Android')>=4.0) ||
 
             // Skyfire 4.1 - Tested on Android 2.3 device
-            ( $this->is('Skyfire') && $this->version('Skyfire')>=4.1 && $this->is('AndroidOS') && $this->version('Android')>=2.3 ) ||
+            ($this->is('Skyfire') && $this->version('Skyfire')>=4.1 && $this->is('AndroidOS') && $this->version('Android')>=2.3) ||
 
             // Opera Mobile 11.5-12: Tested on Android 2.3
-            ( $this->is('Opera') && $this->version('Opera Mobi')>11 && $this->is('AndroidOS') ) ||
+            ($this->is('Opera') && $this->version('Opera Mobi')>11 && $this->is('AndroidOS')) ||
 
             // Meego 1.2 - Tested on Nokia 950 and N9
             $this->is('MeeGoOS') ||
@@ -659,11 +651,11 @@ class Mobile_Detect {
             $this->is('Dolfin') && $this->version('Bada')>=2.0 ||
 
             // UC Browser - Tested on Android 2.3 device
-            ( ($this->is('UC Browser') || $this->is('Dolfin')) && $this->version('Android')>=2.3 ) ||
+            (($this->is('UC Browser') || $this->is('Dolfin')) && $this->version('Android')>=2.3) ||
 
             // Kindle 3 and Fire  - Tested on the built-in WebKit browser for each
-            ( $this->match('Kindle Fire') ||
-            $this->is('Kindle') && $this->version('Kindle')>=3.0 ) ||
+            ($this->match('Kindle Fire') ||
+            $this->is('Kindle') && $this->version('Kindle')>=3.0) ||
 
             // Nook Color 1.4.1 - Tested on original Nook Color, not Nook Tablet
             $this->is('AndroidOS') && $this->is('NookTablet') ||
@@ -685,17 +677,17 @@ class Mobile_Detect {
             $this->version('Opera')>=10 && !$isMobile
 
 
-        ){
+        ) {
             return 'A';
         }
 
-        if(
+        if (
             // Blackberry 5.0: Tested on the Storm 2 9550, Bold 9770
             $this->version('BlackBerry')>=5 && $this->version('BlackBerry')<6 ||
 
             //Opera Mini (5.0-6.5) - Tested on iOS 3.2/4.3 and Android 2.3
-            ( $this->version('Opera Mini')>=5.0 && $this->version('Opera Mini')<=6.5 &&
-            ($this->version('Android')>=2.3 || $this->is('iOS')) ) ||
+            ($this->version('Opera Mini')>=5.0 && $this->version('Opera Mini')<=6.5 &&
+            ($this->version('Android')>=2.3 || $this->is('iOS'))) ||
 
             // Nokia Symbian^3 - Tested on Nokia N8 (Symbian^3), C7 (Symbian^3), also works on N97 (Symbian^1)
             $this->match('NokiaN8|NokiaC7|N97.*Series60|Symbian/3') ||
@@ -703,28 +695,22 @@ class Mobile_Detect {
             // @todo: report this (tested on Nokia N71)
             $this->version('Opera Mobi')>=11 && $this->is('SymbianOS')
 
-            ){
+            ) {
             return 'B';
         }
 
-        if(
+        if (
             // Blackberry 4.x - Tested on the Curve 8330
             $this->version('BlackBerry')<5.0 ||
             // Windows Mobile - Tested on the HTC Leo (WinMo 5.2)
             $this->match('MSIEMobile|Windows CE.*Mobile') || $this->version('Windows Mobile')<=5.2
 
 
-        ){
-
+        ) {
             return 'C';
-
         }
 
         // All older smartphone platforms and featurephones - Any device that doesn't support media queries will receive the basic, C grade experience
         return 'C';
-
-
     }
-
-
 }

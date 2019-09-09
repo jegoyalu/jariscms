@@ -18,7 +18,7 @@ row: 0
     field: content
     <?php
         Jaris\Authentication::protectedPage(
-            array("manage_members_church_attendance")
+    ["manage_members_church_attendance"]
         );
 
         Jaris\View::addTab(
@@ -63,27 +63,23 @@ row: 0
 
         $page = 1;
 
-        if(isset($_REQUEST["page"]))
-        {
+        if (isset($_REQUEST["page"])) {
             $page = $_REQUEST["page"];
         }
 
         $talent = "";
-        if(!empty($_REQUEST["talent"]))
-        {
+        if (!empty($_REQUEST["talent"])) {
             $talent_val = intval($_REQUEST["talent"]);
             $talent = "talent_id=$talent_val";
         }
 
         $where = "";
 
-        if($talent)
-        {
+        if ($talent) {
             $where .= "where ";
         }
 
-        if($talent)
-        {
+        if ($talent) {
             $where .= "$talent ";
         }
 
@@ -114,14 +110,13 @@ row: 0
         $parameters["method"] = "get";
 
         $talents_list = church_attendance_talent_list();
-        $talents_value = array(t("All") => "");
+        $talents_value = [t("All") => ""];
 
-        foreach($talents_list as $talent_id => $talent_name)
-        {
+        foreach ($talents_list as $talent_id => $talent_name) {
             $talents_value[t($talent_name)] = $talent_id;
         }
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "select",
             "name" => "talent",
             "label" => t("Filter by talent:"),
@@ -131,14 +126,14 @@ row: 0
                 :
                 "",
             "code" => 'onchange="javascript: this.form.submit()"'
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "name" => t("Filter Results"),
             "fields" => $fields,
             "collapsible" => true,
             "collapsed" => !isset($_REQUEST["talent"])
-        );
+        ];
 
         print Jaris\Forms::generate($parameters, $fieldset);
 
@@ -148,9 +143,9 @@ row: 0
             "admin/church-attendance/members/by-talent",
             "church_attendance",
             20,
-            array(
+            [
                 "talent" => $_REQUEST["talent"]
-            )
+            ]
         );
 
         print "<table class=\"navigation-list navigation-list-hover\">";
@@ -163,8 +158,7 @@ row: 0
         print "</thead>";
 
         print "<tbody>";
-        foreach($talents as $talent_data)
-        {
+        foreach ($talents as $talent_data) {
             $member_data = church_attendance_member_get(
                 $talent_data["member_id"]
             );
@@ -176,7 +170,7 @@ row: 0
                     "admin/church-attendance/members/edit",
                     "church_attendance"
                 ),
-                array("id"=>$member_data["id"])
+                ["id"=>$member_data["id"]]
             );
 
             print "<td>"
@@ -210,9 +204,9 @@ row: 0
             "admin/church-attendance/members/by-talent",
             "church_attendance",
             20,
-            array(
+            [
                 "talent" => $_REQUEST["talent"]
-            )
+            ]
         );
     ?>
     field;

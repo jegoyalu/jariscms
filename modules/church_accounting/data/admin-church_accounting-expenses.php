@@ -17,7 +17,7 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("view_expenses_church_accounting"));
+        Jaris\Authentication::protectedPage(["view_expenses_church_accounting"]);
     ?>
 
     <script>
@@ -44,8 +44,8 @@ row: 0
 
     <?php
         Jaris\View::addTab(
-            t("Add Expense"),
-            Jaris\Modules::getPageUri(
+        t("Add Expense"),
+        Jaris\Modules::getPageUri(
                 "admin/church-accounting/expenses/add",
                 "church_accounting"
             )
@@ -68,55 +68,47 @@ row: 0
         );
 
 
-        $options = array();
+        $options = [];
 
         $categories = church_accounting_category_list(
             ChurchAccountingCategory::EXPENSE
         );
 
-        if(trim($_REQUEST["cat"]) != "")
-        {
+        if (trim($_REQUEST["cat"]) != "") {
             $category = intval($_REQUEST["cat"]);
             $options[] = "category=$category";
         }
 
-        if(trim($_REQUEST["month"]) != "")
-        {
+        if (trim($_REQUEST["month"]) != "") {
             $month = intval($_REQUEST["month"]);
             $options[] = "month=$month";
         }
 
-        if(trim($_REQUEST["year"]) != "")
-        {
+        if (trim($_REQUEST["year"]) != "") {
             $year = intval($_REQUEST["year"]);
             $options[] = "year=$year";
         }
 
-        $sorting_array = array(
+        $sorting_array = [
             t("Date Descending") => "date_desc",
             t("Date Ascending") => "date_asc"
-        );
+        ];
 
         $sorting = "";
-        if(trim($_REQUEST["sorting"]) != "")
-        {
-            switch(trim($_REQUEST["sorting"]))
-            {
+        if (trim($_REQUEST["sorting"]) != "") {
+            switch (trim($_REQUEST["sorting"])) {
                 case "date_asc":
                     $sorting = 'order by created_date asc';
                     break;
                 default:
                     $sorting = 'order by created_date desc';
             }
-        }
-        else
-        {
+        } else {
             $sorting = 'order by created_date desc';
         }
 
         $where = "";
-        if(count($options) > 0)
-        {
+        if (count($options) > 0) {
             $where = "where "
                 . implode(" and ", $options)
             ;
@@ -124,8 +116,7 @@ row: 0
 
         $page = 1;
 
-        if(isset($_REQUEST["page"]))
-        {
+        if (isset($_REQUEST["page"])) {
             $page = $_REQUEST["page"];
         }
 
@@ -135,14 +126,12 @@ row: 0
         ;
         print t("Category:") . " <select onchange=\"javascript: this.form.submit()\" name=\"cat\">\n";
         print "<option value=\"\">" . t("All") . "</option>\n";
-        foreach($categories as $category_id=>$category_name)
-        {
+        foreach ($categories as $category_id=>$category_name) {
             $selected = "";
 
             $category_name = t($category_name);
 
-            if($_REQUEST["cat"] == $category_id)
-            {
+            if ($_REQUEST["cat"] == $category_id) {
                 $selected = "selected=\"selected\"";
             }
 
@@ -152,12 +141,10 @@ row: 0
 
         print t("Month:") . " <select onchange=\"javascript: this.form.submit()\" name=\"month\">\n";
         print "<option value=\"\">" . t("All") . "</option>\n";
-        foreach(Jaris\Date::getMonths() as $month_name=>$month_value)
-        {
+        foreach (Jaris\Date::getMonths() as $month_name=>$month_value) {
             $selected = "";
 
-            if($_REQUEST["month"] == $month_value)
-            {
+            if ($_REQUEST["month"] == $month_value) {
                 $selected = "selected=\"selected\"";
             }
 
@@ -167,12 +154,10 @@ row: 0
 
         print t("Year:") . " <select onchange=\"javascript: this.form.submit()\" name=\"year\">\n";
         print "<option value=\"\">" . t("All") . "</option>\n";
-        foreach(Jaris\Date::getYears() as $year)
-        {
+        foreach (Jaris\Date::getYears() as $year) {
             $selected = "";
 
-            if($_REQUEST["year"] == $year)
-            {
+            if ($_REQUEST["year"] == $year) {
                 $selected = "selected=\"selected\"";
             }
 
@@ -183,12 +168,10 @@ row: 0
 
         print "<div style=\"float: right; margin-left: 10px;\">";
         print t("Sort by:") . " <select onchange=\"javascript: this.form.submit()\" name=\"sorting\">\n";
-        foreach($sorting_array as $label => $value)
-        {
+        foreach ($sorting_array as $label => $value) {
             $selected = "";
 
-            if($_REQUEST["sorting"] == $value)
-            {
+            if ($_REQUEST["sorting"] == $value) {
                 $selected = "selected=\"selected\"";
             }
 
@@ -227,12 +210,12 @@ row: 0
             "admin/church-accounting/expenses",
             "church_accounting",
             20,
-            array(
+            [
                 "cat" => $_REQUEST["cat"],
                 "month" => $_REQUEST["month"],
                 "year" => $_REQUEST["year"],
                 "sorting" => $_REQUEST["sorting"]
-            )
+            ]
         );
 
         $months = array_flip(Jaris\Date::getMonths());
@@ -248,8 +231,7 @@ row: 0
         print "</thead>";
 
         print "<tbody>";
-        foreach($expenses as $expense_data)
-        {
+        foreach ($expenses as $expense_data) {
             print "<tr>";
 
             print "<td>"
@@ -260,19 +242,16 @@ row: 0
             ;
 
             $items = "";
-            if($expense_data["category"] == "9")
-            {
+            if ($expense_data["category"] == "9") {
                 $expense_data["items_data"] = unserialize(
                     $expense_data["items_data"]
                 );
 
-                if(count($expense_data["items_data"]) > 0)
-                {
+                if (count($expense_data["items_data"]) > 0) {
                     $items .= ' <a class="category-more">&raquo;</a>';
                     $items .= "<table style=\"margin-top: 7px;\">";
                     $items .= "<tbody>";
-                    foreach($expense_data["items_data"] as $item)
-                    {
+                    foreach ($expense_data["items_data"] as $item) {
                         $items .= "<tr>";
                         $items .= "<td style=\"font-size: 13px; text-align: left; padding-left: 0; padding-right: 0;\">"
                             . $item["description"]
@@ -304,7 +283,7 @@ row: 0
                     "admin/church-accounting/expenses/edit",
                     "church_accounting"
                 ),
-                array("id"=>$expense_data["id"])
+                ["id"=>$expense_data["id"]]
             );
 
             $delete_url = Jaris\Uri::url(
@@ -312,7 +291,7 @@ row: 0
                     "admin/church-accounting/expenses/delete",
                     "church_accounting"
                 ),
-                array("id"=>$expense_data["id"])
+                ["id"=>$expense_data["id"]]
             );
 
             print "<td>"
@@ -334,12 +313,12 @@ row: 0
             "admin/church-accounting/expenses",
             "church_accounting",
             20,
-            array(
+            [
                 "cat" => $_REQUEST["cat"],
                 "month" => $_REQUEST["month"],
                 "year" => $_REQUEST["year"],
                 "sorting" => $_REQUEST["sorting"]
-            )
+            ]
         );
     ?>
     field;

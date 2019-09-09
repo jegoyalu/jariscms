@@ -20,31 +20,27 @@ row: 0
     field: content
     <?php
         Jaris\Authentication::protectedPage(
-            array("view_languages", "add_languages")
+    ["view_languages", "add_languages"]
         );
 
-        if(
+        if (
             isset($_REQUEST["btnSave"]) &&
             !Jaris\Forms::requiredFieldEmpty("add-language")
-        )
-        {
-            if(!isset($_REQUEST["code"]))
-            {
+        ) {
+            if (!isset($_REQUEST["code"])) {
                 Jaris\Uri::go("admin/languages");
             }
 
             $languages = Jaris\Language::getCodes();
 
-            foreach($languages as $name => $code)
-            {
-                if($code == $_REQUEST["code"])
-                {
+            foreach ($languages as $name => $code) {
+                if ($code == $_REQUEST["code"]) {
                     $_REQUEST["name"] = $name;
                     break;
                 }
             }
 
-            if(
+            if (
                 Jaris\Language::add(
                     $_REQUEST["code"],
                     $_REQUEST["name"],
@@ -52,8 +48,7 @@ row: 0
                     $_REQUEST["translator_email"],
                     $_REQUEST["contributors"]
                 )
-            )
-            {
+            ) {
                 Jaris\View::addMessage(
                     t("The language was successfully created.")
                 );
@@ -62,16 +57,14 @@ row: 0
 
                 Jaris\Logger::info(
                     "Added language '{code}'.",
-                    array(
+                    [
                         "code" => $_REQUEST["code"]
-                    )
+                    ]
                 );
 
                 Jaris\Uri::go("admin/languages");
             }
-        }
-        elseif(isset($_REQUEST["btnCancel"]))
-        {
+        } elseif (isset($_REQUEST["btnCancel"])) {
             Jaris\Uri::go("admin/languages");
         }
 
@@ -80,7 +73,7 @@ row: 0
         $parameters["action"] = Jaris\Uri::url("admin/languages/add");
         $parameters["method"] = "post";
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "select",
             "value" => Jaris\Language::getCodes(),
             "name" => "code",
@@ -88,45 +81,45 @@ row: 0
             "id" => "code",
             "description" => t("Select the language you want to add to the system."),
             "required" => true
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "name" => "translator",
             "label" => t("Translator:"),
             "id" => "translator",
             "description" => t("Main translator for this language.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "name" => "translator_email",
             "label" => t("E-mail:"),
             "id" => "translator_email",
             "description" => t("E-mail of the main translator.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "textarea",
             "name" => "contributors",
             "label" => t("Contributors:"),
             "id" => "contributors",
             "description" => t("A list of contributors seperated by a new line for this translation.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnSave",
             "value" => t("Save")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnCancel",
             "value" => t("Cancel")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
         print Jaris\Forms::generate($parameters, $fieldset);
     ?>

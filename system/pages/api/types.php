@@ -18,14 +18,14 @@ row: 0
     field: content
     <?php
         Jaris\Api::init(
-            array(
-                "add" => array(
+    [
+                "add" => [
                     "description" => "Adds a new type.",
-                    "parameters" => array(
+                    "parameters" => [
                         "name" => "Machine name of the type.",
-                        "data" => array(
+                        "data" => [
                             "description" => "The type data array.",
-                            "elements" => array(
+                            "elements" => [
                                 "name" => "A human readable name like for example: My Type.",
                                 "description" => "A brief description of the type.",
                                 "image" => "Array with a string 'name' index and a 'data' index with image binary data gzipped and base64 encoded. Supported formats are: gif, jpg and png.",
@@ -37,29 +37,29 @@ row: 0
                                 "title_description" => "The label of the input title.",
                                 "content_label" => "The description of the title.",
                                 "content_description" => "The label of the input content."
-                            ),
-                            "elements_required" => array(
+                            ],
+                            "elements_required" => [
                                 "name", "description"
-                            )
-                        )
-                    ),
-                    "parameters_required" => array(
+                            ]
+                        ]
+                    ],
+                    "parameters_required" => [
                         "name",
                         "data"
-                    ),
-                    "errors" => array(
+                    ],
+                    "errors" => [
                         "1010" => "Type already exists.",
                         "1020" => "Failed to create the type."
-                    ),
+                    ],
                     "permissions" => "add_type_core"
-                ),
-                "add_update" => array(
+                ],
+                "add_update" => [
                     "description" => "Edit an existing type or creates it if doesn't exists.",
-                    "parameters" => array(
+                    "parameters" => [
                         "name" => "Machine name of the type.",
-                        "data" => array(
+                        "data" => [
                             "description" => "The type data array.",
-                            "elements" => array(
+                            "elements" => [
                                 "name" => "A human readable name like for example: My Type.",
                                 "description" => "A brief description of the type.",
                                 "image" => "Array with a string 'name' index and a 'data' index with image binary data gzipped and base64 encoded. Supported formats are: gif, jpg and png.",
@@ -71,32 +71,32 @@ row: 0
                                 "title_description" => "The label of the input title.",
                                 "content_label" => "The description of the title.",
                                 "content_description" => "The label of the input content."
-                            ),
-                            "elements_required" => array(
+                            ],
+                            "elements_required" => [
                                 "name", "description"
-                            )
-                        )
-                    ),
-                    "parameters_required" => array(
+                            ]
+                        ]
+                    ],
+                    "parameters_required" => [
                         "name",
                         "data"
-                    ),
-                    "errors" => array(
+                    ],
+                    "errors" => [
                         "1020" => "Failed to create the type.",
                         "1040" => "Failed to edit the type."
-                    ),
-                    "permissions" => array(
+                    ],
+                    "permissions" => [
                         "add_type_core",
                         "edit_type_core"
-                    )
-                ),
-                "edit" => array(
+                    ]
+                ],
+                "edit" => [
                     "description" => "Edit an existing type.",
-                    "parameters" => array(
+                    "parameters" => [
                         "name" => "Machine name of the type.",
-                        "data" => array(
+                        "data" => [
                             "description" => "The type data array.",
-                            "elements" => array(
+                            "elements" => [
                                 "name" => "A human readable name like for example: My Type.",
                                 "description" => "A brief description of the type.",
                                 "image" => "Array with a string 'name' index and a 'data' index with image binary data gzipped and base64 encoded. Supported formats are: gif, jpg and png.",
@@ -108,48 +108,48 @@ row: 0
                                 "title_description" => "The label of the input title.",
                                 "content_label" => "The description of the title.",
                                 "content_description" => "The label of the input content."
-                            ),
-                            "elements_required" => array(
+                            ],
+                            "elements_required" => [
                                 "name", "description"
-                            )
-                        )
-                    ),
-                    "parameters_required" => array(
+                            ]
+                        ]
+                    ],
+                    "parameters_required" => [
                         "name",
                         "data"
-                    ),
-                    "errors" => array(
+                    ],
+                    "errors" => [
                         "1030" => "Type does not exists.",
                         "1040" => "Failed to edit the type."
-                    ),
+                    ],
                     "permissions" => "edit_type_core"
-                ),
-                "delete" => array(
+                ],
+                "delete" => [
                     "description" => "Delete an existing type.",
-                    "parameters" => array(
+                    "parameters" => [
                         "name" => "Machine name of the type."
-                    ),
-                    "parameters_required" => array(
+                    ],
+                    "parameters_required" => [
                         "name"
-                    ),
-                    "errors" => array(
+                    ],
+                    "errors" => [
                         "1030" => "Type does not exists.",
                         "1050" => "Failed to delete the type."
-                    ),
+                    ],
                     "permissions" => "delete_type_core"
-                ),
-                "get" => array(
+                ],
+                "get" => [
                     "description" => "Get an existing type.",
-                    "parameters" => array(
+                    "parameters" => [
                         "name" => "Machine name of the type."
-                    ),
-                    "parameters_required" => array(
+                    ],
+                    "parameters_required" => [
                         "name"
-                    ),
-                    "response" => array(
-                        "data" => array(
+                    ],
+                    "response" => [
+                        "data" => [
                             "description" => "The type data.",
-                            "elements" => array(
+                            "elements" => [
                                 "name" => "A human readable name like for example: My Type.",
                                 "description" => "A brief description of the type.",
                                 "image" => "Url of the type image.",
@@ -161,24 +161,24 @@ row: 0
                                 "title_description" => "The label of the input title.",
                                 "content_label" => "The description of the title.",
                                 "content_description" => "The label of the input content."
-                            )
-                        )
-                    ),
-                    "errors" => array(
+                            ]
+                        ]
+                    ],
+                    "errors" => [
                         "1030" => "Type does not exists."
-                    ),
+                    ],
                     "permissions" => "get_type_core"
-                ),
-                "get_all" => array(
+                ],
+                "get_all" => [
                     "description" => "Get the list of all types.",
-                    "parameters" => array(
+                    "parameters" => [
                         "group" => "Get only types that can be accessed from the given group machine name.",
                         "username" => "Get only types that can be accessed from the given username."
-                    ),
-                    "response" => array(
-                        "types" => array(
+                    ],
+                    "response" => [
+                        "types" => [
                             "description" => "The array of types using the type machine name as elements index.",
-                            "elements" => array(
+                            "elements" => [
                                 "name" => "A human readable name like for example: My Type.",
                                 "description" => "A brief description of the type.",
                                 "image" => "Url of the type image.",
@@ -190,20 +190,18 @@ row: 0
                                 "title_description" => "The label of the input title.",
                                 "content_label" => "The description of the title.",
                                 "content_description" => "The label of the input content."
-                            )
-                        )
-                    ),
+                            ]
+                        ]
+                    ],
                     "permissions" => "get_type_core"
-                )
-            )
+                ]
+            ]
         );
 
         $action = Jaris\Api::getAction();
 
-        if($action == "add")
-        {
-            if(file_exists(Jaris\Types::getPath($_REQUEST["name"])))
-            {
+        if ($action == "add") {
+            if (file_exists(Jaris\Types::getPath($_REQUEST["name"]))) {
                 Jaris\Api::sendErrorResponse(
                     1010,
                     "Type already exists."
@@ -212,37 +210,31 @@ row: 0
 
             $data = Jaris\Api::decodeParam("data");
 
-            if(empty($data["image"]))
-            {
-                $data["image"] = array();
-            }
-            elseif(
+            if (empty($data["image"])) {
+                $data["image"] = [];
+            } elseif (
                 !empty($data["image"]["name"])
                 &&
                 !empty($data["image"]["data"])
-            )
-            {
+            ) {
                 $image_name = Jaris\Site::dataDir()
                     . Jaris\Users::generatePassword()
                     . $data["image"]["name"]
                 ;
-                if(
+                if (
                     file_put_contents(
                         $image_name,
                         Jaris\Api::uncompressData($data["image"]["data"])
                     )
-                )
-                {
+                ) {
                     $image_type = Jaris\FileSystem::getMimeTypeLocal($image_name);
 
-                    $data["image"] = array(
+                    $data["image"] = [
                         "name" => $data["image"],
                         "type" => $image_type,
                         "tmp_name" => $image_name
-                    );
-                }
-                else
-                {
+                    ];
+                } else {
                     Jaris\Api::sendErrorResponse(
                         1020,
                         "Failed to create the type."
@@ -250,93 +242,74 @@ row: 0
                 }
             }
 
-            if(empty($data["categories"]))
-            {
-                $data["categories"] = array();
+            if (empty($data["categories"])) {
+                $data["categories"] = [];
             }
-            if(empty($data["uri_scheme"]))
-            {
+            if (empty($data["uri_scheme"])) {
                 $data["uri_scheme"] = "{user}/{type}/{title}";
             }
-            if(empty($data["input_format"]))
-            {
+            if (empty($data["input_format"])) {
                 $data["input_format"] = "full_html";
             }
-            if(empty($data["requires_approval"]))
-            {
-                $data["requires_approval"] = array();
+            if (empty($data["requires_approval"])) {
+                $data["requires_approval"] = [];
             }
-            if(empty($data["title_label"]))
-            {
+            if (empty($data["title_label"])) {
                 $data["title_label"] = "Title:";
             }
-            if(empty($data["title_description"]))
-            {
+            if (empty($data["title_description"])) {
                 $data["title_description"] = "Displayed on the web browser title bar and inside the website.";
             }
-            if(empty($data["content_label"]))
-            {
+            if (empty($data["content_label"])) {
                 $data["content_label"] = "Content:";
             }
-            if(empty($data["content_description"]))
-            {
+            if (empty($data["content_description"])) {
                 $data["content_description"] = "";
             }
 
-            if(
+            if (
                 Jaris\Types::add(
                     $_REQUEST["name"],
                     $data
                 )
                 !=
                 "true"
-            )
-            {
+            ) {
                 Jaris\Api::sendErrorResponse(
                     1020,
                     "Failed to create the type."
                 );
-            }
-            elseif(!empty($data["image"]["tmp_name"]))
-            {
+            } elseif (!empty($data["image"]["tmp_name"])) {
                 unlink($data["image"]["tmp_name"]);
             }
-        }
-        elseif($action == "add_update")
-        {
+        } elseif ($action == "add_update") {
             $data = Jaris\Api::decodeParam("data");
 
-            if(empty($data["image"]))
-            {
-                $data["image"] = array();
-            }
-            elseif(
+            if (empty($data["image"])) {
+                $data["image"] = [];
+            } elseif (
                 !empty($data["image"]["name"])
                 &&
                 !empty($data["image"]["data"])
-            )
-            {
+            ) {
                 $image_name = Jaris\Site::dataDir()
                     . Jaris\Users::generatePassword()
                     . $data["image"]["name"]
                 ;
-                if(
+                if (
                     file_put_contents(
                         $image_name,
                         Jaris\Api::uncompressData($data["image"]["data"])
                     )
-                )
-                {
+                ) {
                     $image_type = Jaris\FileSystem::getMimeTypeLocal($image_name);
 
-                    $data["image"] = array(
+                    $data["image"] = [
                         "name" => $data["image"],
                         "type" => $image_type,
                         "tmp_name" => $image_name
-                    );
-                }
-                else
-                {
+                    ];
+                } else {
                     Jaris\Api::sendErrorResponse(
                         1020,
                         "Failed to create the type."
@@ -344,73 +317,54 @@ row: 0
                 }
             }
 
-            if(empty($data["categories"]))
-            {
-                $data["categories"] = array();
+            if (empty($data["categories"])) {
+                $data["categories"] = [];
             }
-            if(empty($data["uri_scheme"]))
-            {
+            if (empty($data["uri_scheme"])) {
                 $data["uri_scheme"] = "{user}/{type}/{title}";
             }
-            if(empty($data["input_format"]))
-            {
+            if (empty($data["input_format"])) {
                 $data["input_format"] = "full_html";
             }
-            if(empty($data["requires_approval"]))
-            {
-                $data["requires_approval"] = array();
+            if (empty($data["requires_approval"])) {
+                $data["requires_approval"] = [];
             }
-            if(empty($data["title_label"]))
-            {
+            if (empty($data["title_label"])) {
                 $data["title_label"] = "Title:";
             }
-            if(empty($data["title_description"]))
-            {
+            if (empty($data["title_description"])) {
                 $data["title_description"] = "Displayed on the web browser title bar and inside the website.";
             }
-            if(empty($data["content_label"]))
-            {
+            if (empty($data["content_label"])) {
                 $data["content_label"] = "Content:";
             }
-            if(empty($data["content_description"]))
-            {
+            if (empty($data["content_description"])) {
                 $data["content_description"] = "";
             }
 
-            if(!file_exists(Jaris\Types::getPath($_REQUEST["name"])))
-            {
-                if(
+            if (!file_exists(Jaris\Types::getPath($_REQUEST["name"]))) {
+                if (
                     Jaris\Types::add($_REQUEST["name"], $data)
                     !=
                     "true"
-                )
-                {
+                ) {
                     Jaris\Api::sendErrorResponse(
                         1020,
                         "Failed to create the image."
                     );
-                }
-                elseif(!empty($data["image"]["tmp_name"]))
-                {
+                } elseif (!empty($data["image"]["tmp_name"])) {
                     unlink($data["image"]["tmp_name"]);
                 }
-            }
-            elseif(!Jaris\Types::edit($_REQUEST["name"], $data))
-            {
+            } elseif (!Jaris\Types::edit($_REQUEST["name"], $data)) {
                 Jaris\Api::sendErrorResponse(
                     1040,
                     "Failed to edit the image."
                 );
-            }
-            elseif(!empty($data["image"]["tmp_name"]))
-            {
+            } elseif (!empty($data["image"]["tmp_name"])) {
                 unlink($data["image"]["tmp_name"]);
             }
-        }
-        elseif($action == "edit")
-        {
-            if(!file_exists(Jaris\Types::getPath($_REQUEST["name"])))
-            {
+        } elseif ($action == "edit") {
+            if (!file_exists(Jaris\Types::getPath($_REQUEST["name"]))) {
                 Jaris\Api::sendErrorResponse(
                     1030,
                     "Type does not exists."
@@ -419,37 +373,31 @@ row: 0
 
             $data = Jaris\Api::decodeParam("data");
 
-            if(empty($data["image"]))
-            {
-                $data["image"] = array();
-            }
-            elseif(
+            if (empty($data["image"])) {
+                $data["image"] = [];
+            } elseif (
                 !empty($data["image"]["name"])
                 &&
                 !empty($data["image"]["data"])
-            )
-            {
+            ) {
                 $image_name = Jaris\Site::dataDir()
                     . Jaris\Users::generatePassword()
                     . $data["image"]["name"]
                 ;
-                if(
+                if (
                     file_put_contents(
                         $image_name,
                         Jaris\Api::uncompressData($data["image"]["data"])
                     )
-                )
-                {
+                ) {
                     $image_type = Jaris\FileSystem::getMimeTypeLocal($image_name);
 
-                    $data["image"] = array(
+                    $data["image"] = [
                         "name" => $data["image"],
                         "type" => $image_type,
                         "tmp_name" => $image_name
-                    );
-                }
-                else
-                {
+                    ];
+                } else {
                     Jaris\Api::sendErrorResponse(
                         1020,
                         "Failed to create the type."
@@ -457,36 +405,28 @@ row: 0
                 }
             }
 
-            if(!Jaris\Types::edit($_REQUEST["name"], $data))
-            {
+            if (!Jaris\Types::edit($_REQUEST["name"], $data)) {
                 Jaris\Api::sendErrorResponse(
                     1040,
                     "Failed to edit the type."
                 );
             }
-        }
-        elseif($action == "delete")
-        {
-            if(!file_exists(Jaris\Types::getPath($_REQUEST["name"])))
-            {
+        } elseif ($action == "delete") {
+            if (!file_exists(Jaris\Types::getPath($_REQUEST["name"]))) {
                 Jaris\Api::sendErrorResponse(
                     1030,
                     "Type does not exists."
                 );
             }
 
-            if(!Jaris\Types::delete($_REQUEST["name"]))
-            {
+            if (!Jaris\Types::delete($_REQUEST["name"])) {
                 Jaris\Api::sendErrorResponse(
                     1050,
                     "Failed to delete the type."
                 );
             }
-        }
-        elseif($action == "get")
-        {
-            if(!file_exists(Jaris\Types::getPath($_REQUEST["name"])))
-            {
+        } elseif ($action == "get") {
+            if (!file_exists(Jaris\Types::getPath($_REQUEST["name"]))) {
                 Jaris\Api::sendErrorResponse(
                     1030,
                     "Type does not exists."
@@ -495,24 +435,19 @@ row: 0
 
             $type = Jaris\Types::get($_REQUEST["name"]);
 
-            if(trim($type["image"]) != "")
-            {
+            if (trim($type["image"]) != "") {
                 $type["image"] = Jaris\Types::getImageUrl($_REQUEST["name"]);
             }
 
             Jaris\Api::addResponse("data", $type);
-        }
-        elseif($action == "get_all")
-        {
+        } elseif ($action == "get_all") {
             $types = Jaris\Types::getList(
                 $_REQUEST["group"] ?? "",
                 $_REQUEST["username"] ?? ""
             );
 
-            foreach($types as $name => &$type_data)
-            {
-                if(trim($type_data["image"]) != "")
-                {
+            foreach ($types as $name => &$type_data) {
+                if (trim($type_data["image"]) != "") {
                     $type_data["image"] = Jaris\Types::getImageUrl($name);
                 }
             }

@@ -19,12 +19,9 @@ row: 0
             Jaris\Authentication::currentUser() : $_REQUEST["username"]
         ;
 
-        if(Jaris\Authentication::currentUser() != $username)
-        {
+        if (Jaris\Authentication::currentUser() != $username) {
             print t("Edit User Devices");
-        }
-        else
-        {
+        } else {
             print t("My Devices");
         }
     ?>
@@ -32,8 +29,7 @@ row: 0
 
     field: content
     <?php
-        if(!Jaris\Authentication::isUserLogged())
-        {
+        if (!Jaris\Authentication::isUserLogged()) {
             Jaris\Authentication::protectedPage();
         }
 
@@ -41,35 +37,27 @@ row: 0
             Jaris\Authentication::currentUser() : $_REQUEST["username"]
         ;
 
-        if(trim($username) == "")
-        {
+        if (trim($username) == "") {
             $username = Jaris\Authentication::currentUser();
-        }
-        elseif(Jaris\Authentication::currentUser() != $username)
-        {
-            Jaris\Authentication::protectedPage(array("edit_users"));
+        } elseif (Jaris\Authentication::currentUser() != $username) {
+            Jaris\Authentication::protectedPage(["edit_users"]);
         }
 
         $user_data = Jaris\Users::get($username);
 
-        if(
+        if (
             isset($_REQUEST["remove"])
-        )
-        {
+        ) {
             $token = $_REQUEST["remove"];
 
-            if(isset($user_data["devices"][$token]))
-            {
+            if (isset($user_data["devices"][$token])) {
                 unset($user_data["devices"][$token]);
 
-                if(Jaris\Users::edit($username, $user_data["group"], $user_data))
-                {
+                if (Jaris\Users::edit($username, $user_data["group"], $user_data)) {
                     Jaris\View::addMessage(
                         t("Device removed successfully.")
                     );
-                }
-                else
-                {
+                } else {
                     Jaris\View::addMessage(
                         Jaris\System::errorMessage("write_error_data"),
                         "error"
@@ -78,22 +66,19 @@ row: 0
             }
         }
 
-        if(
+        if (
             Jaris\Authentication::isAdminLogged()
             &&
             $username != Jaris\Authentication::currentUser()
-        )
-        {
+        ) {
             Jaris\View::addTab(
                 t("Edit User"),
                 "admin/users/edit",
-                array(
+                [
                     "username" => $username
-                )
+                ]
             );
-        }
-        else
-        {
+        } else {
             Jaris\View::addTab(
                 t("My Account"),
                 "admin/user"
@@ -101,9 +86,7 @@ row: 0
         }
 
 
-        if(is_array($user_data["devices"]) && count($user_data["devices"]) > 0)
-        {
-
+        if (is_array($user_data["devices"]) && count($user_data["devices"]) > 0) {
             print "<table class=\"navigation-list navigation-list-hover\">\n";
 
             print "<thead><tr>\n";
@@ -115,8 +98,7 @@ row: 0
 
             print "</tr></thead>\n";
 
-            foreach($user_data["devices"] as $device_token => $device_data)
-            {
+            foreach ($user_data["devices"] as $device_token => $device_data) {
                 print "<tr>\n";
 
                 print "<td>" . $device_data["device"]["platform"] . "</td>\n";
@@ -129,10 +111,10 @@ row: 0
 
                 $delete_url = Jaris\Uri::url(
                     Jaris\Uri::get(),
-                    array(
+                    [
                         "username" => $username,
                         "remove" => $device_token
-                    )
+                    ]
                 );
 
                 $delete_text = t("Revoke Access");
@@ -145,9 +127,7 @@ row: 0
             }
 
             print "</table>\n";
-        }
-        else
-        {
+        } else {
             print "<h3>" . t("No devices registered.") . "</h3>";
         }
     ?>

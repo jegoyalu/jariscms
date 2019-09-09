@@ -18,31 +18,23 @@ row: 0
     field: content
     <?php
         $id = 0;
-        if(!isset($_REQUEST["id"]) || intval($_REQUEST["id"]) <= 0)
-        {
+        if (!isset($_REQUEST["id"]) || intval($_REQUEST["id"]) <= 0) {
             Jaris\Uri::go("");
-        }
-        else
-        {
+        } else {
             $id = intval($_REQUEST["id"]);
         }
 
-        if(!isset($_REQUEST["uri"]) || trim($_REQUEST["uri"]) == "")
-        {
+        if (!isset($_REQUEST["uri"]) || trim($_REQUEST["uri"]) == "") {
             Jaris\Uri::go("");
-        }
-        elseif(!($page_data = Jaris\Pages::get($_REQUEST["uri"])))
-        {
+        } elseif (!($page_data = Jaris\Pages::get($_REQUEST["uri"]))) {
             Jaris\Uri::go("");
         }
 
-        if($page_data["type"] != "calendar")
-        {
+        if ($page_data["type"] != "calendar") {
             Jaris\Uri::go("");
         }
 
-        if(!Jaris\Pages::userIsOwner($_REQUEST["uri"]))
-        {
+        if (!Jaris\Pages::userIsOwner($_REQUEST["uri"])) {
             Jaris\Authentication::protectedPage();
         }
 
@@ -50,8 +42,7 @@ row: 0
 
         $event_data = calendar_event_data($id, $uri);
 
-        if(count($event_data) > 0)
-        {
+        if (count($event_data) > 0) {
             $event_data["approved"] = 1;
 
             calendar_event_edit($id, $event_data, $uri);
@@ -60,7 +51,7 @@ row: 0
 
             Jaris\Uri::go(
                 Jaris\Modules::getPageUri("admin/calendar/events", "calendar"),
-                array("uri"=>$uri)
+                ["uri"=>$uri]
             );
         }
     ?>

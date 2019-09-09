@@ -10,8 +10,7 @@
 
 function add_recent_poll($poll_page, $poll_title)
 {
-    if(trim($poll_page) == "")
-    {
+    if (trim($poll_page) == "") {
         return false;
     }
 
@@ -89,8 +88,7 @@ function add_recent_poll($poll_page, $poll_title)
 
 function edit_recent_poll($poll_page, $poll_title, $current_page)
 {
-    if(trim($poll_page) == "")
-    {
+    if (trim($poll_page) == "") {
         return false;
     }
 
@@ -168,8 +166,7 @@ function edit_recent_poll($poll_page, $poll_title, $current_page)
 
 function delete_recent_poll($poll_page)
 {
-    if(trim($poll_page) == "")
-    {
+    if (trim($poll_page) == "") {
         return false;
     }
 
@@ -192,14 +189,9 @@ function poll_expired($poll_uri)
 
     $days = floor($time_diffrence / 60 / 60 / 24);
 
-    if($poll_data["duration"] <= 0)
-    {
+    if ($poll_data["duration"] <= 0) {
         return false;
-    }
-    else
-    {
+    } else {
         return $days >= $poll_data["duration"];
     }
 }
-
-?>

@@ -7,7 +7,7 @@
 */
 ?>
 <div class="block block-<?php print $id ?>">
-    <?php if($title){ ?>
+    <?php if ($title) { ?>
     <div class="title"><?php print $title ?></div>
     <?php } ?>
     <div class="content">

@@ -294,10 +294,9 @@ function calendar_event_data($id, $uri)
         $db
     );
 
-    $event = array();
+    $event = [];
 
-    if($data = Jaris\Sql::fetchArray($result))
-    {
+    if ($data = Jaris\Sql::fetchArray($result)) {
         $event = $data;
 
         $event["title"] = htmlspecialchars_decode($event["title"]);
@@ -320,8 +319,7 @@ function calendar_event_get_events($month, $year, $uri, $user=null)
     Jaris\Sql::escapeVar($year, "int");
 
     $author = "";
-    if($user)
-    {
+    if ($user) {
         Jaris\Sql::escapeVar($user);
         $author .= "and author='$user'";
     }
@@ -337,13 +335,11 @@ function calendar_event_get_events($month, $year, $uri, $user=null)
         $directory
     );
 
-    $events = array();
+    $events = [];
 
-    foreach($results as $event)
-    {
-        if(!isset($events[$event["day"]]))
-        {
-            $events[$event["day"]] = array();
+    foreach ($results as $event) {
+        if (!isset($events[$event["day"]])) {
+            $events[$event["day"]] = [];
         }
 
         $events[$event["day"]][] = $event;
@@ -358,8 +354,7 @@ function calendar_event_delete($id, $uri)
 
     $event_data = calendar_event_data($id, $uri);
 
-    foreach($event_data["attachments"] as $file)
-    {
+    foreach ($event_data["attachments"] as $file) {
         $file_path = Jaris\Files::getDir()
             . "calendar/" .  str_replace("/", "-", $uri) . "/"
             . $file
@@ -396,18 +391,15 @@ function calendar_event_can_add($uri, $page_data=null, $user_group=null)
 {
     $uri = trim($uri);
 
-    if(!is_array($page_data))
-    {
+    if (!is_array($page_data)) {
         $page_data = Jaris\Pages::get($uri);
     }
 
-    if(!$user_group)
-    {
+    if (!$user_group) {
         $user_group = Jaris\Authentication::currentUserGroup();
     }
 
-    if(!is_array($page_data["groups_add_event"]))
-    {
+    if (!is_array($page_data["groups_add_event"])) {
         $page_data["groups_add_event"] = unserialize(
             $page_data["groups_add_event"]
         );
@@ -415,17 +407,13 @@ function calendar_event_can_add($uri, $page_data=null, $user_group=null)
 
     $can_add_events = false;
 
-    if(Jaris\Pages::userIsOwner($uri, $page_data))
-    {
+    if (Jaris\Pages::userIsOwner($uri, $page_data)) {
         $can_add_events = true;
-    }
-    elseif(
+    } elseif (
         is_array($page_data["groups_add_event"]) &&
         count($page_data["groups_add_event"]) > 0
-    )
-    {
-        if(in_array($user_group, $page_data["groups_add_event"]))
-        {
+    ) {
+        if (in_array($user_group, $page_data["groups_add_event"])) {
             $can_add_events = true;
         }
     }
@@ -437,8 +425,7 @@ function calendar_event_create_db($uri)
 {
     $directory = Jaris\Pages::getPath($uri);
 
-    if(!Jaris\Sql::dbExists("calendar_events", $directory))
-    {
+    if (!Jaris\Sql::dbExists("calendar_events", $directory)) {
         $db = Jaris\Sql::open("calendar_events", $directory);
 
         Jaris\Sql::query(
@@ -507,40 +494,34 @@ function calendar_generate($month, $year, $uri, $user=null)
     $previous_year = $year;
     $next_year = $year;
 
-    if($month == 1)
-    {
+    if ($month == 1) {
         $previous_month = 12;
         $previous_year --;
-    }
-    else
-    {
+    } else {
         $previous_month--;
     }
 
-    if($month == 12)
-    {
+    if ($month == 12) {
         $next_month = 1;
         $next_year++;
-    }
-    else
-    {
+    } else {
         $next_month++;
     }
 
     $previous = Jaris\Uri::url(
         Jaris\Uri::get(),
-        array(
+        [
             "month"=>$previous_month,
             "year"=>$previous_year
-        )
+        ]
     );
 
     $next = Jaris\Uri::url(
         Jaris\Uri::get(),
-        array(
+        [
             "month"=>$next_month,
             "year"=>$next_year
-        )
+        ]
     );
 
     $calendar .= "<style>"
@@ -569,10 +550,10 @@ function calendar_generate($month, $year, $uri, $user=null)
     $calendar .= '<table class="calendar">';
 
     // table headings
-    $headings = array(
+    $headings = [
         t('Sunday'), t('Monday'), t('Tuesday'), t('Wednesday'),
         t('Thursday'), t('Friday'), t('Saturday')
-    );
+    ];
 
     $calendar .= '<thead>';
     $calendar .= '<tr>'
@@ -583,8 +564,8 @@ function calendar_generate($month, $year, $uri, $user=null)
     $calendar .= '</thead>';
 
     // days and weeks vars now ...
-    $running_day = date('w',mktime(0,0,0,$month,1,$year));
-    $days_in_month = date('t',mktime(0,0,0,$month,1,$year));
+    $running_day = date('w', mktime(0, 0, 0, $month, 1, $year));
+    $days_in_month = date('t', mktime(0, 0, 0, $month, 1, $year));
     $days_in_this_week = 1;
     $day_counter = 0;
 
@@ -598,23 +579,20 @@ function calendar_generate($month, $year, $uri, $user=null)
     $calendar .= '<tr>';
 
     // print "blank" days until the first of the current week
-    for($x = 0; $x < $running_day; $x++)
-    {
+    for ($x = 0; $x < $running_day; $x++) {
         $calendar.= '<td class="blank"> </td>';
         $days_in_this_week++;
     }
 
     // keep going with days....
-    for($list_day = 1; $list_day <= $days_in_month; $list_day++)
-    {
+    for ($list_day = 1; $list_day <= $days_in_month; $list_day++) {
         $today = "";
 
-        if(
+        if (
             $year == $today_year &&
             $month == $today_month &&
             $list_day == $today_day
-        )
-        {
+        ) {
             $today .= ' class="today"';
         }
 
@@ -625,14 +603,12 @@ function calendar_generate($month, $year, $uri, $user=null)
         $calendar .= '<div class="day">'.$list_day.'</div>';
 
         // add the events list for the day if any
-        if(isset($events[$list_day]))
-        {
+        if (isset($events[$list_day])) {
             $calendar .= "<ul>";
-            foreach($events[$list_day] as $event)
-            {
+            foreach ($events[$list_day] as $event) {
                 $event_url = Jaris\Uri::url(
                     Jaris\Modules::getPageUri("calendar/event", "calendar"),
-                    array("uri"=>$uri, "id"=>$event["id"])
+                    ["uri"=>$uri, "id"=>$event["id"]]
                 );
 
                 $calendar .= "<li><a href=\"$event_url\">{$event['title']}</a></li>";
@@ -642,11 +618,9 @@ function calendar_generate($month, $year, $uri, $user=null)
 
         $calendar .= '</div>';
         $calendar .= '</td>';
-        if($running_day == 6)
-        {
+        if ($running_day == 6) {
             $calendar .= '</tr>';
-            if(($day_counter+1) != $days_in_month)
-            {
+            if (($day_counter+1) != $days_in_month) {
                 $calendar .= '<tr>';
             }
             $running_day = -1;
@@ -659,10 +633,8 @@ function calendar_generate($month, $year, $uri, $user=null)
     }
 
     // finish the rest of the days in the week
-    if($days_in_this_week < 8)
-    {
-        for($x = 1; $x <= (8 - $days_in_this_week); $x++)
-        {
+    if ($days_in_this_week < 8) {
+        for ($x = 1; $x <= (8 - $days_in_this_week); $x++) {
             $calendar .= '<td class="blank"> </td>';
         }
     }
@@ -685,36 +657,30 @@ function calendar_generate_consecutive($uri)
 {
     $page = 1;
 
-    if(!empty($_REQUEST["page"]))
-    {
+    if (!empty($_REQUEST["page"])) {
         $page = intval($_REQUEST["page"]);
     }
 
-    $page_data = array();
+    $page_data = [];
     $db = null;
     $directory = "";
 
     $output = '<div class="calendar-consecutive">';
 
-    if($uri)
-    {
+    if ($uri) {
         $page_data = Jaris\Pages::get($uri);
         $directory = Jaris\Pages::getPath($uri);
 
-        if(Jaris\Sql::dbExists("calendar_events", $directory))
-        {
+        if (Jaris\Sql::dbExists("calendar_events", $directory)) {
             $db = Jaris\Sql::open("calendar_events", $directory);
         }
-    }
-    else
-    {
+    } else {
         $db = Jaris\Sql::open("calendar_events");
     }
 
     $count = 0;
 
-    if(!is_null($db))
-    {
+    if (!is_null($db)) {
         $current_date = strtotime(
             date("j")
             . "-"
@@ -741,8 +707,7 @@ function calendar_generate_consecutive($uri)
             $directory
         );
 
-        foreach($list as $event_data)
-        {
+        foreach ($list as $event_data) {
             ob_start();
 
             $event_uri = !is_null($uri) ? $uri : $event_data["uri"];
@@ -764,13 +729,13 @@ function calendar_generate_consecutive($uri)
                 "0" . $event_data["day"] : $event_data["day"]
             ;
             $month = array_flip(
-                    Jaris\Date::getMonths()
+                Jaris\Date::getMonths()
                 )[date("n", intval($event_data["date"]))]
             ;
             $year = date("Y", intval($event_data["date"]));
             $title = '<a href="'.Jaris\Uri::url(
-                    Jaris\Modules::getPageUri("calendar/event", "calendar"),
-                    array("uri" => $event_uri, "id"=>$event_id)
+                Jaris\Modules::getPageUri("calendar/event", "calendar"),
+                ["uri" => $event_uri, "id"=>$event_id]
                 ).'">'
                 . Jaris\Util::stripHTMLTags($event_data["title"])
                 . "</a>"
@@ -812,29 +777,24 @@ function calendar_generate_consecutive($uri)
 
 function calendar_block_print_results($block_data, $uri=null)
 {
-    $page_data = array();
+    $page_data = [];
     $db = null;
     $directory = "";
 
     $output = "";
 
-    if($uri)
-    {
+    if ($uri) {
         $page_data = Jaris\Pages::get($uri);
         $directory = Jaris\Pages::getPath($uri);
 
-        if(Jaris\Sql::dbExists("calendar_events", $directory))
-        {
+        if (Jaris\Sql::dbExists("calendar_events", $directory)) {
             $db = Jaris\Sql::open("calendar_events", $directory);
         }
-    }
-    else
-    {
+    } else {
         $db = Jaris\Sql::open("calendar_events");
     }
 
-    if(!is_null($db))
-    {
+    if (!is_null($db)) {
         $current_date = strtotime(
             date("j")
             . "-"
@@ -853,8 +813,7 @@ function calendar_block_print_results($block_data, $uri=null)
             $directory
         );
 
-        foreach($list as $event_data)
-        {
+        foreach ($list as $event_data) {
             ob_start();
 
             $event_uri = !is_null($uri) ? $uri : $event_data["uri"];
@@ -876,13 +835,13 @@ function calendar_block_print_results($block_data, $uri=null)
                 "0" . $event_data["day"] : $event_data["day"]
             ;
             $month = array_flip(
-                    Jaris\Date::getMonths()
+                Jaris\Date::getMonths()
                 )[date("n", intval($event_data["date"]))]
             ;
             $year = date("Y", $event_data["date"]);
             $title = '<a href="'.Jaris\Uri::url(
-                    Jaris\Modules::getPageUri("calendar/event", "calendar"),
-                    array("uri" => $event_uri, "id"=>$event_id)
+                Jaris\Modules::getPageUri("calendar/event", "calendar"),
+                ["uri" => $event_uri, "id"=>$event_id]
                 ).'">'
                 . Jaris\Util::stripHTMLTags($event_data["title"])
                 . "</a>"
@@ -918,16 +877,11 @@ function calendar_block_result_template($page=null, $template="block")
 
     $template_path = "";
 
-    if(!is_null($page) && file_exists($custom_template_uri))
-    {
+    if (!is_null($page) && file_exists($custom_template_uri)) {
         $template_path .= $custom_template_uri;
-    }
-    elseif(file_exists($custom_template))
-    {
+    } elseif (file_exists($custom_template)) {
         $template_path .= $custom_template;
-    }
-    else
-    {
+    } else {
         $template_path = Jaris\Modules::directory("calendar") . "templates/calendar-$template.php";
     }
 

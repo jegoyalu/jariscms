@@ -20,11 +20,10 @@ row: 0
     field: content
     <?php
         Jaris\Authentication::protectedPage(
-            array("view_subcategories", "delete_subcategories")
+    ["view_subcategories", "delete_subcategories"]
         );
 
-        if(!isset($_REQUEST["id"]) || !isset($_REQUEST["category"]))
-        {
+        if (!isset($_REQUEST["id"]) || !isset($_REQUEST["category"])) {
             Jaris\Uri::go("admin/categories");
         }
 
@@ -33,29 +32,25 @@ row: 0
             intval($_REQUEST["id"])
         );
 
-        if(isset($_REQUEST["btnYes"]))
-        {
-            if(
+        if (isset($_REQUEST["btnYes"])) {
+            if (
                 Jaris\Categories::deleteSubcategory(
                     $_REQUEST["category"],
                     intval($_REQUEST["id"])
                 )
-            )
-            {
+            ) {
                 Jaris\View::addMessage(t("Subcategory successfully deleted."));
 
                 t("Deleted subcategory '{title}' on '{machine_name}'.");
 
                 Jaris\Logger::info(
                     "Deleted subcategory '{title}' on '{machine_name}'.",
-                    array(
+                    [
                         "title" => $subcategory_data["title"],
                         "machine_name" => $_REQUEST["category"]
-                    )
+                    ]
                 );
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(
                     Jaris\System::errorMessage("write_error_data"),
                     "error"
@@ -64,14 +59,12 @@ row: 0
 
             Jaris\Uri::go(
                 "admin/categories/subcategories",
-                array("category" => $_REQUEST["category"])
+                ["category" => $_REQUEST["category"]]
             );
-        }
-        elseif(isset($_REQUEST["btnNo"]))
-        {
+        } elseif (isset($_REQUEST["btnNo"])) {
             Jaris\Uri::go(
                 "admin/categories/subcategories",
-                array("category" => $_REQUEST["category"])
+                ["category" => $_REQUEST["category"]]
             );
         }
     ?>

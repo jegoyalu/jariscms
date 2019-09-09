@@ -17,19 +17,17 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("edit_settings"));
+        Jaris\Authentication::protectedPage(["edit_settings"]);
 
-        if(
+        if (
             isset($_REQUEST["btnSave"]) &&
             !Jaris\Forms::requiredFieldEmpty("backgrounds-add")
-        )
-        {
-            if($_FILES["image"]["type"] == "image/png" ||
+        ) {
+            if ($_FILES["image"]["type"] == "image/png" ||
                 $_FILES["image"]["type"] == "image/jpeg" ||
                 $_FILES["image"]["type"] == "image/pjpeg" ||
                 $_FILES["image"]["type"] == "image/gif"
-            )
-            {
+            ) {
                 $fields["description"] = $_REQUEST["description"];
                 $fields["image"] = Jaris\Files::addUpload(
                     $_FILES["image"],
@@ -49,8 +47,7 @@ row: 0
                 $fields["display_rule"] = $_REQUEST["display_rule"];
                 $fields["pages"] = $_REQUEST["pages"];
 
-                if($fields["image"])
-                {
+                if ($fields["image"]) {
                     chmod(
                         Jaris\Files::get($fields["image"], "backgrounds"),
                         0755
@@ -62,21 +59,19 @@ row: 0
                         $backgrounds_settings["backgrounds"]
                     );
 
-                    if(!is_array($backgrounds))
-                    {
-                        $backgrounds = array();
+                    if (!is_array($backgrounds)) {
+                        $backgrounds = [];
                     }
 
                     $backgrounds[] = $fields;
 
-                    if(
+                    if (
                         Jaris\Settings::save(
                             "backgrounds",
                             serialize($backgrounds),
                             "backgrounds"
                         )
-                    )
-                    {
+                    ) {
                         Jaris\View::addMessage(t("Background successfully added."));
 
                         Jaris\Uri::go(
@@ -85,34 +80,26 @@ row: 0
                                 "backgrounds"
                             )
                         );
-                    }
-                    else
-                    {
+                    } else {
                         Jaris\View::addMessage(
                             Jaris\System::errorMessage("write_error_data"),
                             "error"
                         );
                     }
-                }
-                else
-                {
+                } else {
                     Jaris\View::addMessage(
                         t("The image could not be moved to files/backgrounds directory."),
                         "error"
                     );
                 }
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(Jaris\System::errorMessage("image_file_type"), "error");
             }
 
             //Uninitialize fields variable to not
             //conflict with form generation below
-            $fields = array();
-        }
-        elseif(isset($_REQUEST["btnCancel"]))
-        {
+            $fields = [];
+        } elseif (isset($_REQUEST["btnCancel"])) {
             Jaris\Uri::go(
                 Jaris\Modules::getPageUri(
                     "admin/settings/backgrounds",
@@ -132,7 +119,7 @@ row: 0
         );
         $parameters["method"] = "post";
 
-        $fields_main[] = array(
+        $fields_main[] = [
             "type" => "text",
             "label" => t("Description:"),
             "value" => $_REQUEST["description"],
@@ -140,35 +127,35 @@ row: 0
             "id" => "description",
             "description" => t("Description of the background image like for example: January 2011 special product promotion."),
             "required" => true
-        );
+        ];
 
-        $fields_main[] = array(
+        $fields_main[] = [
             "type" => "file",
             "name" => "image",
             "label" => t("Background image file:"),
             "id" => "image",
             "required" => true
-        );
+        ];
 
-        $fields_main[] = array(
+        $fields_main[] = [
             "type" => "text",
             "label" => t("Element:"),
             "value" => $_REQUEST["element"],
             "name" => "element",
             "id" => "element",
             "description" => t("The css selector of an explicit element to put the background images.")
-        );
+        ];
 
-        $fields_main[] = array(
+        $fields_main[] = [
             "type" => "text",
             "label" => t("Top position:"),
             "value" => $_REQUEST["top"],
             "name" => "top",
             "id" => "top",
             "description" => t("The top position of the background in pixels, for example 200. Default is 0")
-        );
+        ];
 
-        $fields_main[] = array(
+        $fields_main[] = [
             "type" => "color",
             "label" => t("Background color:"),
             "value" => $_REQUEST["background_color"] ?
@@ -178,15 +165,15 @@ row: 0
             "name" => "background_color",
             "id" => "background_color",
             "description" => t("The overall background color of the body.")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields_main);
+        $fieldset[] = ["fields" => $fields_main];
 
         $position[t("Left")] = "left";
         $position[t("Center")] = "center";
         $position[t("Right")] = "right";
 
-        $position_fields[] = array(
+        $position_fields[] = [
             "type" => "radio",
             "name" => "position",
             "id" => "position",
@@ -195,19 +182,19 @@ row: 0
                 $_REQUEST["position"]
                 :
                 "center"
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "name" => t("Position"),
             "fields" => $position_fields,
             "collapsible" => true,
             "collapsed" => true
-        );
+        ];
 
         $mode[t("Repeat")] = "repeat";
         $mode[t("No Repeat")] = "no-repeat";
 
-        $mode_fields[] = array(
+        $mode_fields[] = [
             "type" => "radio",
             "name" => "mode",
             "id" => "mode",
@@ -216,19 +203,19 @@ row: 0
                 $_REQUEST["mode"]
                 :
                 "no-repeat"
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "name" => t("Mode"),
             "fields" => $mode_fields,
             "collapsible" => true,
             "collapsed" => true
-        );
+        ];
 
         $attachment[t("Scroll")] = "scroll";
         $attachment[t("Fixed")] = "fixed";
 
-        $attachment_fields[] = array(
+        $attachment_fields[] = [
             "type" => "radio",
             "name" => "attachment",
             "id" => "attachment",
@@ -237,41 +224,41 @@ row: 0
                 $_REQUEST["attachment"]
                 :
                 "fixed"
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "name" => t("Attachment"),
             "fields" => $attachment_fields,
             "collapsible" => true,
             "collapsed" => true
-        );
+        ];
 
-        $size_fields[] = array(
+        $size_fields[] = [
             "type" => "radio",
             "name" => "background_size",
             "id" => "background_size",
-            "value" => array(
+            "value" => [
                 "cover" => "cover",
                 "auto" => "auto",
                 "contain" => "contain"
-            ),
+            ],
             "checked" => $_REQUEST["background_size"] ?
                 $_REQUEST["background_size"]
                 :
                 "cover"
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "name" => t("Size"),
             "fields" => $size_fields,
             "collapsible" => true,
             "collapsed" => true
-        );
+        ];
 
         $responsive[t("Enable")] = true;
         $responsive[t("Disable")] = false;
 
-        $fields_responsive[] = array(
+        $fields_responsive[] = [
             "type" => "radio",
             "checked" => $_REQUEST["responsive"] ?
                 $_REQUEST["responsive"]
@@ -280,84 +267,83 @@ row: 0
             "name" => "responsive",
             "id" => "responsive",
             "value" => $responsive
-        );
+        ];
 
-        $fields_responsive[] = array(
+        $fields_responsive[] = [
             "type" => "text",
             "name" => "max_width",
             "value" => $_REQUEST["max_width"] ? $_REQUEST["max_width"] : '0',
             "label" => t("Maximum width:"),
             "id" => "max_width",
             "description" => t("The maximum width for resized images. Default: 0 to disable this feature.")
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "fields" => $fields_responsive,
             "name" => t("Responsive"),
             "collapsible" => true,
             "collapsed" => true
-        );
+        ];
 
-        $languages = array(
+        $languages = [
             t("All") => ""
-        );
+        ];
 
-        foreach(Jaris\Language::getInstalled() as $lang_code => $lang_name)
-        {
+        foreach (Jaris\Language::getInstalled() as $lang_code => $lang_name) {
             $languages[t($lang_name)] = $lang_code;
         }
 
-        $fields_language[] = array(
+        $fields_language[] = [
             "type" => "radio",
             "name" => "background_language",
             "value" => $languages,
             "checked" => $_REQUEST["background_language"] ?? ""
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "fields" => $fields_language,
             "name" => t("Site language"),
             "description" => t("Select the language of the page in which backgrounds are displayed.")
-        );
+        ];
 
         $display_rules[t("Display in all pages except the listed ones.")] = "all_except_listed";
         $display_rules[t("Just display on the listed pages.")] = "just_listed";
 
-        $fields_pages[] = array(
+        $fields_pages[] = [
             "type" => "radio",
             "checked" => "all_except_listed",
             "name" => "display_rule",
             "id" => "display_rule",
             "value" => $display_rules
-        );
+        ];
 
-        $fields_pages[] = array(
+        $fields_pages[] = [
             "type" => "uriarea",
             "name" => "pages",
             "label" => t("Pages:"),
             "id" => "pages",
             "value" => $_REQUEST["pages"]
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "fields" => $fields_pages,
             "name" => t("Pages to display"),
             "description" => t("List of uri's seperated by comma (,). Also supports the wildcard (*), for example: my-section/*")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnSave",
             "value" => t("Save")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnCancel",
             "value" => t("Cancel")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
         print Jaris\Forms::generate($parameters, $fieldset);
     ?>

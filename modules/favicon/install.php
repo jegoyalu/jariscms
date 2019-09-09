@@ -17,5 +17,3 @@ function favicon_install()
         "\">" . t("Add Icon Now") . "</a>"
     );
 }
-
-?>
