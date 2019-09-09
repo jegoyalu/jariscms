@@ -35,17 +35,35 @@ row: 0
     <?php
         Jaris\Authentication::protectedPage(array("edit_settings"));
 
-        $actual_items = unserialize(Jaris\Settings::get("toolbar_items", "ckeditor"));
-        $uicolor = unserialize(Jaris\Settings::get("uicolor", "ckeditor"));
-        $plugins = unserialize(Jaris\Settings::get("plugins", "ckeditor"));
-        $classes = unserialize(Jaris\Settings::get("teaxtarea_id", "ckeditor"));
-        $forms_to_display = unserialize(Jaris\Settings::get("forms", "ckeditor"));
-        $groups = unserialize(Jaris\Settings::get("groups", "ckeditor"));
-        $disable_editor = unserialize(Jaris\Settings::get("disable_editor", "ckeditor"));
+        $actual_items = unserialize(
+            Jaris\Settings::get("toolbar_items", "ckeditor")
+        );
+        $use_site_css = unserialize(
+            Jaris\Settings::get("use_site_css", "ckeditor")
+        );
+        $uicolor = unserialize(
+            Jaris\Settings::get("uicolor", "ckeditor")
+        );
+        $plugins = unserialize(
+            Jaris\Settings::get("plugins", "ckeditor")
+        );
+        $classes = unserialize(
+            Jaris\Settings::get("teaxtarea_id", "ckeditor")
+        );
+        $forms_to_display = unserialize(
+            Jaris\Settings::get("forms", "ckeditor")
+        );
+        $groups = unserialize(
+            Jaris\Settings::get("groups", "ckeditor")
+        );
+        $disable_editor = unserialize(
+            Jaris\Settings::get("disable_editor", "ckeditor")
+        );
 
         if(isset($_REQUEST["btnSave"], $_REQUEST["group"]))
         {
             $actual_items[$_REQUEST["group"]] = $_REQUEST["toolbar_items"];
+            $use_site_css[$_REQUEST["group"]] = $_REQUEST["use_site_css"];
             $uicolor[$_REQUEST["group"]] = $_REQUEST["uicolor"];
             $plugins[$_REQUEST["group"]] = $_REQUEST["plugins"];
             $classes[$_REQUEST["group"]] = $_REQUEST["teaxtarea_id"];
@@ -53,23 +71,51 @@ row: 0
             $groups[$_REQUEST["group"]] = $_REQUEST["groups"];
             $disable_editor[$_REQUEST["group"]] = $_REQUEST["disable_editor"];
 
-            if(Jaris\Settings::save("toolbar_items", serialize($actual_items), "ckeditor"))
+            if(
+                Jaris\Settings::save(
+                    "toolbar_items", 
+                    serialize($actual_items), 
+                    "ckeditor"
+                )
+            )
             {
-                Jaris\Settings::save("uicolor", serialize($uicolor), "ckeditor");
-                Jaris\Settings::save("plugins", serialize($plugins), "ckeditor");
-                Jaris\Settings::save("teaxtarea_id", serialize($classes), "ckeditor");
-                Jaris\Settings::save("forms", serialize($forms_to_display), "ckeditor");
-                Jaris\Settings::save("groups", serialize($groups), "ckeditor");
-                Jaris\Settings::save("disable_editor", serialize($disable_editor), "ckeditor");
+                Jaris\Settings::save(
+                    "use_site_css", serialize($use_site_css), "ckeditor"
+                );
+                Jaris\Settings::save(
+                    "uicolor", serialize($uicolor), "ckeditor"
+                );
+                Jaris\Settings::save(
+                    "plugins", serialize($plugins), "ckeditor"
+                );
+                Jaris\Settings::save(
+                    "teaxtarea_id", serialize($classes), "ckeditor"
+                );
+                Jaris\Settings::save(
+                    "forms", serialize($forms_to_display), "ckeditor"
+                );
+                Jaris\Settings::save(
+                    "groups", serialize($groups), "ckeditor"
+                );
+                Jaris\Settings::save(
+                    "disable_editor", serialize($disable_editor), "ckeditor"
+                );
 
                 Jaris\View::addMessage(t("Your changes have been saved."));
             }
             else
             {
-                Jaris\View::addMessage(Jaris\System::errorMessage("write_error_data"));
+                Jaris\View::addMessage(
+                    Jaris\System::errorMessage("write_error_data")
+                );
             }
 
-            Jaris\Uri::go(Jaris\Modules::getPageUri("admin/settings/ckeditor", "ckeditor"));
+            Jaris\Uri::go(
+                Jaris\Modules::getPageUri(
+                    "admin/settings/ckeditor", 
+                    "ckeditor"
+                )
+            );
         }
 
         print "<table class=\"groups\">\n";
@@ -108,7 +154,9 @@ row: 0
             print "</td>\n";
 
             $edit_url = Jaris\Uri::url(
-                Jaris\Modules::getPageUri("admin/settings/ckeditor", "ckeditor"),
+                Jaris\Modules::getPageUri(
+                    "admin/settings/ckeditor", "ckeditor"
+                ),
                 array("group" => $group)
             );
 
@@ -127,9 +175,7 @@ row: 0
         {
             $parameters["name"] = "ckeditor-settings";
             $parameters["class"] = "ckeditor-settings";
-            $parameters["action"] = Jaris\Uri::url(
-                Jaris\Modules::getPageUri("admin/settings/ckeditor", "ckeditor")
-            );
+            $parameters["action"] = Jaris\Uri::url(Jaris\Uri::get());
             $parameters["method"] = "post";
 
             $fields_enable_ckeditor[] = array(
@@ -170,10 +216,19 @@ row: 0
             		{ name: 'about', groups: [ 'about' ] }
             	];
 
+                config.disableNativeSpellChecker = false;
+
             	config.removeButtons = 'Font,HiddenField,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,CreateDiv,Language,BidiRtl,BidiLtr,Save,NewPage,Preview,Print,About,TextColor,BGColor,Flash,Smiley,Iframe,PageBreak,Scayt';
             };";
 
-            $description = sprintf(t('Here you can <a target="_blank" href="%s">alter</a> the ckeditor configuration.'), $toolbar_editor_url);
+            $description = sprintf(
+                t(
+                    'Here you can '
+                    . '<a target="_blank" href="%s">alter</a> '
+                    . 'the ckeditor configuration.'
+                ), 
+                $toolbar_editor_url
+            );
 
             $fields_first[] = array(
                 "type" => "textarea",
@@ -277,6 +332,14 @@ row: 0
                 "name" => "disable_editor",
                 "label" => t("Show disable editor button?"),
                 "id" => "disable_editor"
+            );
+
+            $fields_disable_editor[] = array(
+                "type" => "checkbox",
+                "checked" => $use_site_css[$_REQUEST["group"]],
+                "name" => "use_site_css",
+                "label" => t("Use default site css for content editor?"),
+                "id" => "use_site_css"
             );
 
             $fieldset[] = array("fields" => $fields_disable_editor);

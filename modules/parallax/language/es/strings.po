@@ -1,0 +1,289 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: JarisCMS Ecommerce v1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-04-17 17:33-0400\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Jefferson González <jgonzalez@jegoyalu.com>\n"
+"Language-Team: JegoYalu <servicios@jegoyalu.com>\n"
+"Language: es_PR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-Basepath: ../..\n"
+"X-Poedit-KeywordsList: t\n"
+"X-Generator: Poedit 2.0.6\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: data/admin-settings-parallax-add.php:15
+msgid "Add Parallax Background"
+msgstr "Añadir Fondo de Paralaje"
+
+#: data/admin-settings-parallax-add.php:77
+msgid "Background successfully added."
+msgstr "Fondo exitosamente agregado."
+
+#: data/admin-settings-parallax-add.php:98
+#: data/admin-settings-parallax-edit.php:114
+msgid "The image could not be moved to files/parallax directory."
+msgstr "La imagen no pudo ser movida al directorio files/parallax."
+
+#: data/admin-settings-parallax-add.php:132
+#: data/admin-settings-parallax-edit.php:164
+msgid "Description:"
+msgstr "Descripción:"
+
+#: data/admin-settings-parallax-add.php:135
+msgid ""
+"Description of the parallax like for example: January 2011 special product "
+"promotion."
+msgstr ""
+"Descripción del paralaje como por ejemplo: Promoción especial de enero."
+
+#: data/admin-settings-parallax-add.php:142 functions.php:35 functions.php:178
+msgid "Background image file:"
+msgstr "Archivo de imagen de fondo:"
+
+#: data/admin-settings-parallax-add.php:148
+#: data/admin-settings-parallax-edit.php:188
+msgid "Element:"
+msgstr "Elemento:"
+
+#: data/admin-settings-parallax-add.php:151
+#: data/admin-settings-parallax-edit.php:194
+msgid "The css selector of an explicit element to put the background image."
+msgstr ""
+"Un selector css de un elemento en la página para colocar la imagen de fondo."
+
+#: data/admin-settings-parallax-add.php:156
+#: data/admin-settings-parallax-edit.php:199
+msgid "Background color:"
+msgstr "Color de fondo:"
+
+#: data/admin-settings-parallax-add.php:162
+msgid "The background color for the element."
+msgstr "El color de fondo para el elemento."
+
+#: data/admin-settings-parallax-add.php:170
+msgid "Vertical:"
+msgstr ""
+
+#: data/admin-settings-parallax-add.php:172
+#: data/admin-settings-parallax-edit.php:215 functions.php:44 functions.php:187
+msgid "Top"
+msgstr "Arriba"
+
+#: data/admin-settings-parallax-add.php:173
+#: data/admin-settings-parallax-add.php:188
+#: data/admin-settings-parallax-edit.php:216
+#: data/admin-settings-parallax-edit.php:231 functions.php:45 functions.php:61
+#: functions.php:188 functions.php:204
+msgid "Center"
+msgstr "Centro"
+
+#: data/admin-settings-parallax-add.php:174
+#: data/admin-settings-parallax-edit.php:217 functions.php:46 functions.php:189
+msgid "Bottom"
+msgstr "Abajo"
+
+#: data/admin-settings-parallax-add.php:185
+msgid "Horizontal:"
+msgstr ""
+
+#: data/admin-settings-parallax-add.php:187
+#: data/admin-settings-parallax-edit.php:230 functions.php:60 functions.php:203
+msgid "Left"
+msgstr "Izquierda"
+
+#: data/admin-settings-parallax-add.php:189
+#: data/admin-settings-parallax-edit.php:232 functions.php:62 functions.php:205
+msgid "Right"
+msgstr "Derecha"
+
+#: data/admin-settings-parallax-add.php:198
+#: data/admin-settings-parallax-edit.php:241
+msgid "Position"
+msgstr "Posición"
+
+#: data/admin-settings-parallax-add.php:219
+#: data/admin-settings-parallax-edit.php:262
+msgid "Size"
+msgstr "Tamaño"
+
+#: data/admin-settings-parallax-add.php:225
+#: data/admin-settings-parallax-edit.php:268
+msgid "Display in all pages except the listed ones."
+msgstr "Mostrar en todas las páginas excepto en las que se listan."
+
+#: data/admin-settings-parallax-add.php:226
+#: data/admin-settings-parallax-edit.php:269
+msgid "Just display on the listed pages."
+msgstr "Solo mostrar en las páginas listadas."
+
+#: data/admin-settings-parallax-add.php:238
+#: data/admin-settings-parallax-edit.php:282
+msgid "Pages:"
+msgstr "Páginas:"
+
+#: data/admin-settings-parallax-add.php:244
+msgid "Pages to display"
+msgstr "Páginas a mostrar"
+
+#: data/admin-settings-parallax-add.php:245
+msgid ""
+"List of uri's seperated by comma (,). Also supports the wildcard (*), for "
+"example: my-section/*"
+msgstr ""
+"Lista de uri separados por coma (,). Tambien soporta la expresion (*), por "
+"ejemplo: mi-seccion/*"
+
+#: data/admin-settings-parallax-add.php:251
+#: data/admin-settings-parallax-edit.php:296
+msgid "Save"
+msgstr "Guardar"
+
+#: data/admin-settings-parallax-add.php:257
+#: data/admin-settings-parallax-edit.php:302
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: data/admin-settings-parallax-delete.php:15
+msgid "Delete Parallax Background"
+msgstr "Borrar Fondo de Paralaje"
+
+#: data/admin-settings-parallax-delete.php:41
+msgid "Parallax successfully deleted."
+msgstr "Paralaje borrado exitosamente."
+
+#: data/admin-settings-parallax-delete.php:79
+msgid "Are you sure you want to delete the parallax?"
+msgstr "¿Esta seguro que desea borrar el paralaje?"
+
+#: data/admin-settings-parallax-delete.php:93
+msgid "Yes"
+msgstr "Si"
+
+#: data/admin-settings-parallax-delete.php:99
+msgid "No"
+msgstr "No"
+
+#: data/admin-settings-parallax-edit.php:15
+msgid "Edit Parallax Background"
+msgstr "Editar Fondo de Paralaje"
+
+#: data/admin-settings-parallax-edit.php:94
+msgid "Changes successfully saved."
+msgstr "Cambios exitosamente guardados."
+
+#: data/admin-settings-parallax-edit.php:167
+msgid ""
+"Description of the background image like for example: January 2011 special "
+"product promotion."
+msgstr ""
+"Descripción de la imagen de fondo como por ejemplo: Promoción especial de "
+"producto para Enero 2011."
+
+#: data/admin-settings-parallax-edit.php:174 functions.php:168
+msgid "Current image:"
+msgstr "Imagen actual:"
+
+#: data/admin-settings-parallax-edit.php:183
+msgid "New background image file:"
+msgstr "Nuevo archivo de imagen de fondo:"
+
+#: data/admin-settings-parallax-edit.php:205
+msgid "The overall background color of the body."
+msgstr "El color de fondo global del cuerpo de la página."
+
+#: data/admin-settings-parallax-edit.php:290
+msgid ""
+"List of uri's separated by comma (,). Also supports the wildcard (*), for "
+"example: my-section/*"
+msgstr ""
+"Lista de uris separados por coma (,). Soporta la expresión (*), por ejemplo: "
+"mi-seccion/*"
+
+#: data/admin-settings-parallax.php:15 functions.php:411 functions.php:537
+msgid "Parallax Backgrounds"
+msgstr "Fondos de Paralaje"
+
+#: data/admin-settings-parallax.php:23
+msgid "Add Parallax"
+msgstr "Añadir Paralaje"
+
+#: data/admin-settings-parallax.php:39
+msgid "Description"
+msgstr "Descripción"
+
+#: data/admin-settings-parallax.php:40
+msgid "Actions"
+msgstr "Acciones"
+
+#: data/admin-settings-parallax.php:68
+msgid "Edit"
+msgstr "Editar"
+
+#: data/admin-settings-parallax.php:70
+msgid "Delete"
+msgstr "Borrar"
+
+#: data/admin-settings-parallax.php:82
+msgid "No parallax background available."
+msgstr "No hay fondos de paralaje disponible."
+
+#: functions.php:23 functions.php:147
+msgid "Enable"
+msgstr ""
+
+#: functions.php:24 functions.php:148
+msgid "Disable"
+msgstr ""
+
+#: functions.php:42 functions.php:185
+msgid "Vertical position:"
+msgstr "Posición vertical:"
+
+#: functions.php:58 functions.php:201
+msgid "Horizontal position:"
+msgstr "Posición horizontal:"
+
+#: functions.php:79 functions.php:222
+msgid "Background size:"
+msgstr "Tamaño del fondo:"
+
+#: functions.php:95 functions.php:238
+msgid "Background attachment:"
+msgstr "Forma de adjuntar el fondo:"
+
+#: functions.php:111 functions.php:254
+msgid "Main Parent:"
+msgstr "Raíz principal:"
+
+#: functions.php:123 functions.php:266
+msgid "Parent of the block that will contain the background image."
+msgstr "Raíz del bloque que contendrá la imagen de fondo."
+
+#: functions.php:127 functions.php:270
+msgid "Parallax Background"
+msgstr "Fondo de Paralaje"
+
+#: functions.php:397
+msgid "Settings"
+msgstr "Configuraciones"
+
+#: functions.php:418
+msgid "To see, add and edit the parallax backgrounds of the site."
+msgstr "Para ver, añadir y editar fondos de paralaje en la página."
+
+#: install.php:16
+msgid ""
+"Remember to add parallax backgrounds on the Settings section of the Control "
+"Center."
+msgstr ""
+"Recuerde añadir los fondos de paralaje en la sección de Configuraciones del "
+"Centro de Control."
+
+#: install.php:19
+msgid "Add Parallax Now"
+msgstr "Añadir Paralaje Ahora"

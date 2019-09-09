@@ -19,18 +19,36 @@ row: 0
     <?php
         Jaris\Authentication::protectedPage(array("edit_settings"));
 
-        $ogp_settings = Jaris\Settings::getAll("ogp");
-
         if(
             isset($_REQUEST["btnSave"]) &&
             !Jaris\Forms::requiredFieldEmpty("ogp-settings")
         )
         {
+            $ogp_settings = Jaris\Settings::getAll("ogp");
+
+            Jaris\Settings::save(
+                "image_width", $_REQUEST["image_width"], "ogp"
+            );
+            Jaris\Settings::save(
+                "image_height", $_REQUEST["image_height"], "ogp"
+            );
+            Jaris\Settings::save(
+                "image_count", $_REQUEST["image_count"], "ogp"
+            );
+            Jaris\Settings::save(
+                "image_keep_aspect", $_REQUEST["image_keep_aspect"], "ogp"
+            );
+
             $new_image = "";
 
-            if(isset($_FILES["image"]) && file_exists($_FILES["image"]["tmp_name"]))
+            if(
+                isset($_FILES["image"])
+                &&
+                file_exists($_FILES["image"]["tmp_name"])
+            )
             {
-                if($_FILES["image"]["type"] == "image/png" ||
+                if(
+                    $_FILES["image"]["type"] == "image/png" ||
                     $_FILES["image"]["type"] == "image/jpeg" ||
                     $_FILES["image"]["type"] == "image/pjpeg" ||
                     $_FILES["image"]["type"] == "image/gif"
@@ -48,7 +66,10 @@ row: 0
                 }
                 else
                 {
-                    Jaris\View::addMessage(Jaris\System::errorMessage("image_file_type"), "error");
+                    Jaris\View::addMessage(
+                        Jaris\System::errorMessage("image_file_type"),
+                        "error"
+                    );
                 }
             }
 
@@ -75,7 +96,10 @@ row: 0
                 }
                 else
                 {
-                    Jaris\View::addMessage(Jaris\System::errorMessage("write_error_data"), "error");
+                    Jaris\View::addMessage(
+                        Jaris\System::errorMessage("write_error_data"),
+                        "error"
+                    );
                 }
             }
         }
@@ -83,6 +107,8 @@ row: 0
         {
             Jaris\Uri::go("admin/settings");
         }
+
+        $ogp_settings = Jaris\Settings::getAll("ogp");
 
         $parameters["name"] = "ogp-settings";
         $parameters["class"] = "ogp-settings";
@@ -126,6 +152,38 @@ row: 0
             "name" => "image",
             "label" => t("Default image file:"),
             "description" => t("Please upload a 200px X 200px image that will be used as default image if current section doesn't have one. If non is uploaded, a logo.png or logo.jpg image will be scanned from the current theme and used if found.")
+        );
+
+        $fields[] = array(
+            "type" => "text",
+            "name" => "image_width",
+            "label" => t("Image width:"),
+            "value" => $ogp_settings["image_width"] ?? 498,
+            "description" => t("The width of the graph generated images.")
+        );
+
+        $fields[] = array(
+            "type" => "text",
+            "name" => "image_height",
+            "label" => t("Image height:"),
+            "value" => $ogp_settings["image_height"] ?? 375,
+            "description" => t("The height of the graph generated images.")
+        );
+
+        $fields[] = array(
+            "type" => "number",
+            "name" => "image_count",
+            "label" => t("Image count:"),
+            "value" => $ogp_settings["image_count"] ?? 1,
+            "description" => t("The amount of images to add.")
+        );
+
+        $fields[] = array(
+            "type" => "radio",
+            "name" => "image_keep_aspect",
+            "label" => t("Keep aspect ratio?"),
+            "value" => array(t("Yes") => true, t("No") => false),
+            "selected" => $ogp_settings["image_keep_aspect"] ?? true
         );
 
         $fields[] = array(

@@ -57,7 +57,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
                     "admin/settings/video-embed",
                     "video_embed"
                 ),
-                "arguments" => null
+                "arguments" => array()
             );
         }
     }

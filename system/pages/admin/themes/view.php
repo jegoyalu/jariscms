@@ -43,6 +43,10 @@ row: 0
     ?>
 
     <div class="theme-info">
+        <div class="preview">
+            <div class="label"><?php print t("Preview") ?></div>
+            <img src="<?php print Jaris\Uri::url(Jaris\Themes::directory($_REQUEST['path']) . "preview.png"); ?>" />
+        </div>
         <div class="info">
             <div>
                 <span class="label"><?php print t("Name:") ?></span>
@@ -79,12 +83,23 @@ row: 0
                 </a>
             </div>
         </div>
-
-        <div class="preview">
-            <div class="label"><?php print t("Preview") ?></div>
-            <img src="<?php print Jaris\Uri::url(Jaris\Themes::directory($_REQUEST['path']) . "preview.png"); ?>" />
-        </div>
     </div>
+
+    <?php
+        if(
+            file_exists(
+                Jaris\Themes::directory($_REQUEST["path"])
+                    . "settings.php"
+            )
+        )
+        {
+            print "<hr />";
+
+            print "<h3>" . t("Theme Settings") . "</h3>";
+
+            print Jaris\ThemesEdit::generateForm($_REQUEST["path"]);
+        }
+    ?>
     field;
 
     field: is_system

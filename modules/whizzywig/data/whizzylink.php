@@ -27,7 +27,11 @@ row: 0
             $user_is_in_group = false;
             foreach($groups as $machine_name => $value)
             {
-                if(Jaris\Authentication::currentUserGroup() == $machine_name && $value)
+                if(
+                    Jaris\Authentication::currentUserGroup() == $machine_name
+                    &&
+                    $value
+                )
                 {
                     $user_is_in_group = true;
                     break;
@@ -47,7 +51,9 @@ row: 0
             $rtnfield = "lf_url" . $_REQUEST['element_id'];
         }
 
-        $module_url = Jaris\Uri::url(Jaris\Modules::directory("whizzywig") . "whizzywig");
+        $module_url = Jaris\Uri::url(
+            Jaris\Modules::directory("whizzywig") . "whizzywig"
+        );
 
         $uri = $_REQUEST["uri"];
     ?>
@@ -64,7 +70,10 @@ row: 0
     <script type="text/javascript">
         function WantThis(url)
         {
-            window.opener.document.getElementById('<?php echo $rtnfield; ?>').value = url;
+            window.opener.document
+                .getElementById('<?php echo $rtnfield; ?>').value = url
+            ;
+
             window.close();
         }
     </script>
@@ -74,13 +83,20 @@ row: 0
 
         <?php
         $files = Jaris\Pages\Files::getList($uri);
+        $flist = "";
 
         if($files)
         {
             foreach($files as $file)
             {
                 $url = Jaris\Uri::url("file/$uri/{$file['name']}");
-                $flist .= "<div style='float:left;width:20em'><a href='#' onclick='WantThis(\"$url\")'>{$file['name']}</a></div>";
+
+                $flist .= "<div style='float:left;width:20em'>"
+                    . "<a href='#' onclick='WantThis(\"$url\")'>"
+                    . $file['name']
+                    . "</a>"
+                    . "</div>"
+                ;
             }
             echo $flist;
         }

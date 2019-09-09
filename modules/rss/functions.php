@@ -34,7 +34,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
                     "admin/settings/rss",
                     "rss"
                 ),
-                "arguments" => null
+                "arguments" => array()
             );
         }
     }

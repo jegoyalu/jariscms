@@ -12,14 +12,17 @@
 
 $module["name"] = t("Calendar");
 $module["description"] = t("Adds the ability to create calendars for publishing any kind of event or activity.");
-$module["version"] = "1.9";
+$module["version"] = "1.9.1";
 $module["author"] = "Jefferson González";
 $module["email"] = "jgonzalez@jegoyalu.com";
 $module["website"] = "http://www.jegoyalu.com";
 
 /*
 
-=Change Log=
+Version 1.9.1 - Date 31/07/2018
+
+    * Fixed issues reported by phan.
+    * Adjustments for scalar type hints on core.
 
 Version 1.9 - Date 26/02/2017
 
@@ -68,4 +71,4 @@ Version 1.0 - Date 27/07/2015
 
     * Initial version
 
-**/
+*/

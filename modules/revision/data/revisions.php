@@ -20,11 +20,15 @@ row: 0
     field: content
     <?php
         if(
-            !isset($_REQUEST["uri"]) ||
-            trim($_REQUEST["uri"]) == "" ||
+            !isset($_REQUEST["uri"])
+            ||
+            trim($_REQUEST["uri"]) == ""
+            ||
             !file_exists(Jaris\Pages::getPath($_REQUEST["uri"]) . "/data.php")
         )
+        {
             Jaris\Uri::go("access-denied");
+        }
 
         if(!Jaris\Pages::userIsOwner($_REQUEST["uri"]))
             Jaris\Authentication::protectedPage();
@@ -39,11 +43,18 @@ row: 0
             Jaris\Uri::go($_REQUEST["uri"]);
         }
 
-        $page_data = Jaris\Pages::get($_REQUEST["uri"], Jaris\Language::getCurrent());
+        $page_data = Jaris\Pages::get(
+            $_REQUEST["uri"],
+            Jaris\Language::getCurrent()
+        );
 
         // Add Edit/View tabs if current user has proper permissions
         if(
-            Jaris\Authentication::groupHasPermission("edit_content", Jaris\Authentication::currentUserGroup()) &&
+            Jaris\Authentication::groupHasPermission(
+                "edit_content",
+                Jaris\Authentication::currentUserGroup()
+            )
+            &&
             !trim($page_data["is_system"])
         )
         {
@@ -79,7 +90,11 @@ row: 0
                 ) . "\" method=\"GET\">"
             ;
 
-            print "<input type=\"hidden\" name=\"uri\" value=\"" . $_REQUEST["uri"] . "\">";
+            print "<input type=\"hidden\" "
+                . "name=\"uri\" "
+                . "value=\"" . $_REQUEST["uri"] . "\" "
+                . "/>"
+            ;
 
             $options = "";
             foreach($revisions as $revision)
@@ -90,7 +105,10 @@ row: 0
                     $revision
                 );
 
-                $date = t(date("F", $revision)) . " " . date("d, Y (h:i:s a)", $revision);
+                $date = t(date("F", intval($revision)))
+                    . " "
+                    . date("d, Y (h:i:s a)", intval($revision))
+                ;
 
                 $options .= "<option value=\"$revision\">$date</option>";
             }
@@ -105,7 +123,10 @@ row: 0
             print $options;
             print "</select>&nbsp;";
 
-            print "<input type=\"submit\" name=\"btnCompare\" value=\"" . t("Compare") . "\">";
+            print "<input type=\"submit\" "
+                . "name=\"btnCompare\" "
+                . "value=\"" . t("Compare") . "\" "
+                . "/>";
             print "</form>";
 
             print "<hr />";
@@ -134,7 +155,9 @@ row: 0
                 print "<tr>";
 
                 print "<td>"
-                    . t(date("F", $revision)) . " " . date("d, Y (h:i:s a)", $revision)
+                    . t(date("F", intval($revision)))
+                    . " "
+                    . date("d, Y (h:i:s a)", intval($revision))
                     . "</td>"
                 ;
 

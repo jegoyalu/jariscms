@@ -17,9 +17,8 @@ class Timezones
  * All php time zones.
  *
  * @return array List of timezones strings.
- * @original get_timezones
  */
-static function getList()
+static function getList(): array
 {
     $timezones = array(
         "Africa/Abidjan",

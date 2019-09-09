@@ -79,13 +79,15 @@ row: 0
             Jaris\Authentication::protectedPage();
         }
 
-        Jaris\View::addScript("scripts/jquery-ui/jquery.ui.js");
-        Jaris\View::addScript("scripts/jquery-ui/jquery.ui.touch-punch.min.js");
+        Jaris\View::addSystemScript("jquery-ui/jquery.ui.js");
+        Jaris\View::addSystemScript("jquery-ui/jquery.ui.touch-punch.min.js");
 
         $base_url = Jaris\Site::$base_url;
 
         $page_uri = $_REQUEST["uri"];
-        $arguments["uri"] = $page_uri;
+        $arguments = array(
+            "uri" => $_REQUEST["uri"]
+        );
 
         //Tabs
         if(

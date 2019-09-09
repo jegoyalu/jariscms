@@ -24,14 +24,14 @@ row: 0
             if(
                 Jaris\Settings::save(
                     "description_words",
-                    intval($_REQUEST["description_words"]),
+                    strval(intval($_REQUEST["description_words"])),
                     "rss"
                 )
             )
             {
                 Jaris\Settings::save(
                     "images_enable",
-                    intval($_REQUEST["images_enable"]),
+                    strval(intval($_REQUEST["images_enable"])),
                     "rss"
                 );
 
@@ -43,13 +43,13 @@ row: 0
 
                 Jaris\Settings::save(
                     "images_width",
-                    intval($_REQUEST["images_width"]),
+                    strval(intval($_REQUEST["images_width"])),
                     "rss"
                 );
 
                 Jaris\Settings::save(
                     "images_height",
-                    intval($_REQUEST["images_height"]),
+                    strval(intval($_REQUEST["images_height"])),
                     "rss"
                 );
 
@@ -57,13 +57,18 @@ row: 0
             }
             else
             {
-                Jaris\View::addMessage(Jaris\System::errorMessage("write_error_data"));
+                Jaris\View::addMessage(
+                    Jaris\System::errorMessage("write_error_data")
+                );
             }
 
             Jaris\Uri::go("admin/settings");
         }
 
-        Jaris\View::addTab("RSS Selector", Jaris\Modules::getPageUri("rss/selector", "rss"));
+        Jaris\View::addTab(
+            "RSS Selector",
+            Jaris\Modules::getPageUri("rss/selector", "rss")
+        );
 
         $rss_settings = Jaris\Settings::getAll("rss");
 

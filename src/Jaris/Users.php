@@ -64,9 +64,10 @@ const SIGNAL_SHOW_USER_PROFILE = "hook_show_user_profile";
  * @param array $picture An array in the format returned by $_FILES["element"] array.
  *
  * @return string "true" string on success error message on false.
- * @original add_user
  */
-static function add($username, $group, $fields, $picture = array())
+static function add(
+    string $username, string $group, array $fields, array $picture = []
+): string
 {
     $username = strtolower($username);
     $user_exist = self::exists($username);
@@ -103,6 +104,17 @@ static function add($username, $group, $fields, $picture = array())
         //Encrypt user password
         $fields["password"] = crypt($fields["password"]);
 
+        if(
+            isset($fields["devices"])
+            &&
+            is_array($fields["devices"])
+        )
+        {
+            $fields["devices"] = serialize(
+                $fields["devices"]
+            );
+        }
+
         if(!Data::add($fields, $user_data_path))
         {
             return System::errorMessage("write_error_data");
@@ -132,9 +144,8 @@ static function add($username, $group, $fields, $picture = array())
  * @param string $username The username to delete.
  *
  * @return bool True on success false on fail.
- * @original delete_user
  */
-static function delete($username)
+static function delete(string $username): bool
 {
     $username = strtolower($username);
     $user_exist = self::exists($username);
@@ -184,9 +195,10 @@ static function delete($username)
  * by $_FILES["element"] array.
  *
  * @return string "true" string on success error message on false.
- * @original edit_user
  */
-static function edit($username, $group, $new_data, $picture = array())
+static function edit(
+    string $username, string $group, array $new_data, array $picture = []
+): string
 {
     $username = strtolower($username);
     $user_exist = self::exists($username);
@@ -228,8 +240,8 @@ static function edit($username, $group, $new_data, $picture = array())
 
                 //Delete previous picture if any.
                 if(
-                    $previous_picture != "styles/images/male.png" &&
-                    $previous_picture != "styles/images/female.png"
+                    $previous_picture != System::CSS_PATH."images/male.png" &&
+                    $previous_picture != System::CSS_PATH."images/female.png"
                 )
                 {
                     @unlink($previous_picture);
@@ -239,6 +251,17 @@ static function edit($username, $group, $new_data, $picture = array())
 
                 $new_data["picture"] = $picture_name;
             }
+        }
+
+        if(
+            isset($new_data["devices"])
+            &&
+            is_array($new_data["devices"])
+        )
+        {
+            $new_data["devices"] = serialize(
+                $new_data["devices"]
+            );
         }
 
         if(!Data::edit(0, $new_data, $user_data_path))
@@ -293,9 +316,8 @@ static function edit($username, $group, $new_data, $picture = array())
  *
  * @return array An array with all the rows and fields of
  * the username or empty array if not exists.
- * @original get_user_data
  */
-static function get($username)
+static function get(string $username): array
 {
     $username = strtolower($username);
     $user_exist = self::exists($username);
@@ -310,6 +332,21 @@ static function get($username)
         {
             $user_data[0]["password"] = trim($user_data[0]["password"]);
             $user_data[0]["group"] = $user_exist["group"];
+
+            if(
+                isset($user_data[0]["devices"])
+                &&
+                !empty($user_data[0]["devices"])
+            )
+            {
+                $user_data[0]["devices"] = unserialize(
+                    $user_data[0]["devices"]
+                );
+            }
+            else
+            {
+                $user_data[0]["devices"] = array();
+            }
 
             if(!isset($user_data[0]["picture"]))
                 $user_data[0]["picture"] = "";
@@ -334,14 +371,13 @@ static function get($username)
  * @param string $email The email of the user.
  *
  * @return array User data array or empty array if fail.
- * @original get_user_data_by_email
  */
-static function getByEmail($email)
+static function getByEmail(string $email): array
 {
     if(trim($email) == "")
         return array();
 
-    $email = str_replace("'", "''", $email);
+    $email = str_replace("'", "''", trim($email));
 
     if(Sql::dbExists("users"))
     {
@@ -383,9 +419,8 @@ static function getByEmail($email)
  * @param string $username The user we are getting the picture from.
  *
  * @return string The path to the upload dir or empty string if user not exists.
- * @original get_user_uploads_path
  */
-static function getUploadsPath($username)
+static function getUploadsPath(string $username): string
 {
     if($user_info = self::exists($username))
     {
@@ -411,9 +446,8 @@ static function getUploadsPath($username)
  *
  * @return string The path to the user picture or empty
  * string if user not exists.
- * @original get_user_picture_path
  */
-static function getPicturePath($username)
+static function getPicturePath(string $username): string
 {
     $username = strtolower($username);
 
@@ -434,11 +468,11 @@ static function getPicturePath($username)
             switch($user_data["gender"])
             {
                 case "m":
-                    return "styles/images/male.png";
+                    return System::CSS_PATH."images/male.png";
                 case "f":
-                    return "styles/images/female.png";
+                    return System::CSS_PATH."images/female.png";
                 default:
-                    return "styles/images/male.png";
+                    return System::CSS_PATH."images/male.png";
             }
         }
     }
@@ -453,9 +487,8 @@ static function getPicturePath($username)
  * @param string $username The login name of the user.
  *
  * @return string Path of the user picture file.
- * @original get_user_picture_url
  */
-static function getPictureUrl($username)
+static function getPictureUrl(string $username): string
 {
     $username = strtolower($username);
 
@@ -476,9 +509,8 @@ static function getPictureUrl($username)
  *
  * @return array Array in the format array(path, group) if exist or
  * empty array if not.
- * @original user_exist
  */
-static function exists($username)
+static function exists(string $username): array
 {
     $username = strtolower($username);
 
@@ -517,9 +549,8 @@ static function exists($username)
  *
  * @param string $username The username used to log in on the system.
  * @param array $data All the user data to extract only the email.
- * @original add_user_sqlite
  */
-static function addIndex($username, $data)
+static function addIndex(string $username, array $data): void
 {
     $username = strtolower($username);
     if(!Sql::dbExists("users"))
@@ -569,9 +600,8 @@ static function addIndex($username, $data)
  *
  * @param string $username The username used to log in.
  * @param array $data All the data of the username to extract email.
- * @original edit_user_sqlite
  */
-static function editIndex($username, $data)
+static function editIndex(string $username, array $data): void
 {
     $username = strtolower($username);
     if(Sql::dbExists("users"))
@@ -606,9 +636,8 @@ static function editIndex($username, $data)
  * @param int $limit The amount of users per page to display.
  *
  * @return array Each username not longer than $limit
- * @original get_users_list_sqlite
  */
-static function getNavigationList($page = 0, $limit = 30)
+static function getNavigationList(int $page = 0, int $limit = 30): array
 {
     $db = null;
     $page *= $limit;
@@ -656,9 +685,8 @@ static function getNavigationList($page = 0, $limit = 30)
  * Removes a username from the users sqlite database.
  *
  * @param string $username The username to delete.
- * @original remove_user_sqlite
  */
-static function deleteIndex($username)
+static function deleteIndex(string $username): void
 {
     $username = strtolower($username);
 
@@ -682,9 +710,8 @@ static function deleteIndex($username)
  * Pending Approval, Active, Blocked.
  *
  * @return array
- * @original users_status
  */
-static function getStatuses()
+static function getStatuses(): array
 {
     $status = array();
 
@@ -701,24 +728,25 @@ static function getStatuses()
  * @param string $username The username of the user to resets its password.
  *
  * @return string "true" string on success or error message.
- * @original reset_user_password_by_username
  */
-static function resetPassword($username)
+static function resetPassword(string $username): string
 {
     $username = strtolower($username);
-    $password = self::generatePassword();
     $user_data = self::get($username);
-    $user_data["password"] = crypt($password);
+
+    if(!$user_data)
+    {
+        return System::errorMessage("user_not_exist");
+    }
+
+    $user_data["token"] = self::generatePassword(128);
+    $user_data["token_expire"] = time() + (60 * 60 * 24 * 1); // 1 day
 
     $message = self::edit($username, $user_data["group"], $user_data);
 
     if($message == "true")
     {
-        Mail::sendPasswordNotification(
-            $username,
-            $user_data,
-            $password
-        );
+        Mail::sendPasswordNotification($username, $user_data);
     }
 
     return $message;
@@ -730,9 +758,8 @@ static function resetPassword($username)
  * @param string $email The email of the user to resets its password.
  *
  * @return string "true" string on success or error message.
- * @original reset_user_password_by_email
  */
-static function resetPasswordByEmail($email)
+static function resetPasswordByEmail(string $email): string
 {
     $email = str_replace("'", "''", $email);
 
@@ -751,20 +778,17 @@ static function resetPasswordByEmail($email)
 
         if(isset($data["username"]) && $data["username"] != "")
         {
-            $password = self::generatePassword();
             $username = $data["username"];
             $user_data = self::get($username);
-            $user_data["password"] = crypt($password);
+
+            $user_data["token"] = self::generatePassword(128);
+            $user_data["token_expire"] = time() + (60 * 60 * 24 * 1); // 1 day
 
             $message = self::edit($username, $user_data["group"], $user_data);
 
             if($message == "true")
             {
-                Mail::sendPasswordNotification(
-                    $username,
-                    $user_data,
-                    $password
-                );
+                Mail::sendPasswordNotification($username, $user_data);
             }
 
             return $message;
@@ -781,14 +805,51 @@ static function resetPasswordByEmail($email)
 }
 
 /**
+ * Generates a unique username using the given e-mail.
+ *
+ * @param string $email A valid e-mail to generate the username.
+ * 
+ * @return string Unique username or empty string if given e-mail is invalid.
+ */
+static function generateUsername(string $email): string
+{
+    $username = "";
+
+    if(Forms::validEmail($email, false))
+    {
+        $username = preg_replace(
+            "/[^\w]+/", 
+            "", 
+            explode("@", $email)[0]
+        );
+
+        if(strlen($username) < 3)
+        {
+            $username .= substr(self::generatePassword(), 1, 4);
+        }
+
+        $username_original = $username;
+
+        $number = 1;
+
+        while(!empty(self::get($username)))
+        {
+            $username = $username_original . $number;
+            $number++;
+        }
+    }
+
+    return $username;
+}
+
+/**
  * Generates a random password that can be used to reset originals user password.
  *
  * @param int $len The lenght of the password to generate.
  *
  * @return string A random password.
- * @original generate_user_password
  */
-static function generatePassword($len=10)
+static function generatePassword(int $len=10): string
 {
     $password = "";
 
@@ -796,7 +857,7 @@ static function generatePassword($len=10)
         $password .= str_replace(
             array("\$", ".", "/"),
             "",
-            crypt(uniqid((string)rand($len, $len*rand()), true))
+            crypt(uniqid((string)rand($len, intval($len*rand())), true))
         );
 
     if(strlen($password) > $len)
@@ -808,18 +869,22 @@ static function generatePassword($len=10)
 }
 
 /**
- * static function that prints the content of admin/user and
+ * Prints the content of admin/user and
  * calls a hook for modules to be able to modify user page content.
- *
- * @return string Html content of user page.
- * @original print_user_page
  */
-static function printPage()
+static function printPage(): void
 {
     $base_url = Site::$base_url;
 
+    $tabs = array();
+
     $tabs[t("Edit My Account")] = array(
         "uri" => "admin/users/edit",
+        "arguments" => array("username" => Authentication::currentUser())
+    );
+
+    $tabs[t("Devices")] = array(
+        "uri" => "admin/users/devices",
         "arguments" => array("username" => Authentication::currentUser())
     );
 
@@ -894,9 +959,8 @@ static function printPage()
  * page to display the user profile.
  *
  * @param string $page
- * @original show_user_profile
  */
-static function showProfile(&$page)
+static function showProfile(string &$page): void
 {
     $sections = explode("/", $page);
     $username = $sections[1];
@@ -915,9 +979,8 @@ static function showProfile(&$page)
  * @param string $string The string to convert to valid username.
  *
  * @return string username ready to use
- * @original user_generator
  */
-static function formatUsername($string)
+static function formatUsername(string $string): string
 {
     $username = str_ireplace(
         array(
@@ -953,9 +1016,8 @@ static function formatUsername($string)
  * @param string $group The group user belongs to.
  *
  * @return string Path to user data file.
- * @original generate_user_path
  */
-static function getPath($username, $group)
+static function getPath(string $username, string $group): string
 {
     $username = strtolower($username);
 

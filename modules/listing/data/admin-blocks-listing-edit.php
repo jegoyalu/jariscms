@@ -19,7 +19,10 @@ row: 0
     <?php
         Jaris\Authentication::protectedPage(array("edit_blocks"));
 
-        $block_data = Jaris\Blocks::get($_REQUEST["id"], $_REQUEST["position"]);
+        $block_data = Jaris\Blocks::get(
+            intval($_REQUEST["id"]),
+            strval($_REQUEST["position"])
+        );
 
         $block_data["filter_types"] = unserialize($block_data["filter_types"]);
         $block_data["filter_categories"] = unserialize($block_data["filter_categories"]);
@@ -37,7 +40,11 @@ row: 0
             $block_data["themes"] = $_REQUEST["themes"];
 
             if(
-                Jaris\Authentication::groupHasPermission("return_code_blocks", Jaris\Authentication::currentUserGroup()) ||
+                Jaris\Authentication::groupHasPermission(
+                    "return_code_blocks",
+                    Jaris\Authentication::currentUserGroup()
+                )
+                ||
                 Jaris\Authentication::isAdminLogged()
             )
             {
@@ -52,7 +59,28 @@ row: 0
 
             $block_data["category_matching"] = $_REQUEST["category_matching"];
 
+            $block_data["skip_current_page"] = $_REQUEST["skip_current_page"];
             $block_data["related_to_current_page"] = $_REQUEST["related_to_current_page"];
+
+            if(Jaris\Modules::isInstalled("ecommerce"))
+            {
+                $block_data["treat_as_products"] = $_REQUEST["treat_as_products"];
+                $block_data["show_prices"] = $_REQUEST["show_prices"];
+                $block_data["onsale_only"] = $_REQUEST["onsale_only"];
+            }
+
+            if(Jaris\Modules::isInstalled("realty"))
+            {
+                $block_data["treat_as_properties"] = $_REQUEST["treat_as_properties"];
+                $block_data["realty_type"] = $_REQUEST["realty_type"];
+                $block_data["realty_country"] = $_REQUEST["country"];
+                $block_data["realty_state_province"] = $_REQUEST["state_province"];
+                $block_data["realty_city"] = $_REQUEST["city"];
+                $block_data["realty_category"] = $_REQUEST["realty_category"];
+                $block_data["realty_status"] = $_REQUEST["realty_status"];
+                $block_data["realty_foreclosure"] = $_REQUEST["realty_foreclosure"];
+                $block_data["realty_commercial"] = $_REQUEST["realty_commercial"];
+            }
 
             $filter_categories_list = Jaris\Categories::getList();
             $filter_categories = array();
@@ -97,7 +125,10 @@ row: 0
             }
             else
             {
-                Jaris\View::addMessage(Jaris\System::errorMessage("write_error_data"), "error");
+                Jaris\View::addMessage(
+                    Jaris\System::errorMessage("write_error_data"),
+                    "error"
+                );
             }
 
             Jaris\Uri::go("admin/blocks");
@@ -204,8 +235,195 @@ row: 0
 
         $fieldset[] = array("fields" => $fields);
 
+        if(Jaris\Modules::isInstalled("ecommerce"))
+        {
+            $fields_ecommerce[] = array(
+                "type" => "radio",
+                "name" => "treat_as_products",
+                "label" => t("Treat listing as products?"),
+                "value" => array(
+                    t("Yes") => true,
+                    t("No") => false
+                ),
+                "checked" => isset($_REQUEST["treat_as_products"]) ?
+                    $_REQUEST["treat_as_products"]
+                    :
+                    $block_data["treat_as_products"],
+                "description" => t("If all selected content types on the filter are products the listing is treated as a listing of products.")
+            );
+
+            $fields_ecommerce[] = array(
+                "type" => "radio",
+                "name" => "show_prices",
+                "label" => t("Display prices?"),
+                "value" => array(
+                    t("Yes") => true,
+                    t("No") => false
+                ),
+                "checked" => isset($_REQUEST["show_prices"]) ?
+                    $_REQUEST["show_prices"]
+                    :
+                    $block_data["show_prices"],
+                "description" => t("Display the product base price.")
+            );
+
+            $fields_ecommerce[] = array(
+                "type" => "radio",
+                "name" => "onsale_only",
+                "label" => t("On sale only?"),
+                "value" => array(
+                    t("Yes") => true,
+                    t("No") => false
+                ),
+                "checked" => isset($_REQUEST["onsale_only"]) ?
+                    $_REQUEST["onsale_only"]
+                    :
+                    $block_data["onsale_only"],
+                "description" => t("Display only the products that are on sale.")
+            );
+
+            $fieldset[] = array(
+                "fields" => $fields_ecommerce,
+                "name" => t("E-commerce"),
+                "collapsible" => true,
+                "collapsed" => empty($block_data["treat_as_products"]),
+                "description" => t("Note: To treat the listed results as products, every content type selected on the filters section must be a valid product content type.")
+            );
+        }
+
+        if(Jaris\Modules::isInstalled("realty"))
+        {
+            $fields_realty[] = array(
+                "type" => "radio",
+                "name" => "treat_as_properties",
+                "label" => t("Treat listing as properties?"),
+                "value" => array(
+                    t("Yes") => true,
+                    t("No") => false
+                ),
+                "checked" => isset($_REQUEST["treat_as_properties"]) ?
+                    $_REQUEST["treat_as_properties"]
+                    :
+                    $block_data["treat_as_properties"],
+                "description" => t("If all selected content types on the filter are properties the listing is treated as a listing of properties.")
+            );
+
+            $fields_realty[] = array(
+                "type" => "radio",
+                "name" => "realty_type",
+                "label" => t("Type:"),
+                "value" => array(
+                    t("All") => "",
+                    t("Sale") => "sale",
+                    t("Rent") => "rent"
+                ),
+                "checked" => isset($_REQUEST["realty_type"]) ?
+                    $_REQUEST["realty_type"]
+                    :
+                    $block_data["realty_type"],
+                "description" => t("Type of properties.")
+            );
+
+            $fields_realty = array_merge(
+                $fields_realty,
+                countries_get_form_fields(
+                    "listing-blocks-edit",
+                    array(
+                        "country" => $block_data["realty_country"],
+                        "state_province" => $block_data["realty_state_province"],
+                        "city" => $block_data["realty_city"]
+                    ),
+                    "realty",
+                    true
+                )
+            );
+
+            $fields_realty[] = array(
+                "type" => "other",
+                "html_code" => "<div></div>"
+            );
+
+            $categories[t("All")] = "";
+            $categories += realty_get_categories();
+
+            $fields_realty[] = array(
+                "type" => "select",
+                "name" => "realty_category",
+                "label" => t("Category:"),
+                "selected" => isset($_REQUEST["realty_category"]) ?
+                    $_REQUEST["realty_category"]
+                    :
+                    $block_data["realty_category"],
+                "value" => $categories,
+                "inline" => true,
+                "description" => "Property category."
+            );
+
+            $status[t("All")] = "";
+            $status += realty_get_status();
+
+            $fields_realty[] = array(
+                "type" => "select",
+                "name" => "realty_status",
+                "label" => t("Status:"),
+                "id" => "status",
+                "selected" => isset($_REQUEST["realty_status"]) ?
+                    $_REQUEST["realty_status"]
+                    :
+                    $block_data["realty_status"],
+                "value" => $status,
+                "inline" => true,
+                "description" => t("Status of properties.")
+            );
+
+            $foreclosure[t("All")] = "";
+            $foreclosure[t("Yes")] = 'y';
+            $foreclosure[t("No")] = 'n';
+
+            $fields_realty[] = array(
+                "type" => "select",
+                "selected" => isset($_REQUEST["realty_foreclosure"]) ?
+                    $_REQUEST["realty_foreclosure"]
+                    :
+                    $block_data["realty_foreclosure"],
+                "value" => $foreclosure,
+                "name" => "realty_foreclosure",
+                "label" => t("Foreclosure:"),
+                "inline" => true,
+                "description" => t("Property is foreclosure.")
+            );
+
+            $commercial[t("All")] = "";
+            $commercial[t("Yes")] = 'y';
+            $commercial[t("No")] = 'n';
+
+            $fields_realty[] = array(
+                "type" => "select",
+                "selected" => isset($_REQUEST["realty_commercial"]) ?
+                    $_REQUEST["realty_commercial"]
+                    :
+                    $block_data["realty_commercial"],
+                "value" => $commercial,
+                "name" => "realty_commercial",
+                "label" => t("Commercial:"),
+                "inline" => true,
+                "description" => t("Property is commercial.")
+            );
+
+            $fieldset[] = array(
+                "fields" => $fields_realty,
+                "name" => t("Realty"),
+                "collapsible" => true,
+                "collapsed" => true,
+                "description" => t("Note: To treat the listed results as properties, every content type selected on the filters section must be a valid property content type.")
+            );
+        }
+
         $criteria_types = array();
-        $criteria_types_list = Jaris\Types::getList(Jaris\Authentication::currentUserGroup());
+        $criteria_types_list = Jaris\Types::getList(
+            Jaris\Authentication::currentUserGroup()
+        );
+
         foreach($criteria_types_list as $machine_name => $type_fields)
         {
             $criteria_types[t(trim($type_fields["name"]))] = $machine_name;
@@ -237,6 +455,19 @@ row: 0
         );
 
         $fields_criteria[] = array("type" => "other", "html_code" => "<br />");
+
+        $fields_criteria[] = array(
+            "type" => "checkbox",
+            "name" => "skip_current_page",
+            "id" => "skip_current_page",
+            "label" => t("Skip current page?"),
+            "checked" => $_REQUEST["skip_current_page"] ?
+                $_REQUEST["skip_current_page"]
+                :
+                $block_data["skip_current_page"],
+            "value" => true,
+            "description" => t("The current page is skipped from the results being displayed.")
+        );
 
         $fields_criteria[] = array(
             "type" => "checkbox",
@@ -276,7 +507,7 @@ row: 0
 
         $fields_criteria = array_merge(
             $fields_criteria,
-            listing_category_fields($block_data["filter_categories"], null)
+            listing_category_fields($block_data["filter_categories"], "")
         );
 
         $fieldset[] = array(
@@ -294,6 +525,8 @@ row: 0
         $ordering[t("Most viewed today")] = "views_today_desc";
         $ordering[t("Most viewed this week")] = "views_week_desc";
         $ordering[t("Most viewed this month")] = "views_month_desc";
+        $ordering[t("From current date descending")] = "current_date_desc";
+        $ordering[t("From current date ascending")] = "current_date_asc";
 
         $fields_ordering[] = array(
             "type" => "radio",
@@ -497,7 +730,11 @@ row: 0
         );
 
         if(
-            Jaris\Authentication::groupHasPermission("return_code_blocks", Jaris\Authentication::currentUserGroup()) ||
+            Jaris\Authentication::groupHasPermission(
+                "return_code_blocks",
+                Jaris\Authentication::currentUserGroup()
+            )
+            ||
             Jaris\Authentication::isAdminLogged()
         )
         {

@@ -37,8 +37,8 @@ row: 0
         if(isset($user_data["superadmin"]) && $user_data["superadmin"])
         {
             Jaris\View::addMessage(t("Can not delete a super admin user."));
-            
-            Jaris\Uri::go("admin/users");
+
+            Jaris\Uri::go("admin/users/list");
         }
 
         if(isset($_REQUEST["btnYes"]))
@@ -64,7 +64,7 @@ row: 0
                 );
             }
 
-            Jaris\Uri::go("admin/users");
+            Jaris\Uri::go("admin/users/list");
         }
         elseif(isset($_REQUEST["btnNo"]))
         {

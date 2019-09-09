@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Jefferson González <jgonzalez@jegoyalu.com>
- * @license https://opensource.org/licenses/GPL-3.0 
+ * @license https://opensource.org/licenses/GPL-3.0
  * @link http://github.com/jegoyalu/jariscms Source code.
  */
 
@@ -32,9 +32,8 @@ const SIGNAL_EDIT_TYPE = "hook_edit_type";
  * @param array $fields An array with the needed fields to write to the type.
  *
  * @return string "true" string on success error message on fail.
- * @original add_type
  */
-static function add($name, $fields)
+static function add(string $name, array $fields): string
 {
     $type_data_path = self::getPath($name);
 
@@ -78,12 +77,18 @@ static function add($name, $fields)
 
         $fields["image"] = $image_name;
     }
-    
-    $fields["categories"] = serialize($fields["categories"]);
-    $fields["uploads"] = serialize($fields["uploads"]);
-    $fields["posts"] = serialize($fields["posts"]);
+
+    $fields["categories"] = is_array($fields["categories"]) ?
+        serialize($fields["categories"]) : serialize([])
+    ;
+    $fields["uploads"] = is_array($fields["uploads"]) ?
+        serialize($fields["uploads"]) : serialize([])
+    ;
+    $fields["posts"] = is_array($fields["posts"]) ?
+        serialize($fields["posts"]) : serialize([])
+    ;
     $fields["requires_approval"] = is_array($fields["requires_approval"]) ?
-        serialize($fields["requires_approval"]) : serialize(array())
+        serialize($fields["requires_approval"]) : serialize([])
     ;
 
     if(!Data::add($fields, $type_data_path))
@@ -100,9 +105,8 @@ static function add($name, $fields)
  * @param string $name Machine name of the type.
  *
  * @return string "true" string on success error message on fail.
- * @original delete_type
  */
-static function delete($name)
+static function delete(string $name): string
 {
     $type_data_path = self::getPath($name);
 
@@ -134,20 +138,25 @@ static function delete($name)
  * @param array $fields Array with all the new values of the type.
  *
  * @return bool true on success false on fail.
- * @original edit_type
  */
-static function edit($name, $fields)
+static function edit(string $name, array $fields): bool
 {
     $type_data_path = self::getPath($name);
 
     //Call add_type hook before creating the category
     Modules::hook("hook_edit_type", $name, $fields);
 
-    $fields["categories"] = serialize($fields["categories"]);
-    $fields["uploads"] = serialize($fields["uploads"]);
-    $fields["posts"] = serialize($fields["posts"]);
+    $fields["categories"] = is_array($fields["categories"]) ?
+        serialize($fields["categories"]) : serialize([])
+    ;
+    $fields["uploads"] = is_array($fields["uploads"]) ?
+        serialize($fields["uploads"]) : serialize([])
+    ;
+    $fields["posts"] = is_array($fields["posts"]) ?
+        serialize($fields["posts"]) : serialize([])
+    ;
     $fields["requires_approval"] = is_array($fields["requires_approval"]) ?
-        serialize($fields["requires_approval"]) : serialize(array())
+        serialize($fields["requires_approval"]) : serialize([])
     ;
 
     if(is_array($fields["image"]))
@@ -184,19 +193,26 @@ static function edit($name, $fields)
  * @param string $name Machine name of the type.
  *
  * @return array An array with all the fields of the type.
- * @original get_type_data
  */
-static function get($name)
+static function get(string $name): array
 {
     $type_data_path = self::getPath($name);
 
     $type = Data::parse($type_data_path);
 
-    $type[0]["categories"] = isset($type[0]["categories"]) ?
-        unserialize($type[0]["categories"])
-        :
-        array()
-    ;
+    $categories = array();
+    if(
+        isset($type[0]["categories"])
+        &&
+        is_array($categories=unserialize($type[0]["categories"]))
+    )
+    {
+        $type[0]["categories"] = $categories;
+    }
+    else
+    {
+        $type[0]["categories"] = array();
+    }
 
     if(!isset($type[0]["uploads"]))
     {
@@ -228,7 +244,7 @@ static function get($name)
     {
         $type[0]["posts"] = unserialize($type[0]["posts"]);
     }
-    
+
     if(!isset($type[0]["requires_approval"]))
     {
         $type[0]["requires_approval"] = array();
@@ -248,17 +264,20 @@ static function get($name)
  * Get the image url of a given content type.
  *
  * @param string $name Machine name of the type.
- * @param int $width Amount in pixels.
- * @param int $height Amount in pixels.
- * @param bool $ar Flag that indicates if aspect ratio should be kept.
- * @param string $bg The background color in html format, eg: FFFFFF
+ * @param ?int $width Amount in pixels.
+ * @param ?int $height Amount in pixels.
+ * @param ?bool $ar Flag that indicates if aspect ratio should be kept.
+ * @param ?string $bg The background color in html format, eg: FFFFFF
  *
  * @return string Url of image or empty string if nothing found.
- * @original type_get_image_url
  */
 static function getImageUrl(
-    $name, $width=null, $height=null, $ar=null, $bg=null
-)
+    string $name,
+    ?int $width=null,
+    ?int $height=null,
+    ?bool $ar=null,
+    ?string $bg=null
+): string
 {
     static $type_image=array();
 
@@ -314,7 +333,7 @@ static function getImageUrl(
             $image_name = "";
 
             FileSystem::copy(
-                "styles/images/no-pic.png",
+                System::CSS_PATH . "images/no-pic.png",
                 Site::dataDir() . "no-pic.png"
             );
 
@@ -354,14 +373,13 @@ static function getImageUrl(
  *  "name"=>"string",
  *  "description"=>"string"
  * )
- * or null if no type found.
- * @original get_types_list
+ * or empty array if no type found.
  */
-static function getList($user_group = "", $username = "")
+static function getList(string $user_group = "", string $username = ""): array
 {
     $dir = opendir(Site::dataDir() . "types");
 
-    $types = null;
+    $types = array();
 
     while(($file = readdir($dir)) !== false)
     {
@@ -400,9 +418,8 @@ static function getList($user_group = "", $username = "")
  * @param string $username
  *
  * @return bool True if user reached max post allowed false otherwise
- * @original user_reached_max_posts
  */
-static function userReachedMaxPosts($type, $username)
+static function userReachedMaxPosts(string $type, string $username): bool
 {
     if(Sql::dbExists("search_engine") && !Authentication::isAdminLogged())
     {
@@ -436,25 +453,27 @@ static function userReachedMaxPosts($type, $username)
 }
 
 /**
- * Check if a user requires approval when publishing content of certain type. 
+ * Check if a user requires approval when publishing content of certain type.
+ *
  * @param string $type The machine name of the content type.
  * @param string $group_name The machine name of a user group.
+ *
  * @return bool
  */
-static function groupRequiresApproval($type, $group_name)
+static function groupRequiresApproval(string $type, string $group_name): bool
 {
     if($group_name == "administrator")
     {
         return false;
     }
-    
+
     $type_data = self::get($type);
-    
+
     if($type_data["requires_approval"][$group_name])
     {
         return true;
     }
-    
+
     return false;
 }
 
@@ -465,9 +484,8 @@ static function groupRequiresApproval($type, $group_name)
  *
  * @return array A series of fields that can
  * be used when generating a form.
- * @original generate_types_categories_fields_list
  */
-static function generateCategoriesFields($selected = null)
+static function generateCategoriesFields(array $selected = []): array
 {
     $fields = array();
 
@@ -514,9 +532,8 @@ static function generateCategoriesFields($selected = null)
  *
  * @return array A series of fields that can
  * be used when generating a form.
- * @original generate_types_fields_list
  */
-static function generateFields($selected = null)
+static function generateFields(array $selected = []): array
 {
     $fields = array();
 
@@ -561,9 +578,8 @@ static function generateFields($selected = null)
  * @param string $user The username of the user that is creating the content.
  *
  * @return string Valid uri for system content creation.
- * @original generate_uri_for_type
  */
-static function generateURI($type, $title, $user)
+static function generateURI(string $type, string $title, string $user): string
 {
     $type_data = self::get($type);
 
@@ -594,9 +610,8 @@ static function generateURI($type, $title, $user)
  *
  * @return string The type default input format or full_html
  * if no input format assigned.
- * @original get_type_default_input_format
  */
-static function getDefaultInputFormat($name)
+static function getDefaultInputFormat(string $name): string
 {
     $type = self::get($name);
 
@@ -609,7 +624,7 @@ static function getDefaultInputFormat($name)
 }
 
 /**
- * static function to retrieve the title or content labels and descriptions.
+ * Retrieve the title or content labels and descriptions.
  *
  * @param string $type The machine name of the type.
  * @param string $label One of the following values:
@@ -617,9 +632,8 @@ static function getDefaultInputFormat($name)
  *
  * @return string The corresponding label or description
  * value already translated.
- * @original get_type_label
  */
-static function getLabel($type, $label)
+static function getLabel(string $type, string $label): string
 {
     $type_data = self::get($type);
 
@@ -649,9 +663,8 @@ static function getLabel($type, $label)
  * @param string $name The machine name of the content type.
  *
  * @return string $name The path of the type file.
- * @original generate_type_path
  */
-static function getPath($name)
+static function getPath(string $name): string
 {
     $type_path = Site::dataDir() . "types/$name.php";
 

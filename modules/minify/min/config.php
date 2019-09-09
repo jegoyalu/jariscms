@@ -36,7 +36,7 @@ function get_min_cache_dir($main_dir)
         preg_replace(
             "/^www\./",
             "",
-            $_SERVER["HTTP_HOST"]
+            explode(":", $_SERVER["HTTP_HOST"])[0]
         )
     ) . "/files/minify";
 

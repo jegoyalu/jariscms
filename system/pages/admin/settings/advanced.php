@@ -22,11 +22,51 @@ row: 0
         Jaris\Authentication::protectedPage(array("edit_settings"));
 
         Jaris\View::addTab(t("Api Keys"), "admin/settings/advanced/keys");
+
         Jaris\View::addTab(t("Cron Jobs"), "admin/settings/cron");
-        Jaris\View::addTab(t("Clear Image Cache"), "admin/settings/clear-image-cache");
-        Jaris\View::addTab(t("Clear Page Cache"), "admin/settings/clear-page-cache");
+
+        Jaris\View::addTab(
+            t("Clear Image Cache"),
+            "admin/settings/clear-image-cache"
+        );
+
+        Jaris\View::addTab(
+            t("Clear Page Cache"),
+            "admin/settings/clear-page-cache"
+        );
+
+        if(function_exists("opcache_reset"))
+        {
+            Jaris\View::addTab(
+                t("Clear OPcache"),
+                "admin/settings/advanced",
+                array("cleanopcache" => 1)
+            );
+
+            if(isset($_REQUEST["cleanopcache"]))
+            {
+                if(opcache_reset())
+                {
+                    Jaris\View::addMessage(
+                        t("The OPcache was successfully reset.")
+                    );
+                }
+                else
+                {
+                    Jaris\View::addMessage(
+                        t("The OPcache could not be reset."),
+                        "error"
+                    );
+                }
+            }
+        }
+
         Jaris\View::addTab(t("Sqlite Backups"), "admin/settings/sqlite");
-        Jaris\View::addTab(t("Re-index SQLite Search"), "admin/settings/reindex-search");
+
+        Jaris\View::addTab(
+            t("Re-index SQLite Search"),
+            "admin/settings/reindex-search"
+        );
 
         //Get exsiting settings or defualt ones if main
         //settings table doesn't exist
@@ -66,28 +106,102 @@ row: 0
         )
         {
             //Check if write is possible and continue to write settings
-            if(Jaris\Settings::save("clean_urls", $_REQUEST["clean_urls"], "main"))
+            if(
+                Jaris\Settings::save(
+                    "clean_urls",
+                    $_REQUEST["clean_urls"],
+                    "main"
+                )
+            )
             {
-                Jaris\Settings::save("validate_ip", $_REQUEST["validate_ip"], "main");
-                Jaris\Settings::save("login_ssl", $_REQUEST["login_ssl"], "main");
-                Jaris\Settings::save("development_mode", $_REQUEST["development_mode"], "main");
-                Jaris\Settings::save("enable_cache", $_REQUEST["enable_cache"], "main");
-                Jaris\Settings::save("enable_fast_cache", $_REQUEST["enable_fast_cache"], "main");
-                Jaris\Settings::save("cache_php_pages", $_REQUEST["cache_php_pages"], "main");
-                Jaris\Settings::save("cache_ignore_db", serialize($_REQUEST["cache_ignore_db"]), "main");
-                Jaris\Settings::save("cache_ignore_types", serialize($_REQUEST["cache_ignore_types"]), "main");
-                Jaris\Settings::save("cache_expire", $_REQUEST["cache_expire"], "main");
-                Jaris\Settings::save("data_cache", $_REQUEST["data_cache"], "main");
-                Jaris\Settings::save("classic_views_count", $_REQUEST["classic_views_count"], "main");
-                Jaris\Settings::save("view_script_stats", $_REQUEST["view_script_stats"], "main");
+                Jaris\Settings::save(
+                    "validate_ip",
+                    $_REQUEST["validate_ip"],
+                    "main"
+                );
+
+                Jaris\Settings::save(
+                    "login_ssl",
+                    $_REQUEST["login_ssl"],
+                    "main"
+                );
+
+                Jaris\Settings::save(
+                    "forgot_pass_disabled",
+                    $_REQUEST["forgot_pass_disabled"],
+                    "main"
+                );
+
+                Jaris\Settings::save(
+                    "development_mode",
+                    $_REQUEST["development_mode"],
+                    "main"
+                );
+
+                Jaris\Settings::save(
+                    "enable_cache",
+                    $_REQUEST["enable_cache"],
+                    "main"
+                );
+
+                Jaris\Settings::save(
+                    "enable_fast_cache",
+                    $_REQUEST["enable_fast_cache"],
+                    "main"
+                );
+
+                Jaris\Settings::save(
+                    "cache_php_pages",
+                    $_REQUEST["cache_php_pages"],
+                    "main"
+                );
+
+                Jaris\Settings::save(
+                    "cache_ignore_db",
+                    serialize($_REQUEST["cache_ignore_db"]),
+                    "main"
+                );
+
+                Jaris\Settings::save(
+                    "cache_ignore_types",
+                    serialize($_REQUEST["cache_ignore_types"]),
+                    "main"
+                );
+
+                Jaris\Settings::save(
+                    "cache_expire",
+                    $_REQUEST["cache_expire"],
+                    "main"
+                );
+
+                Jaris\Settings::save(
+                    "data_cache",
+                    $_REQUEST["data_cache"],
+                    "main"
+                );
+
+                Jaris\Settings::save(
+                    "classic_views_count",
+                    $_REQUEST["classic_views_count"],
+                    "main"
+                );
+
+                Jaris\Settings::save(
+                    "view_script_stats",
+                    $_REQUEST["view_script_stats"],
+                    "main"
+                );
 
                 //If data cache was enabled or disabled
                 //Create data cache directory if it doesnt exists
                 if($_REQUEST["data_cache"])
                 {
                     if(!file_exists(Jaris\Site::dataDir() . "data_cache"))
-                        ;
-                    Jaris\FileSystem::makeDir(Jaris\Site::dataDir() . "data_cache");
+                    {
+                        Jaris\FileSystem::makeDir(
+                            Jaris\Site::dataDir() . "data_cache"
+                        );
+                    }
                 }
                 //Empty data cache directory and remove it
                 else
@@ -195,6 +309,23 @@ row: 0
             "checked" => $site_settings["login_ssl"]
         );
 
+        $login_authentication_fields[] = array(
+            "type" => "other",
+            "html_code" => "<h4>" . t("Forgot Password") . "</h4>"
+        );
+
+        $login_authentication_fields[] = array(
+            "type" => "radio",
+            "name" => "forgot_pass_disabled",
+            "id" => "forgot_pass_disabled",
+            "value" => array(
+                t("Enable") => false,
+                t("Disable") => true
+            ),
+            "checked" => $site_settings["forgot_pass_disabled"],
+            "description" => t("The functionality that enables a user to reset its password from the site.")
+        );
+
         $fieldset[] = array(
             "name" => t("Login and Authentication"),
             "fields" => $login_authentication_fields,
@@ -228,7 +359,9 @@ row: 0
 
         $cache_fields[] = array(
             "type" => "other",
-            "html_code" => "<h4>" . t("Select databases to ignore on timestamp check") . "</h4>"
+            "html_code" => "<h4>"
+                . t("Select databases to ignore on timestamp check")
+                . "</h4>"
         );
 
         $cache_databases = Jaris\Sql::listDB();
@@ -274,7 +407,9 @@ row: 0
 
         $cache_fields[] = array(
             "type" => "other",
-            "html_code" => "<h4>" . t("Select types to disable page caching") . "</h4>"
+            "html_code" => "<h4>"
+                . t("Select types to disable page caching")
+                . "</h4>"
         );
 
         $cache_types = Jaris\Types::getList();

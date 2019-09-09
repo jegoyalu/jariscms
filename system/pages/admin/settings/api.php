@@ -23,6 +23,8 @@ row: 0
 
         Jaris\View::addTab(t("Add Key"), "admin/settings/api/add-key");
 
+        Jaris\View::addTab(t("View Api Pages"), "api");
+
         Jaris\ApiKey::createDatabase();
 
         $page = 1;

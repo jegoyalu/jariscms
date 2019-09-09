@@ -56,6 +56,12 @@ const SIGNAL_THEME_TABS = "hook_theme_tabs";
 const SIGNAL_THEME_DISPLAY = "hook_theme_display";
 
 /**
+ * Receives parameters: $page, $html
+ * @var string
+ */
+const SIGNAL_THEME_RENDER = "hook_theme_render";
+
+/**
  * Receives parameters: $position, $page, $id, $template_path
  * @var string
  */
@@ -110,19 +116,61 @@ public static $additional_styles = array();
 public static $additional_scripts = array();
 
 /**
+ * Additional styles code added to the final page.
+ * @var string
+ */
+public static $additional_styles_code = "";
+
+/**
+ * Additional scripts code added to the final page.
+ * @var string
+ */
+public static $additional_scripts_code = "";
+
+/**
  * Alternative store for the title displayed on pages.
  * @var string
  */
 private static $content_title;
 
 /**
+ * An array that stores the custom settings for a theme.
+ * @var array
+ */
+private static $theme_settings = array();
+
+/**
+ * Load user defined custom theme settings.
+ */
+static function loadThemeSettings(): void
+{
+    $theme = Site::$theme;
+
+    $theme_dir = Themes::directory($theme);
+
+    if(file_exists($theme_dir . "settings.php"))
+    {
+        self::$theme_settings = ThemesEdit::settings($theme, true);
+
+        if(trim(self::$theme_settings["css"]) != "")
+        {
+            self::addStyleCode(self::$theme_settings["css"]);
+        }
+
+        if(trim(self::$theme_settings["js"]) != "")
+        {
+            self::addScriptCode(self::$theme_settings["js"]);
+        }
+    }
+}
+
+/**
  * Links a css style file to a generated page.
  *
  * @param string $path A path to css file.
  * @param array $arguments Arguments if the css file is dynamic.
- * @original add_style
  */
-static function addStyle($path, $arguments = array())
+static function addStyle(string $path, array $arguments = []): void
 {
     $current_url = Uri::url($path, $arguments);
 
@@ -149,9 +197,8 @@ static function addStyle($path, $arguments = array())
  *
  * @param string $path A path to a javascript file.
  * @param array $arguments Arguments if the javascript file is dynamic.
- * @original add_script
  */
-static function addScript($path, $arguments = array())
+static function addScript(string $path, array $arguments = []): void
 {
     $current_url = Uri::url($path, $arguments);
 
@@ -174,6 +221,50 @@ static function addScript($path, $arguments = array())
 }
 
 /**
+ * Links a core system css style file to a generated page.
+ *
+ * @param string $path A path relative to system css files.
+ * @param array $arguments Arguments if the css file is dynamic.
+ */
+static function addSystemStyle(string $path, array $arguments = []): void
+{
+    self::addStyle(System::CSS_PATH . $path, $arguments);
+}
+
+/**
+ * Links a core system javascript file to a generated page.
+ *
+ * @param string $path A path relative to a system javascript file.
+ * @param array $arguments Arguments if the javascript file is dynamic.
+ */
+static function addSystemScript(string $path, array $arguments = []): void
+{
+    self::addScript(System::JS_PATH . $path, $arguments);
+}
+
+/**
+ * Add crude css code to the generated page. The <style> tags are
+ * added automatically so make sure to only pass css code.
+ *
+ * @param string $code Css code to add into the page.
+ */
+static function addStyleCode(string $code): void
+{
+    self::$additional_styles_code .= $code . "\n\n";
+}
+
+/**
+ * Add crude javascript code to the generated page. The <script> tags are
+ * added automatically so make sure to only pass js code.
+ *
+ * @param string $code JavaScript code to add into the page.
+ */
+static function addScriptCode(string $code): void
+{
+    self::$additional_scripts_code .= $code . "\n\n";
+}
+
+/**
  * Queues a tab to the array of tabs that is going to be displayed on the page
  * and can be accessed on the page template using the $tabs variable
  *
@@ -181,9 +272,10 @@ static function addScript($path, $arguments = array())
  * @param string $uri The url of the tab when the user clicks it.
  * @param array $arguments The arguments to pass to the url.
  * @param int $row poisition where rows will appear.
- *@original add_tab
  */
-static function addTab($name, $uri, $arguments = array(), $row = 0)
+static function addTab(
+    string $name, string $uri, array $arguments=[], int $row=0
+): void
 {
     self::$tabs_list[$row][$name] = array(
         "uri" => $uri,
@@ -197,9 +289,8 @@ static function addTab($name, $uri, $arguments = array(), $row = 0)
  *
  * @param string $message The text to display to on the page.
  * @param string $type Type of message can be: normal or error.
- * @original add_message
  */
-static function addMessage($message, $type = "normal")
+static function addMessage(string $message, string $type = "normal"): void
 {
     Session::start();
 
@@ -210,13 +301,12 @@ static function addMessage($message, $type = "normal")
  * Gets the current page meta tags or the default system ones
  * stored on the main settings file.
  *
- * @param array $page_data If not null the meta tags are generated for the
+ * @param ?array $page_data If not null the meta tags are generated for the
  * given page data instead of current page.
  *
  * @return string Meta tags html code for insertion on an html page.
- * @original get_page_meta_tags
  */
-static function getMetaTagsHTML(&$page_data=array())
+static function getMetaTagsHTML(?array &$page_data=[]): string
 {
     if(!$page_data)
     {
@@ -278,12 +368,12 @@ static function getMetaTagsHTML(&$page_data=array())
  * @param string $page The uri of the page that is going to be displayed.
  *
  * @return string Html content preformatted.
- * @original theme_content
  */
-static function getContentHTML($content_list, $page)
+static function getContentHTML(array $content_list, string $page): string
 {
     $theme = Site::$theme;
     $theme_path = Site::$theme_path;
+    $theme_settings = self::$theme_settings;
 
     $formatted_page = "";
 
@@ -309,17 +399,23 @@ static function getContentHTML($content_list, $page)
 
         $images = Pages\Images::getList($page);
         $files = Pages\Files::getList($page);
-        $title = Util::stripHTMLTags($field["is_system"] ? System::evalPHP($field["title"]) : $field["title"]);
+        $title = Util::stripHTMLTags($field["is_system"] ?
+            System::evalPHP($field["title"]) : $field["title"])
+        ;
         self::$content_title = $title;
         $content_data = $field;
 
         if(!Settings::get("classic_views_count", "main"))
         {
-            $content_data["views"] = $field["is_system"] ? 0 : Pages::getViews($page);
+            $content_data["views"] = $field["is_system"] ?
+                0 : Pages::getViews($page)
+            ;
         }
         else
         {
-            $content_data["views"] = $field["is_system"] ? 0 : Pages::countView($page);
+            $content_data["views"] = $field["is_system"] ?
+                0 : Pages::countView($page)
+            ;
         }
 
         $views = $content_data["views"];
@@ -331,12 +427,20 @@ static function getContentHTML($content_list, $page)
         }
         else
         {
-            $content = InputFormats::filter($field['content'], $field["input_format"]);
+            $content = InputFormats::filter(
+                $field['content'],
+                $field["input_format"]
+            );
         }
 
         $content_data["filtered_content"] = $content;
 
-        Modules::hook("hook_theme_content", $content, self::$content_title, $content_data);
+        Modules::hook(
+            "hook_theme_content",
+            $content,
+            self::$content_title,
+            $content_data
+        );
 
         $content_title = self::$content_title;
 
@@ -358,12 +462,16 @@ static function getContentHTML($content_list, $page)
  * @param string $page The uri of the page that is going to be displayed.
  *
  * @return string String with all the data preformatted based on the corresponding
- *         block template.
- * @original theme_block
+ * block template.
  */
-static function getBlocksHTML($arrData, $position, $page)
+static function getBlocksHTML(
+    array $arrData,
+    string $position,
+    string $page
+): string
 {
     $theme = Site::$theme;
+    $theme_settings = self::$theme_settings;
 
     $language_code = Language::getCurrent();
 
@@ -373,6 +481,11 @@ static function getBlocksHTML($arrData, $position, $page)
     {
         foreach($arrData as $id => $field)
         {
+            if(Site::$development_mode && isset($field["module_identifier"]))
+            {
+                $field = Modules::getBlockData($field);
+            }
+
             Blocks::getTranslated($field, $language_code);
 
             if(trim($field["content"]) != "")
@@ -388,10 +501,18 @@ static function getBlocksHTML($arrData, $position, $page)
                 {
                     // Execute the code on the block return field to know if
                     // the block should be displayed or not
-                    $return = System::evalPHP($field["return"]);
+                    $eval_return = false;
+                    $return = System::evalPHP($field["return"], $eval_return);
 
-                    // Skip the block on "false" string
-                    if($return == "false")
+                    if($return == "false" || $return == "true")
+                    {
+                        // Skip the block on "false" string
+                        if($return == "false")
+                        {
+                            continue;
+                        }
+                    }
+                    elseif($eval_return == false)
                     {
                         continue;
                     }
@@ -414,7 +535,7 @@ static function getBlocksHTML($arrData, $position, $page)
                             )
                         )
                         {
-                            self::addScript("scripts/admin/blocks.js");
+                            self::addSystemScript("admin/blocks.js");
 
                             $url = Uri::url(
                                 "admin/blocks/edit",
@@ -441,8 +562,8 @@ static function getBlocksHTML($arrData, $position, $page)
                         else
                         {
                             $content .= InputFormats::filter(
-                                $field['content'],
-                                $field["input_format"]
+                                $field["content"],
+                                $field["input_format"] ?? "full_html"
                             );
                         }
 
@@ -484,9 +605,10 @@ static function getBlocksHTML($arrData, $position, $page)
  *
  * @return string String with all the data preformatted based on the
  * corresponding block template.
- * @original theme_content_block
  */
-static function getContentBlocksHTML($arrData, $position, $page, $page_type)
+static function getContentBlocksHTML(
+    array $arrData, string $position, string $page, string $page_type
+): string
 {
     $theme = Site::$theme;
 
@@ -536,7 +658,7 @@ static function getContentBlocksHTML($arrData, $position, $page, $page_type)
                         )
                     )
                     {
-                        self::addScript("scripts/admin/blocks.js");
+                        self::addSystemScript("admin/blocks.js");
 
                         $url = Uri::url("admin/pages/blocks/edit", array("uri" => $page, "id" => $id, "position" => $position));
                         $content = "<a class=\"instant-content-block-edit\" href=\"$url\">" . t("edit") . "</a>";
@@ -597,9 +719,8 @@ static function getContentBlocksHTML($arrData, $position, $page, $page_type)
  * @param string $menu_name The machine name of a menu used for css class.
  *
  * @return string All the links preformatted.
- * @original theme_links
  */
-static function getLinksHTML($arrLinks, $menu_name)
+static function getLinksHTML(array $arrLinks, string $menu_name): string
 {
     $position = 1;
     $count_links = count($arrLinks);
@@ -613,7 +734,7 @@ static function getLinksHTML($arrLinks, $menu_name)
         foreach($arrLinks as $link)
         {
             //Skip disabled menus
-            if(isset($link["disabled"]) && $link["disabled"])
+            if(isset($link["disabled"]) && trim($link["disabled"]) !== "")
                 continue;
 
             $list_class = "";
@@ -650,7 +771,13 @@ static function getLinksHTML($arrLinks, $menu_name)
                 $target = "target=\"{$link['target']}\"";
             }
 
-            $links .= "<li{$list_class}><span $active><a $active $target title=\"{$link['description']}\" href=\"" . Uri::url($link['url']) . "\">" . $link['title'] . "</a></span>";
+            $links .= "<li{$list_class}>"
+                . "<span $active>"
+                . "<a $active $target title=\"{$link['description']}\" "
+                . "href=\"" . Uri::url($link['url']) . "\">"
+                . $link['title']
+                . "</a></span>"
+            ;
 
             if(
                 isset($link["sub_items"]) &&
@@ -682,9 +809,8 @@ static function getLinksHTML($arrLinks, $menu_name)
  * @param array $styles An array of style files.
  *
  * @return string Html code for the head section of document.
- * @original theme_styles
  */
-static function getStylesHTML($styles)
+static function getStylesHTML(array $styles): string
 {
     $theme = Site::$theme;
 
@@ -761,6 +887,14 @@ static function getStylesHTML($styles)
 
     Modules::hook("hook_theme_styles", $styles, $styles_code);
 
+    if(self::$additional_styles_code)
+    {
+        $styles_code .= "<style>\n"
+            . rtrim(self::$additional_styles_code, "\n") . "\n"
+            . "</style>\n"
+        ;
+    }
+
     return $styles_code;
 }
 
@@ -770,9 +904,8 @@ static function getStylesHTML($styles)
  * @param array $scripts An array of scripts files.
  *
  * @return string Html code for the head section of document.
- * @original theme_scripts
  */
-static function getScriptsHTML($scripts)
+static function getScriptsHTML(array $scripts): string
 {
     $theme = Site::$theme;
     $page_data = Site::$page_data;;
@@ -850,6 +983,14 @@ $(document).ready(function(){
 SCRIPT;
     }
 
+    if(self::$additional_scripts_code)
+    {
+        $scripts_code .= "<script>\n"
+            . rtrim(self::$additional_scripts_code, "\n") . "\n"
+            . "</script>\n"
+        ;
+    }
+
     return $scripts_code;
 }
 
@@ -859,9 +1000,8 @@ SCRIPT;
  * @param array $tabs_array Tabs in the format: array["tab_name"] = "url"
  *
  * @return string Html code ready to render or empty string.
- * @original theme_tabs
  */
-static function getTabsHTML($tabs_array)
+static function getTabsHTML(array $tabs_array): string
 {
     //Call theme_tabs hook before proccessing the array
     Modules::hook("hook_theme_tabs", $tabs_array);
@@ -917,9 +1057,8 @@ static function getTabsHTML($tabs_array)
  * Generates the html code for the messages.
  *
  * @return string html code ready to render or empty string.
- * @original theme_messages
  */
-static function getMessagesHTML()
+static function getMessagesHTML(): string
 {
     if(!Session::exists())
     {
@@ -984,9 +1123,17 @@ static function getMessagesHTML()
  * @param string $footer The footer block of the page proccesed by get_block.
  *
  * @return string The whole html output of the page.
- * @original theme_display
  */
-static function render($page, $page_data, $content, $left, $center, $right, $header, $footer)
+static function render(
+    string $page,
+    array $page_data,
+    string $content,
+    string $left,
+    string $center,
+    string $right,
+    string $header,
+    string $footer
+): string
 {
     $title = Site::$title;
     $primary_links = Site::$primary_links;
@@ -994,6 +1141,7 @@ static function render($page, $page_data, $content, $left, $center, $right, $hea
     $base_url = Site::$base_url;
     $theme = Site::$theme;
     $theme_path = Site::$theme_path;
+    $theme_settings = self::$theme_settings;
     $slogan = Site::$slogan;
     $footer_message = Site::$footer_message;
     $content_title = self::$content_title;
@@ -1031,6 +1179,8 @@ static function render($page, $page_data, $content, $left, $center, $right, $hea
     $html = ob_get_contents();
     ob_end_clean();
 
+    Modules::hook("hook_theme_render", $page, $html);
+
     return $html;
 }
 
@@ -1046,15 +1196,15 @@ static function render($page, $page_data, $content, $left, $center, $right, $hea
  *      themes/theme/block-page.php
  *      themes/theme/block-position.php
  *      themes/theme/block.php
- * @original block_template
  */
-static function blockTemplate($position, $page, $id)
+static function blockTemplate(string $position, string $page, int $id): string
 {
     $theme = Site::$theme;
     $page = str_replace("/", "-", $page);
 
     $current_id = Themes::directory($theme) . "block-" . $position . "-" . $id . ".php";
     $current_page = Themes::directory($theme) . "block-" . $page . ".php";
+    $current_page_position = Themes::directory($theme) . "block-" . $page . "-" . $position . ".php";
     $position_page = Themes::directory($theme) . "block-" . $position . ".php";
     $default_block = Themes::directory($theme) . "block.php";
 
@@ -1063,6 +1213,10 @@ static function blockTemplate($position, $page, $id)
     if(file_exists($current_id))
     {
         $template_path = $current_id;
+    }
+    else if(file_exists($current_page_position))
+    {
+        $template_path = $current_page_position;
     }
     else if(file_exists($current_page))
     {
@@ -1101,9 +1255,10 @@ static function blockTemplate($position, $page, $id)
  *      themes/theme/content-block-page.php
  *      themes/theme/content-block-position.php
  *      themes/theme/content-block.php
- * @original content_block_template
  */
-static function contentBlockTemplate($position, $page, $page_type, $id)
+static function contentBlockTemplate(
+    string $position, string $page, string $page_type, int $id
+): string
 {
     $theme = Site::$theme;
     $page = str_replace("/", "-", $page);
@@ -1143,7 +1298,12 @@ static function contentBlockTemplate($position, $page, $page_type, $id)
     }
 
     //Call content_block_template hook before returning the template to use
-    Modules::hook("hook_content_block_template", $position, $page, $template_path);
+    Modules::hook(
+        "hook_content_block_template",
+        $position,
+        $page,
+        $template_path
+    );
 
     return $template_path;
 }
@@ -1157,9 +1317,8 @@ static function contentBlockTemplate($position, $page, $page_type, $id)
  *  It could be one of the followings in the same precedence:
  *      themes/theme/page-uri.php
  *      themes/theme/page.php
- * @original page_template
  */
-static function pageTemplate($page)
+static function pageTemplate(string $page): string
 {
     $theme = Site::$theme;
     $page = str_replace("/", "-", $page);
@@ -1211,9 +1370,8 @@ static function pageTemplate($page)
  *      themes/theme/content-uri.php
  *      themes/theme/content-type.php
  *      themes/theme/content.php
- * @original content_template
  */
-static function contentTemplate($page, $type)
+static function contentTemplate(string $page, string $type): string
 {
     $theme = Site::$theme;
     $page = str_replace("/", "-", $page);
@@ -1254,9 +1412,8 @@ static function contentTemplate($page, $type)
  *      themes/theme/user-profile-username-username.php
  *      themes/theme/user-profile-group.php
  *      themes/theme/user-profile.php
- * @original user_profile_template
  */
-static function userProfileTemplate($group, $username)
+static function userProfileTemplate(string $group, string $username): string
 {
     $theme = Site::$theme;
 
@@ -1297,9 +1454,10 @@ static function userProfileTemplate($group, $username)
  *      themes/theme/search-result-page.php
  *      themes/theme/search-result-type.php
  *      themes/theme/content-block.php
- * @original search_template
  */
-static function searchTemplate($page, $results_type = "all", $template_type = "result")
+static function searchTemplate(
+    string $page, string $results_type="all", string $template_type="result"
+): string
 {
     $theme = Site::$theme;
     $page = str_replace("/", "-", $page);

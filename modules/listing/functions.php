@@ -52,7 +52,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
             if(Jaris\Uri::get() == "admin/blocks/edit")
             {
                 $block_data = Jaris\Blocks::get(
-                    $_REQUEST["id"], 
+                    $_REQUEST["id"],
                     $_REQUEST["position"]
                 );
 
@@ -80,7 +80,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
     {
         if(
             Jaris\Authentication::groupHasPermission(
-                "add_blocks", 
+                "add_blocks",
                 Jaris\Authentication::currentUserGroup()
             )
         )
@@ -118,7 +118,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
         if($content_data["type"] == "listing")
         {
             Jaris\View::addStyle(
-                Jaris\Modules::directory("listing") 
+                Jaris\Modules::directory("listing")
                     . "styles/lists.css"
             );
 
@@ -131,7 +131,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
             );
 
             $listing_content = listing_print_results(
-                Jaris\Uri::get(), 
+                Jaris\Uri::get(),
                 $content_data
             );
 
@@ -155,7 +155,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
                     $page_data["author"] == Jaris\Authentication::currentUser() ||
                     Jaris\Authentication::isAdminLogged() ||
                     Jaris\Authentication::groupHasPermission(
-                        "edit_all_user_content", 
+                        "edit_all_user_content",
                         Jaris\Authentication::currentUserGroup()
                     )
                 )
@@ -190,7 +190,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
                         "admin/blocks/listing/add",
                         "listing"
                     ),
-                    "arguments" => null
+                    "arguments" => array()
                 );
             }
         }
@@ -204,7 +204,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
         if($field["is_listing_block"])
         {
             Jaris\View::addStyle(
-                Jaris\Modules::directory("listing") 
+                Jaris\Modules::directory("listing")
                     . "styles/lists.css"
             );
 

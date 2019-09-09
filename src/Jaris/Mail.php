@@ -31,12 +31,18 @@ class Mail
  * @param array $from In the format cc["John Smith"] = "jsmith@domain.com"
  *
  * @return bool True if sent false if not.
- * @original send_email
  */
 static function send(
-    $to, $subject, $html_message, $alt_message = null, $attachments = array(),
-    $reply_to = array(), $bcc = array(), $cc = array(), $from = array()
-)
+    array $to,
+    string $subject,
+    string $html_message,
+    string $alt_message = "",
+    array $attachments = [],
+    array $reply_to = [],
+    array $bcc = [],
+    array $cc = [],
+    array $from = []
+): bool
 {
     $mail = new \PHPMailer();
 
@@ -46,7 +52,7 @@ static function send(
     {
         $mail->setLanguage(
             $lang,
-            "include/third_party/phpmailer/language/"
+            "src/PHPMailer/language/"
         );
     }
 
@@ -76,7 +82,7 @@ static function send(
         $mail->FromName = Settings::get('mailer_from_name', 'main');
     }
 
-    switch(Settings::get('mailer', 'main'))
+    switch(Settings::get("mailer", "main"))
     {
         case 'sendmail':
             $mail->isSendmail();
@@ -112,6 +118,19 @@ static function send(
 
             $mail->Username = Settings::get('smtp_user', 'main');
             $mail->Password = Settings::get('smtp_pass', 'main');
+
+            if(Settings::get("smtp_force_from_email", "main"))
+            {
+                foreach($from as $from_name => $from_email)
+                {
+                    $reply_to[$from_name] = $from_email;
+
+                    break;
+                }
+
+                $mail->Sender = $mail->Username;
+                $mail->From = $mail->Username;
+            }
             break;
         }
         default:
@@ -181,24 +200,33 @@ static function send(
  *
  * @param string $username The current name used to log mailed also to the user.
  * @param array $user_data All the user data including its full name, email, etc.
- * @param string $password The new password wich will the user be able to log in again.
  *
  * @return bool True on succes or false on fail.
- * @original send_user_reset_password_notification
  */
-static function sendPasswordNotification($username, $user_data, $password)
+static function sendPasswordNotification(
+    string $username, array $user_data
+): bool
 {
     $username = strtolower($username);
-    $to[$user_data["name"]] = $user_data["email"];
-    $subject = t("Your password has been reset.");
+    $to = array(
+        $user_data["name"] => $user_data["email"]
+    );
+    $subject = t("Password Reset Request");
 
-    $url = Uri::url("admin/user");
+    $url = Uri::url(
+        "forgot-password",
+        array(
+            "username" => $username,
+            "token" => $user_data["token"]
+        )
+    );
 
     $message = t("Hi") . " " . $user_data["name"] . "<br /><br />";
     $message .= t("Your current username is:") . " <b>" . $username . "</b><br />";
-    $message .= t("The new password for your account is:") . " <b>" . $password . "</b><br />";
-    $message .= t("Is recommended that you log in and change the password as soon as possible.") . "<br />";
-    $message .= t("To log in access the following url:") . " <a href=\"$url\">" . $url . "</a>";
+    $message .= t("You can reset your password by visiting:") . "<br />";
+    $message .= "<a href=\"$url\">" . $url . "</a>" . "<br /><br />";
+    $message .= t("You have 24 hours since this e-mail was sent to reset your password.") . "<br />";
+    $message .= t("If you didn't requested your password to be changed you can ignore this message.") . "<br />";
 
     return self::send($to, $subject, $message);
 }
@@ -209,9 +237,10 @@ static function sendPasswordNotification($username, $user_data, $password)
  * flag is turned on. Used on the register page.
  *
  * @param string $username
- * @original send_registration_notification
+ *
+ * @return True on success otherwise false.
  */
-static function sendRegistrationNotification($username)
+static function sendRegistrationNotification(string $username): bool
 {
     $user_data = Users::get($username);
 
@@ -242,7 +271,11 @@ static function sendRegistrationNotification($username)
         "</a>"
     ;
 
-    self::send($to, t("New registration pending for approval"), $html_message);
+    return self::send(
+        $to,
+        t("New registration pending for approval"),
+        $html_message
+    );
 }
 
 /**
@@ -252,7 +285,7 @@ static function sendRegistrationNotification($username)
  * @param string $uri
  * @param string $type
  */
-static function sendContentApproveNotification($uri, $type)
+static function sendContentApproveNotification(string $uri, string $type): bool
 {
     $page_data = Pages::get($uri);
 
@@ -283,10 +316,21 @@ static function sendContentApproveNotification($uri, $type)
         "</a>"
     ;
 
-    self::send($to, t("New content pending for approval"), $html_message);
+    return self::send(
+        $to,
+        t("New content pending for approval"),
+        $html_message
+    );
 }
 
-static function sendEmailActivation($username_or_email)
+/**
+ * Send activation email to a user by its username or email.
+ *
+ * @param string $username_or_email A valid email or password.
+ *
+ * @return bool True on success or false on failing to send the email.
+ */
+static function sendEmailActivation(string $username_or_email): bool
 {
     $user_data = array();
     $username = $username_or_email;
@@ -339,7 +383,14 @@ static function sendEmailActivation($username_or_email)
     return self::send($to, t("Account Activation"), $html_message);
 }
 
-static function sendWelcomeMessage($username_or_email)
+/**
+ * Send welcome message to new users.
+ *
+ * @param  string $username_or_email A valid email or password.
+ *
+ * @return bool True on success or false on failing to send the email.
+ */
+static function sendWelcomeMessage(string $username_or_email): bool
 {
     $message = Settings::get("registration_welcome_message", "main");
 

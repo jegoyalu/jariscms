@@ -47,9 +47,10 @@ private static $m_dataLockedFiles;
  *
  * @return array All the rows with a subarray of it fields
  * in the format row[id] = array(field_name=>value) or empty array if error.
- * @original data_parser
  */
-static function parse($file, $lock_wait=true, $cache=true)
+static function parse(
+    string $file, bool $lock_wait=true, bool $cache=true
+): array
 {
     if(!file_exists($file))
     {
@@ -188,14 +189,15 @@ static function parse($file, $lock_wait=true, $cache=true)
  * array[row_number] = array("field_name"=>"field_value")
  * used to populate the content of the file.
  * @param string $file The path of the file to write on.
- * @param callable $callback A static function to call after locking the file
+ * @param ?callable $callback A static function to call after locking the file
  * for more precise modification of data. The static function should be as follows:
  * callback(&$data)
  *
  * @return bool false if failed to write data otherwise true.
- * @original data_writer
  */
-static function write($data, $file, $callback=null)
+static function write(
+    array $data, string $file, ?callable $callback=null
+): bool
 {
     //Register cache invalid by touching the cache_events dir
     $data_dir = Site::dataDir();
@@ -299,9 +301,8 @@ static function write($data, $file, $callback=null)
  * @param string $file The path of the file to write on.
  *
  * @return bool false if failed to write data otherwise true.
- * @original data_writer_no_lock
  */
-static function writeNoLock($data, $file)
+static function writeNoLock(array $data, string $file): bool
 {
     //Register cache invalid by touching the cache_events dir
     $data_dir = Site::dataDir();
@@ -388,9 +389,8 @@ static function writeNoLock($data, $file)
  * @param string $file Path to the data file.
  *
  * @return array Array list in the format fields["name"] = "value"
- * @original get_data
  */
-static function get($position, $file)
+static function get(int $position, string $file): array
 {
     $actual_data = array();
 
@@ -415,9 +415,8 @@ static function get($position, $file)
  * @param string $file The path to the data file.
  *
  * @return bool False if failed to add data otherwise true.
- * @original add_data
  */
-static function add($fields, $file)
+static function add(array $fields, string $file): bool
 {
     self::lock($file, LOCK_EX);
 
@@ -444,9 +443,8 @@ static function add($fields, $file)
  * @param string $file The path to the file.
  *
  * @return bool False if failed to delete data otherwise true.
- * @original delete_data
  */
-static function delete($position, $file)
+static function delete(int $position, string $file): bool
 {
     self::lock($file, LOCK_EX);
 
@@ -469,9 +467,10 @@ static function delete($position, $file)
  * @param string $file The path to the file.
  *
  * @return bool False if failed to delete data otherwise true.
- * @original delete_data_by_field
  */
-static function deleteByField($field_name, $value, $file)
+static function deleteByField(
+    string $field_name, string $value, string $file
+): bool
 {
     $data = self::parse($file);
 
@@ -496,14 +495,15 @@ static function deleteByField($field_name, $value, $file)
  * @param array $new_data Fields in the format fields["name"] = "value"
  * with the new data to be written to the row.
  * @param string $file The path to the database file.
- * @param callable $callback A static function to call after locking the file
+ * @param ?callable $callback A static function to call after locking the file
  * for more precise modification of data. The static function should be as follows:
  * callback(&actual_data, &$new_data)
  *
  * @return bool False if failed to edit data otherwise true.
- * @original edit_data
  */
-static function edit($position, $new_data, $file, $callback=null)
+static function edit(
+    int $position, array $new_data, string $file, ?callable $callback=null
+): bool
 {
     self::lock($file, LOCK_EX);
 
@@ -535,11 +535,12 @@ static function edit($position, $new_data, $file, $callback=null)
  *
  * @param string $file The file path to lock.
  * @param int $lock_type The lock mode that can be shared or exclusive.
- *
- * @original lock_data
  */
-static function lock($file, $lock_type = LOCK_SH)
+static function lock(string $file, int $lock_type = LOCK_SH): void
 {
+    if(strtoupper(substr(PHP_OS, 0, 3)) === 'WIN')
+        return;
+
     if(!is_array(self::$m_dataLockedFiles))
         self::$m_dataLockedFiles = array();
 
@@ -568,10 +569,12 @@ static function lock($file, $lock_type = LOCK_SH)
  * Unlocks a write protected file.
  *
  * @param string $file The path of the file to unlock.
- * @original unlock_data
  */
-static function unlock($file)
+static function unlock(string $file): void
 {
+    if(strtoupper(substr(PHP_OS, 0, 3)) === 'WIN')
+        return;
+        
     if(isset(self::$m_dataLockedFiles[$file]))
     {
         if(is_resource(self::$m_dataLockedFiles[$file]))
@@ -593,9 +596,10 @@ static function unlock($file)
  * @param int $sort_method The type of sorting, default is ascending.
  *
  * @return array The same array but sorted by the given field name.
- * @original sort_data
  */
-static function sort($data_array, $field_name, $sort_method = SORT_ASC)
+static function sort(
+    array $data_array, string $field_name, int $sort_method = SORT_ASC
+): array
 {
     $sorted_array = array();
 

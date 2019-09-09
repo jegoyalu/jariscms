@@ -79,7 +79,7 @@ function get_block_post_settings($page)
     return Jaris\Blocks::getPostSettings($page);
 }
 
-function generate_block_post_content($uri, $page_uri = null)
+function generate_block_post_content($uri, $page_uri)
 {
     return Jaris\Blocks::generatePostContent($uri, $page_uri);
 }
@@ -169,7 +169,7 @@ function get_subcategories_in_parent_order(
 }
 
 function generate_category_fields_list(
-    $selected = null, $main_category = null, $type = null
+    $selected = [], $main_category = "", $type = ""
 )
 {
     return Jaris\Categories::generateFields($selected, $main_category, $type);
@@ -1326,7 +1326,7 @@ function get_permissions_array($group)
 }
 
 function send_email(
-    $to, $subject, $html_message, $alt_message = null, $attachments = array(),
+    $to, $subject, $html_message, $alt_message = "", $attachments = array(),
     $reply_to = array(), $bcc = array(), $cc = array(), $from = array()
 )
 {
@@ -1735,7 +1735,7 @@ function add_style($path, $arguments = array())
     Jaris\View::addStyle($path, $arguments);
 }
 
-function add_script($path, $arguments = null)
+function add_script($path, $arguments = array())
 {
     Jaris\View::addScript($path, $arguments);
 }
@@ -1983,12 +1983,12 @@ function is_module_dependency($name)
     return Jaris\Modules::isDependency($name);
 }
 
-function install_module($name, &$needs_dependency = null)
+function install_module($name, &$needs_dependency = false)
 {
     return Jaris\Modules::install($name, $needs_dependency);
 }
 
-function uninstall_module($name, &$is_dependency = null)
+function uninstall_module($name, &$is_dependency = false)
 {
     return Jaris\Modules::uninstall($name, $is_dependency);
 }

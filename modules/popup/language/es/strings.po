@@ -1,0 +1,204 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: JarisCMS Ecommerce v1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-01-14 00:00-0400\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Jefferson González <jgonzalez@jegoyalu.com>\n"
+"Language-Team: JegoYalu <servicios@jegoyalu.com>\n"
+"Language: es_PR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-Basepath: ../..\n"
+"X-Poedit-KeywordsList: t\n"
+"X-Generator: Poedit 1.8.11\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: data/admin-settings-popup-add.php:47 data/admin-settings-popup-edit.php:58
+msgid "Your changes have been saved."
+msgstr "Tus cambios fueron guardados."
+
+#: data/admin-settings-popup-add.php:72 data/admin-settings-popup-edit.php:96
+msgid "Description:"
+msgstr "Descripción:"
+
+#: data/admin-settings-popup-add.php:75 data/admin-settings-popup-edit.php:99
+msgid "A description of the popup for your reference."
+msgstr "Una descripción del popup para su referencia."
+
+#: data/admin-settings-popup-add.php:81 data/admin-settings-popup-edit.php:105
+msgid "Message:"
+msgstr "Mensaje:"
+
+#: data/admin-settings-popup-add.php:84 data/admin-settings-popup-edit.php:108
+msgid ""
+"The message that will appear on the popup. Can be a mix of html and php code."
+msgstr ""
+"El mensaje que aparecerá en el popup. Puede ser una mezcla de html y código "
+"php."
+
+#: data/admin-settings-popup-add.php:90 data/admin-settings-popup-edit.php:114
+msgid "Condition:"
+msgstr "Condición:"
+
+#: data/admin-settings-popup-add.php:92 data/admin-settings-popup-edit.php:116
+msgid ""
+"A condition expressed as php code that should return true if the popup "
+"message should be displayed or false otherwise. Eg: &lt;?php if(true){return "
+"true;} else{return false;} ?&gt;"
+msgstr ""
+"Una condición expresada como código php que debe devolver cierto si el popup "
+"debe ser mostrar o falso si no. Ejemplo: &lt;?php if(true){return true;} "
+"else{return false;} ?&gt;"
+
+#: data/admin-settings-popup-add.php:100 data/admin-settings-popup-edit.php:124
+msgid "Delay:"
+msgstr "Retraso:"
+
+#: data/admin-settings-popup-add.php:103 data/admin-settings-popup-edit.php:127
+msgid "A delay in seconds to display the popup."
+msgstr "Un retraso en segundos para mostrar el popup."
+
+#: data/admin-settings-popup-add.php:109 data/admin-settings-popup-edit.php:133
+msgid "On Mouse Leave:"
+msgstr ""
+
+#: data/admin-settings-popup-add.php:111 data/admin-settings-popup-add.php:124
+#: data/admin-settings-popup-edit.php:135
+#: data/admin-settings-popup-edit.php:148
+msgid "Enable"
+msgstr ""
+
+#: data/admin-settings-popup-add.php:112 data/admin-settings-popup-add.php:125
+#: data/admin-settings-popup-edit.php:136
+#: data/admin-settings-popup-edit.php:149
+msgid "Disable"
+msgstr ""
+
+#: data/admin-settings-popup-add.php:116 data/admin-settings-popup-edit.php:140
+msgid "Only display the popup when the mouse leaves the window."
+msgstr "Solamente mostrar el popup cuando el ratón deja la ventana."
+
+#: data/admin-settings-popup-add.php:122 data/admin-settings-popup-edit.php:146
+msgid "Display Once:"
+msgstr "Mostrar una sola vez:"
+
+#: data/admin-settings-popup-add.php:129 data/admin-settings-popup-edit.php:153
+msgid "Only display the popup once."
+msgstr "Muestra el popup una sola vez."
+
+#: data/admin-settings-popup-add.php:134 data/admin-settings-popup-edit.php:158
+msgid "Popup Options"
+msgstr "Opciones del Popup"
+
+#: data/admin-settings-popup-add.php:140 data/admin-settings-popup-edit.php:164
+msgid ""
+"Select the groups that can see this popup. Don't select anything to display "
+"the popup to everyone."
+msgstr ""
+"Seleccione los grupos que pueden ver este popup. No seleccione nada para "
+"mostrar el popup a todos."
+
+#: data/admin-settings-popup-add.php:156 data/admin-settings-popup-edit.php:180
+msgid "Users Access"
+msgstr "Acceso de Usuarios"
+
+#: data/admin-settings-popup-add.php:161 data/admin-settings-popup-edit.php:185
+msgid "Display in all pages except the listed ones."
+msgstr "Mostrar en todas las páginas excepto en las listadas."
+
+#: data/admin-settings-popup-add.php:162 data/admin-settings-popup-edit.php:186
+msgid "Just display on the listed pages."
+msgstr "Solo mostrar en las páginas listadas."
+
+#: data/admin-settings-popup-add.php:176 data/admin-settings-popup-edit.php:200
+msgid "Pages:"
+msgstr "Páginas:"
+
+#: data/admin-settings-popup-add.php:183 data/admin-settings-popup-edit.php:207
+msgid "Pages to display"
+msgstr "Páginas a Mostrar"
+
+#: data/admin-settings-popup-add.php:184 data/admin-settings-popup-edit.php:208
+msgid ""
+"List of uri's seperated by comma (,). Also supports the wildcard (*), for "
+"example: my-section/*"
+msgstr ""
+
+#: data/admin-settings-popup-add.php:190 data/admin-settings-popup-edit.php:214
+msgid "Save"
+msgstr ""
+
+#: data/admin-settings-popup-add.php:196 data/admin-settings-popup-edit.php:220
+msgid "Cancel"
+msgstr ""
+
+#: data/admin-settings-popup-delete.php:16
+msgid "Delete Popup"
+msgstr "Borar Popup"
+
+#: data/admin-settings-popup-delete.php:47
+msgid "Popup successfully deleted."
+msgstr "Popup borrado exitosamente."
+
+#: data/admin-settings-popup-delete.php:82
+msgid "Are you sure you want to delete the popup?"
+msgstr "Esta seguro(a) que desea borrar el popup?"
+
+#: data/admin-settings-popup-delete.php:85
+msgid "Description: "
+msgstr ""
+
+#: data/admin-settings-popup-delete.php:92
+msgid "Yes"
+msgstr ""
+
+#: data/admin-settings-popup-delete.php:95
+msgid "No"
+msgstr ""
+
+#: data/admin-settings-popup.php:25
+msgid "Add"
+msgstr ""
+
+#: data/admin-settings-popup.php:38
+msgid "Description"
+msgstr ""
+
+#: data/admin-settings-popup.php:39
+msgid "Actions"
+msgstr ""
+
+#: data/admin-settings-popup.php:65
+msgid "Edit"
+msgstr ""
+
+#: data/admin-settings-popup.php:68
+msgid "Delete"
+msgstr ""
+
+#: data/admin-settings-popup.php:76
+msgid "Click add to create a new popup."
+msgstr "Haga click en añadir para crear un nuevo popup."
+
+#: functions.php:17
+msgid "Settings"
+msgstr ""
+
+#: functions.php:31
+msgid "Popups"
+msgstr ""
+
+#: functions.php:38
+msgid "Create or manage popup messages."
+msgstr "Crear o manejar mensajes de popup."
+
+#: install.php:14
+msgid "You can now configure your popup messages."
+msgstr "Ahora puede configurar mensajes de popup."
+
+#: install.php:21
+msgid "Configure Now"
+msgstr "Configurar Ahora"

@@ -8,6 +8,12 @@
  * The main execution entry point of Jaris CMS.
  */
 
+//Check PHP version complies with the minimum required.
+if(substr(PHP_VERSION, 0, 1) < 7 && substr(PHP_VERSION, 2, 1) < 1)
+{
+    exit("Error: please use PHP 7.1.0 or later.");
+}
+
 //Time when script started executing useful to measure execution time.
 $time_start = microtime(true);
 

@@ -161,3 +161,15 @@ row: 24
         admin/church-accounting/transactions/report/print
     field;
 row;
+
+row: 25
+    field: uri
+        admin/church-accounting/income/tither-offerings/add
+    field;
+row;
+
+row: 26
+    field: uri
+        admin/church-accounting/income/tither-offerings/edit
+    field;
+row;

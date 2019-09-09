@@ -1,0 +1,156 @@
+form[name=biblia]
+{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+select
+{
+    min-width: 100px;
+}
+
+input[type=submit]
+{
+    margin-top: 40px;
+}
+
+#biblias .biblia
+{
+    padding: 10px;
+    border-bottom: dotted 1px #000;
+    transition: all 0.3s;
+}
+
+#biblias .biblia:hover
+{
+    background-color: #f7f7f7;
+}
+
+#biblias .titulo h3
+{
+    margin-top: 0px;
+    margin-bottom: 20px;
+}
+
+#biblias .autor-fecha
+{
+    display: flex;
+    justify-content: space-between;
+}
+
+#biblias .descripcion
+{
+    margin: 20px 0 10px 0;
+}
+
+#biblias .leer
+{
+    text-align: right;
+}
+
+#biblias .leer a
+{
+    display: inline-block;
+    padding: 10px;
+    background-color: #e8e8e8;
+    border: solid 1px #d3d3d3;
+}
+
+h3.version-titulo
+{
+    font-size: 18px;
+    text-align: center;
+    margin: 0 0 10px 0;
+}
+
+#versiculos
+{
+    border-top: solid 1px #d3d3d3;
+    padding-top: 20px;
+}
+
+#versiculos .versiculo
+{
+    padding: 10px;
+    display: flex;
+    justify-content: flex-start;
+}
+
+#versiculos .versiculo > div *, #versiculos .versiculo > div
+{
+    font-size: 20px;
+    padding-left: 10px;
+}
+
+#versiculos .versiculo > strong
+{
+    font-size: 25px;
+    min-width: 40px;
+    text-align: right;
+    color: #333;
+}
+
+#versiculos .versiculo > strong a
+{
+    font-size: 25px;
+    color: #333;
+}
+
+#versiculos .active
+{
+    background-color: #e8e8e8;
+    border: solid 1px #d3d3d3;
+}
+
+#versiculos-buscar
+{
+    border-top: solid 1px #d3d3d3;
+    padding-top: 20px;
+}
+
+#versiculos-buscar .versiculo
+{
+    padding: 10px;
+    display: flex;
+    justify-content: flex-start;
+}
+
+#versiculos-buscar .versiculo > div *, #versiculos-buscar .versiculo > div
+{
+    font-size: 20px;
+}
+
+#versiculos-buscar .versiculo > strong a
+{
+    font-size: 25px;
+    color: #333;
+}
+
+#libro-navegacion
+{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 10px 0 10px 0;
+    margin-top: 20px;
+    border-top: solid 1px #d3d3d3;
+}
+
+#libro-navegacion.libro-navegacion-center
+{
+    justify-content: center;
+}
+
+#libro-navegacion a, #libro-navegacion strong
+{
+    display: inline-block;
+    padding: 10px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+#libro-navegacion strong
+{
+    color: #5d5d5d;
+}

@@ -31,6 +31,8 @@ row: 0
             );
         }
 
+        $options = array();
+
         $month =  0;
         if(trim($_REQUEST["month"]) != "")
         {

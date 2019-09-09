@@ -265,7 +265,9 @@ row: 0
             print "<tr>";
 
             $edit = Jaris\Uri::url(
-                Jaris\Modules::getPageUri("admin/calendar/events/edit", "calendar"),
+                Jaris\Modules::getPageUri(
+                    "admin/calendar/events/edit", "calendar"
+                ),
                 array("uri" => $uri, "id" => $event["id"])
             );
 
@@ -308,7 +310,7 @@ row: 0
             }
             else
             {
-                $approve .= " (<a href=\"" .
+                $approve = " (<a href=\"" .
                     Jaris\Uri::url(
                         Jaris\Modules::getPageUri(
                             "admin/calendar/events/approve", "calendar"
@@ -347,11 +349,11 @@ row: 0
             "calendar",
             30,
             array(
-                "uri"=>$uri,
-                "status"=>$_REQUEST["status"],
-                "month"=>$_REQUEST["month"],
-                "year"=>$_REQUEST["year"],
-                "sorting"=>$_REQUEST["sorting"]
+                "uri" => $uri,
+                "status" => $_REQUEST["status"],
+                "month" => $_REQUEST["month"],
+                "year" => $_REQUEST["year"],
+                "sorting" => $_REQUEST["sorting"]
             )
         );
     ?>

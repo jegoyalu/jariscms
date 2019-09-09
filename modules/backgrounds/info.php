@@ -10,12 +10,28 @@
 
 $module["name"] = "Wallpaper Backgrounds";
 $module["description"] = "To add different background images per section.";
-$module["version"] = "1.3.7";
+$module["version"] = "1.5.1";
 $module["author"] = "Jefferson González";
 $module["email"] = "jgonzalez@jegoyalu.com";
 $module["website"] = "http://www.jegoyalu.com";
 
 /*
+
+Version 1.5.1 - Date 1/03/2019
+
+    * Adjusted for new path of system js and css files.
+
+Version 1.5 - Date 07/06/2018
+
+    * Added language selector for backgrounds.
+
+Version 1.4 - Date 18/12/2017
+
+    * Added optional element selector.
+
+Version 1.3.8 - Date 11/12/2017
+
+    * Use empty array instead of null for arguments of settings tab.
 
 Version 1.3.7 - Date 01/02/2017
 

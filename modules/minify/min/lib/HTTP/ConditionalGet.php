@@ -316,7 +316,8 @@ class HTTP_ConditionalGet {
         if (!isset($_SERVER['HTTP_IF_NONE_MATCH'])) {
             return false;
         }
-        $clientEtagList = get_magic_quotes_gpc()
+        $clientEtagList = function_exists("get_magic_quotes_gpc")
+            && get_magic_quotes_gpc()
             ? stripslashes($_SERVER['HTTP_IF_NONE_MATCH'])
             : $_SERVER['HTTP_IF_NONE_MATCH'];
         $clientEtags = explode(',', $clientEtagList);

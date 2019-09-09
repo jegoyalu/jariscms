@@ -27,7 +27,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
                 if($page_check == "")
                 {
                     $styles[] = Jaris\Uri::url(
-                        Jaris\Modules::directory("jquery_lightbox") 
+                        Jaris\Modules::directory("jquery_lightbox")
                             . "lightbox/css/lightbox.css"
                     );
 
@@ -49,7 +49,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
             }
 
             $styles[] = Jaris\Uri::url(
-                Jaris\Modules::directory("jquery_lightbox") 
+                Jaris\Modules::directory("jquery_lightbox")
                     . "lightbox/css/lightbox.css"
             );
         }
@@ -70,7 +70,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
                 if(preg_match($page_check, Jaris\Uri::get()))
                 {
                     $styles[] = Jaris\Uri::url(
-                        Jaris\Modules::directory("jquery_lightbox") 
+                        Jaris\Modules::directory("jquery_lightbox")
                             . "lightbox/css/lightbox.css"
                     );
 
@@ -88,12 +88,12 @@ Jaris\Signals\SignalHandler::listenWithParams(
         global $jquery_lightbox_display;
 
         $display_rule = Jaris\Settings::get(
-            "display_rule", 
+            "display_rule",
             "jquery-lightbox"
         );
-        
+
         $pages = explode(
-            ",", 
+            ",",
             Jaris\Settings::get("pages", "jquery-lightbox")
         );
 
@@ -107,7 +107,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
                 if($page_check == "")
                 {
                     $scripts[] = Jaris\Uri::url(
-                        Jaris\Modules::directory("jquery_lightbox") 
+                        Jaris\Modules::directory("jquery_lightbox")
                             . "lightbox/jquery.lightbox.js"
                     );
 
@@ -131,7 +131,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
             }
 
             $scripts[] = Jaris\Uri::url(
-                Jaris\Modules::directory("jquery_lightbox") 
+                Jaris\Modules::directory("jquery_lightbox")
                     . "lightbox/jquery.lightbox.js"
             );
 
@@ -154,7 +154,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
                 if(preg_match($page_check, Jaris\Uri::get()))
                 {
                     $scripts[] = Jaris\Uri::url(
-                        Jaris\Modules::directory("jquery_lightbox") 
+                        Jaris\Modules::directory("jquery_lightbox")
                             . "lightbox/jquery.lightbox.js"
                     );
 
@@ -176,7 +176,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
         if($jquery_lightbox_display)
         {
             $url = Jaris\Uri::url(
-                Jaris\Modules::directory("jquery_lightbox") 
+                Jaris\Modules::directory("jquery_lightbox")
                     . "lightbox/images"
             );
 
@@ -216,7 +216,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
                     "admin/settings/jquery/lightbox",
                     "jquery_lightbox"
                 ),
-                "arguments" => null
+                "arguments" => array()
             );
         }
     }

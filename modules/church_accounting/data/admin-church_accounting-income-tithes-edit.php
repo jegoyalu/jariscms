@@ -72,8 +72,8 @@ row: 0
         }
     </style>
     <?php
-        Jaris\View::addScript("scripts/jquery-ui/jquery.ui.js");
-        Jaris\View::addScript("scripts/jquery-ui/jquery.ui.touch-punch.min.js");
+        Jaris\View::addSystemScript("jquery-ui/jquery.ui.js");
+        Jaris\View::addSystemScript("jquery-ui/jquery.ui.touch-punch.min.js");
 
         $offerings_data = church_accounting_income_get($_REQUEST["id"]);
 

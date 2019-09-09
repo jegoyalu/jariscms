@@ -1,24 +1,5 @@
 #Theming System
 
-* Introduction
-* How it Works?
-    * Mixing it all together
-* Granularity
-    * Pages
-    * Content
-    * Blocks
-    * Content Blocks
-    * User Profiles
-* Variables
-    * page.php
-    * content.php
-    * block.php
-    * block-content.php
-    * user-profile.php
-* Theme info file
-
-##Introduction
-
 Jaris works with a PHP based theming system that brings all the powerful features of the language to theme integrators.
 
 Learning another theme system can be tedious, so if you are already doing PHP coding you should feel right at home. While there are many people that prefer a third party theme engine I opted for a PHP solution to keep requirements to a minimum.
@@ -50,7 +31,7 @@ skeleton needed for a working theme. These files are:
 
  * **user-profile.php** - If user profiles are enabled on the cms settings then this template is used for that purpose.
 
-* **functions.php** - A file where you can write custom functions that can be called from page.php. (optional)
+ * **functions.php** - A file where you can write custom functions that can be called from page.php. (optional)
 
 ###Mixing it all together
 

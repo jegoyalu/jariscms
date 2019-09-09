@@ -17,13 +17,12 @@ class Authentication
  * Checks if a user is logged in.
  *
  * @return bool true if user is logged or false if not.
- * @original is_user_logged
  */
-static function isUserLogged()
+static function isUserLogged(): bool
 {
     static $user_data;
 
-    if(!isset($_COOKIE["logged"]) || !isset($_SESSION))
+    if(!isset($_COOKIE["logged"]) || !isset($_SESSION["logged"]))
         return false;
 
     //To reduce file access
@@ -80,9 +79,8 @@ static function isUserLogged()
  * Checks if the administrator is logged in.
  *
  * @return bool true if the admin is logged or false if not.
- * @original is_admin_logged
  */
-static function isAdminLogged()
+static function isAdminLogged(): bool
 {
     if(self::currentUserGroup() == "administrator")
     {
@@ -99,10 +97,14 @@ static function isAdminLogged()
  * is correct on a form submit.
  *
  * @return bool true on success or false on incorrect login.
- * @original user_login
  */
-static function login()
+static function login(): bool
 {
+    if(self::loginByDevice())
+    {
+        return true;
+    }
+
     $is_logged = false;
 
     //Remove the optional www for problems from www and non www links
@@ -133,35 +135,62 @@ static function login()
             $user_data = Users::get($username);
         }
 
+        $login_fails = 0;
+
         if(
-            $user_data &&
-            crypt($_REQUEST["password"], $user_data["password"]) == $user_data["password"]
+            $user_data
+            &&
+            crypt(
+                $_REQUEST["password"],
+                $user_data["password"]
+            )
+            ==
+            $user_data["password"]
         )
         {
+            if($user_data["login_fails"] > 9)
+            {
+                View::addMessage(
+                    t("For security the failed attempts to login into the account resulted in account lock down.")
+                );
+                View::addMessage(
+                    t("A password reset procedure is required to regain the account.")
+                );
+
+                Uri::go("forgot-password", array("username" => $username));
+            }
+
             $groups_approval = unserialize(
                 Settings::get("registration_groups_approval", "main")
             );
 
             if(
                 (
-                    Settings::get("registration_needs_approval", "main") &&
-                    $user_data["status"] == "0" &&
+                    Settings::get("registration_needs_approval", "main")
+                    &&
+                    $user_data["status"] == "0"
+                    &&
                     !Settings::get("registration_can_select_group", "main")
                 ) ||
                 (
-                    Settings::get("registration_can_select_group", "main") &&
-                    $user_data["status"] == "0" &&
+                    Settings::get("registration_can_select_group", "main")
+                    &&
+                    $user_data["status"] == "0"
+                    &&
                     in_array($user_data["group"], $groups_approval)
                 )
             )
             {
-                View::addMessage(t("Your registration is awaiting for approval. If the registration is approved you will receive an email notification."));
+                View::addMessage(
+                    t("Your registration is awaiting for approval. If the registration is approved you will receive an email notification.")
+                );
 
                 return $is_logged;
             }
 
             if(
-                Settings::get("registration_needs_activation", "main") &&
+                Settings::get("registration_needs_activation", "main")
+                &&
                 $user_data["email_activated"] == "0"
             )
             {
@@ -195,14 +224,74 @@ static function login()
 
             Session::addCookie("logged", "1");
 
+            if(!empty($_REQUEST["remember_me"]))
+            {
+                $token = Users::generatePassword(64);
+                $expires = time() + (365 * 24 * 60 * 60);
+
+                $user_data["devices"][$token] = array(
+                    "expires" => $expires,
+                    "device" => Util::parseUserAgent(),
+                    "last_ip" => $_SERVER["REMOTE_ADDR"]
+                );
+
+                Session::addCookie("signed", $username."||".$token, $expires);
+            }
+
             //Save last ip used
             $user_data["ip_address"] = $_SERVER["REMOTE_ADDR"];
+
+            // Remove failed login attempts
+            if(isset($user_data["login_fails"]))
+                unset($user_data["login_fails"]);
+
             Users::edit($username, $user_data["group"], $user_data);
 
             //Keep user uploads dir clean
             Forms::deleteUploads();
 
             $is_logged = true;
+        }
+        elseif($user_data)
+        {
+            $login_fails = true;
+            if(isset($user_data["login_fails"]))
+            {
+                $user_data["login_fails"] += 1;
+            }
+            else
+            {
+                $user_data["login_fails"] = 1;
+            }
+
+            $login_fails = $user_data["login_fails"];
+
+            if($user_data["login_fails"] <= 10)
+            {
+                Users::edit($username, $user_data["group"], $user_data);
+            }
+
+            if($user_data["login_fails"] > 9)
+            {
+                View::addMessage(
+                    t("For security the failed attempts to login into the account resulted in account lock down.")
+                );
+                View::addMessage(
+                    t("A password reset procedure is required to regain the account.")
+                );
+
+                Uri::go("forgot-password", array("username" => $username));
+            }
+            elseif($user_data["login_fails"] > 5)
+            {
+                View::addMessage(
+                    sprintf(
+                        t("For security reasons you have %s more tries before your account is locked down."),
+                        10 - $user_data["login_fails"]
+                    )
+                );
+                View::addMessage(t("If your account is locked down you will have to click the forgot password link to start a password reset procedure."));
+            }
         }
         else
         {
@@ -215,15 +304,27 @@ static function login()
         }
 
         if(
-            isset($_REQUEST["username"]) &&
-            isset($_REQUEST["password"]) &&
+            isset($_REQUEST["username"])
+            &&
+            isset($_REQUEST["password"])
+            &&
             $is_logged == false
         )
         {
-            View::addMessage(
-                t("The username or password you entered is incorrect."),
-                "error"
-            );
+            if($login_fails == 0)
+            {
+                View::addMessage(
+                    t("The username, e-mail or password you entered is incorrect."),
+                    "error"
+                );
+            }
+            elseif($login_fails <= 5)
+            {
+                View::addMessage(
+                    t("The password you entered is incorrect."),
+                    "error"
+                );
+            }
         }
     }
 
@@ -231,13 +332,122 @@ static function login()
 }
 
 /**
- * Logs out the user from the system by clearing the needed session variables.
- * @original user_logout
+ * Authenticates a user by device cookie.
+ *
+ * @return bool
  */
-static function logout()
+static function loginByDevice(): bool
+{
+    if(isset($_COOKIE["signed"]))
+    {
+        $credentials = explode("||", $_COOKIE["signed"], 2);
+
+        $username = $credentials[0];
+        $token = $credentials[1];
+
+        $user_data = Users::get($username);
+
+        if(
+            !empty($user_data)
+            &&
+            is_array($user_data["devices"])
+            &&
+            count($user_data["devices"]) > 0
+        )
+        {
+            //Remove expired devices
+            $devices = $user_data["devices"];
+            $devices_expired = false;
+            foreach($devices as $device_token => $device_data)
+            {
+                if($device_data["expires"] < time())
+                {
+                    unset($user_data["devices"][$device_token]);
+                    $devices_expired = true;
+                }
+            }
+
+            $device = isset($user_data["devices"][$token]) ?
+                $user_data["devices"][$token]["device"]
+                :
+                array()
+
+            ;
+
+            $agent = Util::parseUserAgent();
+
+            if(
+                !empty($device)
+                &&
+                $device["platform"] == $agent["platform"]
+                &&
+                $device["browser"] == $agent["browser"]
+            )
+            {
+                Session::start();
+
+                $_SESSION["logged"]["site"] = Site::$base_url;
+                $_SESSION["logged"]["username"] = strtolower($username);
+                $_SESSION["logged"]["password"] = $user_data["password"];
+                $_SESSION["logged"]["group"] = $user_data["group"];
+                $_SESSION["logged"]["ip_address"] = $_SERVER["REMOTE_ADDR"];
+                $_SESSION["logged"]["user_agent"] = $_SERVER["HTTP_USER_AGENT"];
+
+                Session::addCookie("logged", "1");
+
+                //Increase expiration time
+                $expires = time() + (365 * 24 * 60 * 60);
+                $user_data["devices"][$token]["expires"] = $expires;
+                Session::addCookie("signed", $username."||".$token, $expires);
+
+                //Save last ip used
+                $user_data["devices"][$token]["last_ip"] = $_SERVER["REMOTE_ADDR"];
+                $user_data["ip_address"] = $_SERVER["REMOTE_ADDR"];
+
+                //Save user changes
+                Users::edit($username, $user_data["group"], $user_data);
+
+                //Keep user uploads dir clean
+                Forms::deleteUploads();
+
+                return true;
+            }
+            elseif($devices_expired)
+            {
+                Users::edit($username, $user_data["group"], $user_data);
+                Session::removeCookie("signed");
+            }
+        }
+    }
+
+    return false;
+}
+
+/**
+ * Logs out the user from the system by clearing the needed session variables.
+ */
+static function logout(): void
 {
     if(isset($_SESSION["logged"]))
     {
+        if(!empty($_COOKIE["signed"]))
+        {
+            $username = $_SESSION["logged"]["username"];
+
+            $user_data = Users::get($username);
+
+            $token = explode("||", $_COOKIE["signed"], 2)[1];
+
+            if(isset($user_data["devices"][$token]))
+            {
+                unset($user_data["devices"][$token]);
+
+                Users::edit($username, $user_data["group"], $user_data);
+            }
+
+            Session::removeCookie("signed");
+        }
+
         unset($_SESSION["logged"]);
 
         Session::removeCookie("logged");
@@ -250,9 +460,8 @@ static function logout()
  * Get the group of the current logged user.
  *
  * @return string The user group if logged or guest if anonymous.
- * @original current_user_group
  */
-static function currentUserGroup()
+static function currentUserGroup(): string
 {
     if(self::isUserLogged())
     {
@@ -268,9 +477,8 @@ static function currentUserGroup()
  * Get the current logged user.
  *
  * @return string The machine name of the logged user.
- * @original current_user
  */
-static function currentUser()
+static function currentUser(): string
 {
     if(self::isUserLogged())
     {
@@ -288,9 +496,8 @@ static function currentUser()
  * proper permissions.
  *
  * @param array $permissions In the format permissions[] = machine_name
- * @original protected_page
  */
-static function protectedPage($permissions = array())
+static function protectedPage(array $permissions = []): void
 {
     if(self::isAdminLogged())
     {
@@ -323,9 +530,10 @@ static function protectedPage($permissions = array())
  * @param string $username If not specified current user permissions are checked.
  *
  * @return bool True if has permissions false otherwise.
- * @original user_has_permissions
  */
-static function userHasPermissions($permissions, $username = "")
+static function userHasPermissions(
+    array $permissions, string $username = ""
+): bool
 {
     if(!self::isAdminLogged())
     {
@@ -356,9 +564,10 @@ static function userHasPermissions($permissions, $username = "")
  * @param string $group_name The group we want to get permission value from.
  *
  * @return bool True if the group has the permissions or false.
- * @original get_group_permission
  */
-static function groupHasPermission($permission_name, $group_name)
+static function groupHasPermission(
+    string $permission_name, string $group_name
+): bool
 {
     static $permission_table;
 
@@ -400,9 +609,10 @@ static function groupHasPermission($permission_name, $group_name)
  * been reached for the user.
  *
  * @return bool True if the group has the permissions or false.
- * @original get_type_permission
  */
-static function hasTypeAccess($type, $group_name, $username = "")
+static function hasTypeAccess(
+    string $type, string $group_name, string $username = ""
+): bool
 {
     if(self::groupHasPermission($type . "_type", $group_name))
     {

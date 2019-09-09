@@ -89,7 +89,11 @@ row: 0
             !Jaris\Forms::requiredFieldEmpty("importing-options-importer")
         )
         {
-            if(!in_array("title", $_REQUEST["column"]))
+            if(
+                !in_array("title", $_REQUEST["column"])
+                &&
+                empty($_REQUEST["update_only"])
+            )
             {
                 Jaris\View::addMessage(
                     t("Please match a column as the title of the content."),
@@ -120,7 +124,7 @@ row: 0
 
                 $update_only = false;
 
-                if(in_array("uri", $columns))
+                if(is_array($columns) && in_array("uri", $columns))
                 {
                     $update_only = true;
                 }
@@ -189,13 +193,23 @@ row: 0
                                 break;
 
                             case "title":
-                                $page_data["title"] = $columns[$index];
+                                if(!isset($page_data["title"]))
+                                {
+                                    $page_data["title"] = "";
+                                }
+
+                                $page_data["title"] .= $columns[$index];
                                 break;
 
                             case "content":
+                                if(!isset($page_data["content"]))
+                                {
+                                    $page_data["content"] = "";
+                                }
+
                                 if($break_lines)
                                 {
-                                    $page_data["content"] = preg_replace(
+                                    $page_data["content"] .= preg_replace(
                                         "/\n+/",
                                         "<br />",
                                         $columns[$index]
@@ -203,7 +217,7 @@ row: 0
                                 }
                                 else
                                 {
-                                    $page_data["content"] = $columns[$index];
+                                    $page_data["content"] .= $columns[$index];
                                 }
 
                                 break;
@@ -329,13 +343,20 @@ row: 0
                         }
                     }
 
-                    $page_data["categories"] = $page_categories;
+                    if(count($page_categories) > 1)
+                    {
+                        $page_data["categories"] = $page_categories;
+                    }
+                    elseif(!$update_only)
+                    {
+                        $page_data["categories"] = array();
+                    }
 
-                    if(!isset($page_data["input_format"]))
+                    if(!isset($page_data["input_format"]) && !$update_only)
                         $page_data["input_format"] = $default_format;
 
-                    if(count($page_data["groups"]) < 1)
-                            $page_data["groups"] = $_REQUEST["groups"];
+                    if(count($page_data["groups"]) < 1 && !$update_only)
+                        $page_data["groups"] = $_REQUEST["groups"];
 
                     if(!$update_only)
                     {
@@ -348,7 +369,7 @@ row: 0
                         $page_data["last_edit_by"] = $author;
                     }
 
-                    if(!isset($page_data["type"]))
+                    if(!isset($page_data["type"]) && !$update_only)
                         $page_data["type"] = $_REQUEST["type"];
 
 
@@ -375,6 +396,12 @@ row: 0
                         $page_uri = $uri;
 
                         $old_data = Jaris\Pages::get($uri);
+
+                        // Skip page if doesn't exists.
+                        if(!$old_data)
+                        {
+                            continue;
+                        }
 
                         $new_data = array_merge($old_data, $page_data);
 
@@ -430,7 +457,7 @@ row: 0
                                                 "type" => Jaris\FileSystem::getMimeTypeLocal($file_full_path)
                                             );
 
-                                            $file_name = null;
+                                            $file_name = "";
 
                                             Jaris\Pages\Images::add(
                                                 $file,
@@ -465,8 +492,13 @@ row: 0
 
                                 if($image_content !== false)
                                 {
+                                    $image_name_parts = explode(
+                                        "/",
+                                        trim($columns[$image_index])
+                                    );
+
                                     $image_name = end(
-                                        explode("/", trim($columns[$image_index]))
+                                        $image_name_parts
                                     );
 
                                     file_put_contents(
@@ -727,12 +759,18 @@ row: 0
 
             $update_only = false;
 
-            if(in_array("uri", $columns))
+            if(is_array($columns) && in_array("uri", $columns))
             {
                 $update_only = true;
 
                 Jaris\View::addMessage(
                     t("The uri column was detected, this import will only update existing content.")
+                );
+
+                $fields[] = array(
+                    "type" => "hidden",
+                    "name" => "update_only",
+                    "value" => 1
                 );
             }
 

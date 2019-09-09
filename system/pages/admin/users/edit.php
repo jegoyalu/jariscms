@@ -59,15 +59,25 @@ row: 0
             $personal_text_lenght : 300
         ;
 
-        if(isset($_REQUEST["btnSave"]) && !Jaris\Forms::requiredFieldEmpty("edit-user"))
+        if(
+            isset($_REQUEST["btnSave"])
+            &&
+            !Jaris\Forms::requiredFieldEmpty("edit-user")
+        )
         {
-            $current_editor = Jaris\Users::get(Jaris\Authentication::currentUser());
+            $current_editor = Jaris\Users::get(
+                Jaris\Authentication::currentUser()
+            );
 
             $fields = Jaris\Users::get($username);
 
             if(isset($fields["superadmin"]) && $fields["superadmin"])
             {
-                if(!isset($current_editor["superadmin"]) || !$current_editor["superadmin"])
+                if(
+                    !isset($current_editor["superadmin"])
+                    ||
+                    !$current_editor["superadmin"]
+                )
                 {
                     Jaris\View::addMessage(
                         t("This account can only be edited by a super admin.")
@@ -111,7 +121,7 @@ row: 0
                 }
             }
 
-            $fields["name"] = substr(Jaris\Util::stripHTMLTags($_REQUEST["name"]), 0, 65);
+            $fields["name"] = substr(Jaris\Util::stripHTMLTags($_REQUEST["full_name"]), 0, 65);
             $fields["email"] = trim(Jaris\Util::stripHTMLTags($_REQUEST["email"]));
             $fields["website"] = trim(Jaris\Util::stripHTMLTags($_REQUEST["website"]));
             $fields["gender"] = trim(Jaris\Util::stripHTMLTags($_REQUEST["gender"]));
@@ -154,29 +164,56 @@ row: 0
             $error = false;
 
             if(
-                $_REQUEST["password"] != "" &&
-                $_REQUEST["password"] == $_REQUEST["verify_password"]
+                isset($_REQUEST["password_new"])
+                &&
+                trim($_REQUEST["password_new"]) != ""
             )
             {
-                $fields["password"] = crypt($_REQUEST["password"]);
+                if(
+                    strlen($_REQUEST["password_new"]) >= 6
+                )
+                {
+                    $fields["password"] = crypt($_REQUEST["password_new"]);
+                }
+                else
+                {
+                    Jaris\View::addMessage(
+                        t("The Password should be at least 6 characters long."),
+                        "error"
+                    );
+
+                    $error = true;
+                }
             }
-            elseif(
-                $_REQUEST["password"] != "" &&
-                $_REQUEST["password"] != $_REQUEST["verify_password"]
+
+            if(
+                Jaris\Authentication::groupHasPermission(
+                    "select_user_theme",
+                    Jaris\Authentication::currentUserGroup()
+                )
             )
             {
-                Jaris\View::addMessage(
-                    t("The New password and Verify password doesn't match."),
-                    "error"
-                );
-                $error = true;
+                $themes = Jaris\Themes::getList();
+                if(isset($themes[$_REQUEST["theme"]]))
+                {
+                    $fields["theme"] = $_REQUEST["theme"];
+                }
             }
 
             if(!$error)
             {
                 $message = "";
 
-                $fields = array_map("trim", $fields);
+                $fields = array_map(
+                    function($value){
+                        if(!is_array($value))
+                        {
+                            return trim($value);
+                        }
+                        return $value;
+                    },
+                    $fields
+                );
 
                 if(
                     Jaris\Settings::get("user_picture", "main") &&
@@ -230,11 +267,23 @@ row: 0
                             $to = array();
                             $to[$fields["name"]] = $fields["email"];
 
-                            $html_message = t("Your account has been activated.") . "<br /><br />";
-                            $html_message .= t("Username:") . " " . $username . "<br /><br />";
-                            $html_message .= t("Login by visiting:") . " <a target=\"_blank\" href=\"" . Jaris\Uri::url("admin/user") . "\">" . Jaris\Uri::url("admin/user") . "</a>";
+                            $login_link = Jaris\Uri::url("admin/user");
 
-                            Jaris\Mail::send($to, t("Account Activated"), $html_message);
+                            $html_message = t("Your account has been activated.")
+                                . "<br /><br />"
+                                . t("Username:") . " " . $username
+                                . "<br /><br />"
+                                . t("Login by visiting:")
+                                . " <a target=\"_blank\" href=\"".$login_link."\">"
+                                . Jaris\Uri::url("admin/user")
+                                . "</a>"
+                            ;
+
+                            Jaris\Mail::send(
+                                $to,
+                                t("Account Activated"),
+                                $html_message
+                            );
                         }
                     }
                 }
@@ -248,8 +297,10 @@ row: 0
             }
 
             if(
-                $_REQUEST["password"] != "" &&
-                $_REQUEST["password"] == $_REQUEST["verify_password"] &&
+                $_REQUEST["password_new"] != ""
+                &&
+                strlen($_REQUEST["password_new"]) >= 6
+                &&
                 Jaris\Authentication::currentUser() == $username
             )
             {
@@ -275,6 +326,15 @@ row: 0
         }
 
         $arguments["username"] = $username;
+
+        if(Jaris\Authentication::isAdminLogged())
+        {
+            Jaris\View::addTab(
+                t("Devices"),
+                "admin/users/devices",
+                $arguments
+            );
+        }
 
         if(
             Jaris\Authentication::groupHasPermission(
@@ -309,10 +369,13 @@ row: 0
         $fields[] = array(
             "type" => "text",
             "limit" => 65,
-            "value" => $user_data["name"],
-            "name" => "name",
+            "value" => isset($_REQUEST["full_name"]) ?
+                $_REQUEST["full_name"]
+                :
+                $user_data["name"],
+            "name" => "full_name",
             "label" => t("Name:"),
-            "id" => "name",
+            "id" => "full_name",
             "required" => true,
             "description" => t("The name that others can see.")
         );
@@ -320,8 +383,15 @@ row: 0
         $fields[] = array(
             "type" => "textarea",
             "limit" => $personal_text_lenght,
-            "value" => empty($user_data["personal_text"]) ?
-                "" : $user_data["personal_text"],
+            "value" => isset($_REQUEST["personal_text"]) ?
+                $_REQUEST["personal_text"]
+                :
+                (
+                    empty($user_data["personal_text"]) ?
+                    ""
+                    :
+                    $user_data["personal_text"]
+                ),
             "name" => "personal_text",
             "label" => t("Personal text:"),
             "id" => "personal_text",
@@ -330,7 +400,10 @@ row: 0
 
         $fields[] = array(
             "type" => "text",
-            "value" => $user_data["email"],
+            "value" => isset($_REQUEST["email"]) ?
+                $_REQUEST["email"]
+                :
+                $user_data["email"],
             "name" => "email",
             "label" => t("Email:"),
             "id" => "email",
@@ -340,24 +413,28 @@ row: 0
 
         $fields[] = array(
             "type" => "password",
-            "name" => "password",
+            "name" => "password_new",
             "label" => t("New password:"),
             "id" => "password",
+            "value" => isset($_REQUEST["password_new"]) ?
+                $_REQUEST["password_new"]
+                :
+                "",
+            "reveal" => true,
             "description" => t("You can enter a new password to change actual one.")
         );
 
         $fields[] = array(
-            "type" => "password",
-            "name" => "verify_password",
-            "label" => t("Verify password:"),
-            "id" => "verify_password",
-            "description" => t("Re-enter the new password to verify it.")
-        );
-
-        $fields[] = array(
             "type" => "text",
-            "value" => empty($user_data["website"]) ?
-                "" : $user_data["website"],
+            "value" => isset($_REQUEST["website"]) ?
+                $_REQUEST["website"]
+                :
+                (
+                    empty($user_data["website"]) ?
+                    ""
+                    :
+                    $user_data["website"]
+                ),
             "name" => "website",
             "label" => t("Website:"),
             "id" => "website",
@@ -375,8 +452,15 @@ row: 0
             "name" => "gender",
             "id" => "gender",
             "value" => $gender,
-            "checked" => empty($user_data["gender"]) ?
-                "m" : $user_data["gender"],
+            "checked" => isset($_REQUEST["gender"]) ?
+                $_REQUEST["gender"]
+                :
+                (
+                    empty($user_data["gender"]) ?
+                    "m"
+                    :
+                    $user_data["gender"]
+                ),
             "required" => true
         );
 
@@ -401,7 +485,10 @@ row: 0
             "id" => "day",
             "required" => true,
             "value" => Jaris\Date::getDays(),
-            "selected" => $day,
+            "selected" => isset($_REQUEST["day"]) ?
+                $_REQUEST["day"]
+                :
+                $day,
             "required" => true,
             "inline" => true
         );
@@ -413,7 +500,10 @@ row: 0
             "id" => "month",
             "required" => true,
             "value" => Jaris\Date::getMonths(),
-            "selected" => $month,
+            "selected" => isset($_REQUEST["month"]) ?
+                $_REQUEST["month"]
+                :
+                $month,
             "required" => true,
             "inline" => true
         );
@@ -425,7 +515,10 @@ row: 0
             "id" => "year",
             "required" => true,
             "value" => Jaris\Date::getYears(),
-            "selected" => $year,
+            "selected" => isset($_REQUEST["year"]) ?
+                $_REQUEST["year"]
+                :
+                $year,
             "required" => true,
             "inline" => true
         );
@@ -463,7 +556,8 @@ row: 0
                 "type" => "file",
                 "name" => "picture",
                 "valid_types" => "gif,jpg,jpeg,png",
-                "description" => t("A picture displayed in user post, comments, etc. Maximun size of:") . "&nbsp;" . $size
+                "description" => t("A picture displayed in user post, comments, etc. Maximun size of:")
+                    . "&nbsp;" . $size
             );
 
             $fieldset[] = array(
@@ -486,7 +580,10 @@ row: 0
                 "label" => t("Group:"),
                 "id" => "group",
                 "value" => Jaris\Groups::getList(),
-                "selected" => $user_data["group"],
+                "selected" => isset($_REQUEST["group"]) ?
+                    $_REQUEST["group"]
+                    :
+                    $user_data["group"],
                 "description" => t("The group where the user belongs.")
             );
 
@@ -496,11 +593,34 @@ row: 0
                 "label" => t("Status:"),
                 "id" => "status",
                 "value" => Jaris\Users::getStatuses(),
-                "selected" => $user_data["status"],
+                "selected" => isset($_REQUEST["status"]) ?
+                    $_REQUEST["status"]
+                    :
+                    $user_data["status"],
                 "description" => t("The account status of this user.")
             );
 
             $fieldset[] = array("fields" => $fields_extra);
+        }
+
+        if(
+            Jaris\Authentication::groupHasPermission(
+                "select_user_theme",
+                Jaris\Authentication::currentUserGroup()
+            )
+        )
+        {
+            $fields_submit[] = array(
+                "type" => "select",
+                "name" => "theme",
+                "label" => t("Theme:"),
+                "value" => Jaris\Themes::getSelectList(),
+                "selected" => isset($_REQUEST["theme"]) ?
+                    $_REQUEST["theme"]
+                    :
+                    $user_data["theme"],
+                "description" => t("The theme for the site.")
+            );
         }
 
         $fields_submit[] = array(
@@ -517,14 +637,25 @@ row: 0
 
         $fieldset[] = array("fields" => $fields_submit);
 
+        print "<div style=\"display: flex; justify-content: space-between; flex-wrap: wrap;\">";
         if(!empty($user_data["ip_address"]))
         {
-            print "<p>" .
-                t("Last login from ip:") . " " .
-                $user_data["ip_address"] .
-                "</p>"
+            print "<div style=\"padding: 7px;\">"
+                . "<strong>"
+                . t("Username:")
+                . "</strong> "
+                . $username
+                . "</div>"
             ;
         }
+        print "<div style=\"padding: 7px;\">"
+            . "<strong>"
+            . t("Last login from ip:")
+            . "</strong> "
+            . $user_data["ip_address"]
+            . "</div>"
+        ;
+        print "</div><hr />";
 
         print Jaris\Forms::generate($parameters, $fieldset);
     ?>

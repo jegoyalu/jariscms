@@ -36,8 +36,8 @@ row: 0
     <?php
         Jaris\Authentication::protectedPage(array("edit_content"));
 
-        Jaris\View::addScript("scripts/jquery-ui/jquery.ui.js");
-        Jaris\View::addScript("scripts/jquery-ui/jquery.ui.touch-punch.min.js");
+        Jaris\View::addSystemScript("jquery-ui/jquery.ui.js");
+        Jaris\View::addSystemScript("jquery-ui/jquery.ui.touch-punch.min.js");
 
         if(!Jaris\Pages::userIsOwner($_REQUEST["uri"]))
         {

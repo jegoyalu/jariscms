@@ -31,14 +31,48 @@ private static $spec;
  */
 private static $response;
 
+/**
+ * @var int
+ */
 const ERROR_INVALID_KEY = 10;
+/**
+ * @var int
+ */
 const ERROR_INVALID_TOKEN = 20;
+
+/**
+ * @var int
+ */
 const ERROR_EXPIRED_TOKEN = 30;
+
+/**
+ * @var int
+ */
 const ERROR_REMOTE_ACCESS_DENIED = 40;
+
+/**
+ * @var int
+ */
 const ERROR_REQUIRED_ACTION = 50;
+
+/**
+ * @var int
+ */
 const ERROR_REQUIRED_PARAMETER = 60;
+
+/**
+ * @var int
+ */
 const ERROR_REQUIRED_SUBPARAMETER = 70;
+
+/**
+ * @var int
+ */
 const ERROR_INVALID_ACTION = 80;
+
+/**
+ * @var int
+ */
 const ERROR_ACTION_DENIED = 90;
 
 /**
@@ -66,9 +100,8 @@ const ERROR_ACTION_DENIED = 90;
  *     ),
  *     etc...
  * )
- * @original api_init
  */
-public static function init($spec=null)
+public static function init(array $spec=[]): void
 {
     self::$spec = $spec;
 
@@ -83,7 +116,7 @@ public static function init($spec=null)
         $data = ApiKey::getData($key);
 
         // Check if api key is valid
-        if(!is_array($data))
+        if(!$data)
         {
             self::sendSystemErrorResponse(self::ERROR_INVALID_KEY);
         }
@@ -197,9 +230,8 @@ public static function init($spec=null)
 /**
  * Generates documentation for the api being accessed by using the api spec
  * set on Api::init().
- * @original api_describe
  */
-public static function describe()
+public static function describe(): void
 {
     $system_spec = array(
         "help" => array(
@@ -214,14 +246,18 @@ public static function describe()
     );
 
     $spec = array();
+    $spec_empty = true;
 
     if(
-        is_array(self::$spec) &&
-        self::getAction() == "help" &&
+        self::$spec
+        &&
+        self::getAction() == "help"
+        &&
         isset($_REQUEST["key"])
     )
     {
         $spec = array_merge($system_spec, self::$spec);
+        $spec_empty = false;
     }
     else
     {
@@ -252,7 +288,7 @@ public static function describe()
         . "color: #676767;"
         . "}"
         . "h3{"
-        . "background-color: #747474; color: #fff; padding: 7px; display: inline-block"
+        . "background-color: #747474; color: #fff; padding: 7px; display: inline-block; margin: 25px 0 10px 0;"
         . "}"
         . "table{"
         . "width: 100%;"
@@ -285,6 +321,168 @@ public static function describe()
     ;
     print "</head>";
     print "<body>";
+
+    // List available API pages, both core and modules.
+    if($spec_empty && self::getAction() == "help" && isset($_REQUEST["key"]))
+    {
+        header("Cache-control: private");
+
+        print "<h1>" . "List of API's" . "</h1>";
+
+        print "<p>"
+            . "Here is a list of all available api's that can be used with "
+            . "the right api key permissions."
+            . "</p>"
+        ;
+
+        print "<h3>Core</h3>";
+
+        print '<table>';
+        print "<thead>";
+        print "<tr>";
+        print "<td>" . "Title" . "</td>";
+        print "<td>" . "Path" . "</td>";
+        print "</tr>";
+        print "</thead>";
+
+        print "<tbody>";
+
+        FileSystem::search(
+            "system/pages/api",
+            "/.*\.php$/",
+            function($page_path){
+                print "<tr>";
+
+                $page_data = Data::parse(
+                    $page_path
+                );
+
+                print "<td>"
+                    . $page_data[0]["title"]
+                    . "</td>"
+                ;
+
+                $uri = str_replace(
+                    array("system/pages/", "-", ".php"),
+                    array("", "/", ""),
+                    $page_path
+                );
+                $url = Uri::url(
+                    $uri,
+                    array(
+                        "key" => $_REQUEST["key"],
+                        "action" => "help"
+                    )
+                );
+                print "<td>"
+                    . "<a href=\"$url\">"
+                    . $uri
+                    . "</a>"
+                    . "</td>"
+                ;
+
+                print "</tr>";
+            }
+        );
+
+        print "</tbody>";
+
+        print "</table>";
+
+        $modules = Modules::getInstalled();
+
+        $modules_title = false;
+
+        foreach($modules as $module_name)
+        {
+            $pages = Site::dataDir() . "modules/$module_name/pages.php";
+
+            if(!file_exists($pages))
+                continue;
+
+            $pages_list = Data::parse($pages);
+            $pages_api = array();
+            foreach($pages_list as $pages_data)
+            {
+                if(
+                    strpos($pages_data["new_uri"], "api/") === 0
+                    ||
+                    strpos($pages_data["new_uri"], "/api/") !== false
+                    ||
+                    strpos($pages_data["new_uri"], "/api") !== false
+                )
+                {
+                    $pages_api[] = $pages_data["new_uri"];
+                }
+            }
+
+            if(count($pages_api) <= 0)
+                continue;
+
+            if(!$modules_title)
+            {
+                print "<h2>" . "List of Module API's" . "</h2>";
+
+                print "<p>"
+                    . "Here is a list of all available api interfaces for "
+                    . "each installed module on the system."
+                    . "</p>"
+                ;
+                $modules_title = true;
+            }
+
+            $module = Modules::get($module_name);
+
+            print "<h3>".$module["name"]."</h3>";
+
+            print '<table>';
+            print "<thead>";
+            print "<tr>";
+            print "<td>" . "Title" . "</td>";
+            print "<td>" . "Path" . "</td>";
+            print "</tr>";
+            print "</thead>";
+
+            print "<tbody>";
+            foreach($pages_api as $page)
+            {
+                print "<tr>";
+
+                $page_path = Pages::getPath($page) . "/data.php";
+
+                $page_data = Data::parse(
+                    $page_path
+                );
+
+                print "<td>"
+                    . $page_data[0]["title"]
+                    . "</td>"
+                ;
+
+                $url = Uri::url(
+                    $page,
+                    array(
+                        "key" => $_REQUEST["key"],
+                        "action" => "help"
+                    )
+                );
+                print "<td>"
+                    . "<a href=\"$url\">"
+                    . $page
+                    . "</a>"
+                    . "</td>"
+                ;
+
+                print "</tr>";
+            }
+            print "</tbody>";
+            print "</table>";
+        }
+
+        print "</body>";
+        print "</html>";
+        exit;
+    }
 
     if(self::getAction() == "help" && isset($_REQUEST["key"]))
     {
@@ -616,6 +814,59 @@ public static function describe()
             print "</table>";
         }
 
+        // Display response
+        if(isset($action_spec["response"]))
+        {
+            print "<h4>" . "Response" . "</h4>";
+
+            print '<table>';
+            print "<thead>";
+            print "<tr>";
+            print "<td>" . "Parameter" . "</td>";
+            print "<td>" . "Description" . "</td>";
+            print "</tr>";
+            print "</thead>";
+
+            print "<tbody>";
+
+            foreach($action_spec["response"] as $parameter=>$parameter_data)
+            {
+                print "<tr>";
+
+                print "<td>" . $parameter . "</td>";
+
+                if(!is_array($parameter_data))
+                {
+                    print "<td>" . $parameter_data . "</td>";
+                }
+                else
+                {
+                    print "<td>";
+                    print "<p>" . $parameter_data["description"] . "</p>";
+
+                    if(isset($parameter_data["elements"]))
+                    {
+                        print "<strong>" . "Structure" . "</strong><hr />";
+
+                        print "<pre>";
+                        print json_encode(
+                            $parameter_data["elements"],
+                            JSON_PRETTY_PRINT
+                        );
+                        print "</pre>";
+                    }
+
+                    print "</td>";
+                }
+
+                print "</tr>";
+            }
+
+            print "</tbody>";
+
+            print "</table>";
+        }
+
         // Display error messages returned by action
         if(isset($action_spec["errors"]))
         {
@@ -656,9 +907,8 @@ public static function describe()
 /**
  * Validates an api call by verifying that all required parameters are
  * set for the current action.
- * @original api_validate_call
  */
-public static function validateCall()
+public static function validateCall(): void
 {
     $action = self::getAction();
 
@@ -746,10 +996,10 @@ public static function validateCall()
 
 /**
  * Gets the current action executed by the request.
+ *
  * @return string
- * @original api_get_action
  */
-public static function getAction()
+public static function getAction(): string
 {
     if(isset($_REQUEST["action"]))
     {
@@ -765,11 +1015,12 @@ public static function getAction()
 /**
  * Gets the current api key. This public static function should
  * be used after a successfull call to Api::init().
+ *
  * @staticvar null $api_current_key
+ *
  * @return string
- * @original api_get_current_key
  */
-public static function getCurrentKey()
+public static function getCurrentKey(): string
 {
     static $api_current_key = "";
 
@@ -785,11 +1036,11 @@ public static function getCurrentKey()
 
 /**
  * Adds a parameter which is send on the api response in json format.
+ *
  * @param string $parameter Name of parameter
- * @param string $value Value of parameter.
- * @original api_response_add
+ * @param mixed $value Value of parameter.
  */
-public static function addResponse($parameter, $value)
+public static function addResponse(string $parameter, $value): void
 {
     self::$response[$parameter] = $value;
 }
@@ -797,9 +1048,8 @@ public static function addResponse($parameter, $value)
 /**
  * Finalizes the client request and sends a response of all parameters
  * added with Api::addResponse() in json_format.
- * @original api_response_send
  */
-public static function sendResponse()
+public static function sendResponse(): void
 {
     global $time_start;
 
@@ -814,12 +1064,14 @@ public static function sendResponse()
 
 /**
  * Sends an error response and finalize the request.
+ *
  * @param int $code The code should be a number greater than 1000
  * @param string $message
  * @param int $http_status A valid http header status code
- * @original api_response_send_error
  */
-public static function sendErrorResponse($code, $message, $http_status=400)
+public static function sendErrorResponse(
+    int $code, string $message, int $http_status=400
+): void
 {
     global $time_start;
 
@@ -835,6 +1087,8 @@ public static function sendErrorResponse($code, $message, $http_status=400)
         ) . "ms"
     );
 
+    $error = array_merge($error, self::$response);
+
     print json_encode($error);
 
     exit;
@@ -842,10 +1096,10 @@ public static function sendErrorResponse($code, $message, $http_status=400)
 
 /**
  * Sends one of the predefined system errors and finalizes the request.
+ *
  * @param int $code
- * @original api_response_send_system_error
  */
-public static function sendSystemErrorResponse($code)
+public static function sendSystemErrorResponse(int $code): void
 {
     switch($code)
     {
@@ -913,15 +1167,16 @@ public static function sendSystemErrorResponse($code)
 
 /**
  * Check if a token is valid.
+ *
  * @param string $token
+ *
  * @return int Returns 1 if valid, -2 if expired and -1 if invalid.
- * @original api_token_valid
  */
-public static function isValidToken($token)
+public static function isValidToken(string $token): int
 {
     $data = ApiKey::getDataByToken($token);
 
-    if(is_array($data))
+    if($data)
     {
         if($data["token_expires"] < time())
         {
@@ -938,10 +1193,10 @@ public static function isValidToken($token)
 
 /**
  * Extends the expiration time of a token.
+ *
  * @param string $token
- * @original api_token_extend
  */
-public static function extendToken($token)
+public static function extendToken(string $token): void
 {
     $db = Sql::open("api_keys");
 
@@ -959,21 +1214,104 @@ public static function extendToken($token)
 }
 
 /**
- * Get the list of permissions available for api access.
- * @return array
- * @original api_get_permissions_list
+ * Gzips and base64 encode any given data.
+ * @param mixed $data
+ * @return mixed
  */
-public static function getPermissionsList()
+public static function compressData($data)
+{
+    return base64_encode(gzcompress($data));
+}
+
+/**
+ * Try to ungzip a base64 encoded given data, if fails return original data.
+ * @param mixed $data
+ * @return mixed
+ */
+public static function uncompressData($data)
+{
+    if($new_data = base64_decode($data))
+    {
+        if($new_data = gzuncompress($new_data))
+        {
+            return $new_data;
+        }
+    }
+
+    return $data;
+}
+
+/**
+ * Decodes a json encoded request parameter into an associative array.
+ * @param string $name Name of request parameter.
+ * @return array|null Null if failed.
+ */
+public static function decodeParam($name)
+{
+    return json_decode($_REQUEST[$name], true);
+}
+
+/**
+ * Decodes a given json string into an associative array.
+ * @param mixed $data
+ * @return
+ */
+public static function decodeData($data)
+{
+    return json_decode($data, true);
+}
+
+/**
+ * Get the list of permissions available for api access.
+ *
+ * @return array
+ */
+public static function getPermissionsList(): array
 {
     static $permissions = array();
 
-    if(count($permissions) <= 0)
-    {
-        //Call api_get_permissions_list hook before returning the permissions
-        Modules::hook("hook_api_get_permissions_list", $permissions);
+    $permissions[t("Core")] = array(
+        // Page permissions
+        "add_page_core" => t("Add Page"),
+        "edit_page_core" => t("Edit Page"),
+        "delete_page_core" => t("Delete Page"),
+        "get_page_core" => t("Get Page"),
 
-        ksort($permissions);
-    }
+        // Page images permissions
+        "add_page_image_core" => t("Add Page Images"),
+        "edit_page_image_core" => t("Edit Page Images"),
+        "delete_page_image_core" => t("Delete Page Image"),
+        "get_page_image_core" => t("Get Page Images"),
+
+        // Type permissions
+        "add_type_core" => t("Add Content Type"),
+        "edit_type_core" => t("Edit Content Type"),
+        "delete_type_core" => t("Delete Content Type"),
+        "get_type_core" => t("Get Content Type"),
+
+        // Category permissions
+        "add_category_core" => t("Add Category"),
+        "edit_category_core" => t("Edit Category"),
+        "delete_category_core" => t("Delete Category"),
+        "get_category_core" => t("Get Category"),
+
+        // Subcategory permissions
+        "add_subcategory_core" => t("Add Subcategory"),
+        "edit_subcategory_core" => t("Edit Subcategory"),
+        "delete_subcategory_core" => t("Delete Subcategory"),
+        "get_subcategory_core" => t("Get Subcategory"),
+
+         // User permissions
+        "add_user_core" => t("Add User"),
+        "edit_user_core" => t("Edit User"),
+        "delete_user_core" => t("Delete User"),
+        "get_user_core" => t("Get User"),
+    );
+
+    //Call api_get_permissions_list hook before returning the permissions
+    Modules::hook("hook_api_get_permissions_list", $permissions);
+
+    ksort($permissions);
 
     return $permissions;
 }

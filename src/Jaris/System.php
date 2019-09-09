@@ -17,7 +17,7 @@ class System
  * Stores JarisCMS version number.
  * @var string
  */
-const VERSION = "6.3.0 MS";
+const VERSION = "6.8.0 MS";
 
 /**
  * Receives parameters: $page, $tabs
@@ -80,18 +80,33 @@ const SIGNAL_SAVE_PAGE_TO_CACHE = "hook_save_page_to_cache";
 const SIGNAL_CLEAR_PAGE_CACHE = "hook_clear_page_cache";
 
 /**
+ * Path of system js files.
+ * @var string
+ */
+const JS_PATH = "system/js/";
+
+/**
+ * Path of system js files.
+ * @var string
+ */
+const CSS_PATH = "system/css/";
+
+/**
  * Generates a page array for page not found and sets http status to 404.
  *
  * @return array Page not found data.
- *
- * @original page_not_found
  */
-static function pageNotFound()
+static function pageNotFound(): array
 {
     Site::setHTTPStatus(404);
 
-    $page[0]["title"] = t("Page not found");
-    $page[0]["content"] = t("The page you was searching doesn't exists.");
+    $page = array(
+        array(
+            "title" => t("Page not found"),
+            "content" => t("The page you was searching doesn't exists."),
+            "input_format" => "full_html"
+        )
+    );
 
     if($page_not_found = Settings::get("page_not_found", "main"))
     {
@@ -148,15 +163,14 @@ static function pageNotFound()
  * Gets all the css files available on the system.
  *
  * @return array List with the full path to files example:
- * files[0] = "http://localhost/styles/system.css"
- * @original get_system_styles
+ * files[0] = "http://localhost/system/css/system.css"
  */
-static function getStyles()
+static function getStyles(): array
 {
     $additional_styles = View::$additional_styles;
 
     $styles = array(
-        Uri::url("styles/system.css")
+        Uri::url(self::CSS_PATH."system.css")
     );
 
     foreach($additional_styles as $url)
@@ -175,16 +189,15 @@ static function getStyles()
  *
  * @return array List with the full path to files example:
  * files[0] = "http://localhost/scripts/system.js"
- * @original get_system_scripts
  */
-static function getScripts()
+static function getScripts(): array
 {
     $additional_scripts = View::$additional_scripts;
 
     $scripts = array(
-        Uri::url("scripts/jquery-1.12.4.min.js"),
-        Uri::url("scripts/jquery.textarearesizer.min.js"),
-        Uri::url("scripts/system.js")
+        Uri::url(self::JS_PATH."jquery-3.3.1.min.js"),
+        Uri::url(self::JS_PATH."jquery.textarearesizer.min.js"),
+        Uri::url(self::JS_PATH."system.js")
     );
 
     foreach($additional_scripts as $url)
@@ -199,6 +212,30 @@ static function getScripts()
 }
 
 /**
+ * Gets the correct url for a system available css file.
+ *
+ * @param string $path Path of the file inside the systems css dir.
+ *
+ * @return string
+ */
+static function getStyleUrl(string $path, array $args = array()): string
+{
+    return Uri::url(self::CSS_PATH.$path, $args);
+}
+
+/**
+ * Gets the correct url for a system available js file.
+ *
+ * @param string $path Path of the file inside the systems script dir.
+ *
+ * @return string
+ */
+static function getScriptUrl(string $path, array $args = array()): string
+{
+    return Uri::url(self::JS_PATH.$path, $args);
+}
+
+/**
  * Gets an array with a list of directories with sections
  * marked as system ones. Useful to know in what pages to block
  * certain actions as editing task.
@@ -208,9 +245,8 @@ static function getScripts()
  *
  * @return array|bool List of system sections or true, false if check_path is
  * specified.
- * @original system_pages_blacklist
  */
-static function pagesBlackList($check_path = null)
+static function pagesBlackList(string $check_path = "")
 {
     static $list = null;
 
@@ -250,9 +286,8 @@ static function pagesBlackList($check_path = null)
 /**
  * Check if jaris cms is currently installed and if
  * not redirect to install page.
- * @original check_if_not_installed
  */
-static function checkIfNotInstalled()
+static function checkIfNotInstalled(): void
 {
     $base_url = Site::$base_url;
 
@@ -269,7 +304,7 @@ static function checkIfNotInstalled()
                 "Location: http://" . $_SERVER["SERVER_NAME"] . $port .
                 str_replace(
                     "index.php",
-                    "install/install.php",
+                    "system/install/install.php",
                     $_SERVER["PHP_SELF"]
                 )
             );
@@ -278,7 +313,7 @@ static function checkIfNotInstalled()
                 "Location: http://" . $_SERVER["SERVER_NAME"] . $port .
                 str_replace(
                     "/$query",
-                    "/install/install.php",
+                    "/system/install/install.php",
                     $_SERVER["PHP_SELF"])
                 );
 
@@ -292,9 +327,8 @@ static function checkIfNotInstalled()
  * @param string $type The type of error message to retrieve.
  *
  * @return string An error message already translated if available.
- * @original error_message
  */
-static function errorMessage($type)
+static function errorMessage(string $type = ""): string
 {
     $message = "";
     $message_orig = "";
@@ -388,10 +422,9 @@ static function errorMessage($type)
 }
 
 /**
- * Checks if ssl is supported by current webserver
- * @original is_ssl_supported
+ * Checks if ssl is supported by current webserver.
  */
-static function isSSLSupported()
+static function isSSLSupported(): bool
 {
     $base_url = Site::$base_url;
 
@@ -411,10 +444,10 @@ static function isSSLSupported()
 
 /**
  * Checks if the current connection is ssl.
+ *
  * @return bool True on success false otherwise.
- * @original is_ssl_connection
  */
-static function isSSLConnection()
+static function isSSLConnection(): bool
 {
     if(!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off')
     {
@@ -427,11 +460,10 @@ static function isSSLConnection()
 /**
  * Generates edit tab for current page when administrator is logged in.
  *
- * @param array $page_data If set checks if tab can be added to the
+ * @param ?array $page_data If set checks if tab can be added to the
  * given page data instead of loading page from file.
- * @original add_edit_tab
  */
-static function addEditTab(&$page_data=null)
+static function addEditTab(?array &$page_data=[]): void
 {
     $uri = Uri::get();
 
@@ -483,17 +515,29 @@ static function addEditTab(&$page_data=null)
  * Parses a string as actual php code using the eval function
  *
  * @param string $text The string to be parsed.
+ * @param ?bool $eval_return The return value of the evaluated code.
  *
  * @return string The evaluated output captured by ob_get_contents function.
- * @original php_eval
  */
-static function evalPHP($text)
+static function evalPHP(?string $text, ?bool &$eval_return=false): string
 {
     //Prepares the text to be evaluated
-    $text = trim($text, "\n\r\t\0\x0B ");
+    if(is_null($text))
+    {
+        return "";
+    }
+    else
+    {
+        $text = trim($text, "\n\r\t\0\x0B ");
+    }
+
+    if($text == "")
+    {
+        return "";
+    }
 
     ob_start();
-    eval('?>' . $text);
+    $eval_return = eval('?>' . $text);
     $content = ob_get_contents();
     ob_end_clean();
 
@@ -502,38 +546,46 @@ static function evalPHP($text)
 
 /**
  * Override the php default error reporting system.
- * @original initiate_error_catch_system
  */
-static function initiateErrorCatchSystem()
+static function initiateErrorCatchSystem(): void
 {
     if(Site::$development_mode)
     {
-        ini_set('display_errors',1);
-        ini_set('display_startup_errors',1);
+        ini_set('display_errors', 1);
+        ini_set('display_startup_errors', 1);
         ini_set('html_errors', 1);
-        ini_set('error_log', "errors.log");
 
         error_reporting(E_ALL);
     }
     else
     {
+        ini_set('display_errors', 0);
         error_reporting(E_ALL ^ E_NOTICE);
     }
 
     set_error_handler(array('\Jaris\System', 'errorCatchHook'));
+
+    set_exception_handler(array('\Jaris\System', "exceptionCatchHook"));
 }
 
 /**
- * Catch the php errors and dysplay them as an error message
+ * Catch the php errors and dysplay them as an error message.
+ *
  * @param  int $errno
  * @param  string $errmsg
  * @param  string $filename
  * @param  int $linenum
  * @param  array $vars
+ *
  * @return bool
- * @original error_catch_hook
  */
-static function errorCatchHook($errno, $errmsg, $filename, $linenum, $vars)
+static function errorCatchHook(
+    int $errno, 
+    string $errmsg, 
+    string $filename, 
+    int $linenum, 
+    array $vars = []
+): bool
 {
     static $errortype=null, $in=null, $on_line=null;
 
@@ -543,7 +595,7 @@ static function errorCatchHook($errno, $errmsg, $filename, $linenum, $vars)
         return true;
     }
 
-    //Since searching for translation is slow with do it just once.
+    //Since searching for translation is slow we do it just once.
     if(!is_array($errortype))
     {
         $errortype = array(
@@ -626,11 +678,91 @@ static function errorCatchHook($errno, $errmsg, $filename, $linenum, $vars)
 }
 
 /**
- * Generates array with all the sections to display on the control center.
- * @return array
- * @original generate_admin_page_sections
+ * The default exception handler that gets triggered when an exception
+ * is thrown outside of a try/catch block.
+ *
+ * @param \Throwable|\Exception $e
+ * 
+ * @return void
  */
-static function generateAdminPageSections()
+static function exceptionCatchHook($e): void
+{
+    static $ex=null, $in=null, $on_line=null;
+
+    //Since searching for translation is slow we do it just once.
+    if(is_null($in))
+    {
+        $ex = t("Exception");
+        $in = t("in");
+        $on_line = t("on line");
+    }
+
+    ob_clean();
+    Site::setHTTPStatus(500);
+    print "<h1>" . "500 Framework Server Error</h1>";
+
+    if(Site::$development_mode)
+    {
+        print
+            "<b>" . $ex . " (" . get_class($e) . ")" . "</b> - " 
+                . $e->getMessage()  . "  " . $in . " " 
+                . $e->getFile() . " " . $on_line . " " 
+                . $e->getLine()
+        ;
+    }
+
+    if(!Sql::dbExists("errors_log"))
+    {
+        $db = Sql::open("errors_log");
+
+        Sql::query(
+            "create table errors_log ("
+            . "error_date text, "
+            . "error_type text, "
+            . "error_message text, "
+            . "error_file text, "
+            . "error_line text, "
+            . "error_page text"
+            . ")",
+            $db
+        );
+
+        Sql::query(
+            "create index errors_log_index on errors_log ("
+            . "error_date desc, "
+            . "error_type desc"
+            . ")",
+            $db
+        );
+
+        Sql::close($db);
+    }
+
+    $db = Sql::open("errors_log");
+
+    Sql::query(
+        "insert into errors_log values ("
+        . "'".time()."', "
+        . "'exception', "
+        . "'".str_replace("'", "''", $e->getMessage())."', "
+        . "'".str_replace("'", "''", $e->getFile())."', "
+        . "'".$e->getLine()."', "
+        . "'".str_replace("'", "''", Uri::get())."'"
+        . ")",
+        $db
+    );
+
+    Sql::close($db);
+
+    exit;
+}
+
+/**
+ * Generates array with all the sections to display on the control center.
+ *
+ * @return array
+ */
+static function generateAdminPageSections(): array
 {
     $group = Authentication::currentUserGroup();
 
@@ -984,9 +1116,8 @@ static function generateAdminPageSections()
  *     "url"=>"string"
  *   )
  * )
- * @original generate_admin_page
  */
-static function generateAdminPage($sections)
+static function generateAdminPage(array $sections): void
 {
     //Call generate_admin_page hook before generating sections
     Modules::hook("hook_generate_admin_page", $sections);
@@ -1032,9 +1163,8 @@ static function generateAdminPage($sections)
  * Checks what browser the visitor is using.
  *
  * @return string Value could be ie, firefox, chrome, safari, opera or other.
- * @original get_user_browser
  */
-static function getUserBrowser()
+static function getUserBrowser(): string
 {
     if("" . stristr($_SERVER['HTTP_USER_AGENT'], "MSIE") . "" != "")
     {
@@ -1071,12 +1201,15 @@ static function getUserBrowser()
  * @param string $module Optional module name to generate uri.
  * @param int $amount Optional amount of results to display per page, Default: 30
  * @param array $arguments Optional arguments to pass to the navigation links.
- * @original print_generic_navigation
  */
 static function printNavigation(
-    $total_count, $page, $uri, $module = "",
-    $amount = 30, $arguments = array()
-)
+    int $total_count,
+    int $page,
+    string $uri,
+    string $module = "",
+    int $amount = 30,
+    array $arguments = []
+): bool
 {
     $page_count = 0;
     $remainder_pages = 0;
@@ -1138,6 +1271,8 @@ static function printNavigation(
     }
     print "</div>\n";
     print "</div>\n";
+
+    return true;
 }
 
 /**
@@ -1147,9 +1282,8 @@ static function printNavigation(
  *
  * @return string Breadcrumb html or
  * empty string if a path section doesn't exists.
- * @original print_breadcrumb
  */
-static function generateBreadcrumb($separator = "&gt;")
+static function generateBreadcrumb(string $separator = "&gt;"): string
 {
     $paths = explode("/", Uri::get());
 
@@ -1214,9 +1348,10 @@ static function generateBreadcrumb($separator = "&gt;")
  * @param array $parameters Array of parameters
  * array("parameter_name"=>"value")
  * @param string $type Could be get or post
- * @original add_hidden_url_parameters
  */
-static function addHiddenUrlParameters($parameters, $type = "get")
+static function addHiddenUrlParameters(
+    array $parameters,  string $type = "get"
+): void
 {
     if(is_array($parameters) && count($parameters) > 0)
     {
@@ -1236,9 +1371,8 @@ static function addHiddenUrlParameters($parameters, $type = "get")
  * Breadcrumbs function assitant that should be called on
  * jariscms initialization to append hidden url parameters to
  * $_REQUEST variable.
- * @original append_hidden_parameters
  */
-static function appendHiddenParameters()
+static function appendHiddenParameters(): void
 {
     //Only execute if current breadcrumb generation is valid
     if(self::generateBreadcrumb() && Settings::get("breadcrumbs", "main"))
@@ -1275,9 +1409,8 @@ static function appendHiddenParameters()
  *
  * @param string $uri The uri of the page to check.
  * @param array $page_data The actual data of the page to check.
- * @original cache_page_if_possible
  */
-static function cachePageIfPossible($uri, $page_data)
+static function cachePageIfPossible(string $uri, array $page_data): void
 {
     if(
         !$page_data["is_system"] &&
@@ -1373,8 +1506,6 @@ static function cachePageIfPossible($uri, $page_data)
         // Open database
         $db = Sql::open("cache");
 
-        Sql::turbo($db);
-
         //Calculate times md5
         $times_string = md5($times_string);
 
@@ -1394,6 +1525,8 @@ static function cachePageIfPossible($uri, $page_data)
 
         if($file_updated)
         {
+            Sql::turbo($db);
+
             //Update last change timestamp
             $update = "update last_change set
             value='$times_string' where id=1";
@@ -1430,8 +1563,16 @@ static function cachePageIfPossible($uri, $page_data)
                 if($name == "p")
                     continue;
 
-                $cache_file .= $name . "_" . $value;
-                $cache_time_file .= $name . "_" . $value;
+                if(is_array($value))
+                {
+                    $cache_file .= $name . "_" . implode("_", $value);
+                    $cache_time_file .= $name . "_" . implode("_", $value);
+                }
+                else
+                {
+                    $cache_file .= $name . "_" . $value;
+                    $cache_time_file .= $name . "_" . $value;
+                }
             }
         }
 
@@ -1485,13 +1626,16 @@ static function cachePageIfPossible($uri, $page_data)
 
 /**
  * Retreive page from cache without any major expiration checkings.
+ *
  * @param string $uri Uri of page.
- * @original fast_cache_if_possible
  */
-static function fastCacheIfPossible($uri)
+static function fastCacheIfPossible(string $uri): void
 {
     if(
-        isset($_COOKIE["logged"]) ||
+        isset($_COOKIE["logged"])
+        ||
+        isset($_COOKIE["signed"])
+        ||
         (
             !Settings::get("enable_cache", "main") ||
             !Settings::get("enable_fast_cache", "main")
@@ -1516,7 +1660,14 @@ static function fastCacheIfPossible($uri)
             if($name == "p")
                 continue;
 
-            $cache_file .= $name . "_" . $value;
+            if(is_array($value))
+            {
+                $cache_file .= $name . "_" . implode("_", $value);
+            }
+            else
+            {
+                $cache_file .= $name . "_" . $value;
+            }
         }
     }
 
@@ -1556,9 +1707,12 @@ static function fastCacheIfPossible($uri)
  * @param string $uri The uri of the page to store.
  * @param array $page_data The actual data of the page to store.
  * @param string $content The html output of the page to store.
- * @original save_page_to_cache_if_possible
+ *
+ * @return string Cached content or empty string if nothing cached.
  */
-static function savePageToCacheIfPossible($uri, $page_data, $content)
+static function savePageToCacheIfPossible(
+    string $uri, array $page_data, string $content
+): string
 {
     $static_images_generated = Site::$static_images_generated;
     $base_url = Site::$base_url;
@@ -1571,7 +1725,7 @@ static function savePageToCacheIfPossible($uri, $page_data, $content)
         foreach(Site::$static_images_to_generate as $image_url=>$image_set)
         {
             if(strpos($content, $image_url) !== false)
-                return;
+                return "";
         }
     }
 
@@ -1580,7 +1734,7 @@ static function savePageToCacheIfPossible($uri, $page_data, $content)
     //Skip visual uris
     if(!file_exists($page_path))
     {
-        return;
+        return "";
     }
 
     if(
@@ -1600,7 +1754,7 @@ static function savePageToCacheIfPossible($uri, $page_data, $content)
             {
                 if($type_name == $page_data["type"])
                 {
-                    return;
+                    return "";
                 }
             }
         }
@@ -1610,7 +1764,7 @@ static function savePageToCacheIfPossible($uri, $page_data, $content)
             !Settings::get("cache_php_pages", "main")
         )
         {
-            return;
+            return "";
         }
 
         $cache_file = Site::dataDir() . "cache/" .
@@ -1633,16 +1787,22 @@ static function savePageToCacheIfPossible($uri, $page_data, $content)
                 if($name == "p")
                     continue;
 
-                $cache_file .= $name . "_" . $value;
-                $cache_time_file .= $name . "_" . $value;
+                if(is_array($value))
+                {
+                    $cache_file .= $name . "_" . implode("_", $value);
+                    $cache_time_file .= $name . "_" . implode("_", $value);
+                }
+                else
+                {
+                    $cache_file .= $name . "_" . $value;
+                    $cache_time_file .= $name . "_" . $value;
+                }
             }
         }
 
         $cache_time_file .= ".time";
 
         $db = Sql::open("cache");
-
-        Sql::turbo($db);
 
         $select = "select value from last_change where id=1";
 
@@ -1674,16 +1834,22 @@ static function savePageToCacheIfPossible($uri, $page_data, $content)
         $fields["cache_time"] = time();
 
         Data::edit(0, $fields, $cache_time_file);
+
+        return $content;
     }
+
+    return "";
 }
 
 /**
  * Removes a cached page.
+ *
  * @param string $uri
- * @param array $get_params
+ * @param ?array $get_params
+ *
  * @return bool True on succes or false if cached page didn't exist.
  */
-static function removeCachedPage($uri, &$get_params=array())
+static function removeCachedPage(string $uri, ?array &$get_params=[]): bool
 {
     $cache_file = Site::dataDir() . "cache/" .
         Uri::fromText($_SERVER["HTTP_HOST"] . $uri) . Language::getCurrent()
@@ -1705,8 +1871,16 @@ static function removeCachedPage($uri, &$get_params=array())
             if($name == "p")
                 continue;
 
-            $cache_file .= $name . "_" . $value;
-            $cache_time_file .= $name . "_" . $value;
+            if(is_array($value))
+            {
+                $cache_file .= $name . "_" . implode("_", $value);
+                $cache_time_file .= $name . "_" . implode("_", $value);
+            }
+            else
+            {
+                $cache_file .= $name . "_" . $value;
+                $cache_time_file .= $name . "_" . $value;
+            }
         }
     }
 

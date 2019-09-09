@@ -12,12 +12,16 @@
 
 $module["name"] = t("Mobile Detect");
 $module["description"] = t("Provides functionality to adjust theme depending on device.");
-$module["version"] = "1.0.3";
+$module["version"] = "1.0.4";
 $module["author"] = "Jefferson González";
 $module["email"] = "jgonzalez@jegoyalu.com";
 $module["website"] = "http://www.jegoyalu.com";
 
-/**
+/*
+
+Version 1.0.4 - Date 11/12/2017
+
+    * Use empty array instead of null for arguments of settings tab.
 
 Version 1.0.3 - Date 18/10/2016
 

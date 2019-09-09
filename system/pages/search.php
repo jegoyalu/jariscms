@@ -177,25 +177,26 @@ row: 0
             }
         }
 
-        if(count($selected_categories) > 0)
+        if(true)
         {
             $fields[] = array(
                 "type" => "other",
                 "html_code" => "<fieldset "
                     . "style=\"margin-bottom: 5px;\" "
-                    . "class=\"collapsible collapsed\""
+                    . "class=\"collapsible\""
                     . ">"
             );
 
             $fields[] = array(
                 "type" => "other",
                 "html_code" => "<legend>"
-                    . "<a class=\"expand\" href=\"javascript:void(0)\">"
+                    . "<a class=\"collapse\" href=\"javascript:void(0)\">"
                     . t("Sorting")
                     . "</a>"
                     . "</legend>"
             );
 
+            $ordering_options[t("Default")] = "";
             $ordering_options[t("Title ascending")] = "title_asc";
             $ordering_options[t("Title descending")] = "title_desc";
             $ordering_options[t("Newest first")] = "newest";
@@ -217,10 +218,10 @@ row: 0
             );
         }
 
-        if(count($categories) > 0)
+        if(count($selected_categories) > 0)
         {
             $fields_categories = Jaris\Categories::generateFields(
-                $selected_categories, null, $_REQUEST["type"]
+                $selected_categories, "", $_REQUEST["type"]
             );
 
             foreach($fields_categories as $field_index=>$field_category)
@@ -277,7 +278,9 @@ row: 0
             "name" => "keywords",
             "label" => t("Search text:"),
             "id" => "search",
-            "value" => $_REQUEST["keywords"]
+            "value" => $_REQUEST["keywords"],
+            "placeholder" => t("keywords..."),
+            "autofocus" => true
         );
 
         $fields[] = array(
@@ -308,7 +311,7 @@ row: 0
             {
                 Jaris\Search::start(
                     $_REQUEST["keywords"],
-                    null,
+                    [],
                     $selected_categories,
                     1,
                     $results_per_page
@@ -318,7 +321,7 @@ row: 0
             {
                 Jaris\Search::start(
                     "",
-                    null,
+                    [],
                     $selected_categories,
                     1,
                     $results_per_page
@@ -346,7 +349,7 @@ row: 0
                 {
                     Jaris\Search::start(
                         $_REQUEST["keywords"],
-                        null,
+                        [],
                         $selected_categories,
                         intval($_REQUEST["page"]),
                         $results_per_page
@@ -356,7 +359,7 @@ row: 0
                 {
                     Jaris\Search::start(
                         "",
-                        null,
+                        [],
                         $selected_categories,
                         intval($_REQUEST["page"]),
                         $results_per_page
@@ -370,10 +373,13 @@ row: 0
             }
         }
 
-        print "<h2 class=\"search-results-title\">"
-            . t("Results")
-            . "</h2>\n"
-        ;
+        if(count($results) > 0)
+        {
+            print "<h2 class=\"search-results-title\">"
+                . t("Results")
+                . "</h2>\n"
+            ;
+        }
 
         //Print header template if available or default
         if(

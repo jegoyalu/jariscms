@@ -10,14 +10,21 @@
 
 $module["name"] = "Comments";
 $module["description"] = "Add comments functionality to Jaris CMS";
-$module["version"] = "1.6.2";
+$module["version"] = "1.6.4";
 $module["author"] = "Jefferson González";
 $module["email"] = "jgonzalez@jegoyalu.com";
 $module["website"] = "http://www.jegoyalu.com";
 
 /*
 
-=Change Log=
+Version 1.6.4 - Date 1/03/2019
+
+    * Adjusted for new path of system js and css files.
+
+Version 1.6.3 - Date 31/07/2018
+
+    * Fixed issues reported by phan.
+    * Adjustments for scalar type hints on core.
 
 Version 1.6.2 - Date 30/08/2016
 

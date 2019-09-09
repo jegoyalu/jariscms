@@ -3,8 +3,11 @@
     "description": "Extensible and lightweight content management system.",
     "type": "project",
     "homepage": "http://jariscms.com/",
+    "autoload": {
+        "psr-4": { "": "src/" }
+    },
     "require-dev": {
-        "etsy/phan": "dev-master",
+        "phan/phan": "dev-master",
         "phploc/phploc": "^3.0",
         "apigen/apigen": "^4.1",
         "ext-xdebug": "^2.5.0"
@@ -16,6 +19,5 @@
             "email": "jgmdev@gmail.com"
         }
     ],
-    "minimum-stability": "stable",
-    "require": {}
+    "minimum-stability": "stable"
 }

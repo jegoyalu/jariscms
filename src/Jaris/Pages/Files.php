@@ -38,11 +38,14 @@ const SIGNAL_PRINT_FILE = "hook_print_file";
  * @param bool $move_file If true source file is moved otherwise is copied.
  *
  * @return string "true" string on success or error message.
- * @original add_file
  */
 static function add(
-    $file_array, $description, $page = "", &$file_name = null, $move_file = true
-)
+    array $file_array,
+    string $description,
+    string $page = "",
+    string &$file_name = "",
+    bool $move_file = true
+): string
 {
     //TODO: Check file mime type before adding the file.
     $file_data_path = self::getPath($page);
@@ -70,14 +73,16 @@ static function add(
         return System::errorMessage("write_error_data");
     }
 
-    $fields["name"] = $file_name;
-    $fields["description"] = $description;
-    $fields["size"] = filesize(
-        str_replace(
-            $file_array["name"], $file_name, $destination
-        )
+    $fields = array(
+        "name" => $file_name,
+        "description" => $description,
+        "size" => filesize(
+            str_replace(
+                $file_array["name"], $file_name, $destination
+            )
+        ),
+        "mime-type" => $file_array["type"]
     );
-    $fields["mime-type"] = $file_array["type"];
 
     Data::add($fields, $file_data_path);
 
@@ -91,9 +96,8 @@ static function add(
  * @param string $page The page uri where the file reside.
  *
  * @return bool True on success false on fail.
- * @original delete_file
  */
-static function delete($id, $page)
+static function delete(int $id, string $page): bool
 {
     $file_data_path = self::getPath($page);
 
@@ -125,9 +129,10 @@ static function delete($id, $page)
  *
  * @param string $name Name of the file to delete.
  * @param string $page The page uri where the file reside.
- * @original delete_file_by_name
+ *
+ * @return bool True on success false otherwise.
  */
-static function deleteByName($name, $page)
+static function deleteByName(string $name, string $page): bool
 {
     $file_data_path = self::getPath($page);
 
@@ -137,10 +142,11 @@ static function deleteByName($name, $page)
     {
         if($file["name"] == $name)
         {
-            self::delete($file_id, $page);
-            break;
+            return self::delete($file_id, $page);
         }
     }
+
+    return false;
 }
 
 /**
@@ -151,9 +157,8 @@ static function deleteByName($name, $page)
  * @param string $page The page uri where the file reside.
  *
  * @return bool True on success false on fail.
- * @original edit_file
  */
-static function edit($id, $new_data, $page)
+static function edit(int $id, array $new_data, string $page): bool
 {
     $file_data_path = self::getPath($page);
 
@@ -169,7 +174,7 @@ static function edit($id, $new_data, $page)
  *
  * @return bool False if failed to edit data otherwise true.
  */
-static function editByName($name, $new_data, $page)
+static function editByName(string $name, array $new_data, string $page): bool
 {
     static $page_name, $files;
 
@@ -200,9 +205,8 @@ static function editByName($name, $new_data, $page)
  * @param string $page The page uri where the file reside.
  *
  * @return array All the fields of the file.
- * @original get_file_data
  */
-static function get($id, $page)
+static function get(int $id, string $page): array
 {
     $file_data_path = self::getPath($page);
 
@@ -218,9 +222,8 @@ static function get($id, $page)
  * @param string $page The page uri where the file reside.
  *
  * @return array All the fields of the file.
- * @original get_file_data_by_name
  */
-static function getByName($name, $page)
+static function getByName(string $name, string $page): array
 {
     static $page_name, $files;
 
@@ -250,9 +253,8 @@ static function getByName($name, $page)
  * @param string $page The page where the file.php file reside.
  *
  * @return array List of files or empty array if no files.
- * @original get_file_list
  */
-static function getList($page)
+static function getList(string $page): array
 {
     $file_data_path = self::getPath($page);
 
@@ -273,9 +275,8 @@ static function getList($page)
  *
  * @param string $file_uri The file uri on the format
  * file/pageuri/filename_or_fileid
- * @original print_file
  */
-static function printIt($file_uri)
+static function printIt(string $file_uri): void
 {
     //Remove the file/ part
     $uri = substr_replace($file_uri, "", 0, 5);
@@ -326,9 +327,8 @@ static function printIt($file_uri)
  * @param string $page The page uri to translate to a valid file.php data path.
  *
  * @return string Path to file containing files list.
- * @original generate_file_path
  */
-static function getPath($page)
+static function getPath(string $page): string
 {
     $file_data_path = Pages::getPath($page) . "/files.php";
 

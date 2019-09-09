@@ -17,9 +17,9 @@ Jaris\Signals\SignalHandler::listenWithParams(
         $display_rule = Jaris\Settings::get(
             "display_rule", "jquery-fancybox"
         );
-        
+
         $pages = explode(
-            ",", 
+            ",",
             Jaris\Settings::get("pages", "jquery-fancybox")
         );
 
@@ -33,8 +33,8 @@ Jaris\Signals\SignalHandler::listenWithParams(
                 if($page_check == "")
                 {
                     $styles[] = Jaris\Uri::url(
-                        Jaris\Modules::directory("jquery_fancybox") 
-                            . "fancybox/fancybox/jquery.fancybox-1.3.4.css"
+                        Jaris\Modules::directory("jquery_fancybox")
+                            . "css/jquery.fancybox.min.css"
                     );
 
                     return;
@@ -55,8 +55,8 @@ Jaris\Signals\SignalHandler::listenWithParams(
             }
 
             $styles[] = Jaris\Uri::url(
-                Jaris\Modules::directory("jquery_fancybox") 
-                    . "fancybox/fancybox/jquery.fancybox-1.3.4.css"
+                Jaris\Modules::directory("jquery_fancybox")
+                    . "css/jquery.fancybox.min.css"
             );
         }
         else if($display_rule == "just_listed")
@@ -64,20 +64,20 @@ Jaris\Signals\SignalHandler::listenWithParams(
             foreach($pages as $page_check)
             {
                 $page_check = trim($page_check);
-                
+
                 $page_check = str_replace(
-                    array("/", "/*"), 
-                    array("\\/", "/.*"), 
+                    array("/", "/*"),
+                    array("\\/", "/.*"),
                     $page_check
                 );
-                
+
                 $page_check = "/^$page_check\$/";
 
                 if(preg_match($page_check, Jaris\Uri::get()))
                 {
                     $styles[] = Jaris\Uri::url(
-                        Jaris\Modules::directory("jquery_fancybox") 
-                            . "fancybox/fancybox/jquery.fancybox-1.3.4.css"
+                        Jaris\Modules::directory("jquery_fancybox")
+                            . "css/jquery.fancybox.min.css"
                     );
 
                     return;
@@ -94,12 +94,12 @@ Jaris\Signals\SignalHandler::listenWithParams(
         $base_url = Jaris\Site::$base_url;
 
         $display_rule = Jaris\Settings::get(
-            "display_rule", 
+            "display_rule",
             "jquery-fancybox"
         );
-        
+
         $pages = explode(
-            ",", 
+            ",",
             Jaris\Settings::get("pages", "jquery-fancybox")
         );
 
@@ -113,24 +113,19 @@ Jaris\Signals\SignalHandler::listenWithParams(
                 if($page_check == "")
                 {
                     $scripts[] = Jaris\Uri::url(
-                        Jaris\Modules::directory("jquery_fancybox") 
-                            . "fancybox/fancybox/jquery.mousewheel-3.0.4.pack.js"
-                    );
-
-                    $scripts[] = Jaris\Uri::url(
-                        Jaris\Modules::directory("jquery_fancybox") 
-                            . "fancybox/fancybox/jquery.fancybox-1.3.4.pack.js"
+                        Jaris\Modules::directory("jquery_fancybox")
+                            . "js/jquery.fancybox.min.js"
                     );
 
                     return;
                 }
 
                 $page_check = str_replace(
-                    array("/", "/*"), 
-                    array("\\/", "/.*"), 
+                    array("/", "/*"),
+                    array("\\/", "/.*"),
                     $page_check
                 );
-                
+
                 $page_check = "/^$page_check\$/";
 
                 if(preg_match($page_check, Jaris\Uri::get()))
@@ -140,13 +135,8 @@ Jaris\Signals\SignalHandler::listenWithParams(
             }
 
             $scripts[] = Jaris\Uri::url(
-                Jaris\Modules::directory("jquery_fancybox") 
-                    . "fancybox/fancybox/jquery.mousewheel-3.0.4.pack.js"
-            );
-
-            $scripts[] = Jaris\Uri::url(
-                Jaris\Modules::directory("jquery_fancybox") 
-                    . "fancybox/fancybox/jquery.fancybox-1.3.4.pack.js"
+                Jaris\Modules::directory("jquery_fancybox")
+                    . "js/jquery.fancybox.min.js"
             );
         }
         else if($display_rule == "just_listed")
@@ -154,25 +144,20 @@ Jaris\Signals\SignalHandler::listenWithParams(
             foreach($pages as $page_check)
             {
                 $page_check = trim($page_check);
-                
+
                 $page_check = str_replace(
-                    array("/", "/*"), 
-                    array("\\/", "/.*"), 
+                    array("/", "/*"),
+                    array("\\/", "/.*"),
                     $page_check
                 );
-                
+
                 $page_check = "/^$page_check\$/";
 
                 if(preg_match($page_check, Jaris\Uri::get()))
                 {
                     $scripts[] = Jaris\Uri::url(
-                        Jaris\Modules::directory("jquery_fancybox") 
-                            . "fancybox/fancybox/jquery.mousewheel-3.0.4.pack.js"
-                    );
-
-                    $scripts[] = Jaris\Uri::url(
-                        Jaris\Modules::directory("jquery_fancybox") 
-                            . "fancybox/fancybox/jquery.fancybox-1.3.4.pack.js"
+                        Jaris\Modules::directory("jquery_fancybox")
+                            . "js/jquery.fancybox.min.js"
                     );
 
                     return;
@@ -193,7 +178,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
                     "admin/settings/jquery/fancybox",
                     "jquery_fancybox"
                 ),
-                "arguments" => null
+                "arguments" => array()
             );
         }
     }

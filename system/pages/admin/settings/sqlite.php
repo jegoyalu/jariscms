@@ -48,6 +48,16 @@ row: 0
 
             print "<td>" . $name . "</td>\n";
 
+            $edit_url = Jaris\Uri::url(
+                    "admin/settings/sqlite/admin"
+                )
+                . "?sqlite="
+                . "&username="
+                . "&db=" . Jaris\Site::dataDir() . "sqlite/$name"
+            ;
+
+            $edit_text = t("Edit");
+
             $backup_url = Jaris\Uri::url(
                 "admin/settings/sqlite/backup",
                 array("name" => $name)
@@ -63,6 +73,7 @@ row: 0
             $delete_text = t("Delete");
 
             print "<td>
+                <a target=\"_blank\" href=\"$edit_url\">$edit_text</a>&nbsp;
                 <a href=\"$backup_url\">$backup_text</a>&nbsp;
                 <a href=\"$delete_url\">$delete_text</a>
                </td>\n";

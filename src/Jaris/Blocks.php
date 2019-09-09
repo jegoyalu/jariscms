@@ -41,9 +41,10 @@ const SIGNAL_DELETE_BLOCK = "hook_delete_block";
  * for global blocks.
  *
  * @return bool True on success false on fail.
- * @original add_block
  */
-static function add($fields, $position, $page = "")
+static function add(
+    array $fields, string $position, string $page = ""
+): bool
 {
     $block_data_path = self::getPath($position, $page);
 
@@ -54,8 +55,12 @@ static function add($fields, $position, $page = "")
         FileSystem::makeDir($path, 0755, true);
     }
 
-    $fields["groups"] = serialize($fields["groups"]);
-    $fields["themes"] = serialize($fields["themes"]);
+    $fields["groups"] = is_array($fields["groups"]) ?
+        serialize($fields["groups"]) : serialize([])
+    ;
+    $fields["themes"] = is_array($fields["themes"]) ?
+        serialize($fields["themes"]) : serialize([])
+    ;
     $fields["id"] = self::getNewId();
 
     //Call add_block hook before creating the block
@@ -74,9 +79,8 @@ static function add($fields, $position, $page = "")
  * for global blocks.
  *
  * @return bool true on success false on fail.
- * @original delete_block
  */
-static function delete($id, $position, $page = "")
+static function delete(int $id, string $position, string $page = ""): bool
 {
     $data = self::get($id, $position);
 
@@ -119,20 +123,18 @@ static function delete($id, $position, $page = "")
  * @param string $field_name The name of the field to match.
  * @param string $value The value to match with the field.
  * @param string $page The page uri where the block belongs.
+ * @param ?string $position_found The position where the block was found.
  *
  * @return bool True on success false on fail.
- * @original delete_block_by_field
  */
-static function deleteByField($field_name, $value, $page = "")
+static function deleteByField(
+    string $field_name,
+    string $value,
+    string $page = "",
+    ?string &$position_found = ""
+): bool
 {
-    $block_positions[] = "header";
-    $block_positions[] = "left";
-    $block_positions[] = "right";
-    $block_positions[] = "center";
-    $block_positions[] = "footer";
-    $block_positions[] = "none";
-
-    foreach($block_positions as $position)
+    foreach(self::getPositions() as $position)
     {
         $blocks = self::getList($position, $page);
 
@@ -142,6 +144,8 @@ static function deleteByField($field_name, $value, $page = "")
             {
                 if($fields[$field_name] == $value)
                 {
+                    $position_found = $position;
+
                     if(!self::delete($id, $position, $page))
                     {
                         return false;
@@ -166,14 +170,19 @@ static function deleteByField($field_name, $value, $page = "")
  * for global blocks.
  *
  * @return bool True on success false on fail.
- * @original edit_block
  */
-static function edit($id, $position, $new_data, $page = "")
+static function edit(
+    int $id, string $position, array $new_data, string $page = ""
+): bool
 {
     $block_data_path = self::getPath($position, $page);
 
-    $new_data["groups"] = serialize($new_data["groups"]);
-    $new_data["themes"] = serialize($new_data["themes"]);
+    $new_data["groups"] = is_array($new_data["groups"]) ?
+        serialize($new_data["groups"]) : serialize([])
+    ;
+    $new_data["themes"] = is_array($new_data["themes"]) ?
+        serialize($new_data["themes"]) : serialize([])
+    ;
 
     if(!isset($new_data["id"]))
     {
@@ -194,20 +203,19 @@ static function edit($id, $position, $new_data, $page = "")
  * @param array $new_data The new fields to write in block.
  * @param string $page The page where the block resides, leave empty
  * for global blocks.
+ * @param string $position_found The position where the block was found.
  *
  * @return bool True on success or false on fail.
- * @original edit_block_by_field
  */
-static function editByField($field_name, $value, $new_data, $page = "")
+static function editByField(
+    string $field_name,
+    string $value,
+    array $new_data,
+    string $page = "",
+    string &$position_found = ""
+): bool
 {
-    $block_positions[] = "header";
-    $block_positions[] = "left";
-    $block_positions[] = "right";
-    $block_positions[] = "center";
-    $block_positions[] = "footer";
-    $block_positions[] = "none";
-
-    foreach($block_positions as $position)
+    foreach(self::getPositions() as $position)
     {
         $blocks = self::getList($position, $page);
 
@@ -215,6 +223,8 @@ static function editByField($field_name, $value, $new_data, $page = "")
         {
             if($fields[$field_name] == $value)
             {
+                $position_found = $position;
+
                 if(!self::edit($id, $position, $new_data, $page))
                 {
                     return false;
@@ -236,25 +246,40 @@ static function editByField($field_name, $value, $new_data, $page = "")
  * for global blocks.
  *
  * @return array An array with all the fields of the block.
- * @original get_block_data
  */
-static function get($id, $position, $page = "")
+static function get(int $id, string $position, string $page = ""): array
 {
     $block_data_path = self::getPath($position, $page);
 
     $blocks = Data::parse($block_data_path);
 
-    $blocks[$id]["groups"] = isset($blocks[$id]["groups"]) ?
-        unserialize($blocks[$id]["groups"])
-        :
-        null
-    ;
+    $groups = array();
+    if(
+        isset($blocks[$id]["groups"])
+        &&
+        is_array($groups=unserialize($blocks[$id]["groups"]))
+    )
+    {
+        $blocks[$id]["groups"] = $groups;
+    }
+    else
+    {
+        $blocks[$id]["groups"] = array();
+    }
 
-    $blocks[$id]["themes"] = isset($blocks[$id]["themes"]) ?
-        unserialize($blocks[$id]["themes"])
-        :
-        null
-    ;
+    $themes = array();
+    if(
+        isset($blocks[$id]["themes"])
+        &&
+        is_array($themes=unserialize($blocks[$id]["themes"]))
+    )
+    {
+        $blocks[$id]["themes"] = $themes;
+    }
+    else
+    {
+        $blocks[$id]["themes"] = array();
+    }
 
     return $blocks[$id];
 }
@@ -262,14 +287,13 @@ static function get($id, $position, $page = "")
 /**
  * Translate a block content if possible.
  *
- * @param array $data Current block data which is replaced by translation.
+ * @param ?array $data Current block data which is replaced by translation.
  * @param string $language_code The code of the language to translate to.
  *
  * @return bool  True if the translation of the block for
  * the given language exists.
- * @original get_block_data_translation
  */
-static function getTranslated(&$data, $language_code)
+static function getTranslated(?array &$data, string $language_code): bool
 {
     if(isset($data["id"]))
     {
@@ -298,20 +322,18 @@ static function getTranslated(&$data, $language_code)
  * @param string $field_name The name of the field to match.
  * @param string $value The value to match with the field.
  * @param string $page If a page block.
+ * @param ?string $position_found The position where the block was found.
  *
  * @return array All fields of the found block or empty array.
- * @original get_block_data_by_field
  */
-static function getByField($field_name, $value, $page = "")
+static function getByField(
+    string $field_name,
+    string $value,
+    string $page = "",
+    ?string &$position_found = ""
+): array
 {
-    $block_positions[] = "header";
-    $block_positions[] = "left";
-    $block_positions[] = "right";
-    $block_positions[] = "center";
-    $block_positions[] = "footer";
-    $block_positions[] = "none";
-
-    foreach($block_positions as $position)
+    foreach(self::getPositions() as $position)
     {
         $blocks = self::getList($position, $page);
 
@@ -319,6 +341,8 @@ static function getByField($field_name, $value, $page = "")
         {
             if($fields[$field_name] == $value)
             {
+                $position_found = $position;
+
                 return self::get($id, $position, $page);
             }
         }
@@ -336,9 +360,8 @@ static function getByField($field_name, $value, $page = "")
  * for global blocks.
  *
  * @return array List of blocks available.
- * @original get_block_list
  */
-static function getList($position, $page = "")
+static function getList(string $position, string $page = ""): array
 {
     $block_data_path = self::getPath($position, $page);
 
@@ -364,9 +387,13 @@ static function getList($position, $page = "")
  * @param string $page The page where the block reside, leave empty for global blocks.
  *
  * @return bool True on success false on fail.
- * @original move_block
  */
-static function move($id, $current_position, $new_position, $page = "")
+static function move(
+    int $id,
+    string $current_position,
+    string $new_position,
+    string $page = ""
+): bool
 {
     $block_data_path = self::getPath($current_position, $page);
 
@@ -385,9 +412,8 @@ static function move($id, $current_position, $new_position, $page = "")
  * @param array $block Data array of the block to check.
  *
  * @return bool True if has access or false of not.
- * @original user_block_access
  */
-static function userHasAccess($block)
+static function userHasAccess(array $block): bool
 {
     $current_group = Authentication::currentUserGroup();
 
@@ -415,9 +441,8 @@ static function userHasAccess($block)
  * @param string $page The uri of the page to check.
  *
  * @return bool True if has access or false if not.
- * @original page_block_access
  */
-static function pageHasAccess($block, $page)
+static function pageHasAccess(array $block, string $page): bool
 {
     $pages = explode(",", $block["pages"]);
 
@@ -476,13 +501,12 @@ static function pageHasAccess($block, $page)
  * @param string $page The uri of the page to set the specific post settings.
  *
  * @return bool True on success false if fail.
- * @original set_block_post_settings
  */
-static function setPostSettings($settings, $page)
+static function setPostSettings(array $settings, string $page): bool
 {
     $settings_path = Pages::getPath($page) . "/blocks/post_settings.php";
 
-    $settings_data[0] = $settings;
+    $settings_data = array($settings);
 
     //Create blocks directory if not exists
     if(!file_exists(Pages::getPath($page) . "/blocks"))
@@ -499,9 +523,8 @@ static function setPostSettings($settings, $page)
  * @param string $page The uri of the page to get the specific post settings.
  *
  * @return array All the post settings.
- * @original get_block_post_settings
  */
-static function getPostSettings($page)
+static function getPostSettings(string $page): array
 {
     $settings_path = Pages::getPath($page) . "/blocks/post_settings.php";
 
@@ -513,16 +536,16 @@ static function getPostSettings($page)
     }
     else
     {
-        $fields = array();
-
-        $fields["display_title"] = false;
-        $fields["display_image"] = false;
-        $fields["thumbnail_width"] = "125";
-        $fields["thumbnail_height"] = "";
-        $fields["thumbnail_background_color"] = "FFFFFF";
-        $fields["keep_aspect_ratio"] = false;
-        $fields["maximum_words"] = 20;
-        $fields["display_view_more"] = true;
+        $fields = array(
+            "display_title" => false,
+            "display_image" => false,
+            "thumbnail_width" => "125",
+            "thumbnail_height" => "",
+            "thumbnail_background_color" => "FFFFFF",
+            "keep_aspect_ratio" => false,
+            "maximum_words" => 20,
+            "display_view_more" => true
+        );
 
         $settings[0] = $fields;
     }
@@ -537,13 +560,26 @@ static function getPostSettings($page)
  * @param string $page_uri The uri of the page where the content block resides.
  *
  * @return array Block post data that can be added to actual block data array.
- * @original generate_block_post_content
  */
-static function generatePostContent($uri, $page_uri = null)
+static function generatePostContent(string $uri, string $page_uri): array
 {
     $settings = self::getPostSettings($page_uri);
 
     $page_data = Pages::get($uri, Language::getCurrent());
+
+    if(!$page_data)
+    {
+        return array(
+            "content" => "",
+            "image" => "",
+            "image_path" => "",
+            "post_title" => "",
+            "post_title_plain" => "",
+            "view_more" => "",
+            "view_url" => ""
+        );
+    }
+
     $content = $page_data["content"];
     $image = "";
     $image_path = "";
@@ -552,12 +588,20 @@ static function generatePostContent($uri, $page_uri = null)
     $view_more = "";
     $view_url = "";
 
-    $content = InputFormats::filter($page_data["content"], $page_data["input_format"]);
-    $content = Util::contentPreview($content, $settings["maximum_words"], true);
+    $content = InputFormats::filter(
+        $page_data["content"],
+        $page_data["input_format"]
+    );
+
+    $content = Util::contentPreview(
+        $content, $settings["maximum_words"], true
+    );
 
     if($settings["display_image"])
     {
         $images = Data::sort(Pages\Images::getList($uri), "order");
+
+        $image_options = array();
 
         foreach($images as $id => $fields)
         {
@@ -609,15 +653,15 @@ static function generatePostContent($uri, $page_uri = null)
         $view_url = Uri::url("$uri");
     }
 
-    $fields = array();
-
-    $fields["content"] = $content;
-    $fields["image"] = $image;
-    $fields["image_path"] = $image_path;
-    $fields["post_title"] = $post_title;
-    $fields["post_title_plain"] = $post_title_plain;
-    $fields["view_more"] = $view_more;
-    $fields["view_url"] = $view_url;
+    $fields = array(
+        "content" => $content,
+        "image" => $image,
+        "image_path" => $image_path,
+        "post_title" => $post_title,
+        "post_title_plain" => $post_title_plain,
+        "view_more" => $view_more,
+        "view_url" => $view_url
+    );
 
     return $fields;
 }
@@ -625,21 +669,27 @@ static function generatePostContent($uri, $page_uri = null)
 /**
  * Move blocks to correct positions depending on current theme.
  *
- * @param array $header
- * @param array $left
- * @param array $right
- * @param array $center
- * @param array $footer
- * @original move_blocks_by_theme
+ * @param ?array $header
+ * @param ?array $left
+ * @param ?array $right
+ * @param ?array $center
+ * @param ?array $footer
  */
-static function moveByTheme(&$header, &$left, &$right, &$center, &$footer)
+static function moveByTheme(
+    ?array &$header,
+    ?array &$left,
+    ?array &$right,
+    ?array &$center,
+    ?array &$footer
+): void
 {
-    $all_blocks = array();
-    $all_blocks["header"] = $header;
-    $all_blocks["left"] = $left;
-    $all_blocks["right"] = $right;
-    $all_blocks["center"] = $center;
-    $all_blocks["footer"] = $footer;
+    $all_blocks = array(
+        "header" => $header,
+        "left" => $left,
+        "right" => $right,
+        "center" => $center,
+        "footer" => $footer
+    );
 
     foreach($all_blocks as $position => $blocks)
     {
@@ -720,9 +770,8 @@ static function moveByTheme(&$header, &$left, &$right, &$center, &$footer)
  * @param array $selected
  *
  * @return array
- * @original generate_themes_block_fields_list
  */
-static function generateThemesSelect($selected = null)
+static function generateThemesSelect(array $selected=array()): array
 {
     $fields = array();
 
@@ -734,18 +783,19 @@ static function generateThemesSelect($selected = null)
     {
         $theme_info = Themes::get($theme_path);
 
-        $positions = array();
-        $positions[t("Default")] = "";
-        $positions[t("Header")] = "header";
-        $positions[t("Left")] = "left";
-        $positions[t("Right")] = "right";
-        $positions[t("Center")] = "center";
-        $positions[t("Footer")] = "footer";
-        $positions[t("None")] = "none";
+        $positions = array(
+            t("Default") => "",
+            t("Header") => "header",
+            t("Left") => "left",
+            t("Right") => "right",
+            t("Center") => "center",
+            t("Footer") => "footer",
+            t("None") => "none"
+        );
 
         $index++;
 
-        if(is_array($selected))
+        if(count($selected) > 0)
         {
             if(isset($selected[$theme_path]))
             {
@@ -781,9 +831,8 @@ static function generateThemesSelect($selected = null)
  * Generates a unique numeric identifier.
  *
  * @return int A new block id.
- * @original blocks_get_new_id
  */
-static function getNewId()
+static function getNewId(): int
 {
     $block_data_path = self::getPath("last_id");
 
@@ -806,6 +855,23 @@ static function getNewId()
 }
 
 /**
+ * Gets the list of valid block positions.
+ *
+ * @return array
+ */
+static function getPositions(): array
+{
+    return array(
+        "header",
+        "left",
+        "right",
+        "center",
+        "footer",
+        "none"
+    );
+}
+
+/**
  * Generates the data path where the block resides.
  *
  * @param string $position The position of the block, valid values:
@@ -813,9 +879,8 @@ static function getNewId()
  * @param string $page The page where the block reside, leave empty for global blocks.
  *
  * @return string The path of the blocks file example data/blocks/left.php
- * @original generate_block_path
  */
-static function getPath($position, $page = "")
+static function getPath(string $position, string $page = ""): string
 {
     $block_path = "";
 

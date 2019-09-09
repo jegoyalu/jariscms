@@ -24,9 +24,13 @@ class Files
  * @param bool $move_file If true source file is moved otherwise is copied.
  *
  * @return string Name of the stored file on success or empty string on fail.
- * @original global_files_add
  */
-static function add($source, $filename, $sub_path="", $move_file = true)
+static function add(
+    string $source,
+    string $filename,
+    string $sub_path="",
+    bool $move_file = true
+): string
 {
     $path = self::getDir($sub_path);
 
@@ -47,11 +51,6 @@ static function add($source, $filename, $sub_path="", $move_file = true)
         $file_name = FileSystem::copy($source, $destination);
     }
 
-    if(!$file_name)
-    {
-        return "";
-    }
-
     return $file_name;
 }
 
@@ -65,9 +64,10 @@ static function add($source, $filename, $sub_path="", $move_file = true)
  * @param bool $move_file If true source file is moved otherwise is copied.
  *
  * @return string Name of the stored file on success or empty string on fail.
- * @original global_files_add_upload
  */
-static function addUpload($file_array, $sub_path="", $move_file = true)
+static function addUpload(
+    array $file_array, string $sub_path="", bool $move_file = true
+): string
 {
     $path = self::getDir($sub_path);
 
@@ -88,22 +88,18 @@ static function addUpload($file_array, $sub_path="", $move_file = true)
         $file_name = FileSystem::copy($file_array["tmp_name"], $destination);
     }
 
-    if(!$file_name)
-    {
-        return "";
-    }
-
     return $file_name;
 }
 
 /**
  * Deletes a global file.
+ *
  * @param string $name
  * @param string $sub_path
+ *
  * @return bool
- * @original global_files_delete
  */
-static function delete($name, $sub_path="")
+static function delete(string $name, string $sub_path=""): bool
 {
     $path = self::getDir($sub_path);
 
@@ -115,11 +111,13 @@ static function delete($name, $sub_path="")
 
 /**
  * Get a full path to a global file.
+ *
  * @param string $name
  * @param string $sub_path
- * @original global_files_get
+ *
+ * @return string Path to a file.
  */
-static function get($name, $sub_path="")
+static function get(string $name, string $sub_path=""): string
 {
     $path = self::getDir($sub_path);
 
@@ -131,10 +129,10 @@ static function get($name, $sub_path="")
 
 /**
  * Get the path where public access files reside for current site.
+ *
  * @param string $sub_path Append a sub-path to the retrieved path.
- * @original global_files_directory
  */
-static function getDir($sub_path="")
+static function getDir(string $sub_path=""): string
 {
     $sub_path = rtrim($sub_path, "/");
 

@@ -270,7 +270,7 @@ row: 0
         {
             $fields_categories = Jaris\Categories::generateFields(
                 $page_data["categories"],
-                null,
+                "",
                 "poll"
             );
 

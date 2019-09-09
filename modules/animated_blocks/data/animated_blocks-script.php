@@ -19,6 +19,15 @@ row: 0
 
     field: content
     <?php
+        if(!isset($_REQUEST["id"]) || !isset($_REQUEST["position"]))
+        {
+            print "0";
+            return;
+        }
+
+        $_REQUEST["id"] = intval($_REQUEST["id"]);
+        $_REQUEST["position"] = strval($_REQUEST["position"]);
+
         $block_data = Jaris\Blocks::get($_REQUEST["id"], $_REQUEST["position"]);
         $settings = animated_blocks_get_settings($block_data);
         $id = "animated-block-{$_REQUEST['position']}-{$_REQUEST['id']}";
@@ -36,7 +45,7 @@ row: 0
         speed: '<?php print $settings["effect_speed"] ?>',
         slideResize: 0,
         containerResize: 0,
-        pause: '<?php print $settings["hover_pause"] ?>'
+        pause: '<?php print ($settings["hover_pause"] ? "1" : "0") ?>'
     <?php if($settings["display_navigation"]){ ?>
         , prev: '#<?php print $prev_id ?>',
         next: '#<?php print $next_id ?>'

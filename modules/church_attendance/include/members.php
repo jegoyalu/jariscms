@@ -12,6 +12,16 @@ function church_attendance_member_add($data)
         "{$data['birth_day']}-{$data['birth_month']}-{$data['birth_year']}"
     );
 
+    // Courses list
+    $courses = array();
+
+    if(is_array($data["courses"]))
+    {
+        $courses = $data["courses"];
+        $data["courses"] = serialize($data["courses"]);
+    }
+
+    // Talents list
     $talents = array();
 
     if(is_array($data["talents"]))
@@ -30,12 +40,16 @@ function church_attendance_member_add($data)
         . "last_name,"
         . "maiden_name,"
         . "gender,"
+        . "civil_status,"
         . "birth_date,"
         . "birth_day,"
         . "birth_month,"
         . "birth_year,"
         . "taken_discipleship,"
+        . "courses,"
         . "year_accepted_christ,"
+        . "time_following_christ,"
+        . "time_following_christ_unit,"
         . "baptized,"
         . "family_at_home,"
         . "talents,"
@@ -45,6 +59,8 @@ function church_attendance_member_add($data)
         . "email,"
         . "phone,"
         . "mobile_phone,"
+        . "work_place,"
+        . "work_phone,"
         . "group_id,"
         . "last_visit_date,"
         . "notes"
@@ -54,12 +70,16 @@ function church_attendance_member_add($data)
         . "'{$data['last_name']}',"
         . "'{$data['maiden_name']}',"
         . "'{$data['gender']}',"
+        . "'{$data['civil_status']}',"
         . "'$birth_date',"
         . "'{$data['birth_day']}',"
         . "'{$data['birth_month']}',"
         . "'{$data['birth_year']}',"
         . "{$data['taken_discipleship']},"
+        . "'{$data['courses']}',"
         . "{$data['year_accepted_christ']},"
+        . "'{$data['time_following_christ']}',"
+        . "'{$data['time_following_christ_unit']}',"
         . "{$data['baptized']},"
         . "{$data['family_at_home']},"
         . "'{$data['talents']}',"
@@ -69,6 +89,8 @@ function church_attendance_member_add($data)
         . "'{$data['email']}',"
         . "'{$data['phone']}',"
         . "'{$data['mobile_phone']}',"
+        . "'{$data['work_place']}',"
+        . "'{$data['work_phone']}',"
         . "{$data['group_id']},"
         . "'{$data['last_visit_date']}',"
         . "'{$data['notes']}'"
@@ -80,6 +102,32 @@ function church_attendance_member_add($data)
 
     Jaris\Sql::close($db);
 
+    // Store courses
+    $db_courses_count = Jaris\Sql::open("church_attendance_courses_count");
+
+    Jaris\Sql::beginTransaction($db_courses_count);
+
+    foreach($courses as $course_id)
+    {
+        Jaris\Sql::query(
+            "insert into church_attendance_courses_count "
+            . "("
+            . "member_id,"
+            . "course_id"
+            . ") "
+            . "values ("
+            . "$member_id,"
+            . "$course_id"
+            . ")",
+            $db_courses_count
+        );
+    }
+
+    Jaris\Sql::commitTransaction($db_courses_count);
+
+    Jaris\Sql::close($db_courses_count);
+
+    // Store talents
     $db_talents_count = Jaris\Sql::open("church_attendance_talents_count");
 
     Jaris\Sql::beginTransaction($db_talents_count);
@@ -111,6 +159,16 @@ function church_attendance_member_edit($id, $data)
         "{$data['birth_day']}-{$data['birth_month']}-{$data['birth_year']}"
     );
 
+    // Courses list
+    $courses = array();
+
+    if(is_array($data["courses"]))
+    {
+        $courses = $data["courses"];
+        $data["courses"] = serialize($data["courses"]);
+    }
+
+    // Talents list
     $talents = array();
 
     if(is_array($data["talents"]))
@@ -131,12 +189,16 @@ function church_attendance_member_edit($id, $data)
         . "last_name='{$data['last_name']}',"
         . "maiden_name='{$data['maiden_name']}',"
         . "gender='{$data['gender']}',"
+        . "civil_status='{$data['civil_status']}',"
         . "birth_date='$birth_date',"
         . "birth_day={$data['birth_day']},"
         . "birth_month={$data['birth_month']},"
         . "birth_year={$data['birth_year']},"
         . "taken_discipleship={$data['taken_discipleship']},"
+        . "courses='{$data['courses']}',"
         . "year_accepted_christ={$data['year_accepted_christ']},"
+        . "time_following_christ='{$data['time_following_christ']}',"
+        . "time_following_christ_unit='{$data['time_following_christ_unit']}',"
         . "baptized={$data['baptized']},"
         . "family_at_home={$data['family_at_home']},"
         . "talents='{$data['talents']}',"
@@ -146,6 +208,8 @@ function church_attendance_member_edit($id, $data)
         . "email='{$data['email']}',"
         . "phone='{$data['phone']}',"
         . "mobile_phone='{$data['mobile_phone']}',"
+        . "work_place='{$data['work_place']}',"
+        . "work_phone='{$data['work_phone']}',"
         . "group_id={$data['group_id']},"
         . "notes='{$data['notes']}' "
         . "where id=$id ",
@@ -166,6 +230,38 @@ function church_attendance_member_edit($id, $data)
 
     Jaris\Sql::close($db_registry);
 
+    // Store courses
+    $db_courses_count = Jaris\Sql::open("church_attendance_courses_count");
+
+    Jaris\Sql::query(
+        "delete from church_attendance_courses_count "
+        . "where member_id=$id",
+        $db_courses_count
+    );
+
+    Jaris\Sql::beginTransaction($db_courses_count);
+
+    foreach($courses as $course_id)
+    {
+        Jaris\Sql::query(
+            "insert into church_attendance_courses_count "
+            . "("
+            . "member_id,"
+            . "course_id"
+            . ") "
+            . "values ("
+            . "$id,"
+            . "$course_id"
+            . ")",
+            $db_courses_count
+        );
+    }
+
+    Jaris\Sql::commitTransaction($db_courses_count);
+
+    Jaris\Sql::close($db_courses_count);
+
+    // Store talents
     $db_talents_count = Jaris\Sql::open("church_attendance_talents_count");
 
     Jaris\Sql::query(
@@ -212,6 +308,7 @@ function church_attendance_member_get($id)
 
     Jaris\Sql::close($db);
 
+    $data["courses"] = unserialize($data["courses"]);
     $data["talents"] = unserialize($data["talents"]);
 
     return $data;
@@ -230,11 +327,23 @@ function church_attendance_member_delete($id)
 
     Jaris\Sql::close($db);
 
+    // Delete courses
+    $db_courses_count = Jaris\Sql::open("church_attendance_courses_count");
+
+    Jaris\Sql::query(
+        "delete from church_attendance_courses_count "
+            . "where member_id=$id",
+        $db_courses_count
+    );
+
+    Jaris\Sql::close($db_courses_count);
+
+    // Delete talents
     $db_talents_count = Jaris\Sql::open("church_attendance_talents_count");
 
     Jaris\Sql::query(
         "delete from church_attendance_talents_count "
-        . "where member_id=$id",
+            . "where member_id=$id",
         $db_talents_count
     );
 

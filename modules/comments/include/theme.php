@@ -91,12 +91,12 @@ function comments_theme($comment_data, $page, $type, $include_replies=false)
  * @param $page The page uri that is going to be displayed.
  * @param $type The type machine name used.
  *
- * @return The page file to be used.
+ * @return string The page file to be used.
  *  It could be one of the followings in the same precedence:
  *      themes/theme/comments-uri.php
  *      themes/theme/comments.php
  */
-function comments_template_path($page, $type)
+function comments_template_path($page, $type) : string
 {
     $theme = Jaris\Site::$theme;
     $page = str_replace("/", "-", $page);

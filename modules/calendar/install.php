@@ -46,7 +46,14 @@ function calendar_install()
             . "hour_to integer,"
             . "minute_to integer,"
             . "is_am_to integer,"
-            . "approved integer"
+            . "approved integer,"
+            . "repeat_event integer,"
+            . "repeat_type integer,"
+            . "repeat_amount integer,"
+            . "repeat_count integer,"
+            . "repeat_end_date integer,"
+            . "repeat_generated integer,"
+            . "repeat_generated_id integer"
             . ")",
             $db
         );
@@ -55,8 +62,37 @@ function calendar_install()
             "create index calendar_events_index on calendar_events ("
             . "event_id desc, "
             . "uri desc, "
-            . "date desc,"
-            . "approved desc"
+            . "date desc, "
+            . "approved desc, "
+            . "repeat_event desc"
+            . ")",
+            $db
+        );
+
+        Jaris\Sql::close($db);
+    }
+
+    //Create calendar events database
+    if(!Jaris\Sql::dbExists("calendar_repeat_month"))
+    {
+        $db = Jaris\Sql::open("calendar_repeat_month");
+
+        Jaris\Sql::query(
+            "create table calendar_repeat_month ("
+            . "month integer,"
+            . "year integer,"
+            . "marker_timestamp integer,"
+            . "repeats_added integer"
+            . ")",
+            $db
+        );
+
+        Jaris\Sql::query(
+            "create index calendar_repeat_month_index on calendar_repeat_month ("
+            . "month desc,"
+            . "year desc,"
+            . "marker_timestamp desc,"
+            . "repeats_added desc"
             . ")",
             $db
         );

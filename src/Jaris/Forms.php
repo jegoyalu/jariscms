@@ -29,20 +29,25 @@ const SIGNAL_IS_REQUIRED_FIELD_EMPTY =  "hook_is_required_field_empty";
  * To check if an email address is genuine.
  *
  * @param string $email The email to check.
+ * @param bool $checkmx
  *
  * @return bool True on success false on failure.
- * @original valid_email_address
  */
-static function validEmail($email)
+static function validEmail(string $email, bool $checkmx = true): bool
 {
+    if(Site::$development_mode)
+    {
+        return true;
+    }
+
     $valid = preg_match(
         '/^[_A-z0-9-]+((\.|\+)[_A-z0-9-]+)*@[A-z0-9-]+(\.[A-z0-9-]+)*(\.[A-z]{2,4})$/',
         $email
     );
 
-    if($valid)
+    if($valid && $checkmx)
     {
-        //If the static function is available we also check the dns record for mx entries
+        //If the function is available we also check the dns record for mx entries
         if(function_exists("checkdnsrr"))
         {
             list($name, $domain) = explode('@', $email);
@@ -53,6 +58,10 @@ static function validEmail($email)
             }
         }
 
+        return true;
+    }
+    elseif($valid && !$checkmx)
+    {
         return true;
     }
 
@@ -66,9 +75,8 @@ static function validEmail($email)
  * @param string $username The username to check.
  *
  * @return bool True if valid false otherwise.
- * @original valid_username
  */
-static function validUsername($username)
+static function validUsername(string $username): bool
 {
     $result = preg_replace("/\w+/", "", $username);
 
@@ -87,9 +95,8 @@ static function validUsername($username)
  * @param string $number_type The type of number could be float or integer.
  *
  * @return bool True if valid false otherwise.
- * @original valid_number
  */
-static function validNumber($input, $number_type = "float")
+static function validNumber(string $input, string $number_type = "float"): bool
 {
     $result = "";
 
@@ -112,27 +119,25 @@ static function validNumber($input, $number_type = "float")
 
 /**
  * Enable file uploading to upload.php for the current session
- * @original enable_file_upload
  */
-static function enableUpload()
+static function enableUpload(): void
 {
     $_SESSION["can_upload_file"] = true;
 }
 
 /**
- * Disable file uploading to upload.php for the current session
- * @original disable_file_upload
+ * Disable file uploading to upload.php for the current session.
  */
-static function disableUpload()
+static function disableUpload(): void
 {
     unset($_SESSION["can_upload_file"]);
 }
 
 /**
- * Check if file uploading into upload.php is possible for the current session
- * @original can_upload_file
+ * Check if file uploading into upload.php is possible for the current session.
+ * @return bool
  */
-static function canUpload()
+static function canUpload(): bool
 {
     if(isset($_SESSION["can_upload_file"]))
         return true;
@@ -142,11 +147,13 @@ static function canUpload()
 
 /**
  * Add files uploaded with jquery.fileupload to $_FILES for normal processing.
+ *
  * @param string $field_name
  * @param bool $multiple_uploads
- * @original process_file_uploads
  */
-static function processUploads($field_name, $multiple_uploads = false)
+static function processUploads(
+    string $field_name, bool $multiple_uploads = false
+): void
 {
     if(!is_array($_REQUEST[$field_name]["names"]))
         return;
@@ -194,11 +201,12 @@ static function processUploads($field_name, $multiple_uploads = false)
 
 /**
  * Get file upload path from current session and then remove it from session.
+ *
  * @param string $file_name The name of the file
+ *
  * @return string Path to file
- * @original get_upload_file_path
  */
-static function getUploadPath($file_name)
+static function getUploadPath(string $file_name): string
 {
     $file_path = $_SESSION["uploaded_files"][$file_name];
 
@@ -210,9 +218,8 @@ static function getUploadPath($file_name)
 /**
  * Delete all files uploaded by current user.
  * Useful to keep upload dir clean by running it each time the user logs in.
- * @original delete_uploaded_files
  */
-static function deleteUploads()
+static function deleteUploads(): void
 {
     $upload_dir = str_replace(
         "data.php",
@@ -255,9 +262,8 @@ static function deleteUploads()
  * @param string $form_name Form to check.
  *
  * @return bool true if a required field is empty or false if ok.
- * @original is_required_field_empty
  */
-static function requiredFieldEmpty($form_name)
+static function requiredFieldEmpty(string $form_name): bool
 {
     Session::start();
 
@@ -267,22 +273,43 @@ static function requiredFieldEmpty($form_name)
         foreach($_SESSION["required_fields"][$form_name] as $fields)
         {
             if(
-                $fields["type"] == "text" || $fields["type"] == "textarea" ||
-                $fields["type"] == "password" || $fields["type"] == "autocomplete" ||
-                $fields["type"] == "uri" || $fields["type"] == "uriarea" || $fields["number"]
+                $fields["type"] == "text"
+                ||
+                $fields["type"] == "textarea"
+                ||
+                $fields["type"] == "password"
+                ||
+                $fields["type"] == "autocomplete"
+                ||
+                $fields["type"] == "uri"
+                ||
+                $fields["type"] == "uriarea"
+                ||
+                $fields["number"]
             )
             {
-                if(!isset($_REQUEST[$fields["name"]]) || $_REQUEST[$fields["name"]] == "")
+                if(
+                    !isset($_REQUEST[$fields["name"]])
+                    ||
+                    $_REQUEST[$fields["name"]] == ""
+                )
                 {
                     $required = true;
                 }
             }
             elseif(
-                $fields["type"] == "checkbox" || $fields["type"] == "radio" ||
+                $fields["type"] == "checkbox"
+                ||
+                $fields["type"] == "radio"
+                ||
                 $fields["type"] == "select"
             )
             {
-                if(!isset($_REQUEST[$fields["name"]]) || $_REQUEST[$fields["name"]] == "")
+                if(
+                    !isset($_REQUEST[$fields["name"]])
+                    ||
+                    $_REQUEST[$fields["name"]] == ""
+                )
                 {
                     $required = true;
                 }
@@ -290,8 +317,17 @@ static function requiredFieldEmpty($form_name)
             elseif($fields["type"] == "file")
             {
                 if(
-                    (!isset($_FILES[$fields["name"]]) || $_FILES[$fields["name"]]["tmp_name"] == "") &&
-                    (empty($_REQUEST[$fields["name"]]) || empty($_REQUEST[$fields["name"]]["names"]))
+                    (
+                        !isset($_FILES[$fields["name"]])
+                        ||
+                        $_FILES[$fields["name"]]["tmp_name"] == ""
+                    )
+                    &&
+                    (
+                        empty($_REQUEST[$fields["name"]])
+                        ||
+                        empty($_REQUEST[$fields["name"]]["names"])
+                    )
                 )
                 {
                     $required = true;
@@ -308,7 +344,11 @@ static function requiredFieldEmpty($form_name)
 
     if(is_array($_SESSION["file_upload_fields"][$form_name]))
     {
-        foreach($_SESSION["file_upload_fields"][$form_name] as $field_name => $multiple)
+        foreach(
+            $_SESSION["file_upload_fields"][$form_name]
+            as
+            $field_name => $multiple
+        )
         {
             self::processUploads($field_name, $multiple);
         }
@@ -316,7 +356,10 @@ static function requiredFieldEmpty($form_name)
 
     if($required)
     {
-        View::addMessage(t("You need to provide all the required fields, the ones marked with asterik."), "error");
+        View::addMessage(
+            t("You need to provide all the required fields, the ones marked with asterik."),
+            "error"
+        );
     }
 
     unset($_SESSION["required_fields"][$form_name]);
@@ -332,7 +375,10 @@ static function requiredFieldEmpty($form_name)
             {
                 if($fields["type"] == "validate_sum")
                 {
-                    View::addMessage(t("The sum you entered is incorrect."), "error");
+                    View::addMessage(
+                        t("A problem occurred when sending the form."),
+                        "error"
+                    );
                 }
 
                 $not_validated = true;
@@ -362,9 +408,11 @@ static function requiredFieldEmpty($form_name)
  *        for example: parameters["method"] = "post"
  * @param array $fieldsets The needed data to create the form in the format:
  *        $fieldset[] = array(
- *        "name"="value", //Optional value if used a <fieldset> with <legend> is generated
+ *        "name"=>"value", //Optional value if used a <fieldset> with <legend> is generated
  *        "collapsible"=>true or false //Optional value to specify if fieldset should have collapsible class
- *        "fields"[] = array(
+ *        "collapsed"=>true or false
+ *        "description"=>string
+ *        "fields" => array(
  *          "type"=>"text, hidden, file, password, submit, reset, select, textarea, radio, checkbox, other",
  *          "id"=>"value",
  *          "name"=>"value",
@@ -380,9 +428,8 @@ static function requiredFieldEmpty($form_name)
  *        )
  *
  * @return string The html code for a form.
- * @original generate_form
  */
-static function generate($parameters, $fieldsets)
+static function generate(array $parameters, array $fieldsets): string
 {
     Session::start();
 
@@ -417,6 +464,11 @@ static function generate($parameters, $fieldsets)
     // functionality.
     $scripts = "";
 
+    if(!isset($parameters["id"]))
+    {
+        $parameters["id"] = md5(strval(time()));
+    }
+
     $form = "<form ";
     foreach($parameters as $name => $value)
     {
@@ -442,15 +494,28 @@ static function generate($parameters, $fieldsets)
 
             $collapsible = "";
             $legend = "<legend>{$fieldset['name']}</legend>\n";
+
             if($fieldset["collapsible"] && $fieldset["collapsed"])
             {
                 $collapsible = "class=\"collapsible collapsed\"";
-                $legend = "<legend><a class=\"expand\" href=\"javascript:void(0)\">{$fieldset['name']}</a></legend>";
+
+                $legend = "<legend>"
+                    . "<a class=\"expand\" href=\"javascript:void(0)\">"
+                    . $fieldset['name']
+                    . "</a>"
+                    . "</legend>"
+                ;
             }
             else
             {
                 $collapsible = "class=\"collapsible\"";
-                $legend = "<legend><a class=\"collapse\" href=\"javascript:void(0)\">{$fieldset['name']}</a></legend>";
+
+                $legend = "<legend>"
+                    . "<a class=\"collapse\" href=\"javascript:void(0)\">"
+                    . $fieldset['name']
+                    . "</a>"
+                    . "</legend>"
+                ;
             }
 
             $form .= "<fieldset $collapsible>\n";
@@ -471,7 +536,15 @@ static function generate($parameters, $fieldsets)
                 ""
             ;
 
-            $field["id"] = isset($field["id"]) ? $field["id"] : $field["name"];
+            $field["id"] = isset($field["id"]) ? 
+                $field["id"] 
+                : 
+                str_replace(
+                    array("[", "]"), 
+                    "", 
+                    $field["name"]
+                )
+            ;
 
             if(isset($parameters["name"]))
             {
@@ -502,9 +575,27 @@ static function generate($parameters, $fieldsets)
                 false
             ;
 
+            $field["autofocus"] = isset($field["autofocus"]) ?
+                $field["autofocus"]
+                :
+                false
+            ;
+
+            $readonly = "";
+            if($field["readonly"])
+                $readonly .= "readonly=\"readonly\"";
+
+            $placeholder = "";
+            if(isset($field["placeholder"]))
+                $placeholder .= "placeholder=\"{$field["placeholder"]}\"";
+
             $required_attr = "";
             if($field["required"])
                 $required_attr .= "required=\"required\"";
+
+            $autofocus_attr = "";
+            if($field["autofocus"])
+                $autofocus_attr .= "autofocus=\"autofocus\"";
 
             $size_attr = "";
             if(isset($field["size"]))
@@ -546,13 +637,22 @@ static function generate($parameters, $fieldsets)
             }
 
             //print label
-            if(isset($field["label"]))
+            if(isset($field["label"]) && $field["type"] != "validate_sum")
             {
                 // Dont display label for single checkboxe since this
                 // should be added to a fields set
-                if($field["type"] != "checkbox" || ($field["type"] == "checkbox" && is_array($field["value"])))
+                if(
+                    $field["type"] != "checkbox"
+                    ||
+                    (
+                        $field["type"] == "checkbox"
+                        &&
+                        is_array($field["value"])
+                    )
+                )
                 {
                     $required = "";
+
                     if($field["required"])
                     {
                         //Register field as required on session variable required_fields
@@ -565,16 +665,24 @@ static function generate($parameters, $fieldsets)
                         }
                         elseif(Site::$development_mode && !$form_no_name_warning)
                         {
-                            View::addMessage(t("Form with required fields doesn't have a proper name."), "error");
+                            View::addMessage(
+                                t("Form with required fields doesn't have a proper name."),
+                                "error"
+                            );
+
                             $form_no_name_warning = true;
                         }
 
                         $required = "<span class=\"required\"> *</span>";
                     }
 
-                    $form .= "<div class=\"caption\">";
-                    $form .= "<label for=\"{$field['id']}\"><span>{$field['label']}</span>$required</label>";
-                    $form .= "</div>\n";
+                    $form .= "<div class=\"caption\">"
+                        . "<label for=\"{$field['id']}\">"
+                        . "<span>{$field['label']}</span>"
+                        . $required
+                        . "</label>"
+                        . "</div>\n"
+                    ;
                 }
             }
 
@@ -583,27 +691,30 @@ static function generate($parameters, $fieldsets)
                 $field['class'] = "-" . $field['class'];
             }
 
-            $placeholder = "";
-
             //print field
             if($field["type"] == "hidden")
             {
-                $form .= "<input type=\"{$field['type']}\" name=\"{$field['name']}\" value=\"{$field['value']}\" />";
+                $form .= "<input "
+                    . "type=\"{$field['type']}\" "
+                    . "name=\"{$field['name']}\" "
+                    . "value=\"{$field['value']}\" "
+                    . "/>"
+                ;
             }
             elseif($field["type"] == "text" || $field["type"] == "password")
             {
-                $readonly = null;
-                if($field["readonly"])
-                {
-                    $readonly = "readonly=\"readonly\"";
-                }
-
-                if(isset($field["placeholder"]))
-                {
-                    $placeholder = "placeholder=\"{$field["placeholder"]}\"";
-                }
-
-                $form .= "<input {$field['code']} $placeholder $readonly id=\"{$field['id']}\" class=\"form-{$field['type']}{$field['class']}\" type=\"{$field['type']}\" name=\"{$field['name']}\" value=\"{$field['value']}\" $size_attr $required_attr/>";
+                $form .= "<input "
+                    . "{$field['code']} "
+                    . "$placeholder "
+                    . "$readonly "
+                    . "id=\"{$field['id']}\" "
+                    . "class=\"form-{$field['type']}{$field['class']}\" "
+                    . "type=\"{$field['type']}\" "
+                    . "name=\"{$field['name']}\" "
+                    . "value=\"{$field['value']}\" "
+                    . "$size_attr $required_attr $autofocus_attr"
+                    . "/>"
+                ;
 
                 if($field["type"] == "password" && isset($field["reveal"]))
                 {
@@ -633,35 +744,49 @@ static function generate($parameters, $fieldsets)
                     ($field["type"] == "text" || $field["type"] == "password")
                 )
                 {
-                    View::addScript("scripts/optional/jquery.limit.js");
-                    $field["description"] .= " <span class=\"form-chars-left\" id=\"{$field["id"]}-limit\">{$field['limit']}</span>&nbsp;" . "<span class=\"form-chars-left-label\">" . t("characters left") . "</span>";
-                    $scripts .= "<script>$(\"#{$field["id"]}\").limit('{$field['limit']}', '#{$field["id"]}-limit')</script>";
+                    View::addSystemScript("optional/jquery.limit.js");
+
+                    $field["description"] .= " <span "
+                        . "class=\"form-chars-left\" "
+                        . "id=\"{$field["id"]}-limit\""
+                        . ">"
+                        . $field['limit']
+                        . "</span>"
+                        . "&nbsp;"
+                        . "<span class=\"form-chars-left-label\">"
+                        . t("characters left")
+                        . "</span>"
+                    ;
+
+                    $scripts .= "<script>"
+                        . "$(\"#{$field["id"]}\").limit("
+                        . "'{$field['limit']}', "
+                        . "'#{$field["id"]}-limit'"
+                        . ");"
+                        . "</script>"
+                    ;
                 }
             }
             elseif($field["type"] == "number")
             {
-                $readonly = null;
-                if($field["readonly"])
-                {
-                    $readonly = "readonly=\"readonly\"";
-                }
-
-                if(isset($field["placeholder"]))
-                {
-                    $placeholder = "placeholder=\"{$field["placeholder"]}\"";
-                }
-
-                $form .= "<input {$field['code']} $placeholder $readonly id=\"{$field['id']}\" class=\"form-{$field['type']}{$field['class']}\" type=\"{$field['type']}\" name=\"{$field['name']}\" value=\"{$field['value']}\" $size_attr $required_attr/>";
+                $form .= "<input "
+                    . "{$field['code']} "
+                    . "$placeholder "
+                    . "$readonly "
+                    . "id=\"{$field['id']}\" "
+                    . "class=\"form-{$field['type']}{$field['class']}\" "
+                    . "type=\"{$field['type']}\" "
+                    . "name=\"{$field['name']}\" "
+                    . "value=\"{$field['value']}\" "
+                    . "$size_attr "
+                    . "$required_attr "
+                    . "$autofocus_attr"
+                    . "/>"
+                ;
             }
             elseif($field["type"] == "file")
             {
                 self::enableUpload();
-
-                $readonly = null;
-                if($field["readonly"])
-                {
-                    $readonly = "readonly=\"readonly\"";
-                }
 
                 $multiple = null;
                 $single_upload = "true";
@@ -669,11 +794,15 @@ static function generate($parameters, $fieldsets)
                 {
                     $multiple = "multiple";
                     $single_upload = "false";
-                    $_SESSION["file_upload_fields"][$parameters["name"]][$field['name']] = true;
+                    $_SESSION["file_upload_fields"]
+                        [$parameters["name"]][$field['name']] = true
+                    ;
                 }
                 else
                 {
-                    $_SESSION["file_upload_fields"][$parameters["name"]][$field['name']] = false;
+                    $_SESSION["file_upload_fields"]
+                        [$parameters["name"]][$field['name']] = false
+                    ;
                 }
 
                 $description_field = "false";
@@ -689,7 +818,9 @@ static function generate($parameters, $fieldsets)
                 $max_post = (int)(ini_get('post_max_size'));
                 $memory_limit = (int)(ini_get('memory_limit'));
 
-                $upload_max = intval(min($max_upload, $max_post, $memory_limit) * 1024 * 1024);
+                $upload_max = intval(
+                    min($max_upload, $max_post, $memory_limit) * 1024 * 1024
+                );
 
                 if(
                     !isset($field["max_size"]) ||
@@ -730,47 +861,73 @@ static function generate($parameters, $fieldsets)
                     $url = "data-url=\"" . Uri::url($field["upload_url"]) . "\"";
                 }
 
-                $form .= "<input {$field['code']} $readonly $multiple $url id=\"{$field['id']}\" class=\"form-{$field['type']}{$field['class']}\" type=\"{$field['type']}\" name=\"{$field['name']}\" value=\"{$field['value']}\" $size_attr />";
+                $form .= "<input "
+                    . "{$field['code']} "
+                    . "$readonly "
+                    . "$multiple "
+                    . "$url "
+                    . "id=\"{$field['id']}\" "
+                    . "class=\"form-{$field['type']}{$field['class']}\" "
+                    . "type=\"{$field['type']}\" "
+                    . "name=\"{$field['name']}\" "
+                    . "value=\"{$field['value']}\" "
+                    . "$size_attr "
+                    . "/>"
+                ;
 
-                View::addScript("scripts/jquery-ui/jquery.ui.js");
-                View::addScript("scripts/fileupload/jquery.iframe-transport.js");
-                View::addScript("scripts/fileupload/jquery.fileupload.js");
-                View::addScript("scripts/fileupload/jquery.fileupload.wrapper.js");
+                View::addSystemScript("jquery-ui/jquery.ui.js");
+                View::addSystemScript("fileupload/jquery.iframe-transport.js");
+                View::addSystemScript("fileupload/jquery.fileupload.js");
+                View::addSystemScript("fileupload/jquery.fileupload.wrapper.js");
 
-                $scripts .= '
-                <script>
-                $(document).ready(function(){
-                    $("#' . $field['id'] . '").fileuploadwrapper({
-                        showDescriptionField: ' . $description_field . ',
-                        acceptFileTypes: "' . $field['valid_types'] . '",
-                        singleUpload: ' . $single_upload . ',
-                        incorrectFileTypeMessage: "' . t("Incorrect file type selected. The type should be:") . '",
-                        maxFiles: '.intval($field['max_files']).',
-                        maxFilesMessage: "' . (isset($field['max_files_message']) ? $field['max_files_message'] : t("Maximum amount of files allowed reached.")) . '",
-                        currentFiles: "' . $field['current_files_selector'] . '",
-                        maxSize: '.$field["max_size"].',
-                        descriptionPlaceholder: "' . t("description") . '"
-                    });
-                });
-                </script>
-                ';
+                $scripts .= '<script>'
+                    . '$(document).ready(function(){'
+                    . '$("#' . $field['id'] . '").fileuploadwrapper({'
+                    . 'showDescriptionField: ' . $description_field . ', '
+                    . 'acceptFileTypes: "' . $field['valid_types'] . '", '
+                    . 'singleUpload: ' . $single_upload . ', '
+                    . 'incorrectFileTypeMessage: "'
+                    . t("Incorrect file type selected. The type should be:")
+                    . '", '
+                    . 'maxFiles: '.intval($field['max_files']).', '
+                    . 'maxFilesMessage: "'
+                    . (isset($field['max_files_message']) ?
+                        $field['max_files_message']
+                        : t("Maximum amount of files allowed reached."))
+                    . '", '
+                    . 'currentFiles: "'
+                    . $field['current_files_selector']
+                    . '", '
+                    . 'maxSize: '.$field["max_size"].', '
+                    . 'descriptionPlaceholder: "' . t("description") . '"'
+                    . '});'
+                    . '});'
+                    . '</script>'
+                ;
             }
             elseif($field["type"] == "color")
             {
-                View::addScript("scripts/jscolor/jscolor.js");
+                View::addSystemScript("jscolor/jscolor.js");
 
-                $readonly = null;
-                if($field["readonly"])
-                {
-                    $readonly = "readonly=\"readonly\"";
-                }
+                $form .= "<input "
+                    . "{$field['code']} "
+                    . "$readonly "
+                    . "id=\"{$field['id']}\" "
+                    . "class=\"form-{$field['type']}{$field['class']}\" "
+                    . "type=\"text\" "
+                    . "name=\"{$field['name']}\" "
+                    . "value=\"{$field['value']}\" "
+                    . "$required_attr "
+                    . "$autofocus_attr"
+                    . "/>"
+                ;
 
-                $form .= "<input {$field['code']} $readonly id=\"{$field['id']}\" class=\"form-{$field['type']}{$field['class']}\" type=\"text\" name=\"{$field['name']}\" value=\"{$field['value']}\" $required_attr/>";
-
-                $scripts .= "<script type=\"text/javascript\">";
-                $scripts .= "var color_picker = new jscolor.color(document.getElementById('{$field['id']}'), {});";
-                $scripts .= "color_picker.fromString('{$field['value']}');";
-                $scripts .= "</script>";
+                $scripts .= "<script type=\"text/javascript\">"
+                    . "var color_picker = new jscolor("
+                    . "document.getElementById('{$field['id']}'), {}"
+                    . ");"
+                    . "</script>"
+                ;
             }
             elseif($field["type"] == "gmap-location")
             {
@@ -785,21 +942,56 @@ static function generate($parameters, $fieldsets)
                     "https://maps.googleapis.com/maps/api/js?sensor=false$map_key_param"
                 );
 
-                View::addScript(
-                    "scripts/jquery-geolocation-edit/jquery.geolocation.edit.min.js"
+                View::addSystemScript(
+                    "jquery-geolocation-edit/jquery.geolocation.edit.min.js"
                 );
 
-                View::addScript(
-                    "scripts/optional/jquery.clearmap.js"
+                View::addSystemScript(
+                    "optional/jquery.clearmap.js"
                 );
 
-                $form .= '<div id="'.$field['id'].'" class="form-gmap-location" '.$field['code'].'></div>';
-                $form .= '<input type="hidden" name="'.$field['name'].'" value="1">';
-                $form .= '<input type="hidden" name="'.$field['lat_name'].'" id="'.$field['id'].'-lat" value="'.$field['lat'].'">';
-                $form .= '<input type="hidden" name="'.$field['lng_name'].'" id="'.$field['id'].'-lng" value="'.$field['lng'].'">';
-                $form .= '<input type="text" id="'.$field['id'].'-addr" class="form-gmap-addr" placeholder="'.t("Enter address to locate").'">';
-                $form .= '<a class="form-gmap-locate" onclick="$(\'#'.$field['id'].'\').geolocate(\'callGeocoding\');">'.t("Locate").'</a>';
-                $form .= '<a class="form-gmap-locate" onclick="$.clearMap(\''.$field['id'].'\');">'.t("Clear").'</a>';
+                $form .= '<div '
+                    . 'id="'.$field['id'].'" '
+                    . 'class="form-gmap-location" '
+                    . $field['code']
+                    . '>'
+                    . '</div>'
+                    . '<input '
+                    . 'type="hidden" '
+                    . 'name="'.$field['name'].'" '
+                    . 'value="1"'
+                    . '>'
+                    . '<input '
+                    . 'type="hidden" '
+                    . 'name="'.$field['lat_name'].'" '
+                    . 'id="'.$field['id'].'-lat" '
+                    . 'value="'.$field['lat'].'"'
+                    . '>'
+                    . '<input '
+                    . 'type="hidden" '
+                    . 'name="'.$field['lng_name'].'" '
+                    . 'id="'.$field['id'].'-lng" '
+                    . 'value="'.$field['lng'].'"'
+                    . '>'
+                    . '<input '
+                    . 'type="text" '
+                    . 'id="'.$field['id'].'-addr" '
+                    . 'class="form-gmap-addr" '
+                    . 'placeholder="'.t("Enter address to locate").'"'
+                    . '>'
+                    . '<a '
+                    . 'class="form-gmap-locate" '
+                    . 'onclick="$(\'#'.$field['id'].'\').geolocate(\'callGeocoding\');"'
+                    . '>'
+                    . t("Locate")
+                    . '</a>'
+                    . '<a '
+                    . 'class="form-gmap-locate" '
+                    . 'onclick="$.clearMap(\''.$field['id'].'\');"'
+                    . '>'
+                    . t("Clear")
+                    . '</a>'
+                ;
 
                 $map_zoom = isset($field["zoom"]) ? intval($field["zoom"]) : 5;
 
@@ -823,117 +1015,124 @@ static function generate($parameters, $fieldsets)
             }
             elseif($field["type"] == "autocomplete")
             {
-                View::addScript("scripts/autocomplete/jquery.autocomplete.js");
-                View::addStyle("scripts/autocomplete/jquery.autocomplete.css");
+                View::addSystemScript("autocomplete/jquery.autocomplete.js");
+                View::addSystemStyle("autocomplete/jquery.autocomplete.css");
 
-                $readonly = null;
-                if($field["readonly"])
-                {
-                    $readonly = "readonly=\"readonly\"";
-                }
+                $form .= "<input "
+                    . "{$field['code']} "
+                    . "$placeholder "
+                    . "$readonly "
+                    . "id=\"{$field['id']}\" "
+                    . "class=\"form-text{$field['class']}\" "
+                    . "type=\"text\" "
+                    . "name=\"{$field['name']}\" "
+                    . "value=\"{$field['value']}\" "
+                    . "$required_attr "
+                    . "$autofocus_attr"
+                    . "/>"
+                ;
 
-                if(isset($field["placeholder"]))
-                {
-                    $placeholder = "placeholder=\"{$field["placeholder"]}\"";
-                }
-
-                $form .= "<input {$field['code']} $placeholder $readonly id=\"{$field['id']}\" class=\"form-text{$field['class']}\" type=\"text\" name=\"{$field['name']}\" value=\"{$field['value']}\" $required_attr/>";
-
-                $scripts .= "<script>";
-                $scripts .= "$(document).ready(function(){";
-                $scripts .= "$('#{$field['id']}').autocomplete({";
-                $scripts .= "serviceUrl:'" . Uri::url($field["service_url"]) . "',";
-                $scripts .= "minChars:1,";
-                $scripts .= "maxHeight:400,";
-                $scripts .= "zIndex: 9999";
+                $scripts .= "<script>"
+                    . "$(document).ready(function(){"
+                    . "$('#{$field['id']}').autocomplete({"
+                    . "serviceUrl:'" . Uri::url($field["service_url"]) . "',"
+                    . "minChars:1,"
+                    . "maxHeight:400,"
+                    . "zIndex: 9999"
+                ;
 
                 if(isset($field["has_labels"]))
                 {
-                    $scripts .= ",";
-                    $scripts .= "onSelect: function(value, data) {";
-                    $scripts .= "$('input[name=\"{$field['name']}\"]').val(data);";
-                    $scripts .= "}";
+                    $scripts .= ","
+                        . "onSelect: function(value, data) {"
+                        . "$('input[name=\"{$field['name']}\"]').val(data);"
+                        . "}"
+                    ;
                 }
 
-                $scripts .= "});";
-                $scripts .= "});";
-                $scripts .= "</script>";
+                $scripts .= "});"
+                    . "});"
+                    . "</script>"
+                ;
             }
             elseif($field["type"] == "uri")
             {
-                View::addScript("scripts/autocomplete/jquery.autocomplete.js");
-                View::addStyle("scripts/autocomplete/jquery.autocomplete.css");
+                View::addSystemScript("autocomplete/jquery.autocomplete.js");
+                View::addSystemStyle("autocomplete/jquery.autocomplete.css");
 
-                $readonly = null;
-                if($field["readonly"])
-                {
-                    $readonly = "readonly=\"readonly\"";
-                }
+                $form .= "<input "
+                    . "{$field['code']} "
+                    . "$placeholder "
+                    . "$readonly "
+                    . "id=\"{$field['id']}\" "
+                    . "class=\"form-text{$field['class']}\" "
+                    . "type=\"text\" "
+                    . "name=\"{$field['name']}\" "
+                    . "value=\"{$field['value']}\" "
+                    . "$required_attr "
+                    . "$autofocus_attr"
+                    . "/>"
+                ;
 
-                if(isset($field["placeholder"]))
-                {
-                    $placeholder = "placeholder=\"{$field["placeholder"]}\"";
-                }
-
-                $form .= "<input {$field['code']} $placeholder $readonly id=\"{$field['id']}\" class=\"form-text{$field['class']}\" type=\"text\" name=\"{$field['name']}\" value=\"{$field['value']}\" $required_attr/>";
-
-                $scripts .= "<script>";
-                $scripts .= "$(document).ready(function(){";
-                $scripts .= "$('#{$field['id']}').autocomplete({";
-                $scripts .= "serviceUrl:'" . Uri::url("uris.php") . "',";
-                $scripts .= "minChars:1,";
-                $scripts .= "maxHeight:400,";
-                $scripts .= "zIndex: 9999";
-                $scripts .= "});";
-                $scripts .= "});";
-                $scripts .= "</script>";
+                $scripts .= "<script>"
+                    . "$(document).ready(function(){"
+                    . "$('#{$field['id']}').autocomplete({"
+                    . "serviceUrl:'" . Uri::url("uris.php") . "',"
+                    . "minChars:1,"
+                    . "maxHeight:400,"
+                    . "zIndex: 9999"
+                    . "});"
+                    . "});"
+                    . "</script>"
+                ;
             }
             elseif($field["type"] == "uriarea")
             {
-                View::addScript("scripts/autocomplete/jquery.autocomplete.js");
-                View::addStyle("scripts/autocomplete/jquery.autocomplete.css");
+                View::addSystemScript("autocomplete/jquery.autocomplete.js");
+                View::addSystemStyle("autocomplete/jquery.autocomplete.css");
 
-                $readonly = null;
-                if($field["readonly"])
-                {
-                    $readonly = "readonly=\"readonly\"";
-                }
+                $form .= "<textarea "
+                    . "$placeholder "
+                    . "$readonly "
+                    . "{$field['code']} "
+                    . "id=\"{$field['id']}\" "
+                    . "class=\"form-textarea{$field['class']}\" "
+                    . "name=\"{$field['name']}\" "
+                    . "$required_attr "
+                    . "$autofocus_attr"
+                    . ">\n"
+                    . $field["value"]
+                    . "</textarea>\n"
+                ;
 
-                if(isset($field["placeholder"]))
-                {
-                    $placeholder = "placeholder=\"{$field["placeholder"]}\"";
-                }
-
-                $form .= "<textarea $placeholder $readonly {$field['code']} id=\"{$field['id']}\" class=\"form-textarea{$field['class']}\" name=\"{$field['name']}\" $required_attr>\n";
-                $form .= $field["value"];
-                $form .= "</textarea>\n";
-
-                $scripts .= "<script>";
-                $scripts .= "$(document).ready(function(){";
-                $scripts .= "$('#{$field['id']}').autocomplete({";
-                $scripts .= "serviceUrl:'" . Uri::url("uris.php") . "',";
-                $scripts .= "minChars:1,";
-                $scripts .= "delimiter: /(,|;)\s*/,";
-                $scripts .= "maxHeight:400,";
-                $scripts .= "zIndex: 9999";
-                $scripts .= "});";
-                $scripts .= "});";
-                $scripts .= "</script>";
+                $scripts .= "<script>"
+                    . "$(document).ready(function(){"
+                    . "$('#{$field['id']}').autocomplete({"
+                    . "serviceUrl:'" . Uri::url("uris.php") . "',"
+                    . "minChars:1,"
+                    . "delimiter: /(,|;)\s*/,"
+                    . "maxHeight:400,"
+                    . "zIndex: 9999"
+                    . "});"
+                    . "});"
+                    . "</script>"
+                ;
             }
             elseif($field["type"] == "user")
             {
-                $readonly = null;
-                if($field["readonly"])
-                {
-                    $readonly = "readonly=\"readonly\"";
-                }
-
-                if(isset($field["placeholder"]))
-                {
-                    $placeholder = "placeholder=\"{$field["placeholder"]}\"";
-                }
-
-                $form .= "<input {$field['code']} $placeholder $readonly id=\"{$field['id']}\" class=\"form-text{$field['class']}\" type=\"text\" name=\"{$field['name']}\" value=\"{$field['value']}\" $required_attr/>";
+                $form .= "<input "
+                    . "{$field['code']} "
+                    . "$placeholder "
+                    . "$readonly "
+                    . "id=\"{$field['id']}\" "
+                    . "class=\"form-text{$field['class']}\" "
+                    . "type=\"text\" "
+                    . "name=\"{$field['name']}\" "
+                    . "value=\"{$field['value']}\" "
+                    . "$required_attr "
+                    . "$autofocus_attr "
+                    . "/>"
+                ;
 
                 if(
                     Authentication::groupHasPermission(
@@ -942,37 +1141,37 @@ static function generate($parameters, $fieldsets)
                     )
                 )
                 {
-                    View::addScript("scripts/autocomplete/jquery.autocomplete.js");
-                    View::addStyle("scripts/autocomplete/jquery.autocomplete.css");
+                    View::addSystemScript("autocomplete/jquery.autocomplete.js");
+                    View::addSystemStyle("autocomplete/jquery.autocomplete.css");
 
-                    $scripts .= "<script>";
-                    $scripts .= "$(document).ready(function(){";
-                    $scripts .= "$('#{$field['id']}').autocomplete({";
-                    $scripts .= "serviceUrl:'" . Uri::url("uris.php?type=users") . "',";
-                    $scripts .= "minChars:1,";
-                    $scripts .= "maxHeight:400,";
-                    $scripts .= "zIndex: 9999";
-                    $scripts .= "});";
-                    $scripts .= "});";
-                    $scripts .= "</script>";
+                    $scripts .= "<script>"
+                        . "$(document).ready(function(){"
+                        . "$('#{$field['id']}').autocomplete({"
+                        . "serviceUrl: '" . Uri::url("uris.php?type=users") . "',"
+                        . "minChars: 1,"
+                        . "maxHeight: 400,"
+                        . "zIndex: 9999"
+                        . "});"
+                        . "});"
+                        . "</script>"
+                    ;
                 }
             }
             elseif($field["type"] == "userarea")
             {
-                $readonly = null;
-                if($field["readonly"])
-                {
-                    $readonly = "readonly=\"readonly\"";
-                }
-
-                if(isset($field["placeholder"]))
-                {
-                    $placeholder = "placeholder=\"{$field["placeholder"]}\"";
-                }
-
-                $form .= "<textarea $placeholder $readonly {$field['code']} id=\"{$field['id']}\" class=\"form-textarea{$field['class']}\" name=\"{$field['name']}\" $required_attr>\n";
-                $form .= $field["value"];
-                $form .= "</textarea>\n";
+                $form .= "<textarea "
+                    . "$placeholder "
+                    . "$readonly "
+                    . "{$field['code']} "
+                    . "id=\"{$field['id']}\" "
+                    . "class=\"form-textarea{$field['class']}\" "
+                    . "name=\"{$field['name']}\" "
+                    . "$required_attr "
+                    . "$autofocus_attr"
+                    . ">\n"
+                    . $field["value"]
+                    . "</textarea>\n"
+                ;
 
                 if(
                     Authentication::groupHasPermission(
@@ -981,39 +1180,40 @@ static function generate($parameters, $fieldsets)
                     )
                 )
                 {
-                    View::addScript("scripts/autocomplete/jquery.autocomplete.js");
-                    View::addStyle("scripts/autocomplete/jquery.autocomplete.css");
+                    View::addSystemScript("autocomplete/jquery.autocomplete.js");
+                    View::addSystemStyle("autocomplete/jquery.autocomplete.css");
 
-                    $scripts .= "<script>";
-                    $scripts .= "$(document).ready(function(){";
-                    $scripts .= "$('#{$field['id']}').autocomplete({";
-                    $scripts .= "serviceUrl:'" . Uri::url("uris.php?type=users") . "',";
-                    $scripts .= "minChars:1,";
-                    $scripts .= "delimiter: /(,|;)\s*/,";
-                    $scripts .= "maxHeight:400,";
-                    $scripts .= "zIndex: 9999";
-                    $scripts .= "});";
-                    $scripts .= "});";
-                    $scripts .= "</script>";
+                    $scripts .= "<script>"
+                        . "$(document).ready(function(){"
+                        . "$('#{$field['id']}').autocomplete({"
+                        . "serviceUrl: '" . Uri::url("uris.php?type=users") . "',"
+                        . "minChars: 1,"
+                        . "delimiter: /(,|;)\s*/,"
+                        . "maxHeight: 400,"
+                        . "zIndex: 9999"
+                        . "});"
+                        . "});"
+                        . "</script>"
+                    ;
                 }
             }
             elseif($field["type"] == "date")
             {
-                View::addScript("scripts/jdpicker/jquery.jdpicker.js");
-                View::addStyle("scripts/jdpicker/jdpicker.css");
+                View::addSystemScript("jdpicker/jquery.jdpicker.js");
+                View::addSystemStyle("jdpicker/jdpicker.css");
 
-                $readonly = null;
-                if($field["readonly"])
-                {
-                    $readonly = "readonly=\"readonly\"";
-                }
-
-                if(isset($field["placeholder"]))
-                {
-                    $placeholder = "placeholder=\"{$field["placeholder"]}\"";
-                }
-
-                $form .= "<input $placeholder {$field['code']} $readonly id=\"{$field['id']}\" class=\"form-{$field['type']}{$field['class']}\" type=\"text\" name=\"{$field['name']}\" value=\"{$field['value']}\" $size_attr $required_attr/>";
+                $form .= "<input "
+                    . "$placeholder "
+                    . "{$field['code']} "
+                    . "$readonly "
+                    . "id=\"{$field['id']}\" "
+                    . "class=\"form-{$field['type']}{$field['class']}\" "
+                    . "type=\"text\" "
+                    . "name=\"{$field['name']}\" "
+                    . "value=\"{$field['value']}\" "
+                    . "$size_attr $required_attr $autofocus_attr"
+                    . "/>"
+                ;
 
                 $date_format = "FF dd YYYY";
 
@@ -1022,17 +1222,53 @@ static function generate($parameters, $fieldsets)
                     $date_format = $field["format"];
                 }
 
-                $scripts .= "<script type=\"text/javascript\">\n";
-                $scripts .= "\$(document).ready(function(){\n";
-                $scripts .= "$('#{$field['id']}').jdPicker({";
-                $scripts .= "month_names: [\"" . t("January") . "\", \"" . t("February") . "\", \"" . t("March") . "\", \"" . t("April") . "\", \"" . t("May") . "\", \"" . t("June") . "\", \"" . t("July") . "\", \"" . t("August") . "\", \"" . t("September") . "\", \"" . t("October") . "\", \"" . t("November") . "\", \"" . t("December") . "\"],\n";
-                $scripts .= "short_month_names: [\"" . t("Jan") . "\", \"" . t("Feb") . "\", \"" . t("Mar") . "\", \"" . t("Apr") . "\", \"" . t("May") . "\", \"" . t("Jun") . "\", \"" . t("Jul") . "\", \"" . t("Aug") . "\", \"" . t("Sep") . "\", \"" . t("Oct") . "\", \"" . t("Nov") . "\", \"" . t("Dec") . "\"],\n";
-                $scripts .= "short_day_names: [\"" . t("SU") . "\", \"" . t("MO") . "\", \"" . t("TU") . "\", \"" . t("WE") . "\", \"" . t("TH") . "\", \"" . t("FR") . "\", \"" . t("SA") . "\"],\n";
-                $scripts .= "error_out_of_range: \"" . t("Selected date is out of range") . "\",\n";
-                $scripts .= "date_format: \"$date_format\"\n";
-                $scripts .= "});";
-                $scripts .= "});\n";
-                $scripts .= "</script>\n";
+                $scripts .= "<script type=\"text/javascript\">\n"
+                    . "\$(document).ready(function(){\n"
+                    . "$('#{$field['id']}').jdPicker({"
+                    . "month_names: ["
+                    . "\"" . t("January") . "\", "
+                    . "\"" . t("February") . "\", "
+                    . "\"" . t("March") . "\", "
+                    . "\"" . t("April") . "\", "
+                    . "\"" . t("May") . "\", "
+                    . "\"" . t("June") . "\", "
+                    . "\"" . t("July") . "\", "
+                    . "\"" . t("August") . "\", "
+                    . "\"" . t("September") . "\", "
+                    . "\"" . t("October") . "\", "
+                    . "\"" . t("November") . "\", "
+                    . "\"" . t("December") . "\""
+                    . "],\n"
+                    . "short_month_names: ["
+                    . "\"" . t("Jan") . "\", "
+                    . "\"" . t("Feb") . "\", "
+                    . "\"" . t("Mar") . "\", "
+                    . "\"" . t("Apr") . "\", "
+                    . "\"" . t("May") . "\", "
+                    . "\"" . t("Jun") . "\", "
+                    . "\"" . t("Jul") . "\", "
+                    . "\"" . t("Aug") . "\", "
+                    . "\"" . t("Sep") . "\", "
+                    . "\"" . t("Oct") . "\", "
+                    . "\"" . t("Nov") . "\", "
+                    . "\"" . t("Dec") . "\""
+                    . "],\n"
+                    . "short_day_names: ["
+                    . "\"" . t("SU") . "\", "
+                    . "\"" . t("MO") . "\", "
+                    . "\"" . t("TU") . "\", "
+                    . "\"" . t("WE") . "\", "
+                    . "\"" . t("TH") . "\", "
+                    . "\"" . t("FR") . "\", "
+                    . "\"" . t("SA") . "\""
+                    . "],\n"
+                    . "error_out_of_range: "
+                    . "\"" . t("Selected date is out of range") . "\",\n"
+                    . "date_format: \"$date_format\"\n"
+                    . "});"
+                    . "});\n"
+                    . "</script>\n"
+                ;
             }
             elseif($field["type"] == "radio")
             {
@@ -1058,9 +1294,22 @@ static function generate($parameters, $fieldsets)
                     {
                         $checked = "checked=\"checked\"";
                     }
+
                     $value = htmlspecialchars($value);
-                    $form .= "<input $checked id=\"{$field['id']}-$radio_index-$value\" class=\"form-{$field['type']}{$field['class']}\" type=\"{$field['type']}\" name=\"{$field['name']}\" value=\"$value\" /> ";
-                    $form .= "<label for=\"{$field['id']}-$radio_index-$value\"><span>$label</span></label>\n";
+
+                    $form .= "<input "
+                        . "$checked "
+                        . "{$field['code']} "
+                        . "id=\"{$field['id']}-$radio_index-$value\" "
+                        . "class=\"form-{$field['type']}{$field['class']}\" "
+                        . "type=\"{$field['type']}\" "
+                        . "name=\"{$field['name']}\" "
+                        . "value=\"$value\" "
+                        . "/> "
+                        . "<label for=\"{$field['id']}-$radio_index-$value\">"
+                        . "<span>$label</span>"
+                        . "</label>\n"
+                    ;
 
                     if(
                         isset($field["horizontal_list"]) &&
@@ -1105,8 +1354,20 @@ static function generate($parameters, $fieldsets)
                         }
 
                         $value = htmlspecialchars($value);
-                        $form .= "<input $checked id=\"{$field['id']}-$check_index-{$field['value']}\" class=\"form-{$field['type']}{$field['class']}\" type=\"{$field['type']}\" name=\"{$field['name']}[]\" value=\"$value\" /> ";
-                        $form .= "<label for=\"{$field['id']}-$check_index-{$field['value']}\"><span>$label</span></label>\n";
+
+                        $form .= "<input "
+                            . "$checked "
+                            . "{$field['code']} "
+                            . "id=\"{$field['id']}-$check_index-{$field['value']}\" "
+                            . "class=\"form-{$field['type']}{$field['class']}\" "
+                            . "type=\"{$field['type']}\" "
+                            . "name=\"{$field['name']}[]\" "
+                            . "value=\"$value\" "
+                            . "/> "
+                            . "<label for=\"{$field['id']}-$check_index-{$field['value']}\">"
+                            . "<span>$label</span>"
+                            . "</label>\n"
+                        ;
 
                         $form .= "</div>\n";
 
@@ -1127,12 +1388,39 @@ static function generate($parameters, $fieldsets)
                         $value = "value=\"{$field['value']}\"";
                     }
 
-                    $form .= "<label for=\"{$field['id']}-{$field["value"]}\"><span>{$field['label']}</span></label> ";
-                    $form .= "<input $checked $value id=\"{$field['id']}-{$field["value"]}\" class=\"form-{$field['type']}{$field['class']}\" type=\"{$field['type']}\" name=\"{$field['name']}\" /> \n";
+                    $form .= "<label for=\"{$field['id']}-{$field["value"]}\">"
+                        . "<span>{$field['label']}</span>"
+                        . "</label> "
+                        . "<input "
+                        . "$checked "
+                        . "{$field['code']} "
+                        . "$value "
+                        . "id=\"{$field['id']}-{$field["value"]}\" "
+                        . "class=\"form-{$field['type']}{$field['class']}\" "
+                        . "type=\"{$field['type']}\" "
+                        . "name=\"{$field['name']}\" "
+                        . "/> \n"
+                    ;
                 }
             }
             elseif($field["type"] == "select")
             {
+                $lang = explode("-", Language::getCurrent())[0];
+
+                View::addSystemStyle("select2/select2.min.css");
+                View::addSystemScript("select2/select2.min.js");
+
+                if(
+                    $lang != "en"
+                    &&
+                    file_exists(
+                        System::JS_PATH . "select2/i18n/$lang.js"
+                    )
+                )
+                {
+                    View::addSystemScript("select2/i18n/$lang.js");
+                }
+
                 $field["multiple"] = isset($field["multiple"]) ?
                     $field["multiple"]
                     :
@@ -1151,7 +1439,17 @@ static function generate($parameters, $fieldsets)
                     $multiple = "multiple=\"multiple\"";
                 }
 
-                $form .= "<select {$field['code']} $multiple id=\"{$field['id']}\" class=\"form-{$field['type']}{$field['class']}\" name=\"{$field['name']}\" $required_attr>\n";
+                $form .= "<select "
+                    . "{$field['code']} "
+                    . "$multiple "
+                    . "id=\"{$field['id']}\" "
+                    . "class=\"form-{$field['type']}{$field['class']}\" "
+                    . "name=\"{$field['name']}\" "
+                    . "$required_attr "
+                    . "$autofocus_attr"
+                    . ">\n"
+                ;
+
                 foreach($field["value"] as $label => $value)
                 {
                     //For compatibility with jaris realty
@@ -1161,14 +1459,25 @@ static function generate($parameters, $fieldsets)
                         {
                             $form .= "<optgroup label=\"{$options['label']}\">";
 
-                            foreach($options["values"] as $option_label => $option_value)
+                            foreach(
+                                $options["values"]
+                                as
+                                $option_label => $option_value
+                            )
                             {
                                 $selected = "";
                                 if($field["selected"] == $option_value)
                                 {
                                     $selected = "selected=\"selected\"";
                                 }
-                                $form .= "<option $selected value=\"$option_value\">$option_label</option>\n";
+
+                                $form .= "<option "
+                                    . "$selected "
+                                    . "value=\"$option_value\""
+                                    . ">"
+                                    . $option_label
+                                    . "</option>\n"
+                                ;
                             }
                             $form .= "</optgroup>";
                         }
@@ -1197,34 +1506,94 @@ static function generate($parameters, $fieldsets)
                         {
                             $selected = "selected=\"selected\"";
                         }
+
                         $value = htmlspecialchars($value);
-                        $form .= "<option $selected value=\"$value\">$label</option>\n";
+
+                        $form .= "<option "
+                            . "$selected "
+                            . "value=\"$value\""
+                            . ">"
+                            . $label
+                            . "</option>\n"
+                        ;
                     }
                 }
                 $form .= "</select>\n";
+
+                $select_placeholder = "";
+                if($field["multiple"])
+                {
+                    if($field["placeholder"])
+                    {
+                        $select_placeholder .= ", "
+                            . "placeholder: '".$field["placeholder"]."'"
+                        ;
+                    }
+                    else
+                    {
+                        $select_placeholder .= ", "
+                            . "placeholder: '".t("select values")."'"
+                        ;
+                    }
+                }
+
+                $tags = isset($field["tags"]) && $field["tags"] ?
+                    "true"
+                    :
+                    "false"
+                ;
+
+                $scripts .= "<script type=\"text/javascript\">\n"
+                    . "\$(document).ready(function(){\n"
+                    . "$('#{$field['id']}').select2("
+                    . "{"
+                    . "language: '$lang', "
+                    . "tags: $tags"
+                    . $select_placeholder
+                    . "}"
+                    . ");\n"
+                    . "});\n"
+                    . "</script>\n"
+                ;
             }
             elseif($field["type"] == "textarea")
             {
-                $readonly = null;
-                if($field["readonly"])
-                {
-                    $readonly = "readonly=\"readonly\"";
-                }
-
-                if(isset($field["placeholder"]))
-                {
-                    $placeholder = "placeholder=\"{$field["placeholder"]}\"";
-                }
-
-                $form .= "<textarea $placeholder $readonly {$field['code']} id=\"{$field['id']}\" class=\"form-{$field['type']}{$field['class']}\" name=\"{$field['name']}\" >\n";
-                $form .= $field["value"];
-                $form .= "</textarea>\n";
+                $form .= "<textarea "
+                    . "$placeholder "
+                    . "$readonly "
+                    . "{$field['code']} "
+                    . "id=\"{$field['id']}\" "
+                    . "class=\"form-{$field['type']}{$field['class']}\" "
+                    . "name=\"{$field['name']}\" "
+                    . "$autofocus_attr"
+                    . ">\n"
+                    . $field["value"]
+                    . "</textarea>\n"
+                ;
 
                 if(isset($field["limit"]))
                 {
-                    View::addScript("scripts/optional/jquery.limit.js");
-                    $field["description"] .= " <span class=\"form-chars-left\" id=\"{$field["id"]}-limit\">{$field['limit']}</span>&nbsp;" . "<span class=\"form-chars-left-label\">" . t("characters left") . "</span>";
-                    $scripts .= "<script>$(\"#{$field["id"]}\").limit('{$field['limit']}', '#{$field["id"]}-limit')</script>";
+                    View::addSystemScript("optional/jquery.limit.js");
+
+                    $field["description"] .= " <span "
+                        . "class=\"form-chars-left\" "
+                        . "id=\"{$field["id"]}-limit\""
+                        . ">"
+                        . $field['limit']
+                        . "</span>"
+                        . "&nbsp;"
+                        . "<span class=\"form-chars-left-label\">"
+                        . t("characters left")
+                        . "</span>"
+                    ;
+
+                    $scripts .= "<script>"
+                        . "$(\"#{$field["id"]}\").limit("
+                        . "'{$field['limit']}', "
+                        . "'#{$field["id"]}-limit'"
+                        . ");"
+                        . "</script>"
+                    ;
                 }
             }
             elseif($field["type"] == "other")
@@ -1237,11 +1606,59 @@ static function generate($parameters, $fieldsets)
                 $num2 = rand(1, 20);
                 $result = $num1 + $num2;
 
-                $_SESSION["validation_fields"][$parameters["name"]][$field["name"]] = array("type" => $field["type"], "name" => $field["name"], "value" => $result);
+                $_SESSION["validation_fields"]
+                    [$parameters["name"]]
+                    [$field["name"]] = array(
+                        "type" => $field["type"],
+                        "name" => $field["name"],
+                        "value" => $result
+                );
 
-                $form .= "<input {$field['code']} id=\"{$field['id']}\" class=\"form-{$field['class']}\" type=\"text\" name=\"{$field['name']}\" $size_attr $required_attr/>";
+                View::addSystemScript("jquery-base64/jquery.base64.min.js");
 
-                $field["description"] .= "<span class=\"form-validate-sum\" >" . t("Enter the sum of") . " <strong>$num1</strong> + <strong>$num2</strong></span>";
+                $values = array();
+                $last_value = rand(5, 100);
+                for($i=0; $i<=$last_value; $i++)
+                {
+                    $values[] = "/* $.base64.decode('"
+                        . base64_encode(
+                            "$('#{$field['id']}').val('".\Jaris\Users::generatePassword(2)."');"
+                        )
+                        . "') */"
+                    ;
+                }
+
+                $values[rand(0, $last_value)] = " $.base64.decode('"
+                    . base64_encode(
+                        "$('#{$field['id']}').val('$result');"
+                    )
+                    . "') "
+                ;
+
+                $values_string = "";
+                foreach($values as $value)
+                {
+                    $values_string .= $value;
+                }
+
+                $add_field = "eval( $.base64.decode('"
+                    . base64_encode(
+                        "$('#{$parameters['id']}').append("
+                        . "'<input type=\"hidden\" name=\"{$field['name']}\" id=\"{$field['id']}\" />'"
+                        . ");"
+                    )
+                    . "') );"
+                ;
+
+                $scripts .= "<script>"
+                    . "$(document).ready(function(){"
+                    . $add_field
+                    . "eval("
+                    . $values_string
+                    . ");"
+                    . "});"
+                    . "</script>"
+                ;
             }
             elseif($field["type"] == "submit" || $field["type"] == "reset")
             {
@@ -1253,19 +1670,30 @@ static function generate($parameters, $fieldsets)
                     $novalidate .= "formnovalidate";
                 }
 
-                $form .= "<input $novalidate {$field['code']} id=\"{$field['name']}\" class=\"form-{$field['type']}{$field['class']}\" type=\"{$field['type']}\" name=\"{$field['name']}\" value=\"{$field['value']}\" /> ";
+                $form .= "<input "
+                    . "$novalidate "
+                    . "{$field['code']} "
+                    . "id=\"{$field['name']}\" "
+                    . "class=\"form-{$field['type']}{$field['class']}\" "
+                    . "type=\"{$field['type']}\" "
+                    . "name=\"{$field['name']}\" "
+                    . "value=\"{$field['value']}\" "
+                    . "/> "
+                ;
             }
 
             //Print description of field
             if(isset($field["description"]))
             {
-                $form .= "<div class=\"description\">\n";
-                $form .= "<span>{$field['description']}</span>\n";
-                $form .= "</div>\n";
+                $form .= "<div class=\"description\">\n"
+                    . "<span>{$field['description']}</span>\n"
+                    . "</div>\n"
+                ;
             }
 
             if(
-                $field["type"] != "hidden" && $field["type"] != "other" &&
+                $field["type"] != "hidden" && $field["type"] != "other"
+                &&
                 $field["type"] != "submit" && $field["type"] != "reset"
             )
             {
@@ -1296,13 +1724,16 @@ static function generate($parameters, $fieldsets)
 
 /**
  * Helper static function to generate the starting html of a collapsible fieldset.
+ *
  * @param string $title
  * @param bool $collapsible
  * @param bool $collapsed
+ *
  * @return string
- * @original forms_begin_fieldset
  */
-static function beginFieldset($title, $collapsible=true, $collapsed=false)
+static function beginFieldset(
+    string $title, bool $collapsible=true, bool $collapsed=false
+): string
 {
     $html = "";
 
@@ -1334,11 +1765,12 @@ static function beginFieldset($title, $collapsible=true, $collapsed=false)
 
 /**
  * Helper static function to generate the closing html of a collapsible fieldset.
+ *
  * @param string $description
+ *
  * @return string
- * @original forms_end_fieldset
  */
-static function endFieldset($description="")
+static function endFieldset(string $description=""): string
 {
     $html = "";
 
@@ -1354,34 +1786,39 @@ static function endFieldset($description="")
 
 /**
  * Adds a new field to a form fieldset array after a given field name.
+ *
  * @param array $field The new field to add.
  * @param string $field_name The name of the field used as reference to insert
- *        new one.
+ * new one.
  * @param array $fieldset Reference to the fieldset array where new field is
- *        going to be inserted.
- * @original forms_add_field_after
+ * going to be inserted.
  */
-static function addFieldAfter(array $field, $field_name, &$fieldset)
+static function addFieldAfter(
+    array $field, string $field_name, array &$fieldset
+): void
 {
     self::addField($field, $field_name, $fieldset);
 }
 
 /**
  * Adds a new field to a form fieldset array before a given field name.
+ *
  * @param array $field The new field to add.
  * @param string $field_name The name of the field used as reference to insert
- *        new one.
+ * new one.
  * @param array $fieldset Reference to the fieldset array where new field is
- *        going to be inserted.
- * @original forms_add_field_before
+ * going to be inserted.
  */
-static function addFieldBefore(array $field, $field_name, &$fieldset)
+static function addFieldBefore(
+    array $field, string $field_name, array &$fieldset
+): void
 {
     self::addField($field, $field_name, $fieldset, true);
 }
 
 /**
  * Adds a new field to a form fieldset array after or before a given field name.
+ *
  * @param array $field The new field to add.
  * @param string $field_name The name of the field used as reference to insert
  * new one.
@@ -1389,9 +1826,10 @@ static function addFieldBefore(array $field, $field_name, &$fieldset)
  * going to be inserted.
  * @param bool $before Flag which indicates if new field should be inserted
  * before the given field name or after it.
- * @original forms_add_field
  */
-static function addField(array $field, $field_name, &$fieldset, $before=false)
+static function addField(
+    array $field, string $field_name, array &$fieldset, bool $before=false
+): void
 {
     $fields = array($field);
 
@@ -1400,6 +1838,7 @@ static function addField(array $field, $field_name, &$fieldset, $before=false)
 
 /**
  * Adds a new set of fields to a form fieldset array after or before a given field name.
+ *
  * @param array $fields The new array of fields to add.
  * @param string $field_name The name of the field used as reference to insert
  * new one.
@@ -1407,9 +1846,10 @@ static function addField(array $field, $field_name, &$fieldset, $before=false)
  * going to be inserted.
  * @param bool $before Flag which indicates if new field should be inserted
  * before the given field name or after it.
- * @original forms_add_fields
  */
-static function addFields(array $fields, $field_name, &$fieldset, $before=false)
+static function addFields(
+    array $fields, string $field_name, array &$fieldset, bool $before=false
+): void
 {
     foreach($fieldset as $fieldset_index=>$fieldset_data)
     {
@@ -1459,13 +1899,20 @@ static function addFields(array $fields, $field_name, &$fieldset, $before=false)
 
 /**
  * Move a field to another position in a fieldset.
+ *
  * @param string $field_name The name of the field to move.
  * @param string $sibling_name The name of sibling field to move near to.
  * @param array $fieldset Reference to the fieldsets array.
  * @param bool $before False to move before sibling.
+ *
  * @return bool true if moved otherwise false.
  */
-static function moveField($field_name, $sibling_name, &$fieldset, $before=false)
+static function moveField(
+    string $field_name,
+    string $sibling_name,
+    array &$fieldset,
+    bool $before=false
+): bool
 {
     foreach($fieldset as $fieldset_index=>$fieldset_data)
     {
@@ -1502,13 +1949,20 @@ static function moveField($field_name, $sibling_name, &$fieldset, $before=false)
 
 /**
  * Move an unamed other field to another position in a fieldset.
+ *
  * @param string $content_match String inside the field html to match.
  * @param string $sibling_name The name of sibling field to move near to.
  * @param array $fieldset Reference to the fieldsets array.
  * @param bool $before False to move before sibling.
+ *
  * @return bool true if moved otherwise false.
  */
-static function moveOtherField($content_match, $sibling_name, &$fieldset, $before=false)
+static function moveOtherField(
+    string $content_match,
+    string $sibling_name,
+    array &$fieldset,
+    bool $before=false
+): bool
 {
     foreach($fieldset as $fieldset_index=>$fieldset_data)
     {
@@ -1544,12 +1998,44 @@ static function moveOtherField($content_match, $sibling_name, &$fieldset, $befor
 }
 
 /**
+ * Gets a field reference to be able to modify it.
+ *
+ * @param string $field_name The name of the field to retreive.
+ * @param array $fieldset Reference to the fieldsets array.
+ *
+ * @return array Field or empty array if not found.
+ */
+static function &getField(string $field_name, array &$fieldset): array
+{
+    foreach($fieldset as $fieldset_index=>$fieldset_data)
+    {
+        foreach($fieldset_data["fields"] as $field_index=>$field_data)
+        {
+            if(isset($field_data["name"]))
+            {
+                if($field_data["name"] == $field_name)
+                {
+                    return $fieldset[$fieldset_index]
+                        ["fields"]
+                        [$field_index]
+                    ;
+                }
+            }
+        }
+    }
+
+    return array();
+}
+
+/**
  * Removes a field from a given fieldset.
+ *
  * @param string $field_name The name of the field to remove.
  * @param array $fieldset Reference to the fieldsets array.
+ *
  * @return bool true if removed otherwise false.
  */
-static function deleteField($field_name, &$fieldset)
+static function deleteField(string $field_name, array &$fieldset): bool
 {
     foreach($fieldset as $fieldset_index=>$fieldset_data)
     {
@@ -1584,11 +2070,13 @@ static function deleteField($field_name, &$fieldset)
 
 /**
  * Removes an unnamed other field from a given fieldset.
+ *
  * @param string $content_match The html content of the field to match.
  * @param array $fieldset Reference to the fieldsets array.
+ *
  * @return bool true if removed otherwise false.
  */
-static function deleteOtherField($content_match, &$fieldset)
+static function deleteOtherField(string $content_match, array &$fieldset): bool
 {
     foreach($fieldset as $fieldset_index=>$fieldset_data)
     {
@@ -1623,6 +2111,7 @@ static function deleteOtherField($content_match, &$fieldset)
 
 /**
  * Add a new fieldset with fields to an array of fieldsets.
+ *
  * @param array $fieldsets
  * @param string|int $position Can be the name of an existing
  * fieldset or numeric position.
@@ -1630,14 +2119,13 @@ static function deleteOtherField($content_match, &$fieldset)
  * additional fieldsets.
  * @param bool $before Indicates if the fieldset should be added
  * before of after the indicated position
- * @original forms_add_fieldsets
  */
 static function addFieldsets(
     array $fieldsets,
     $position,
-    &$fieldset,
-    $before=false
-)
+    array &$fieldset,
+    bool $before=false
+): void
 {
     if(is_string($position))
     {
@@ -1646,6 +2134,7 @@ static function addFieldsets(
             if($fieldset_data["name"] == t($position))
             {
                 $position = $index;
+                break;
             }
         }
     }
@@ -1662,6 +2151,122 @@ static function addFieldsets(
     }
 
     array_splice($fieldset, $position, 1, $new_fieldsets);
+}
+
+/**
+ * Add a new fieldset with fields to an array of fieldsets.
+ *
+ * @param string|int $position Can be the name of an existing
+ * fieldset or numeric position.
+ * @param array $fieldset Existing fieldset array where adding adding the
+ * additional fieldsets.
+ */
+static function &getFieldset(
+    $position,
+    array &$fieldset
+): array
+{
+    if(is_string($position))
+    {
+        foreach($fieldset as $index=>$fieldset_data)
+        {
+            if($fieldset_data["name"] == t($position))
+            {
+                $position = $index;
+                break;
+            }
+        }
+    }
+
+    return $fieldset[$position];
+}
+
+/**
+ * Add a new fieldset with fields to an array of fieldsets.
+ *
+ * @param string|int $position Can be the name of an existing
+ * fieldset or numeric position.
+ * @param array $fieldset Existing fieldset array where adding adding the
+ * additional fieldsets.
+ */
+static function deleteFieldset(
+    $position,
+    array &$fieldset
+): void
+{
+    if(is_string($position))
+    {
+        foreach($fieldset as $index=>$fieldset_data)
+        {
+            if($fieldset_data["name"] == t($position))
+            {
+                $position = $index;
+                break;
+            }
+        }
+    }
+
+    unset($fieldset[$position]);
+}
+
+/**
+ * Moves an existing fieldset with fields to another position.
+ *
+ * @param string|int $position Can be the name of an existing
+ * fieldset or numeric position.
+ * @param string|int $sibling_position Can be the name of an existing
+ * fieldset or numeric position.
+ * @param array $fieldsets
+ * @param bool $before Indicates if the fieldset should be added
+ * before of after the indicated position
+ */
+static function moveFieldset(
+    $position,
+    $sibling_position,
+    array &$fieldset,
+    bool $before=false
+): void
+{
+    if(is_string($position))
+    {
+        foreach($fieldset as $index=>$fieldset_data)
+        {
+            if($fieldset_data["name"] == t($position))
+            {
+                $position = $index;
+                break;
+            }
+        }
+    }
+
+    if(is_string($sibling_position))
+    {
+        foreach($fieldset as $index=>$fieldset_data)
+        {
+            if($fieldset_data["name"] == t($sibling_position))
+            {
+                $sibling_position = $index;
+                break;
+            }
+        }
+    }
+
+    $new_fieldset_positions = array();
+
+    if($before)
+    {
+        $new_fieldset_positions[] = $fieldset[$position];
+        $new_fieldset_positions[] = $fieldset[$sibling_position];
+    }
+    else
+    {
+        $new_fieldset_positions[] = $fieldset[$sibling_position];
+        $new_fieldset_positions[] = $fieldset[$position];
+    }
+
+    unset($fieldset[$position]);
+
+    array_splice($fieldset, $sibling_position, 1, $new_fieldset_positions);
 }
 
 }

@@ -20,9 +20,8 @@ class Fields
  * @param string $type The machine name of the type.
  *
  * @return bool True on success or false on failure.
- * @original add_type_field
  */
-static function add($fields, $type)
+static function add(array $fields, string $type): bool
 {
     if($type == "")
     {
@@ -50,9 +49,8 @@ static function add($fields, $type)
  * @param string $type The machine name of the type.
  *
  * @return bool True on success or false on failure.
- * @original edit_type_field
  */
-static function edit($id, $fields, $type)
+static function edit(int $id, array $fields, string $type): bool
 {
     if($id == "" && $type == "")
     {
@@ -78,9 +76,8 @@ static function edit($id, $fields, $type)
  * @param string $type The machine name of the type.
  *
  * @return bool True on success or false on failure.
- * @original delete_type_field
  */
-static function delete($id, $type)
+static function delete(int $id, string $type): bool
 {
     if($id == "" && $type == "")
     {
@@ -104,9 +101,8 @@ static function delete($id, $type)
  * @param string $type The machine name of the type.
  *
  * @return array Array with a field fields or empty array if not found.
- * @original get_type_field_data
  */
-static function get($id, $type)
+static function get(int $id, string $type): array
 {
     if($id == "" && $type == "")
     {
@@ -129,9 +125,8 @@ static function get($id, $type)
  * @param string $type The machine name of the type.
  *
  * @return array Array on success or empty array on failure.
- * @original get_type_fields
  */
-static function getList($type)
+static function getList(string $type): array
 {
     if($type == "")
     {
@@ -168,11 +163,10 @@ static function getList($type)
  * Used to append extra custom fields when submiting content on a content type.
  *
  * @param string $type The machine name of the type.
- * @param array $current_fields A reference to the variable
+ * @param ?array $current_fields A reference to the variable
  * that holds default data to append custom fields.
- * @original append_type_extra_fields
  */
-static function appendFields($type, &$current_fields)
+static function appendFields(string $type, ?array &$current_fields): void
 {
     $fields = self::getList($type);
 
@@ -228,9 +222,8 @@ static function appendFields($type, &$current_fields)
  * @param string $type The machine name of the type.
  *
  * @return bool
- * @original files_type_upload_pass
  */
-static function validUploads($type)
+static function validUploads(string $type): bool
 {
     $fields = self::getList($type);
 
@@ -546,9 +539,8 @@ static function validUploads($type)
  *
  * @param string $type Content type of the page to work on,
  * @param string $page Uri of the page where file uploads are going to be saved.
- * @original files_type_save_uploads
  */
-static function saveUploads($type, $page)
+static function saveUploads(string $type, string $page): void
 {
     $fields = self::getList($type);
 
@@ -903,9 +895,8 @@ static function saveUploads($type, $page)
  * $values["variable_name"] = value.
  *
  * @return array Array of custom fields for the given type or empty array.
- * @original generate_type_form_fields
  */
-static function generateFields($type, $values = array())
+static function generateFields(string $type, array $values = []): array
 {
     if($type == "")
     {
@@ -1368,9 +1359,8 @@ static function generateFields($type, $values = array())
  * @param string $type The machine name of the content type.
  *
  * @return string Path on success or empty string if no fields exist.
- * @original generate_type_fields_path
  */
-static function getPath($type)
+static function getPath(string $type): string
 {
     if($type == "")
     {

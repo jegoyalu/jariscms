@@ -49,7 +49,7 @@ row: 0
 
         <?php if($background["multi"]){ ?>
             $(document).ready(function(){
-                $.backstretch(
+                $<?php if(!empty($background["element"])){ ?>("<?php print $background["element"]; ?>")<?php } ?>.backstretch(
                     [<?php print $images; ?>],
                     {
                         fade: <?php print $background["fade_speed"]; ?>,
@@ -79,7 +79,12 @@ row: 0
             });
         <?php } else{ ?>
             $(document).ready(function(){
+                <?php if(empty($background["element"])){ ?>
                 var backgroundContainer = $('<div class="background background-<?php print intval($_REQUEST["id"]); ?>" />');
+                <?php } else{ ?>
+                var backgroundContainer = $('<?php print $background["element"]; ?>');
+                <?php } ?>
+
                 backgroundContainer.css(
                     "background",
                     "transparent url(<?php print Jaris\Uri::url(Jaris\Files::get($background["image"], "backgrounds")); ?>) <?php print $background["mode"]; ?> <?php print $background["position"]; ?> <?php print intval($background["top"]); ?>px"
@@ -88,6 +93,8 @@ row: 0
                     "background-attachment",
                     "<?php print $background["attachment"]; ?>"
                 );
+
+                <?php if(empty($background["element"])){ ?>
                 backgroundContainer.css("min-height", $(window).height()+"px");
                 $("body").css(
                     "background-color",
@@ -95,6 +102,7 @@ row: 0
                 );
                 $("body > *").appendTo(backgroundContainer);
                 backgroundContainer.appendTo("body");
+                <?php } ?>
 
                 <?php if($background["responsive"] && intval($background["max_width"]) > 0){ ?>
                 function resizeBG()

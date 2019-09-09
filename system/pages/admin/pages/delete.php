@@ -35,7 +35,9 @@ row: 0
             Jaris\Authentication::protectedPage();
         }
 
-        $arguments["uri"] = $_REQUEST["uri"];
+        $arguments = array(
+            "uri" => $_REQUEST["uri"]
+        );
 
         //Tabs
         if(

@@ -41,7 +41,8 @@ row: 0
         Jaris\System::printNavigation(
             $flags_count,
             $page,
-            Jaris\Modules::getPageUri("admin/comments/flags", "comments")
+            "admin/comments/flags",
+            "comments"
         );
 
         print "<table class=\"navigation-list\">";
@@ -111,10 +112,8 @@ row: 0
         Jaris\System::printNavigation(
             $flags_count,
             $page,
-            Jaris\Modules::getPageUri(
-                "admin/comments/flags",
-                "comments"
-            )
+            "admin/comments/flags",
+            "comments"
         );
     ?>
     field;

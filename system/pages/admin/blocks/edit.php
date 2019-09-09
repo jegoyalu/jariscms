@@ -120,7 +120,11 @@ row: 0
         );
 
         //Tabs
-        Jaris\View::addTab(t("Delete"), "admin/blocks/delete", $arguments);
+        if(!$block_data["is_system"])
+        {
+            Jaris\View::addTab(t("Delete"), "admin/blocks/delete", $arguments);
+        }
+
         Jaris\View::addTab(t("Blocks"), "admin/blocks");
         Jaris\View::addTab(t("Translate"), "admin/blocks/translate", $arguments);
 

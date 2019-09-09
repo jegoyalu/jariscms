@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: JarisCMS Ecommerce v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-02 18:34-0400\n"
+"POT-Creation-Date: 2019-06-12 14:04-0400\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Jefferson González <jgonzalez@jegoyalu.com>\n"
 "Language-Team: JegoYalu <servicios@jegoyalu.com>\n"
@@ -13,34 +13,34 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: ../..\n"
 "X-Poedit-KeywordsList: t\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 2.2.1\n"
 "X-Poedit-SearchPath-0: .\n"
 
 #: data/admin-settings-ckeditor.php:15
 msgid "CKEditor Settings"
 msgstr "Configuraciones de CKEditor"
 
-#: data/admin-settings-ckeditor.php:65
+#: data/admin-settings-ckeditor.php:90
 msgid "Your changes have been saved."
 msgstr "Tus cambios fueron guardados."
 
-#: data/admin-settings-ckeditor.php:80
+#: data/admin-settings-ckeditor.php:110
 msgid "Groups"
 msgstr "Grupos"
 
-#: data/admin-settings-ckeditor.php:84
+#: data/admin-settings-ckeditor.php:114
 msgid "Description"
 msgstr "Descripción"
 
-#: data/admin-settings-ckeditor.php:116
+#: data/admin-settings-ckeditor.php:148
 msgid "edit"
 msgstr "editar"
 
-#: data/admin-settings-ckeditor.php:144
+#: data/admin-settings-ckeditor.php:174
 msgid "Enable ckeditor?"
 msgstr "Activar ckeditor?"
 
-#: data/admin-settings-ckeditor.php:176
+#: data/admin-settings-ckeditor.php:209
 #, php-format
 msgid ""
 "Here you can <a target=\"_blank\" href=\"%s\">alter</a> the ckeditor "
@@ -49,47 +49,51 @@ msgstr ""
 "Aquí puedes <a target=\"_blank\" href=\"%s\">alterar</a> la configuración "
 "del CKEeditor."
 
-#: data/admin-settings-ckeditor.php:184 data/admin-settings-ckeditor.php:191
+#: data/admin-settings-ckeditor.php:219 data/admin-settings-ckeditor.php:226
 msgid "Configuration:"
 msgstr "Configuración:"
 
-#: data/admin-settings-ckeditor.php:195
+#: data/admin-settings-ckeditor.php:230
 msgid "Main color of the editor interface."
 msgstr "Color principal de la interfaz del editor."
 
-#: data/admin-settings-ckeditor.php:203
+#: data/admin-settings-ckeditor.php:238
 msgid "Check all plugins to enable:"
 msgstr "Marca todos los 'plugins' a activar:"
 
-#: data/admin-settings-ckeditor.php:224
+#: data/admin-settings-ckeditor.php:259
 msgid "Textarea Id:"
 msgstr "Id del textarea:"
 
-#: data/admin-settings-ckeditor.php:228
+#: data/admin-settings-ckeditor.php:267
 msgid "List of textarea id's seperated by comma (,)."
 msgstr "Listado de id para diferentes textarea separados por coma (,)."
 
-#: data/admin-settings-ckeditor.php:234
+#: data/admin-settings-ckeditor.php:273
 msgid "Form names:"
 msgstr "Nombre formularios:"
 
-#: data/admin-settings-ckeditor.php:247
+#: data/admin-settings-ckeditor.php:301
 msgid "List of form names seperated by comma (,)."
 msgstr "Listado de nombres de formularios separados por coma (,)."
 
-#: data/admin-settings-ckeditor.php:259
+#: data/admin-settings-ckeditor.php:313
 msgid "Show disable editor button?"
 msgstr "Mostrar botón para desactivar editor?"
 
-#: data/admin-settings-ckeditor.php:274
+#: data/admin-settings-ckeditor.php:321
+msgid "Use default site css for content editor?"
+msgstr "Usar CSS de la página para el editor de contenido?"
+
+#: data/admin-settings-ckeditor.php:336
 msgid "Save"
 msgstr "Guardar"
 
-#: data/admin-settings-ckeditor.php:280
+#: data/admin-settings-ckeditor.php:342
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: data/admin-settings-ckeditor.php:287
+#: data/admin-settings-ckeditor.php:349
 msgid "Selected group:"
 msgstr "Grupo seleccionado:"
 
@@ -101,7 +105,7 @@ msgstr "Nagevador de archivos"
 msgid "Click a file below to select."
 msgstr "Haz click en un nombre de archivo para seleccionar."
 
-#: data/ckeditorlink.php:144
+#: data/ckeditorlink.php:145
 msgid "No files available."
 msgstr "No hay archivos disponibles."
 
@@ -141,23 +145,22 @@ msgstr "Subida de imágenes no permitida para este tipo de contenido."
 msgid "Maximum image uploads reached."
 msgstr "Cantidad máxima de imágenes subidas alcanzada."
 
-#: functions.php:115
+#: functions.php:146
 msgid "Disable Editor"
 msgstr "Desactivar Editor"
 
-#: functions.php:202
+#: functions.php:232
 msgid "Enable Editor"
 msgstr "Activar Editor"
 
-#: functions.php:294
+#: functions.php:330
 msgid "CKEditor"
 msgstr ""
 
 #: install.php:13
 msgid "Remember to set the ckeditor configurations to work properly."
 msgstr ""
-"Recuerda configurar las opciones de CKEditor para un correcto "
-"funcionamiento."
+"Recuerda configurar las opciones de CKEditor para un correcto funcionamiento."
 
 #: install.php:20
 msgid "Configure Now"

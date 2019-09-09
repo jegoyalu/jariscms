@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Jefferson González <jgonzalez@jegoyalu.com>
- * @license https://opensource.org/licenses/GPL-3.0 
+ * @license https://opensource.org/licenses/GPL-3.0
  * @link http://github.com/jegoyalu/jariscms Source code.
  */
 
@@ -27,9 +27,8 @@ const SIGNAL_SET_GROUP_PERMISSION = "hook_set_group_permission";
  * in the format array(name=>value, description=>value).
  *
  * @return string "true" string on success or error message on fail.
- * @original add_group
  */
-static function add($group_name, $fields)
+static function add(string $group_name, array $fields): string
 {
     $group_data_path = self::getPath($group_name);
 
@@ -62,9 +61,8 @@ static function add($group_name, $fields)
  * @param string $group_name The machine readable group to delete.
  *
  * @return string "true" string on success or error message on fail.
- * @original delete_group
  */
-static function delete($group_name)
+static function delete(string $group_name): string
 {
     //Check if group is not from system
     if(
@@ -106,9 +104,10 @@ static function delete($group_name)
  * @param string $new_name The new machine readable name.
  *
  * @return string "true" string on success or error message on fail.
- * @original edit_group
  */
-static function edit($group_name, $new_data, $new_name = "")
+static function edit(
+    string $group_name, array $new_data, string $new_name = ""
+): string
 {
     $group_data_path = self::getPath($group_name);
 
@@ -161,9 +160,8 @@ static function edit($group_name, $new_data, $new_name = "")
  *
  * @return array An array with all the fields of the group or empty array
  * if the group was not found.
- * @original get_group_data
  */
-static function get($group_name)
+static function get(string $group_name): array
 {
     $group_data_path = self::getPath($group_name);
 
@@ -185,9 +183,8 @@ static function get($group_name)
  *
  * @return array An array of groups in the format
  * array(name=>"group directory name").
- * @original get_group_list
  */
-static function getList()
+static function getList(): array
 {
     static $groups = array();
 
@@ -217,21 +214,20 @@ static function getList()
 /**
  * Generates the neccesary array for the form fields.
  *
- * @param array $selected The array of selected groups on the control.
+ * @param ?array $selected The array of selected groups on the control.
  * @param string $field_name
  * @param array $skip_groups
  * @param bool $inline
  *
  * @return array wich represent a series of fields that can
  * be used when generating a form on a fieldset.
- * @original generate_groups_fields_list
  */
 static function generateFields(
-    $selected = null,
-    $field_name="groups",
-    $skip_groups = array(),
-    $inline=false
-)
+    ?array $selected = [],
+    string $field_name="groups",
+    array $skip_groups = [],
+    bool $inline=false
+): array
 {
     $fields = array();
 
@@ -244,8 +240,6 @@ static function generateFields(
             continue;
 
         $group_data = self::get($machine_name);
-
-        $groups[t($group_data["name"])] = $machine_name;
 
         $checked = false;
         if($selected)
@@ -282,9 +276,10 @@ static function generateFields(
  * @param string $group_name The name of the group the set the permission on.
  *
  * @return bool True on success or false on fail.
- * @original set_group_permission
  */
-static function setPermission($permission_name, $value, $group_name)
+static function setPermission(
+    string $permission_name, ?string $value, string $group_name
+): bool
 {
     $permissions_data_path = self::getPath($group_name);
 
@@ -311,9 +306,8 @@ static function setPermission($permission_name, $value, $group_name)
  *
  * @return array Array in the format
  * permissions["group"] = array("machine_name"=>"Human Name").
- * @original get_permissions_array
  */
-static function getPermissions($group)
+static function getPermissions(string $group): array
 {
     //Login Permissions
     $login = array();
@@ -440,6 +434,7 @@ static function getPermissions($group)
     //Theme
     $theme = array();
     $theme["select_theme"] = t("Select");
+    $theme["select_user_theme"] = t("Select user theme");
     $theme["delete_theme"] = t("Delete");
 
     //Languages
@@ -499,9 +494,8 @@ static function getPermissions($group)
  * Generates the data path for a group.
  *
  * @param string $group_name The group to translate to a valid user data path.
- * @original generate_group_path
  */
-static function getPath($group_name)
+static function getPath(string $group_name): string
 {
     $group_data_path = Site::dataDir() . "groups/$group_name/data.php";
 

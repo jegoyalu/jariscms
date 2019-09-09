@@ -3,27 +3,30 @@
 
 cd "$(dirname "$0")" || exit
 
-PHAN_PATH=vendor/etsy/phan/phan
-PHPLOC_PATH=vendor/phploc/phploc/phploc
-APIGEN_PATH=vendor/apigen/apigen/bin/apigen
+initialize() 
+{
+    PHAN_PATH=vendor/phan/phan/phan
+    PHPLOC_PATH=vendor/phploc/phploc/phploc
+    APIGEN_PATH=vendor/apigen/apigen/bin/apigen
 
-PHP_FOUND=$(command -v php)
+    PHP_FOUND=$(command -v php)
 
-if [ "$PHP_FOUND" = "" ]; then
-    echo "Please install php (http://php.net/)"
-    exit
-fi
+    if [ "$PHP_FOUND" = "" ]; then
+        echo "Please install php (http://php.net/)"
+        exit
+    fi
 
-COMPOSER_FOUND=$(command -v composer)
+    COMPOSER_FOUND=$(command -v composer)
 
-if [ "$COMPOSER_FOUND" = "" ]; then
-    echo "Please install composer (http://getcomposer.org/)"
-    exit
-fi
+    if [ "$COMPOSER_FOUND" = "" ]; then
+        echo "Please install composer (http://getcomposer.org/)"
+        exit
+    fi
 
-if [ ! -d "vendor" ]; then
-    composer install
-fi
+    if [ ! -d "vendor" ]; then
+        composer install
+    fi
+}
 
 showhelp()
 {
@@ -36,12 +39,17 @@ showhelp()
 
     local server_cmd="  \e[32mserver\e[0m      Launches the php builtin server on port 8080 for development."
 
-    local server_opt="  -port    The port to run the php server. (default: 8080)"
+    local server_opt="  -host    The address to bind to. (default: localhost)\n"
+    server_opt=$server_opt"  -port    The port to run the php server. (default: 8080)"
+
+    local ui_cmd="  \e[32mui\e[0m          Same as 'server' but runs an instance of chromium in app mode.\n"
+    ui_cmd="$ui_cmd              The php server instance is shutdown automatically when chromium is closed."
+
+    local ui_opt="  -host    The address to bind to. (default: localhost)\n"
+    ui_opt=$ui_opt"  -port    The port to run the php server. (default: 8080)"
 
     local profile_cmd="  \e[32mprofile\e[0m     Same as 'server' but also enables xdebug to generate profiling\n"
     profile_cmd="$profile_cmd              data to cachegrind.out. (requires: xdebug)"
-
-    local hhvm_cmd="  \e[32mhhvm\e[0m        Launches hhvm builtin server. (requires: hhvm)"
 
     local test_cmd="  \e[32mtest\e[0m        Runs the testing scripts."
 
@@ -68,6 +76,10 @@ showhelp()
     loc_opt=$loc_opt'  -mods    Module sources.\n'
     loc_opt=$loc_opt'  -all     All sources. (default)'
 
+    local sqlitetobdb_cmd="  \e[32msqlite2bdb\e[0m  Converts all sqlite 3 databases to sql berkeley db."
+
+    local bdbtosqlite_cmd="  \e[32mbdb2sqlite\e[0m  Converts all sql berkeley db to sqlite 3."
+
     echo -e "$heading"
 
     case $1 in
@@ -90,7 +102,16 @@ showhelp()
             echo -e "  Initializes a JarisCMS php server for development purpose.\n"
             echo 'Usage: run.sh server [OPTION]'
             echo -e "\nOptions:\n"
-            echo "$server_opt"
+            echo -e "$server_opt"
+            ;;
+        'ui' )
+            echo "Description:"
+            echo -e "  Initializes a JarisCMS php server and chromium app instance\n" \
+                " for instant development. The php server process is automatically\n" \
+                " closed when the chromium app window is closed.\n"
+            echo 'Usage: run.sh ui [OPTION]'
+            echo -e "\nOptions:\n"
+            echo -e "$ui_opt"
             ;;
         'profile' )
             echo "Description:"
@@ -98,7 +119,20 @@ showhelp()
                 " with xdebug profiling enabled.\n"
             echo 'Usage: run.sh profile [OPTION]'
             echo -e "\nOptions:\n"
-            echo "$server_opt"
+            echo -e "$server_opt"
+            ;;
+        'sqlite2bdb' )
+            echo "Description:"
+            echo -e "  Converts all sqlite3 databases to berkeley databases using\n" \
+                " newest Berkeley DB sqlite mode for better concurrency.\n"
+            echo 'Usage: run.sh sqlite2bdb [SITE]'
+            echo "Default value for SITE: default"
+            ;;
+        'bdb2sqlite' )
+            echo "Description:"
+            echo -e "  Converts all sql berkeley databases to sqlite3 database."
+            echo 'Usage: run.sh bdb2sqlite [SITE]'
+            echo "Default value for SITE: default"
             ;;
         'help' )
             echo "Description:"
@@ -115,8 +149,8 @@ showhelp()
             echo -e "Available Commands:\n"
             echo -e "$help_cmd"
             echo -e "$server_cmd"
+            echo -e "$ui_cmd"
             echo -e "$profile_cmd"
-            echo -e "$hhvm_cmd"
             echo -e "$test_cmd"
             echo -e "$phan_cmd"
             echo -e "$geanytags_cmd"
@@ -124,21 +158,98 @@ showhelp()
             echo -e "$docs_cmd"
             echo -e "$loc_cmd"
             echo -e "$sanityze_cmd"
+            echo -e "$sqlitetobdb_cmd"
+            echo -e "$bdbtosqlite_cmd"
             ;;
     esac
 }
 
 runserver()
 {
+    local host="localhost"
+    local port=8079
+    local port_open=0
+
+    while [ $1 ]; do
+        case $1 in
+            '-host' )
+                shift
+                host=$1
+                ;;
+            '-port' )
+                shift
+                port=$(($1-1))
+                ;;
+            * )
+                echo "Invalid option given."
+                exit
+        esac
+
+        shift
+    done
+
+    until [ $port_open -eq 1 ]; do
+        port=$((port+1))
+
+        port_open=$(netstat -an | grep " $port " | grep LISTEN)
+
+        if [ "$port_open" = "" ]; then
+            port_open=1
+        else
+            port_open=0
+        fi
+    done
+
+    local started=1
+
+    while [ $started -eq 1 ]; do
+        php -S $host:$port router.php 2> /dev/null
+        
+        started=$?
+
+        port=$((port+1))
+    done
+}
+
+runui()
+{
     local port=8080
 
     if [ "$1" != "" ]; then
-        if [ "$1" != "server" ]; then
+        if [ "$1" != "ui" ]; then
             port=$1
         fi
     fi
 
-    php -S localhost:$port router.php
+    until php -S localhost:$port router.php & 2> /dev/null; do
+        port=$((port+1))
+    done
+
+    local server=$!
+    local browser=""
+
+    local chromium_installed=$(command -v chromium)
+    local firefox_installed=$(command -v firefox)
+
+    if [ -n "$chromium_installed" ]; then
+        chromium --app="http://localhost:$port" &
+        browser="chromium"
+    elif [ -n "$firefox_installed" ]; then
+        firefox "http://localhost:$port" &
+        browser="firefox"
+    fi
+
+    sleep 7 # wait to properly get browser process id
+
+    local id=$(pgrep -n -f $browser)
+
+    while [ "$(pgrep -n -f $browser)" = "$id" ]; do
+        sleep 1
+    done
+
+    echo -n "Shutting webserver down... "
+    kill $server
+    echo "(Done!)"
 }
 
 runprofiler()
@@ -151,24 +262,15 @@ runprofiler()
         fi
     fi
 
-    php -d zend_extension=xdebug.so \
+    until php -d zend_extension=xdebug.so \
         -d xdebug.profiler_enable=1 \
         -d xdebug.profiler_append=1 \
         -d xdebug.profiler_output_dir="$(pwd)" \
         -d xdebug.profiler_output_name=cachegrind.out \
-        -S localhost:$port router.php
-}
+        -S localhost:$port router.php 2> /dev/null; do
 
-runhhvm()
-{
-    HHVM_FOUND=$(command -v hhvm)
-
-    if [ "$HHVM_FOUND" = "" ]; then
-        echo "Please install hhvm (http://hhvm.com/)"
-        exit
-    fi
-
-    hhvm --config hhvm/server.hdf --mode server
+        port=$((port+1))
+    done
 }
 
 runtest()
@@ -178,34 +280,66 @@ runtest()
 
 runphan()
 {
+    local jobs=$(echo "scale=0; $(nproc)/1.2" | bc)
+
     case $1 in
         '-core' )
+            shift
             echo "Checking core functions:"
             echo "========================================================================="
-            $PHAN_PATH --minimum-severity=0 --backward-compatibility-checks \
-                --progress-bar $(find src) index.php upload.php uris.php cron.php
+            $PHAN_PATH -j $jobs \
+                --directory src \
+                --progress-bar \
+                $@ \
+                index.php upload.php uris.php cron.php
             exit
             ;;
         '-pages' )
+            shift
             echo "Checking system pages and skeleton:"
             echo "========================================================================="
-            $PHAN_PATH --minimum-severity=0 --backward-compatibility-checks \
+            $PHAN_PATH -j $jobs \
+                --exclude-directory-list src,vendor \
+                --directory src --directory system \
                 --progress-bar \
-                $(find src) \
-                $(find ./system -name "*.php")
+                $@ \
+                $(find src -name "*.php")
             exit
             ;;
         '-mods' )
+            shift
+
+            local exclude="src,vendor,modules/dompdf,modules/invoice,"
+            exclude="${exclude}modules/ads,"
+            exclude="${exclude}modules/spreadsheet_reader,"
+            exclude="${exclude}modules/engine_parts/tools,"
+            exclude="${exclude}modules/hybridauth/Hybrid,"
+            exclude="${exclude}modules/hybridauth/docs,"
+            exclude="${exclude}modules/minify/min,modules/ophir/src,"
+            exclude="${exclude}modules/revision/htmldiff,"
+            exclude="${exclude}modules/facebook/php-graph-sdk,"
+            exclude="${exclude}modules/markdown/phpmarkdown,"
+            exclude="${exclude}modules/reservations"
+
             echo "Checking modules:"
             echo "========================================================================="
-            $PHAN_PATH --minimum-severity=0 --backward-compatibility-checks \
+            $PHAN_PATH -j $jobs \
+                --minimum-severity 5 \
+                --exclude-directory-list $exclude \
+                --directory src --directory modules \
                 --progress-bar \
-                $(find src) \
-                $(find ./modules -name "*.php")
+                $@ \
+                $(find src -name "*.php")
+            exit
+            ;;
+        '--help' | '-h' )
+            $PHAN_PATH --help
             exit
             ;;
         * )
-            echo "Please specify a phan command option."
+            echo "Please specify a valid command option: [-core,-pages, -modules]."
+            echo "You can also pass the --help flag to view phan/phan specific help options"
+            echo "than can be passed after one of the valid command options."
             exit
             ;;
     esac
@@ -283,13 +417,13 @@ END_HEREDOC
 
         new_md5sum=$(md5sum "$file")
 
-        total=$(($total + 1))
+        total=$((total + 1))
 
         if [ "$original_md5sum" = "$new_md5sum" ]; then
-            total_unchanged=$(($total_unchanged + 1))
+            total_unchanged=$((total_unchanged + 1))
             echo "(unchanged)"
         else
-            total_updated=$(($total_updated + 1))
+            total_updated=$((total_updated + 1))
             echo "(updated)"
         fi
     done
@@ -332,11 +466,11 @@ runloc()
 {
     case $1 in
         '-core' )
-            $PHPLOC_PATH --progress $(find src)
+            $PHPLOC_PATH --progress $(find src -name "*.php")
             exit
             ;;
         '-pages' )
-            $PHPLOC_PATH --progress $(find system/pages)
+            $PHPLOC_PATH --progress $(find system/pages -name "*.php")
             exit
             ;;
         '-mods' )
@@ -344,19 +478,78 @@ runloc()
             exit
             ;;
         * )
-            $PHPLOC_PATH --progress $(find src) \
-                $(find system/pages) \
+            $PHPLOC_PATH --progress $(find src -name "*.php") \
+                $(find system/pages -name "*.php") \
                 $(find modules -name "*.php")
             exit
             ;;
     esac
 }
 
+runsqlitetobdb()
+{   
+    SITE="default"
+    if [ "$1" != "" ]; then
+        SITE="$1"
+    fi
+
+    for file in $(find "sites/$SITE" modules -regextype egrep -not -regex '.+\.[a-zA-Z0-9]+$' -not -type d); do
+        ftype=$(head -c 16 "$file" | tr '\0' '\n')
+        if [ "$ftype" == "SQLite format 3" ]; then
+            echo "Converting: $file"
+            mv "$file" "$file.sqlite";
+            sqlite3 "$file.sqlite" .dump \
+                    | db_sqlite3 $file
+            rm "$file.sqlite"
+        fi
+    done
+}
+
+runbdbtosqlite()
+{   
+    SITE="default"
+    if [ "$1" != "" ]; then
+        SITE="$1"
+    fi
+
+    for file in $(find "sites/$SITE" modules -regextype egrep -not -regex '.+\.[a-zA-Z0-9]+$' -not -type d); do
+        if [ -d "$file-journal" ]; then
+            echo "Converting: $file"
+            db_sqlite3 "$file" .dump \
+                    | sqlite3 "$file.sqlite"
+            rm -rf "$file-journal"
+            mv "$file.sqlite" "$file"
+            sqlite3 "$file" "pragma journal_mode=wal;" > /dev/null
+        fi
+    done
+}
+
+runsqlitetowal()
+{   
+    SITE="default"
+    if [ "$1" != "" ]; then
+        SITE="$1"
+    fi
+
+    for file in $(find "sites/$SITE" modules -regextype egrep -not -regex '.+\.[a-zA-Z0-9]+$' -not -type d); do
+        ftype=$(head -c 16 "$file" | tr '\0' '\n')
+        if [ "$ftype" == "SQLite format 3" ]; then
+            echo "Changing to wal: $file"
+            sqlite3 "$file" "pragma journal_mode=wal;" > /dev/null
+        fi
+    done
+}
+
 while [ $1 ]; do
     case $1 in
         'server' )
+            shift
+            runserver $@
+            exit
+            ;;
+        'ui' )
             shift 2
-            runserver $1
+            runui $1
             exit
             ;;
         'profile' )
@@ -364,17 +557,14 @@ while [ $1 ]; do
             runprofiler $1
             exit
             ;;
-        'hhvm' )
-            runhhvm
-            exit
-            ;;
         'test' )
             runtest
             exit
             ;;
         'phan' )
+            initialize
             shift
-            runphan $1
+            runphan $@
             exit
             ;;
         'geanytags' )
@@ -386,6 +576,7 @@ while [ $1 ]; do
             exit
             ;;
         'docs' )
+            initialize
             rundocs
             exit
             ;;
@@ -394,8 +585,24 @@ while [ $1 ]; do
             exit
             ;;
         'loc' )
+            initialize
             shift
             runloc $1
+            exit
+            ;;
+        'sqlite2bdb' )
+            shift
+            runsqlitetobdb $1
+            exit
+            ;;
+        'bdb2sqlite' )
+            shift
+            runbdbtosqlite $1
+            exit
+            ;;
+        'sqlite2wal' )
+            shift
+            runsqlitetowal $1
             exit
             ;;
         'help' )

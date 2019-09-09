@@ -21,8 +21,16 @@ row: 0
     <?php
         Jaris\Authentication::protectedPage(array("add_users"));
 
+        $email_login = false;
+
+        if(isset($_REQUEST["btnSaveAndEmail"]))
+        {
+            $_REQUEST["btnSave"] = 1;
+            $email_login = true;
+        }
+
         $valid_email = true;
-        if(isset($_REQUEST["email"]))
+        if(isset($_REQUEST["email"]) && isset($_REQUEST["btnSave"]))
         {
             $valid_email = Jaris\Forms::validEmail($_REQUEST["email"]);
 
@@ -55,7 +63,7 @@ row: 0
         }
 
         $valid_username = true;
-        if(isset($_REQUEST["username"]))
+        if(isset($_REQUEST["username"]) && isset($_REQUEST["btnSave"]))
         {
             $valid_username = Jaris\Forms::validUsername($_REQUEST["username"]);
 
@@ -68,7 +76,13 @@ row: 0
             }
         }
 
-        if($valid_username && isset($_REQUEST["username"]))
+        if(
+            $valid_username
+            &&
+            isset($_REQUEST["username"])
+            &&
+            isset($_REQUEST["btnSave"])
+        )
         {
             if(strlen($_REQUEST["username"]) < 3)
             {
@@ -112,6 +126,8 @@ row: 0
                 intval($_REQUEST["day"]),
                 intval($_REQUEST["year"])
             );
+
+            $fields["theme"] = $_REQUEST["theme"];
 
             $error = false;
 
@@ -173,7 +189,40 @@ row: 0
                         )
                     );
 
-                    Jaris\Uri::go("admin/users");
+                    if($email_login)
+                    {
+                        if(
+                            Jaris\Mail::send(
+                                array(
+                                    $fields["name"] => $fields["email"]
+                                ),
+                                t("Account Created"),
+                                sprintf(
+                                    t("Hi %s,<br /><br /> We have created an account for you on %s. Your login details are:<br /><br /><strong>Username:</strong> %s or %s <br /><strong>Password:</strong> %s <br /><br />You can login by visitng:<br /><a href=\"%s\">%s</a>"),
+                                    $fields['name'],
+                                    Jaris\Settings::get("title", "main"),
+                                    $_REQUEST["username"],
+                                    $fields['email'],
+                                    $_REQUEST["password"],
+                                    Jaris\Uri::url("admin/user"),
+                                    Jaris\Uri::url("admin/user")
+                                )
+                            )
+                        )
+                        {
+                            Jaris\View::addMessage(
+                                t("Login details successfully sent to the user.")
+                            );
+                        }
+                        else
+                        {
+                            Jaris\View::addMessage(
+                                t("An error occured while sending the login details to the user.")
+                            );
+                        }
+                    }
+
+                    Jaris\Uri::go("admin/users/list");
                 }
                 else
                 {
@@ -183,7 +232,7 @@ row: 0
         }
         elseif(isset($_REQUEST["btnCancel"]))
         {
-            Jaris\Uri::go("admin/users");
+            Jaris\Uri::go("admin/users/list");
         }
 
         unset($fields);
@@ -362,12 +411,27 @@ row: 0
             "description" => t("The account status of this user.")
         );
 
+        $fields_extra[] = array(
+            "type" => "select",
+            "name" => "theme",
+            "label" => t("Theme:"),
+            "value" => Jaris\Themes::getSelectList(),
+            "selected" => $_REQUEST["theme"],
+            "description" => t("The theme for the site.")
+        );
+
         $fieldset[] = array("fields" => $fields_extra);
 
         $fields_submit[] = array(
             "type" => "submit",
             "name" => "btnSave",
             "value" => t("Save")
+        );
+
+        $fields_submit[] = array(
+            "type" => "submit",
+            "name" => "btnSaveAndEmail",
+            "value" => t("Save and Send Login by E-mail")
         );
 
         $fields_submit[] = array(

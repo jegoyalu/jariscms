@@ -19,6 +19,15 @@ row: 0
 
     field: content
     <?php
+        if(!isset($_REQUEST["id"]) || !isset($_REQUEST["position"]))
+        {
+            print "0";
+            return;
+        }
+
+        $_REQUEST["id"] = intval($_REQUEST["id"]);
+        $_REQUEST["position"] = strval($_REQUEST["position"]);
+
         $block_data = Jaris\Blocks::get($_REQUEST["id"], $_REQUEST["position"]);
         $settings = animated_blocks_get_settings($block_data);
         $id = "animated-block-{$_REQUEST['position']}-{$_REQUEST['id']}";
@@ -36,16 +45,16 @@ row: 0
     #<?php print $id ?> .animated-block-slide
     {
         width: 100%;
-    }
-
-    #<?php print $id ?> .animated-block-slide
-    {
         border:  <?php print $settings["border_style"] ?> <?php print $settings["border_width"] ?> #<?php print $settings["border_color"] ?>;
 
-        <?php if(!$settings["background_transparent"])
-        { ?>;
-            background-color: #<?php print $settings["background_color"] ?>;
-        <?php } ?>;
+        <?php if(!$settings["background_transparent"]){ ?>
+        background-color: #<?php print $settings["background_color"] ?> !important;
+        <?php } ?>
+
+        <?php if($settings["image_as_background"] && $settings["image_as_background_keep_ar"]){ ?>
+        background-size: contain !important;
+        background-position: center center !important;
+        <?php } ?>
     }
 
     #<?php print $id ?> .animated-block-content
@@ -126,7 +135,6 @@ row: 0
         padding:  <?php print $settings["image_padding"] ?>;
         border:  <?php print $settings["image_border_style"] ?> <?php print $settings["image_border_width"] ?> #<?php print $settings["image_border_color"] ?>;
     }
-
 <?php } ?>
 
 <?php if($settings["display_navigation"]){ ?>

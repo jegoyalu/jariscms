@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: JarisCMS Ecommerce v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-12 10:22-0400\n"
+"POT-Creation-Date: 2017-12-18 18:40-0400\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Jefferson González <jgonzalez@jegoyalu.com>\n"
 "Language-Team: JegoYalu <servicios@jegoyalu.com>\n"
@@ -13,7 +13,7 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: ../..\n"
 "X-Poedit-KeywordsList: t\n"
-"X-Generator: Poedit 1.8.5\n"
+"X-Generator: Poedit 2.0.4\n"
 "X-Poedit-SearchPath-0: .\n"
 
 #: data/admin-settings-backgrounds-add.php:15
@@ -21,26 +21,26 @@ msgstr ""
 msgid "Add Background"
 msgstr "Agregar Fondo"
 
-#: data/admin-settings-backgrounds-add.php:76
+#: data/admin-settings-backgrounds-add.php:79
 msgid "Background successfully added."
 msgstr "Fondo exitosamente agregado."
 
-#: data/admin-settings-backgrounds-add.php:96
-#: data/admin-settings-backgrounds-edit.php:96
+#: data/admin-settings-backgrounds-add.php:99
+#: data/admin-settings-backgrounds-edit.php:98
 msgid "The image could not be moved to files/backgrounds directory."
 msgstr "La imagen no se pudo mover al directorio files/backgrounds."
 
-#: data/admin-settings-backgrounds-add.php:133
-#: data/admin-settings-backgrounds-edit.php:158
-#: data/admin-settings-backgrounds-multi-add.php:155
-#: data/admin-settings-backgrounds-multi-edit.php:182
+#: data/admin-settings-backgrounds-add.php:136
+#: data/admin-settings-backgrounds-edit.php:160
+#: data/admin-settings-backgrounds-multi-add.php:156
+#: data/admin-settings-backgrounds-multi-edit.php:183
 msgid "Description:"
 msgstr "Descripción:"
 
-#: data/admin-settings-backgrounds-add.php:137
-#: data/admin-settings-backgrounds-edit.php:162
-#: data/admin-settings-backgrounds-multi-add.php:159
-#: data/admin-settings-backgrounds-multi-edit.php:189
+#: data/admin-settings-backgrounds-add.php:140
+#: data/admin-settings-backgrounds-edit.php:164
+#: data/admin-settings-backgrounds-multi-add.php:160
+#: data/admin-settings-backgrounds-multi-edit.php:190
 msgid ""
 "Description of the background image like for example: January 2011 special "
 "product promotion."
@@ -48,155 +48,176 @@ msgstr ""
 "Descripción de la imagen de fondo como por ejemplo: Promoción especial de "
 "producto para Enero 2011."
 
-#: data/admin-settings-backgrounds-add.php:144
+#: data/admin-settings-backgrounds-add.php:147
 msgid "Background image file:"
 msgstr "Archivo de imagen de fondo:"
 
-#: data/admin-settings-backgrounds-add.php:151
-#: data/admin-settings-backgrounds-edit.php:184
-#: data/admin-settings-backgrounds-multi-add.php:175
-#: data/admin-settings-backgrounds-multi-edit.php:252
+#: data/admin-settings-backgrounds-add.php:154
+#: data/admin-settings-backgrounds-edit.php:186
+#: data/admin-settings-backgrounds-multi-add.php:176
+#: data/admin-settings-backgrounds-multi-edit.php:247
+msgid "Element:"
+msgstr "Elemento:"
+
+#: data/admin-settings-backgrounds-add.php:158
+#: data/admin-settings-backgrounds-edit.php:193
+#: data/admin-settings-backgrounds-multi-add.php:180
+#: data/admin-settings-backgrounds-multi-edit.php:254
+msgid "The css selector of an explicit element to put the background images."
+msgstr ""
+"Un selector css de un elemento explicito al cual insertar las imágenes de "
+"fondo."
+
+#: data/admin-settings-backgrounds-add.php:163
+#: data/admin-settings-backgrounds-edit.php:198
+#: data/admin-settings-backgrounds-multi-add.php:185
+#: data/admin-settings-backgrounds-multi-edit.php:265
 msgid "Top position:"
 msgstr "Posición superior:"
 
-#: data/admin-settings-backgrounds-add.php:155
-#: data/admin-settings-backgrounds-edit.php:188
-#: data/admin-settings-backgrounds-multi-edit.php:256
+#: data/admin-settings-backgrounds-add.php:167
+#: data/admin-settings-backgrounds-edit.php:202
+#: data/admin-settings-backgrounds-multi-edit.php:269
 msgid ""
 "The top position of the background in pixels, for example 200. Default is 0"
 msgstr ""
 "La posición superior del fondo en pixeles, por ejemplo 200. Predeterminado "
 "es 0"
 
-#: data/admin-settings-backgrounds-add.php:160
-#: data/admin-settings-backgrounds-edit.php:193
+#: data/admin-settings-backgrounds-add.php:172
+#: data/admin-settings-backgrounds-edit.php:207
 msgid "Background color:"
 msgstr "Color de fondo:"
 
-#: data/admin-settings-backgrounds-add.php:167
-#: data/admin-settings-backgrounds-edit.php:200
+#: data/admin-settings-backgrounds-add.php:179
+#: data/admin-settings-backgrounds-edit.php:214
 msgid "The overall background color of the body."
 msgstr "El color de fondo global del cuerpo de la página."
 
-#: data/admin-settings-backgrounds-add.php:172
-#: data/admin-settings-backgrounds-edit.php:206
+#: data/admin-settings-backgrounds-add.php:184
+#: data/admin-settings-backgrounds-edit.php:220
 msgid "Left"
 msgstr "Izquierda"
 
-#: data/admin-settings-backgrounds-add.php:173
-#: data/admin-settings-backgrounds-edit.php:207
+#: data/admin-settings-backgrounds-add.php:185
+#: data/admin-settings-backgrounds-edit.php:221
 msgid "Center"
 msgstr "Centro"
 
-#: data/admin-settings-backgrounds-add.php:174
-#: data/admin-settings-backgrounds-edit.php:208
+#: data/admin-settings-backgrounds-add.php:186
+#: data/admin-settings-backgrounds-edit.php:222
 msgid "Right"
 msgstr "Derecha"
 
-#: data/admin-settings-backgrounds-add.php:188
-#: data/admin-settings-backgrounds-edit.php:222
+#: data/admin-settings-backgrounds-add.php:200
+#: data/admin-settings-backgrounds-edit.php:236
 msgid "Position"
 msgstr "Posición"
 
-#: data/admin-settings-backgrounds-add.php:194
-#: data/admin-settings-backgrounds-edit.php:228
+#: data/admin-settings-backgrounds-add.php:206
+#: data/admin-settings-backgrounds-edit.php:242
 msgid "Repeat"
 msgstr "Repetir"
 
-#: data/admin-settings-backgrounds-add.php:195
-#: data/admin-settings-backgrounds-edit.php:229
+#: data/admin-settings-backgrounds-add.php:207
+#: data/admin-settings-backgrounds-edit.php:243
 msgid "No Repeat"
 msgstr "No Repetir"
 
-#: data/admin-settings-backgrounds-add.php:209
-#: data/admin-settings-backgrounds-edit.php:243
+#: data/admin-settings-backgrounds-add.php:221
+#: data/admin-settings-backgrounds-edit.php:257
 msgid "Mode"
 msgstr "Modo"
 
-#: data/admin-settings-backgrounds-add.php:215
-#: data/admin-settings-backgrounds-edit.php:249
-#: data/admin-settings-backgrounds-multi-add.php:210
-#: data/admin-settings-backgrounds-multi-edit.php:287
+#: data/admin-settings-backgrounds-add.php:227
+#: data/admin-settings-backgrounds-edit.php:263
+#: data/admin-settings-backgrounds-multi-add.php:220
+#: data/admin-settings-backgrounds-multi-edit.php:300
 msgid "Scroll"
 msgstr "DInamico"
 
-#: data/admin-settings-backgrounds-add.php:216
-#: data/admin-settings-backgrounds-edit.php:250
-#: data/admin-settings-backgrounds-multi-add.php:211
-#: data/admin-settings-backgrounds-multi-edit.php:288
+#: data/admin-settings-backgrounds-add.php:228
+#: data/admin-settings-backgrounds-edit.php:264
+#: data/admin-settings-backgrounds-multi-add.php:221
+#: data/admin-settings-backgrounds-multi-edit.php:301
 msgid "Fixed"
 msgstr "Fijo"
 
-#: data/admin-settings-backgrounds-add.php:230
-#: data/admin-settings-backgrounds-edit.php:264
-#: data/admin-settings-backgrounds-multi-add.php:225
-#: data/admin-settings-backgrounds-multi-edit.php:302
+#: data/admin-settings-backgrounds-add.php:242
+#: data/admin-settings-backgrounds-edit.php:278
+#: data/admin-settings-backgrounds-multi-add.php:235
+#: data/admin-settings-backgrounds-multi-edit.php:315
 msgid "Attachment"
 msgstr "Fijación"
 
-#: data/admin-settings-backgrounds-add.php:236
-#: data/admin-settings-backgrounds-edit.php:270
+#: data/admin-settings-backgrounds-add.php:264
+#: data/admin-settings-backgrounds-edit.php:300
+msgid "Size"
+msgstr ""
+
+#: data/admin-settings-backgrounds-add.php:270
+#: data/admin-settings-backgrounds-edit.php:306
 msgid "Enable"
 msgstr ""
 
-#: data/admin-settings-backgrounds-add.php:237
-#: data/admin-settings-backgrounds-edit.php:271
+#: data/admin-settings-backgrounds-add.php:271
+#: data/admin-settings-backgrounds-edit.php:307
 msgid "Disable"
 msgstr ""
 
-#: data/admin-settings-backgrounds-add.php:254
-#: data/admin-settings-backgrounds-edit.php:291
-#: data/admin-settings-backgrounds-multi-add.php:276
-#: data/admin-settings-backgrounds-multi-edit.php:368
+#: data/admin-settings-backgrounds-add.php:288
+#: data/admin-settings-backgrounds-edit.php:327
+#: data/admin-settings-backgrounds-multi-add.php:286
+#: data/admin-settings-backgrounds-multi-edit.php:381
 msgid "Maximum width:"
 msgstr "Ancho máximo:"
 
-#: data/admin-settings-backgrounds-add.php:256
-#: data/admin-settings-backgrounds-edit.php:293
-#: data/admin-settings-backgrounds-multi-add.php:279
-#: data/admin-settings-backgrounds-multi-edit.php:371
+#: data/admin-settings-backgrounds-add.php:290
+#: data/admin-settings-backgrounds-edit.php:329
+#: data/admin-settings-backgrounds-multi-add.php:289
+#: data/admin-settings-backgrounds-multi-edit.php:384
 msgid ""
 "The maximum width for resized images. Default: 0 to disable this feature."
 msgstr ""
 "El ancho máximo para las imágenes redimensionadas. Predeterminado: 0 para "
 "desactivar esta funcionalidad."
 
-#: data/admin-settings-backgrounds-add.php:261
-#: data/admin-settings-backgrounds-edit.php:298
+#: data/admin-settings-backgrounds-add.php:295
+#: data/admin-settings-backgrounds-edit.php:334
 msgid "Responsive"
 msgstr ""
 
-#: data/admin-settings-backgrounds-add.php:266
-#: data/admin-settings-backgrounds-edit.php:303
-#: data/admin-settings-backgrounds-multi-add.php:335
-#: data/admin-settings-backgrounds-multi-edit.php:436
+#: data/admin-settings-backgrounds-add.php:300
+#: data/admin-settings-backgrounds-edit.php:339
+#: data/admin-settings-backgrounds-multi-add.php:345
+#: data/admin-settings-backgrounds-multi-edit.php:449
 msgid "Display in all pages except the listed ones."
 msgstr "Mostrar en todas las páginas excepto en las que se listan."
 
-#: data/admin-settings-backgrounds-add.php:267
-#: data/admin-settings-backgrounds-edit.php:304
-#: data/admin-settings-backgrounds-multi-add.php:336
-#: data/admin-settings-backgrounds-multi-edit.php:437
+#: data/admin-settings-backgrounds-add.php:301
+#: data/admin-settings-backgrounds-edit.php:340
+#: data/admin-settings-backgrounds-multi-add.php:346
+#: data/admin-settings-backgrounds-multi-edit.php:450
 msgid "Just display on the listed pages."
 msgstr "Solo mostrar en las páginas listadas."
 
-#: data/admin-settings-backgrounds-add.php:280
-#: data/admin-settings-backgrounds-edit.php:317
-#: data/admin-settings-backgrounds-multi-add.php:349
-#: data/admin-settings-backgrounds-multi-edit.php:456
+#: data/admin-settings-backgrounds-add.php:314
+#: data/admin-settings-backgrounds-edit.php:353
+#: data/admin-settings-backgrounds-multi-add.php:359
+#: data/admin-settings-backgrounds-multi-edit.php:469
 msgid "Pages:"
 msgstr "Páginas:"
 
-#: data/admin-settings-backgrounds-add.php:287
-#: data/admin-settings-backgrounds-multi-add.php:356
-#: data/admin-settings-backgrounds-multi-edit.php:466
+#: data/admin-settings-backgrounds-add.php:321
+#: data/admin-settings-backgrounds-multi-add.php:366
+#: data/admin-settings-backgrounds-multi-edit.php:479
 msgid "Pages to display"
 msgstr "Páginas a mostrar"
 
-#: data/admin-settings-backgrounds-add.php:288
-#: data/admin-settings-backgrounds-edit.php:325
-#: data/admin-settings-backgrounds-multi-add.php:357
-#: data/admin-settings-backgrounds-multi-edit.php:467
+#: data/admin-settings-backgrounds-add.php:322
+#: data/admin-settings-backgrounds-edit.php:361
+#: data/admin-settings-backgrounds-multi-add.php:367
+#: data/admin-settings-backgrounds-multi-edit.php:480
 msgid ""
 "List of uri's seperated by comma (,). Also supports the wildcard (*), for "
 "example: my-section/*"
@@ -204,17 +225,17 @@ msgstr ""
 "Lista de uri separados por coma (,). Tambien soporta la expresion (*), por "
 "ejemplo: mi-seccion/*"
 
-#: data/admin-settings-backgrounds-add.php:294
-#: data/admin-settings-backgrounds-edit.php:331
-#: data/admin-settings-backgrounds-multi-add.php:363
-#: data/admin-settings-backgrounds-multi-edit.php:473
+#: data/admin-settings-backgrounds-add.php:328
+#: data/admin-settings-backgrounds-edit.php:367
+#: data/admin-settings-backgrounds-multi-add.php:373
+#: data/admin-settings-backgrounds-multi-edit.php:486
 msgid "Save"
 msgstr "Guardar"
 
-#: data/admin-settings-backgrounds-add.php:300
-#: data/admin-settings-backgrounds-edit.php:337
-#: data/admin-settings-backgrounds-multi-add.php:369
-#: data/admin-settings-backgrounds-multi-edit.php:479
+#: data/admin-settings-backgrounds-add.php:334
+#: data/admin-settings-backgrounds-edit.php:373
+#: data/admin-settings-backgrounds-multi-add.php:379
+#: data/admin-settings-backgrounds-multi-edit.php:492
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -232,23 +253,23 @@ msgstr "¿Estas seguro que deseas borrar el fondo múltiple?"
 
 #: data/admin-settings-backgrounds-delete.php:87
 #: data/admin-settings-backgrounds-delete.php:100
-#: data/admin-settings-backgrounds-multi-add.php:232
-#: data/admin-settings-backgrounds-multi-add.php:300
-#: data/admin-settings-backgrounds-multi-add.php:318
-#: data/admin-settings-backgrounds-multi-edit.php:309
-#: data/admin-settings-backgrounds-multi-edit.php:395
-#: data/admin-settings-backgrounds-multi-edit.php:416
+#: data/admin-settings-backgrounds-multi-add.php:242
+#: data/admin-settings-backgrounds-multi-add.php:310
+#: data/admin-settings-backgrounds-multi-add.php:328
+#: data/admin-settings-backgrounds-multi-edit.php:322
+#: data/admin-settings-backgrounds-multi-edit.php:408
+#: data/admin-settings-backgrounds-multi-edit.php:429
 msgid "Yes"
 msgstr "Si"
 
 #: data/admin-settings-backgrounds-delete.php:88
 #: data/admin-settings-backgrounds-delete.php:101
-#: data/admin-settings-backgrounds-multi-add.php:231
-#: data/admin-settings-backgrounds-multi-add.php:299
-#: data/admin-settings-backgrounds-multi-add.php:317
-#: data/admin-settings-backgrounds-multi-edit.php:308
-#: data/admin-settings-backgrounds-multi-edit.php:394
-#: data/admin-settings-backgrounds-multi-edit.php:415
+#: data/admin-settings-backgrounds-multi-add.php:241
+#: data/admin-settings-backgrounds-multi-add.php:309
+#: data/admin-settings-backgrounds-multi-add.php:327
+#: data/admin-settings-backgrounds-multi-edit.php:321
+#: data/admin-settings-backgrounds-multi-edit.php:407
+#: data/admin-settings-backgrounds-multi-edit.php:428
 msgid "No"
 msgstr "No"
 
@@ -260,16 +281,16 @@ msgstr "¿Estas seguro que deseas borrar el fondo?"
 msgid "Edit Background"
 msgstr "Editar Fondo"
 
-#: data/admin-settings-backgrounds-edit.php:79
-#: data/admin-settings-backgrounds-multi-edit.php:134
+#: data/admin-settings-backgrounds-edit.php:81
+#: data/admin-settings-backgrounds-multi-edit.php:135
 msgid "Changes successfully saved."
 msgstr "Cambios exitosamente guardados."
 
-#: data/admin-settings-backgrounds-edit.php:169
+#: data/admin-settings-backgrounds-edit.php:171
 msgid "Current image:"
 msgstr "Imagen actual:"
 
-#: data/admin-settings-backgrounds-edit.php:178
+#: data/admin-settings-backgrounds-edit.php:180
 msgid "New background image file:"
 msgstr "Nuevo archivo de imagen de fondo:"
 
@@ -277,20 +298,20 @@ msgstr "Nuevo archivo de imagen de fondo:"
 msgid "Add Multiple Background"
 msgstr "Agregar Fondo Múltiple"
 
-#: data/admin-settings-backgrounds-multi-add.php:101
+#: data/admin-settings-backgrounds-multi-add.php:102
 msgid "Backgrounds successfully added."
 msgstr "Fondos exitosamente agregados"
 
-#: data/admin-settings-backgrounds-multi-add.php:118
+#: data/admin-settings-backgrounds-multi-add.php:119
 msgid "The images could not be moved to files/backgrounds directory."
 msgstr "Las imagenes no se pudieron mover al directorio files/backgrounds."
 
-#: data/admin-settings-backgrounds-multi-add.php:168
-#: data/admin-settings-backgrounds-multi-edit.php:233
+#: data/admin-settings-backgrounds-multi-add.php:169
+#: data/admin-settings-backgrounds-multi-edit.php:234
 msgid "Background images:"
 msgstr "Imágenes de fondo:"
 
-#: data/admin-settings-backgrounds-multi-add.php:179
+#: data/admin-settings-backgrounds-multi-add.php:189
 msgid ""
 "The top position of the background images in pixels, for example 200. "
 "Default is 0"
@@ -298,23 +319,23 @@ msgstr ""
 "La posición superior del fondo en pixeles, por ejemplo 200. Predeterminado "
 "es 0"
 
-#: data/admin-settings-backgrounds-multi-add.php:189
-#: data/admin-settings-backgrounds-multi-edit.php:266
+#: data/admin-settings-backgrounds-multi-add.php:199
+#: data/admin-settings-backgrounds-multi-edit.php:279
 msgid "Fade speed:"
 msgstr "Velocidad de desvanecimiento:"
 
-#: data/admin-settings-backgrounds-multi-add.php:192
-#: data/admin-settings-backgrounds-multi-edit.php:269
+#: data/admin-settings-backgrounds-multi-add.php:202
+#: data/admin-settings-backgrounds-multi-edit.php:282
 msgid "The speed of the fade effect in milliseconds."
 msgstr "La velocidad del efecto de desvanecimiento en milisegundos."
 
-#: data/admin-settings-backgrounds-multi-add.php:202
-#: data/admin-settings-backgrounds-multi-edit.php:279
+#: data/admin-settings-backgrounds-multi-add.php:212
+#: data/admin-settings-backgrounds-multi-edit.php:292
 msgid "Rotation speed:"
 msgstr "Velocidad de rotación:"
 
-#: data/admin-settings-backgrounds-multi-add.php:205
-#: data/admin-settings-backgrounds-multi-edit.php:282
+#: data/admin-settings-backgrounds-multi-add.php:215
+#: data/admin-settings-backgrounds-multi-edit.php:295
 msgid ""
 "The time in milliseconds an image is displayed before changing to the next "
 "one."
@@ -322,69 +343,69 @@ msgstr ""
 "El tiempo en milisegundos en el que se muestra una imagen antes de cambiar a "
 "la siguiente."
 
-#: data/admin-settings-backgrounds-multi-add.php:246
-#: data/admin-settings-backgrounds-multi-edit.php:326
+#: data/admin-settings-backgrounds-multi-add.php:256
+#: data/admin-settings-backgrounds-multi-edit.php:339
 msgid "Responsive streching?"
 msgstr "Estiramiento responsive?"
 
-#: data/admin-settings-backgrounds-multi-add.php:249
-#: data/admin-settings-backgrounds-multi-edit.php:332
+#: data/admin-settings-backgrounds-multi-add.php:259
+#: data/admin-settings-backgrounds-multi-edit.php:345
 msgid "When enabled the image will be stretched according to window size"
 msgstr ""
 "Cuando esta activado las imagenes serán estiradas de acuerdo al tamaño de la "
 "ventana."
 
-#: data/admin-settings-backgrounds-multi-add.php:256
-#: data/admin-settings-backgrounds-multi-edit.php:342
+#: data/admin-settings-backgrounds-multi-add.php:266
+#: data/admin-settings-backgrounds-multi-edit.php:355
 msgid "Minimum width:"
 msgstr "Ancho mínimo:"
 
-#: data/admin-settings-backgrounds-multi-add.php:259
-#: data/admin-settings-backgrounds-multi-edit.php:345
+#: data/admin-settings-backgrounds-multi-add.php:269
+#: data/admin-settings-backgrounds-multi-edit.php:358
 msgid ""
 "The minimum width for resized images. Default: 0 to disable this feature."
 msgstr ""
 "El ancho mínimo aplicado a la imágen cuando esta es reajustada. "
 "Predeterminado: 0 para desactivar esta opción."
 
-#: data/admin-settings-backgrounds-multi-add.php:266
-#: data/admin-settings-backgrounds-multi-edit.php:355
+#: data/admin-settings-backgrounds-multi-add.php:276
+#: data/admin-settings-backgrounds-multi-edit.php:368
 msgid "Minimum height:"
 msgstr "Alto mínimo:"
 
-#: data/admin-settings-backgrounds-multi-add.php:269
-#: data/admin-settings-backgrounds-multi-edit.php:358
+#: data/admin-settings-backgrounds-multi-add.php:279
+#: data/admin-settings-backgrounds-multi-edit.php:371
 msgid ""
 "The minimum height for resized images. Default: 0 to disable this feature."
 msgstr ""
 "El alto mínimo aplicado a la imágen cuando esta es reajustada. "
 "Predeterminado: 0 para desactivar esta opción."
 
-#: data/admin-settings-backgrounds-multi-add.php:286
-#: data/admin-settings-backgrounds-multi-edit.php:381
+#: data/admin-settings-backgrounds-multi-add.php:296
+#: data/admin-settings-backgrounds-multi-edit.php:394
 msgid "Maximum height:"
 msgstr "Alto máximo:"
 
-#: data/admin-settings-backgrounds-multi-add.php:289
-#: data/admin-settings-backgrounds-multi-edit.php:384
+#: data/admin-settings-backgrounds-multi-add.php:299
+#: data/admin-settings-backgrounds-multi-edit.php:397
 msgid ""
 "The maximum height for resized images. Default: 0 to disable this feature."
 msgstr ""
 "El alto máximo para las imágenes redimensionadas. Predeterminado: 0 para "
 "desactivar esta funcionalidad."
 
-#: data/admin-settings-backgrounds-multi-add.php:293
-#: data/admin-settings-backgrounds-multi-edit.php:388
+#: data/admin-settings-backgrounds-multi-add.php:303
+#: data/admin-settings-backgrounds-multi-edit.php:401
 msgid "Stretch Image"
 msgstr "Estirar Imagen"
 
-#: data/admin-settings-backgrounds-multi-add.php:311
-#: data/admin-settings-backgrounds-multi-edit.php:409
+#: data/admin-settings-backgrounds-multi-add.php:321
+#: data/admin-settings-backgrounds-multi-edit.php:422
 msgid "Center Image Horizontally"
 msgstr "Centralizar Imagen Horizontalmente"
 
-#: data/admin-settings-backgrounds-multi-add.php:329
-#: data/admin-settings-backgrounds-multi-edit.php:430
+#: data/admin-settings-backgrounds-multi-add.php:339
+#: data/admin-settings-backgrounds-multi-edit.php:443
 msgid "Center Image Vertically"
 msgstr "Centralizar Imagen Verticalmente"
 
@@ -392,28 +413,28 @@ msgstr "Centralizar Imagen Verticalmente"
 msgid "Edit Multiple Background"
 msgstr "Editar Fondo Múltiple"
 
-#: data/admin-settings-backgrounds-multi-edit.php:196
+#: data/admin-settings-backgrounds-multi-edit.php:197
 msgid "Order"
 msgstr "Ordenamiento"
 
-#: data/admin-settings-backgrounds-multi-edit.php:197
+#: data/admin-settings-backgrounds-multi-edit.php:198
 msgid "Image"
 msgstr "Imagen"
 
-#: data/admin-settings-backgrounds-multi-edit.php:198
+#: data/admin-settings-backgrounds-multi-edit.php:199
 msgid "Action"
 msgstr "Acción"
 
-#: data/admin-settings-backgrounds-multi-edit.php:217
+#: data/admin-settings-backgrounds-multi-edit.php:218
 #: data/admin-settings-backgrounds.php:89
 msgid "Delete"
 msgstr "Borrar"
 
-#: data/admin-settings-backgrounds-multi-edit.php:240
+#: data/admin-settings-backgrounds-multi-edit.php:241
 msgid "Current images:"
 msgstr "Imágenes actuales:"
 
-#: data/admin-settings-backgrounds.php:15 functions.php:26 functions.php:189
+#: data/admin-settings-backgrounds.php:15 functions.php:33 functions.php:205
 msgid "Backgrounds"
 msgstr "Fondos"
 
@@ -439,11 +460,11 @@ msgstr ""
 "No hay imágenes de fondo disponibles. Haz clic en una de las opciones para "
 "comenzar."
 
-#: functions.php:17
+#: functions.php:19
 msgid "Settings"
 msgstr "Configuraciones"
 
-#: functions.php:33
+#: functions.php:40
 msgid "To see, add and edit the background images of the site."
 msgstr "Para ver, agregar y editar las imagenes de fondo del sitio."
 

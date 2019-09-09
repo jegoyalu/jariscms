@@ -84,16 +84,21 @@ function ogp_meta_tags_generate($uri, $page_data)
 
         $first_image = true;
 
+        $ogp_settings = Jaris\Settings::getAll("ogp");
+
+        $image_count = 0;
+        $image_max_count = intval($ogp_settings["image_count"] ?? 1);
+
         foreach($images as $image)
         {
-            $arguments = null;
+            $arguments = array();
 
             if($first_image)
             {
                 $arguments = array(
-                    "w"=>200,
-                    "h"=>200,
-                    "ar"=>1,
+                    "w"=>$ogp_settings["image_width"] ?? 498,
+                    "h"=>$ogp_settings["image_height"] ?? 375,
+                    "ar"=>$ogp_settings["image_keep_aspect"] ?? 1,
                     "bg"=>"ffffff"
                 );
 
@@ -111,9 +116,9 @@ function ogp_meta_tags_generate($uri, $page_data)
                 {
                     ogp_image_create_cache(
                         "image/".$uri."/".$image["name"],
-                        200,
-                        200,
-                        true
+                        $ogp_settings["image_width"] ?? 498,
+                        $ogp_settings["image_height"] ?? 375,
+                        boolval($ogp_settings["image_keep_aspect"] ?? true)
                     );
                 }
             }
@@ -156,6 +161,13 @@ function ogp_meta_tags_generate($uri, $page_data)
             $meta_tags .= '<meta property="og:image" content="'.$image_url.'" />'
                 . "\n"
             ;
+
+            $image_count++;
+
+            if($image_count >= $image_max_count)
+            {
+                break; // exit after first image
+            }
         }
     }
     else
@@ -208,7 +220,9 @@ function ogp_meta_tags_generate($uri, $page_data)
     return $meta_tags;
 }
 
-function ogp_image_create_cache($image_uri, $width=0, $height=0, $ar=false, $bg="ffffff")
+function ogp_image_create_cache(
+    $image_uri, $width=200, $height=200, $ar=false, $bg="ffffff"
+)
 {
     $image_url = "";
 
@@ -338,7 +352,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
                     "admin/settings/ogp",
                     "ogp"
                 ),
-                "arguments" => null
+                "arguments" => array()
             );
         }
     }

@@ -23,7 +23,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
                         "admin/settings/google-translate",
                         "google_translate"
                     ),
-                    "arguments" => null
+                    "arguments" => array()
                 );
 
                 break;

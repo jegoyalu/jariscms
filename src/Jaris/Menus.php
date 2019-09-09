@@ -20,9 +20,8 @@ class Menus
  * with [a-z](-) characters only.
  *
  * @return string "true" on success or error message.
- * @original create_menu
  */
-static function add($menu_name)
+static function add(string $menu_name): string
 {
     $menu_file = self::getPath($menu_name);
 
@@ -46,9 +45,8 @@ static function add($menu_name)
  * @param string $menu_name The name of the file to delete.
  *
  * @return bool True on success or false on fail.
- * @original delete_menu
  */
-static function delete($menu_name)
+static function delete(string $menu_name): bool
 {
     $menu_file = self::getPath($menu_name);
 
@@ -67,9 +65,8 @@ static function delete($menu_name)
  * @param string $new_name The new name given to the file.
  *
  * @return string "true" string on success or error message.
- * @original rename_menu
  */
-static function rename($actual_name, $new_name)
+static function rename(string $actual_name, string $new_name): string
 {
     $actual_path = self::getPath($actual_name);
 
@@ -92,9 +89,8 @@ static function rename($actual_name, $new_name)
  * Gets all the menu files available on the system.
  *
  * @return array The name of all existing menu files.
- * @original get_menu_list
  */
-static function getList()
+static function getList(): array
 {
     $menu_dir = opendir(Site::dataDir() . "menus");
 
@@ -119,9 +115,8 @@ static function getList()
  * @param array $fields An array with the needed fields to write to the block.
  *
  * @return bool True on success or false on fail.
- * @original add_menu_item
  */
-static function addItem($menu_name, $fields)
+static function addItem(string $menu_name, array $fields): bool
 {
     $menu_data_path = self::getPath($menu_name);
 
@@ -135,9 +130,8 @@ static function addItem($menu_name, $fields)
  * @param string $menu_name The menu that contains the item.
  *
  * @return bool True on success false on fail.
- * @original delete_menu_item
  */
-static function deleteItem($id, $menu_name)
+static function deleteItem(int $id, string $menu_name): bool
 {
     $menu_data_path = self::getPath($menu_name);
 
@@ -153,9 +147,8 @@ static function deleteItem($id, $menu_name)
  * substitue the old values.
  *
  * @return true on success false on fail.
- * @original edit_menu_item
  */
-static function editItem($id, $menu_name, $new_data)
+static function editItem(int $id, string $menu_name, array $new_data): bool
 {
     $menu_data_path = self::getPath($menu_name);
 
@@ -169,9 +162,8 @@ static function editItem($id, $menu_name, $new_data)
  * @param string $menu_name The menu where the item resides.
  *
  * @return array An array with all the fields of the menu.
- * @original get_menu_item_data
  */
-static function getItem($id, $menu_name)
+static function getItem(int $id, string $menu_name): array
 {
     $menu_data_path = self::getPath($menu_name);
 
@@ -186,9 +178,8 @@ static function getItem($id, $menu_name)
  * @param string $menu_name The menu where the menu items reside.
  *
  * @return array List of menu items.
- * @original get_menu_items_list
  */
-static function getItemsList($menu_name)
+static function getItemsList(string $menu_name): array
 {
     static $menu_array = array();
 
@@ -211,9 +202,10 @@ static function getItemsList($menu_name)
  * @return array The parent item with its sub items and also the sub
  * items of the sub items in another array. For example:
  * $parent_item = array(..., menu_item_values, ..., "sub_items"=>array())
- * @original get_sub_menu_items
  */
-static function getChildItems($menu_name, $parent_id = "root")
+static function getChildItems(
+    string $menu_name, $parent_id = "root"
+): array
 {
     $menu_items = self::getItemsList($menu_name);
 
@@ -226,9 +218,11 @@ static function getChildItems($menu_name, $parent_id = "root")
         if("" . $items["parent"] . "" == "" . $parent_id . "")
         {
             //get the sub items of this item
-            $sub_items["sub_items"] = Data::sort(
-                self::getChildItems($menu_name, $id),
-                "order"
+            $sub_items = array(
+                "sub_items" => Data::sort(
+                    self::getChildItems($menu_name, $id),
+                    "order"
+                )
             );
 
             if(count($sub_items["sub_items"]) > 0)
@@ -247,9 +241,8 @@ static function getChildItems($menu_name, $parent_id = "root")
  * Gets the machine name of the primary menu.
  *
  * @return string Name of primary menu.
- * @original get_primary_menu_name
  */
-static function getPrimaryName()
+static function getPrimaryName(): string
 {
     $name = Settings::get("primary_menu", "main");
 
@@ -265,9 +258,8 @@ static function getPrimaryName()
  * Gets the machine name of the secondary menu.
  *
  * @return string Name of secondary menu.
- * @original get_secondary_menu_name
  */
-static function getSecondaryName()
+static function getSecondaryName(): string
 {
     $name = Settings::get("secondary_menu", "main");
 
@@ -285,9 +277,8 @@ static function getSecondaryName()
  * @param string $menu The name of the menu file.
  *
  * @return string path to menu file.
- * @original generate_menu_path
  */
-static function getPath($menu)
+static function getPath(string $menu): string
 {
     $menu_path = Site::dataDir() . "menus/";
 

@@ -35,9 +35,8 @@ const SIGNAL_TRANSLATE_BLOCK = "hook_translate_block";
  * @param string $language_code
  *
  * @return bool False if failed to wrote or true on success.
- * @original translate_page
  */
-static function page($page, $data, $language_code)
+static function page(string $page, array $data, string $language_code): bool
 {
     $path = Language::dataTranslate(
         Pages::getPath($page),
@@ -80,9 +79,8 @@ static function page($page, $data, $language_code)
  * @param string $new_uri The new uri or path of the page.
  *
  * @return bool True on success false on fail.
- * @original move_page_translations
  */
-static function movePage($actual_uri, $new_uri)
+static function movePage(string $actual_uri, string $new_uri): bool
 {
     $languages = Language::getInstalled();
 
@@ -124,9 +122,8 @@ static function movePage($actual_uri, $new_uri)
  * @param string $page the uri of the page to delete its translations.
  *
  * @return bool True on success false on fail.
- * @original delete_page_translations
  */
-static function deletePage($page)
+static function deletePage(string $page): bool
 {
     $languages = Language::getInstalled();
 
@@ -158,9 +155,8 @@ static function deletePage($page)
  * @param string $language_code
  *
  * @return bool False if failed to wrote or true on success.
- * @original translate_block
  */
-static function block($data, $language_code)
+static function block(array $data, string $language_code): bool
 {
     $path = Language::dataTranslate("blocks", $language_code, true);
 
@@ -169,8 +165,10 @@ static function block($data, $language_code)
         FileSystem::makeDir($path, 0755, true);
     }
 
-    $fields["description"] = $data["description"];
-    $fields["title"] = $data["title"];
+    $fields = array(
+        "description" => $data["description"],
+        "title" => $data["title"]
+    );
 
     if(isset($data["content"]))
     {
@@ -203,9 +201,8 @@ static function block($data, $language_code)
  * @param string $path The path in which the empty directories are
  * going to be deleted.
  * @param string $code The language code.
- * @original remove_empty_directories_language
  */
-static function removeEmptyDirectories($path, $code)
+static function removeEmptyDirectories(string $path, string $code): void
 {
     //This is the directory that is not going to be deleted
     $main_dir = Site::dataDir() . "language/$code/pages/singles/";

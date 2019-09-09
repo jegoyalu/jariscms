@@ -79,7 +79,13 @@ row: 0
             $user_path
         );
 
-        Jaris\System::printNavigation($blog_count, $page, "users/blog", "blog", 10);
+        Jaris\System::printNavigation(
+            $blog_count,
+            $page,
+            "users/blog",
+            "blog",
+            10
+        );
 
         print "<table class=\"navigation-list\">";
         print "<thead>";
@@ -150,7 +156,13 @@ row: 0
 
         print "</table>";
 
-        Jaris\System::printNavigation($blog_count, $page, "users/blog", "blog", 10);
+        Jaris\System::printNavigation(
+            $blog_count,
+            $page,
+            "users/blog",
+            "blog",
+            10
+        );
     ?>
     field;
 

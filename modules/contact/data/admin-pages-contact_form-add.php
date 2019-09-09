@@ -204,7 +204,12 @@ row: 0
         }
         elseif(isset($_REQUEST["btnCancel"]))
         {
-            if(Jaris\Authentication::groupHasPermission("view_content"))
+            if(
+                Jaris\Authentication::groupHasPermission(
+                    "view_content",
+                    Jaris\Authentication::currentUserGroup()
+                )
+            )
             {
                 Jaris\Uri::go("admin/pages");
             }
@@ -233,7 +238,7 @@ row: 0
         if($categories)
         {
             $fields_categories = Jaris\Categories::generateFields(
-                null, null, $_REQUEST["type"]
+                [], "", $_REQUEST["type"]
             );
 
             $fieldset[] = array(

@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Jefferson González <jgonzalez@jegoyalu.com>
- * @license https://opensource.org/licenses/GPL-3.0 
+ * @license https://opensource.org/licenses/GPL-3.0
  * @link http://github.com/jegoyalu/jariscms Source code.
  */
 
@@ -24,11 +24,14 @@ const SIGNAL_SQL_OPEN = "hook_jaris_sqlite_open";
  *
  * @param string $name The name of the database file.
  * @param string $directory Relative path where the db resides.
+ * @param int $busy_timeout The amount of time to wait in milliseconds 
+ * if the database is locked. Default: 60000 or 60 seconds.
  *
- * @return resource|bool Database handle or false on failure.
- * @original jaris_sqlite_open
+ * @return mixed|bool Database handle or false on failure.
  */
-static function open($name, $directory = "")
+static function open(
+    string $name, string $directory = "", int $busy_timeout=60000
+)
 {
     if(!$directory)
     {
@@ -38,91 +41,71 @@ static function open($name, $directory = "")
     $directory = rtrim($directory, "/") . "/";
 
     $db = null;
-    $error = "";
-    $opened = false;
     $db_path = $directory . $name;
 
-    if(class_exists("SQLite3"))
+    if(class_exists("PDO"))
+    {
+        $db = new \PDO("sqlite:$db_path");
+        $db->setAttribute(\PDO::ATTR_TIMEOUT, $busy_timeout/1000);
+    }
+    elseif(class_exists("SQLite3"))
     {
         $sqlite3_class_error = "";
+
         ob_start();
         $db = new \SQLite3($db_path);
-        $db->busyTimeout(10000);
-        $result = $db->query("select * from sqlite_master");
+        $db->busyTimeout($busy_timeout);
         $sqlite3_class_error = ob_get_contents();
         ob_end_clean();
 
-        if($sqlite3_class_error == "")
+        $db->filename = $db_path;
+
+        if($sqlite3_class_error != "")
         {
-            $opened = true;
+            throw new \Exception(
+                $sqlite3_class_error
+            );
         }
-    }
-
-    if(class_exists("PDO") && !$opened)
-    {
-        try
-        {
-            $db = new \PDO("sqlite:$db_path");
-            $db->setAttribute(\PDO::ATTR_TIMEOUT, 10000);
-
-            //Check if database format file is version 3
-            $result = $db->query("select * from sqlite_master");
-
-            if($result)
-            {
-                $opened = true;
-            }
-        }
-        catch(\PDOException $exception)
-        {
-            $opened = false;
-        }
-    }
-
-    if(!$opened)
-    {
-        $db = sqlite_open($db_path, 0600, $error);
-        sqlite_busy_timeout($db, 10000);
-    }
-
-
-    if($error != "")
-    {
-        View::addMessage($error, "error");
     }
     else
     {
-        //Inject text search functions to sqlite (UDF)
-        $udf_text_search_functions = new SearchAddons($db);
-
-        //Hook useful to inject user defined functions to data bases
-        Modules::hook("hook_jaris_sqlite_open", $name, $directory, $db);
+        throw new \Exception(
+            "You have to install PDO with SQLite support or SQLite3 extension."
+        );
     }
+
+    //Inject text search functions to sqlite (UDF)
+    $udf_text_search_functions = new SearchAddons($db);
+
+    //Hook useful to inject user defined functions to data bases
+    Modules::hook("hook_jaris_sqlite_open", $name, $directory, $db);
 
     return $db;
 }
 
 /**
  * Attach a custom function to the database.
+ *
  * @param string $name
  * @param callable $function
  * @param int $param_count
  * @param resource|object $db
- * @original jaris_sqlite_attach_function
  */
-static function attachFunction($name, callable $function, $param_count, &$db)
+static function attachFunction(
+    string $name, callable $function, int $param_count, &$db
+): void
 {
-    if(gettype($db) == "object" && class_exists("SQLite3"))
-    {
-        $db->createFunction($name, $function, $param_count);
-    }
-    elseif(gettype($db) == "object")
+    if(get_class($db) == "PDO")
     {
         $db->sqliteCreateFunction($name, $function, $param_count);
     }
+    elseif(get_class($db) == "SQLite3")
+    {
+        $db->createFunction($name, $function, $param_count);
+    }
     else
     {
-        sqlite_create_function($db, $name, $function, $param_count);
+        throw new \Exception("Invalid SQLite object.");
     }
 }
 
@@ -133,16 +116,33 @@ static function attachFunction($name, callable $function, $param_count, &$db)
  * @param string $db_name Name of the database to attach.
  * @param resource $db Currently opened database object.
  * @param string $directory Optional path where the database to attach resides.
- * @original jaris_sqlite_attach
  */
-static function attach($db_name, &$db, $directory = "")
+static function attach(string $db_name, &$db, string $directory = ""): void
 {
+    if(get_class($db) == "SQLite3")
+    {
+        if(!isset($db->attachments))
+        {
+            $db->attachments = array();
+        }
+
+        $db->attachments[] = array(
+            "dir" => $directory,
+            "db" => $db_name
+        );
+    }
+    
     if(!$directory)
     {
         $directory = Site::dataDir() . "sqlite/";
     }
 
     $directory = rtrim($directory, "/") . "/";
+
+    if(strtoupper(substr(PHP_OS, 0, 3)) === 'WIN')
+    {
+        $directory = getcwd() . "\\" . str_replace("/", "\\", $directory);
+    }
 
     self::query(
         "attach database '{$directory}{$db_name}' as $db_name",
@@ -153,24 +153,22 @@ static function attach($db_name, &$db, $directory = "")
 /**
  * Close sqlite database connection
  *
- * @param resource $db Object to opened database.
- * @original jaris_sqlite_close
+ * @param mixed $db Object to opened database.
  */
-static function close(&$db)
+static function close(&$db): void
 {
-    if(gettype($db) == "object" && class_exists("SQLite3"))
+    if(get_class($db) == "PDO")
+    {
+        unset($db);
+    }
+    elseif(get_class($db) == "SQLite3")
     {
         @$db->close();
         unset($db);
     }
-    elseif(gettype($db) == "object")
-    {
-        unset($db);
-    }
     else
     {
-        sqlite_close($db);
-        unset($db);
+        throw new \Exception("Invalid SQLite object.");
     }
 }
 
@@ -181,9 +179,8 @@ static function close(&$db)
  * (:D) in database lock ups.
  *
  * @param resource $result The result of a database query.
- * @original jaris_sqlite_close_result
  */
-static function closeResult(&$result)
+static function closeResult(&$result): void
 {
     unset($result);
 }
@@ -192,26 +189,27 @@ static function closeResult(&$result)
  * Turns synchrounous off for more speed at writing
  *
  * @param resource $db Object to opened database.
- * @original jaris_sqlite_turbo
+ * @param string $sync Can be FULL, NORMAL and OFF,
+ * for databases in wal mode NORMAL is safe and much faster than FULL,
+ * by default this function uses OFF which is the fastest but unsafe.
  */
-static function turbo(&$db)
+static function turbo(&$db, $sync="OFF"): void
 {
-    self::query("PRAGMA cache_size=10240", $db);
-    self::query("PRAGMA temp_store=MEMORY", $db);
-    self::query("PRAGMA synchronous=OFF", $db);
+    //self::query("PRAGMA cache_size=10240", $db);
+    //self::query("PRAGMA temp_store=MEMORY", $db);
+    self::query("PRAGMA synchronous=$sync", $db);
     //Turn this off because it was converting database from WAL back to Delete.
     //jaris_sqlite_query("PRAGMA journal_mode=OFF", $db);
-    self::query("PRAGMA cache_spill=OFF", $db);
+    //self::query("PRAGMA cache_spill=OFF", $db);
 }
 
 /**
  * Function to escape quotes ' to doueble quotes ''
  *
- * @param string $field Reference to the variable to escape its value.
+ * @param mixed $field Reference to the variable to escape its value.
  * @param string $type Can be string, int, float
- * @original jaris_sqlite_escape_var
  */
-static function escapeVar(&$field, $type="string")
+static function escapeVar(&$field, string $type="string"): void
 {
     switch($type)
     {
@@ -230,9 +228,8 @@ static function escapeVar(&$field, $type="string")
  * Function to escape quotes ' to doueble quotes ''
  *
  * @param array $fields Reference to the array to escape its values.
- * @original jaris_sqlite_escape_array
  */
-static function escapeArray(&$fields)
+static function escapeArray(array &$fields): void
 {
     foreach($fields as $name => $value)
     {
@@ -249,9 +246,8 @@ static function escapeArray(&$fields)
  * where you want to insert data.
  *
  * @return bool true on success or false on fail.
- * @original jaris_sqlite_insert_array_to_table
  */
-static function insertArrayToTable($table_name, $data, &$db)
+static function insertArrayToTable(string $table_name, array $data, &$db): bool
 {
     $columns = "";
     $values = "";
@@ -283,11 +279,10 @@ static function insertArrayToTable($table_name, $data, &$db)
  * @param string $directory optinal path to the database file
  *
  * @return bool true on success or false on fail.
- * @original jaris_sqlite_delete_from_table
  */
 static function deleteFromTable(
-    $database, $table, $clause, $directory = ""
-)
+    string $database, string $table, string $clause, string $directory = ""
+): bool
 {
     if(self::dbExists($database, $directory))
     {
@@ -314,12 +309,16 @@ static function deleteFromTable(
  * @param string $directory Optional path to database file.
  *
  * @return array List of result data not longer than $limit
- * @original jaris_sqlite_get_data_list
  */
 static function getDataList(
-    $database, $table, $page = 0, $limit = 30,
-    $clause = "", $fields = "*", $directory = ""
-)
+    string $database,
+    string $table,
+    int $page = 0,
+    int $limit = 30,
+    string $clause = "",
+    string $fields = "*",
+    string $directory = ""
+): array
 {
     // To protect against sql injections be sure $page is a int
     if(!is_numeric($page))
@@ -334,11 +333,12 @@ static function getDataList(
     $db = null;
     $page *= $limit;
     $data = array();
+    $result = null;
 
     if(self::dbExists($database, $directory))
     {
         $db = self::open($database, $directory);
-        self::turbo($db);
+
         $result = self::query(
             "select $fields from $table $clause limit $page, $limit", $db
         );
@@ -358,15 +358,11 @@ static function getDataList(
         {
             $data[] = $fields;
         }
+    }
 
-        self::close($db);
-        return $data;
-    }
-    else
-    {
-        self::close($db);
-        return $data;
-    }
+    unset($result);
+    self::close($db);
+    return $data;
 }
 
 /**
@@ -377,52 +373,12 @@ static function getDataList(
  * @param resource|object $db Database handle.
  *
  * @return resource|object|bool Result handle or false on failure.
- * @original jaris_sqlite_query
  */
-static function query($query, &$db)
+static function query(string $query, &$db)
 {
     $development_mode = Site::$development_mode;
 
-    $error = "";
-
-    if(gettype($db) == "object" && class_exists("SQLite3"))
-    {
-        ob_start();
-        try
-        {
-            $result = $db->query($query);
-            $error = ob_get_contents();
-
-            if($db->lastErrorMsg() != "not an error")
-            {
-                $output = date("c", time()) . ": ";
-                $output .= $query;
-                $output .= "\n" . $db->lastErrorMsg() . "\n\n";
-
-                if($development_mode)
-                {
-                    View::addMessage("(" . $query .") " . $db->lastErrorMsg(), "error");
-                }
-
-                file_put_contents("sqlite.errors", $output, FILE_APPEND);
-            }
-        }
-        catch(\Exception $e)
-        {
-            $output = date("c", time()) . ": ";
-            $output .= $query;
-            $output .= "\n" . $e->getMessage() . "\n\n";
-
-            if($development_mode)
-            {
-                View::addMessage("(" . $query .") " . $e->getMessage(), "error");
-            }
-
-            file_put_contents("sqlite.errors", $output, FILE_APPEND);
-        }
-        ob_end_clean();
-    }
-    elseif(gettype($db) == "object")
+    if(get_class($db) == "PDO")
     {
         try
         {
@@ -442,16 +398,105 @@ static function query($query, &$db)
             }
 
             file_put_contents("sqlite.errors", $output, FILE_APPEND);
+
+            throw new \Exception(
+                $output, $exception->getCode()
+            );
+        }
+        catch(\Throwable $exception)
+        {
+            $error = $exception->getMessage();
+            $output = date("c", time()) . ": ";
+            $output .= $query;
+            $output .= "\n" . $error . "\n\n";
+
+            if($development_mode)
+            {
+                View::addMessage("(" . $query .") " . $error, "error");
+            }
+
+            file_put_contents("sqlite.errors", $output, FILE_APPEND);
+
+            throw new \Exception(
+                $output, $exception->getCode()
+            );
+        }
+    }
+    elseif(get_class($db) == "SQLite3")
+    {
+        try
+        {
+            $result = @$db->query($query);
+
+            if($db->lastErrorMsg() != "not an error")
+            {
+                $syntax_error = true;
+                if(strstr($db->lastErrorMsg(), "database is locked") !== false)
+                {
+                    $time_spent = 0;
+                    $locked = true;
+                    while($locked && $time_spent < 60000 /*60 seconds*/)
+                    {
+                        $db->close();
+                        $db->open($db->filename);
+                        if(isset($db->attachments))
+                        {
+                            foreach($db->attachments as $attachment)
+                            {
+                                self::attach(
+                                    $attachment["db"], 
+                                    $db,
+                                    $attachment["dir"]
+                                );
+                            }
+                        }
+
+                        $result = @$db->query($query);
+                     
+                        if($db->lastErrorMsg() == "not an error")
+                        {
+                            $locked = false;
+                            $syntax_error = false;
+                        }
+                        elseif(strstr($db->lastErrorMsg(), "database is locked") !== false)
+                        {
+                            // up to 100 milliseconds
+                            $sleep_amount = 1000 * rand(1, 100); 
+                            usleep($sleep_amount);
+                            $time_spent += $sleep_amount / 1000;
+                        }
+                    }
+                }
+                
+                if($syntax_error)
+                {
+                    throw new \Exception(
+                        "(" . $query . ") " . $db->lastErrorMsg(), $db->lastErrorCode()
+                    );
+                }
+            }
+        }
+        catch(\Exception $e)
+        {
+            $output = date("c", time()) . ": ";
+            $output .= $e->getMessage() . "\n\n";
+
+            if($development_mode)
+            {
+                View::addMessage(
+                    $e->getMessage(), 
+                    "error"
+                );
+            }
+
+            file_put_contents("sqlite.errors", $output, FILE_APPEND);
+
+            System::exceptionCatchHook($e);
         }
     }
     else
     {
-        $result = sqlite_unbuffered_query($db, $query, SQLITE_ASSOC, $error);
-    }
-
-    if($error != "")
-    {
-        View::addMessage($error, "error");
+        throw new \Exception("Invalid SQLite object.");
     }
 
     return $result;
@@ -459,23 +504,24 @@ static function query($query, &$db)
 
 /**
  * Get the id of last inserted row.
+ *
  * @param resource|object $db
+ *
  * @return int
- * @original jaris_sqlite_last_insert_row_id
  */
-static function lastInsertRowId(&$db)
+static function lastInsertRowId(&$db): int
 {
-    if(gettype($db) == "object" && class_exists("SQLite3"))
-    {
-        return $db->lastInsertRowID();
-    }
-    elseif(gettype($db) == "object")
+    if(get_class($db) == "PDO")
     {
         return $db->lastInsertId();
     }
+    elseif(get_class($db) == "SQLite3")
+    {
+        return $db->lastInsertRowID();
+    }
     else
     {
-        return sqlite_last_insert_rowid($db);
+        throw new \Exception("Invalid SQLite object.");
     }
 
     return 0;
@@ -487,11 +533,23 @@ static function lastInsertRowId(&$db)
  * @param resource $db Database handle.
  *
  * @return resource|bool Result handle or false on failure.
- * @original jaris_sqlite_begin_transaction
  */
 static function beginTransaction(&$db)
 {
     return self::query("begin transaction", $db);
+}
+
+/**
+ * Instantly starts a transaction in write mode, and should wait until other
+ * clients stop writing.
+ *
+ * @param resource $db Database handle.
+ *
+ * @return resource|bool Result handle or false on failure.
+ */
+static function beginWriteTransaction(&$db)
+{
+    return self::query("begin immediate transaction", $db);
 }
 
 /**
@@ -500,7 +558,6 @@ static function beginTransaction(&$db)
  * @param resource $db Database handle.
  *
  * @return resource|bool Result handle or false on failure.
- * @original jaris_sqlite_commit
  */
 static function commitTransaction(&$db)
 {
@@ -513,21 +570,20 @@ static function commitTransaction(&$db)
  * @param resource|object $result An sqlite resource result of a statement.
  *
  * @return array|bool Data results or false for no data.
- * @original jaris_sqlite_fetch_array
  */
 static function fetchArray(&$result)
 {
-    if(gettype($result) == "object" && class_exists("SQLite3"))
-    {
-        return $result->fetchArray(SQLITE3_ASSOC);
-    }
-    elseif(gettype($result) == "object")
+    if(get_class($result) == "PDOStatement")
     {
         return $result->fetch(\PDO::FETCH_ASSOC);
     }
+    elseif(get_class($result) == "SQLite3Result")
+    {
+        return $result->fetchArray(SQLITE3_ASSOC);
+    }
     else
     {
-        return sqlite_fetch_array($result, SQLITE_ASSOC);
+        throw new \Exception("Invalid SQLite Result object.");
     }
 
     return false;
@@ -538,11 +594,13 @@ static function fetchArray(&$result)
  *
  * @param string $name The name of the database file.
  * @param string $directory Optional path to database file.
+ * @param bool $validity_check Determine if database is valid and if not remove it.
  *
- * @return bool True if exist false if not.
- * @original jaris_sqlite_db_exists
+ * @return bool True if exist and valid (if used validity_check) false if not.
  */
-static function dbExists($name, $directory = "")
+static function dbExists(
+    string $name, string $directory = "", bool $validity_check=false
+): bool
 {
     if(!$directory)
     {
@@ -551,7 +609,105 @@ static function dbExists($name, $directory = "")
 
     $directory = rtrim($directory, "/") . "/";
 
-    return file_exists($directory . $name);
+    $exists = file_exists($directory . $name);
+
+    if($exists && $validity_check)
+    {
+        if(!Sql::dbValid($name, $directory))
+        {
+            unlink($directory . $name);
+            return false;
+        }
+    }
+
+    return $exists;
+}
+
+/**
+ * Checks if a database file is valid.
+ *
+ * @param string $name
+ * @param string $directory
+ *
+ * @return bool True if valid, otherwise false.
+ */
+static function dbValid(string $name, string $directory=""): bool
+{
+    $db = Sql::open($name, $directory);
+
+    $query = "pragma schema_version";
+
+    if(get_class($db) == "PDO")
+    {
+        try
+        {
+            $result = $db->prepare($query);
+            $result->execute();
+        }
+        catch(\PDOException $exception)
+        {
+            return false;
+        }
+    }
+    elseif(get_class($db) == "SQLite3")
+    {
+        ob_start();
+        try
+        {
+            $result = $db->query($query);
+            $error = ob_get_contents();
+
+            if($db->lastErrorMsg() != "not an error")
+            {
+                return false;
+            }
+        }
+        catch(\Exception $e)
+        {
+            return false;
+        }
+        ob_end_clean();
+    }
+    else
+    {
+        throw new \Exception("Invalid SQLite object.");
+    }
+
+    return true;
+}
+
+/**
+ * Check if a table exists.
+ *
+ * @param string $table
+ * @param string $database
+ * @param string $directory
+ *
+ * @return bool
+ */
+static function tableExists(
+    string $table, string $database, string $directory=""
+): bool
+{
+    if(!$directory)
+    {
+        $directory = Site::dataDir() . "sqlite/";
+    }
+
+    $directory = rtrim($directory, "/") . "/";
+
+    $db = Sql::open($database, $directory);
+
+    $result = Sql::query(
+        "SELECT name FROM sqlite_master WHERE type='table' AND name='$table'",
+        $db
+    );
+
+    $data = Sql::fetchArray($result);
+
+    Sql::close($db);
+
+    return isset($data["name"]);
 }
 
 /**
@@ -560,9 +716,8 @@ static function dbExists($name, $directory = "")
  * @param string $directory Optional path for database files.
  *
  * @return  array All the databases available on the system.
- * @original jaris_sqlite_list_db
  */
-static function listDB($directory = "")
+static function listDB(string $directory = ""): array
 {
     if(!$directory)
     {
@@ -600,18 +755,19 @@ static function listDB($directory = "")
  * @param string $select_additional Additional fields to select.
  *
  * @return int count
- * @original jaris_sqlite_count_column
  */
 static function countColumn(
-    $database, $table, $column,
-    $where = "", $directory = "", $select_additional = ""
-)
+    string $database,
+    string $table,
+    string $column,
+    string $where = "",
+    string $directory = "",
+    string $select_additional = ""
+): int
 {
     if(self::dbExists($database, $directory))
     {
         $db = self::open($database, $directory);
-
-        self::turbo($db);
 
         if($select_additional != "")
         {
@@ -627,7 +783,7 @@ static function countColumn(
 
         self::close($db);
 
-        return $count["total_count"];
+        return $count["total_count"] ?? 0;
     }
     else
     {
@@ -639,9 +795,8 @@ static function countColumn(
  * Creates an sql file backup of all database tables.
  *
  * @param string $name The name of the database to backup.
- * @original jaris_sqlite_backup
  */
-static function backup($name)
+static function backup(string $name): void
 {
     if(self::dbExists($name))
     {
@@ -738,9 +893,8 @@ static function backup($name)
  *
  * @param string $name The name of the database.
  * @param resource $fp A pointer to a file.
- * @original jaris_sqlite_restore
  */
-static function restore($name, &$fp)
+static function restore(string $name, &$fp): void
 {
     unlink(Site::dataDir() . "sqlite/$name");
 

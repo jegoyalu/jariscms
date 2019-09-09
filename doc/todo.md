@@ -1,9 +1,8 @@
 # TODO List
 
-* Reimplemet is_required_field_empty() since to check for data
-  types and filter form fields
+* Reimplemet the forms system.
 * Add "Arguments" field to add menu item form
-* Write Documentation
+* Write better documentation
 
 ## Tasks which are done when needed
 
@@ -13,15 +12,19 @@
 
 * Add description to all form elements (done?)
 * Check for data entry errors on forms before taking any action. Validate data.
-* Implement breadcrumb
 * Be able to add translations directly on the website while editing content.
     * Pages - done
     * Menus
     * Blocks - done
 
+## Modules System
+
+* Migrate all modules include code to autoloaded classes that should be placed on a **src** directory.
+* Rename the data directory to pages.
+* Scan the pages to install automatically and remove the need for pages.php
+* Upgrade blocks without changing its actual position.
+
 ## Module: Revisions
 
 * Revision for page translations.
 * Revisions for blocks, menus and other site components.
-* Informe inquilino module chdir to root.
-* Minify module chdir to root.

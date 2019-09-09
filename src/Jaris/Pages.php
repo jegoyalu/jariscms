@@ -50,22 +50,20 @@ const SIGNAL_GET_PAGE_DATA = "hook_get_page_data";
 const SIGNAL_MOVE_PAGE = "hook_move_page";
 
 /**
- * Creates a page data directory.
+ * Creates a page data directory. if the given uri to create the page already
+ * exist is automatically renamed, example: section/home (already exist)
+ * renamed to section/home-0
  *
  * @param string $page The uri of the page to create, example: mysection/mypage
  * @param array $data An array of data to store to the page in the format:
  * data = array("title"=>"value", "content"=>value)
- * @param string $uri Reference to return the page uri in case
+ * @param ?string $uri Reference to return the page uri in case
  * it was renamed because
  * it already exist.
  *
  * @return bool True on success or false on fail.
- *
- * @note if the given uri to create the page already exist is automatically
- * renamed, example: section/home (already exist) renamed to section/home-0
- * @original create_page
  */
-static function add($page, $data, &$uri)
+static function add(string $page, array $data, ?string &$uri): bool
 {
     $page = trim($page);
     if($page == "")
@@ -89,6 +87,8 @@ static function add($page, $data, &$uri)
     //Call create_page hook before creating the page
     Modules::hook("hook_create_page", $uri, $data, $path);
 
+    $categories = $data["categories"];
+
     $data["users"] = serialize($data["users"]);
     $data["groups"] = serialize($data["groups"]);
     $data["categories"] = serialize($data["categories"]);
@@ -96,7 +96,9 @@ static function add($page, $data, &$uri)
     if(!isset($data["approved"]) || empty($data["approved"]))
     {
         if(
-            \Jaris\Types::groupRequiresApproval(
+            isset($data["type"])
+            &&
+            Types::groupRequiresApproval(
                 $data["type"],
                 current_user_group()
             )
@@ -125,6 +127,8 @@ static function add($page, $data, &$uri)
             file_put_contents(Site::dataDir() . "cache_events/new_page", "");
         }
 
+        Categories::incrementContent($categories ?? array());
+
         return true;
     }
 
@@ -138,9 +142,8 @@ static function add($page, $data, &$uri)
  * @param bool $disable_hook Do not call any of the registered hooks.
  *
  * @return bool True on success or false on fail.
- * @original delete_page
  */
-static function delete($page, $disable_hook=false)
+static function delete(string $page, bool $disable_hook=false): bool
 {
     $page = trim($page);
     if($page == "")
@@ -154,11 +157,16 @@ static function delete($page, $disable_hook=false)
     if(!$disable_hook)
         Modules::hook("hook_delete_page", $page, $page_path);
 
+    // We retrieve the page data to get the categories
+    $page_data = self::get($page);
+
     //Clears the page directory to be able to delete it
     if(!FileSystem::recursiveRemoveDir($page_path, true))
     {
         return false;
     }
+
+    Categories::decrementContent($page_data["categories"] ?? array());
 
     self::removeEmptyDirectories($page_path);
 
@@ -177,12 +185,11 @@ static function delete($page, $disable_hook=false)
  *
  * @param string $page The uri of the page to modify.
  * @param array $new_data Array of new data in the format:
- *       $data = array("title"=>value, "content"=>value)
+ * $data = array("title"=>value, "content"=>value)
  *
  * @return bool True on success or false on fail.
- * @original edit_page_data
  */
-static function edit($page, $new_data)
+static function edit(string $page, array $new_data): bool
 {
     $page = trim($page);
     if($page == "")
@@ -221,10 +228,13 @@ static function edit($page, $new_data)
 
 /**
  * Approve a page.
- * @param string $page The uri of the page to approve, example: mysection/mypage
+ *
+ * @param string $page The uri of the page to approve,
+ * example: mysection/mypage
+ *
  * @return bool True on success or false on fail.
  */
-static function approve($page)
+static function approve(string $page): bool
 {
     $page = trim($page);
     if($page == "")
@@ -246,11 +256,12 @@ static function approve($page)
 
 /**
  * Count a view to a page.
+ *
  * @param string $page The uri of the page to count a view.
+ *
  * @return int The total count of page views.
- * @original count_page_view
  */
-static function countView($page)
+static function countView(string $page): int
 {
     if(!self::isSystem($page))
     {
@@ -280,11 +291,15 @@ static function countView($page)
             $search_database_views = null;
             if(Sql::dbExists("search_engine"))
             {
-                $db = Sql::open("search_engine");
+                $db = Sql::open("search_engine", "", 60000);
 
                 if(Settings::get("classic_views_count", "main"))
                 {
-                    Sql::query("PRAGMA synchronous=OFF", $db);
+                    Sql::turbo($db, "OFF");
+                }
+                else
+                {
+                    Sql::turbo($db, "NORMAL");
                 }
 
                 $select = "select * from uris where "
@@ -329,7 +344,7 @@ static function countView($page)
                         $month_set = "views_month_count=views_month_count+1";
                     }
 
-                    Sql::beginTransaction($db);
+                    unset($result);
 
                     $update = "update uris set views=views+1, " .
                         "$day_set, $week_set, $month_set where uri='" .
@@ -337,8 +352,6 @@ static function countView($page)
                     ;
 
                     Sql::query($update, $db);
-
-                    Sql::commitTransaction($db);
                 }
 
                 Sql::close($db);
@@ -363,11 +376,12 @@ static function countView($page)
 
 /**
  * Get the amount of views for a page.
+ *
  * @param string $page The uri of the page.
+ *
  * @return int The total count of page views.
- * @original get_page_views
  */
-static function getViews($page)
+static function getViews(string $page): int
 {
     $file_path = self::getPath($page) . "/views.php";
 
@@ -393,9 +407,8 @@ static function getViews($page)
  *
  * @return array All the data fields of the page in the format
  * $data["field_name"] = "value" or empty array if page not found.
- * @original get_page_data
  */
-static function get($page, $language_code = null)
+static function get(string $page, string $language_code = ""): array
 {
     $development_mode = Site::$development_mode;
 
@@ -484,9 +497,8 @@ static function get($page, $language_code = null)
  * @param string $page The page to check its type.
  *
  * @return string The type of the page.
- * @original get_page_type
  */
-static function getType($page)
+static function getType(string $page): string
 {
     $page = trim($page);
     if($page == "")
@@ -496,21 +508,20 @@ static function getType($page)
 
     $data = self::get($page);
 
-    return $data["type"];
+    return $data["type"] ?? "";
 }
 
 /**
  * Check if the current user is owner of the page.
  *
  * @param string $page The page to check its ownership.
- * @param array $page_data If set checks the given page data for
+ * @param ?array &$page_data If set checks the given page data for
  * ownership details instead of loading from file.
  *
  * @return bool True if current user is the owner or is the
  * admin logged, otherwise false.
- * @original is_page_owner
  */
-static function userIsOwner($page, &$page_data=array())
+static function userIsOwner(string $page, ?array &$page_data=[]): bool
 {
     $page = trim($page);
     if($page == "")
@@ -554,14 +565,15 @@ static function userIsOwner($page, &$page_data=array())
  * Moves a page data path to another one.
  *
  * @param string $actual_uri The actual page to move.
- * @param string $new_uri The path to new page data. Returns the
+ * @param ?string $new_uri The path to new page data. Returns the
  * new uri of the page useful since it renames the uri in case it exist.
  *
  * @return bool True on success or false if fail.
- * @original move_page
  */
-static function move($actual_uri, &$new_uri)
+static function move(string $actual_uri, ?string &$new_uri): bool
 {
+    $new_uri = strval($new_uri);
+
     $actual_uri = trim($actual_uri);
     $new_uri = trim($new_uri);
     if($actual_uri == "" || $new_uri == "")
@@ -600,13 +612,12 @@ static function move($actual_uri, &$new_uri)
  * Checks if the current page is a core system one.
  *
  * @param string $uri Optional parameter to indicate a specific page to check.
- * @param array $page_data If set checks the given page data instead of loading
+ * @param ?array $page_data If set checks the given page data instead of loading
  * it from a file.
  *
  * @return bool True if system page false if not.
- * @original is_system_page
  */
-static function isSystem($uri = "", &$page_data=array())
+static function isSystem(string $uri = "", ?array &$page_data=[]): bool
 {
     $page = Uri::get();
 
@@ -648,9 +659,8 @@ static function isSystem($uri = "", &$page_data=array())
  * @param array $page_data Data array of the content to check.
  *
  * @return bool True if has access or false if not
- * @original user_page_access
  */
-static function userHasAccess($page_data)
+static function userHasAccess(array $page_data): bool
 {
     if(Authentication::isAdminLogged())
         return true;
@@ -704,9 +714,8 @@ static function userHasAccess($page_data)
  * going to be deleted.
  *
  * @return bool True if path removed or false if the path doesn't exists.
- * @original remove_empty_directories
  */
-static function removeEmptyDirectories($path)
+static function removeEmptyDirectories(string $path): bool
 {
     $path = trim($path);
 
@@ -758,12 +767,15 @@ static function removeEmptyDirectories($path)
  *
  * @param string $uri The uri to add.
  * @param array $data Page data to store.
- * @original add_uri_sqlite
  */
-static function addIndex($uri, $data)
+static function addIndex(string $uri, array $data): void
 {
-    if(!Sql::dbExists("search_engine"))
+    static $exists = false;
+
+    if(!$exists && !Sql::dbExists("search_engine"))
     {
+        $exists = true;
+
         $db = Sql::open("search_engine");
 
         Sql::query("PRAGMA journal_mode=WAL", $db);
@@ -884,12 +896,15 @@ static function addIndex($uri, $data)
  *
  * @param string $old_uri The old uri to renew.
  * @param string $new_uri The new uri that is going to replace the old one.
- * @original edit_uri_sqlite
  */
-static function editIndexUri($old_uri, $new_uri)
+static function editIndexUri(string $old_uri, string $new_uri): void
 {
-    if(Sql::dbExists("search_engine"))
+    static $exists = false;
+
+    if($exists || Sql::dbExists("search_engine"))
     {
+        $exists = true;
+
         $db = Sql::open("search_engine");
 
         $old_uri = str_replace("'", "''", $old_uri);
@@ -909,12 +924,15 @@ static function editIndexUri($old_uri, $new_uri)
  *
  * @param string $uri The uri to edit its data.
  * @param array $data The new data to store.
- * @original edit_uri_data_sqlite
  */
-static function editIndex($uri, $data)
+static function editIndex(string $uri, array $data): void
 {
-    if(Sql::dbExists("search_engine"))
+    static $exists = false;
+
+    if($exists || Sql::dbExists("search_engine"))
     {
+        $exists = true;
+
         $all_data = $data;
         $all_data["users"] = unserialize($all_data["users"]);
         $all_data["groups"] = unserialize($all_data["groups"]);
@@ -988,12 +1006,15 @@ static function editIndex($uri, $data)
  * available for searching.
  *
  * @param string $uri The uri to delete.
- * @original remove_uri_sqlite
  */
-static function deleteIndex($uri)
+static function deleteIndex(string $uri)
 {
-    if(Sql::dbExists("search_engine"))
+    static $exists = false;
+
+    if($exists || Sql::dbExists("search_engine"))
     {
+        $exists = true;
+
         $uri = str_replace("'", "''", $uri);
 
         $db = Sql::open("search_engine");
@@ -1011,9 +1032,8 @@ static function deleteIndex($uri)
  * @param int $limit The amount of pages per page to display.
  *
  * @return array Each page uri not longer than $limit
- * @original get_pages_list_sqlite
  */
-static function getNavigationList($page = 0, $limit = 30)
+static function getNavigationList(int $page = 0, int $limit = 30): array
 {
     $db = null;
     $page *= $limit;
@@ -1064,9 +1084,8 @@ static function getNavigationList($page = 0, $limit = 30)
  * from, example mysection/pagename
  *
  * @return string Path to page data directory.
- * @original generate_page_path
  */
-static function getPath($page)
+static function getPath(string $page): string
 {
     $path = Site::dataDir() . "pages/";
 
@@ -1105,9 +1124,8 @@ static function getPath($page)
  * from, example admin/settings
  *
  * @return string Path to the system page of empty string if not exists.
- * @original generate_system_page_path
  */
-static function getSystemPath($page)
+static function getSystemPath(string $page): string
 {
     $path = "system/pages/" . $page . ".php";
 

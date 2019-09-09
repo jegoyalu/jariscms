@@ -57,6 +57,7 @@ row: 0
 
                 $fields["multi"] = true;
                 $fields["description"] = $_REQUEST["description"];
+                $fields["element"] = trim($_REQUEST["element"]);
                 $fields["top"] = intval($_REQUEST["top"]);
                 $fields["attachment"] = $_REQUEST["attachment"];
                 $fields["fade_speed"] = intval($_REQUEST["fade_speed"]);
@@ -76,6 +77,7 @@ row: 0
                 $fields["max_height"] = intval($_REQUEST["max_height"]);
                 $fields["centerx"] = intval($_REQUEST["centerx"]);
                 $fields["centery"] = intval($_REQUEST["centery"]);
+                $fields["background_language"] = $_REQUEST["background_language"];
                 $fields["display_rule"] = $_REQUEST["display_rule"];
                 $fields["pages"] = $_REQUEST["pages"];
 
@@ -168,6 +170,15 @@ row: 0
             "label" => t("Background images:"),
             "id" => "images",
             "required" => true
+        );
+
+        $fields_main[] = array(
+            "type" => "text",
+            "label" => t("Element:"),
+            "value" => $_REQUEST["element"],
+            "name" => "element",
+            "id" => "element",
+            "description" => t("The css selector of an explicit element to put the background images.")
         );
 
         $fields_main[] = array(
@@ -330,6 +341,28 @@ row: 0
             "fields" => $center_vertically_fields,
             "collapsible" => true,
             "collapsed" => true
+        );
+
+        $languages = array(
+            t("All") => ""
+        );
+
+        foreach(Jaris\Language::getInstalled() as $lang_code => $lang_name)
+        {
+            $languages[t($lang_name)] = $lang_code;
+        }
+
+        $fields_language[] = array(
+            "type" => "radio",
+            "name" => "background_language",
+            "value" => $languages,
+            "checked" => $_REQUEST["background_language"] ?? ""
+        );
+
+        $fieldset[] = array(
+            "fields" => $fields_language,
+            "name" => t("Site language"),
+            "description" => t("Select the language of the page in which backgrounds are displayed.")
         );
 
         $display_rules[t("Display in all pages except the listed ones.")] = "all_except_listed";

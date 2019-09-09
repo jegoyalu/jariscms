@@ -10,14 +10,33 @@
 
 $module["name"] = "Minify";
 $module["description"] = "Uses http://code.google.com/p/minify/ to compress all css and javascript output to one file for faster web download.";
-$module["version"] = "1.3.0";
+$module["version"] = "1.4.1";
 $module["author"] = "Jefferson González";
 $module["email"] = "jgonzalez@jegoyalu.com";
 $module["website"] = "http://www.jegoyalu.com";
 
 /*
 
-=Change Log=
+Version 1.4.1 - Date 24/05/2019
+
+    * Increased priority so it gets executed as last.
+    * Added minify_html function.
+
+Version 1.4.0 - Date 04/04/2019
+
+    * Minify html if page is cached.
+
+Version 1.3.3 - Date 21/03/2018
+
+    * Disable minification of simplemde.
+
+Version 1.3.2 - Date 08/03/2018
+
+    * Disable ssl verification on file_get_contents.
+
+Version 1.3.1 - Date 11/12/2017
+
+    * Use empty array instead of null for arguments of settings tab.
 
 Version 1.3.0 - Date 30/04/2017
 
@@ -55,4 +74,4 @@ Version 1.0 - Date 30/08/2010
 
     * Initial module creation
 
-**/
+*/

@@ -1,6 +1,182 @@
 Changes Log
 ================================================================================
 
+Version 6.8.0 - Date 05/09/2019
+
+    * Overall improvements to Sql class functions in order for more reliable
+      transactions.
+    * Added Sql::beginWriteTransaction.
+    * Added inlinesearch javascript code and applied it to modules list. 
+    * Added responsive support to groups and themes.
+    * Updated default profile pictures.  
+    * Added ability to define placeholder for select2 elements with the 
+      multiple flag. 
+    * Added Users::generateUsername function.
+    * Added uncaught exception handling.
+    * Added option to Sql::turbo() to specify sync mode. 
+    * Included chart js.
+    * Added hook to search page to be able to add instructions to where 
+      statement. 
+    * Properly log sql errors.
+    * Added to run.sh command to convert sqlite databases to berkeley db.
+    * Added sqlite2bdb, bdb2sqlite and sqlite2wal commands to run.sh utility. 
+    * Added Puente library.
+
+Version 6.7.4 - Date 16/05/2019
+
+    * Fixed blocks edit button positioning broken with new jquery due
+      to issue when inside a table column.
+    * Use icon instead of text on blocks edit button.
+    * Added new icon image.
+    * Fixed issue when a block doesn't has the input format set.
+    * Fixed cache system not working properly on pages with GET array values.
+    * Improved search engine leftsearch and normalsearch functions.
+    * Fixed static image caching for image uris that included a dot on the
+      page part of the image eg: image/page.html/0
+    * FIxed bug that caused bad search performance because the function kept
+      throwing warnings that got logged into the errors_log database.
+    * Fixed signals priority not getting sorted.
+    * When caching print the cached html that may have been modified by modules.
+
+Version 6.7.3 - Date 13/04/2019
+
+    * Implemented counting of content per category.
+    * Added counting of categories when re-indexing the content.
+    * Count category when creating/deleting pages.
+    * Added $with_content paramenter to Categirues::getSubcategoriesInParentOrder().
+
+Version 6.7.2 - Date 12/03/2019
+
+    * Added support for administering sql database files.
+    * Improved Api class.
+    * Added api page that list other apis.
+    * List every installed module api pages on the api page list.
+    * Added categories api.
+    * Restructured the pages api to support more than count_view.
+    * Added subcategories api.
+    * Improved account security by locking accounts with too many
+      login fail attempts.
+    * Improved forgot password procedure.
+    * Added csv users import functionality.
+
+Version 6.7.1 - Date 01/03/2019
+
+    * Fixed multisite functionality on non default 80 port.
+    * Replaced standard select boxes with jquery.select2.
+    * Added mm/dd/YYYY support to jdpicker for the date field type.
+    * Improvements to registration form for better manipulation of it.
+    * Added various Jars\Form fieldset manipulation functions.
+    * Added "save and send login details to user email" button when creating
+      a user account.
+    * Added option to search users list using username, email or ip address.
+    * Simplified the user password edit by eliminating password verify.
+    * Redirect user mangement pages to admin/users/list instead of admin/users
+      for each performed action.
+    * Now a module changes log is displayed on the modules info page.
+    * Moved styles to system/css, scripts to system/js and
+      languages to system/languages to have a cleaner source tree.
+    * Introduced Jaris\System::addSystemScript/addSystemStyle functions.
+    * Fixed invalid type returned on Search::getCategories function.
+
+Version 6.7.0 - Date 24/12/2018
+
+    * Added src directory autoloading for modules.
+    * Fixed php version detection.
+    * Fixes to ThemesEdit values expansion and added the css and js code
+      settings by default for
+    * Fixed issue when duplicating content without author.
+    * Fixed issue when replacing an image type which called the wrong function.
+    * Fixed Jaris\Sql::attach function to work properly under windows.
+    * Disabled file locking on Jaris\Data functions on the windows platform,
+      due to writing empty
+    * Return proper amount on search results count.
+    * Hide Results label on search page if no results.
+    * Removed re-declaration of $placeholder on Jaris\Forms::generate().
+    * Use autofocus on keywords field.
+    * Implemented autofocus on applicable form elements.
+    * Code documentation fix.
+    * Fixed System::evalPHP to accept null types and return earlier on
+      empty input.
+    * Added missing return type.
+    * Fixed Blocks::generatePostContent when trying to retrieve a non
+      existent page.
+    * Fixed use of float instead of integer.
+    * Upgraded spanish translation.
+    * Display changes log if available on about page.
+
+Version 6.5.1 - Date 06/09/2018
+
+    * Fixed issue on the search settings page.
+    * Implemented setting to disable the forgot password functionality.
+
+Version 6.5.0 - Date 31/07/2018
+
+    * Added scalar type hints.
+    * Adjusted parts of the code to work properly with scalar type hints
+    * Fixed bugs uncovered with phan.
+    * Minor fixes and corrections to search engine.
+
+Version 6.4.3 - Date 17/06/2018
+
+    * Added persistent login.
+    * Added new Authentication::loginByDevice().
+    * Added page to handle persistent login devices.
+
+Version 6.4.2 - Date 25/05/2018
+
+    * Added Jaris\Settings::remove() function.
+    * Added addStyleCode and addScriptCode functions to Jaris\View.
+
+Version 6.4.1 - Date 08/03/2018
+
+    * Improved the validate_sum form field.
+    * Added no-index header to files.
+    * Added tableExists function to Sql class.
+    * Added dbValid function to Sql class.
+    * Added additional argument to dbExists to make use of dbVaild.
+    * Added OPcache reset support in advanced settings.
+    * Added support to set theme by user.
+
+Version 6.4.0 - Date 22/11/2017
+
+    * Added hability to bulk add subcategories.
+    * Improved run.sh server and profile commands
+      to increase port automatically if default is being used.
+    * Added a Forms::&getField() to easily modify
+      a generated form specific field.
+    * Now in development mode a module blocks
+      are re-read from the blocks.php file to ease
+      development.
+    * A block return code can now return a primitive
+      true or false instead of printing "true" or "false".
+    * the evalPHP function now supports a second
+      reference paramenter that is set with the
+      return value of the eval() function.
+    * When upgrading a module that has blocks, the state
+      of the blocks will be kept like: position, order,
+      pages, groups, etc...
+
+Version 6.3.2 - Date 15/09/2017
+
+    * Mailer SMTP: fixed smtp tls/ssl functionality.
+    * Mailer SMTP: added ability to skip certificate validation
+    * Mailer SMTP: added option to force username as from e-mail
+    * Added new function to get a reference to a form field for modification.
+
+Version 6.3.1 - Date 29/04/2017
+
+    * Make it possible to switch to a different language using the
+      {lang_code}/{path} and also detect if {lang_code}/{path} exists
+      to load that content and also switch the default language. For example:
+      es/mysection would switch to spanish and load the 'mysection' content,
+      but if es/mysection actually exists it would also switch to spanish
+      but it would load the existing es/mysection instead of mysection.
+    * Fixed cookie issues not getting set on chrome when using single word
+      local machinenames like 'localhost'.
+    * Removed non-standard @original tag from doc comments which
+      was introduced when refactoring the codebase and is not needed
+      anymore.
+
 Version 6.3.0 - Date 29/04/2017
 
     * Fixed subcategories list page issue on php 7.1
@@ -12,6 +188,10 @@ Version 6.3.0 - Date 29/04/2017
     * Added Date::getElapsedDays function.
     * Check if file exists on Jaris class autoloader.
     * Fixed mailer smpt issues.
+    * Remove delete tab from system blocks.
+    * Use $_GET instead of $_REQUEST on language detection.
+    * Restored language autodetect which wasn't working due
+      to a bug introduced on previous refactoring.
 
 Version 6.2.2 - Date 04/02/2017
 

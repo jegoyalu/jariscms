@@ -28,6 +28,7 @@ row: 0
         {
             $fields["title"] = $_REQUEST["title"];
             $fields["content"] = $_REQUEST["content"];
+            $fields["gallery_sorting"] = $_REQUEST["gallery_sorting"];
             $fields["thumbnails_width"] = $_REQUEST["thumbnails_width"];
             $fields["thumbnails_height"] = $_REQUEST["thumbnails_height"];
             $fields["background_color"] = $_REQUEST["background_color"];
@@ -142,7 +143,7 @@ row: 0
         if($categories)
         {
             $fields_categories = Jaris\Categories::generateFields(
-                null, null, "gallery"
+                [], "", "gallery"
             );
 
             $fieldset[] = array(
@@ -167,6 +168,17 @@ row: 0
             "value" => $_REQUEST["content"],
             "label" => t("Content:"),
             "id" => "content"
+        );
+
+        $sorting[t("Old first")] = "asc";
+        $sorting[t("Newest first")] = "desc";
+
+        $fields[] = array(
+            "type" => "radio",
+            "value" => $sorting,
+            "checked" => $_REQUEST["gallery_sorting"],
+            "label" => t("Sorting:"),
+            "name" => "gallery_sorting"
         );
 
         $fields[] = array(

@@ -24,7 +24,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
             {
                 if(
                     Jaris\Authentication::groupHasPermission(
-                        "edit_settings", 
+                        "edit_settings",
                         Jaris\Authentication::currentUserGroup()
                     )
                 )
@@ -93,8 +93,23 @@ Jaris\Signals\SignalHandler::listenWithParams(
             }
             //end sort
 
+            $current_language = Jaris\Language::getCurrent();
+
             foreach($backgrounds as $id => $data)
             {
+                // Skip backgrounds with sepcific language rule.
+                if(
+                    isset($data["background_language"])
+                    &&
+                    $data["background_language"] != ""
+                )
+                {
+                    if($current_language != $data["background_language"])
+                    {
+                        continue;
+                    }
+                }
+
                 $display_rule = $data["display_rule"];
                 $pages = explode(",", $data["pages"]);
 
@@ -110,7 +125,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
                             if($data["multi"])
                             {
                                 $scripts[] = Jaris\Uri::url(
-                                    Jaris\Modules::directory("backgrounds") 
+                                    Jaris\Modules::directory("backgrounds")
                                         . "scripts/backstretch/jquery.backstretch.mod.js"
                                 );
                             }
@@ -143,7 +158,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
                     if($data["multi"])
                     {
                         $scripts[] = Jaris\Uri::url(
-                            Jaris\Modules::directory("backgrounds") 
+                            Jaris\Modules::directory("backgrounds")
                                 . "scripts/backstretch/jquery.backstretch.mod.js"
                         );
                     }
@@ -175,7 +190,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
                             if($data["multi"])
                             {
                                 $scripts[] = Jaris\Uri::url(
-                                    Jaris\Modules::directory("backgrounds") 
+                                    Jaris\Modules::directory("backgrounds")
                                         . "scripts/backstretch/jquery.backstretch.mod.js"
                                 );
                             }
@@ -207,7 +222,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
                     "admin/settings/backgrounds",
                     "backgrounds"
                 ),
-                "arguments" => null
+                "arguments" => array()
             );
         }
     }

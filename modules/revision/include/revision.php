@@ -14,7 +14,9 @@
  */
 function revision_diff_file($older, $newer)
 {
-    require_once(Jaris\Modules::directory("revision") . "phpdiff/class.Diff.php");
+    require_once(
+        Jaris\Modules::directory("revision") . "phpdiff/class.Diff.php"
+    );
 
     $diff = Diff::compareFiles($older, $newer);
 
@@ -77,7 +79,9 @@ function revision_diff_file($older, $newer)
  */
 function revision_diff_html($older, $newer)
 {
-    require_once(Jaris\Modules::directory("revision") . "htmldiff/html_diff.php");
+    require_once(
+        Jaris\Modules::directory("revision") . "htmldiff/html_diff.php"
+    );
 
     return html_diff($older, $newer);
 }

@@ -12,14 +12,25 @@
 
 $module["name"] = "Blog";
 $module["description"] = "Provides a better blog functionality than content blocks.";
-$module["version"] = "1.4.5";
+$module["version"] = "1.4.8";
 $module["author"] = "Jefferson González";
 $module["email"] = "jgonzalez@jegoyalu.com";
 $module["website"] = "http://www.jegoyalu.com";
 
-/**
+/*
 
-=Change Log=
+Version 1.4.8 - Date 21/08/2018
+
+    * Fixed issue introduced with recent code changes.
+
+Version 1.4.7 - Date 31/07/2018
+
+    * Fixed issues reported by phan.
+    * Adjustments for scalar type hints on core.
+
+Version 1.4.6 - Date 11/12/2017
+
+    * Use empty array instead of null for arguments of settings tab.
 
 Version 1.4.5 - Date 05/26/2016
 

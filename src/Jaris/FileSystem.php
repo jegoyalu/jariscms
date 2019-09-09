@@ -21,11 +21,10 @@ class FileSystem
  * @param string $source The file to copy.
  * @param string $destination The new path of the file.
  *
- * @return string|bool File name of the new file copy with
- * the path stripped or false if failed.
- * @original copy_file
+ * @return string File name of the new file copy with
+ * the path stripped or empty string if failed.
  */
-static function copy($source, $destination)
+static function copy(string $source, string $destination): string
 {
     //Strip any special characters from filename
     $name = explode("/", $destination);
@@ -46,7 +45,7 @@ static function copy($source, $destination)
 
     if(!copy($source, $destination))
     {
-        return false;
+        return "";
     }
 
     $name = explode("/", $destination);
@@ -62,11 +61,10 @@ static function copy($source, $destination)
  * @param string $source The file to move.
  * @param string $destination The new path of the file.
  *
- * @return string|bool File name of the file moved with
- * the path stripped or false if failed.
- * @original move_file
+ * @return string File name of the file moved with
+ * the path stripped or emptry string if failed.
  */
-static function move($source, $destination)
+static function move(string $source, string $destination): string
 {
     //Strip any special characters from filename
     $name = explode("/", $destination);
@@ -87,7 +85,7 @@ static function move($source, $destination)
 
     if(!rename($source, $destination))
     {
-        return false;
+        return "";
     }
 
     $name = explode("/", $destination);
@@ -103,9 +101,8 @@ static function move($source, $destination)
  * @param string $file_name The full file path to check for existence.
  *
  * @return string The file name renamed if exist or the same file name.
- * @original rename_file_if_exist
  */
-static function renameIfExist($file_name)
+static function renameIfExist(string $file_name): string
 {
     $file_index = 0;
 
@@ -172,9 +169,8 @@ static function renameIfExist($file_name)
  * needs one argument to accept the full path of match found and optional
  * second bool argument to indicate if search should stop. Example:
  * my_callback($full_file_path, &$stop_search).
- * @original search_files
  */
-static function search($path, $pattern, $callback)
+static function search(string $path, string $pattern, callable $callback): bool
 {
     $directory = opendir($path);
 
@@ -216,9 +212,8 @@ static function search($path, $pattern, $callback)
  * @param string $path Relative directory path to jaris installation.
  *
  * @return array List of files found.
- * @original get_dir_files
  */
-static function getFiles($path)
+static function getFiles(string $path): array
 {
     $files = array();
     $directory = opendir($path);
@@ -251,9 +246,10 @@ static function getFiles($path)
  * @param bool $recursive Recurse in to the path creating neccesary directories.
  *
  * @return bool true on success false on fail.
- * @original make_directory
  */
-static function makeDir($directory, $mode = 0755, $recursive = false)
+static function makeDir(
+    string $directory, int $mode = 0755, bool $recursive = false
+): bool
 {
     if("" . strpos(PHP_OS, "WIN") . "" != "")
     {
@@ -272,9 +268,8 @@ static function makeDir($directory, $mode = 0755, $recursive = false)
  * @param string $target The target path of the source directory.
  *
  * @return bool true on success or false on fail.
- * @original recursive_move_directory
  */
-static function recursiveMoveDir($source, $target)
+static function recursiveMoveDir(string $source, string $target): bool
 {
     $source_dir = opendir($source);
 
@@ -338,9 +333,8 @@ static function recursiveMoveDir($source, $target)
  * @param string $target The copy destination.
  *
  * @return bool true on success or false on fail.
- * @original recursive_copy_directory
  */
-static function recursiveCopyDir($source, $target)
+static function recursiveCopyDir(string $source, string $target): bool
 {
     $source_dir = opendir($source);
 
@@ -390,9 +384,10 @@ static function recursiveCopyDir($source, $target)
  * @param bool $empty If true removes all directory contents keeping only itself.
  *
  * @return bool True on success or false.
- * @original recursive_remove_directory
  */
-static function recursiveRemoveDir($directory, $empty = false)
+static function recursiveRemoveDir(
+    string $directory, bool $empty = false
+): bool
 {
     // if the path has a slash at the end we remove it here
     if(substr($directory, -1) == '/')
@@ -465,8 +460,11 @@ static function recursiveRemoveDir($directory, $empty = false)
  * and compress the file.
  */
 static function printFile(
-    $path, $name = "file", $force_download = false, $try_compression = false
-)
+    string $path,
+    string $name = "file",
+    bool $force_download = false,
+    bool $try_compression = false
+): void
 {
     // Do not lock subsequent requests.
     Session::close();
@@ -485,7 +483,8 @@ static function printFile(
             {
                 if($name == "")
                 {
-                    $name = end(explode("/", $path));
+                    $path_parts = explode("/", $path);
+                    $name = end($path_parts);
                 }
 
                 $zip_file = self::stripExtension($path) . ".zip";
@@ -501,18 +500,19 @@ static function printFile(
             }
         }
 
-    	$file_size  = filesize($path);
-    	$file = @fopen($path,"rb");
+        $file_size  = filesize($path);
+        $file = @fopen($path,"rb");
 
         if($file)
-    	{
+        {
             header("X-Powered-By: "); //Remove
-    		header("Pragma: public");
+            header("X-Robots-Tag: noindex");
+            header("Pragma: public");
             header("Etag: \"" . md5_file($path) . "\"");
             header("Cache-Control: max-age=1209600");
             header('Last-Modified: ' . gmdate('D, d M Y H:i:s', filemtime($path)) . 'GMT');
             header('Expires: ' . gmdate('D, d M Y H:i:s', time() + (14 * 24 * 60 * 60)) . 'GMT');
-    		/*header(
+            /*header(
                 "Cache-Control: public, must-revalidate, post-check=0, pre-check=0"
             );*/
 
@@ -535,54 +535,54 @@ static function printFile(
 
             header("Content-Type: " . self::getMimeTypeLocal($path));
 
-    		//check if http_range is sent by browser (or download manager)
-    		if(isset($_SERVER['HTTP_RANGE']))
-    		{
-    			list($size_unit, $range_orig) = explode(
+            //check if http_range is sent by browser (or download manager)
+            if(isset($_SERVER['HTTP_RANGE']))
+            {
+                list($size_unit, $range_orig) = explode(
                     '=',
                     $_SERVER['HTTP_RANGE'],
                     2
                 );
 
-    			if($size_unit == 'bytes')
-    			{
+                if($size_unit == 'bytes')
+                {
                     //http://www.media-division.com/the-right-way-to-handle-file-downloads-in-php/
-    				//multiple ranges could be specified at the same time,
-    				//but for simplicity only serve the first range
-    				//http://tools.ietf.org/id/draft-ietf-http-range-retrieval-00.txt
-    				list($range, $extra_ranges) = explode(
+                    //multiple ranges could be specified at the same time,
+                    //but for simplicity only serve the first range
+                    //http://tools.ietf.org/id/draft-ietf-http-range-retrieval-00.txt
+                    list($range, $extra_ranges) = explode(
                         ',', $range_orig, 2
                     );
-    			}
-    			else
-    			{
+                }
+                else
+                {
                     if($try_compression && class_exists("ZipArchive"))
                     {
                         unlink($path);
                     }
 
-    				$range = '';
-    				header('HTTP/1.1 416 Requested Range Not Satisfiable');
-    				exit;
-    			}
-    		}
-    		else
-    		{
-    			$range = '';
-    		}
+                    $range = '';
+                    header('HTTP/1.1 416 Requested Range Not Satisfiable');
+                    exit;
+                }
+            }
+            else
+            {
+                $range = '';
+            }
 
-    		//figure out download piece from range (if set)
-    		list($seek_start, $seek_end) = explode('-', $range, 2);
+            //figure out download piece from range (if set)
+            list($seek_start, $seek_end) = explode('-', $range, 2);
 
-    		//set start and end based on range (if set), else set defaults
-    		//also check for invalid ranges.
-    		$seek_end   = (empty($seek_end)) ?
+            //set start and end based on range (if set), else set defaults
+            //also check for invalid ranges.
+            $seek_end   = (empty($seek_end)) ?
                 ($file_size - 1)
                 :
                 min(abs(intval($seek_end)), ($file_size - 1))
             ;
 
-    		$seek_start =
+            $seek_start =
                 (
                     empty($seek_start) || $seek_end < abs(intval($seek_start))
                 ) ?
@@ -591,12 +591,12 @@ static function printFile(
                 max(abs(intval($seek_start)), 0)
             ;
 
-    		//Only send partial content header if downloading a piece of the file (IE workaround)
-    		if ($seek_start > 0 || $seek_end < ($file_size - 1))
-    		{
-    			header('HTTP/1.1 206 Partial Content');
+            //Only send partial content header if downloading a piece of the file (IE workaround)
+            if ($seek_start > 0 || $seek_end < ($file_size - 1))
+            {
+                header('HTTP/1.1 206 Partial Content');
 
-    			header(
+                header(
                     'Content-Range: bytes '
                     . $seek_start
                     . '-'
@@ -606,64 +606,64 @@ static function printFile(
                 );
 
                 header('Content-Length: '.($seek_end - $seek_start + 1));
-    		}
-    		else
+            }
+            else
             {
                 header("Content-Length: $file_size");
             }
 
-    		header('Accept-Ranges: bytes');
+            header('Accept-Ranges: bytes');
 
-    		set_time_limit(0);
-    		fseek($file, $seek_start);
+            set_time_limit(0);
+            fseek($file, $seek_start);
 
             //Print file to browser
             ob_end_clean();
             flush();
 
-    		while(!feof($file))
-    		{
-    			print(@fread($file, 1024*8));
+            while(!feof($file))
+            {
+                print(@fread($file, 1024*8));
 
-    			flush();
+                flush();
 
-    			if(connection_status() != CONNECTION_NORMAL)
-    			{
+                if(connection_status() != CONNECTION_NORMAL)
+                {
                     if($try_compression && class_exists("ZipArchive"))
                     {
                         unlink($path);
                     }
 
-    				@fclose($file);
-    				exit;
-    			}
-    		}
+                    @fclose($file);
+                    exit;
+                }
+            }
 
             if($try_compression && class_exists("ZipArchive"))
             {
                 unlink($path);
             }
 
-    		@fclose($file);
-    		exit;
-    	}
-    	else
-    	{
+            @fclose($file);
+            exit;
+        }
+        else
+        {
             if($try_compression && class_exists("ZipArchive"))
             {
                 unlink($path);
             }
 
-    		// file couldn't be opened
-    		Site::setHTTPStatus(500);
-    		exit;
-    	}
+            // file couldn't be opened
+            Site::setHTTPStatus(500);
+            exit;
+        }
     }
     else
     {
-    	// file does not exist
-    	Site::setHTTPStatus(404);
-    	exit;
+        // file does not exist
+        Site::setHTTPStatus(404);
+        exit;
     }
 }
 
@@ -671,12 +671,13 @@ static function printFile(
  * Removes the extension from a file name.
  *
  * @param string $filename The name or path of the file.
- * @param string $extension Set to the stripped extension.
+ * @param ?string $extension Set to the stripped extension.
  *
  * @return string The file name with the extension stripped out.
- * @original strip_file_extension
  */
-static function stripExtension($filename, &$extension = null)
+static function stripExtension(
+    string $filename, ?string &$extension = ""
+): string
 {
     $file_array = explode(".", $filename);
 
@@ -699,9 +700,10 @@ static function stripExtension($filename, &$extension = null)
  *
  * @return string Original file mime type or
  * application/octet-stream if not possible to retreive data.
- * @original get_mimetype
  */
-static function getMimeType($path, $server="", $port=0)
+static function getMimeType(
+    string $path, string $server="", int $port=0
+): string
 {
     if(!$server)
         $server = $_SERVER["SERVER_NAME"];
@@ -727,14 +729,16 @@ static function getMimeType($path, $server="", $port=0)
     fputs($fp, $request);
 
     $line = fgets($fp, 128);
-    $header["status"] = $line;
+    $header = array("status" => $line);
 
     while(!feof($fp))
     {
         $line = fgets($fp, 128);
         if($header_done)
         {
-            $content .= $line;
+            //Skip response content
+            //$content .= $line;
+            break;
         }
         else
         {
@@ -763,9 +767,8 @@ static function getMimeType($path, $server="", $port=0)
  *
  * @return string Original file mime type or
  * application/octet-stream if not possible to retreive data.
- * @original get_mimetype_local
  */
-static function getMimeTypeLocal($filename)
+static function getMimeTypeLocal(string $filename): string
 {
 
     $mime_types = array(

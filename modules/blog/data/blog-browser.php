@@ -17,7 +17,9 @@ row: 0
 
     field: content
     <?php
-        Jaris\View::addStyle(Jaris\Modules::directory("blog") . "styles/list.css");
+        Jaris\View::addStyle(
+            Jaris\Modules::directory("blog") . "styles/list.css"
+        );
 
         $page = 1;
 
@@ -27,10 +29,13 @@ row: 0
         }
 
         $category = "";
+        $category_navigation = "";
 
         if(isset($_REQUEST["c"]))
         {
             $category = $_REQUEST["c"];
+            $category_navigation = $_REQUEST["c"];
+
             $category = str_replace("'", "''", $category);
         }
 
@@ -68,15 +73,6 @@ row: 0
             $blogs = Jaris\Sql::getDataList("blog", "blogs", $page - 1, 20);
         }
 
-        Jaris\System::printNavigation(
-            $blogs_count,
-            $page,
-            "blog/browser",
-            "blog",
-            20,
-            array("c" => $_REQUEST["c"])
-        );
-
         foreach($blogs as $data)
         {
             $user_data = Jaris\Users::get($data["user"]);
@@ -87,21 +83,34 @@ row: 0
             }
             else
             {
-                $picture = Jaris\Uri::url(Jaris\Modules::directory("blog") . "images/no-picture.png");
+                $picture = Jaris\Uri::url(
+                    Jaris\Modules::directory("blog") . "images/no-picture.png"
+                );
             }
 
             $user_url = Jaris\Uri::url("blog/user/" . $data["user"]);
 
-            print "<div class=\"blog-list\">\n";
-            print "<div class=\"title\"><a title=\"{$data["title"]}\" href=\"" . $user_url . "\">" . $data["title"] . "</a></div>\n";
-            print "<div class=\"thumbnail\">
-                <a title=\"{$data["title"]}\" href=\"" . $user_url . "\"><img alt=\"{$data["title"]}\" src=\"$picture\" /></a>
-                </div>\n"
+            print "<div class=\"blog-list\">\n"
+                . "<div class=\"title\">"
+                . "<a title=\"{$data["title"]}\" href=\"" . $user_url . "\">"
+                . $data["title"]
+                . "</a>"
+                . "</div>\n"
+                . "<div class=\"thumbnail\">"
+                . "<a title=\"{$data["title"]}\" href=\"" . $user_url . "\">"
+                . "<img alt=\"{$data["title"]}\" src=\"$picture\" />"
+                . "</a>"
+                . "</div>\n"
+                . "<div class=\"details\">\n"
+                . "<div class=\"views\">"
+                . t("Views:") . " " . $data["views"]
+                . "</div>\n"
+                . "<div class=\"user\">"
+                . t("Created by:")
+                . " <a href=\"$user_url\">" . $data["user"] . "</a>"
+                . "</div>\n"
+                . "</div>\n"
             ;
-            print "<div class=\"details\">\n";
-            print "<div class=\"views\">" . t("Views:") . " " . $data["views"] . "</div>\n";
-            print "<div class=\"user\">" . t("Created by:") . " <a href=\"$user_url\">" . $data["user"] . "</a></div>\n";
-            print "</div>\n";
 
             if($data["description"])
             {
@@ -130,7 +139,7 @@ row: 0
             "blog/browser",
             "blog",
             20,
-            array("c" => $_REQUEST["c"])
+            array("c" => $category_navigation)
         );
     ?>
     field;

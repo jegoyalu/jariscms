@@ -12,16 +12,23 @@
 
 $module["name"] = "Image Gallery";
 $module["description"] = "To create pages that display uploaded images as a gallery.";
-$module["version"] = "1.8.4";
+$module["version"] = "1.9.1";
 $module["author"] = "Jefferson González";
 $module["email"] = "jgonzalez@jegoyalu.com";
 $module["website"] = "http://www.jegoyalu.com";
 
 $module["dependencies"][] = "jquery_lightbox";
 
-/**
+/*
 
-=Change Log=
+Version 1.9.1 - Date 31/07/2018
+
+    * Fixed issues reported by phan.
+    * Adjustments for scalar type hints on core.
+
+Version 1.9 - Date 07/04/2018
+
+    * Added sorting support.
 
 Version 1.8.4 - Date 05/26/2016
 
@@ -47,4 +54,4 @@ Version 1.7 - Date 22/08/2010
 
     * Now using image name instead of id
 
-**/
+*/

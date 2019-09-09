@@ -24,7 +24,9 @@ row: 0
             Jaris\Authentication::protectedPage();
         }
 
-        $arguments["uri"] = $_REQUEST["uri"];
+        $arguments = array(
+            "uri" => $_REQUEST["uri"]
+        );
 
         $page_data = Jaris\Pages::get($_REQUEST["uri"]);
 

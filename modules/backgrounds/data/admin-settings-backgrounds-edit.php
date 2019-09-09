@@ -27,6 +27,7 @@ row: 0
         if(isset($_REQUEST["btnSave"]) && !Jaris\Forms::requiredFieldEmpty("backgrounds-edit"))
         {
             $fields["description"] = $_REQUEST["description"];
+            $fields["element"] = trim($_REQUEST["element"]);
             $fields["top"] = $_REQUEST["top"];
             $fields["position"] = $_REQUEST["position"];
             $fields["mode"] = $_REQUEST["mode"];
@@ -35,6 +36,7 @@ row: 0
             $fields["background_color"] = $_REQUEST["background_color"];
             $fields["responsive"] = $_REQUEST["responsive"];
             $fields["max_width"] = $_REQUEST["max_width"];
+            $fields["background_language"] = $_REQUEST["background_language"];
             $fields["display_rule"] = $_REQUEST["display_rule"];
             $fields["pages"] = $_REQUEST["pages"];
             $fields["image"] = $background["image"];
@@ -182,6 +184,18 @@ row: 0
 
         $fields_main[] = array(
             "type" => "text",
+            "label" => t("Element:"),
+            "value" => $_REQUEST["element"] ?
+                $_REQUEST["element"]
+                :
+                $background["element"],
+            "name" => "element",
+            "id" => "element",
+            "description" => t("The css selector of an explicit element to put the background images.")
+        );
+
+        $fields_main[] = array(
+            "type" => "text",
             "label" => t("Top position:"),
             "value" => $top,
             "name" => "top",
@@ -321,6 +335,28 @@ row: 0
             "name" => t("Responsive"),
             "collapsible" => true,
             "collapsed" => true
+        );
+
+        $languages = array(
+            t("All") => ""
+        );
+
+        foreach(Jaris\Language::getInstalled() as $lang_code => $lang_name)
+        {
+            $languages[t($lang_name)] = $lang_code;
+        }
+
+        $fields_language[] = array(
+            "type" => "radio",
+            "name" => "background_language",
+            "value" => $languages,
+            "checked" => $_REQUEST["background_language"] ?? $background["background_language"]
+        );
+
+        $fieldset[] = array(
+            "fields" => $fields_language,
+            "name" => t("Site language"),
+            "description" => t("Select the language of the page in which backgrounds are displayed.")
         );
 
         $display_rules[t("Display in all pages except the listed ones.")] = "all_except_listed";

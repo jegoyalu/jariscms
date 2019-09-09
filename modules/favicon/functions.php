@@ -63,7 +63,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
             {
                 if(
                     Jaris\Authentication::groupHasPermission(
-                        "edit_settings", 
+                        "edit_settings",
                         Jaris\Authentication::currentUserGroup()
                     )
                 )
@@ -99,7 +99,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
                     "admin/settings/favicon",
                     "favicon"
                 ),
-                "arguments" => null
+                "arguments" => array()
             );
         }
     }

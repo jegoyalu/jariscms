@@ -298,7 +298,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
         elseif(Jaris\Uri::get() == "admin/blocks/edit")
         {
             $block_data = Jaris\Blocks::get(
-                $_REQUEST["id"], $_REQUEST["position"]
+                intval($_REQUEST["id"]), $_REQUEST["position"]
             );
 
             if(isset($block_data["is_calendar_block"]))

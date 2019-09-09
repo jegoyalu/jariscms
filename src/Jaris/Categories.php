@@ -69,9 +69,8 @@ const SIGNAL_GET_SUBCATEGORY_DATA = "hook_get_subcategory_data";
  * data = array("name"=>"value", "description"=>value)
  *
  * @return string "true" on success or error message on fail.
- * @original create_category
  */
-static function add($machine_name, $data)
+static function add(string $machine_name, array $data): string
 {
     $path = self::getPath($machine_name);
 
@@ -111,9 +110,8 @@ static function add($machine_name, $data)
  * @param string $machine_name The machine name of the category.
  *
  * @return bool True on success or false on fail.
- * @original delete_category
  */
-static function delete($machine_name)
+static function delete(string $machine_name): bool
 {
     $path = self::getPath($machine_name);
 
@@ -139,9 +137,8 @@ static function delete($machine_name)
  * $data = array("name"=>value, "description"=>value)
  *
  * @return bool True on success or false on fail.
- * @original edit_category
  */
-static function edit($machine_name, $new_data)
+static function edit(string $machine_name, array $new_data): bool
 {
     $path = self::getPath($machine_name);
 
@@ -158,9 +155,8 @@ static function edit($machine_name, $new_data)
  *
  * @return array All the data fields of the category in the format
  * $data["field_name"] = "value";
- * @original get_category_data
  */
-static function get($machine_name)
+static function get(string $machine_name): array
 {
     static $data;
 
@@ -172,7 +168,11 @@ static function get($machine_name)
     }
 
     //Call get_category_data hook before returning the data
-    Modules::hook("hook_get_category_data", $machine_name, $data[$machine_name]);
+    Modules::hook(
+        "hook_get_category_data",
+        $machine_name,
+        $data[$machine_name]
+    );
 
     return $data[$machine_name];
 }
@@ -186,16 +186,22 @@ static function get($machine_name)
  * "description"=>value)
  *
  * @return bool True on success or false on fail.
- * @original create_subcategory
  */
-static function addSubcategory($category, $data)
+static function addSubcategory(string $category, array $data): bool
 {
     $path = self::getPath($category);
 
     //Call create_subcategory hook before creating the category
     Modules::hook("hook_create_subcategory", $category, $data);
 
-    return Data::add($data, $path . "/sub_categories.php");
+    $added = Data::add($data, $path . "/sub_categories.php");
+
+    if($added)
+    {
+        self::populateContentCount($category);
+    }
+
+    return $added;
 }
 
 /**
@@ -203,12 +209,13 @@ static function addSubcategory($category, $data)
  *
  * @param string $category The machine name of the main category.
  * @param int $id The id of the subcategory to delete.
- * @param array $sub_categories
+ * @param ?array &$sub_categories
  *
  * @return bool True on success or false on fail.
- * @original delete_subcategory
  */
-static function deleteSubcategory($category, $id, &$sub_categories=array())
+static function deleteSubcategory(
+    string $category, int $id, ?array &$sub_categories=array()
+): bool
 {
     $path = self::getPath($category);
 
@@ -227,7 +234,11 @@ static function deleteSubcategory($category, $id, &$sub_categories=array())
                 array()
             ;
 
-            if(self::deleteSubcategory($category, $sub_category_id, $sub_sub_categories))
+            if(
+                self::deleteSubcategory(
+                    $category, $sub_category_id, $sub_sub_categories
+                )
+            )
             {
                 continue;
             }
@@ -240,6 +251,23 @@ static function deleteSubcategory($category, $id, &$sub_categories=array())
 
     if(Data::delete($id, $path . "/sub_categories.php"))
     {
+        if(Sql::dbExists("categories_content"))
+        {
+            Sql::escapeVar($id);
+            Sql::escapeVar($category);
+
+            $db = Sql::open("categories_content");
+
+            Sql::query(
+                "delete from categories_content where "
+                . "category='$category' and "
+                . "id='$id'",
+                $db
+            );
+
+            Sql::close($db);
+        }
+
         return true;
     }
 
@@ -251,13 +279,14 @@ static function deleteSubcategory($category, $id, &$sub_categories=array())
  *
  * @param string $category The machine name of the main category.
  * @param array $new_data New data in the format:
- *        $data = array("name"=>value, "description"=>value)
+ * $data = array("name"=>value, "description"=>value)
  * @param int $id The id of the subcategory to edit.
  *
  * @return bool True on success or false on fail.
- * @original edit_subcategory
  */
-static function editSubcategory($category, $new_data, $id)
+static function editSubcategory(
+    string $category, array $new_data, int $id
+): bool
 {
     $path = self::getPath($category);
 
@@ -275,9 +304,8 @@ static function editSubcategory($category, $new_data, $id)
  *
  * @return array All the data fields of the subcategory in the
  * format $data["field_name"] = "value";
- * @original get_subcategory_data
  */
-static function getSubcategory($category, $id)
+static function getSubcategory(string $category, int $id): array
 {
     if($id === null)
         return array();
@@ -301,9 +329,10 @@ static function getSubcategory($category, $id)
  * @return array The parent subcategory with its subcategories and also
  * the subcategories of the subcategories in another array. For example:
  * $parent_subcategory = array(..., subcategory_values, ..., "sub_items"=>array())
- * @original get_sub_subcategories
  */
-static function getChildSubcategories($category, $parent_id = "root")
+static function getChildSubcategories(
+    string $category, $parent_id = "root"
+): array
 {
     $subcategories = self::getSubcategories($category);
 
@@ -315,8 +344,13 @@ static function getChildSubcategories($category, $parent_id = "root")
             if("" . $fields["parent"] . "" == "" . $parent_id . "")
             {
                 //get the sub items of this item
-                $sub_items["sub_items"] = Data::sort(
-                    self::getChildSubcategories($category, $id), "order"
+                $sub_items = array(
+                    "sub_items" => Data::sort(
+                        self::getChildSubcategories(
+                            $category, $id
+                        ),
+                        "order"
+                    )
                 );
 
                 if(count($sub_items["sub_items"]) > 0)
@@ -345,9 +379,8 @@ static function getChildSubcategories($category, $parent_id = "root")
  *  "order"=>int
  * )
  * or empty array if no subcategory is found
- * @original get_subcategories_list
  */
-static function getSubcategories($category)
+static function getSubcategories(string $category): array
 {
     static $categories;
 
@@ -396,13 +429,12 @@ static function getSubcategories($category)
  *  "order" = int
  * )
  * or empty array if no category is found.
- * @original get_categories_list
  */
-static function getList($type = null)
+static function getList(string $type = ""): array
 {
     $dir = opendir(Site::dataDir() . "categories");
 
-    $categories = null;
+    $categories = array();
 
     while(($file = readdir($dir)) !== false)
     {
@@ -416,12 +448,12 @@ static function getList($type = null)
 
     closedir($dir);
 
-    if(is_array($categories))
+    if($categories)
     {
         ksort($categories);
     }
 
-    if($type && is_array($categories))
+    if($type && $categories)
     {
         $type_data = Types::get($type);
 
@@ -448,11 +480,11 @@ static function getList($type = null)
         }
         else
         {
-            $categories = null;
+            $categories = array();
         }
     }
 
-    if(is_array($categories))
+    if($categories)
     {
         $categories = Data::sort($categories, "order");
 
@@ -469,14 +501,41 @@ static function getList($type = null)
  * @param string $category_name The machine name of the main category.
  * @param string $parent The parent of the subcategory, root for main categories.
  * @param string $position
+ * @param bool $with_content Only get categories that have content.
  *
  * @return array All subcategories.
- * @original get_subcategories_in_parent_order
  */
 static function getSubcategoriesInParentOrder(
-    $category_name, $parent = "root", $position = ""
-)
+    string $category_name,
+    string $parent = "root",
+    string $position = "",
+    bool $with_content = false
+): array
 {
+    static $content_count = array();
+
+    if($with_content && !isset($content_count[$category_name]))
+    {
+        $category = $category_name;
+        Sql::escapeVar($category);
+
+        $count = Sql::getDataList(
+            "categories_content",
+            "categories_content",
+            0, 1000,
+            "where category='$category'"
+        );
+
+        $content_count[$category_name] = array();
+
+        foreach($count as $count_data)
+        {
+            $content_count[$category_name][$count_data["id"]] =
+                $count_data["amount"]
+            ;
+        }
+    }
+
     $category_data = self::get($category_name);
 
     if(!$category_data["sorting"])
@@ -500,12 +559,42 @@ static function getSubcategoriesInParentOrder(
     {
         foreach($subcategories_list as $id => $fields)
         {
-            $subcategories[$id] = $fields;
-            $subcategories[$id]["title"] = $position . t($fields["title"]);
+            if(
+                $with_content
+                &&
+                $parent != "root"
+                &&
+                $content_count[$category_name][$id] <= 0)
+            {
+                continue;
+            }
 
-            $subcategories += self::getSubcategoriesInParentOrder(
-                $category_name, $id, $position . "- "
+            $childs = self::getSubcategoriesInParentOrder(
+                $category_name, $id, $position . "- ", $with_content
             );
+
+            if($with_content)
+            {
+                if(
+                    count($childs) > 0
+                    ||
+                    $content_count[$category_name][$id] > 0
+                )
+                {
+                    $subcategories[$id] = $fields;
+                    $subcategories[$id]["title"] = $position
+                        . t($fields["title"])
+                        . " "
+                        . "(".$content_count[$category_name][$id].")"
+                    ;
+                    $subcategories += $childs;
+                }
+            }
+            else{
+                $subcategories[$id] = $fields;
+                $subcategories[$id]["title"] = $position . t($fields["title"]);
+                $subcategories += $childs;
+            }
         }
     }
 
@@ -523,20 +612,22 @@ static function getSubcategoriesInParentOrder(
  *
  * @return array Data that represent a series of fields that can
  * be used when generating a form on a fieldset.
- * @original generate_category_fields_list
  */
 static function generateFields(
-    $selected = null, $main_category = null, $type = null, $prefix = ""
-)
+    array $selected = [],
+    string $main_category = "",
+    string $type = "",
+    string $prefix = ""
+): array
 {
     $fields = array();
-
     $categories_list = array();
-    if(!$main_category)
+
+    if(!$main_category && $type)
     {
         $categories_list = self::getList($type);
     }
-    else
+    elseif($main_category)
     {
         $categories_list[$main_category] = self::get($main_category);
     }
@@ -545,7 +636,7 @@ static function generateFields(
     {
         $subcategories = self::getSubcategoriesInParentOrder($machine_name);
 
-        $select_values = null;
+        $select_values = array();
         if(!$values["multiple"])
         {
             $select_values[t("-None Selected-")] = "-1";
@@ -587,7 +678,8 @@ static function generateFields(
                     "name" => "$prefix{$machine_name}[]",
                     "label" => t($values["name"]),
                     "id" => $prefix . $machine_name,
-                    "value" => $select_values
+                    "value" => $select_values,
+                    "inline" => true
                 );
             }
             else
@@ -598,7 +690,8 @@ static function generateFields(
                     "name" => "$prefix{$machine_name}[]",
                     "label" => t($values["name"]),
                     "id" => $prefix . $machine_name,
-                    "value" => $select_values
+                    "value" => $select_values,
+                    "inline" => true
                 );
             }
         }
@@ -612,15 +705,17 @@ static function generateFields(
  *
  * @param string $machine_name The machine name of the category.
  * @param array $data The category data.
- * @original add_category_block
  */
-static function addBlock($machine_name, $data)
+static function addBlock(string $machine_name, array $data): void
 {
     $category_block = array();
 
     $category_block["description"] = $machine_name . " " . "categories";
     $category_block["title"] = $data["name"] . " " . "categories";
-    $category_block["content"] = "<?php\nprint Jaris\\Categories::generateMenu(\"$machine_name\");\n?>";
+    $category_block["content"] = "<?php\n"
+        . "print Jaris\\Categories::generateMenu(\"$machine_name\");\n"
+        . "?>"
+    ;
     $category_block["order"] = "0";
     $category_block["display_rule"] = "all_except_listed";
     $category_block["pages"] = "";
@@ -638,12 +733,15 @@ static function addBlock($machine_name, $data)
  * @param string $parent_id The id of the subcategory to generate the menu.
  *
  * @return string UL html of the category menu.
- * @original category_menu
  */
-static function generateMenu($machine_name, $parent_id="root")
+static function generateMenu(
+    string $machine_name, string $parent_id="root"
+): string
 {
     $position = 1;
-    $subcategories_array = self::getChildSubcategories($machine_name, $parent_id);
+    $subcategories_array = self::getChildSubcategories(
+        $machine_name, $parent_id
+    );
     $count_subcategories = count($subcategories_array);
 
     $category_data = self::get($machine_name);
@@ -675,7 +773,8 @@ static function generateMenu($machine_name, $parent_id="root")
                 $list_class = "";
             }
 
-            //Translate the title and description using the strings.php file if available.
+            // Translate the title and description using the strings.php
+            // file if available.
             $subcategory['title'] = t($subcategory['title']);
             $subcategory['description'] = t($subcategory['description']);
 
@@ -711,10 +810,9 @@ static function generateMenu($machine_name, $parent_id="root")
  * Prepares the corresponding $_REQUEST variables to display the search
  * results of a category using an alias.
  *
- * @param string $page The uri alias of the category.
- * @original show_category_results
+ * @param string &$page The uri alias of the category.
  */
-static function showResults(&$page)
+static function showResults(string &$page): void
 {
     $sections = explode("/", $page);
 
@@ -771,14 +869,217 @@ static function showResults(&$page)
 }
 
 /**
+ * Create database that will hold each category content count.
+ */
+static function createContentCountDb(): void
+{
+    static $exists = false;
+
+    if(!$exists && !Sql::dbExists("categories_content"))
+    {
+        $db = Sql::open("categories_content");
+
+        Sql::query("PRAGMA journal_mode=WAL", $db);
+
+        Sql::query(
+            "create table categories_content ("
+            . "category text,"
+            . "id text,"
+            . "parent text,"
+            . "amount integer"
+            . ")",
+            $db
+        );
+
+        Sql::query(
+            "create index categories_content_index on categories_content ("
+            . "category desc,"
+            . "id desc,"
+            . "parent desc"
+            . ")",
+            $db
+        );
+
+        Sql::close($db);
+    }
+
+    $exists = true;
+}
+
+/**
+ * Populates the categories content count database for the given category
+ * or all existing categories if no category is given
+ * @param  string $category Machine name of category.
+ */
+static function populateContentCount(string $category=""): void
+{
+    self::createContentCountDb();
+
+    $db = Sql::open("categories_content");
+
+    if($category == "")
+    {
+        $categories = self::getList();
+
+        foreach($categories as $category => $cat_data)
+        {
+            $subcategories = self::getSubcategories($category);
+
+            Sql::escapeVar($category);
+
+            foreach($subcategories as $sub_id => $sub_data)
+            {
+                Sql::escapeVar($sub_id);
+
+                $result = Sql::query(
+                    "select * from categories_content where "
+                    . "category = '$category' and "
+                    . "id = '$sub_id'",
+                    $db
+                );
+
+                if(!($data = Sql::fetchArray($result)))
+                {
+                    Sql::escapeVar($sub_data["parent"]);
+
+                    Sql::query(
+                        "insert into categories_content ("
+                        . "category, id, parent, amount"
+                        . ") values("
+                        . "'$category', '$sub_id', '{$sub_data['parent']}', 0"
+                        . ")",
+                        $db
+                    );
+                }
+            }
+        }
+    }
+    else
+    {
+        $subcategories = self::getSubcategories($category);
+
+        Sql::escapeVar($category);
+
+        foreach($subcategories as $sub_id => $sub_data)
+        {
+            Sql::escapeVar($sub_id);
+
+            $result = Sql::query(
+                "select * from categories_content where "
+                . "category = '$category' and "
+                . "id = '$sub_id'",
+                $db
+            );
+
+            if(!($data = Sql::fetchArray($result)))
+            {
+                Sql::escapeVar($sub_data["parent"]);
+
+                Sql::query(
+                    "insert into categories_content ("
+                    . "category, id, parent, amount"
+                    . ") values("
+                    . "'$category', '$sub_id', '{$sub_data['parent']}', 0"
+                    . ")",
+                    $db
+                );
+            }
+        }
+    }
+
+    Sql::close($db);
+}
+
+/**
+ * Increment the content count for the given categories.
+ * @param array $categories Array of categories as found on the page data structure.
+ * @return void
+ */
+static function incrementContent(array $categories): void
+{
+    static $exists = false;
+
+    if($exists || Sql::dbExists("categories_content"))
+    {
+        $exists = true;
+
+        $db = Sql::open("categories_content");
+
+        Sql::beginTransaction($db);
+
+        foreach($categories as $machine_name => $sub_categories)
+        {
+            Sql::escapeVar($machine_name);
+
+            foreach($sub_categories as $sub_id)
+            {
+                Sql::query(
+                    "update categories_content "
+                    . "set amount = amount+1 "
+                    . "where "
+                    . "category='$machine_name' and "
+                    . "id = $sub_id",
+                    $db
+                );
+            }
+        }
+
+        Sql::commitTransaction($db);
+
+        Sql::close($db);
+    }
+}
+
+/**
+ * Decrement the content count for the given categories.
+ * @param array $categories Array of categories as found on the page data structure.
+ * @return void
+ */
+static function decrementContent(array $categories): void
+{
+    static $exists = false;
+
+    if($exists || Sql::dbExists("categories_content"))
+    {
+        $exists = true;
+
+        $db = Sql::open("categories_content");
+
+        Sql::beginTransaction($db);
+
+        foreach($categories as $machine_name => $sub_categories)
+        {
+            Sql::escapeVar($machine_name);
+
+            foreach($sub_categories as $sub_id)
+            {
+                Sql::escapeVar($sub_id);
+
+                Sql::query(
+                    "update categories_content "
+                    . "set amount = amount-1 "
+                    . "where "
+                    . "category='$machine_name' and "
+                    . "id = '$sub_id'",
+                    $db
+                );
+            }
+        }
+
+        Sql::commitTransaction($db);
+
+        Sql::close($db);
+    }
+}
+
+/**
  * Generates the system path to the category data directory.
  *
  * @param string $machine_name the machine name of the category.
  *
  * @return string Path to category data directory.
- * @original generate_category_path
  */
-static function getPath($machine_name)
+static function getPath(string $machine_name): string
 {
     $path = Site::dataDir() . "categories/$machine_name";
 

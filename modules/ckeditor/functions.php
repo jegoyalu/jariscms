@@ -23,6 +23,8 @@ Jaris\Signals\SignalHandler::listenWithParams(
         $groups = unserialize(Jaris\Settings::get("groups", "ckeditor"));
         $disable_editor = unserialize(Jaris\Settings::get("disable_editor", "ckeditor"));
 
+        $user_group = Jaris\Authentication::currentUserGroup();
+
         if(!is_array($textarea_id))
             $textarea_id = array();
 
@@ -38,9 +40,9 @@ Jaris\Signals\SignalHandler::listenWithParams(
         if(!is_array($disable_editor))
             $disable_editor = array();
 
-        if(!$textarea_id[Jaris\Authentication::currentUserGroup()])
+        if(!$textarea_id[$user_group])
         {
-            $textarea_id[Jaris\Authentication::currentUserGroup()] =
+            $textarea_id[$user_group] =
                 "content,pre_content,sub_content,"
                     . "registration_welcome_message,registration_benefits,"
                     . "footer-message,site_status_description"
@@ -48,20 +50,20 @@ Jaris\Signals\SignalHandler::listenWithParams(
         }
         else
         {
-            $textarea_id[Jaris\Authentication::currentUserGroup()] = explode(
+            $textarea_id[$user_group] = explode(
                 ",",
-                $textarea_id[Jaris\Authentication::currentUserGroup()]
+                $textarea_id[$user_group]
             );
         }
 
-        if(empty($uicolor[Jaris\Authentication::currentUserGroup()]))
+        if(empty($uicolor[$user_group]))
         {
-            $uicolor[Jaris\Authentication::currentUserGroup()] = "FFFFFF";
+            $uicolor[$user_group] = "FFFFFF";
         }
 
         if(
-            empty($plugins[Jaris\Authentication::currentUserGroup()]) &&
-            !is_array($plugins[Jaris\Authentication::currentUserGroup()])
+            empty($plugins[$user_group]) &&
+            !is_array($plugins[$user_group])
         )
         {
             $plugins[Jaris\Authentication::currentUserGroup()] = array(
@@ -69,9 +71,10 @@ Jaris\Signals\SignalHandler::listenWithParams(
             );
         }
 
-        if(!$forms_to_display[Jaris\Authentication::currentUserGroup()])
+        if(!$forms_to_display[$user_group])
         {
-            $forms_to_display[] = "add-page-pages,edit-page-pages,translate-page,"
+            $forms_to_display[$user_group] =
+                "add-page-pages,edit-page-pages,translate-page,"
                 . "add-page-block,block-page-edit,add-block,block-edit,"
                 . "translate-block, add-page-block-page, duplicate-page-product,"
                 . "edit-page-blog,add-page-blog,"
@@ -93,25 +96,34 @@ Jaris\Signals\SignalHandler::listenWithParams(
         }
         else
         {
-            $forms_to_display[Jaris\Authentication::currentUserGroup()] = explode(
+            $forms_to_display[$user_group] = explode(
                 ",",
-                $forms_to_display[Jaris\Authentication::currentUserGroup()]
+                $forms_to_display[$user_group]
             );
         }
 
         //Check if current user is on one of the groups that can use the editor
-        if(!$groups[Jaris\Authentication::currentUserGroup()])
+        if(!$groups[$user_group])
         {
             return;
         }
 
-        foreach($forms_to_display[Jaris\Authentication::currentUserGroup()] as $form_name)
+        if(
+            !is_array(
+                $forms_to_display[$user_group]
+            )
+        )
+        {
+            return;
+        }
+
+        foreach($forms_to_display[$user_group] as $form_name)
         {
             $form_name = trim($form_name);
 
             if($parameters["name"] == $form_name)
             {
-                if($disable_editor[Jaris\Authentication::currentUserGroup()])
+                if($disable_editor[$user_group])
                 {
                     if(isset($_REQUEST["disable_ckeditor"]))
                     {
@@ -123,7 +135,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
                     }
                 }
 
-                foreach($textarea_id[Jaris\Authentication::currentUserGroup()] as $id)
+                foreach($textarea_id[$user_group] as $id)
                 {
                     $id = trim($id);
 
@@ -162,14 +174,14 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
                     $editor_config = Jaris\Uri::url(
                         Jaris\Modules::getPageUri("ckeditorconfig", "ckeditor"),
-                        array("group" => Jaris\Authentication::currentUserGroup())
+                        array("group" => $user_group)
                     );
 
-                    $interface_color = $uicolor[Jaris\Authentication::currentUserGroup()];
+                    $interface_color = $uicolor[$user_group];
 
-                    $plugins_list = implode(",", $plugins[Jaris\Authentication::currentUserGroup()]);
+                    $plugins_list = implode(",", $plugins[$user_group]);
 
-                    $codemirror = in_array("codemirror", $plugins[Jaris\Authentication::currentUserGroup()]) ?
+                    $codemirror = in_array("codemirror", $plugins[$user_group]) ?
                         "codemirror: {mode: 'application/x-httpd-php', theme: 'monokai'},"
                         :
                         ""
@@ -210,7 +222,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
                                 $values["id"] == $id
                             )
                             {
-                                if($disable_editor[Jaris\Authentication::currentUserGroup()])
+                                if($disable_editor[$user_group])
                                 {
                                     if($_COOKIE["disable_ckeditor"])
                                     {
@@ -320,8 +332,91 @@ Jaris\Signals\SignalHandler::listenWithParams(
                     "admin/settings/ckeditor",
                     "ckeditor"
                 ),
-                "arguments" => null
+                "arguments" => array()
             );
         }
     }
 );
+
+function ckeditor_textarea_replace($element_id)
+{
+    $uicolor = unserialize(Jaris\Settings::get("uicolor", "ckeditor"));
+    $plugins = unserialize(Jaris\Settings::get("plugins", "ckeditor"));
+
+    $user_group = Jaris\Authentication::currentUserGroup();
+
+    if(!is_array($uicolor))
+        $uicolor = array();
+
+    if(empty($uicolor[$user_group]))
+    {
+        $uicolor[$user_group] = "FFFFFF";
+    }
+
+    if(
+        empty($plugins[$user_group]) &&
+        !is_array($plugins[$user_group])
+    )
+    {
+        $plugins[$user_group] = array(
+            "quicktable", "youtube", "codemirror"
+        );
+    }
+
+    $lang = "";
+    if(Jaris\Language::getCurrent() == "es")
+    {
+        $lang .= "language: 'es',";
+    }
+
+    $editor_image_browser = Jaris\Uri::url(
+        Jaris\Modules::getPageUri("ckeditorpic", "ckeditor"),
+        array("uri" => $_REQUEST["uri"])
+    );
+
+    $editor_image_uploader = Jaris\Uri::url(
+        Jaris\Modules::getPageUri("ckeditorpicup", "ckeditor"),
+        array("uri" => $_REQUEST["uri"])
+    );
+
+    $editor_link_browser = Jaris\Uri::url(
+        Jaris\Modules::getPageUri("ckeditorlink", "ckeditor"),
+        array("uri" => $_REQUEST["uri"])
+    );
+
+    $editor_link_uploader = Jaris\Uri::url(
+        Jaris\Modules::getPageUri("ckeditorlinkup", "ckeditor"),
+        array("uri" => $_REQUEST["uri"])
+    );
+
+    $editor_config = Jaris\Uri::url(
+        Jaris\Modules::getPageUri("ckeditorconfig", "ckeditor"),
+        array("group" => $user_group)
+    );
+
+    $interface_color = $uicolor[$user_group];
+
+    $plugins_list = implode(",", $plugins[$user_group]);
+
+    $codemirror = in_array("codemirror", $plugins[$user_group]) ?
+        "codemirror: {mode: 'application/x-httpd-php', theme: 'monokai'},"
+        :
+        ""
+    ;
+
+    $editor = "CKEDITOR.replace('$element_id', {"
+        . "customConfig: '$editor_config',"
+        . "uiColor: '#$interface_color',"
+        . "filebrowserBrowseUrl: '$editor_link_browser',"
+        . "filebrowserImageBrowseUrl: '$editor_image_browser',"
+        . "filebrowserUploadUrl: '$editor_link_uploader',"
+        . "filebrowserImageUploadUrl: '$editor_image_uploader',"
+        . "extraPlugins: '$plugins_list',"
+        . "codemirror: {mode: 'application/x-httpd-php', theme: 'monokai'},"
+        . "$codemirror"
+        . "$lang"
+        . "});"
+    ;
+
+    return $editor;
+}

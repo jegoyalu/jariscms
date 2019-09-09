@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Jefferson González <jgonzalez@jegoyalu.com>
- * @license https://opensource.org/licenses/GPL-3.0 
+ * @license https://opensource.org/licenses/GPL-3.0
  * @link http://github.com/jegoyalu/jariscms Source code.
  */
 
@@ -15,9 +15,8 @@ class ApiKey
 
 /**
  * Create an api key database if doesn't exists.
- * @original api_key_create_db
  */
-public static function createDatabase()
+public static function createDatabase(): void
 {
     if(Sql::dbExists("api_keys"))
         return;
@@ -54,11 +53,12 @@ public static function createDatabase()
 
 /**
  * Adds new api key.
+ *
  * @param array $data
+ *
  * @return string The generated api key.
- * @original api_key_add
  */
-public static function add($data)
+public static function add(array $data): string
 {
     $db = Sql::open("api_keys");
 
@@ -101,11 +101,11 @@ public static function add($data)
 
 /**
  * Edits an api key.
+ *
  * @param string $key
  * @param array $data
- * @original api_key_edit
  */
-public static function edit($key, $data)
+public static function edit(string $key, array $data): void
 {
     $db = Sql::open("api_keys");
 
@@ -128,10 +128,10 @@ public static function edit($key, $data)
 
 /**
  * Deletes an api key.
+ *
  * @param string $key
- * @original api_key_delete
  */
-public static function delete($key)
+public static function delete(string $key): void
 {
     $db = Sql::open("api_keys");
 
@@ -146,11 +146,12 @@ public static function delete($key)
 
 /**
  * Retreive the data of api key by its key.
+ *
  * @param string $key
- * @return array|null
- * @original api_key_get_data
+ *
+ * @return array
  */
-public static function getData($key)
+public static function getData(string $key): array
 {
     $db = Sql::open("api_keys");
 
@@ -169,16 +170,22 @@ public static function getData($key)
 
     Sql::close($db);
 
-    return $data;
+    if($data)
+    {
+        return $data;
+    }
+
+    return array();
 }
 
 /**
  * Retreive the data of api key by its id.
+ *
  * @param string $id
- * @return array|null
- * @original api_key_get_data_by_id
+ *
+ * @return array
  */
-public static function getDataById($id)
+public static function getDataById(string $id): array
 {
     $db = Sql::open("api_keys");
 
@@ -197,16 +204,22 @@ public static function getDataById($id)
 
     Sql::close($db);
 
-    return $data;
+    if($data)
+    {
+        return $data;
+    }
+
+    return array();
 }
 
 /**
  * Retreive the data of api key by its token.
+ *
  * @param string $token
- * @return array|null
- * @original api_key_get_data_by_token
+ *
+ * @return array
  */
-public static function getDataByToken($token)
+public static function getDataByToken(string $token): array
 {
     $db = Sql::open("api_keys");
 
@@ -225,27 +238,33 @@ public static function getDataByToken($token)
 
     Sql::close($db);
 
-    return $data;
+    if($data)
+    {
+        return $data;
+    }
+
+    return array();
 }
 
 /**
  * Check if a given api key is valid.
+ *
  * @param string $key
+ *
  * @return bool
- * @original api_key_valid
  */
-public static function isValid($key)
+public static function isValid(string $key): bool
 {
-    return is_array(self::getData($key));
+    return count(self::getData($key)) > 1;
 }
 
 /**
  * Sets all permissions for a key.
+ *
  * @param string $key
  * @param array $permissions
- * @original api_key_set_permissions
  */
-public static function setPermissions($key, $permissions)
+public static function setPermissions(string $key, array $permissions): void
 {
     $db = Sql::open("api_keys");
 
@@ -267,11 +286,12 @@ public static function setPermissions($key, $permissions)
 
 /**
  * Get the list of permissions for the api key.
+ *
  * @param string $key
+ *
  * @return array
- * @original api_key_get_permissions
  */
-public static function getPermissions($key)
+public static function getPermissions(string $key): array
 {
     $data = self::getData($key);
 
@@ -285,12 +305,13 @@ public static function getPermissions($key)
 
 /**
  * Check if a given api key has a specific permission.
+ *
  * @param string $key
  * @param string|array $permission
+ *
  * @return bool
- * @original api_key_has_permission
  */
-public static function hasPermission($key, $permission)
+public static function hasPermission(string $key, $permission): bool
 {
     $permissions = self::getPermissions($key);
 

@@ -72,8 +72,8 @@ row: 0
         });
     </script>
     <?php
-        Jaris\View::addScript("scripts/jquery-ui/jquery.ui.js");
-        Jaris\View::addScript("scripts/jquery-ui/jquery.ui.touch-punch.min.js");
+        Jaris\View::addSystemScript("jquery-ui/jquery.ui.js");
+        Jaris\View::addSystemScript("jquery-ui/jquery.ui.touch-punch.min.js");
 
         //Check maximum permitted image upload have not exceed
         $type_settings = Jaris\Types::get(Jaris\Pages::getType($_REQUEST["uri"]));
@@ -86,7 +86,7 @@ row: 0
             "-1"
         ;
 
-        $image_count = count(Jaris\Pages\Images::getList($_REQUEST["uri"]));
+        $image_count = count(Jaris\Pages\Images::getList($_REQUEST["uri"], false));
 
         if($maximum_images == "0")
         {
@@ -97,7 +97,9 @@ row: 0
             Jaris\View::addMessage(t("Maximum image uploads reached."));
         }
 
-        $arguments["uri"] = $_REQUEST["uri"];
+        $arguments = array(
+            "uri" => $_REQUEST["uri"]
+        );
 
         //Tabs
         if(
@@ -212,6 +214,15 @@ row: 0
                 $image_data["description"] = $_REQUEST["description"][$i];
                 $image_data["order"] = $i;
 
+                if($_REQUEST["disabled"][$i])
+                {
+                    $image_data["disabled"] = true;
+                }
+                elseif(isset($image_data["disabled"]))
+                {
+                    unset($image_data["disabled"]);
+                }
+
                 if(
                     !Jaris\Pages\Images::edit(
                         $image_id,
@@ -245,7 +256,7 @@ row: 0
         }
 
 
-        if($images = Jaris\Pages\Images::getList($arguments["uri"]))
+        if($images = Jaris\Pages\Images::getList($arguments["uri"], false))
         {
             print "<form id=\"images-select\" method=\"post\" "
                 . "action=\"" . Jaris\Uri::url("admin/pages/images/delete-selected")
@@ -286,6 +297,7 @@ row: 0
             print "<td>" . t("Order") . "</td>\n";
             print "<td>" . t("Thumbnail") . "</td>\n";
             print "<td>" . t("Description") . "</td>\n";
+            print "<td>" . t("Disabled") . "</td>\n";
 
             if(
                 Jaris\Authentication::groupHasPermission(
@@ -341,6 +353,17 @@ row: 0
                     . "value=\"{$fields['description']}\" />"
                 ;
                 print "</td>";
+
+                $disabled_checked = "";
+                if(isset($fields["disabled"]))
+                {
+                    $disabled_checked .= "checked=\"checked\"";
+                }
+
+                print "<td>"
+                    . "<input type=\"checkbox\" name=\"disabled[]\" $disabled_checked />"
+                    . "</td>"
+                ;
 
                 if(
                     Jaris\Authentication::groupHasPermission(

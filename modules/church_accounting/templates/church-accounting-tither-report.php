@@ -87,7 +87,7 @@ if(
         $result = Jaris\Sql::query(
             "select * "
             . "from church_accounting_income "
-            . "where is_tithe=1 and tither={$tither_data['id']} $where",
+            . "where tither={$tither_data['id']} $where",
             $db
         );
 
@@ -139,7 +139,7 @@ if(
             $result = Jaris\Sql::query(
                 "select sum(total) as grand_total "
                 . "from church_accounting_income "
-                . "where is_tithe=1 and tither={$tither_data['id']} and "
+                . "where tither={$tither_data['id']} and "
                 . "month=$month_number $where",
                 $db
             );
@@ -191,7 +191,7 @@ if(
             $result = Jaris\Sql::query(
                 "select sum(total) as grand_total "
                 . "from church_accounting_income "
-                . "where is_tithe=1 and tither={$tither_data['id']} and "
+                . "where tither={$tither_data['id']} and "
                 . "year=$year_value",
                 $db
             );

@@ -97,7 +97,7 @@ function polls_print_polls_navigation($polls_count, $page, $amount = 30)
         $next_page = Jaris\Uri::url(
             Jaris\Modules::getPageUri("admin/polls", "polls"),
             array("page" => $page + 1)
-        ) . $categories_string;
+        );
 
         $next_text = t("Next");
         print "<a class=\"next\" href=\"$next_page\">$next_text</a>";

@@ -105,18 +105,43 @@ Jaris\Signals\SignalHandler::listenWithParams(
                 $page_data["questions"] = unserialize($page_data["questions"]);
             }
 
+            Jaris\View::addSystemScript("jquery-ui/jquery.ui.js");
+
+            Jaris\View::addSystemScript(
+                "jquery-ui/jquery.ui.touch-punch.min.js"
+            );
+
             Jaris\View::addScript(
-                Jaris\Modules::directory("faq")
-                    . "scripts/questions.js"
+                Jaris\Modules::getPageUri("js/faq/add-question", "faq"),
+                array("uri" => $_REQUEST["uri"])
             );
 
             $attributes_html = Jaris\Forms::beginFieldset(
                 t("Questions"), true, true
             );
 
+            $attributes_html .= '<script>
+            $(document).ready(function() {
+                var fixHelper = function(e, ui) {
+                    ui.children().each(function() {
+                        $(this).width($(this).width());
+                    });
+                    return ui;
+                };
+
+                $("#questions-table tbody").sortable({
+                    cursor: "crosshair",
+                    helper: fixHelper,
+                    handle: "a.sort-handle"
+                });
+            });
+            </script>'
+            ;
+
             $attributes_html .= '<table id="questions-table" style="width: 100%">';
             $attributes_html .= '<thead>';
             $attributes_html .= '<tr>';
+            $attributes_html .= '<td style="width: auto"></td>';
             $attributes_html .= '<td style="width: auto"></td>';
             $attributes_html .= '<td style="width: 20px"></td>';
             $attributes_html .= '</tr>';
@@ -124,7 +149,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
             $attributes_html .= '<tbody>';
 
             $question_id = 1;
-            $whizzywig_html = "";
+            $editor_html = "";
 
             if(is_array($page_data["questions"]))
             {
@@ -140,6 +165,8 @@ Jaris\Signals\SignalHandler::listenWithParams(
                         . 'margin-bottom: 15px;" '
                         . 'id="question-'.$question_id.'">'
                     ;
+
+                    $questions .= '<td><a class="sort-handle"></a></td>';
 
                     $questions .= '<td style="width: auto">';
 
@@ -183,26 +210,33 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
                 $attributes_html .= $questions;
 
-                $whizzywig_html .= '$(document).ready(function(){' . "\n";
-                $whizzywig_html .= 'if(typeof whizzywig == "object")' . "\n";
-                $whizzywig_html .= '{' . "\n";
+                $editor_html .= '$(document).ready(function(){' . "\n";
+                $editor_html .= 'if(typeof whizzywig == "object")' . "\n";
+                $editor_html .= '{' . "\n";
 
                 for($current_id=1; $current_id<=$question_id; $current_id++)
                 {
-                    $whizzywig_html .= '  whizzywig.makeWhizzyWig("answer-"+'.$current_id.', "all");' . "\n";
+                    $editor_html .= '  whizzywig.makeWhizzyWig("answer-"+'.$current_id.', "all");' . "\n";
                 }
 
-                $whizzywig_html .= '}' . "\n";
-                $whizzywig_html .= 'else if(typeof CKEDITOR == "object")' . "\n";
-                $whizzywig_html .= '{' . "\n";
+                $editor_html .= '}' . "\n";
 
-                for($current_id=1; $current_id<=$question_id; $current_id++)
+                if(Jaris\Modules::isInstalled("ckeditor"))
                 {
-                    $whizzywig_html .= '  CKEDITOR.replace("answer-"+'.$current_id.');' . "\n";
+                    $editor_html .= 'else if(typeof CKEDITOR == "object")' . "\n";
+                    $editor_html .= '{' . "\n";
+
+                    for($current_id=1; $current_id<=$question_id; $current_id++)
+                    {
+                        $editor_html .= ckeditor_textarea_replace(
+                            "answer-$current_id"
+                        );
+                    }
+
+                    $editor_html .= '}' . "\n";
                 }
 
-                $whizzywig_html .= '}' . "\n";
-                $whizzywig_html .= '});' . "\n";
+                $editor_html .= '});' . "\n";
             }
 
             $attributes_html .= '</tbody>';
@@ -219,7 +253,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
                 . "question_id=".$question_id.";\n"
                 . "question_label='".t("Question")."';\n"
                 . "answer_label='".t("Answer")."';\n"
-                . "$whizzywig_html"
+                . "$editor_html"
                 . "</script>\n"
             ;
 

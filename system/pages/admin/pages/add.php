@@ -241,7 +241,7 @@ row: 0
 
             $fields_categories = Jaris\Categories::generateFields(
                 $_REQUEST,
-                null,
+                "",
                 $_REQUEST["type"]
             );
 

@@ -294,6 +294,16 @@ row: 0
                     array("id"=>$income_data["id"])
                 );
             }
+            elseif(intval($income_data["tither"]) > 0)
+            {
+                $edit_url .= Jaris\Uri::url(
+                    Jaris\Modules::getPageUri(
+                        "admin/church-accounting/income/tither-offerings/edit",
+                        "church_accounting"
+                    ),
+                    array("id"=>$income_data["id"])
+                );
+            }
             else
             {
                 $edit_url .= Jaris\Uri::url(

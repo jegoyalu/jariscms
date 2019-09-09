@@ -72,7 +72,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
                 "uri" => Jaris\Modules::getPageUri(
                     "admin/animated-blocks/add", "animated_blocks"
                 ),
-                "arguments" => null
+                "arguments" => array()
             );
         }
     }
@@ -118,25 +118,18 @@ Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\View::SIGNAL_BLOCK_TEMPLATE,
     function(&$position, &$page, &$id, &$template_path)
     {
-        $theme = Jaris\Site::$theme;
+        $block_data = Jaris\Blocks::get($id, $position);
 
-        $default_block = Jaris\Themes::directory($theme) . "block.php";
-
-        if($template_path == $default_block)
+        if($block_data["is_animated_block"])
         {
-            $block_data = Jaris\Blocks::get($id, $position);
+            Jaris\View::addScript(
+                Jaris\Modules::directory("animated_blocks")
+                    . "scripts/cycle/jquery.cycle.all.min.js"
+            );
 
-            if($block_data["is_animated_block"])
-            {
-                Jaris\View::addScript(
-                    Jaris\Modules::directory("animated_blocks")
-                        . "scripts/cycle/jquery.cycle.all.min.js"
-                );
-
-                $template_path = Jaris\Modules::directory("animated_blocks")
-                    . "templates/block-animated.php"
-                ;
-            }
+            $template_path = Jaris\Modules::directory("animated_blocks")
+                . "templates/block-animated.php"
+            ;
         }
     }
 );

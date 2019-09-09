@@ -42,7 +42,7 @@ row: 0
         }
 
         $valid_email = true;
-        if(isset($_REQUEST["email"]))
+        if(isset($_REQUEST["email"]) && isset($_REQUEST["btnSave"]))
         {
             $valid_email = Jaris\Forms::validEmail($_REQUEST["email"]);
 
@@ -56,11 +56,7 @@ row: 0
             else
             {
                 //Check that the email is not in use by other account
-                $db_users = Jaris\Sql::open("users");
-                $select = "select email from users where email='" . trim($_REQUEST["email"]) . "'";
-                $result = Jaris\Sql::query($select, $db_users);
-
-                if($data = Jaris\Sql::fetchArray($result))
+                if(Jaris\Users::getByEmail($_REQUEST["email"]))
                 {
                     $valid_email = false;
                     Jaris\View::addMessage(
@@ -68,13 +64,11 @@ row: 0
                         "error"
                     );
                 }
-
-                Jaris\Sql::close($db_users);
             }
         }
 
         $valid_username = true;
-        if(isset($_REQUEST["username"]))
+        if(isset($_REQUEST["username"]) && isset($_REQUEST["btnSave"]))
         {
             $valid_username = Jaris\Forms::validUsername($_REQUEST["username"]);
 
@@ -87,7 +81,13 @@ row: 0
             }
         }
 
-        if($valid_username && isset($_REQUEST["username"]))
+        if(
+            $valid_username
+            &&
+            isset($_REQUEST["username"])
+            &&
+            isset($_REQUEST["btnSave"])
+        )
         {
             if(strlen($_REQUEST["username"]) < 3)
             {
@@ -111,8 +111,11 @@ row: 0
 
         $agree_terms = true;
         if(
-            Jaris\Settings::get("registration_terms", "main") &&
+            Jaris\Settings::get("registration_terms", "main")
+            &&
             isset($_REQUEST["accept_terms_conditions"])
+            &&
+            isset($_REQUEST["btnSave"])
         )
         {
             $agree_terms = $_REQUEST["accept_terms_conditions"];
@@ -161,7 +164,11 @@ row: 0
                 $_REQUEST["group"] = "regular";
             }
         }
-        else
+        elseif(
+            !Jaris\Settings::get("registration_can_select_group", "main")
+            ||
+            empty($_REQUEST["group"])
+        )
         {
             $_REQUEST["group"] = "regular";
         }
@@ -191,11 +198,17 @@ row: 0
             );
 
             if(
-                (Jaris\Settings::get("registration_needs_approval", "main") &&
-                !Jaris\Settings::get("registration_can_select_group", "main")) ||
-
-                (Jaris\Settings::get("registration_can_select_group", "main") &&
-                in_array($_REQUEST["group"], $groups_approval))
+                (
+                    Jaris\Settings::get("registration_needs_approval", "main")
+                    &&
+                    !Jaris\Settings::get("registration_can_select_group", "main")
+                )
+                ||
+                (
+                    Jaris\Settings::get("registration_can_select_group", "main")
+                    &&
+                    in_array($_REQUEST["group"], $groups_approval)
+                )
             )
             {
                 $fields["status"] = "0";
@@ -235,7 +248,7 @@ row: 0
                         $_REQUEST["username"],
                         $fields["group"],
                         $fields,
-                        $_FILES["picture"]
+                        $_FILES["picture"] ?? array()
                     );
                 }
                 else

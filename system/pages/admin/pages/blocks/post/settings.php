@@ -34,7 +34,9 @@ row: 0
         }
 
         $page_uri = $_REQUEST["uri"];
-        $arguments["uri"] = $page_uri;
+        $arguments = array(
+            "uri" => $_REQUEST["uri"]
+        );
 
         Jaris\View::addTab(t("Edit"), "admin/pages/edit", $arguments);
         Jaris\View::addTab(t("View"), $_REQUEST["uri"]);

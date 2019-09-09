@@ -125,6 +125,7 @@ row: 0
 
         if($files)
         {
+            $flist = "";
             foreach($files as $file)
             {
                 $url = Jaris\Uri::url("file/$uri/{$file['name']}");

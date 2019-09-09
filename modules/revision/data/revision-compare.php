@@ -55,11 +55,18 @@ row: 0
             Jaris\Uri::go($_REQUEST["uri"]);
         }
 
-        $page_data = Jaris\Pages::get($_REQUEST["uri"], Jaris\Language::getCurrent());
+        $page_data = Jaris\Pages::get(
+            $_REQUEST["uri"],
+            Jaris\Language::getCurrent()
+        );
 
         // Add Edit tab if current user has proper permissions
         if(
-            Jaris\Authentication::groupHasPermission("edit_content", Jaris\Authentication::currentUserGroup()) &&
+            Jaris\Authentication::groupHasPermission(
+                "edit_content",
+                Jaris\Authentication::currentUserGroup()
+            )
+            &&
             !trim($page_data["is_system"])
         )
         {
@@ -88,8 +95,16 @@ row: 0
         print "<h2>" . t("Page:") . " " . $page_data["title"] . "</h2>";
 
         // Display comparison chooser form
-        print "<form action=\"" . Jaris\Uri::url(Jaris\Modules::getPageUri("revision/compare", "revision")) . "\" method=\"GET\">";
-        print "<input type=\"hidden\" name=\"uri\" value=\"" . $_REQUEST["uri"] . "\">";
+        $form_url = Jaris\Uri::url(
+            Jaris\Modules::getPageUri("revision/compare", "revision")
+        );
+        print "<form action=\"" . $form_url . "\" method=\"GET\">";
+        print "<input "
+            . "type=\"hidden\" "
+            . "name=\"uri\" "
+            . "value=\"" . $_REQUEST["uri"] . "\""
+            . " />"
+        ;
 
         $options1 = "";
         foreach($revisions as $revision)
@@ -100,7 +115,10 @@ row: 0
                 $revision
             );
 
-            $date = t(date("F", $revision)) . " " . date("d, Y (h:i:s a)", $revision);
+            $date = t(date("F", intval($revision)))
+                . " "
+                . date("d, Y (h:i:s a)", intval($revision))
+            ;
 
             $selected = "";
 
@@ -126,7 +144,10 @@ row: 0
                 $revision
             );
 
-            $date = t(date("F", $revision)) . " " . date("d, Y (h:i:s a)", $revision);
+            $date = t(date("F", intval($revision)))
+                . " "
+                . date("d, Y (h:i:s a)", intval($revision))
+            ;
 
             $selected = "";
 
@@ -141,13 +162,19 @@ row: 0
         print $options2;
         print "</select>&nbsp;";
 
-        print "<input type=\"submit\" name=\"btnCompare\" value=\"" . t("Compare") . "\">";
+        print "<input type=\"submit\" "
+            . "name=\"btnCompare\" "
+            . "value=\"" . t("Compare") . "\""
+            . "/>"
+        ;
         print "</form>";
 
         print "<hr />";
 
         // Display comparison
-        Jaris\View::addStyle(Jaris\Modules::directory("revision") . "styles/file.css");
+        Jaris\View::addStyle(
+            Jaris\Modules::directory("revision") . "styles/file.css"
+        );
 
         $rev1_file = $revisions_path . "/$rev1.php";
         $rev2_file = $revisions_path . "/$rev2.php";

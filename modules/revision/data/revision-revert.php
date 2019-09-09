@@ -28,11 +28,16 @@ row: 0
         ;
 
         if(
-            !isset($_REQUEST["uri"]) ||
-            !isset($_REQUEST["rev"]) ||
-            trim($_REQUEST["uri"]) == "" ||
-            trim($_REQUEST["rev"]) == "" ||
-            !file_exists(Jaris\Pages::getPath($_REQUEST["uri"]) . "/data.php") ||
+            !isset($_REQUEST["uri"])
+            ||
+            !isset($_REQUEST["rev"])
+            ||
+            trim($_REQUEST["uri"]) == ""
+            ||
+            trim($_REQUEST["rev"]) == ""
+            ||
+            !file_exists(Jaris\Pages::getPath($_REQUEST["uri"]) . "/data.php")
+            ||
             !file_exists($revision_file)
         )
         {
@@ -50,16 +55,24 @@ row: 0
         if(isset($_REQUEST["btnYes"]))
         {
             $revision_data = Jaris\Data::get(0, $revision_file);
-            $page_data_path = Jaris\Pages::getPath($_REQUEST["uri"]) . "/data.php";
+            $page_data_path = Jaris\Pages::getPath($_REQUEST["uri"])
+                . "/data.php"
+            ;
 
             if(Jaris\Data::edit(0, $revision_data, $page_data_path))
             {
-                Jaris\View::addMessage(t("Revert to revision was successfull."));
+                Jaris\View::addMessage(
+                    t("Revert to revision was successfull.")
+                );
+
                 Jaris\Uri::go($_REQUEST["uri"]);
             }
             else
             {
-                Jaris\View::addMessage(Jaris\System::errorMessage("write_error_data"), "error");
+                Jaris\View::addMessage(
+                    Jaris\System::errorMessage("write_error_data"),
+                    "error"
+                );
 
                 Jaris\Uri::go(
                     Jaris\Modules::getPageUri("revisions", "revision"),
@@ -76,8 +89,9 @@ row: 0
         }
     ?>
 
-    <form class="revision-revert" method="post"
-          action="<?php Jaris\Uri::url(Jaris\Modules::getPageUri("revision/revert", "revision")) ?>"
+    <form
+        class="revision-revert" method="post"
+        action="<?php Jaris\Uri::url(Jaris\Modules::getPageUri("revision/revert", "revision")) ?>"
     >
         <input type="hidden" name="uri" value="<?php print $_REQUEST["uri"] ?>" />
         <input type="hidden" name="rev" value="<?php print $_REQUEST["rev"] ?>" />
@@ -87,12 +101,27 @@ row: 0
             <div>
                 <b>
                     <?php print t("Revision:") ?>
-                    <?php print t(date("F", $revision)) . " " . date("d, Y (h:i:s a)", $revision) ?>
+                    <?php
+                        print t(date("F", intval($revision)))
+                            . " "
+                            . date("d, Y (h:i:s a)", intval($revision))
+                        ;
+                    ?>
                 </b>
             </div>
         </div>
-        <input class="form-submit" type="submit" name="btnYes" value="<?php print t("Yes") ?>" />
-        <input class="form-submit" type="submit" name="btnNo" value="<?php print t("No") ?>" />
+        <input
+            class="form-submit"
+            type="submit"
+            name="btnYes"
+            value="<?php print t("Yes") ?>"
+        />
+        <input
+            class="form-submit"
+            type="submit"
+            name="btnNo"
+            value="<?php print t("No") ?>"
+        />
     </form>
     field;
 

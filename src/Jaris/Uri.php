@@ -15,33 +15,37 @@ class Uri
 {
 
 /**
- * Verifies the $_REQUEST['p'] used to change to diffrent pages
+ * The current uri is cached on this var by self::get() for faster
+ * retreival.
+ * @var string
+ */
+public static $current_uri;
+
+/**
+ * Verifies the $_REQUEST['p'] used to change to different pages
  *
  * @return string home page if $_REQUEST['p'] is null or
  * the $_REQUEST['p'] value.
- * @original get_uri
  */
-static function get()
+static function get(): string
 {
-    static $page;
-
-    if($page == "")
+    if(!self::$current_uri)
     {
         //Default home page.
-        $page = "home";
+        self::$current_uri = "home";
 
         if(!empty($_REQUEST['p']))
         {
-            $page = rtrim($_REQUEST['p'], "/");
+            self::$current_uri = trim($_REQUEST['p'], "/");
         }
         //Try to get home page set on site settings
         elseif($home_page = Settings::get("home_page", "main"))
         {
-            $page = $home_page;
+            self::$current_uri = $home_page;
         }
     }
 
-    return $page;
+    return self::$current_uri;
 }
 
 /**
@@ -50,9 +54,8 @@ static function get()
  * @param string $uri The uri to check for its type.
  *
  * @return string One of these values: page, user_picture, image, file, category.
- * @original get_uri_type
  */
-static function type($uri)
+static function type(string $uri): string
 {
     $sections = explode("/", $uri);
 
@@ -93,9 +96,8 @@ static function type($uri)
  * form of image/page/imageid.
  *
  * @return string The full path to the image file or "" if not found.
- * @original translate_image_uri
  */
-static function getImagePath($uri)
+static function getImagePath(string $uri): string
 {
     $data_file = Site::dataDir() . "pages/";
     $sections = explode("/", $uri);
@@ -164,9 +166,8 @@ static function getImagePath($uri)
  *
  * @return array List in the format array(path, id, page_uri)
  * or empty array if not found.
- * @original translate_file_uri
  */
-static function getFilePath($uri)
+static function getFilePath(string $uri): array
 {
     //Remove the file/ part
     $uri = substr_replace($uri, "", 0, 5);
@@ -210,9 +211,11 @@ static function getFilePath($uri)
 
         if($found)
         {
-            $file_array["path"] = $file_path;
-            $file_array["id"] = $row;
-            $file_array["page_uri"] = $uri;
+            $file_array = array(
+                "path" => $file_path,
+                "id" => $row,
+                "page_uri" => $uri
+            );
 
             return $file_array;
         }
@@ -229,11 +232,9 @@ static function getFilePath($uri)
  * translate in form of image/user/username.
  *
  * @return array Data in the format array(username, path)
- *
- * @note The path is set to false if no picture is found.
- * @original translate_user_picture_uri
+ * The path is set to false if no picture is found.
  */
-static function getUserPicturePath($uri)
+static function getUserPicturePath(string $uri): array
 {
     $sections = explode("/", $uri);
 
@@ -253,9 +254,8 @@ static function getUserPicturePath($uri)
  * singles/a/ac/access-denied = access-denied
  *
  * @return string Uri of the page.
- * @original get_uri_from_path
  */
-static function getFromPath($relative_path)
+static function getFromPath(string $relative_path): string
 {
     $uri = "";
 
@@ -296,9 +296,8 @@ static function getFromPath($relative_path)
  * @return string A formatted url.
  * Example of clean url: mydomain.com/page?argument=value.
  * Without clean url mydomain.com/?p=page&argument=value
- * @original print_url
  */
-static function url($uri, $arguments = array())
+static function url(string $uri, array $arguments = []): string
 {
     $base_url = Site::$base_url;
     $clean_urls = Site::$clean_urls;
@@ -430,9 +429,8 @@ static function url($uri, $arguments = array())
  * @param array $arguments Arguments to pass to the url in the
  * format $arguments["name"] = "value"
  * @param bool $ssl Use ssl protocol when going to the page.
- * @original goto_page
  */
-static function go($uri, $arguments = array(), $ssl = false)
+static function go(string $uri, array $arguments = [], bool $ssl = false): void
 {
     if(!$ssl)
         header("Location: " . self::url($uri, $arguments));
@@ -451,9 +449,8 @@ static function go($uri, $arguments = array(), $ssl = false)
  * @param string $url The url to check.
  *
  * @return bool True if exist otherwise false.
- * @original url_exists
  */
-static function urlExists($url)
+static function urlExists(string $url): bool
 {
     $url = @parse_url($url);
 
@@ -503,9 +500,8 @@ static function urlExists($url)
  * @param bool $allow_slashes If true, does not strip outs slashes (/).
  *
  * @return string uri ready to use
- * @original text_to_uri
  */
-static function fromText($string, $allow_slashes = false)
+static function fromText(string $string, bool $allow_slashes = false): string
 {
     $uri = $string;
 

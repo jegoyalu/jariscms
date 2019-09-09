@@ -14,18 +14,17 @@ Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\Site::SIGNAL_PAGE_DATA,
     function(&$page_data)
     {
-        /*
-         * If a person is trying to view a specific revision and has proper permissions
-         * replace the current page content with the specified revision.
-         */
+        //If a person is trying to view a specific revision and has proper
+        //permissions replace the current page content with the specified
+        //revision.
         $uri = Jaris\Uri::get();
 
         if(isset($_REQUEST["rev"]))
         {
             $_REQUEST["rev"] = intval($_REQUEST["rev"]);
 
-            $revisions_file = Jaris\Pages::getPath($uri) 
-                . "/revisions/" 
+            $revisions_file = Jaris\Pages::getPath($uri)
+                . "/revisions/"
                 . $_REQUEST["rev"] . ".php"
             ;
 
@@ -33,7 +32,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
             {
                 if(
                     Jaris\Authentication::groupHasPermission(
-                        "view_revisions", 
+                        "view_revisions",
                         Jaris\Authentication::currentUserGroup()
                     ) &&
                     !trim($page_data[0]["is_system"])
@@ -42,9 +41,15 @@ Jaris\Signals\SignalHandler::listenWithParams(
                     if(Jaris\Pages::userIsOwner($uri))
                     {
                         $revision_data = Jaris\Data::get(0, $revisions_file);
-                        $revision_data["users"] = unserialize($revision_data[0]["users"]);
-                        $revision_data["groups"] = unserialize($revision_data[0]["groups"]);
-                        $revision_data["categories"] = unserialize($revision_data[0]["categories"]);
+                        $revision_data["users"] = unserialize(
+                            $revision_data[0]["users"]
+                        );
+                        $revision_data["groups"] = unserialize(
+                            $revision_data[0]["groups"]
+                        );
+                        $revision_data["categories"] = unserialize(
+                            $revision_data[0]["categories"]
+                        );
 
                         $revision_data["title"] = revision_diff_html(
                             $page_data[0]["title"], $revision_data["title"]
@@ -56,7 +61,10 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
                         $page_data[0] = $revision_data;
 
-                        Jaris\View::addStyle(Jaris\Modules::directory("revision") . "styles/html.css");
+                        Jaris\View::addStyle(
+                            Jaris\Modules::directory("revision")
+                                . "styles/html.css"
+                        );
 
                         Jaris\View::addMessage(
                             t("You are viewing revision of:") . " " .
@@ -169,7 +177,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
         if(
             Jaris\Authentication::groupHasPermission(
-                "view_revisions", 
+                "view_revisions",
                 Jaris\Authentication::currentUserGroup()
             ) &&
             !trim($page_data[0]["is_system"])
@@ -179,7 +187,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
             {
                 $tabs_array[0][t("Revisions")] = array(
                     "uri" => Jaris\Modules::getPageUri(
-                        "revisions", 
+                        "revisions",
                         "revision"
                     ),
                     "arguments" => array("uri" => $uri)
@@ -197,14 +205,18 @@ Jaris\Signals\SignalHandler::listenWithParams(
                     {
                         if(
                             Jaris\Authentication::groupHasPermission(
-                                "revert_revisions", 
+                                "revert_revisions",
                                 Jaris\Authentication::currentUserGroup()
                             )
                         )
                         {
                             $tabs_array[1][t("Revert to this revision")] = array(
-                                "uri" => Jaris\Modules::getPageUri("revision/revert", "revision"),
-                                "arguments" => array("uri" => $uri, "rev" => $_REQUEST["rev"])
+                                "uri" => Jaris\Modules::getPageUri(
+                                    "revision/revert", "revision"
+                                ),
+                                "arguments" => array(
+                                    "uri" => $uri, "rev" => $_REQUEST["rev"]
+                                )
                             );
                         }
                     }

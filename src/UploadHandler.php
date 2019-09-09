@@ -415,8 +415,9 @@ class UploadHandler
             $file->error = $this->get_error_message('max_number_of_files');
             return false;
         }
+
         list($img_width, $img_height) = @getimagesize($uploaded_file);
-        if(is_int($img_width))
+        if(substr(strtolower($file->name), -4) != ".swf" && is_int($img_width))
         {
             if($this->options['max_width'] && $img_width > $this->options['max_width'])
             {

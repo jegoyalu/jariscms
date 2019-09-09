@@ -10,14 +10,30 @@
 
 $module["name"] = "Contact Forms";
 $module["description"] = "Easily create contact forms without coding.";
-$module["version"] = "1.4";
+$module["version"] = "1.5.2";
 $module["author"] = "Jefferson González";
 $module["email"] = "jgonzalez@jegoyalu.com";
 $module["website"] = "http://www.jegoyalu.com";
 
 /*
 
-=Change Log=
+Version 1.5.2 - Date 1/03/2019
+
+    * Adjusted for new path of system js and css files.
+
+Version 1.5.1 - Date 31/07/2018
+
+    * Fixed issues reported by phan.
+    * Adjustments for scalar type hints on core.
+
+Version 1.5 - Date 19/07/2018
+
+    * Fixed reply_to not been set.
+    * Fixes issues with new scalar hint changes on code.
+
+Version 1.4.1 - Date 24/05/2017
+
+    * Check for email or e_mail for the autoresponse.
 
 Version 1.4 - Date 04/22/2017
 
@@ -73,4 +89,4 @@ Version 1.0 - Date 26/06/2011
 
     * Initial module creation
 
-**/
+*/

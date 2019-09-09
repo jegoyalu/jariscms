@@ -39,6 +39,11 @@ row: 0
         {
             background-color: #<?php print $menu_colors["image_hover"] ?>;
         }
+        
+        #control-menu .view a
+        {
+            background: transparent url(<?php print Jaris\Uri::url(Jaris\Modules::directory("control_menu") . "styles/options" . $menu_colors["image_color"] . ".png") ?>) no-repeat center center;
+        }
 
         #control-menu .about
         {
@@ -82,6 +87,27 @@ row: 0
         }
 
         #control-menu ul li ul li a:hover
+        {
+            color: #<?php print $menu_colors["submenu_text_hover"] ?>;
+            background-color: #<?php print $menu_colors["submenu_text_background_hover"] ?>;
+        }
+        
+        #control-menu-mobile
+        {
+            background-color: #<?php print $menu_colors["submenu_background"] ?>;
+        }
+
+        #control-menu-mobile a
+        {
+            color: #<?php print $menu_colors["submenu_text"] ?>;
+        }
+        
+        #control-menu-mobile ul ul li a
+        {
+            border-bottom: dotted 1px #<?php print $menu_colors["submenu_text_border"] ?>;
+        }
+
+        #control-menu-mobile ul ul li a:hover
         {
             color: #<?php print $menu_colors["submenu_text_hover"] ?>;
             background-color: #<?php print $menu_colors["submenu_text_background_hover"] ?>;

@@ -52,10 +52,17 @@ row: 0
         }
     ?>
 
-    <form class="themes" action="<?php print Jaris\Uri::url("admin/themes"); ?>" method="post">
+    <form 
+        class="themes" 
+        action="<?php print Jaris\Uri::url("admin/themes"); ?>" 
+        method="post"
+    >
 
     <?php
-        print "<table class=\"themes-list\">\n";
+        print "<table "
+            . "class=\"themes-list navigation-list navigation-list-hover\""
+            . ">\n"
+        ;
 
         print "<thead><tr>\n";
 
@@ -66,10 +73,14 @@ row: 0
 
         print "</tr></thead>\n";
 
+        print "<tbody>";
+
         $themes = Jaris\Themes::getList();
 
         $default_theme = Jaris\Settings::get("theme", "main");
-        $themes_enabled = unserialize(Jaris\Settings::get("themes_enabled", "main"));
+        $themes_enabled = unserialize(
+            Jaris\Settings::get("themes_enabled", "main")
+        );
 
         //Used to print the theme preview
         $base_url = Jaris\Site::$base_url;
@@ -78,9 +89,18 @@ row: 0
         {
             $alt = t("Preview not available");
             $title = t("View theme info.");
-            $more_url = Jaris\Uri::url("admin/themes/view", array("path" => $theme_path));
-            $thumbnail = $base_url . "/" . Jaris\Themes::directory($theme_path) . "preview.png";
-            $selected = $default_theme == $theme_path ? "checked=\"checked\"" : "";
+            $more_url = Jaris\Uri::url(
+                "admin/themes/view", 
+                array("path" => $theme_path)
+            );
+            $thumbnail = $base_url 
+                . "/" 
+                . Jaris\Themes::directory($theme_path) 
+                . "preview.png"
+            ;
+            $selected = $default_theme == $theme_path ? 
+                "checked=\"checked\"" : ""
+            ;
             $checked = "";
 
             if(is_array($themes_enabled))
@@ -93,20 +113,47 @@ row: 0
 
             if($theme_info != null)
             {
-                print "<td><a title=\"$title\" href=\"$more_url\"><img alt=\"$alt\" src=\"$thumbnail\" /></a></td>\n";
+                print "<td>"
+                    . "<a title=\"$title\" href=\"$more_url\">"
+                    . "<img alt=\"$alt\" src=\"$thumbnail\" />"
+                    . "</a>"
+                    . "</td>\n"
+                ;
+
                 print "<td>" . t($theme_info['name']) . "</td>\n";
             }
             else
             {
-                print "<td><img alt=\"$alt\" src=\"$thumbnail\" /></td>\n";
+                print "<td>"
+                    . "<img alt=\"$alt\" src=\"$thumbnail\" />"
+                    . "</td>\n"
+                ;
+
                 print "<td>$theme_path</td>\n";
             }
 
-            print "<td><input $checked type=\"checkbox\" name=\"themes_enabled[]\" value=\"$theme_path\" /></td>\n";
-            print "<td><input $selected type=\"radio\" name=\"theme\" value=\"$theme_path\" /></td>\n";
+            print "<td>"
+                . "<input $checked "
+                . "type=\"checkbox\" "
+                . "name=\"themes_enabled[]\" "
+                . "value=\"$theme_path\" "
+                . "/>"
+                . "</td>\n"
+            ;
+
+            print "<td>"
+                . "<input $selected "
+                . "type=\"radio\" "
+                . "name=\"theme\" "
+                . "value=\"$theme_path\" "
+                . "/>"
+                . "</td>\n"
+            ;
 
             print "</tr>\n";
         }
+
+        print "</tbody>";
 
         print "</table>"
     ?>
@@ -114,11 +161,11 @@ row: 0
         <div>
             <br />
             <input class="form-submit" type="submit"
-                   name="btnSave" value="<?php print t("Save") ?>"
+                name="btnSave" value="<?php print t("Save") ?>"
             />
             &nbsp;
             <input class="form-submit" type="submit"
-                   name="btnCancel" value="<?php print t("Cancel") ?>"
+                name="btnCancel" value="<?php print t("Cancel") ?>"
             />
         </div>
     </form>

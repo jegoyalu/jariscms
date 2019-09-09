@@ -49,6 +49,7 @@ row: 0
 
             $fields["title"] = $_REQUEST["title"];
             $fields["content"] = $_REQUEST["content"];
+            $fields["gallery_sorting"] = $_REQUEST["gallery_sorting"];
             $fields["thumbnails_width"] = $_REQUEST["thumbnails_width"];
             $fields["thumbnails_height"] = $_REQUEST["thumbnails_height"];
             $fields["background_color"] = $_REQUEST["background_color"];
@@ -190,7 +191,9 @@ row: 0
             );
         }
 
-        $arguments["uri"] = $_REQUEST["uri"];
+        $arguments = array(
+            "uri" => $_REQUEST["uri"]
+        );
 
         //Tabs
         if(Jaris\Authentication::groupHasPermission("edit_content", Jaris\Authentication::currentUserGroup()))
@@ -238,7 +241,7 @@ row: 0
         {
             $fields_categories = Jaris\Categories::generateFields(
                 $page_data["categories"],
-                null,
+                "",
                 "gallery"
             );
 
@@ -273,6 +276,17 @@ row: 0
             "name" => "content",
             "label" => t("Content:"),
             "id" => "content"
+        );
+
+        $sorting[t("Old first")] = "asc";
+        $sorting[t("Newest first")] = "desc";
+
+        $fields[] = array(
+            "type" => "radio",
+            "value" => $sorting,
+            "checked" => $page_data["gallery_sorting"],
+            "label" => t("Sorting:"),
+            "name" => "gallery_sorting"
         );
 
         $fields[] = array(

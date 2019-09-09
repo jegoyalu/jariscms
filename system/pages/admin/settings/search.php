@@ -196,15 +196,17 @@ row: 0
             "collapsible" => true
         );
 
+        $image_types = isset($site_settings["search_images_types"]) ?
+            unserialize($site_settings["search_images_types"])
+            :
+            array()
+        ;
+
         $fieldset[] = array(
             "name" => t("Types where displaying images"),
             "fields" => Jaris\Types::generateFields(
-                unserialize(
-                    isset($site_settings["search_images_types"]) ?
-                        $site_settings["search_images_types"]
-                        :
-                        ""
-                )
+                is_array($image_types) ?
+                    $image_types : array()
             ),
             "collapsible" => true
         );

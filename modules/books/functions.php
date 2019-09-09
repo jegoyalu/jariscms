@@ -16,9 +16,9 @@ Jaris\Signals\SignalHandler::listenWithParams(
             $parameters["name"] == "edit-page-book"
         )
         {
-            Jaris\View::addScript("scripts/jquery-ui/jquery.ui.js");
-            Jaris\View::addScript(
-                "scripts/jquery-ui/jquery.ui.touch-punch.min.js"
+            Jaris\View::addSystemScript("jquery-ui/jquery.ui.js");
+            Jaris\View::addSystemScript(
+                "jquery-ui/jquery.ui.touch-punch.min.js"
             );
             Jaris\View::addScript(
                 Jaris\Modules::directory("books") . "scripts/move.js"
@@ -206,7 +206,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
                 "label" => t("Book:"),
                 "id" => "language",
                 "value" => $books,
-                "selected" => isset($_REQUEST["book"]) ? 
+                "selected" => isset($_REQUEST["book"]) ?
                     $_REQUEST["book"] : $page_data["book"],
                 "description" => t("The book this page belongs to.")
             );
@@ -419,12 +419,12 @@ Jaris\Signals\SignalHandler::listenWithParams(
             if($page_data["type"] == "book")
             {
                 if(
-                    $page_data["author"] 
-                    == 
+                    $page_data["author"]
+                    ==
                     Jaris\Authentication::currentUser() ||
                     Jaris\Authentication::isAdminLogged() ||
                     Jaris\Authentication::groupHasPermission(
-                        "edit_all_user_content", 
+                        "edit_all_user_content",
                         Jaris\Authentication::currentUserGroup()
                     )
                 )
@@ -442,12 +442,12 @@ Jaris\Signals\SignalHandler::listenWithParams(
             if($page_data["type"] == "book-page")
             {
                 if(
-                    $page_data["author"] 
-                    == 
+                    $page_data["author"]
+                    ==
                     Jaris\Authentication::currentUser() ||
                     Jaris\Authentication::isAdminLogged() ||
                     Jaris\Authentication::groupHasPermission(
-                        "edit_all_user_content", 
+                        "edit_all_user_content",
                         Jaris\Authentication::currentUserGroup()
                     )
                 )
@@ -474,13 +474,13 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
         if($type == "book" && $template_path == $default_template)
         {
-            $template_path = Jaris\Modules::directory("books") 
+            $template_path = Jaris\Modules::directory("books")
                 . "templates/content-book.php"
             ;
         }
         elseif($type == "book-page" && $template_path == $default_template)
         {
-            $template_path = Jaris\Modules::directory("books") 
+            $template_path = Jaris\Modules::directory("books")
                 . "templates/content-book-page.php"
             ;
         }

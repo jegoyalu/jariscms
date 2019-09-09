@@ -46,7 +46,7 @@ row: 0
         }
     </style>
     <?php
-        $page_data = null;
+        $page_data = array();
 
         $id = 0;
         if(!isset($_REQUEST["id"]) || intval($_REQUEST["id"]) <= 0)
@@ -128,9 +128,26 @@ row: 0
             //Delete removed attachments
             if(is_array($data["attachments"]))
             {
-                foreach($data["attachments"] as $file)
+                if(
+                    isset($_REQUEST["files_list"])
+                    &&
+                    is_array($_REQUEST["files_list"])
+                )
                 {
-                    if(!in_array($file, $_REQUEST["files_list"]))
+                    foreach($data["attachments"] as $file)
+                    {
+                        if(!in_array($file, $_REQUEST["files_list"]))
+                        {
+                            Jaris\Files::delete(
+                                $file,
+                                "calendar/" .  str_replace("/", "-", $uri)
+                            );
+                        }
+                    }
+                }
+                else
+                {
+                    foreach($data["attachments"] as $file)
                     {
                         Jaris\Files::delete(
                             $file,
@@ -392,7 +409,7 @@ row: 0
         $minutes = array();
         for($i=0; $i<=60; $i++)
         {
-            if(strlen($i) < 2)
+            if(strlen(strval($i)) < 2)
             {
                 $minutes["0$i"] = $i;
             }

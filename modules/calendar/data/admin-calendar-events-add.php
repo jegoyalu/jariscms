@@ -17,7 +17,7 @@ row: 0
 
     field: content
     <?php
-        $page_data = null;
+        $page_data = array();
 
         if(!isset($_REQUEST["uri"]) || trim($_REQUEST["uri"]) == "")
         {
@@ -87,7 +87,11 @@ row: 0
                     "</a>"
                 ;
 
-                Jaris\Mail::send($to, t("New calendar event pending for approval"), $html_message);
+                Jaris\Mail::send(
+                    $to,
+                    t("New calendar event pending for approval"),
+                    $html_message
+                );
             }
             else
             {
@@ -96,11 +100,16 @@ row: 0
 
             if(is_array($_FILES["attachments"]["name"]))
             {
-                foreach($_FILES["attachments"]["name"] as $file_index => $file_name)
+                foreach(
+                    $_FILES["attachments"]["name"]
+                    as
+                    $file_index => $file_name
+                )
                 {
                     $file = array(
                         "name" => $file_name,
-                        "tmp_name" => $_FILES["attachments"]["tmp_name"][$file_index]
+                        "tmp_name" => $_FILES["attachments"]
+                            ["tmp_name"][$file_index]
                     );
 
                     $data["attachments"][] = Jaris\Files::addUpload(
@@ -316,7 +325,7 @@ row: 0
         $minutes = array();
         for($i=0; $i<=60; $i++)
         {
-            if(strlen($i) < 2)
+            if(strlen(strval($i)) < 2)
             {
                 $minutes["0$i"] = $i;
             }

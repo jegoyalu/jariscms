@@ -17,7 +17,9 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage("manage_comments_flags");
+        Jaris\Authentication::protectedPage(
+            array("manage_comments_flags")
+        );
 
         $id = $_REQUEST["id"];
         $page = $_REQUEST["page"];

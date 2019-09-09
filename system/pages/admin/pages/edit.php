@@ -284,7 +284,9 @@ row: 0
             );
         }
 
-        $arguments["uri"] = $_REQUEST["uri"];
+        $arguments = array(
+            "uri" => $_REQUEST["uri"]
+        );
 
         //Tabs
         if(
@@ -358,7 +360,7 @@ row: 0
         {
             $fields_categories = Jaris\Categories::generateFields(
                 $page_data["categories"],
-                null,
+                "",
                 $page_data["type"]
             );
 

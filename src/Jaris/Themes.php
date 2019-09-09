@@ -25,9 +25,8 @@ const SIGNAL_GET_ENABLED_THEMES = "hook_get_enabled_themes";
  * @return array Array with all the themes in the format:
  * themes[path] = array(name, description, version, author, email, website)
  * or themes[path] = null if no info file found.
- * @original get_themes
  */
-static function getList()
+static function getList(): array
 {
     $themes = array();
 
@@ -99,11 +98,12 @@ static function getList()
 
 /**
  * Gets a theme path with trailing slash included.
+ *
  * @param string $name
+ *
  * @return string Path to a theme.
- * @original theme_directory
  */
-static function directory($name="")
+static function directory(string $name=""): string
 {
     static $themes = array();
 
@@ -142,9 +142,8 @@ static function directory($name="")
 
 /**
  * Get path where themes should be uploaded with trailing slash.
- * @original get_themes_path
  */
-static function getUploadPath()
+static function getUploadPath(): string
 {
     $path = "sites/" . Site::current();
 
@@ -161,12 +160,17 @@ static function getUploadPath()
 
 /**
  * Gets the list of enabled themes.
+ *
  * @return array
- * @original get_enabled_themes
  */
-static function getEnabled()
+static function getEnabled(): array
 {
     $themes = unserialize(Settings::get("themes_enabled", "main"));
+
+    if(!is_array($themes))
+    {
+        $themes = array();
+    }
 
     Modules::hook("hook_get_enabled_themes", $themes);
 
@@ -181,9 +185,8 @@ static function getEnabled()
  *
  * @return array Theme information in the format:
  * info = array(name, description, version, author, email, website)
- * @original get_theme_info
  */
-static function get($path)
+static function get(string $path): array
 {
     $theme_info = array();
 
@@ -200,23 +203,76 @@ static function get($path)
 }
 
 /**
- * Dummy function that return the global $theme variable as it should be the
- * default one.
- * @original get_default_theme
+ * Get list of themes useful for select boxes.
+ *
+ * @return array
  */
-static function getDefault()
+static function getSelectList(): array
 {
-    return Site::$theme;
+    $themes_list = self::getEnabled();
+    $theme_default = self::getDefault();
+    $themes_select = array();
+
+    foreach($themes_list as $theme_path)
+    {
+        $theme_info = self::get($theme_path);
+
+        if($theme_path != $theme_default)
+        {
+            $themes_select[t($theme_info["name"])] = $theme_path;
+        }
+        else
+        {
+            $themes_select[
+                t($theme_info["name"]) . " (" . t("Default") . ")"
+            ] = "";
+        }
+    }
+
+    return $themes_select;
 }
 
 /**
- * @todo Check if the logged user has permissions to
- * choose the theme and change it.
- * @original get_user_theme
+ * Gets the default theme.
+ *
+ * @return string
  */
-static function getUserTheme()
+static function getDefault(): string
 {
+   $theme = Settings::get("theme", "main");
 
+   return $theme ?? "default";
+}
+
+/**
+ * Check which is the user preferred website theme.
+ *
+ * @return string
+ */
+static function getUserTheme(): string
+{
+    if(
+        Authentication::isUserLogged()
+        &&
+        Authentication::groupHasPermission(
+            "select_user_theme", Authentication::currentUserGroup()
+        )
+    )
+    {
+        $user_data = Users::get(Authentication::currentUser());
+
+        if(!empty($user_data["theme"]))
+        {
+            $themes = self::getEnabled();
+
+            if(in_array($user_data["theme"], $themes))
+            {
+                return $user_data["theme"];
+            }
+        }
+    }
+
+    return self::getDefault();
 }
 
 }

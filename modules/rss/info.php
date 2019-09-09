@@ -10,14 +10,21 @@
 
 $module["name"] = t("RSS Generator");
 $module["description"] = t("Automatically generates rss feeds by type");
-$module["version"] = "1.3.3";
+$module["version"] = "1.3.5";
 $module["author"] = "Jefferson González";
 $module["email"] = "jgonzalez@jegoyalu.com";
 $module["website"] = "http://www.jegoyalu.com";
 
 /*
 
-=Change Log=
+Version 1.3.5 - Date 31/07/2018
+
+    * Fixed issues reported by phan.
+    * Adjustments for scalar type hints on core.
+
+Version 1.3.4 - Date 11/12/2017
+
+    * Use empty array instead of null for arguments of settings tab.
 
 Version 1.3.3 - Date 25/08/2016
 

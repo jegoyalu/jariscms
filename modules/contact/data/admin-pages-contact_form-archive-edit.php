@@ -39,7 +39,9 @@ row: 0
             );
         }
 
-        $arguments["uri"] = $_REQUEST["uri"];
+        $arguments = array(
+            "uri" => $_REQUEST["uri"]
+        );
         $page_data = Jaris\Pages::get($_REQUEST["uri"]);
 
         //Tabs

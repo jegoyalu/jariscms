@@ -12,14 +12,21 @@
 
 $module["name"] = t("FAQ");
 $module["description"] = t("A Frequently asked questions module that uses jequery.simpleFAQ.");
-$module["version"] = "1.2";
+$module["version"] = "1.3.1";
 $module["author"] = "Jefferson González";
 $module["email"] = "jgonzalez@jegoyalu.com";
 $module["website"] = "http://www.jegoyalu.com";
 
 /*
 
-=Change Log=
+Version 1.3.1 - Date 1/03/2019
+
+    * Adjusted for new path of system js and css files.
+
+Version 1.3 - Date 14/09/2017
+
+    * Added image/file browser support to ckeditor.
+    * Added ability to sort questions.
 
 Version 1.2 - Date 01/11/2016
 

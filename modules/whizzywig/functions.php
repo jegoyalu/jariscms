@@ -20,11 +20,23 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
         $page_data = Jaris\Site::$page_data;
 
-        $actual_items = unserialize(Jaris\Settings::get("toolbar_items", "whizzywig"));
-        $textarea_id = unserialize(Jaris\Settings::get("teaxtarea_id", "whizzywig"));
-        $forms_to_display = unserialize(Jaris\Settings::get("forms", "whizzywig"));
-        $groups = unserialize(Jaris\Settings::get("groups", "whizzywig"));
-        $disable_editor = unserialize(Jaris\Settings::get("disable_editor", "whizzywig"));
+        $actual_items = unserialize(
+            Jaris\Settings::get("toolbar_items", "whizzywig")
+        );
+        $textarea_id = unserialize(
+            Jaris\Settings::get("teaxtarea_id", "whizzywig")
+        );
+        $forms_to_display = unserialize(
+            Jaris\Settings::get("forms", "whizzywig")
+        );
+        $groups = unserialize(
+            Jaris\Settings::get("groups", "whizzywig")
+        );
+        $disable_editor = unserialize(
+            Jaris\Settings::get("disable_editor", "whizzywig")
+        );
+
+        $user_group = Jaris\Authentication::currentUserGroup();
 
         if(!is_array($actual_items))
             $actual_items = array();
@@ -41,24 +53,24 @@ Jaris\Signals\SignalHandler::listenWithParams(
         if(!is_array($disable_editor))
             $disable_editor = array();
 
-        if(!$actual_items[Jaris\Authentication::currentUserGroup()])
+        if(!$actual_items[$user_group])
         {
-            $actual_items[Jaris\Authentication::currentUserGroup()] = "all";
+            $actual_items[$user_group] = "all";
         }
 
-        if(!$textarea_id[Jaris\Authentication::currentUserGroup()])
+        if(!$textarea_id[$user_group])
         {
-            $textarea_id[Jaris\Authentication::currentUserGroup()] = "content";
+            $textarea_id[$user_group] = "content";
         }
         else
         {
-            $textarea_id[Jaris\Authentication::currentUserGroup()] = explode(
+            $textarea_id[$user_group] = explode(
                 ",",
-                $textarea_id[Jaris\Authentication::currentUserGroup()]
+                $textarea_id[$user_group]
             );
         }
 
-        if(!$forms_to_display[Jaris\Authentication::currentUserGroup()])
+        if(!$forms_to_display[$user_group])
         {
             $forms_to_display[] = "add-page,edit-page,translate-page,"
                 . "add-page-block,block-page-edit,add-block,block-edit,"
@@ -67,25 +79,25 @@ Jaris\Signals\SignalHandler::listenWithParams(
         }
         else
         {
-            $forms_to_display[Jaris\Authentication::currentUserGroup()] = explode(
+            $forms_to_display[$user_group] = explode(
                 ",",
-                $forms_to_display[Jaris\Authentication::currentUserGroup()]
+                $forms_to_display[$user_group]
             );
         }
 
         //Check if current user is on one of the groups that can use the editor
-        if(!$groups[Jaris\Authentication::currentUserGroup()])
+        if(!$groups[$user_group])
         {
             return;
         }
 
-        foreach($forms_to_display[Jaris\Authentication::currentUserGroup()] as $form_name)
+        foreach($forms_to_display[$user_group] as $form_name)
         {
             $form_name = trim($form_name);
 
             if($parameters["name"] == $form_name)
             {
-                if($disable_editor[Jaris\Authentication::currentUserGroup()])
+                if($disable_editor[$user_group])
                 {
                     if(isset($_REQUEST["disable_whizzywig"]))
                     {
@@ -97,7 +109,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
                     }
                 }
 
-                foreach($textarea_id[Jaris\Authentication::currentUserGroup()] as $id)
+                foreach($textarea_id[$user_group] as $id)
                 {
                     $id = trim($id);
 
@@ -118,17 +130,24 @@ Jaris\Signals\SignalHandler::listenWithParams(
                     ;
 
                     $editor_buttons = Jaris\Uri::url(
-                        Jaris\Modules::directory("whizzywig") . "whizzywig/icons.png"
+                        Jaris\Modules::directory("whizzywig")
+                            . "whizzywig/icons.png"
                     );
 
                     $editor_image_browser = Jaris\Uri::url(
                         Jaris\Modules::getPageUri("whizzypic", "whizzywig"),
-                        array("uri" => $_REQUEST["uri"], "element_id" => $full_id)
+                        array(
+                            "uri" => $_REQUEST["uri"],
+                            "element_id" => $full_id
+                        )
                     );
 
                     $editor_link_browser = Jaris\Uri::url(
                         Jaris\Modules::getPageUri("whizzylink", "whizzywig"),
-                        array("uri" => $_REQUEST["uri"], "element_id" => $full_id)
+                        array(
+                            "uri" => $_REQUEST["uri"],
+                            "element_id" => $full_id
+                        )
                     );
 
                     $editor = "
@@ -136,7 +155,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
                     whizzywig.btn._f = \"$editor_buttons\";
                     whizzywig.linkBrowse = \"$editor_link_browser\";
                     whizzywig.imageBrowse = \"$editor_image_browser\";
-                    whizzywig.makeWhizzyWig(\"$full_id\", \"" . $actual_items[Jaris\Authentication::currentUserGroup()] . "\");
+                    whizzywig.makeWhizzyWig(\"$full_id\", \"" . $actual_items[$user_group] . "\");
                     </script>";
 
                     $fields = array();
@@ -146,7 +165,11 @@ Jaris\Signals\SignalHandler::listenWithParams(
                         $found = false;
                         $fields = array();
 
-                        foreach($fieldset_fields["fields"] as $fields_index => $values)
+                        foreach(
+                            $fieldset_fields["fields"]
+                            as
+                            $fields_index => $values
+                        )
                         {
                             if(!isset($values["id"]))
                             {
@@ -154,12 +177,14 @@ Jaris\Signals\SignalHandler::listenWithParams(
                             }
 
                             if(
-                                $values["type"] == "textarea" &&
-                                $values["id"] == $id &&
+                                $values["type"] == "textarea"
+                                &&
+                                $values["id"] == $id
+                                &&
                                 ("" . strpos($values["value"], "<?php") . "" == "")
                             )
                             {
-                                if($disable_editor[Jaris\Authentication::currentUserGroup()])
+                                if($disable_editor[$user_group])
                                 {
                                     if($_COOKIE["disable_whizzywig"])
                                     {
@@ -199,7 +224,11 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
                                 $new_fields = array();
 
-                                foreach($fieldset_fields["fields"] as $check_index => $field_data)
+                                foreach(
+                                    $fieldset_fields["fields"]
+                                    as
+                                    $check_index => $field_data
+                                )
                                 {
                                     //Copy new fields to the position of
                                     //replaced textarea with whizzywig
@@ -250,7 +279,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
         if($display_whizzywig_on_current_page)
         {
             $styles[] = Jaris\Uri::url(
-                Jaris\Modules::directory("whizzywig") 
+                Jaris\Modules::directory("whizzywig")
                     . "whizzywig.css"
             );
         }
@@ -266,7 +295,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
         if($display_whizzywig_on_current_page)
         {
             $scripts[] = Jaris\Uri::url(
-                Jaris\Modules::directory("whizzywig") 
+                Jaris\Modules::directory("whizzywig")
                     . "whizzywig/whizzywig-v63.js"
             );
             $scripts[] = Jaris\Uri::url(
@@ -287,7 +316,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
                     "admin/settings/whizzywig",
                     "whizzywig"
                 ),
-                "arguments" => null
+                "arguments" => array()
             );
         }
     }

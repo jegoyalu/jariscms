@@ -106,13 +106,13 @@ public static $static_images_to_generate;
 
 /**
  * List of menu items of primery menu of site.
- * @var array
+ * @var array|string
  */
 public static $primary_links;
 
 /**
  * List of menu items of secondary menu of site.
- * @var array
+ * @var array|string
  */
 public static $secondary_links;
 
@@ -124,9 +124,8 @@ public static $page_data;
 
 /**
  * Initializes the jaris application settings.
- * @original settings_override
  */
-static function init()
+static function init(): void
 {
     //Exit if disk is almost full to prevent write corruption.
     if(floor(disk_free_space(".") / 1024 / 1024) <= 5)
@@ -235,11 +234,10 @@ static function init()
 
 /**
  * Gets the current site hostname with www. stripped out.
- * @staticvar string $site
+ *
  * @return string
- * @original get_current_site
  */
-static function current()
+static function current(): string
 {
     static $site;
 
@@ -268,7 +266,7 @@ static function current()
             preg_replace(
                 "/^www\./",
                 "",
-                $_SERVER["HTTP_HOST"]
+                explode(":", $_SERVER["HTTP_HOST"])[0]
             )
         );
     }
@@ -279,9 +277,10 @@ static function current()
 /**
  * Gets the data directory for the current domain or
  * use default if not available.
- * @original data_directory
+ *
+ * @return string
  */
-static function dataDir()
+static function dataDir(): string
 {
     static $dir;
 
@@ -308,7 +307,7 @@ static function dataDir()
             preg_replace(
                 "/^www\./",
                 "",
-                $_SERVER["HTTP_HOST"]
+                explode(":", $_SERVER["HTTP_HOST"])[0]
             )
         );
 
@@ -329,9 +328,8 @@ static function dataDir()
  * Sets the status header with the indicated http error status code.
  *
  * @param int $code The code number to return in the header.
- * @original http_status
  */
-static function setHTTPStatus($code)
+static function setHTTPStatus(int $code): void
 {
     switch($code)
     {
@@ -360,9 +358,8 @@ static function setHTTPStatus($code)
 /**
  * Checks if the site status is offline and redirect user
  * to the offline status message page.
- * @original check_if_offline
  */
-static function checkIfOffline()
+static function checkIfOffline(): void
 {
     $online = Settings::get("site_status", "main");
 
@@ -385,7 +382,7 @@ static function checkIfOffline()
 /**
  * Load installed modules include files.
  */
-static function loadModules()
+static function loadModules(): void
 {
     //Add installed modules include files here
     $installed_modules = Modules::getInstalled();
@@ -414,13 +411,21 @@ static function loadModules()
 /**
  * Start the real initialization process of the site to render a page.
  */
-static function bootStrap()
+static function bootStrap(): void
 {
     //Increase the time for session to garbage collection
     ini_set("session.gc_maxlifetime", "18000");
 
     //Starts the main session for the user
     Session::startIfUserLogged();
+
+    //Set theme to user preferred if authorized
+    self::$theme = Themes::getUserTheme();
+
+    self::$theme_path = self::$base_url
+        . "/"
+        . rtrim(Themes::directory(self::$theme), "/")
+    ;
 
     //Initialize error handler
     System::initiateErrorCatchSystem();
@@ -472,6 +477,47 @@ static function bootStrap()
     elseif($page_type == "category")
     {
         Categories::showResults($page);
+    }
+    else
+    {
+        // detect language from uris like
+        // [lang_code]/path/to/page
+        // ex: es/about-us
+        //     en/about-us
+        $uri_parts = explode("/", $page);
+
+        $uri_parts[0] = trim($uri_parts[0], "./");
+
+        if($uri_parts[0] == "en" || Language::exists($uri_parts[0]))
+        {
+            Language::setCurrent($uri_parts[0]);
+
+            if(!file_exists(Pages::getPath($page)."/data.php"))
+            {
+                unset($uri_parts[0]);
+
+                $page = implode("/", $uri_parts);
+
+                $visual_uri = $page;
+                $_REQUEST["p"] = $page;
+                $_GET["p"] = $page;
+                Uri::$current_uri = $page;
+            }
+        }
+        elseif(
+            file_exists(
+                Pages::getPath(self::$language."/".$page)."/data.php"
+            )
+        )
+        {
+            $page = self::$language."/".$page;
+            $visual_uri = $page;
+            $_REQUEST["p"] = $page;
+            $_GET["p"] = $page;
+            Uri::$current_uri = $page;
+        }
+
+        unset($uri_parts);
     }
 
     //Call initialization hooks so modules can make things before page is rendered
@@ -538,6 +584,9 @@ static function bootStrap()
     {
         self::$page_data = System::pageNotFound();
     }
+
+    //Load theme settings that can be read from template files.
+    View::loadThemeSettings();
 
     //Prepare the content html
     $content = View::getContentHTML(self::$page_data, $visual_uri);
@@ -638,6 +687,12 @@ static function bootStrap()
         self::$title = t(System::evalPHP(self::$page_data[0]["title"]))
             . " - " . t(self::$title)
         ;
+
+        if(trim(self::$page_data[0]["meta_title"]) != "")
+        {
+            //If meta title is available use it
+            self::$title = t(self::$page_data[0]["meta_title"]);
+        }
     }
     else
     {
@@ -667,9 +722,20 @@ static function bootStrap()
         $footer
     );
 
-    System::savePageToCacheIfPossible($page, self::$page_data[0], $page_html);
-
-    print $page_html;
+    if(
+        $cached_html = System::savePageToCacheIfPossible(
+            $page,
+            self::$page_data[0],
+            $page_html
+        )
+    )
+    {
+        print $cached_html;
+    }
+    else
+    {
+        print $page_html;
+    }
 }
 
 /**
@@ -678,7 +744,7 @@ static function bootStrap()
  * execution time.
  * @param string $from Where the print stats took place, eg: cache, fast cache.
  */
-static function printStats($from="")
+static function printStats(string $from=""): void
 {
     global $time_start;
 
@@ -696,13 +762,13 @@ static function printStats($from="")
         ;
 
         print "<b>Peak memory usage:</b> "
-            . number_format(memory_get_peak_usage() / 1024 / 1024, 0, '.', ',')
-            . " MB<br />"
+            . number_format(memory_get_peak_usage() / 1024, 0)
+            . " KB<br />"
         ;
 
         print "<b>Final memory usage:</b> "
-            . number_format(memory_get_usage() / 1024 / 1024, 0, '.', ',')
-            . " MB<br />"
+            . number_format(memory_get_usage() / 1024, 0)
+            . " KB<br />"
         ;
 
         if($from)

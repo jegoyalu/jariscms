@@ -21,7 +21,32 @@ class Autoloader
         $file = str_replace("\\", "/", $class_name) . ".php";
 
         if(file_exists(__DIR__ . "/" . $file))
+        {
             include(__DIR__ . "/" . $file);
+
+            return;
+        }
+
+        // Check if file to load belongs to a module
+        // ---------------------------------------------------------------
+        // we strip Jaris\Module namespace so class files on the
+        // src directory can be stored as ModuleName/Class.php instead of
+        // Jaris/Module/ModuleName/Class.php
+        $file = str_replace("Jaris/Module/", "", $file);
+        foreach(Modules::getInstalled() as $module)
+        {
+            $module_src = Modules::directory($module) . "src";
+
+            if(is_dir($module_src))
+            {
+                if(file_exists($module_src . "/" . $file))
+                {
+                    include($module_src . "/" . $file);
+
+                    return;
+                }
+            }
+        }
     }
 
     /**

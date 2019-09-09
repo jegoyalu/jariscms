@@ -16,9 +16,10 @@ class Date
 /**
  * static function that returns a days of the month array ready
  * for selects on generate form functions.
- * @original get_days_array
+ *
+ * @return array A list of day numbers.
  */
-static function getDays()
+static function getDays(): array
 {
     $dates = array();
 
@@ -33,9 +34,10 @@ static function getDays()
 /**
  * static function that returns a months array ready for selects
  * on generate form functions.
- * @original get_months_array
+ *
+ * @return array A list of month days.
  */
-static function getMonths()
+static function getMonths(): array
 {
     $months = array(
         t("January") => 1,
@@ -58,10 +60,12 @@ static function getMonths()
 /**
  * static function that returns a years array ready for
  * selects on generate form functions.
+ *
  * @param int $additional_years
- * @original get_years_array
+ *
+ * @return array A list of year numbers.
  */
-static function getYears($additional_years=0)
+static function getYears(int $additional_years=0): array
 {
     $current_year = date("Y", time());
     $current_year += $additional_years;
@@ -80,12 +84,16 @@ static function getYears($additional_years=0)
 
 /**
  * Get the amount of time in a easy to read human format.
+ *
  * @param int $fromtimestamp Should be lower number than $totimestamp
  * @param int $totimestamp Should be higher number than $fromtimestamp
+ * @param bool $ago Enables or disables the addition of ago predicate.
+ *
  * @return string
- * @original get_time_elapsed
  */
-static function getElapsedTime($fromtimestamp, $totimestamp=0)
+static function getElapsedTime(
+    int $fromtimestamp, int $totimestamp=0, bool $ago = true
+): string
 {
     if($totimestamp == 0)
         $totimestamp = time();
@@ -119,10 +127,17 @@ static function getElapsedTime($fromtimestamp, $totimestamp=0)
             else
                 $period = $labels[0];
 
+            $output = t('{time} {period} ago');
+
+            if(!$ago)
+            {
+                $output = t('{time} {period}');
+            }
+
             return str_replace(
                 array("{time}", "{period}"),
                 array($time, $period),
-                t('{time} {period} ago')
+                $output
             );
         }
     }
@@ -130,11 +145,13 @@ static function getElapsedTime($fromtimestamp, $totimestamp=0)
 
 /**
  * Get the amount of days from one timestamp to the other.
+ *
  * @param int $fromtimestamp Should be lower number than $totimestamp
  * @param int $totimestamp Should be higher number than $fromtimestamp
+ *
  * @return int
  */
-static function getElapsedDays($fromtimestamp, $totimestamp=0)
+static function getElapsedDays(int $fromtimestamp, int $totimestamp=0): int
 {
     if($totimestamp == 0)
         $totimestamp = time();
@@ -150,7 +167,7 @@ static function getElapsedDays($fromtimestamp, $totimestamp=0)
 
     if($days >= 1)
     {
-        return round($days);
+        return (int) round($days);
     }
 
     return 0;

@@ -81,7 +81,9 @@ row: 0
             Jaris\View::addMessage(t("Maximum file uploads reached."));
         }
 
-        $arguments["uri"] = $_REQUEST["uri"];
+        $arguments = array(
+            "uri" => $_REQUEST["uri"]
+        );
 
         //Tabs
         if(

@@ -28,12 +28,52 @@ row: 0
 
         function control_menu_generate_menu_code($sections)
         {
-            $html = "<div id=\"control-menu\">";
+            // Generate menu mobile
+            $html = "<div id=\"control-menu-mobile\">";
+
+            $html .= "<div class=\"close\"><a>X</a></div>";
+
+            $html .= "<ul>";
+
+            foreach($sections as $section_details)
+            {
+                $html .= "<li>";
+
+                $html .= "<a>{$section_details['title']}</a>";
+
+                if(count($section_details["sub_sections"]) > 0)
+                {
+                    $html .= "<ul>";
+
+                    foreach($section_details["sub_sections"] as $fields)
+                    {
+                        $html .= "<li>";
+                        $html .= "<a href=\"{$fields['url']}\">{$fields['title']}</a>";
+                        $html .= "</li>";
+                    }
+
+                    $html .= "</ul>";
+                }
+
+                $html .= "</li>";
+            }
+
+            $html .= "</ul>";
+
+            $html .= "</div>";
+
+            // Generate menu bar
+            $html .= "<div id=\"control-menu\">";
 
             $html .= "<a class=\"user\" href=\"" .
                 Jaris\Uri::url("admin/user") . "\">" . t("my account") .
                 "</a>"
             ;
+
+            if(count($sections) > 0)
+            {
+                $html .= "<div class=\"view\"><a></a></div>";
+            }
 
             $html .= "<ul>";
 
@@ -55,7 +95,9 @@ row: 0
                     $html .= "</ul>";
                 }
 
-                $html .= "<a>{$section_details['title']}</a></li>";
+                $html .= "<a>{$section_details['title']}</a>";
+
+                $html .= "</li>";
             }
 
             $html .= "</ul>";
@@ -75,7 +117,6 @@ row: 0
             $html .= "<a class=\"logout\" title=\"" . t("logout") . "\" href=\"" . Jaris\Uri::url("admin/logout") . "\"></a>";
             $html .= "</div>";
 
-            $html .= "<div style=\"clear: both\"></div>";
             $html .= "</div>";
 
             return $html;
@@ -83,33 +124,51 @@ row: 0
     ?>
     //<script>
     $(document).ready(function(){
-        control_menu_html = $('<?php print control_menu_generate_menu_code($sections) ?>');
-        control_menu_html.appendTo("body");
-        $("body").css("padding-bottom", control_menu_html.height()+"px");
-        control_menu_html.css("z-index", "100000");
-        CalcControlMenuPosition(control_menu_html);
+        var control_menu_html_all = $('<?php print control_menu_generate_menu_code($sections) ?>');
+        control_menu_html_all.appendTo("body");
+
+        var control_menu = $("#control-menu");
+        var control_menu_mobile = $("#control-menu-mobile");
+        $("body").css("padding-bottom", control_menu.height()+"px");
+
+        CalcControlMenuPosition(control_menu, control_menu_mobile);
 
         $(window).resize(function(){
-            CalcControlMenuPosition(control_menu_html);
+            CalcControlMenuPosition(control_menu, control_menu_mobile);
         });
 
         if("ontouchstart" in document.documentElement){
             $(window).bind("touchstart", function(){
-                CalcControlMenuPosition(control_menu_html);
+                CalcControlMenuPosition(control_menu, control_menu_mobile);
             });
 
             $(window).scroll(function(){
-                CalcControlMenuPosition(control_menu_html);
+                CalcControlMenuPosition(control_menu, control_menu_mobile);
             });
         }
 
         $("#control-menu ul li a").click(function(){
             $(this).prev().slideToggle(100);
         });
+
+        $("#control-menu .view a, #control-menu-mobile .close").click(function(){
+            $("#control-menu-mobile").slideToggle();
+
+            var body = $("body");
+
+            if(body.css("overflow") == "hidden"){
+                body.css("overflow", "scroll");
+            } else{
+                body.css("overflow", "hidden");
+            }
+        });
     });
 
-    function CalcControlMenuPosition(menu)
+    function CalcControlMenuPosition(menu, mobile)
     {
+        var window_width = null;
+        var window_height = null;
+
         if("ontouchstart" in document.documentElement){
             window_width = window.innerWidth;
             window_height = window.innerHeight;
@@ -119,12 +178,19 @@ row: 0
             window_width = $(window).width();
         }
 
-        menu_width = menu.innerWidth();
-        menu_height = menu.innerHeight();
+        var menu_width = menu.innerWidth();
+        var menu_height = menu.innerHeight();
 
         menu.css("left", "0px");
-        menu.css("top", (window_height - menu_height) + "px");
+        menu.css("bottom", "0px");
         menu.css("width", "100%");
+
+        mobile.css({
+            bottom: menu_height + "px",
+            left: "0px",
+            width: window_width + "px",
+            height: (window_height - menu_height) + "px"
+        });
     }
     //</script>
     field;

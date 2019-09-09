@@ -11,7 +11,8 @@ kind of idea you have for a site, Jaris can suit your needs.
 
 ## Docs
 
-See the **docs** directory for some introduction in JariCMS inner working.
+See the **[doc's](doc/introduction.md)** directory for some introduction in 
+JariCMS inner working.
 
 ## License
 

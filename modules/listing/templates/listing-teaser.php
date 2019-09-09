@@ -11,6 +11,12 @@
     </div>
     <?php } ?>
 
+    <?php if($reviews_score){ ?>
+    <div class="reviews-score">
+        <?php print $reviews_score ?>
+    </div>
+    <?php } ?>
+
     <?php if($summary){ ?>
     <div class="summary">
         <?php print $summary ?>

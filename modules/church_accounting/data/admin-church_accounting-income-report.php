@@ -31,6 +31,8 @@ row: 0
             )
         );
 
+        $options = array();
+
         if(trim($_REQUEST["month"]) != "")
         {
             $month = intval($_REQUEST["month"]);

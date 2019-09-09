@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: JarisCMS Ecommerce v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-18 01:54-0400\n"
+"POT-Creation-Date: 2018-06-06 12:41-0400\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Jefferson González <jgonzalez@jegoyalu.com>\n"
 "Language-Team: JegoYalu <servicios@jegoyalu.com>\n"
@@ -11,185 +11,209 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Poedit-Basepath: ../../\n"
+"X-Poedit-Basepath: ../..\n"
 "X-Poedit-KeywordsList: t\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 2.0.7\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: install.php:15 info.php:13
-msgid "Content Listing"
-msgstr "Listado de Contenido"
+#: blocks.php:72
+msgid "Filter"
+msgstr "Filtrar"
 
-#: install.php:16
-msgid "Page that display a list of content by a given criteria."
-msgstr "Página que muestra un listado de contenido por criterios."
-
-#: functions.php:76 data/admin-blocks-listing-add.php:15
+#: data/admin-blocks-listing-add.php:15 functions.php:89
 msgid "Add Listing Block"
 msgstr "Añadir Bloque de Listado"
 
-#: functions.php:83
-msgid "Create blocks to display a list a content by a given criteria."
-msgstr ""
-"Crear bloques para mostrar un listado de contenido con ciertos criterios."
-
-#: functions.php:135 data/admin-blocks-listing-edit.php:106
-msgid "Edit"
-msgstr ""
-
-#: functions.php:139 data/admin-pages-listing-edit.php:15
-msgid "Edit Listing"
-msgstr "Editar Listado"
-
-#: functions.php:160
-msgid "Create Listing Block"
-msgstr "Crear Bloque de Listado"
-
-#: info.php:14
-msgid ""
-"To create pages that display a list of content by a given set of criteria."
-msgstr "Para crear paginas que muestran un listado de contenido por criterios."
-
-#: templates/listing-list-header.php:5
-msgid "Image"
-msgstr "Imagen"
-
-#: templates/listing-list-header.php:9
-msgid "Preview"
-msgstr "Previsualización"
-
-#: include/listing.php:317 include/listing.php:609
-msgid "View More"
-msgstr "Ver Más"
-
-#: data/admin-blocks-listing-add.php:84
+#: data/admin-blocks-listing-add.php:99
 msgid "The block was successfully created."
 msgstr "El bloque fue creado exitosamente."
 
-#: data/admin-blocks-listing-add.php:105
-#: data/admin-blocks-listing-edit.php:140
+#: data/admin-blocks-listing-add.php:123 data/admin-blocks-listing-edit.php:160
 msgid "Header"
 msgstr ""
 
-#: data/admin-blocks-listing-add.php:106
-#: data/admin-blocks-listing-edit.php:141
+#: data/admin-blocks-listing-add.php:124 data/admin-blocks-listing-edit.php:161
 msgid "Left"
 msgstr ""
 
-#: data/admin-blocks-listing-add.php:107
-#: data/admin-blocks-listing-edit.php:142
+#: data/admin-blocks-listing-add.php:125 data/admin-blocks-listing-edit.php:162
 msgid "Right"
 msgstr ""
 
-#: data/admin-blocks-listing-add.php:108
-#: data/admin-blocks-listing-edit.php:143
+#: data/admin-blocks-listing-add.php:126 data/admin-blocks-listing-edit.php:163
 msgid "Center"
 msgstr ""
 
-#: data/admin-blocks-listing-add.php:109
-#: data/admin-blocks-listing-edit.php:144
+#: data/admin-blocks-listing-add.php:127 data/admin-blocks-listing-edit.php:164
 msgid "Footer"
 msgstr ""
 
-#: data/admin-blocks-listing-add.php:110
-#: data/admin-blocks-listing-edit.php:145
+#: data/admin-blocks-listing-add.php:128 data/admin-blocks-listing-edit.php:165
 msgid "None"
 msgstr ""
 
-#: data/admin-blocks-listing-add.php:115
-#: data/admin-blocks-listing-edit.php:150
+#: data/admin-blocks-listing-add.php:133 data/admin-blocks-listing-edit.php:170
 msgid "Position:"
 msgstr ""
 
-#: data/admin-blocks-listing-add.php:124 data/admin-pages-listing-add.php:455
-#: data/admin-blocks-listing-edit.php:162
-#: data/admin-pages-listing-edit.php:594
+#: data/admin-blocks-listing-add.php:142 data/admin-blocks-listing-edit.php:182
+#: data/admin-pages-listing-add.php:692 data/admin-pages-listing-edit.php:918
 msgid "Description:"
 msgstr "Descripción:"
 
-#: data/admin-blocks-listing-add.php:132 data/admin-pages-listing-add.php:166
-#: data/admin-pages-listing-add.php:445 data/admin-blocks-listing-edit.php:171
-#: data/admin-pages-listing-edit.php:272 data/admin-pages-listing-edit.php:584
+#: data/admin-blocks-listing-add.php:150 data/admin-blocks-listing-edit.php:191
+#: data/admin-pages-listing-add.php:247 data/admin-pages-listing-add.php:682
+#: data/admin-pages-listing-edit.php:421 data/admin-pages-listing-edit.php:908
 msgid "Title:"
 msgstr "Titulo:"
 
-#: data/admin-blocks-listing-add.php:140
-#: data/admin-blocks-listing-edit.php:180
+#: data/admin-blocks-listing-add.php:158 data/admin-blocks-listing-edit.php:200
 msgid "Pre-content:"
 msgstr "Pre-contenido:"
 
-#: data/admin-blocks-listing-add.php:142
-#: data/admin-blocks-listing-edit.php:185
+#: data/admin-blocks-listing-add.php:160 data/admin-blocks-listing-edit.php:205
 msgid "Content that will appear above the results."
 msgstr "Contenido que aparecerá encima de los resultados."
 
-#: data/admin-blocks-listing-add.php:149
-#: data/admin-blocks-listing-edit.php:192
+#: data/admin-blocks-listing-add.php:167 data/admin-blocks-listing-edit.php:212
 msgid "Sub-content:"
 msgstr "Sub-contenido:"
 
-#: data/admin-blocks-listing-add.php:151
-#: data/admin-blocks-listing-edit.php:197
+#: data/admin-blocks-listing-add.php:169 data/admin-blocks-listing-edit.php:217
 msgid "Content that will appear below the results."
 msgstr "Contenido que aparecerá debajo de los resultados."
 
-#: data/admin-blocks-listing-add.php:167 data/admin-pages-listing-add.php:192
-#: data/admin-blocks-listing-edit.php:213
-#: data/admin-pages-listing-edit.php:298
+#: data/admin-blocks-listing-add.php:179 data/admin-blocks-listing-edit.php:227
+#: data/admin-pages-listing-add.php:352 data/admin-pages-listing-edit.php:538
+msgid "Treat listing as products?"
+msgstr "¿Tratar listado como productos?"
+
+#: data/admin-blocks-listing-add.php:181 data/admin-blocks-listing-add.php:193
+#: data/admin-blocks-listing-add.php:205 data/admin-blocks-listing-edit.php:229
+#: data/admin-blocks-listing-edit.php:244
+#: data/admin-blocks-listing-edit.php:259 data/admin-pages-listing-add.php:354
+#: data/admin-pages-listing-add.php:366 data/admin-pages-listing-add.php:378
+#: data/admin-pages-listing-add.php:401 data/admin-pages-listing-add.php:511
+#: data/admin-pages-listing-add.php:523 data/admin-pages-listing-add.php:535
+#: data/admin-pages-listing-edit.php:540 data/admin-pages-listing-edit.php:555
+#: data/admin-pages-listing-edit.php:570 data/admin-pages-listing-edit.php:596
+#: data/admin-pages-listing-edit.php:716 data/admin-pages-listing-edit.php:734
+#: data/admin-pages-listing-edit.php:749
+msgid "Yes"
+msgstr ""
+
+#: data/admin-blocks-listing-add.php:182 data/admin-blocks-listing-add.php:194
+#: data/admin-blocks-listing-add.php:206 data/admin-blocks-listing-edit.php:230
+#: data/admin-blocks-listing-edit.php:245
+#: data/admin-blocks-listing-edit.php:260 data/admin-pages-listing-add.php:355
+#: data/admin-pages-listing-add.php:367 data/admin-pages-listing-add.php:379
+#: data/admin-pages-listing-add.php:402 data/admin-pages-listing-add.php:512
+#: data/admin-pages-listing-add.php:524 data/admin-pages-listing-add.php:536
+#: data/admin-pages-listing-edit.php:541 data/admin-pages-listing-edit.php:556
+#: data/admin-pages-listing-edit.php:571 data/admin-pages-listing-edit.php:597
+#: data/admin-pages-listing-edit.php:717 data/admin-pages-listing-edit.php:735
+#: data/admin-pages-listing-edit.php:750
+msgid "No"
+msgstr ""
+
+#: data/admin-blocks-listing-add.php:185 data/admin-blocks-listing-edit.php:236
+#: data/admin-pages-listing-add.php:358 data/admin-pages-listing-edit.php:547
+msgid ""
+"If all selected content types on the filter are products the listing is "
+"treated as a listing of products."
+msgstr ""
+"Si todos los tipos de contenido seleccionados en el filtro son de productos "
+"el listado es tratado como un listado de productos."
+
+#: data/admin-blocks-listing-add.php:191 data/admin-blocks-listing-edit.php:242
+#: data/admin-pages-listing-add.php:364 data/admin-pages-listing-edit.php:553
+msgid "Display prices?"
+msgstr "¿Mostrar precios?"
+
+#: data/admin-blocks-listing-add.php:197 data/admin-blocks-listing-edit.php:251
+#: data/admin-pages-listing-add.php:370 data/admin-pages-listing-edit.php:562
+msgid "Display the product base price."
+msgstr "Muestra el precio base del producto."
+
+#: data/admin-blocks-listing-add.php:203 data/admin-blocks-listing-edit.php:257
+#: data/admin-pages-listing-add.php:376 data/admin-pages-listing-edit.php:568
+msgid "On sale only?"
+msgstr "¿En oferta solamente?"
+
+#: data/admin-blocks-listing-add.php:209 data/admin-blocks-listing-edit.php:266
+#: data/admin-pages-listing-add.php:382 data/admin-pages-listing-edit.php:577
+msgid "Display only the products that are on sale."
+msgstr "Muestra solamente los productos que esta en oferta."
+
+#: data/admin-blocks-listing-add.php:214 data/admin-blocks-listing-edit.php:271
+#: data/admin-pages-listing-add.php:387 data/admin-pages-listing-edit.php:582
+msgid "E-commerce"
+msgstr ""
+
+#: data/admin-blocks-listing-add.php:217 data/admin-blocks-listing-edit.php:274
+#: data/admin-pages-listing-add.php:390 data/admin-pages-listing-edit.php:585
+msgid ""
+"Note: To treat the listed results as products, every content type selected "
+"on the filters section must be a valid product content type."
+msgstr ""
+"Nota: Para tratar los resultados como productos, todos los tipos de "
+"contenido seleccionados en los filtros deben ser de productos."
+
+#: data/admin-blocks-listing-add.php:235 data/admin-blocks-listing-edit.php:292
+#: data/admin-pages-listing-add.php:276 data/admin-pages-listing-edit.php:450
 msgid "Content type:"
 msgstr "Tipo de contenido:"
 
-#: data/admin-blocks-listing-add.php:177 data/admin-pages-listing-add.php:202
-#: data/admin-blocks-listing-edit.php:226
-#: data/admin-pages-listing-edit.php:311
+#: data/admin-blocks-listing-add.php:245 data/admin-blocks-listing-edit.php:305
+#: data/admin-pages-listing-add.php:286 data/admin-pages-listing-edit.php:463
 msgid "Authors:"
 msgstr "Autores:"
 
-#: data/admin-blocks-listing-add.php:179 data/admin-pages-listing-add.php:204
-#: data/admin-blocks-listing-edit.php:231
-#: data/admin-pages-listing-edit.php:316
+#: data/admin-blocks-listing-add.php:247 data/admin-blocks-listing-edit.php:310
+#: data/admin-pages-listing-add.php:288 data/admin-pages-listing-edit.php:468
 msgid "List of usernames separated by comma, for example: admin, joe, john"
 msgstr ""
 "Listado de nombres de usuario separados por coma, por ejemplo: admin, joel, "
 "juan"
 
-#: data/admin-blocks-listing-add.php:191
-#: data/admin-blocks-listing-edit.php:240
+#: data/admin-blocks-listing-add.php:259 data/admin-blocks-listing-edit.php:319
+msgid "Skip current page?"
+msgstr "¿Saltar página actual?"
+
+#: data/admin-blocks-listing-add.php:262 data/admin-blocks-listing-edit.php:325
+msgid "The current page is skipped from the results being displayed."
+msgstr "La página actual es obviada de los resultados a mostrar."
+
+#: data/admin-blocks-listing-add.php:269 data/admin-blocks-listing-edit.php:332
 msgid "Related?"
 msgstr "Relacionado?"
 
-#: data/admin-blocks-listing-add.php:194
-#: data/admin-blocks-listing-edit.php:246
+#: data/admin-blocks-listing-add.php:272 data/admin-blocks-listing-edit.php:338
 msgid "The results shown are related to the page being displayed."
 msgstr "Los resultados mostrados son relacionados a la página mostrada."
 
-#: data/admin-blocks-listing-add.php:204 data/admin-pages-listing-add.php:209
-#: data/admin-blocks-listing-edit.php:253
-#: data/admin-pages-listing-edit.php:321
+#: data/admin-blocks-listing-add.php:282 data/admin-blocks-listing-edit.php:345
+#: data/admin-pages-listing-add.php:293 data/admin-pages-listing-edit.php:473
 msgid "Categories:"
 msgstr "Categorías:"
 
-#: data/admin-blocks-listing-add.php:207 data/admin-pages-listing-add.php:212
-#: data/admin-blocks-listing-edit.php:256
-#: data/admin-pages-listing-edit.php:324
+#: data/admin-blocks-listing-add.php:285 data/admin-blocks-listing-edit.php:348
+#: data/admin-pages-listing-add.php:296 data/admin-pages-listing-edit.php:476
 msgid "Match all"
 msgstr "Asociar todo"
 
-#: data/admin-blocks-listing-add.php:208 data/admin-pages-listing-add.php:213
-#: data/admin-blocks-listing-edit.php:257
-#: data/admin-pages-listing-edit.php:325
+#: data/admin-blocks-listing-add.php:286 data/admin-blocks-listing-edit.php:349
+#: data/admin-pages-listing-add.php:297 data/admin-pages-listing-edit.php:477
 msgid "Match partially"
 msgstr "Asociar parcialmente"
 
-#: data/admin-blocks-listing-add.php:214 data/admin-pages-listing-add.php:219
-#: data/admin-blocks-listing-edit.php:263
-#: data/admin-pages-listing-edit.php:331
+#: data/admin-blocks-listing-add.php:292 data/admin-blocks-listing-edit.php:355
+#: data/admin-pages-listing-add.php:303 data/admin-pages-listing-edit.php:483
 msgid "How you wish to match categories?"
 msgstr "Como desea asociar las categorías?"
 
-#: data/admin-blocks-listing-add.php:217 data/admin-pages-listing-add.php:222
-#: data/admin-blocks-listing-edit.php:269
-#: data/admin-pages-listing-edit.php:337
+#: data/admin-blocks-listing-add.php:295 data/admin-blocks-listing-edit.php:361
+#: data/admin-pages-listing-add.php:306 data/admin-pages-listing-edit.php:489
 msgid ""
 "Select 'Match partially' to allow results which match some of the categories "
 "selected, otherwise select 'Match all' to force the results to have all "
@@ -199,380 +223,532 @@ msgstr ""
 "algunas de las categorías seleccionadas, de otro modo seleccione 'Asociar "
 "todo' para forzar los resultados a tener todas las categorías seleccionadas."
 
-#: data/admin-blocks-listing-add.php:227 data/admin-pages-listing-add.php:232
-#: data/admin-blocks-listing-edit.php:279
-#: data/admin-pages-listing-edit.php:350
+#: data/admin-blocks-listing-add.php:305 data/admin-blocks-listing-edit.php:371
+#: data/admin-pages-listing-add.php:316 data/admin-pages-listing-edit.php:502
 msgid "Filters"
 msgstr "Filtros"
 
-#: data/admin-blocks-listing-add.php:232 data/admin-pages-listing-add.php:237
-#: data/admin-blocks-listing-edit.php:284
-#: data/admin-pages-listing-edit.php:355
+#: data/admin-blocks-listing-add.php:310 data/admin-blocks-listing-edit.php:376
+#: data/admin-pages-listing-add.php:321 data/admin-pages-listing-edit.php:507
 msgid "Newest to oldest"
 msgstr "Reciente hasta antiguo"
 
-#: data/admin-blocks-listing-add.php:233 data/admin-pages-listing-add.php:238
-#: data/admin-blocks-listing-edit.php:285
-#: data/admin-pages-listing-edit.php:356
+#: data/admin-blocks-listing-add.php:311 data/admin-blocks-listing-edit.php:377
+#: data/admin-pages-listing-add.php:322 data/admin-pages-listing-edit.php:508
 msgid "Oldest to newest"
 msgstr "Antiguo a reciente"
 
-#: data/admin-blocks-listing-add.php:234 data/admin-pages-listing-add.php:239
-#: data/admin-blocks-listing-edit.php:286
-#: data/admin-pages-listing-edit.php:357
+#: data/admin-blocks-listing-add.php:312 data/admin-blocks-listing-edit.php:378
+#: data/admin-pages-listing-add.php:323 data/admin-pages-listing-edit.php:509
 msgid "Title ascendent"
 msgstr "Título ascendente"
 
-#: data/admin-blocks-listing-add.php:235 data/admin-pages-listing-add.php:240
-#: data/admin-blocks-listing-edit.php:287
-#: data/admin-pages-listing-edit.php:358
+#: data/admin-blocks-listing-add.php:313 data/admin-blocks-listing-edit.php:379
+#: data/admin-pages-listing-add.php:324 data/admin-pages-listing-edit.php:510
 msgid "Title descendent"
 msgstr "Título descendente"
 
-#: data/admin-blocks-listing-add.php:236 data/admin-pages-listing-add.php:241
-#: data/admin-blocks-listing-edit.php:288
-#: data/admin-pages-listing-edit.php:359
+#: data/admin-blocks-listing-add.php:314 data/admin-blocks-listing-edit.php:380
+#: data/admin-pages-listing-add.php:325 data/admin-pages-listing-edit.php:511
 msgid "Most viewed all time"
 msgstr "Más visto todo el tiempo"
 
-#: data/admin-blocks-listing-add.php:237 data/admin-pages-listing-add.php:242
-#: data/admin-blocks-listing-edit.php:289
-#: data/admin-pages-listing-edit.php:360
+#: data/admin-blocks-listing-add.php:315 data/admin-blocks-listing-edit.php:381
+#: data/admin-pages-listing-add.php:326 data/admin-pages-listing-edit.php:512
 msgid "Most viewed today"
 msgstr "Más visto hoy"
 
-#: data/admin-blocks-listing-add.php:238 data/admin-pages-listing-add.php:243
-#: data/admin-blocks-listing-edit.php:290
-#: data/admin-pages-listing-edit.php:361
+#: data/admin-blocks-listing-add.php:316 data/admin-blocks-listing-edit.php:382
+#: data/admin-pages-listing-add.php:327 data/admin-pages-listing-edit.php:513
 msgid "Most viewed this week"
 msgstr "Más visto esta semana"
 
-#: data/admin-blocks-listing-add.php:239 data/admin-pages-listing-add.php:244
-#: data/admin-blocks-listing-edit.php:291
-#: data/admin-pages-listing-edit.php:362
+#: data/admin-blocks-listing-add.php:317 data/admin-blocks-listing-edit.php:383
+#: data/admin-pages-listing-add.php:328 data/admin-pages-listing-edit.php:514
 msgid "Most viewed this month"
 msgstr "Más visto este mes"
 
-#: data/admin-blocks-listing-add.php:253 data/admin-pages-listing-add.php:258
-#: data/admin-blocks-listing-edit.php:305
-#: data/admin-pages-listing-edit.php:373
+#: data/admin-blocks-listing-add.php:331 data/admin-blocks-listing-edit.php:397
+#: data/admin-pages-listing-add.php:342 data/admin-pages-listing-edit.php:528
 msgid "Ordering"
 msgstr "Ordenamiento"
 
-#: data/admin-blocks-listing-add.php:264 data/admin-pages-listing-add.php:294
-#: data/admin-blocks-listing-edit.php:314
-#: data/admin-pages-listing-edit.php:409
+#: data/admin-blocks-listing-add.php:342 data/admin-blocks-listing-edit.php:406
+#: data/admin-pages-listing-add.php:464 data/admin-pages-listing-edit.php:657
 msgid "Display title?"
 msgstr "¿Mostrar título?"
 
-#: data/admin-blocks-listing-add.php:275 data/admin-pages-listing-add.php:305
-#: data/admin-blocks-listing-edit.php:328
-#: data/admin-pages-listing-edit.php:423
+#: data/admin-blocks-listing-add.php:353 data/admin-blocks-listing-edit.php:420
+#: data/admin-pages-listing-add.php:475 data/admin-pages-listing-edit.php:671
 msgid "Display summary?"
 msgstr "¿Mostrar resumen?"
 
-#: data/admin-blocks-listing-add.php:289 data/admin-pages-listing-add.php:316
-#: data/admin-blocks-listing-edit.php:342
-#: data/admin-pages-listing-edit.php:437
+#: data/admin-blocks-listing-add.php:367 data/admin-blocks-listing-edit.php:434
+#: data/admin-pages-listing-add.php:486 data/admin-pages-listing-edit.php:685
 msgid "Display view more link?"
 msgstr "¿Mostar enlace de ver más?"
 
-#: data/admin-blocks-listing-add.php:301 data/admin-pages-listing-add.php:328
-#: data/admin-blocks-listing-edit.php:357
-#: data/admin-pages-listing-edit.php:452
+#: data/admin-blocks-listing-add.php:379 data/admin-blocks-listing-edit.php:449
+#: data/admin-pages-listing-add.php:498 data/admin-pages-listing-edit.php:700
 msgid "Maximum amount of words:"
 msgstr "Cantidad maxima de palabras:"
 
-#: data/admin-blocks-listing-add.php:304 data/admin-pages-listing-add.php:331
-#: data/admin-blocks-listing-edit.php:360
-#: data/admin-pages-listing-edit.php:455
+#: data/admin-blocks-listing-add.php:382 data/admin-blocks-listing-edit.php:452
+#: data/admin-pages-listing-add.php:501 data/admin-pages-listing-edit.php:703
 msgid "Amount of words displayed of the page summary."
 msgstr "Cantidad de palabras mostrar para el resumen."
 
-#: data/admin-blocks-listing-add.php:314
-#: data/admin-blocks-listing-edit.php:370
+#: data/admin-blocks-listing-add.php:392 data/admin-blocks-listing-edit.php:462
 msgid "Results to show:"
 msgstr "Resultados a mostrar:"
 
-#: data/admin-blocks-listing-add.php:317
-#: data/admin-blocks-listing-edit.php:373
+#: data/admin-blocks-listing-add.php:395 data/admin-blocks-listing-edit.php:465
 msgid "The amount of results to display."
 msgstr "La cantidad de resultados a mostrar."
 
-#: data/admin-blocks-listing-add.php:322 data/admin-pages-listing-add.php:373
-#: data/admin-blocks-listing-edit.php:378
-#: data/admin-pages-listing-edit.php:503
+#: data/admin-blocks-listing-add.php:400 data/admin-blocks-listing-edit.php:470
+#: data/admin-pages-listing-add.php:569 data/admin-pages-listing-edit.php:783
 msgid "Layout"
 msgstr "Maqueta"
 
-#: data/admin-blocks-listing-add.php:331 data/admin-pages-listing-add.php:382
-#: data/admin-blocks-listing-edit.php:387
-#: data/admin-pages-listing-edit.php:512
+#: data/admin-blocks-listing-add.php:409 data/admin-blocks-listing-edit.php:479
+#: data/admin-pages-listing-add.php:578 data/admin-pages-listing-edit.php:792
 msgid "Show thumbnail?"
 msgstr "¿Mostrar imagen?"
 
-#: data/admin-blocks-listing-add.php:340 data/admin-pages-listing-add.php:391
-#: data/admin-blocks-listing-edit.php:399
-#: data/admin-pages-listing-edit.php:524
+#: data/admin-blocks-listing-add.php:418 data/admin-blocks-listing-edit.php:491
+#: data/admin-pages-listing-add.php:587 data/admin-pages-listing-edit.php:804
 msgid "Width:"
 msgstr "Ancho:"
 
-#: data/admin-blocks-listing-add.php:346 data/admin-pages-listing-add.php:397
-#: data/admin-blocks-listing-edit.php:405
-#: data/admin-pages-listing-edit.php:530
+#: data/admin-blocks-listing-add.php:424 data/admin-blocks-listing-edit.php:497
+#: data/admin-pages-listing-add.php:593 data/admin-pages-listing-edit.php:810
 msgid "The width of the thumbnail in pixels."
 msgstr "El ancho de las miniaturas en pixeles."
 
-#: data/admin-blocks-listing-add.php:353 data/admin-pages-listing-add.php:404
-#: data/admin-blocks-listing-edit.php:412
-#: data/admin-pages-listing-edit.php:537
+#: data/admin-blocks-listing-add.php:431 data/admin-blocks-listing-edit.php:504
+#: data/admin-pages-listing-add.php:600 data/admin-pages-listing-edit.php:817
 msgid "Height:"
 msgstr "Alto:"
 
-#: data/admin-blocks-listing-add.php:355 data/admin-pages-listing-add.php:406
-#: data/admin-blocks-listing-edit.php:417
-#: data/admin-pages-listing-edit.php:542
+#: data/admin-blocks-listing-add.php:433 data/admin-blocks-listing-edit.php:509
+#: data/admin-pages-listing-add.php:602 data/admin-pages-listing-edit.php:822
 msgid "The height of the thumbnail in pixels."
 msgstr "El alto de las miniaturas en pixeles."
 
-#: data/admin-blocks-listing-add.php:362 data/admin-pages-listing-add.php:413
-#: data/admin-blocks-listing-edit.php:424
-#: data/admin-pages-listing-edit.php:549
+#: data/admin-blocks-listing-add.php:440 data/admin-blocks-listing-edit.php:516
+#: data/admin-pages-listing-add.php:609 data/admin-pages-listing-edit.php:829
 msgid "Background color:"
 msgstr "Color de fondo:"
 
-#: data/admin-blocks-listing-add.php:367 data/admin-pages-listing-add.php:418
-#: data/admin-blocks-listing-edit.php:429
-#: data/admin-pages-listing-edit.php:554
+#: data/admin-blocks-listing-add.php:445 data/admin-blocks-listing-edit.php:521
+#: data/admin-pages-listing-add.php:614 data/admin-pages-listing-edit.php:834
 msgid "The background color of the thumbnail in case is neccesary."
 msgstr "El color de fondo de las miniaturas en caso de ser necesario."
 
-#: data/admin-blocks-listing-add.php:379 data/admin-pages-listing-add.php:427
-#: data/admin-blocks-listing-edit.php:438
-#: data/admin-pages-listing-edit.php:563
+#: data/admin-blocks-listing-add.php:457 data/admin-blocks-listing-edit.php:530
+#: data/admin-pages-listing-add.php:626 data/admin-pages-listing-edit.php:846
 msgid "Keep aspect ratio?"
 msgstr "¿Mantener aspecto?"
 
-#: data/admin-blocks-listing-add.php:386 data/admin-pages-listing-add.php:434
-#: data/admin-blocks-listing-edit.php:448
-#: data/admin-pages-listing-edit.php:573
+#: data/admin-blocks-listing-add.php:464 data/admin-blocks-listing-edit.php:540
+#: data/admin-pages-listing-add.php:633 data/admin-pages-listing-edit.php:856
 msgid "Thumbnail"
 msgstr "Miniatura"
 
-#: data/admin-blocks-listing-add.php:393 data/admin-pages-listing-add.php:513
-#: data/admin-blocks-listing-edit.php:455
-#: data/admin-pages-listing-edit.php:655
+#: data/admin-blocks-listing-add.php:471 data/admin-blocks-listing-edit.php:547
+#: data/admin-pages-listing-add.php:784 data/admin-pages-listing-edit.php:1013
 msgid "Users Access"
 msgstr "Acceso de Usuarios"
 
-#: data/admin-blocks-listing-add.php:396
-#: data/admin-blocks-listing-edit.php:458
+#: data/admin-blocks-listing-add.php:474 data/admin-blocks-listing-edit.php:550
 msgid ""
 "Select the groups that can see the block. Don't select anything to display "
 "block to everyone."
 msgstr ""
 
-#: data/admin-blocks-listing-add.php:401
-#: data/admin-blocks-listing-edit.php:463
+#: data/admin-blocks-listing-add.php:479 data/admin-blocks-listing-edit.php:555
 msgid "Positions Per Theme"
 msgstr ""
 
-#: data/admin-blocks-listing-add.php:404
-#: data/admin-blocks-listing-edit.php:466
+#: data/admin-blocks-listing-add.php:482 data/admin-blocks-listing-edit.php:558
 msgid "Select the position where the block is going to be displayed per theme."
 msgstr ""
 
-#: data/admin-blocks-listing-add.php:407
-#: data/admin-blocks-listing-edit.php:469
+#: data/admin-blocks-listing-add.php:485 data/admin-blocks-listing-edit.php:561
 msgid "Display in all pages except the listed ones."
 msgstr ""
 
-#: data/admin-blocks-listing-add.php:408
-#: data/admin-blocks-listing-edit.php:470
+#: data/admin-blocks-listing-add.php:486 data/admin-blocks-listing-edit.php:562
 msgid "Just display on the listed pages."
 msgstr ""
 
-#: data/admin-blocks-listing-add.php:421
-#: data/admin-blocks-listing-edit.php:483
+#: data/admin-blocks-listing-add.php:499 data/admin-blocks-listing-edit.php:575
 msgid "Pages:"
 msgstr "Páginas:"
 
-#: data/admin-blocks-listing-add.php:428
-#: data/admin-blocks-listing-edit.php:491
+#: data/admin-blocks-listing-add.php:506 data/admin-blocks-listing-edit.php:583
 msgid ""
 "List of uri's seperated by comma (,). Also supports the wildcard (*), for "
 "example: my-section/*"
 msgstr ""
 
-#: data/admin-blocks-listing-add.php:439
-#: data/admin-blocks-listing-edit.php:502
+#: data/admin-blocks-listing-add.php:521 data/admin-blocks-listing-edit.php:598
 msgid "Return Code:"
 msgstr ""
 
-#: data/admin-blocks-listing-add.php:441
-#: data/admin-blocks-listing-edit.php:505
+#: data/admin-blocks-listing-add.php:523 data/admin-blocks-listing-edit.php:601
 msgid ""
 "PHP code enclosed with &lt;?php code ?&gt; to evaluate if block should "
-"display by printing true or false. for example: &lt;?php if(is_user_logged"
-"()) print \"true\"; else print \"false\"; ?&gt;"
+"display by printing true or false. for example: &lt;?php if(Jaris"
+"\\Authentication::isUserLogged()) print \"true\"; else print \"false\"; ?&gt;"
 msgstr ""
 
-#: data/admin-blocks-listing-add.php:448 data/admin-pages-listing-add.php:535
-#: data/admin-blocks-listing-edit.php:512
-#: data/admin-pages-listing-edit.php:677
+#: data/admin-blocks-listing-add.php:530 data/admin-blocks-listing-edit.php:608
+#: data/admin-pages-listing-add.php:810 data/admin-pages-listing-edit.php:1039
 msgid "Save"
 msgstr "Guardar"
 
-#: data/admin-blocks-listing-add.php:454 data/admin-pages-listing-add.php:541
-#: data/admin-blocks-listing-edit.php:518
-#: data/admin-pages-listing-edit.php:683
+#: data/admin-blocks-listing-add.php:536 data/admin-blocks-listing-edit.php:614
+#: data/admin-pages-listing-add.php:816 data/admin-pages-listing-edit.php:1045
 msgid "Cancel"
 msgstr "Cancelar"
-
-#: data/admin-pages-listing-add.php:15
-msgid "Create Listing"
-msgstr "Crear Listado"
-
-#: data/admin-pages-listing-add.php:122
-msgid "The listing was successfully created."
-msgstr "El listado fue creado exitosamente."
-
-#: data/admin-pages-listing-add.php:157 data/admin-pages-listing-edit.php:254
-msgid "Categories"
-msgstr "Categorías"
-
-#: data/admin-pages-listing-add.php:175 data/admin-pages-listing-edit.php:281
-msgid "Content:"
-msgstr "Contenido:"
-
-#: data/admin-pages-listing-add.php:271 data/admin-pages-listing-edit.php:386
-msgid "Teaser"
-msgstr ""
-
-#: data/admin-pages-listing-add.php:273 data/admin-pages-listing-edit.php:388
-msgid "Grid"
-msgstr "Cuadriculado"
-
-#: data/admin-pages-listing-add.php:275 data/admin-pages-listing-edit.php:390
-msgid "List"
-msgstr "Lista"
-
-#: data/admin-pages-listing-add.php:340 data/admin-pages-listing-edit.php:467
-msgid "Display navigation?"
-msgstr "¿Mostrar navegación?"
-
-#: data/admin-pages-listing-add.php:352 data/admin-pages-listing-edit.php:482
-msgid "Results per page:"
-msgstr "Resultados por página:"
-
-#: data/admin-pages-listing-add.php:355 data/admin-pages-listing-edit.php:485
-msgid "The amount of results to display in case the navigation is enabled."
-msgstr ""
-"La cantidad de resultados mostrados en caso que la navegación este "
-"habilitada."
-
-#: data/admin-pages-listing-add.php:365 data/admin-pages-listing-edit.php:495
-msgid "Results per row:"
-msgstr "Resultados por fila:"
-
-#: data/admin-pages-listing-add.php:368 data/admin-pages-listing-edit.php:498
-msgid "The amount of columns per row in case grid was select as layout."
-msgstr ""
-"La cantidad de columnas a mostrar por fila en caso que la maqueta "
-"seleccionada es cuadrículado."
-
-#: data/admin-pages-listing-add.php:448 data/admin-pages-listing-edit.php:587
-msgid ""
-"Overrides the original page title on search engine results. Leave blank for "
-"default."
-msgstr ""
-
-#: data/admin-pages-listing-add.php:458 data/admin-pages-listing-edit.php:597
-msgid ""
-"Used to generate the meta description for search engines. Leave blank for "
-"default."
-msgstr ""
-
-#: data/admin-pages-listing-add.php:465 data/admin-pages-listing-edit.php:604
-msgid "Keywords:"
-msgstr ""
-
-#: data/admin-pages-listing-add.php:467 data/admin-pages-listing-edit.php:606
-msgid ""
-"List of words seperated by comma (,) used to generate the meta keywords for "
-"search engines. Leave blank for default."
-msgstr ""
-
-#: data/admin-pages-listing-add.php:472 data/admin-pages-listing-edit.php:611
-msgid "Meta tags"
-msgstr ""
-
-#: data/admin-pages-listing-add.php:498 data/admin-pages-listing-edit.php:640
-msgid "Input Format"
-msgstr ""
-
-#: data/admin-pages-listing-add.php:516 data/admin-pages-listing-edit.php:658
-msgid ""
-"Select the groups that can see this content. Don't select anything to "
-"display content to everyone."
-msgstr ""
-
-#: data/admin-pages-listing-add.php:525 data/admin-pages-listing-edit.php:667
-msgid "Uri:"
-msgstr ""
-
-#: data/admin-pages-listing-add.php:528 data/admin-pages-listing-edit.php:670
-msgid ""
-"The relative path to access the page, for example: section/page, section. "
-"Leave empty to auto-generate."
-msgstr ""
 
 #: data/admin-blocks-listing-edit.php:15
 msgid "Edit Listing Block"
 msgstr "Editar Bloque de Listado"
 
-#: data/admin-blocks-listing-edit.php:91
+#: data/admin-blocks-listing-edit.php:108
 msgid "Your changes have been saved to the block."
 msgstr ""
 
-#: data/admin-blocks-listing-edit.php:112
-#: data/admin-pages-listing-edit.php:228
+#: data/admin-blocks-listing-edit.php:126 functions.php:163
+msgid "Edit"
+msgstr ""
+
+#: data/admin-blocks-listing-edit.php:132 data/admin-pages-listing-edit.php:373
 msgid "Delete"
 msgstr ""
 
-#: data/admin-blocks-listing-edit.php:117
-#: data/admin-pages-listing-edit.php:208
+#: data/admin-blocks-listing-edit.php:137 data/admin-pages-listing-edit.php:321
 msgid "Blocks"
 msgstr ""
 
-#: data/admin-pages-listing-edit.php:40
+#: data/admin-pages-listing-add.php:15
+msgid "Create Listing"
+msgstr "Crear Listado"
+
+#: data/admin-pages-listing-add.php:198
+msgid "The listing was successfully created."
+msgstr "El listado fue creado exitosamente."
+
+#: data/admin-pages-listing-add.php:238 data/admin-pages-listing-edit.php:403
+msgid "Categories"
+msgstr "Categorías"
+
+#: data/admin-pages-listing-add.php:256 data/admin-pages-listing-edit.php:430
+msgid "Content:"
+msgstr "Contenido:"
+
+#: data/admin-pages-listing-add.php:399 data/admin-pages-listing-edit.php:594
+msgid "Display reviews score?"
+msgstr "¿Mostrar puntuación de opiniones?"
+
+#: data/admin-pages-listing-add.php:405 data/admin-pages-listing-edit.php:603
+msgid ""
+"The score is displayed only if all selected content types on the filter have "
+"the reviews system enabled."
+msgstr ""
+"La puntuación es mostrada solamente si todos los tipos de contenido "
+"seleccionados en los filtros tiene la opción de opiniones activada."
+
+#: data/admin-pages-listing-add.php:411 data/admin-pages-listing-edit.php:609
+msgid "Review points:"
+msgstr "Puntos de reseña:"
+
+#: data/admin-pages-listing-add.php:416 data/admin-pages-listing-edit.php:614
+msgid "The amount of points used to calculate the reviews score."
+msgstr ""
+"La cantidad de puntos utilizados para calcular el puntaje de las reseñas."
+
+#: data/admin-pages-listing-add.php:421 data/admin-pages-listing-edit.php:619
+msgid "Reviews Score"
+msgstr "Puntuación de Reseñas"
+
+#: data/admin-pages-listing-add.php:424 data/admin-pages-listing-edit.php:622
+msgid "Display the review score given to listed content."
+msgstr "Muestra la puntuación de reseñas dada al contenido listado."
+
+#: data/admin-pages-listing-add.php:441 data/admin-pages-listing-edit.php:634
+msgid "Teaser"
+msgstr ""
+
+#: data/admin-pages-listing-add.php:443 data/admin-pages-listing-edit.php:636
+msgid "Grid"
+msgstr "Cuadriculado"
+
+#: data/admin-pages-listing-add.php:445 data/admin-pages-listing-edit.php:638
+msgid "List"
+msgstr "Lista"
+
+#: data/admin-pages-listing-add.php:509 data/admin-pages-listing-edit.php:714
+msgid "Display navigation?"
+msgstr "¿Mostrar navegación?"
+
+#: data/admin-pages-listing-add.php:520 data/admin-pages-listing-edit.php:728
+msgid "Display results per page selector?"
+msgstr "¿Mostrar selector de cantidad de resultados mostrados?"
+
+#: data/admin-pages-listing-add.php:526 data/admin-pages-listing-edit.php:737
+msgid "Enable the visitor to select the amount of results to display per page."
+msgstr ""
+"Permite que el visitante pueda seleccionar la cantidad de resultados a "
+"mostrar por página."
+
+#: data/admin-pages-listing-add.php:532 data/admin-pages-listing-edit.php:743
+msgid "Display sorting selector?"
+msgstr "¿Mostrar selector de ordenamiento?"
+
+#: data/admin-pages-listing-add.php:538 data/admin-pages-listing-edit.php:752
+msgid "Enable the visitor to select the sorting mode."
+msgstr ""
+"Permite que el visitante puede seleccionar el orden en que se lista el "
+"contenido."
+
+#: data/admin-pages-listing-add.php:548 data/admin-pages-listing-edit.php:762
+#: include/listing.php:788
+msgid "Results per page:"
+msgstr "Resultados por página:"
+
+#: data/admin-pages-listing-add.php:551 data/admin-pages-listing-edit.php:765
+msgid "The amount of results to display in case the navigation is enabled."
+msgstr ""
+"La cantidad de resultados mostrados en caso que la navegación este "
+"habilitada."
+
+#: data/admin-pages-listing-add.php:561 data/admin-pages-listing-edit.php:775
+msgid "Results per row:"
+msgstr "Resultados por fila:"
+
+#: data/admin-pages-listing-add.php:564 data/admin-pages-listing-edit.php:778
+msgid "The amount of columns per row in case grid was select as layout."
+msgstr ""
+"La cantidad de columnas a mostrar por fila en caso que la maqueta "
+"seleccionada es cuadrículado."
+
+#: data/admin-pages-listing-add.php:642 data/admin-pages-listing-edit.php:865
+msgid "Enable"
+msgstr ""
+
+#: data/admin-pages-listing-add.php:643 data/admin-pages-listing-edit.php:866
+msgid "Disable"
+msgstr ""
+
+#: data/admin-pages-listing-add.php:646 data/admin-pages-listing-edit.php:872
+msgid ""
+"Shows filter by selectors of all the categories that apply for the listed "
+"type, which allows the user to filter the displayed results. Only works if "
+"the listing is set to display a single content type."
+msgstr ""
+"Muestra selectores de filtros de todas las categorías que apliquen al "
+"contenido listado, lo que permite que el usuario pueda filtrar el contenido "
+"mostrado. Solo funciona si la página de listado esta configurada para "
+"mostrar contenido de un solo tipo."
+
+#: data/admin-pages-listing-add.php:652 data/admin-pages-listing-edit.php:878
+msgid "Selector type:"
+msgstr "Tipo de selector:"
+
+#: data/admin-pages-listing-add.php:654 data/admin-pages-listing-edit.php:880
+msgid "Select"
+msgstr ""
+
+#: data/admin-pages-listing-add.php:655 data/admin-pages-listing-edit.php:881
+msgid "Checkbox"
+msgstr ""
+
+#: data/admin-pages-listing-add.php:661 data/admin-pages-listing-edit.php:887
+msgid "The type of control displayed."
+msgstr "El tipo de control mostrado."
+
+#: data/admin-pages-listing-add.php:666 data/admin-pages-listing-edit.php:892
+msgid "Filter Selectors"
+msgstr ""
+
+#: data/admin-pages-listing-add.php:685 data/admin-pages-listing-edit.php:911
+msgid ""
+"Overrides the original page title on search engine results. Leave blank for "
+"default."
+msgstr ""
+
+#: data/admin-pages-listing-add.php:695 data/admin-pages-listing-edit.php:921
+msgid ""
+"Used to generate the meta description for search engines. Leave blank for "
+"default."
+msgstr ""
+
+#: data/admin-pages-listing-add.php:702 data/admin-pages-listing-edit.php:928
+msgid "Keywords:"
+msgstr ""
+
+#: data/admin-pages-listing-add.php:704 data/admin-pages-listing-edit.php:930
+msgid ""
+"List of words seperated by comma (,) used to generate the meta keywords for "
+"search engines. Leave blank for default."
+msgstr ""
+
+#: data/admin-pages-listing-add.php:709 data/admin-pages-listing-edit.php:935
+msgid "Meta tags"
+msgstr ""
+
+#: data/admin-pages-listing-add.php:743 data/admin-pages-listing-edit.php:972
+msgid "Input Format"
+msgstr ""
+
+#: data/admin-pages-listing-add.php:764 data/admin-pages-listing-edit.php:993
+msgid ""
+"Select the groups that can see this content. Don't select anything to "
+"display content to everyone."
+msgstr ""
+
+#: data/admin-pages-listing-add.php:776 data/admin-pages-listing-edit.php:1005
+msgid "Users:"
+msgstr ""
+
+#: data/admin-pages-listing-add.php:779 data/admin-pages-listing-edit.php:1008
+msgid ""
+"A comma seperated list of users that can see this content. Leave empty to "
+"display content to everyone."
+msgstr ""
+
+#: data/admin-pages-listing-add.php:800 data/admin-pages-listing-edit.php:1029
+msgid "Uri:"
+msgstr ""
+
+#: data/admin-pages-listing-add.php:803 data/admin-pages-listing-edit.php:1032
+msgid ""
+"The relative path to access the page, for example: section/page, section. "
+"Leave empty to auto-generate."
+msgstr ""
+
+#: data/admin-pages-listing-edit.php:15 functions.php:167
+msgid "Edit Listing"
+msgstr "Editar Listado"
+
+#: data/admin-pages-listing-edit.php:45
 msgid "The content you was trying to edit is a system page."
 msgstr ""
 
-#: data/admin-pages-listing-edit.php:158
+#: data/admin-pages-listing-edit.php:246
 msgid "Translations repositioned."
 msgstr ""
 
-#: data/admin-pages-listing-edit.php:166
+#: data/admin-pages-listing-edit.php:261
 msgid "Your changes have been successfully saved."
 msgstr ""
 
-#: data/admin-pages-listing-edit.php:198
+#: data/admin-pages-listing-edit.php:302
 msgid "Edit listing"
 msgstr "Editar listado"
 
-#: data/admin-pages-listing-edit.php:204
+#: data/admin-pages-listing-edit.php:311
 msgid "View listing"
 msgstr "Ver listado"
 
-#: data/admin-pages-listing-edit.php:213
+#: data/admin-pages-listing-edit.php:335
 msgid "Images"
 msgstr "Imágenes"
 
-#: data/admin-pages-listing-edit.php:218
+#: data/admin-pages-listing-edit.php:348
 msgid "Files"
 msgstr ""
 
-#: data/admin-pages-listing-edit.php:223
+#: data/admin-pages-listing-edit.php:359
 msgid "Translate"
 msgstr ""
+
+#: functions.php:96
+msgid "Create blocks to display a list a content by a given criteria."
+msgstr ""
+"Crear bloques para mostrar un listado de contenido con ciertos criterios."
+
+#: functions.php:188
+msgid "Create Listing Block"
+msgstr "Crear Bloque de Listado"
+
+#: include/listing.php:127
+msgid "-None Selected-"
+msgstr ""
+
+#: include/listing.php:572
+msgid "not rated yet"
+msgstr "no clasificado aún"
+
+#: include/listing.php:742 include/listing.php:778
+msgid "Default"
+msgstr "Predeterminado"
+
+#: include/listing.php:743
+msgid "Name Ascending"
+msgstr "Nombre Ascendente"
+
+#: include/listing.php:744
+msgid "Name Descending"
+msgstr "Nombre Descendente"
+
+#: include/listing.php:745
+msgid "Newest First"
+msgstr "Nuevo Primero"
+
+#: include/listing.php:746
+msgid "Newest Last"
+msgstr "Nuevo Último"
+
+#: include/listing.php:751
+msgid "Price Lowest"
+msgstr "Precio Bajo"
+
+#: include/listing.php:752
+msgid "Price Highest"
+msgstr "Precio Alto"
+
+#: include/listing.php:757
+msgid "Lowest Rating"
+msgstr "Baja Clasificación"
+
+#: include/listing.php:758
+msgid "Highest Rating"
+msgstr "Alta Clasificación"
+
+#: include/listing.php:764
+msgid "Sort by:"
+msgstr "Ordenar por:"
+
+#: include/listing.php:875 include/listing.php:1388
+msgid "on sale"
+msgstr "en oferta"
+
+#: include/listing.php:977 include/listing.php:1463
+msgid "View More"
+msgstr "Ver Más"
+
+#: info.php:11 install.php:15
+msgid "Content Listing"
+msgstr "Listado de Contenido"
+
+#: info.php:12
+msgid ""
+"To create pages that display a list of content by a given set of criteria."
+msgstr "Para crear paginas que muestran un listado de contenido por criterios."
+
+#: install.php:16
+msgid "Page that display a list of content by a given criteria."
+msgstr "Página que muestra un listado de contenido por criterios."
+
+#: templates/listing-list-header.php:5
+msgid "Image"
+msgstr "Imagen"
+
+#: templates/listing-list-header.php:9
+msgid "Preview"
+msgstr "Previsualización"

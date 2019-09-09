@@ -121,7 +121,7 @@ function blog_edit_post($actual_uri, $new_uri, $username)
 
     $fields["uri"] = $actual_uri;
     $fields["new_uri"] = $new_uri;
-    $fields["edited_timestamp"] = $data["edited_timestamp"];
+    $fields["edited_timestamp"] = time();
 
     Jaris\Sql::escapeArray($fields);
 
@@ -258,7 +258,7 @@ function blog_subscribed($blog, $user)
 
 function blog_subscribe($blog, $user)
 {
-    if(!blog_subscribed($channel, $user))
+    if(!blog_subscribed($blog, $user))
     {
         $fields["user_blog"] = $blog;
         $fields["subscriber"] = $user;
@@ -269,7 +269,18 @@ function blog_subscribe($blog, $user)
 
         $time = time();
 
-        $insert = "insert into subscriptions (user, subscriber, created_timestamp) values('{$fields['user_blog']}','{$fields['subscriber']}', '$time')";
+        $insert = "insert into subscriptions "
+            . "("
+            . "user, "
+            . "subscriber, "
+            . "created_timestamp"
+            . ") "
+            . "values("
+            . "'{$fields['user_blog']}',"
+            . "'{$fields['subscriber']}',"
+            . "'$time'"
+            . ")"
+        ;
 
         Jaris\Sql::query($insert, $db);
 
@@ -370,9 +381,9 @@ function blog_theme($post_data)
 /**
  * Search for the best blog template match
  *
- * @param $page The page uri that is going to be displayed.
+ * @param string $page The page uri that is going to be displayed.
  *
- * @return The template file to be used.
+ * @return string The template file to be used.
  *  It could be one of the followings in the same precedence:
  *      themes/theme/blog-post-uri.php
  *      themes/theme/blog-post.php

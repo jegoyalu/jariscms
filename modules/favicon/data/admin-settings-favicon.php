@@ -106,7 +106,7 @@ row: 0
                 if(Jaris\Settings::save("current_image", $new_image, "favicon"))
                 {
                     //Remove old original favicon
-                    if($current_image != $new_image)
+                    if($current_image && $current_image != $new_image)
                     {
                         Jaris\Files::delete($current_image, "favicon");
                     }

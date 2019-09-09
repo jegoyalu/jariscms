@@ -114,6 +114,8 @@ row: 0
         //Resize and compress image
         if($image_compression)
         {
+            $file = $_FILES["upload"];
+
             $image_info = getimagesize($file["tmp_name"]);
 
             if($image_info[0] > $max_width)

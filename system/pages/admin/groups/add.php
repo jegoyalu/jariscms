@@ -33,7 +33,9 @@ row: 0
 
             if($message == "true")
             {
-                Jaris\View::addMessage(t("The group has been successfully created."));
+                Jaris\View::addMessage(
+                    t("The group has been successfully created.")
+                );
 
                 t("Added group '{machine_name}'.");
 

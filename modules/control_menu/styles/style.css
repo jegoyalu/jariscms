@@ -3,6 +3,11 @@
     position: fixed;
     background-color: #E9F2F5;
     border: solid 1px #d3d3d3;
+    
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100000
 }
 
 #control-menu *
@@ -13,7 +18,6 @@
 
 #control-menu .user
 {
-    float: left;
     display: block;
     margin: 0 8px 0 0;
     padding: 8px;
@@ -23,7 +27,8 @@
 
 #control-menu .right
 {
-    float: right;
+    display: flex;
+    justify-content: flex-end;
 }
 
 #control-menu .right a
@@ -31,7 +36,6 @@
     width: 20px;
     height: 18px;
     display: block;
-    float: left;
     padding: 8px;
 }
 
@@ -57,10 +61,11 @@
 
 #control-menu ul
 {
-    display: block;
+    display: flex;
+    justify-content: flex-start;
+    flex-grow: 1;
     margin: 0;
     padding: 0;
-    float: left;
 }
 
 #control-menu ul li
@@ -68,7 +73,6 @@
     display: block;
     list-style: none;
     margin: 0;
-    float: left;
     position: relative;
 }
 
@@ -113,7 +117,6 @@
     display: block;
     margin: 0;
     padding: 0;
-    float: none;
 }
 
 #control-menu ul li ul li a
@@ -130,4 +133,104 @@
     color: #fff;
 }
 
+#control-menu .view
+{
+    display: none;
+}
 
+#control-menu .view a
+{
+    display: inline-block;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    padding: 5px 8px 5px 8px;
+    background: transparent url(options.png) no-repeat center center;
+}
+
+#control-menu-mobile
+{
+    display: none;
+    position: fixed;
+    background-color: #E9F2F5;
+    z-index: 100000;
+    overflow: scroll;
+    padding: 10px;
+    box-sizing: border-box;
+    opacity: 0.9;
+}
+
+#control-menu-mobile a
+{
+    color: #00576d;
+}
+
+#control-menu-mobile .close
+{
+    text-align: right;
+}
+
+#control-menu-mobile .close a
+{
+    font-weight: bold;
+    display: inline-block;
+    padding: 10px 10px 0 10px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+#control-menu-mobile ul
+{
+    margin: 0;
+    padding: 0;
+}
+
+#control-menu-mobile ul li
+{
+    list-style: none;
+}
+
+#control-menu-mobile > ul > li
+{
+    margin-bottom: 15px;
+}
+
+#control-menu-mobile > ul > li > a
+{
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+#control-menu-mobile ul li a
+{
+    display: block;
+}
+
+#control-menu-mobile ul ul li a
+{
+    padding-left: 20px;
+    display: block;
+    padding: 7px;
+    border-bottom: dotted 1px #d3d3d3;
+}
+
+#control-menu-mobile ul ul li a:hover
+{
+    background-color: #df7500;
+    color: #fff;
+}
+
+@media all and (max-width: 800px)
+{
+    #control-menu ul
+    {
+        display: none;
+    }
+    
+    #control-menu .view
+    {
+        display: block;
+        flex-grow: 1;
+        text-align: left;
+    }
+}

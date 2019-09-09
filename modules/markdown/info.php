@@ -19,8 +19,6 @@ $module["website"] = "http://www.jegoyalu.com";
 
 /*
 
-=Changes Log=
-
 Version 1.1.2 - Date 27/05/2016
 
     * Fixed markdown classes to not use constructos functions with the name

@@ -7,7 +7,7 @@
  * Includes some shorthand functions commonly used on legacy templates.
  */
 
-function t($textToTranslate, $po_file = null)
+function t($textToTranslate, $po_file = "")
 {
     return Jaris\Language::translate($textToTranslate, $po_file);
 }

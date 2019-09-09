@@ -31,18 +31,57 @@ row: 0
             //Check if write is possible and continue to write settings
             if(Jaris\Settings::save("mailer", $_REQUEST["mailer"], "main"))
             {
-                Jaris\Settings::save("mailer_from_name", $_REQUEST["mailer_from_name"], "main");
-                Jaris\Settings::save("mailer_from_email", $_REQUEST["mailer_from_email"], "main");
+                Jaris\Settings::save(
+                    "mailer_from_name",
+                    $_REQUEST["mailer_from_name"],
+                    "main"
+                );
 
-                Jaris\Settings::save("smtp_auth", $_REQUEST["smtp_auth"], "main");
-                Jaris\Settings::save("smtp_cert_validation", $_REQUEST["smtp_cert_validation"], "main");
-                Jaris\Settings::save("smtp_encryption", $_REQUEST["smtp_encryption"], "main");
-                Jaris\Settings::save("smtp_host", $_REQUEST["smtp_host"], "main");
-                Jaris\Settings::save("smtp_port", $_REQUEST["smtp_port"], "main");
-                Jaris\Settings::save("smtp_user", $_REQUEST["smtp_user"], "main");
-                Jaris\Settings::save("smtp_pass", $_REQUEST["smtp_pass"], "main");
+                Jaris\Settings::save(
+                    "mailer_from_email",
+                    $_REQUEST["mailer_from_email"],
+                    "main"
+                );
 
-                Jaris\View::addMessage(t("Your settings have been successfully saved."));
+                Jaris\Settings::save(
+                    "smtp_auth", $_REQUEST["smtp_auth"], "main"
+                );
+
+                Jaris\Settings::save(
+                    "smtp_cert_validation",
+                    $_REQUEST["smtp_cert_validation"],
+                    "main"
+                );
+
+                Jaris\Settings::save(
+                    "smtp_force_from_email",
+                    $_REQUEST["smtp_force_from_email"],
+                    "main"
+                );
+
+                Jaris\Settings::save(
+                    "smtp_encryption", $_REQUEST["smtp_encryption"], "main"
+                );
+
+                Jaris\Settings::save(
+                    "smtp_host", $_REQUEST["smtp_host"], "main"
+                );
+
+                Jaris\Settings::save(
+                    "smtp_port", $_REQUEST["smtp_port"], "main"
+                );
+
+                Jaris\Settings::save(
+                    "smtp_user", $_REQUEST["smtp_user"], "main"
+                );
+
+                Jaris\Settings::save(
+                    "smtp_pass", $_REQUEST["smtp_pass"], "main"
+                );
+
+                Jaris\View::addMessage(
+                    t("Your settings have been successfully saved.")
+                );
 
                 t("Updated mailer settings.");
 
@@ -138,6 +177,15 @@ row: 0
             "value" => $stmp_options,
             "selected" => $site_settings["smtp_cert_validation"],
             "description" => t("Verifies that the smtp server certificate is valid.")
+        );
+
+        $fields_smtp[] = array(
+            "type" => "select",
+            "label" => t("Force FROM e-mail:"),
+            "name" => "smtp_force_from_email",
+            "value" => array(t("No") => false, t("Yes") => true),
+            "selected" => $site_settings["smtp_force_from_email"],
+            "description" => t("Don't allow overriding the FROM e-mail to prevent issues with some smtp providers and use the smpt username as FROM e-mail.")
         );
 
         $fields_smtp[] = array(

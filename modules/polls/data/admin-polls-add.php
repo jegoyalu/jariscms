@@ -180,7 +180,7 @@ row: 0
         if($categories)
         {
             $fields_categories = Jaris\Categories::generateFields(
-                null, null, "poll"
+                [], "", "poll"
             );
 
             $fieldset[] = array(

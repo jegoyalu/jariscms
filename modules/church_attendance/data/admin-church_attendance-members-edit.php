@@ -20,7 +20,24 @@ row: 0
         Jaris\Authentication::protectedPage(
             array("manage_members_church_attendance")
         );
+    ?>
+    <script>
+    $(document).ready(function(){
+        var current_year = <?php print date("Y", time()) ?>;
+        $("#edit-member-time-following").change(function(){
+            var year = 0;
+            if($("#edit-member-time-following-unit").val() == "m"){
+                year = current_year;
+            } else {
+                var year_serving = $(this).val();
+                year = current_year - year_serving;
+            }
 
+            $("#edit-member-year-accepted").val(year);
+        });
+    });
+    </script>
+    <?php
         $member_data = church_attendance_member_get($_REQUEST["id"]);
 
         if(!is_array($member_data))
@@ -52,12 +69,16 @@ row: 0
                 "last_name" => $_REQUEST["last_name"],
                 "maiden_name" => $_REQUEST["maiden_name"],
                 "gender" => $_REQUEST["gender"],
+                "civil_status" => $_REQUEST["civil_status"],
                 "birth_day" => $_REQUEST["day"],
                 "birth_month" => $_REQUEST["month"],
                 "birth_year" => $_REQUEST["year"],
                 "is_member" => $_REQUEST["is_member"],
                 "taken_discipleship" => $_REQUEST["taken_discipleship"],
+                "courses" => $_REQUEST["courses"],
                 "year_accepted_christ" => $_REQUEST["year_accepted_christ"],
+                "time_following_christ" => $_REQUEST["time_following_christ"],
+                "time_following_christ_unit" => $_REQUEST["time_following_christ_unit"],
                 "baptized" => $_REQUEST["baptized"],
                 "family_at_home" => $_REQUEST["family_at_home"],
                 "talents" => $_REQUEST["talents"],
@@ -66,6 +87,8 @@ row: 0
                 "email" => $_REQUEST["email"],
                 "phone" => $_REQUEST["phone"],
                 "mobile_phone" => $_REQUEST["mobile_phone"],
+                "work_place" => $_REQUEST["work_place"],
+                "work_phone" => $_REQUEST["work_phone"],
                 "group_id" => $_REQUEST["group_id"],
                 "notes" => $_REQUEST["notes"]
             );
@@ -146,6 +169,22 @@ row: 0
             "label" => t("Gender:")
         );
 
+        $fields[] = array(
+            "type" => "radio",
+            "name" => "civil_status",
+            "value" => array(
+                t("Single") => "s",
+                t("Married") => "m",
+                t("Divorced") => "d",
+                t("Widow") => "w"
+            ),
+            "checked" => isset($_REQUEST["civil_status"]) ?
+                $_REQUEST["civil_status"]
+                :
+                $member_data["civil_status"],
+            "label" => t("Civil status:")
+        );
+
         $fieldset[] = array("fields" => $fields);
 
         //Birthdate fields
@@ -204,15 +243,60 @@ row: 0
             "label" => t("Has taken discipleship:")
         );
 
+        $courses = array();
+
+        foreach(church_attendance_courses_list() as $course_id=>$course_name)
+        {
+            $courses[t($course_name)] = $course_id;
+        }
+
+        $fields_other[] = array(
+            "type" => "checkbox",
+            "name" => "courses",
+            "value" => $courses,
+            "checked" => isset($_REQUEST["courses"]) ?
+                $_REQUEST["courses"]
+                :
+                $member_data["courses"],
+            "label" => t("Taken courses:")
+        );
+
         $fields_other[] = array(
             "type" => "select",
             "name" => "year_accepted_christ",
+            "id" => "year-accepted",
             "value" => array(t("Not Yet")=>1) + Jaris\Date::getYears(),
             "selected" => isset($_REQUEST["year_accepted_christ"]) ?
                 $_REQUEST["year_accepted_christ"]
                 :
                 $member_data["year_accepted_christ"],
             "label" => t("Year that accepted Jesus Christ:")
+        );
+
+        $fields_other[] = array(
+            "type" => "number",
+            "name" => "time_following_christ",
+            "id" => "time-following",
+            "value" => isset($_REQUEST["time_following_christ"]) ?
+                $_REQUEST["time_following_christ"]
+                :
+                $member_data["time_following_christ"],
+            "label" => t("Amount of time following Jesus:")
+        );
+
+        $fields_other[] = array(
+            "type" => "radio",
+            "name" => "time_following_christ_unit",
+            "id" => "time-following-unit",
+            "value" => array(
+                t("Months") => "m",
+                t("Years") => "y"
+            ),
+            "checked" => isset($_REQUEST["time_following_christ_unit"]) ?
+                $_REQUEST["time_following_christ_unit"]
+                :
+                $member_data["time_following_christ_unit"],
+            "label" => t("Time unit for the amount of time following Jesus:")
         );
 
         $fields_other[] = array(
@@ -237,7 +321,7 @@ row: 0
                 $_REQUEST["family_at_home"]
                 :
                 $member_data["family_at_home"],
-            "label" => t("Amount of family members:")
+            "label" => t("Amount of inmediate family members:")
         );
 
         $fields_other[] = array(
@@ -303,6 +387,26 @@ row: 0
                 :
                 $member_data["mobile_phone"],
             "label" => t("Mobile phone:")
+        );
+
+        $fields_other[] = array(
+            "type" => "text",
+            "name" => "work_place",
+            "value" => isset($_REQUEST["work_place"]) ?
+                $_REQUEST["work_place"]
+                :
+                $member_data["work_place"],
+            "label" => t("Work place:")
+        );
+
+        $fields_other[] = array(
+            "type" => "text",
+            "name" => "work_phone",
+            "value" => isset($_REQUEST["work_phone"]) ?
+                $_REQUEST["work_phone"]
+                :
+                $member_data["work_phone"],
+            "label" => t("Work phone:")
         );
 
         $talents = array();

@@ -66,7 +66,7 @@ row: 0
 
                 if(isset($type_data["image"]) && trim($type_data["image"]) != "")
                 {
-                    Jaris\Pages\Images::delete(
+                    Jaris\Pages\Images::deleteByName(
                         $type_data["image"], "admin/types/image"
                     );
                 }

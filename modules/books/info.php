@@ -12,14 +12,16 @@
 
 $module["name"] = "Books";
 $module["description"] = "Write books, manuals or documentation.";
-$module["version"] = "1.0.1";
+$module["version"] = "1.0.2";
 $module["author"] = "Jefferson González";
 $module["email"] = "jgonzalez@jegoyalu.com";
 $module["website"] = "http://www.jegoyalu.com";
 
-/**
+/*
 
-=Change Log=
+Version 1.0.2 - Date 1/03/2019
+
+    * Adjusted for new path of system js and css files.
 
 Version 1.0.1 - Date 05/26/2016
 

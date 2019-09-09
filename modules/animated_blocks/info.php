@@ -12,14 +12,38 @@
 
 $module["name"] = "Animated Blocks";
 $module["description"] = "Various java script animations to post content into blocks in a more interactive way.";
-$module["version"] = "2.5.2";
+$module["version"] = "2.5.8";
 $module["author"] = "Jefferson González";
 $module["email"] = "jgonzalez@jegoyalu.com";
 $module["website"] = "http://www.jegoyalu.com";
 
-/**
+/*
 
-=Change Log=
+Version 2.5.8 - Date 1/03/2019
+
+    * Adjusted for new path of system js and css files.
+
+Version 2.5.7 - Date 15/01/2019
+
+    * Added keep aspect ratio option for background images.
+
+Version 2.5.6 - Date 20/09/2018
+
+    * Fixed issue with id 0 blocks.
+
+Version 2.5.5 - Date 31/07/2018
+
+    * Fixed issues reported by phan.
+    * Adjustments for scalar type hints on core.
+
+Version 2.5.4 - Date 30/05/2018
+
+    * Fixed issue with custom block templates by removing default template
+      verification code.
+
+Version 2.5.3 - Date 11/12/2017
+
+    * Use empty array instead of null for arguments of settings tab.
 
 Version 2.5.2 - Date 18/11/2016
 
@@ -86,4 +110,4 @@ Version 1.1 - Date 25/08/2010
 
     * Fixed theme_block hook function to comply with new jaris cms 4.3.4 changes
 
-**/
+*/

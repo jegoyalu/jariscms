@@ -41,6 +41,15 @@ row: 0
         );
 
         Jaris\View::addTab(
+            t("Add Offering"),
+            Jaris\Modules::getPageUri(
+                "admin/church-accounting/income/tither-offerings/add",
+                "church_accounting"
+            ),
+            array("tid" => $_REQUEST["id"])
+        );
+
+        Jaris\View::addTab(
             t("Reports"),
             Jaris\Modules::getPageUri(
                 "admin/church-accounting/tithers/report",

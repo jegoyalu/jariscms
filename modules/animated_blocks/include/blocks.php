@@ -126,8 +126,18 @@ function animated_blocks_get_settings($block_data)
 function animated_blocks_print_block($id, $position)
 {
     $block_data = Jaris\Blocks::get($id, $position);
+
     $slides = unserialize($block_data["content"]);
-    $slides = Jaris\Data::sort($slides, "order");
+
+    if(is_array($slides))
+    {
+        $slides = Jaris\Data::sort($slides, "order");
+    }
+    else
+    {
+        $slides = array();
+    }
+
     $settings = animated_blocks_get_settings($block_data);
     $animated_block_id = "animated-block-$position-$id";
     $animated_block_id_container = "animated-block-container-$position-$id";
@@ -201,7 +211,10 @@ function animated_blocks_print_block($id, $position)
                 $is_article = true;
                 if($settings["auto_info"])
                 {
-                    $data = Jaris\Pages::get($slide["uri"], Jaris\Language::getCurrent());
+                    $data = Jaris\Pages::get(
+                        $slide["uri"],
+                        Jaris\Language::getCurrent()
+                    );
 
                     $title = $data["title"];
                     $description = Jaris\Util::contentPreview(
@@ -209,14 +222,16 @@ function animated_blocks_print_block($id, $position)
                             $data["content"],
                             $data["input_format"]
                         ),
-                        $settings["description_word_count"],
+                        intval($settings["description_word_count"]),
                         true
                     );
                 }
                 else
                 {
                     $title = trim($slide["title"]);
-                    $description = $description = Jaris\System::evalPHP($slide["description"]);
+                    $description = $description = Jaris\System::evalPHP(
+                        $slide["description"]
+                    );
                 }
 
                 $image_list = Jaris\Pages\Images::getList($slide["uri"]);

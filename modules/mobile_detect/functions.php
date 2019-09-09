@@ -110,7 +110,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
         {
             $tabs_array[0][t("Desktop")] = array(
                 "uri" => "admin/themes",
-                "arguments" => null
+                "arguments" => array()
             );
 
             $tabs_array[0][t("Mobile")] = array(
@@ -118,7 +118,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
                     "admin/themes/mobile",
                     "mobile_detect"
                 ),
-                "arguments" => null
+                "arguments" => array()
             );
 
             $tabs_array[0][t("Tablet")] = array(
@@ -126,7 +126,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
                     "admin/themes/tablet",
                     "mobile_detect"
                 ),
-                "arguments" => null
+                "arguments" => array()
             );
         }
     }

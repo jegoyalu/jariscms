@@ -10,14 +10,25 @@
 
 $module["name"] = "Open Graph Protocol";
 $module["description"] = t("Adds Open Graph Protocol meta tags to pages for a better look when shared on social sites like facebook.");
-$module["version"] = "1.1";
+$module["version"] = "1.2.1";
 $module["author"] = "Jefferson González";
 $module["email"] = "jgonzalez@jegoyalu.com";
 $module["website"] = "http://www.jegoyalu.com";
 
 /*
 
-=Change Log=
+Version 1.2.1 - Date 31/07/2018
+
+    * Fixed issues reported by phan.
+    * Adjustments for scalar type hints on core.
+
+Version 1.2 - Date 07/04/2018
+
+    * Allow to set a custom size for opengraph images.
+
+Version 1.1.1 - Date 11/12/2017
+
+    * Use empty array instead of null for arguments of settings tab.
 
 Version 1.1 - Date 24/02/2017
 
@@ -31,4 +42,4 @@ Version 1.0 - Date 02/02/2016
 
     * Initial creation of realty system
 
-**/
+*/

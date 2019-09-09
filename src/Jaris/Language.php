@@ -14,51 +14,65 @@ class Language
 {
 
 /**
+ * Path of core language files.
+ * @var string
+ */
+const LANG_PATH = "system/language/";
+
+/**
  * Uses the $language variable to search for a language file on the language
  * directory to translate a short string.
  *
- * @param string $textToTranslate Text that is going to be translated.
+ * @param ?string $textToTranslate Text that is going to be translated.
  * @param string $po_file Optional parameter to indicate specific po file to use
  * relative to current language. Example: install.po
  *
  * @return string Translation if availbale or original.
- * @original t
  */
-static function translate($textToTranslate, $po_file = null)
+static function translate(
+    ?string $textToTranslate, string $po_file = ""
+): string
 {
-    $language = Site::$language;
-
     //To reduce the parsing of the file and just parse once.
     static $lang;
 
-    $translation = $textToTranslate;
+    $translation = is_string($textToTranslate) ? $textToTranslate : "";
 
     if(!$lang)
     {
+        $language = Site::$language;
         $files = array();
 
         //Add main website translations
         //In case that a module has a system translation we execute this
         //first to keep original ones
-        if($po_file == null)
+        if(!$po_file)
         {
-            if(file_exists("language/" . $language . "/" . "strings.po"))
+            if(file_exists(self::LANG_PATH . $language . "/" . "strings.po"))
             {
-                $files[] = "language/" . $language . "/" . "strings.po";
+                $files[] = self::LANG_PATH . $language . "/" . "strings.po";
             }
 
-            $files[] = Site::dataDir() . "language/" . $language . "/" . "strings.po";
+            $files[] = Site::dataDir() 
+                . "language/" . $language . "/" . "strings.po"
+            ;
         }
         else
         {
-            if(file_exists("language/" . $language . "/" . $po_file))
+            if(file_exists(self::LANG_PATH . $language . "/" . $po_file))
             {
-                $files[] = "language/" . $language . "/" . $po_file;
+                $files[] = self::LANG_PATH . $language . "/" . $po_file;
             }
 
-            if(file_exists(Site::dataDir() . "language/" . $language . "/" . $po_file))
+            if(
+                file_exists(
+                    Site::dataDir() . "language/" . $language . "/" . $po_file
+                )
+            )
             {
-                $files[] = Site::dataDir() . "language/" . $language . "/" . $po_file;
+                $files[] = Site::dataDir() 
+                    . "language/" . $language . "/" . $po_file
+                ;
             }
         }
 
@@ -67,13 +81,17 @@ static function translate($textToTranslate, $po_file = null)
         {
             $module_translation = "";
 
-            if($po_file == null)
+            if(!$po_file)
             {
-                $module_translation = Modules::directory($module_dir) . "language/$language/" . "strings.po";
+                $module_translation = Modules::directory($module_dir) 
+                    . "language/$language/" . "strings.po"
+                ;
             }
             else
             {
-                $module_translation = Modules::directory($module_dir) . "language/$language/" . $po_file;
+                $module_translation = Modules::directory($module_dir) 
+                    . "language/$language/" . $po_file
+                ;
             }
 
             if(is_file($module_translation))
@@ -83,7 +101,7 @@ static function translate($textToTranslate, $po_file = null)
         $lang = self::generateCache($language, $files);
     }
 
-    if($textToTranslate != "")
+    if($textToTranslate)
     {
         $available_translation = "";
 
@@ -108,9 +126,8 @@ static function translate($textToTranslate, $po_file = null)
  * @param string $language The language of the file.
  * @param array $files List of po files to generate the cache.
  * @return array All string translations
- * @original generate_language_cache
  */
-static function generateCache($language, $files)
+static function generateCache(string $language, array $files): array
 {
     $cache_file = Site::dataDir() . "language_cache/$language";
 
@@ -175,9 +192,10 @@ static function generateCache($language, $files)
  *
  * @return string Data file that contains the translation or
  * original data file if translation not available.
- * @original dt
  */
-static function dataTranslate($data_file, $language_code = null, $force = false)
+static function dataTranslate(
+    string $data_file, string $language_code = "", bool $force = false
+): string
 {
     $language = Site::$language;
 
@@ -211,9 +229,8 @@ static function dataTranslate($data_file, $language_code = null, $force = false)
  *
  * @return array All the available languages in the following format.
  * $language["code"] = "name", for example: $language["en"] = "English"
- * @original get_languages
  */
-static function getInstalled()
+static function getInstalled(): array
 {
     $languages = array();
 
@@ -262,11 +279,16 @@ static function getInstalled()
  * @param string $language_code Example: en, en_US, es, es_PR, etc...
  *
  * @return array Languages info in the following format:
- * array("code"=>val, "name"=>val, "translator"=>val, "translator_email"=>val, "contributors"=>val)
+ * array(
+ *   "code"=>val, 
+ *   "name"=>val, 
+ *   "translator"=>val, 
+ *   "translator_email"=>val, 
+ *   "contributors"=>val
+ * )
  * if language couldn't be found returns empty array.
- * @original get_language_info
  */
-static function getInfo($language_code)
+static function getInfo(string $language_code): array
 {
     $lang_dir = Site::dataDir() . "language/$language_code";
 
@@ -291,9 +313,8 @@ static function getInfo($language_code)
  * @param string $language_code the machine code of the language.
  *
  * @return string The human readable name of language code.
- * @original get_language_name
  */
-static function getName($language_code)
+static function getName(string $language_code): string
 {
     $languages = self::getInstalled();
 
@@ -304,23 +325,27 @@ static function getName($language_code)
  * Checks the $_REQUEST["language"] and stores it's value
  * on $_SESSION["language"].
  *
- * @return string The language code to use on the $_SESSION if available or the default one.
- * @original get_current_language
+ * @return string The language code to use on the $_SESSION if available 
+ * or the default one.
  */
-static function getCurrent()
+static function getCurrent(): string
 {
     $language = Site::$language;
 
-    if(isset($_REQUEST["language"]))
+    // Use $_GET instead of $_REQUEST because in some
+    // environments the php.ini variables_order may be
+    // set improperly and the $_REQUEST global can include
+    // $_COOKIE variables.
+    if(isset($_GET["language"]))
     {
         Session::addCookie(
             "language",
-            $_REQUEST["language"],
+            $_GET["language"],
             time() + (60 * 60 * 24 * 365),
             "/"
         );
 
-        return $_REQUEST["language"];
+        return $_GET["language"];
     }
     elseif(isset($_COOKIE["language"]))
     {
@@ -330,7 +355,7 @@ static function getCurrent()
     {
         if($language == "autodetect")
         {
-            self::detect();
+            $language = self::detect();
         }
 
         return $language;
@@ -338,12 +363,28 @@ static function getCurrent()
 }
 
 /**
+ * Sets the current user language cookie and Site::$language.
+ *
+ * @param string $code A valid language code.
+ */
+static function setCurrent(string $code): void
+{
+    Session::addCookie(
+        "language",
+        $code,
+        time() + (60 * 60 * 24 * 365),
+        "/"
+    );
+
+    Site::$language = $code;
+}
+
+/**
  * Checks if a given language is available on the system.
  *
  * @param string $code The language code to check if exists on the system.
- * @original language_exists
  */
-static function exists($code)
+static function exists(string $code): bool
 {
     if(file_exists(Site::dataDir() . "language/$code"))
     {
@@ -356,9 +397,10 @@ static function exists($code)
 /**
  * Checks the user browser language and sets the global
  * language variable to it if possible.
- * @original language_auto_detect
+ *
+ * @return string The detected language code.
  */
-static function detect()
+static function detect(): string
 {
     $language = Site::$language;
 
@@ -381,7 +423,7 @@ static function detect()
                 if(self::exists($glue) || $glue == "en")
                 {
                     $language = $glue;
-                    return;
+                    break;
                 }
                 elseif(
                     self::exists($language_code[0]) ||
@@ -389,7 +431,7 @@ static function detect()
                 )
                 {
                     $language = $language_code[0];
-                    return;
+                    break;
                 }
             }
             elseif(
@@ -398,22 +440,20 @@ static function detect()
             )
             {
                 $language = $language_code[0];
-                return;
+                break;
             }
         }
     }
 
-    //Default language in case no match found
-    $language = "en";
+    return $language;
 }
 
 /**
  * Retreive all existing languages.
  *
  * @return array List of languages suitable to generate a select list on a form.
- * @original language_codes
  */
-static function getCodes()
+static function getCodes(): array
 {
     $codes = array(
         "Afrikaans" => "af",
@@ -576,9 +616,8 @@ static function getCodes()
  * Generates an html form that enables to change the language.
  *
  * @return string The html form code.
- * @original language_form
  */
-static function generateForm()
+static function generateForm(): string
 {
     $clean_urls = Site::$clean_urls;
     $page = Uri::get();
@@ -603,7 +642,10 @@ static function generateForm()
         {
             if($language == $code)
             {
-                $form .= "<option selected=\"selected\" value=\"$code\">$name</option>";
+                $form .= "<option selected=\"selected\" value=\"$code\">"
+                    . $name
+                    . "</option>"
+                ;
             }
             else
             {
@@ -629,9 +671,14 @@ static function generateForm()
  * @param string $contributors List of contributors.
  *
  * @return bool True if language created succesfully or false if not.
- * @original add_language
  */
-static function add($language_code, $name, $translator, $translator_email, $contributors)
+static function add(
+    string $language_code,
+    string $name,
+    string $translator,
+    string $translator_email,
+    string $contributors
+): bool
 {
     $language_path = Site::dataDir() . "language/" . $language_code;
 
@@ -644,7 +691,11 @@ static function add($language_code, $name, $translator, $translator_email, $cont
     else
     {
         FileSystem::makeDir($language_path, 0755, true);
-        copy("language/template/strings.pot", $language_path . "/strings.po");
+
+        copy(
+            self::LANG_PATH . "template/strings.pot",
+            $language_path . "/strings.po"
+        );
 
         $language_info = $language_path . "/info.php";
 
@@ -658,7 +709,10 @@ static function add($language_code, $name, $translator, $translator_email, $cont
 
         if(!file_put_contents($language_info, $content))
         {
-            View::addMessage(t("Language could not be added, check your write permissions on the <b>language</b> directory."), "error");
+            View::addMessage(
+                t("Language could not be added, check your write permissions on the <b>language</b> directory."), 
+                "error"
+            );
 
             return false;
         }
@@ -676,9 +730,13 @@ static function add($language_code, $name, $translator, $translator_email, $cont
  * @param string $contributors List of contributors seperated by new lines
  *
  * @return bool True if language was modified or false if not.
- * @original edit_language
  */
-static function edit($language_code, $translator, $translator_email, $contributors)
+static function edit(
+    string $language_code,
+    string $translator,
+    string $translator_email,
+    string $contributors
+): bool
 {
     $language_path = Site::dataDir() . "language/" . $language_code;
 
@@ -714,12 +772,11 @@ static function edit($language_code, $translator, $translator_email, $contributo
  * @param string $language_code The code of the language to check for translations.
  *
  * @return array In the format array("total_strings", "translated_strings", "percent")
- * @original amount_translated
  */
-static function amountTranslated($language_code)
+static function amountTranslated(string $language_code): array
 {
     //Check the template file for amount of strings
-    $file = "language/template/strings.pot";
+    $file = self::LANG_PATH . "template/strings.pot";
     $lang = self::poParse($file);
 
     $total_strings = count($lang);
@@ -769,18 +826,19 @@ static function amountTranslated($language_code)
  * @param string $language_code The code of the language to retreive the strings.
  *
  * @return array In the format array[] = ("original"=>"text", "translation"=>"text")
- * @original get_language_strings
  */
-static function getStrings($language_code)
+static function getStrings(string $language_code): array
 {
     $strings = array();
 
     // Start with adding non translated system strings.
     $system_lang = array();
 
-    if(file_exists("language/$language_code/strings.po"))
+    if(file_exists(self::LANG_PATH . "$language_code/strings.po"))
     {
-        $system_lang = self::poParse("language/$language_code/strings.po");
+        $system_lang = self::poParse(
+            self::LANG_PATH . "$language_code/strings.po"
+        );
     }
 
     foreach($system_lang as $index => $string)
@@ -863,9 +921,12 @@ static function getStrings($language_code)
  * @param string $translation The translation of the english text.
  *
  * @return bool True if changes applied successfully of false if not.
- * @original add_language_string
  */
-static function addString($language_code, $original_text, $translation)
+static function addString(
+    string $language_code,
+    string $original_text,
+    string $translation
+): bool
 {
     $file = Site::dataDir() . "language/" . $language_code . "/strings.po";
 
@@ -892,9 +953,10 @@ static function addString($language_code, $original_text, $translation)
  * @param string $original_text The original english text of the string.
  *
  * @return bool True if changes applied successfully of false if not.
- * @original delete_language_string
  */
-static function deleteString($language_code, $original_text)
+static function deleteString(
+    string $language_code, string $original_text
+): bool
 {
     $file = Site::dataDir() . "language/" . $language_code . "/strings.po";
 
@@ -921,9 +983,8 @@ static function deleteString($language_code, $original_text)
  *
  * @return array In the format array["original text"] = "translation" or
  * empty array if translation doesn't exists.
- * @original po_parser
  */
-static function poParse($file)
+static function poParse(string $file): array
 {
     if(!file_exists($file))
     {
@@ -1055,12 +1116,16 @@ static function poParse($file)
 /**
  * Parses a .pot file generated by gettext tools with
  * extra information included.
+ *
  * @param string $file
- * @original po_parser_with_headers
+ *
+ * @todo Implement this function.
  */
-static function poParseWithHeaders($file)
+static function poParseWithHeaders(string $file): array
 {
     //TODO: Implement this function
+
+    return array();
 }
 
 /**
@@ -1071,9 +1136,8 @@ static function poParseWithHeaders($file)
  * @param string $file the path of the file to output.
  *
  * @return bool true on success false on fail.
- * @original po_writer
  */
-static function poWrite($strings_array, $file)
+static function poWrite(array $strings_array, string $file): bool
 {
     $content = "";
 
@@ -1089,10 +1153,12 @@ static function poWrite($strings_array, $file)
     if(!file_put_contents($file, $content))
     {
         unset($content);
+
         return false;
     }
 
     unset($content);
+
     return true;
 }
 

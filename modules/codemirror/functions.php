@@ -36,14 +36,18 @@ Jaris\Signals\SignalHandler::listenWithParams(
         else
         {
             $textarea_id[Jaris\Authentication::currentUserGroup()] = explode(
-                ",", 
+                ",",
                 $textarea_id[Jaris\Authentication::currentUserGroup()]
             );
         }
 
         if(!$forms_to_display[Jaris\Authentication::currentUserGroup()])
         {
-            $forms_to_display[] = "add-page,edit-page,translate-page,add-page-block,block-page-edit,add-block,block-edit,add-page-block-page";
+            $forms_to_display[Jaris\Authentication::currentUserGroup()] =
+                "add-page,edit-page,translate-page,"
+                . "add-page-block,block-page-edit,add-block,"
+                . "block-edit,add-page-block-page"
+            ;
         }
         else
         {
@@ -155,12 +159,12 @@ Jaris\Signals\SignalHandler::listenWithParams(
         if($display_codemirror_on_current_page)
         {
             $styles[] = Jaris\Uri::url(
-                Jaris\Modules::directory("codemirror") 
+                Jaris\Modules::directory("codemirror")
                     . "codemirror-3.0/lib/codemirror.css"
             );
 
             $styles[] = Jaris\Uri::url(
-                Jaris\Modules::directory("codemirror") 
+                Jaris\Modules::directory("codemirror")
                     . "codemirror-ui/css/codemirror-ui.css"
             );
         }
@@ -176,52 +180,52 @@ Jaris\Signals\SignalHandler::listenWithParams(
         if($display_codemirror_on_current_page)
         {
             $scripts[] = Jaris\Uri::url(
-                Jaris\Modules::directory("codemirror") 
+                Jaris\Modules::directory("codemirror")
                     . "codemirror-3.0/lib/codemirror.js"
             );
-            
+
             $scripts[] = Jaris\Uri::url(
-                Jaris\Modules::directory("codemirror") 
+                Jaris\Modules::directory("codemirror")
                     . "codemirror-3.0/lib/util/matchbrackets.js"
             );
-            
+
             $scripts[] = Jaris\Uri::url(
-                Jaris\Modules::directory("codemirror") 
+                Jaris\Modules::directory("codemirror")
                     . "codemirror-3.0/lib/util/searchcursor.js"
             );
-            
+
             $scripts[] = Jaris\Uri::url(
-                Jaris\Modules::directory("codemirror") 
+                Jaris\Modules::directory("codemirror")
                     . "codemirror-3.0/mode/htmlmixed/htmlmixed.js"
             );
-            
+
             $scripts[] = Jaris\Uri::url(
-                Jaris\Modules::directory("codemirror") 
+                Jaris\Modules::directory("codemirror")
                     . "codemirror-3.0/mode/xml/xml.js"
             );
-            
+
             $scripts[] = Jaris\Uri::url(
-                Jaris\Modules::directory("codemirror") 
+                Jaris\Modules::directory("codemirror")
                     . "codemirror-3.0/mode/javascript/javascript.js"
             );
-            
+
             $scripts[] = Jaris\Uri::url(
-                Jaris\Modules::directory("codemirror") 
+                Jaris\Modules::directory("codemirror")
                     . "codemirror-3.0/mode/css/css.js"
             );
-            
+
             $scripts[] = Jaris\Uri::url(
-                Jaris\Modules::directory("codemirror") 
+                Jaris\Modules::directory("codemirror")
                     . "codemirror-3.0/mode/clike/clike.js"
             );
-            
+
             $scripts[] = Jaris\Uri::url(
-                Jaris\Modules::directory("codemirror") 
+                Jaris\Modules::directory("codemirror")
                     . "codemirror-3.0/mode/php/php.js"
             );
-            
+
             $scripts[] = Jaris\Uri::url(
-                Jaris\Modules::directory("codemirror") 
+                Jaris\Modules::directory("codemirror")
                     . "codemirror-ui/js/codemirror-ui.js"
             );
         }
@@ -239,7 +243,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
                     "admin/settings/codemirror",
                     "codemirror"
                 ),
-                "arguments" => null
+                "arguments" => array()
             );
         }
     }

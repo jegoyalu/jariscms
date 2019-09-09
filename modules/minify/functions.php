@@ -7,6 +7,8 @@
  *
  * Jaris CMS module functions file.
  */
+use Jaris\Signals;
+
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\View::SIGNAL_THEME_STYLES,
@@ -27,11 +29,9 @@ Jaris\Signals\SignalHandler::listenWithParams(
         $styles_array = explode("\n", $styles_code);
         $styles_code = "";
         $last_styles_code = "";
-        $compressed = Jaris\Uri::url(
-            Jaris\Modules::directory("minify") . "min/index.php?f="
-        );
         $cache_file = Jaris\Files::getDir("minify");
         $cache_files = "";
+        $files = array();
 
         foreach($styles as $url)
         {
@@ -42,8 +42,8 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
             if(file_exists($file))
             {
-                $compressed .= $file . ",";
                 $cache_files .= $file . "-";
+                $files[] = $file;
             }
             else
             {
@@ -104,12 +104,11 @@ Jaris\Signals\SignalHandler::listenWithParams(
                     }
                 }
 
-                $compressed .= $output . ",";
+                $files[] = $output;
                 $cache_files .= $output . "-";
             }
         }
 
-        $compressed = trim($compressed, ",");
         $cache_file .= md5(
             $cache_files . Jaris\Authentication::currentUserGroup()
         ) . ".css";
@@ -123,7 +122,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
                 str_replace(
                     $base_url,
                     $base_url_path,
-                    file_get_contents($compressed)
+                    minify_js_or_css($files)
                 )
             );
 
@@ -166,12 +165,9 @@ Jaris\Signals\SignalHandler::listenWithParams(
         $scripts_array = explode("\n", $scripts_code);
         $scripts_code = "";
         $last_scripts_codes = "";
-        $compressed = Jaris\Uri::url(
-            Jaris\Modules::directory("minify")
-                . "min/index.php?f="
-        );
         $cache_file = Jaris\Files::getDir("minify");
         $cache_files = "";
+        $files = array();
 
         foreach($scripts as $url)
         {
@@ -183,15 +179,17 @@ Jaris\Signals\SignalHandler::listenWithParams(
             if(
                 file_exists($file) &&
                 strpos($url, "jscolor.js") === false &&
-                strpos($url, "ckeditor.js") === false
+                strpos($url, "ckeditor.js") === false &&
+                strpos($url, "simplemde.min.js") === false
             )
             {
-                $compressed .= $file . ",";
+                $files[] = $file;
                 $cache_files .= $file . "-";
             }
             elseif(
                 strpos($url, "jscolor.js") === false &&
                 strpos($url, "ckeditor.js") === false &&
+                strpos($url, "simplemde.min.js") === false &&
                 strpos($url, $main_url) !== false
             )
             {
@@ -254,7 +252,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
                     }
                 }
 
-                $compressed .= $output . ",";
+                $files[] = $output;
                 $cache_files .= $output . "-";
             }
             else //Add scripts with arguments normally
@@ -263,7 +261,6 @@ Jaris\Signals\SignalHandler::listenWithParams(
             }
         }
 
-        $compressed = trim($compressed, ",");
         $cache_file .= md5(
             $cache_files . Jaris\Authentication::currentUserGroup()
         ) . ".js";
@@ -277,7 +274,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
                 str_replace(
                     $base_url,
                     $base_url_path,
-                    file_get_contents($compressed)
+                    minify_js_or_css($files)
                 )
             );
 
@@ -308,8 +305,54 @@ Jaris\Signals\SignalHandler::listenWithParams(
                     "admin/settings/minify/clear-cache",
                     "minify"
                 ),
-                "arguments" => null
+                "arguments" => array()
             );
         }
     }
 );
+
+Signals\SignalHandler::listenWithParams(
+    Jaris\System::SIGNAL_SAVE_PAGE_TO_CACHE,
+    function(&$uri, &$page_data, &$content)
+    {
+        $content = minify_html($content);
+    },
+    1000
+);
+
+function minify_html($html)
+{
+    static $is_loaded = false;
+
+    if(!$is_loaded)
+    {
+        $path = Jaris\Modules::directory("minify");
+        require_once $path . "tiny-html-minifier/tiny-html-minifier.php";
+        $is_loaded = true;
+    }
+
+    return TinyMinify::html($html);
+}
+
+function minify_js_or_css($files)
+{
+    static $is_loaded = false;
+
+    if(!$is_loaded)
+    {
+        $path = Jaris\Modules::directory("minify");
+        require_once $path . "min/lib/Minify/Loader.php";
+        Minify_Loader::register();
+
+        $is_loaded = true;
+    }
+
+    Minify::$isDocRootSet = true;
+
+    $options = array(
+        "bubbleCssImports" => "",
+        "maxAge" => 1800
+    );
+
+    return Minify::combine($files, $options);
+}

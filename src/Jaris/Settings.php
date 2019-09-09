@@ -12,130 +12,170 @@ namespace Jaris;
  */
 class Settings
 {
-    /**
-     * Stores a configuration option on a php data file and
-     * creates it if doesnt exist.
-     *
-     * @param string $name Configuration name.
-     * @param string $value Configuration value.
-     * @param string $table Name of database configuration
-     * file stored on data/settings.
-     *
-     * @return bool true on success false if failed to write.
-     * @original save_setting
-     */
-    static function save($name, $value, $table)
+
+/**
+ * Stores a configuration option on a php data file and
+ * creates it if doesnt exist.
+ *
+ * @param string $name Configuration name.
+ * @param ?string $value Configuration value.
+ * @param string $table Name of database configuration
+ * file stored on data/settings.
+ *
+ * @return bool true on success false if failed to write.
+ */
+static function save(string $name, ?string $value, string $table): bool
+{
+    $settings_file = Site::dataDir() . "settings/$table.php";
+
+    $fields = array(
+        "name" => $name,
+        "value" => $value ?? ""
+    );
+
+    $current_settings = Data::parse($settings_file);
+
+    Data::lock($settings_file);
+
+    $setting_exists = false;
+    $setting_id = 0;
+
+    if($current_settings)
     {
-        $settings_file = Site::dataDir() . "settings/$table.php";
-
-        $fields["name"] = $name;
-        $fields["value"] = $value;
-
-        $current_settings = Data::parse($settings_file);
-
-        Data::lock($settings_file);
-
-        $setting_exists = false;
-        $setting_id = 0;
-
-        if($current_settings)
+        foreach($current_settings as $id => $setting)
         {
-            foreach($current_settings as $id => $setting)
+            if(trim($setting["name"]) == $name)
             {
-                if(trim($setting["name"]) == $name)
-                {
-                    $setting_exists = true;
-                    $setting_id = $id;
-                    break;
-                }
+                $setting_exists = true;
+                $setting_id = $id;
+                break;
             }
         }
+    }
 
-        Data::unlock($settings_file);
+    Data::unlock($settings_file);
 
-        if($setting_exists)
+    if($setting_exists)
+    {
+        if(!Data::edit($setting_id, $fields, $settings_file))
         {
-            if(!Data::edit($setting_id, $fields, $settings_file))
+            return false;
+        }
+    }
+    else
+    {
+        if(!Data::add($fields, $settings_file))
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+/**
+ * Removes a configuration option on a php data file if exists.
+ *
+ * @param string $name Configuration name.
+ * @param string $table Name of database configuration
+ * file stored on data/settings.
+ *
+ * @return bool true on success false if failed to remove.
+ */
+static function remove(string $name, string $table): bool
+{
+    $settings_file = Site::dataDir() . "settings/$table.php";
+
+    $current_settings = Data::parse($settings_file);
+
+    $setting_exists = false;
+    $setting_id = 0;
+
+    if($current_settings)
+    {
+        foreach($current_settings as $id => $setting)
+        {
+            if(trim($setting["name"]) == $name)
             {
-                return false;
+                $setting_exists = true;
+                $setting_id = $id;
+                break;
             }
+        }
+    }
+
+    if($setting_exists)
+    {
+        return Data::delete($setting_id, $settings_file);
+    }
+
+    return true;
+}
+
+/**
+ * Gets a configuration value from a php data file.
+ *
+ * @param string $name Configuration to retrieve.
+ * @param string $table PHP data file name stored on data/settings.
+ *
+ * @return string|null Configuration value or null if doesn't exist.
+ */
+static function get(string $name, string $table)
+{
+    static $tables_array = array();
+
+    if(!isset($tables_array[$table]))
+    {
+        $data = self::getAll($table);
+
+        if(is_array($data))
+        {
+            $tables_array[$table] = $data;
         }
         else
         {
-            if(!Data::add($fields, $settings_file))
-            {
-                return false;
-            }
+            $tables_array[$table] = array();
         }
-
-        return true;
     }
 
-    /**
-     * Gets a configuration value from a php data file.
-     *
-     * @param string $name Configuration to retrieve.
-     * @param string $table PHP data file name stored on data/settings.
-     *
-     * @return string|null Configuration value or null if doesn't exist.
-     * @original get_setting
-     */
-    static function get($name, $table)
+    if(isset($tables_array[$table][$name]))
     {
-        static $tables_array = array();
-
-        if(!isset($tables_array[$table]))
-        {
-            $data = self::getAll($table);
-
-            if(is_array($data))
-            {
-                $tables_array[$table] = $data;
-            }
-            else
-            {
-                $tables_array[$table] = array();
-            }
-        }
-
-        if(isset($tables_array[$table][$name]))
-        {
-            return $tables_array[$table][$name];
-        }
-
-        return null;
+        return $tables_array[$table][$name];
     }
 
-    /**
-     * Gets all the configurations values from a php data file.
-     *
-     * @param string $table PHP data file name stored on data/settings
-     *
-     * @return array|null All configurations in the format
-     * $configurations[name] = value or null if the configuration file
-     * does not exists.
-     * @original get_settings
-     */
-    static function getAll($table)
+    return null;
+}
+
+/**
+ * Gets all the configurations values from a php data file.
+ *
+ * @param string $table PHP data file name stored on data/settings
+ *
+ * @return array All configurations in the format
+ * $configurations[name] = value or empty array if the configuration file
+ * does not exists.
+ */
+static function getAll(string $table): array
+{
+    $settings_file = Site::dataDir() . "settings/$table.php";
+
+    $settings_data = Data::parse($settings_file);
+
+    $settings = array();
+
+    if($settings_data)
     {
-        $settings_file = Site::dataDir() . "settings/$table.php";
-
-        $settings_data = Data::parse($settings_file);
-
-        $settings = array();
-
-        if($settings_data)
+        foreach($settings_data as $setting)
         {
-            foreach($settings_data as $setting)
-            {
-                $settings[$setting["name"]] = $setting["value"];
-            }
+            $settings[$setting["name"]] = $setting["value"];
         }
-        else
-        {
-            return null;
-        }
-
-        return $settings;
     }
+    else
+    {
+        return array();
+    }
+
+    return $settings;
+}
+
 }

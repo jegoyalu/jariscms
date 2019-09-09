@@ -47,21 +47,47 @@ row: 0
             $groups[$_REQUEST["group"]] = $_REQUEST["groups"];
             $disable_editor[$_REQUEST["group"]] = $_REQUEST["disable_editor"];
 
-            if(Jaris\Settings::save("toolbar_items", serialize($actual_items), "simplemde"))
+            if(
+                Jaris\Settings::save(
+                    "teaxtarea_id",
+                    serialize($classes),
+                    "simplemde"
+                )
+            )
             {
-                Jaris\Settings::save("teaxtarea_id", serialize($classes), "simplemde");
-                Jaris\Settings::save("forms", serialize($forms_to_display), "simplemde");
-                Jaris\Settings::save("groups", serialize($groups), "simplemde");
-                Jaris\Settings::save("disable_editor", serialize($disable_editor), "simplemde");
+                Jaris\Settings::save(
+                    "forms",
+                    serialize($forms_to_display),
+                    "simplemde"
+                );
+
+                Jaris\Settings::save(
+                    "groups",
+                    serialize($groups),
+                    "simplemde"
+                );
+
+                Jaris\Settings::save(
+                    "disable_editor",
+                    serialize($disable_editor),
+                    "simplemde"
+                );
 
                 Jaris\View::addMessage(t("Your changes have been saved."));
             }
             else
             {
-                Jaris\View::addMessage(Jaris\System::errorMessage("write_error_data"));
+                Jaris\View::addMessage(
+                    Jaris\System::errorMessage("write_error_data")
+                );
             }
 
-            Jaris\Uri::go(Jaris\Modules::getPageUri("admin/settings/simplemde", "simplemde"));
+            Jaris\Uri::go(
+                Jaris\Modules::getPageUri(
+                    "admin/settings/simplemde",
+                    "simplemde"
+                )
+            );
         }
 
         print "<table class=\"groups\">\n";
@@ -100,7 +126,10 @@ row: 0
             print "</td>\n";
 
             $edit_url = Jaris\Uri::url(
-                Jaris\Modules::getPageUri("admin/settings/simplemde", "simplemde"),
+                Jaris\Modules::getPageUri(
+                    "admin/settings/simplemde",
+                    "simplemde"
+                ),
                 array("group" => $group)
             );
 
@@ -120,7 +149,10 @@ row: 0
             $parameters["name"] = "simplemde-settings";
             $parameters["class"] = "simplemde-settings";
             $parameters["action"] = Jaris\Uri::url(
-                Jaris\Modules::getPageUri("admin/settings/simplemde", "simplemde")
+                Jaris\Modules::getPageUri(
+                    "admin/settings/simplemde",
+                    "simplemde"
+                )
             );
             $parameters["method"] = "post";
 

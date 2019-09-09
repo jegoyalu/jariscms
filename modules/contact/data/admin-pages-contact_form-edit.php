@@ -13,6 +13,11 @@ exit;
 row: 0
     field: title
     <?php
+        if(empty($_REQUEST["uri"]))
+        {
+            Jaris\Uri::go("");
+        }
+
         $type_data = Jaris\Types::get(Jaris\Pages::getType($_REQUEST["uri"]));
 
         print t("Edit") . " " . t($type_data["name"]);
@@ -253,7 +258,9 @@ row: 0
             Jaris\Uri::go("admin/pages/edit", array("uri" => $_REQUEST["actual_uri"]));
         }
 
-        $arguments["uri"] = $_REQUEST["uri"];
+        $arguments = array(
+            "uri" => $_REQUEST["uri"]
+        );
 
         //Tabs
         if(Jaris\Authentication::groupHasPermission("edit_content", Jaris\Authentication::currentUserGroup()))
@@ -306,7 +313,7 @@ row: 0
         {
             $fields_categories = Jaris\Categories::generateFields(
                 $page_data["categories"],
-                null,
+                "",
                 $page_data["type"]
             );
 
@@ -330,19 +337,19 @@ row: 0
             "type" => "text",
             "name" => "title",
             "value" => $page_data["title"],
-            "label" => Jaris\Types::getLabel($_REQUEST["type"], "title_label"),
+            "label" => Jaris\Types::getLabel($page_data["type"], "title_label"),
             "id" => "title",
             "required" => true,
-            "description" => Jaris\Types::getLabel($_REQUEST["type"], "title_description")
+            "description" => Jaris\Types::getLabel($page_data["type"], "title_description")
         );
 
         $fields[] = array(
             "type" => "textarea",
             "name" => "content",
             "value" => $page_data["content"],
-            "label" => Jaris\Types::getLabel($_REQUEST["type"], "content_label"),
+            "label" => Jaris\Types::getLabel($page_data["type"], "content_label"),
             "id" => "content",
-            "description" => Jaris\Types::getLabel($_REQUEST["type"], "content_description")
+            "description" => Jaris\Types::getLabel($page_data["type"], "content_description")
         );
 
         $fieldset[] = array("fields" => $fields);

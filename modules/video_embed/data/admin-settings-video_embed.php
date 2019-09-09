@@ -24,14 +24,14 @@ row: 0
             if(
                 Jaris\Settings::save(
                     "default_width",
-                    intval($_REQUEST["default_width"]),
+                    strval(intval($_REQUEST["default_width"])),
                     "video_embed"
                 )
             )
             {
                 Jaris\Settings::save(
                     "default_height",
-                    intval($_REQUEST["default_height"]),
+                    strval(intval($_REQUEST["default_height"])),
                     "video_embed"
                 );
 

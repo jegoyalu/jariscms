@@ -15,7 +15,17 @@ exit;
 row: 0
     field: title
     <?php
-        $blog_data = blog_get_from_db($_REQUEST["user"]);
+        $user = "";
+        if(empty($_REQUEST["user"]))
+        {
+            Jaris\Uri::go("");
+        }
+        else
+        {
+            $user = strval($_REQUEST["user"]);
+        }
+
+        $blog_data = blog_get_from_db($user);
 
         if($blog_data["title"])
         {
@@ -23,7 +33,7 @@ row: 0
         }
         else
         {
-            print $_REQUEST["user"];
+            print $user;
         }
         print " " . t("blog");
     ?>
@@ -31,15 +41,28 @@ row: 0
 
     field: content
     <?php
-        Jaris\View::addStyle(Jaris\Modules::directory("blog") . "styles/post.css");
+        Jaris\View::addStyle(
+            Jaris\Modules::directory("blog") . "styles/post.css"
+        );
 
-        $user_data = Jaris\Users::get($_REQUEST["user"]);
+        $user = strval($_REQUEST["user"]);
 
-        if(Jaris\Authentication::isUserLogged() && Jaris\Authentication::currentUser() == $_REQUEST["user"])
+        $user_data = Jaris\Users::get($user);
+
+        if(
+            Jaris\Authentication::isUserLogged()
+            &&
+            Jaris\Authentication::currentUser() == $user
+        )
         {
             if(
-                Jaris\Authentication::groupHasPermission("add_content", $user_data["group"]) &&
-                Jaris\Authentication::hasTypeAccess("blog", $user_data["group"])
+                Jaris\Authentication::groupHasPermission(
+                    "add_content", $user_data["group"]
+                )
+                &&
+                Jaris\Authentication::hasTypeAccess(
+                    "blog", $user_data["group"]
+                )
             )
             {
                 Jaris\View::addTab(
@@ -58,17 +81,26 @@ row: 0
         Jaris\View::addTab(
             t("Subscriptions"),
             Jaris\Modules::getPageUri("blog/subscriptions", "blog"),
-            array("user" => $_REQUEST["user"])
+            array("user" => $user)
         );
 
-        if(Jaris\Authentication::isUserLogged() && Jaris\Authentication::currentUser() != $_REQUEST["user"])
+        if(
+            Jaris\Authentication::isUserLogged()
+            &&
+            Jaris\Authentication::currentUser() != $user
+        )
         {
-            if(!blog_subscribed($_REQUEST["user"], Jaris\Authentication::currentUser()))
+            if(
+                !blog_subscribed(
+                    $user,
+                    Jaris\Authentication::currentUser()
+                )
+            )
             {
                 Jaris\View::addTab(
                     t("Subscribe"),
                     Jaris\Modules::getPageUri("blog/subscribe", "blog"),
-                    array("user" => $_REQUEST["user"])
+                    array("user" => $user)
                 );
             }
             else
@@ -76,16 +108,19 @@ row: 0
                 Jaris\View::addTab(
                     t("Unsubscribe"),
                     Jaris\Modules::getPageUri("blog/unsubscribe", "blog"),
-                    array("user" => $_REQUEST["user"])
+                    array("user" => $user)
                 );
             }
         }
 
-        $blog_data = blog_get_from_db($_REQUEST["user"]);
+        $blog_data = blog_get_from_db($user);
 
         if($blog_data["description"])
         {
-            print "<div class=\"blog-description\">{$blog_data['description']}</div>";
+            print "<div class=\"blog-description\">"
+                . $blog_data['description']
+                . "</div>"
+            ;
         }
 
         $page = 1;
@@ -99,7 +134,7 @@ row: 0
         $year_query = "";
         $where = "";
 
-        $arguments = null;
+        $arguments = array();
 
         if(isset($_REQUEST["m"]))
         {
@@ -129,7 +164,7 @@ row: 0
         $database_path = str_replace(
             "data.php",
             "",
-            Jaris\Users::getPath($_REQUEST["user"], $user_data["group"])
+            Jaris\Users::getPath($user, $user_data["group"])
         );
 
         $post_count = Jaris\Sql::countColumn(
@@ -150,15 +185,6 @@ row: 0
             $database_path
         );
 
-        Jaris\System::printNavigation(
-            $post_count,
-            $page,
-            "blog/user/" . $_REQUEST["user"],
-            "",
-            10,
-            $arguments
-        );
-
         foreach($post as $post_data)
         {
             print blog_theme($post_data);
@@ -167,7 +193,7 @@ row: 0
         Jaris\System::printNavigation(
             $post_count,
             $page,
-            "blog/user/" . $_REQUEST["user"],
+            "blog/user/" . $user,
             "",
             10,
             $arguments

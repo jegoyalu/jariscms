@@ -19,6 +19,12 @@
     </div>
     <?php } ?>
 
+    <?php if($price){ ?>
+    <div class="list-price">
+        <?php print $price ?>
+    </div>
+    <?php } ?>
+
     <?php if($view_more){ ?>
     <div class="list-view-more">
         <?php print $view_more ?>

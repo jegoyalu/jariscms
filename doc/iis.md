@@ -1,6 +1,12 @@
 # IIS Webserver
 
-## Clean URL's
+The IIS webserver hasn't been tested much, but there is at least one
+success story on running Jaris on it. This document doesn't has all
+the details of installing PHP with IIS, etc... but below is a rewrite
+rule that used to work properly on some specific version of IIS which
+I can't recall at the time of writing this.
+
+## Rewrite Rule
 
 Create a web.config file on the root directory of jariscms and put
 something like the following:

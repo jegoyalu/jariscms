@@ -20,6 +20,14 @@ row: 0
     field: content
     <?php
         Jaris\Authentication::protectedPage(array("edit_blocks"));
+
+        if(!isset($_REQUEST["id"]) || empty($_REQUEST["position"]))
+        {
+            Jaris\Uri::go("");
+        }
+
+        $_REQUEST["id"] = intval($_REQUEST["id"]);
+        $_REQUEST["position"] = strval($_REQUEST["position"]);
     ?>
     <style>
         .slides-list thead td
@@ -78,8 +86,8 @@ row: 0
     </script>
     <?php } ?>
     <?php
-        Jaris\View::addScript("scripts/jquery-ui/jquery.ui.js");
-        Jaris\View::addScript("scripts/jquery-ui/jquery.ui.touch-punch.min.js");
+        Jaris\View::addSystemScript("jquery-ui/jquery.ui.js");
+        Jaris\View::addSystemScript("jquery-ui/jquery.ui.touch-punch.min.js");
 
         $block_data = Jaris\Blocks::get($_REQUEST["id"], $_REQUEST["position"]);
         $block_data["content"] = unserialize($block_data["content"]);
@@ -184,7 +192,7 @@ row: 0
                                 $slide_data["image"],
                                 "animated_blocks"
                             ),
-                            $settings["width"]
+                            intval($settings["width"])
                         );
 
                         $slide_data["uri"] = $slide_data["image"];
@@ -332,7 +340,7 @@ row: 0
                                 $block_data["content"][$_REQUEST["slide_id"]]["image"],
                                 "animated_blocks"
                             ),
-                            $settings["width"]
+                            intval($settings["width"])
                         );
 
                         $block_data["content"][$_REQUEST["slide_id"]]["uri"] =

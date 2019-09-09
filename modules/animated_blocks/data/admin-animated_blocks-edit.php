@@ -21,7 +21,18 @@ row: 0
     <?php
         Jaris\Authentication::protectedPage(array("edit_blocks"));
 
-        $block_data = Jaris\Blocks::get($_REQUEST["id"], $_REQUEST["position"]);
+        if(!isset($_REQUEST["id"]) || empty($_REQUEST["position"]))
+        {
+            Jaris\Uri::go("");
+        }
+
+        $_REQUEST["id"] = intval($_REQUEST["id"]);
+        $_REQUEST["position"] = strval($_REQUEST["position"]);
+
+        $block_data = Jaris\Blocks::get(
+            $_REQUEST["id"],
+            $_REQUEST["position"]
+        );
 
         if(
             isset($_REQUEST["btnSave"]) &&

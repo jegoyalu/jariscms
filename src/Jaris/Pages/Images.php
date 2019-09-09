@@ -31,11 +31,14 @@ class Images
  * @param bool $move_file If true source file is moved otherwise is copied.
  *
  * @return string "true" string on success or message error when failed.
- * @original add_image
  */
 static function add(
-    $file_array, $description, $page = "", &$file_name = null, $move_file = true
-)
+    array $file_array,
+    string $description,
+    string $page = "",
+    string &$file_name = "",
+    bool $move_file = true
+): string
 {
     $image_data_path = self::getPath($page);
 
@@ -70,9 +73,11 @@ static function add(
             return System::errorMessage("write_error_data");
         }
 
-        $fields["name"] = $file_name;
-        $fields["description"] = $description;
-        $fields["order"] = 0;
+        $fields = array(
+            "name" => $file_name,
+            "description" => $description,
+            "order" => 0
+        );
 
         if(Data::add($fields, $image_data_path))
         {
@@ -96,9 +101,8 @@ static function add(
  * @param string $page The page uri where the image reside.
  *
  * @return bool True on success or false if failed.
- * @original delete_image
  */
-static function delete($id, $page)
+static function delete(int $id, string $page): bool
 {
     $image_data_path = self::getPath($page);
 
@@ -170,7 +174,7 @@ static function delete($id, $page)
  * @param string $name Name of the image to delete.
  * @param string $page The page uri where the image reside.
  */
-static function deleteByName($name, $page)
+static function deleteByName(string $name, string $page): void
 {
     $file_data_path = self::getPath($page);
 
@@ -194,9 +198,8 @@ static function deleteByName($name, $page)
  * @param string $page The page uri where the image reside.
  *
  * @return bool True on success false on fail.
- * @original edit_image
  */
-static function edit($id, $new_data, $page)
+static function edit(int $id, array $new_data, string $page): bool
 {
     $image_data_path = self::getPath($page);
 
@@ -212,7 +215,7 @@ static function edit($id, $new_data, $page)
  *
  * @return bool False if failed to edit data otherwise true.
  */
-static function editByName($name, $new_data, $page)
+static function editByName(string $name, array $new_data, string $page): bool
 {
     static $page_name, $files;
 
@@ -245,9 +248,8 @@ static function editByName($name, $new_data, $page)
  * @param string $page The page uri where the image reside.
  *
  * @return array An array with all the fields of the image.
- * @original get_image_data
  */
-static function get(&$id, $page)
+static function get(&$id, string $page): array
 {
     $image_data_path = self::getPath($page);
 
@@ -281,7 +283,7 @@ static function get(&$id, $page)
  *
  * @return array All the fields of the image.
  */
-static function getByName($name, $page)
+static function getByName(string $name, string $page): array
 {
     static $page_name, $files;
 
@@ -309,11 +311,11 @@ static function getByName($name, $page)
  * Gets the full list of images from the image.php file of a page.
  *
  * @param string $page The page where the image.php file reside.
+ * @param bool $skip_disabled Skip disabled images.
  *
  * @return array Array of images or empty array if empty.
- * @original get_image_list
  */
-static function getList($page)
+static function getList(string $page, bool $skip_disabled=true): array
 {
     $image_data_path = self::getPath($page);
 
@@ -321,6 +323,20 @@ static function getList($page)
 
     if($images)
     {
+        // Remove disabled images.
+        if($skip_disabled)
+        {
+            $images_copy = $images;
+            foreach($images_copy as $index=>$image_data)
+            {
+                if(isset($images_copy[$index]["disabled"]))
+                {
+                    unset($images[$index]);
+                }
+            }
+        }
+
+        // Sort by order and return images list.
         return Data::sort($images, "order");
     }
 
@@ -333,9 +349,8 @@ static function getList($page)
  * @param string $path The page uri to translate to a valid image.php data path.
  *
  * @return string Path to image file example: data/pages/singles/home/images.php
- * @original generate_image_path
  */
-static function getPath($path)
+static function getPath(string $path): string
 {
     $image_data_path = Pages::getPath($path) . "/images.php";
 

@@ -12,14 +12,17 @@
 
 $module["name"] = t("Polls");
 $module["description"] = t("For creating poll where users can vote.");
-$module["version"] = "1.5.4";
+$module["version"] = "1.5.5";
 $module["author"] = "Jefferson González";
 $module["email"] = "jgonzalez@jegoyalu.com";
 $module["website"] = "http://www.jegoyalu.com";
 
-/**
+/*
 
-=Change Log=
+Version 1.5.5 - Date 31/07/2018
+
+    * Fixed issues reported by phan.
+    * Adjustments for scalar type hints on core.
 
 Version 1.5.4 - Date 05/26/2016
 
@@ -35,7 +38,6 @@ Version 1.5.2 - Date 18/01/2014
 
 Version 1.5.1 - Date 30/03/2012
 
-* Applied meta title change.
+    * Applied meta title change.
 
-
-**/
+*/

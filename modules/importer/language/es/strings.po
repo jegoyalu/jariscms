@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: JarisCMS Ecommerce v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-25 13:15-0400\n"
+"POT-Creation-Date: 2018-08-09 11:55-0400\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Jefferson González <jgonzalez@jegoyalu.com>\n"
 "Language-Team: JegoYalu <servicios@jegoyalu.com>\n"
@@ -11,10 +11,329 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Poedit-Basepath: ../../\n"
+"X-Poedit-Basepath: ../..\n"
 "X-Poedit-KeywordsList: t\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 2.0.9\n"
 "X-Poedit-SearchPath-0: .\n"
+
+#: data/admin-pages-export.php:15
+msgid "Content Exporter"
+msgstr "Exportador de Contenido"
+
+#: data/admin-pages-export.php:202
+#, php-format
+msgid "Exported a total of %s files."
+msgstr "Exportado un total de %s archivos."
+
+#: data/admin-pages-export.php:226 data/admin-pages-import.php:586
+msgid "Delimiter:"
+msgstr "Delimitador:"
+
+#: data/admin-pages-export.php:229 data/admin-pages-import.php:589
+msgid "The character used to seperate fields on the csv file."
+msgstr "El caracter usado para separar los campos en el archivo csv."
+
+#: data/admin-pages-export.php:235 data/admin-pages-import.php:595
+msgid "Enclosure:"
+msgstr "Encierro:"
+
+#: data/admin-pages-export.php:237 data/admin-pages-import.php:597
+msgid "The character used to enclose fields on the csv file."
+msgstr "El caracter usado para encerrar los campos en el archivo csv."
+
+#: data/admin-pages-export.php:241
+msgid "CSV File Options"
+msgstr "Opciones de Archivo CSV"
+
+#: data/admin-pages-export.php:260 data/admin-pages-import.php:909
+msgid "Language:"
+msgstr "Lenguaje:"
+
+#: data/admin-pages-export.php:263
+msgid "In which language to export the content."
+msgstr "En que lenguaje va a exportar el contenido."
+
+#: data/admin-pages-export.php:269 data/admin-pages-import.php:918
+msgid "Type:"
+msgstr "Tipo:"
+
+#: data/admin-pages-export.php:271
+msgid "Type of content to export into the csv file."
+msgstr "Tipo de contenido a exportar en el archivo csv."
+
+#: data/admin-pages-export.php:282
+msgid "Remove html code from the content?"
+msgstr "¿Remover código html de el contenido?"
+
+#: data/admin-pages-export.php:283
+msgid ""
+"Enabling this option will remove all html tags and styling of the content, "
+"leaving only a plain text."
+msgstr ""
+"Al activar esta opción se removerán todos los tags de html y estilización "
+"del contenido, dejando solamente text plano."
+
+#: data/admin-pages-export.php:301
+msgid "Export Options"
+msgstr "Opciones de Exportación"
+
+#: data/admin-pages-export.php:310
+msgid ""
+"Before proceeding to export please take into account that the process can "
+"take a huge amount of time."
+msgstr ""
+"Antes de proceder a la exportación por favor tenga en cuenta que el proceso "
+"puede tomar una gran cantidad de tiempo."
+
+#: data/admin-pages-export.php:317
+msgid "Export"
+msgstr "Exportar"
+
+#: data/admin-pages-export.php:334
+msgid "Download"
+msgstr "Descargar"
+
+#: data/admin-pages-import.php:15
+msgid "Content Importer"
+msgstr "Importador de Contenido"
+
+#: data/admin-pages-import.php:95
+msgid "Please match a column as the title of the content."
+msgstr "Por favor asocia una columna como el título del contenido."
+
+#: data/admin-pages-import.php:549
+#, php-format
+msgid "Imported a total of %s files."
+msgstr "Se importaron un total de %s archivos."
+
+#: data/admin-pages-import.php:555
+#, php-format
+msgid "Updated a total of %s files."
+msgstr "Se subieron un total de %s archivos."
+
+#: data/admin-pages-import.php:603
+msgid "Escape sequence:"
+msgstr "Secuencia de escape:"
+
+#: data/admin-pages-import.php:605
+msgid ""
+"The character used to escape special characters like the delimeter and "
+"enclosure."
+msgstr ""
+"El caracter usado para escapar los caracteres especiales como el delimitador "
+"y el encierro en los campos del archivo csv."
+
+#: data/admin-pages-import.php:609
+msgid "CSV File Parsing Options"
+msgstr "Opciones de Análisis Gramático del Archivo CSV"
+
+#: data/admin-pages-import.php:618
+msgid "Comma Seperated Values (CSV) file:"
+msgstr "Archivo de Valores Separados por Coma (CSV):"
+
+#: data/admin-pages-import.php:626
+msgid "Proceed"
+msgstr "Proseguir"
+
+#: data/admin-pages-import.php:716
+msgid "CSV file preview"
+msgstr "Prevista del archivo CSV"
+
+#: data/admin-pages-import.php:740
+msgid ""
+"The uri column was detected, this import will only update existing content."
+msgstr ""
+"La columna de uri fue detectada, esta importación solo actualizara el "
+"contenido existente."
+
+#: data/admin-pages-import.php:749
+msgid "None"
+msgstr "Ninguno"
+
+#: data/admin-pages-import.php:750
+msgid "Title"
+msgstr "Titulo"
+
+#: data/admin-pages-import.php:751
+msgid "Content"
+msgstr "Contenido"
+
+#: data/admin-pages-import.php:752
+msgid "Category Exact Match"
+msgstr "Categoría Pareo Exacto"
+
+#: data/admin-pages-import.php:753
+msgid "Category Best Match"
+msgstr "Categoría Mejor Opción"
+
+#: data/admin-pages-import.php:754
+msgid "Image"
+msgstr "Imágen"
+
+#: data/admin-pages-import.php:755
+msgid "Image URL"
+msgstr "URL de Imagen"
+
+#: data/admin-pages-import.php:756
+msgid "File"
+msgstr "Archivo"
+
+#: data/admin-pages-import.php:757
+msgid "Meta Title"
+msgstr "Meta Titulo"
+
+#: data/admin-pages-import.php:758
+msgid "Meta Description"
+msgstr "Meta Descripción"
+
+#: data/admin-pages-import.php:759
+msgid "Meta Keywords"
+msgstr "Meta Palabras Claves"
+
+#: data/admin-pages-import.php:760
+msgid "Custom"
+msgstr "Personalizado"
+
+#: data/admin-pages-import.php:765
+msgid "Uri"
+msgstr ""
+
+#: data/admin-pages-import.php:766
+msgid "Users List"
+msgstr "Lista de Usuarios"
+
+#: data/admin-pages-import.php:767
+msgid "Groups List"
+msgstr "Lista de Grupos"
+
+#: data/admin-pages-import.php:768
+msgid "Categories List"
+msgstr "Lista de Categorías"
+
+#: data/admin-pages-import.php:769
+msgid "Input Format"
+msgstr "Formato de Entrada"
+
+#: data/admin-pages-import.php:770
+msgid "Content Type"
+msgstr "Tipo de Contenido"
+
+#: data/admin-pages-import.php:879
+msgid "Custom field:"
+msgstr "Campo personalizado:"
+
+#: data/admin-pages-import.php:889
+msgid "Columns matching"
+msgstr "Asociación de columnas"
+
+#: data/admin-pages-import.php:893
+msgid "Select how to match all the columns."
+msgstr "Selecciona como asociar todos los campos."
+
+#: data/admin-pages-import.php:912
+msgid "Language used when updating existing content."
+msgstr "Lenguaje utilizado al actualizar el contenido actual."
+
+#: data/admin-pages-import.php:920
+msgid "Type used when creating pages from the csv file."
+msgstr "Tipo utilizado cuando se crean las páginas desde el archivo csv."
+
+#: data/admin-pages-import.php:931
+msgid "Convert new lines to &lt;br&gt;?"
+msgstr "Convertir los caracteres de nuevas líneas a &lt;br&gt;?"
+
+#: data/admin-pages-import.php:932
+msgid ""
+"Enabling this option will convert new lines on the content field into html "
+"break tags."
+msgstr ""
+"Al habilitar esta opción las nuevas líneas en el campo de contenido serán "
+"convertidas a etiquetas de rotura."
+
+#: data/admin-pages-import.php:938
+msgid "Images path:"
+msgstr "Ruta de imágenes:"
+
+#: data/admin-pages-import.php:939
+msgid ""
+"Relative path to directory which contains all images. Example: resources/"
+"images"
+msgstr ""
+"Ruta relativa del directorio que contiene todas las imágenes. Ejemplo: "
+"recursos/imagenes"
+
+#: data/admin-pages-import.php:945
+msgid "Files path:"
+msgstr "Ruta de archivos:"
+
+#: data/admin-pages-import.php:946
+msgid ""
+"Relative path to directory which contains all files. Example: resources/files"
+msgstr ""
+"Ruta relativa del directorio que contiene todos los archivos. Ejemplo: "
+"recursos/archivos"
+
+#: data/admin-pages-import.php:950
+msgid "Import Options"
+msgstr "Opciones de Importe"
+
+#: data/admin-pages-import.php:958
+msgid "Users Access"
+msgstr "Acceso de Usuarios"
+
+#: data/admin-pages-import.php:961
+msgid ""
+"Select the groups that can see this content. Don't select anything to "
+"display content to everyone."
+msgstr ""
+"Selecciona los grupos que pueden ver este contenido. No seleccione nada para "
+"mostrarlo a todos."
+
+#: data/admin-pages-import.php:967
+msgid ""
+"Before proceeding to import please take into account that the process can "
+"take a huge amount of time."
+msgstr ""
+"Antes de proceder por favor tome en cuenta que el proceso puede tomar una "
+"cantidad considerable de tiempo."
+
+#: data/admin-pages-import.php:974
+msgid "Import"
+msgstr "Importar"
+
+#: data/admin-pages-import.php:980
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: functions.php:18 functions.php:43
+msgid "Import Content"
+msgstr "Importar Contenido"
+
+#: functions.php:22 functions.php:61
+msgid "Export Content"
+msgstr "Exportar Contenido"
+
+#: functions.php:25
+msgid "Importing/Exporting"
+msgstr "Importar/Exportar"
+
+#: functions.php:49
+msgid "Import content into the system by reading a csv file."
+msgstr "Importar contenido al sistema leyendo un archivo csv."
+
+#: functions.php:67
+msgid "Export content from the system into a csv file."
+msgstr "Exporta el contenido de el sistema a un archivo csv."
+
+#: info.php:11
+msgid "Importer"
+msgstr "Importador"
+
+#: info.php:12
+msgid "Module to add content into the system by reading a csv file."
+msgstr ""
+"Módulo para agregar contenido al sistema medianta la lectura de un archivo "
+"csv."
 
 #: install.php:16
 msgid ""
@@ -27,203 +346,8 @@ msgstr ""
 msgid "Go to importer"
 msgstr "Ir al importador"
 
-#: functions.php:16 functions.php:27
-msgid "Import Content"
-msgstr "Importar Contenido"
+#~ msgid "Importing"
+#~ msgstr "Importación"
 
-#: functions.php:19
-msgid "Importing"
-msgstr "Importación"
-
-#: functions.php:33
-msgid "Import content into the system by reading a csv file."
-msgstr "Importar contenido al sistema leyendo un archivo csv."
-
-#: info.php:13
-msgid "Importer"
-msgstr "Importador"
-
-#: info.php:14
-msgid "Module to add content into the system by reading a csv file."
-msgstr ""
-"Módulo para agregar contenido al sistema medianta la lectura de un archivo "
-"csv."
-
-#: data/admin-pages-import.php:15
-msgid "Content Importer"
-msgstr "Importador de Contenido"
-
-#: data/admin-pages-import.php:47
-msgid "Please match a column as the title of the content."
-msgstr "Por favor asocia una columna como el título del contenido."
-
-#: data/admin-pages-import.php:331
-msgid "Delimiter:"
-msgstr "Delimitador:"
-
-#: data/admin-pages-import.php:334
-msgid "The character used to seperate fields on the csv file."
-msgstr "El caracter usado para separar los campos en el archivo csv."
-
-#: data/admin-pages-import.php:340
-msgid "Enclosure:"
-msgstr "Encierro:"
-
-#: data/admin-pages-import.php:342
-msgid "The character used to enclose fields on the csv file."
-msgstr "El caracter usado para encerrar los campos en el archivo csv."
-
-#: data/admin-pages-import.php:348
-msgid "Escape sequence:"
-msgstr "Secuencia de escape:"
-
-#: data/admin-pages-import.php:350
-msgid ""
-"The character used to escape special characters like the delimeter and "
-"enclosure."
-msgstr ""
-"El caracter usado para escapar los caracteres especiales como el delimitador "
-"y el encierro en los campos del archivo csv."
-
-#: data/admin-pages-import.php:354
-msgid "CSV File Parsing Options"
-msgstr "Opciones de Análisis Gramático del Archivo CSV"
-
-#: data/admin-pages-import.php:363
-msgid "Comma Seperated Values (CSV) file:"
-msgstr "Archivo de Valores Separados por Coma (CSV):"
-
-#: data/admin-pages-import.php:372
-msgid "Proceed"
-msgstr "Proseguir"
-
-#: data/admin-pages-import.php:459
-msgid "CSV file preview"
-msgstr "Prevista del archivo CSV"
-
-#: data/admin-pages-import.php:492
-msgid "None"
-msgstr "Ninguno"
-
-#: data/admin-pages-import.php:493
-msgid "Title"
-msgstr "Titulo"
-
-#: data/admin-pages-import.php:494
-msgid "Content"
-msgstr "Contenido"
-
-#: data/admin-pages-import.php:495
-msgid "Category"
-msgstr "Categoría"
-
-#: data/admin-pages-import.php:496
-msgid "Image"
-msgstr "Imágen"
-
-#: data/admin-pages-import.php:497
-msgid "File"
-msgstr "Archivo"
-
-#: data/admin-pages-import.php:498
-msgid "Meta Title"
-msgstr "Meta Titulo"
-
-#: data/admin-pages-import.php:499
-msgid "Meta Description"
-msgstr "Meta Descripción"
-
-#: data/admin-pages-import.php:500
-msgid "Meta Keywords"
-msgstr "Meta Palabras Claves"
-
-#: data/admin-pages-import.php:501
-msgid "Custom"
-msgstr "Personalizado"
-
-#: data/admin-pages-import.php:508
-msgid "Custom field:"
-msgstr "Campo personalizado:"
-
-#: data/admin-pages-import.php:518
-msgid "Columns matching"
-msgstr "Asociación de columnas"
-
-#: data/admin-pages-import.php:522
-msgid "Select how to match all the columns."
-msgstr "Selecciona como asociar todos los campos."
-
-#: data/admin-pages-import.php:536
-msgid "Type:"
-msgstr "Tipo:"
-
-#: data/admin-pages-import.php:538
-msgid "Type used when creating pages from the csv file."
-msgstr "Tipo utilizado cuando se crean las páginas desde el archivo csv."
-
-#: data/admin-pages-import.php:544
-msgid "Convert new lines to &lt;br&gt;?"
-msgstr "Convertir los caracteres de nuevas líneas a &lt;br&gt;?"
-
-#: data/admin-pages-import.php:545
-msgid ""
-"Enabling this option will convert new lines on the content field into html "
-"break tags."
-msgstr ""
-"Al habilitar esta opción las nuevas líneas en el campo de contenido serán "
-"convertidas a etiquetas de rotura."
-
-#: data/admin-pages-import.php:551
-msgid "Images path:"
-msgstr "Ruta de imágenes:"
-
-#: data/admin-pages-import.php:552
-msgid ""
-"Relative path to directory which contains all images. Example: resources/"
-"images"
-msgstr ""
-"Ruta relativa del directorio que contiene todas las imágenes. Ejemplo: "
-"recursos/imagenes"
-
-#: data/admin-pages-import.php:558
-msgid "Files path:"
-msgstr "Ruta de archivos:"
-
-#: data/admin-pages-import.php:559
-msgid ""
-"Relative path to directory which contains all files. Example: resources/files"
-msgstr ""
-"Ruta relativa del directorio que contiene todos los archivos. Ejemplo: "
-"recursos/archivos"
-
-#: data/admin-pages-import.php:563
-msgid "Import Options"
-msgstr "Opciones de Importe"
-
-#: data/admin-pages-import.php:571
-msgid "Users Access"
-msgstr "Acceso de Usuarios"
-
-#: data/admin-pages-import.php:574
-msgid ""
-"Select the groups that can see this content. Don't select anything to "
-"display content to everyone."
-msgstr ""
-"Selecciona los grupos que pueden ver este contenido. No seleccione nada para "
-"mostrarlo a todos."
-
-#: data/admin-pages-import.php:580
-msgid ""
-"Before proceeding to import please take into account that the process can "
-"take a huge amount of time."
-msgstr ""
-"Antes de proceder por favor tome en cuenta que el proceso puede tomar una "
-"cantidad considerable de tiempo."
-
-#: data/admin-pages-import.php:587
-msgid "Import"
-msgstr "Importar"
-
-#: data/admin-pages-import.php:593
-msgid "Cancel"
-msgstr "Cancelar"
+#~ msgid "Category"
+#~ msgstr "Categoría"

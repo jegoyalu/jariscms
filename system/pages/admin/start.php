@@ -24,20 +24,12 @@ row: 0
         {
             Jaris\Authentication::protectedPage();
         }
-    ?>
-    <script type="text/javascript"
-            src="<?php print Jaris\Uri::url("scripts/optional/chili-1.7.pack.js") ?>">
-    </script>
-    <script type="text/javascript"
-            src="<?php print Jaris\Uri::url("scripts/optional/jquery.easing.js") ?>">
-    </script>
-    <script type="text/javascript"
-        src="<?php print Jaris\Uri::url("scripts/optional/jquery.dimensions.js") ?>">
-    </script>
-    <script type="text/javascript"
-        src="<?php print Jaris\Uri::url("scripts/optional/jquery.accordion.js") ?>">
-    </script>
 
+        Jaris\View::addSystemScript("optional/chili-1.7.pack.js");
+        Jaris\View::addSystemScript("optional/jquery.easing.js");
+        Jaris\View::addSystemScript("optional/jquery.dimensions.js");
+        Jaris\View::addSystemScript("optional/jquery.accordion.js");
+    ?>
     <script type="text/javascript">
         jQuery().ready(function() {
             jQuery('div.administration-list').accordion({
@@ -48,7 +40,6 @@ row: 0
             });
         });
     </script>
-
     <?php
         $sections = Jaris\System::generateAdminPageSections();
 

@@ -37,8 +37,7 @@ row: 0
         $pages_count = Jaris\Sql::countColumn(
             "church_accounting_tithers",
             "church_accounting_tithers",
-            "id",
-            $where
+            "id"
         );
 
         print "<div>";
@@ -115,6 +114,14 @@ row: 0
                 array("tid"=>$tithers_data["id"])
             );
 
+            $add_tither_offering_url = Jaris\Uri::url(
+                Jaris\Modules::getPageUri(
+                    "admin/church-accounting/income/tither-offerings/add",
+                    "church_accounting"
+                ),
+                array("tid"=>$tithers_data["id"])
+            );
+
             $delete_url = Jaris\Uri::url(
                 Jaris\Modules::getPageUri(
                     "admin/church-accounting/tithers/delete",
@@ -125,6 +132,7 @@ row: 0
 
             print "<td>"
                 . "<a href=\"$add_tithe_url\">" . t("Add tithe") . "</a> "
+                . "<a href=\"$add_tither_offering_url\">" . t("Add Offering") . "</a> "
                 . "<a href=\"$delete_url\">" . t("Delete") . "</a>"
                 . "</td>"
             ;

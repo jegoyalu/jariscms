@@ -7,6 +7,12 @@
  * @package Minify
  */
 
+//If running in cli mode
+if(php_sapi_name() != "cli")
+{
+    exit;
+}
+
 define('MINIFY_MIN_DIR', dirname(__FILE__));
 
 // load config

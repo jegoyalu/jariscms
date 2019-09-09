@@ -64,7 +64,9 @@ row: 0
                 {
                     if(isset($_REQUEST["filter_category_$machine_name"]))
                     {
-                        $filter_categories[$machine_name] = $_REQUEST["filter_category_$machine_name"];
+                        $filter_categories[$machine_name] =
+                            $_REQUEST["filter_category_$machine_name"]
+                        ;
                     }
                 }
             }
@@ -87,12 +89,33 @@ row: 0
             $fields["thumbnail_height"] = intval($_REQUEST["thumbnail_height"]);
             $fields["thumbnail_bg"] = $_REQUEST["thumbnail_bg"];
             $fields["thumbnail_keep_aspectratio"] = $_REQUEST["thumbnail_keep_aspectratio"];
+            $fields["show_categories"] = intval($_REQUEST["show_categories"]);
+            $fields["filter_selector_type"] = $_REQUEST["filter_selector_type"];
 
             if(Jaris\Modules::isInstalled("ecommerce"))
             {
                 $fields["treat_as_products"] = $_REQUEST["treat_as_products"];
                 $fields["show_prices"] = $_REQUEST["show_prices"];
                 $fields["onsale_only"] = $_REQUEST["onsale_only"];
+            }
+
+            if(Jaris\Modules::isInstalled("realty"))
+            {
+                $fields["treat_as_properties"] = $_REQUEST["treat_as_properties"];
+                $fields["realty_type"] = $_REQUEST["realty_type"];
+                $fields["realty_country"] = $_REQUEST["country"];
+                $fields["realty_state_province"] = $_REQUEST["state_province"];
+                $fields["realty_city"] = $_REQUEST["city"];
+                $fields["realty_category"] = $_REQUEST["realty_category"];
+                $fields["realty_status"] = $_REQUEST["realty_status"];
+                $fields["realty_foreclosure"] = $_REQUEST["realty_foreclosure"];
+                $fields["realty_commercial"] = $_REQUEST["realty_commercial"];
+            }
+
+            if(Jaris\Modules::isInstalled("reviews"))
+            {
+                $fields["show_reviews"] = $_REQUEST["show_reviews"];
+                $fields["reviews_score"] = intval($_REQUEST["reviews_score"]);
             }
 
             if(
@@ -218,8 +241,8 @@ row: 0
         if($categories)
         {
             $fields_categories = Jaris\Categories::generateFields(
-                null,
-                null,
+                [],
+                "",
                 "listing"
             );
 
@@ -248,53 +271,6 @@ row: 0
         );
 
         $fieldset[] = array("fields" => $fields);
-
-        if(Jaris\Modules::isInstalled("ecommerce"))
-        {
-            $fields_ecommerce[] = array(
-                "type" => "radio",
-                "name" => "treat_as_products",
-                "label" => t("Treat listing as products?"),
-                "value" => array(
-                    t("Yes") => true,
-                    t("No") => false
-                ),
-                "checked" => $_REQUEST["treat_as_products"],
-                "description" => t("If all selected content types on the filter are products the listing is treated as a listing of products.")
-            );
-
-            $fields_ecommerce[] = array(
-                "type" => "radio",
-                "name" => "show_prices",
-                "label" => t("Display prices?"),
-                "value" => array(
-                    t("Yes") => true,
-                    t("No") => false
-                ),
-                "checked" => $_REQUEST["show_prices"],
-                "description" => t("Display the product base price.")
-            );
-
-            $fields_ecommerce[] = array(
-                "type" => "radio",
-                "name" => "onsale_only",
-                "label" => t("On sale only?"),
-                "value" => array(
-                    t("Yes") => true,
-                    t("No") => false
-                ),
-                "checked" => $_REQUEST["onsale_only"],
-                "description" => t("Display only the products that are on sale.")
-            );
-
-            $fieldset[] = array(
-                "fields" => $fields_ecommerce,
-                "name" => t("E-commerce"),
-                "collapsible" => true,
-                "collapsed" => true,
-                "description" => t("Note: To treat the listed results as products, every content type selected on the filters section must be a valid product content type.")
-            );
-        }
 
         $criteria_types = array();
         $criteria_types_list = Jaris\Types::getList(
@@ -345,7 +321,7 @@ row: 0
 
         $fields_criteria = array_merge(
             $fields_criteria,
-            listing_category_fields(null, null)
+            listing_category_fields(null, "")
         );
 
         $fieldset[] = array(
@@ -363,6 +339,8 @@ row: 0
         $ordering[t("Most viewed today")] = "views_today_desc";
         $ordering[t("Most viewed this week")] = "views_week_desc";
         $ordering[t("Most viewed this month")] = "views_month_desc";
+        $ordering[t("From current date descending")] = "current_date_desc";
+        $ordering[t("From current date ascending")] = "current_date_asc";
 
         $fields_ordering[] = array(
             "type" => "radio",
@@ -380,6 +358,195 @@ row: 0
             "collapsible" => true,
             "collapsed" => false
         );
+
+        if(Jaris\Modules::isInstalled("ecommerce"))
+        {
+            $fields_ecommerce[] = array(
+                "type" => "radio",
+                "name" => "treat_as_products",
+                "label" => t("Treat listing as products?"),
+                "value" => array(
+                    t("Yes") => true,
+                    t("No") => false
+                ),
+                "checked" => $_REQUEST["treat_as_products"],
+                "description" => t("If all selected content types on the filter are products the listing is treated as a listing of products.")
+            );
+
+            $fields_ecommerce[] = array(
+                "type" => "radio",
+                "name" => "show_prices",
+                "label" => t("Display prices?"),
+                "value" => array(
+                    t("Yes") => true,
+                    t("No") => false
+                ),
+                "checked" => $_REQUEST["show_prices"],
+                "description" => t("Display the product base price.")
+            );
+
+            $fields_ecommerce[] = array(
+                "type" => "radio",
+                "name" => "onsale_only",
+                "label" => t("On sale only?"),
+                "value" => array(
+                    t("Yes") => true,
+                    t("No") => false
+                ),
+                "checked" => $_REQUEST["onsale_only"],
+                "description" => t("Display only the products that are on sale.")
+            );
+
+            $fieldset[] = array(
+                "fields" => $fields_ecommerce,
+                "name" => t("E-commerce"),
+                "collapsible" => true,
+                "collapsed" => true,
+                "description" => t("Note: To treat the listed results as products, every content type selected on the filters section must be a valid product content type.")
+            );
+        }
+
+        if(Jaris\Modules::isInstalled("realty"))
+        {
+            $fields_realty[] = array(
+                "type" => "radio",
+                "name" => "treat_as_properties",
+                "label" => t("Treat listing as properties?"),
+                "value" => array(
+                    t("Yes") => true,
+                    t("No") => false
+                ),
+                "checked" => $_REQUEST["treat_as_properties"],
+                "description" => t("If all selected content types on the filter are properties the listing is treated as a listing of properties.")
+            );
+
+            $fields_realty[] = array(
+                "type" => "radio",
+                "name" => "realty_type",
+                "label" => t("Type:"),
+                "value" => array(
+                    t("All") => "",
+                    t("Sale") => "sale",
+                    t("Rent") => "rent"
+                ),
+                "checked" => isset($_REQUEST["realty_type"]) ?
+                    $_REQUEST["realty_type"] : "",
+                "description" => t("Type of properties.")
+            );
+
+            $fields_realty = array_merge(
+                $fields_realty,
+                countries_get_form_fields(
+                    "add-page-listing", array(), "realty", true
+                )
+            );
+
+            $fields_realty[] = array(
+                "type" => "other",
+                "html_code" => "<div></div>"
+            );
+
+            $categories[t("All")] = "";
+            $categories += realty_get_categories();
+
+            $fields_realty[] = array(
+                "type" => "select",
+                "name" => "realty_category",
+                "label" => t("Category:"),
+                "selected" => isset($_REQUEST["realty_category"]) ?
+                    $_REQUEST["realty_category"] : "",
+                "value" => $categories,
+                "inline" => true,
+                "description" => "Property category."
+            );
+
+            $status[t("All")] = "";
+            $status += realty_get_status();
+
+            $fields_realty[] = array(
+                "type" => "select",
+                "name" => "realty_status",
+                "label" => t("Status:"),
+                "id" => "status",
+                "selected" => isset($_REQUEST["realty_status"]) ?
+                    $_REQUEST["realty_status"] : "",
+                "value" => $status,
+                "inline" => true,
+                "description" => t("Status of properties.")
+            );
+
+            $foreclosure[t("All")] = "";
+            $foreclosure[t("Yes")] = 'y';
+            $foreclosure[t("No")] = 'n';
+
+            $fields_realty[] = array(
+                "type" => "select",
+                "selected" => isset($_REQUEST["realty_foreclosure"]) ?
+                    $_REQUEST["realty_foreclosure"] : "",
+                "value" => $foreclosure,
+                "name" => "realty_foreclosure",
+                "label" => t("Foreclosure:"),
+                "inline" => true,
+                "description" => t("Property is foreclosure.")
+            );
+
+            $commercial[t("All")] = "";
+            $commercial[t("Yes")] = 'y';
+            $commercial[t("No")] = 'n';
+
+            $fields_realty[] = array(
+                "type" => "select",
+                "selected" => isset($_REQUEST["realty_commercial"]) ?
+                    $_REQUEST["realty_commercial"] : "",
+                "value" => $commercial,
+                "name" => "realty_commercial",
+                "label" => t("Commercial:"),
+                "inline" => true,
+                "description" => t("Property is commercial.")
+            );
+
+            $fieldset[] = array(
+                "fields" => $fields_realty,
+                "name" => t("Realty"),
+                "collapsible" => true,
+                "collapsed" => true,
+                "description" => t("Note: To treat the listed results as properties, every content type selected on the filters section must be a valid property content type.")
+            );
+        }
+
+        if(Jaris\Modules::isInstalled("reviews"))
+        {
+            $fields_reviews[] = array(
+                "type" => "radio",
+                "name" => "show_reviews",
+                "label" => t("Display reviews score?"),
+                "value" => array(
+                    t("Yes") => true,
+                    t("No") => false
+                ),
+                "checked" => $_REQUEST["show_reviews"],
+                "description" => t("The score is displayed only if all selected content types on the filter have the reviews system enabled.")
+            );
+
+            $fields_reviews[] = array(
+                "type" => "text",
+                "name" => "reviews_score",
+                "label" => t("Review points:"),
+                "value" => !empty($_REQUEST["reviews_score"]) ?
+                    intval($_REQUEST["reviews_score"])
+                    :
+                    5,
+                "description" => t("The amount of points used to calculate the reviews score.")
+            );
+
+            $fieldset[] = array(
+                "fields" => $fields_reviews,
+                "name" => t("Reviews Score"),
+                "collapsible" => true,
+                "collapsed" => true,
+                "description" => t("Display the review score given to listed content.")
+            );
+        }
 
         $teaser_checked =
             $_REQUEST["layout"] == "teaser" || !isset($_REQUEST["layout"]) ?
@@ -587,6 +754,40 @@ row: 0
         $fieldset[] = array(
             "fields" => $fields_thumbnail,
             "name" => t("Thumbnail"),
+            "collapsible" => true,
+            "collapsed" => false
+        );
+
+        $fields_filter_by[] = array(
+            "type" => "radio",
+            "name" => "show_categories",
+            "value" => array(
+                t("Enable") => true,
+                t("Disable") => false
+            ),
+            "checked" => $_REQUEST["show_categories"],
+            "description" => t("Shows filter by selectors of all the categories that apply for the listed type, which allows the user to filter the displayed results. Only works if the listing is set to display a single content type.")
+        );
+
+        $fields_filter_by[] = array(
+            "type" => "radio",
+            "name" => "filter_selector_type",
+            "label" => t("Selector type:"),
+            "value" => array(
+                t("Select") => "select",
+                t("Checkbox") => "checkbox",
+                t("Radiobox") => "radio"
+            ),
+            "checked" => isset($_REQUEST["filter_selector_type"]) ?
+                $_REQUEST["filter_selector_type"]
+                :
+                "select",
+            "description" => t("The type of control displayed.")
+        );
+
+        $fieldset[] = array(
+            "fields" => $fields_filter_by,
+            "name" => t("Filter Selectors"),
             "collapsible" => true,
             "collapsed" => false
         );

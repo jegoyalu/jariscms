@@ -18,9 +18,8 @@ class Images
  * Prepares and print an image file to a browser.
  *
  * @param string $image_path The full path to the image to display.
- * @original show_image
  */
-static function show($image_path)
+static function show(string $image_path): void
 {
     //Make sure image exists before trying to output it.
     if($image_path == "")
@@ -52,12 +51,17 @@ static function show($image_path)
         //else process image and store it to cache
         else
         {
+            $width = $_REQUEST['w'] ?? 0;
+            $height = $_REQUEST['h'] ?? 0;
+            $aspect_ratio = $_REQUEST['ar'] ?? false;
+            $bgcolor = $_REQUEST['bg'] ?? 'ffffff';
+
             $image = self::get(
                 $image_path,
-                intval($_REQUEST['w']),
-                intval($_REQUEST['h']),
-                boolval($_REQUEST["ar"]),
-                $_REQUEST["bg"]
+                intval($width),
+                intval($height),
+                boolval($aspect_ratio),
+                strval($bgcolor)
             );
 
             self::printIt($image);
@@ -75,9 +79,8 @@ static function show($image_path)
  * @param string $original_image The path of the original image.
  *
  * @return string Path to image cache or original if not found.
- * @original get_image_cache_name
  */
-static function getCacheName($original_image = null)
+static function getCacheName(string $original_image=""): string
 {
     $page = Uri::get();
 
@@ -127,9 +130,8 @@ static function getCacheName($original_image = null)
  * @param bool $full_url Control if returned value is a full url.
  *
  * @return string Url to static image or empty string if not found.
- * @original get_image_static_name
  */
-static function getStaticName($image_url, $full_url=true)
+static function getStaticName(string $image_url, bool $full_url=true): string
 {
     //Default image extension
     $image_extension = "png";
@@ -160,6 +162,8 @@ static function getStaticName($image_url, $full_url=true)
 
     $url_elements = parse_url($image_url);
 
+    $image_name = end(explode("/", $url_elements["path"]));
+
     $image_uri = str_replace(
         array(
             Site::$base_url . "/image/",
@@ -183,12 +187,16 @@ static function getStaticName($image_url, $full_url=true)
     $uri_parts = array();
     $parts_count = 0;
 
-    if(($parts_count = count($uri_parts = explode(".", $image_uri))) <= 1)
+    // Properly handle images given as numbers instead of file name.
+    if(($parts_count = count($uri_parts = explode(".", $image_name))) <= 1)
     {
         $image_uri .= $size . "." . $image_extension;
     }
+    // Handle images given with a proper image file name.
     else
     {
+        $parts_count = count($uri_parts = explode(".", $image_uri));
+
         $extension = strtolower($uri_parts[$parts_count-1]);
 
         if(
@@ -226,9 +234,14 @@ static function getStaticName($image_url, $full_url=true)
  *
  * @return array Image mime type and image in form of binary data.
  * Example: array("mime"=>"string", "path"=>"string", "binary_data"=>"bytes")
- * @original get_image
  */
-static function get($path, $width, $height = 0, $aspect_ratio = false, $background_color = "ffffff")
+static function get(
+    string $path,
+    int $width,
+    int $height = 0,
+    bool $aspect_ratio = false,
+    string $background_color = "ffffff"
+): array
 {
     $image_info = getimagesize($path);
 
@@ -245,8 +258,10 @@ static function get($path, $width, $height = 0, $aspect_ratio = false, $backgrou
             break;
     }
 
-    $image_data["mime"] = $image_info["mime"];
-    $image_data["path"] = $path;
+    $image_data = array(
+        "mime" => $image_info["mime"],
+        "path" => $path
+    );
 
     if($width > 0 && $height > 0 && $aspect_ratio && $background_color)
     {
@@ -429,11 +444,14 @@ static function get($path, $width, $height = 0, $aspect_ratio = false, $backgrou
  * @param string $background_color Hex color value for the background of the image.
  *
  * @return bool True on success or false on failure.
- * @original image_resize
  */
 static function resize(
-    $path, $width, $height = 0, $aspect_ratio = false, $background_color = "ffffff"
-)
+    string $path,
+    int $width,
+    int $height = 0,
+    bool $aspect_ratio = false,
+    string $background_color = "ffffff"
+): bool
 {
     $image_quality = Settings::get("image_compression_quality", "main");
 
@@ -479,9 +497,8 @@ static function resize(
  *
  * @param resource &$image Reference to the resource image.
  * @param string $mime To check if png of gif.
- * @original make_image_transparent
  */
-static function makeTransparent(&$image, $mime)
+static function makeTransparent(&$image, string $mime): void
 {
     switch($mime)
     {
@@ -504,9 +521,8 @@ static function makeTransparent(&$image, $mime)
  * Sends an image to the browser.
  *
  * @param array $image Array returned from get_image() function to display it.
- * @original print_image
  */
-static function printIt($image)
+static function printIt(array $image): void
 {
     $page = Uri::get();
 
@@ -547,6 +563,11 @@ static function printIt($image)
             $image_url,
             false
         );
+    }
+
+    if($image_cache_name == "")
+    {
+        $image_cache_name = null;
     }
 
     switch($image["mime"])
@@ -611,9 +632,8 @@ static function printIt($image)
  * Prints to broswer or any http client an image stored on the cache.
  *
  * @param string $path The current file path of the image to print.
- * @original print_cache_image
  */
-static function printCached($path)
+static function printCached(string $path): void
 {
     FileSystem::printFile($path, "");
 }
@@ -621,10 +641,10 @@ static function printCached($path)
 /**
  * Prints the picture of a user.
  *
- * @param string $page the symbolic path where the picture resides.
- * @original print_user_pic
+ * @param string $page the symbolic path where the picture resides
+ * eg: image/user/somejoeuser.
  */
-static function printUserPic($page)
+static function printUserPic(string $page): void
 {
     $picture_data = Uri::getUserPicturePath($page);
 
@@ -643,7 +663,9 @@ static function printUserPic($page)
         $size = strtolower($size);
         $size = explode("x", $size);
 
-        $image = self::get($picture_data["path"], $size[0], $size[1]);
+        $image = self::get(
+            $picture_data["path"], intval($size[0]), intval($size[1])
+        );
     }
     else
     {
@@ -659,24 +681,22 @@ static function printUserPic($page)
  * @param string $value The string to convert to rgb.
  *
  * @return array An array in the format $rgb["r"], $rgb["g"], $rgb["b"]
- * @original htmlhex_to_rgb
  */
-static function hexToRGB($value)
+static function hexToRGB(string $value): array
 {
-    $rgb["r"] = hexdec($value{0} . $value{1});
-    $rgb["g"] = hexdec($value{2} . $value{3});
-    $rgb["b"] = hexdec($value{4} . $value{5});
-
-    return $rgb;
+    return array(
+        "r" => hexdec($value{0} . $value{1}),
+        "g" => hexdec($value{2} . $value{3}),
+        "b" => hexdec($value{4} . $value{5})
+    );
 }
 
 /**
  * Removes all the content of the image_cache directory.
  *
  * @return bool true on success or false on fail.
- * @original clear_image_cache
  */
-static function clearCache()
+static function clearCache(): bool
 {
     $image_cache_directory = Site::dataDir() . "image_cache";
 
@@ -695,9 +715,8 @@ static function clearCache()
  * @param string $path
  *
  * @return bool
- * @original image_is_valid
  */
-static function isValid($path)
+static function isValid(string $path): bool
 {
     $image_info = getimagesize($path);
 

@@ -199,14 +199,22 @@ Jaris\Signals\SignalHandler::listenWithParams(
                     }
                 }
 
+                $email_from = trim($_REQUEST["e_mail"]) != "" ?
+                    trim($_REQUEST["e_mail"])
+                    :
+                    trim($_REQUEST["email"])
+                ;
+
                 $from = array();
                 if(
                     trim($_REQUEST["name"]) != "" &&
-                    trim($_REQUEST["e_mail"]) != ""
+                    $email_from != ""
                 )
                 {
-                    $from[trim($_REQUEST["name"])] = trim($_REQUEST["e_mail"]);
+                    $from[trim($_REQUEST["name"])] = trim($email_from);
                 }
+
+                $reply_to = $from;
 
                 foreach($fields as $id => $field)
                 {
@@ -243,9 +251,9 @@ Jaris\Signals\SignalHandler::listenWithParams(
                         $to,
                         $subject,
                         $html_message,
-                        $alt_message = null,
+                        $alt_message = "",
                         $attachments,
-                        $reply_to = array(),
+                        $reply_to,
                         $bcc = array(),
                         $cc,
                         $from
@@ -259,7 +267,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
                     );
 
                     if(
-                        trim($_REQUEST["e_mail"]) != "" &&
+                        $email_from != "" &&
                         $content_data["mail_autoresponse"]
                     )
                     {

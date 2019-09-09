@@ -6,7 +6,7 @@
  * https://opensource.org/licenses/GPL-3.0.
  */
 
-function listing_category_fields($selected = null, $main_category = null, $type = null)
+function listing_category_fields($selected = null, $main_category = "", $type = "")
 {
     $fields = array();
 
@@ -31,7 +31,7 @@ function listing_category_fields($selected = null, $main_category = null, $type 
                 $machine_name
             );
 
-            $select_values = null;
+            $select_values = array();
             /* if(!$values["multiple"])
               {
               $select_values[t("-None Selected-")] = "-1";
@@ -66,7 +66,7 @@ function listing_category_fields($selected = null, $main_category = null, $type 
 
             if(count($select_values) >= 1)
             {
-                if(count($selected) > 0)
+                if(is_array($selected) && count($selected) > 0)
                 {
                     $fields[] = array(
                         "type" => "select",
@@ -98,10 +98,149 @@ function listing_category_fields($selected = null, $main_category = null, $type 
     return $fields;
 }
 
+function listing_category_filter_fields(
+    $selected = null, $main_category = "", $type = "", $prefix = "",
+    $show_count = false, $field_type="select"
+)
+{
+    $fields = array();
+
+    $categories_list = array();
+    if(!$main_category)
+    {
+        $categories_list = Jaris\Categories::getList($type);
+    }
+    else
+    {
+        $categories_list[$main_category] = Jaris\Categories::get($main_category);
+    }
+
+    foreach($categories_list as $machine_name => $values)
+    {
+        $subcategories = Jaris\Categories::getSubcategoriesInParentOrder(
+            $machine_name, "root", "", true
+        );
+
+        $select_values = array();
+        if(/*!$values["multiple"] &&*/ $field_type == "select")
+        {
+            $select_values[t("-None Selected-")] = "-1";
+        }
+
+        foreach($subcategories as $id => $sub_values)
+        {
+            //In case person created categories with the same name
+            if(isset($select_values[t($sub_values["title"])]))
+            {
+                $title = $sub_values["title"] . " ";
+                while(isset($select_values[$title]))
+                {
+                    $title .= " ";
+                }
+
+                $select_values[$title] = $id;
+            }
+            else
+            {
+                $select_values[$sub_values["title"]] = $id;
+            }
+        }
+
+        $multiple = false;
+        /*if($values["multiple"])
+        {
+            $multiple = true;
+        }*/
+
+        if($field_type == "select" && count($select_values) > 1)
+        {
+            if(count($selected) > 0)
+            {
+                $fields[] = array(
+                    "type" => "select",
+                    "multiple" => $multiple,
+                    "selected" => $selected[$prefix . $machine_name],
+                    "name" => "$prefix{$machine_name}[]",
+                    "label" => t($values["name"]),
+                    "id" => $prefix . $machine_name,
+                    "code" => "onchange=\"this.form.submit();\"",
+                    "value" => $select_values
+                );
+            }
+            else
+            {
+                $fields[] = array(
+                    "type" => "select",
+                    "multiple" => $multiple,
+                    "name" => "$prefix{$machine_name}[]",
+                    "label" => t($values["name"]),
+                    "id" => $prefix . $machine_name,
+                    "code" => "onchange=\"this.form.submit();\"",
+                    "value" => $select_values
+                );
+            }
+        }
+        if($field_type == "radio" && count($select_values) > 1)
+        {
+            if(count($selected) > 0)
+            {
+                $fields[] = array(
+                    "type" => "radio",
+                    "checked" => $selected[$prefix . $machine_name][0],
+                    "name" => "$prefix{$machine_name}[]",
+                    "label" => t($values["name"]),
+                    "id" => $prefix . $machine_name,
+                    "value" => $select_values,
+                    "code" => "onchange=\"this.form.submit();\"",
+                    "horizontal_list" => true
+                );
+            }
+            else
+            {
+                $fields[] = array(
+                    "type" => "radio",
+                    "name" => "$prefix{$machine_name}[]",
+                    "label" => t($values["name"]),
+                    "id" => $prefix . $machine_name,
+                    "value" => $select_values,
+                    "code" => "onchange=\"this.form.submit();\"",
+                    "horizontal_list" => true
+                );
+            }
+        }
+        elseif(count($select_values) > 1)
+        {
+            if(count($selected) > 0)
+            {
+                $fields[] = array(
+                    "type" => "checkbox",
+                    "checked" => $selected[$prefix . $machine_name],
+                    "name" => "$prefix{$machine_name}",
+                    "label" => t($values["name"]),
+                    "id" => $prefix . $machine_name,
+                    "value" => $select_values,
+                    "horizontal_list" => true
+                );
+            }
+            else
+            {
+                $fields[] = array(
+                    "type" => "checkbox",
+                    "name" => "$prefix{$machine_name}",
+                    "label" => t($values["name"]),
+                    "id" => $prefix . $machine_name,
+                    "value" => $select_values,
+                    "horizontal_list" => true
+                );
+            }
+        }
+    }
+
+    return $fields;
+}
+
 function listing_print_results($uri, $content_data)
 {
-    $ecommerce_installed = Jaris\Modules::isInstalled("ecommerce");
-
     $page = 1;
 
     if(isset($_REQUEST["page"]))
@@ -126,7 +265,13 @@ function listing_print_results($uri, $content_data)
 
         $types .= ")";
     }
+    else
+    {
+        $content_data["filter_types"] = array();
+    }
 
+    // Handle ecommerce settings
+    $ecommerce_installed = Jaris\Modules::isInstalled("ecommerce");
     $ecommerce_product_types = false;
 
     if(
@@ -153,6 +298,151 @@ function listing_print_results($uri, $content_data)
         $ecommerce_product_types
     ;
 
+    // Handle realty settings
+    $realty_installed = Jaris\Modules::isInstalled("realty");
+    $realty_product_types = false;
+
+    if(
+        !empty($content_data["treat_as_properties"])
+        &&
+        $realty_installed
+    )
+    {
+        $realty_product_types = true;
+
+        foreach($content_data["filter_types"] as $type)
+        {
+            if($type != "property")
+            {
+                $realty_product_types = false;
+                break;
+            }
+        }
+    }
+
+    $realty_properties = $realty_installed
+        &&
+        $realty_product_types
+    ;
+
+    $realty_type = "";
+    $realty_country = "";
+    $realty_state_province = "";
+    $realty_city = "";
+    $realty_category = "";
+    $realty_status = "";
+    $realty_foreclosure = "";
+    $realty_commercial = "";
+
+    if($realty_properties)
+    {
+        $realty_type = !empty($content_data["realty_type"]) ?
+            " and sub_category ='".$content_data["realty_type"]."'"
+            :
+            ""
+        ;
+
+        $realty_country = !empty($content_data["realty_country"]) ?
+            " and country='".$content_data["realty_country"]."'"
+            :
+            ""
+        ;
+
+        $realty_state_province = !empty($content_data["realty_state_province"]) ?
+            " and state_province='".$content_data["realty_state_province"]."'"
+            :
+            ""
+        ;
+
+        $realty_city = !empty($content_data["realty_city"]) ?
+            " and city='".$content_data["realty_city"]."'"
+            :
+            ""
+        ;
+
+        if(
+            isset($content_data["realty_category"])
+            &&
+            trim($content_data["realty_category"]) != ""
+        )
+        {
+
+            $realty_category = " and category='".$content_data["realty_category"]."'";
+        }
+        elseif(
+            $_REQUEST["sub_category"] == "rent"
+        )
+        {
+            $category_list = realty_get_categories("rent");
+
+            $realty_category .= "and category in (";
+            foreach($category_list as $category_name)
+            {
+                $realty_category .= "'"
+                    . str_replace("'", "''", $category_name)
+                    . "',"
+                ;
+            }
+            $realty_category = rtrim($realty_category, ",");
+            $realty_category .= ") ";
+        }
+
+        $realty_status = !empty($content_data["realty_status"]) ?
+            " and status='".$content_data["realty_status"]."'"
+            :
+            ""
+        ;
+
+        if($content_data["realty_foreclosure"] == "y")
+        {
+            $realty_foreclosure = " and is_foreclosure = '1'";
+        }
+        elseif($content_data["realty_foreclosure"] == "n")
+        {
+            $realty_foreclosure = " and is_foreclosure = '0'";
+        }
+
+        if($content_data["realty_commercial"] == "y")
+        {
+            $realty_commercial = " and is_commercial = '1'";
+        }
+        elseif($content_data["realty_commercial"] == "n")
+        {
+            $realty_commercial = " and is_commercial = '0'";
+        }
+    }
+
+    // Handle reviews settings
+    $reviews_installed = Jaris\Modules::isInstalled("reviews");
+    $reviews_enabled_types = false;
+
+    if(
+        !empty($content_data["show_reviews"])
+        &&
+        $reviews_installed
+    )
+    {
+        $reviews_enabled_types = true;
+
+        foreach($content_data["filter_types"] as $type)
+        {
+            $review_settings = reviews_get_settings($type);
+
+            if(empty($review_settings["enabled"]))
+            {
+                $reviews_enabled_types = false;
+                break;
+            }
+        }
+    }
+
+    $reviews_enabled = $reviews_installed
+        &&
+        $reviews_enabled_types
+    ;
+
+    $reviews_max_score = intval($content_data["reviews_score"]);
+
     $authors = "";
     $authors_list = explode(",", $content_data["filter_authors"]);
 
@@ -176,6 +466,28 @@ function listing_print_results($uri, $content_data)
 
     $has_categories = "";
     $where_categories = "";
+
+    if(count($content_data["filter_types"]) == 1)
+    {
+        $categories = Jaris\Categories::getList(
+            $content_data["filter_types"][0]
+        );
+
+        $categories_filter = array();
+
+        foreach($categories as $cat_name => $cat_fields)
+        {
+            if(isset($_REQUEST[$cat_name]))
+            {
+                $categories_filter[$cat_name] = $_REQUEST[$cat_name];
+            }
+        }
+
+        if(count($categories_filter) > 0)
+        {
+            $content_data["filter_categories"] = $categories_filter;
+        }
+    }
 
     if(
         is_array($content_data["filter_categories"]) &&
@@ -201,6 +513,7 @@ function listing_print_results($uri, $content_data)
     }
 
     $ordering = "";
+    $where_date = "";
     switch($content_data["filter_ordering"])
     {
         case "date_desc":
@@ -226,6 +539,14 @@ function listing_print_results($uri, $content_data)
             break;
         case "views_month_desc":
             $ordering = "order by views_month_count desc";
+            break;
+        case "current_date_asc":
+            $ordering = "order by created_date asc";
+            $where_date .= "and created_date >= '".time()."'";
+            break;
+        case "current_date_desc":
+            $ordering = "order by created_date desc";
+            $where_date .= "and created_date >= '".time()."'";
             break;
         default:
             $ordering = "order by created_date desc";
@@ -268,6 +589,19 @@ function listing_print_results($uri, $content_data)
                     break;
             }
         }
+
+        if($reviews_enabled)
+        {
+            switch($_REQUEST["s"])
+            {
+                case "sd":
+                    $ordering = "order by reviews_score desc";
+                    break;
+                case "sa":
+                    $ordering = "order by reviews_score asc";
+                    break;
+            }
+        }
     }
 
     $user = Jaris\Authentication::currentUser();
@@ -291,14 +625,90 @@ function listing_print_results($uri, $content_data)
 
         Jaris\Sql::attach("ecommerce_inventory", $db);
 
+        if($reviews_enabled)
+        {
+            Jaris\Sql::attach("reviews", $db);
+
+            $query .= "select haspermission(groups, '$group') as has_permissions, "
+                . "hasuserpermission(users, '$user') as has_user_permissions, "
+                . "count(a.uri) as uri_count $has_categories from uris a "
+                . "inner join ecommerce_inventory b on "
+                . "a.uri = b.uri "
+                . "left join reviews c on "
+                . "b.uri = c.uri "
+                . "where b.variation=0 and b.in_stock=1 and "
+                . "has_permissions > 0 and has_user_permissions > 0 and "
+                . "approved='a' $types $authors $where_date $where_categories $on_sale "
+            ;
+        }
+        else
+        {
+            $query .= "select haspermission(groups, '$group') as has_permissions, "
+                . "hasuserpermission(users, '$user') as has_user_permissions, "
+                . "count(a.uri) as uri_count $has_categories from uris a "
+                . "inner join ecommerce_inventory b on "
+                . "a.uri = b.uri "
+                . "where b.variation=0 and b.in_stock=1 and "
+                . "has_permissions > 0 and has_user_permissions > 0 and "
+                . "approved='a' $types $authors $where_date $where_categories $on_sale"
+            ;
+        }
+
+        $query = str_replace("type=", "a.type=", $query);
+    }
+    elseif($realty_properties)
+    {
+        Jaris\Sql::attach("realty_properties", $db);
+
+        if($reviews_enabled)
+        {
+            Jaris\Sql::attach("reviews", $db);
+
+            $query .= "select haspermission(groups, '$group') as has_permissions, "
+                . "hasuserpermission(users, '$user') as has_user_permissions, "
+                . "count(a.uri) as uri_count $has_categories from uris a "
+                . "inner join realty_properties b on "
+                . "a.uri = b.uri "
+                . "left join reviews c on "
+                . "b.uri = c.uri "
+                . "where "
+                . "has_permissions > 0 and has_user_permissions > 0 and "
+                . "approved='a' $types $authors $where_date $where_categories "
+                . "$realty_type $realty_country $realty_state_province $realty_city "
+                . "$realty_category $realty_status $realty_foreclosure "
+                . "$realty_commercial"
+            ;
+        }
+        else
+        {
+            $query .= "select haspermission(groups, '$group') as has_permissions, "
+                . "hasuserpermission(users, '$user') as has_user_permissions, "
+                . "count(a.uri) as uri_count $has_categories from uris a "
+                . "inner join realty_properties b on "
+                . "a.uri = b.uri "
+                . "where "
+                . "has_permissions > 0 and has_user_permissions > 0 and "
+                . "approved='a' $types $authors $where_date $where_categories "
+                . "$realty_type $realty_country $realty_state_province $realty_city "
+                . "$realty_category $realty_status $realty_foreclosure "
+                . "$realty_commercial"
+            ;
+        }
+
+        $query = str_replace("type=", "a.type=", $query);
+    }
+    elseif($reviews_enabled)
+    {
+        Jaris\Sql::attach("reviews", $db);
+
         $query .= "select haspermission(groups, '$group') as has_permissions, "
             . "hasuserpermission(users, '$user') as has_user_permissions, "
             . "count(a.uri) as uri_count $has_categories from uris a "
-            . "inner join ecommerce_inventory b on "
+            . "left join reviews b on "
             . "a.uri = b.uri "
-            . "where b.variation=0 and b.in_stock=1 and "
+            . "where "
             . "has_permissions > 0 and has_user_permissions > 0 and "
-            . "approved='a' $types $authors $where_categories $on_sale"
+            . "approved='a' $types $authors $where_date $where_categories"
         ;
 
         $query = str_replace("type=", "a.type=", $query);
@@ -309,7 +719,7 @@ function listing_print_results($uri, $content_data)
             . "hasuserpermission(users, '$user') as has_user_permissions, "
             . "count(uri) as uri_count $has_categories from uris "
             . "where has_permissions > 0 and has_user_permissions > 0 and "
-            . "approved='a' $types $authors $where_categories"
+            . "approved='a' $types $authors $where_date $where_categories"
         ;
     }
 
@@ -324,6 +734,47 @@ function listing_print_results($uri, $content_data)
     }
 
     Jaris\Sql::close($db);
+
+    if($reviews_enabled && $results_count > 0)
+    {
+        Jaris\View::addScript(
+            Jaris\Modules::directory("reviews")
+                . "scripts/raty/js/jquery.raty.min.js"
+        );
+
+        $images_path = Jaris\Uri::url(
+            Jaris\Modules::directory("reviews") . "scripts/raty/img/"
+        );
+
+        $hints_list = array();
+        for($i=1; $i<=$reviews_max_score; $i++)
+        {
+            $hints_list[] = $i;
+        }
+
+        $hints = reviews_print_hints(implode(",", $hints_list));
+
+        Jaris\View::addScriptCode(
+            '$(document).ready(function(){'
+            . '$(".listing-review-score").each(function(index){'
+            . 'var score = parseInt($(this).text());'
+            . '$(this).text("");'
+            . '$(this).raty({'
+            . '    number: '.$reviews_max_score.','
+            . '    path: "'.$images_path.'",'
+            . '    score: score,'
+            . '    showHalf: true,'
+            . '    starHalf: "star-half.png",'
+            . '    starOff: "star-off.png",'
+            . '    starOn: "star-on.png",'
+            . '    hints: '.$hints.','
+            . '    noRatedMsg: "'.t("not rated yet").'",'
+            . '    readOnly: true'
+            . '});'
+            . '});'
+            . '});'
+        );
+    }
 
     // Get results
     $db = Jaris\Sql::open("search_engine");
@@ -349,14 +800,106 @@ function listing_print_results($uri, $content_data)
     {
         Jaris\Sql::attach("ecommerce_inventory", $db);
 
+        if($reviews_enabled)
+        {
+            Jaris\Sql::attach("reviews", $db);
+
+            $query .= "select a.uri, haspermission(groups, '$group') as has_permissions, "
+                . "hasuserpermission(users, '$user') as has_user_permissions, "
+                . "cast(c.score as float) "
+                . "/ "
+                . "cast($reviews_max_score * c.reviews_count as float) "
+                . "as reviews_score "
+                . "$has_categories from uris a "
+                . "inner join ecommerce_inventory b on "
+                . "a.uri = b.uri "
+                . "left join reviews c on "
+                . "b.uri = c.uri "
+                . "where b.variation=0 and b.in_stock=1 and "
+                . "has_permissions > 0 and has_user_permissions > 0 and "
+                . "approved='a' $types $authors $where_date $where_categories $on_sale $ordering "
+                . "limit ".(($page-1)*$limit).", ".$limit
+            ;
+        }
+        else
+        {
+            $query .= "select a.uri, haspermission(groups, '$group') as has_permissions, "
+                . "hasuserpermission(users, '$user') as has_user_permissions "
+                . "$has_categories from uris a "
+                . "inner join ecommerce_inventory b on "
+                . "a.uri = b.uri "
+                . "where b.variation=0 and b.in_stock=1 and "
+                . "has_permissions > 0 and has_user_permissions > 0 and "
+                . "approved='a' $types $authors $where_date $where_categories $on_sale $ordering "
+                . "limit ".(($page-1)*$limit).", ".$limit
+            ;
+        }
+
+        $query = str_replace("type=", "a.type=", $query);
+    }
+    elseif($realty_properties)
+    {
+        Jaris\Sql::attach("realty_properties", $db);
+
+        if($reviews_enabled)
+        {
+            Jaris\Sql::attach("reviews", $db);
+
+            $query .= "select haspermission(groups, '$group') as has_permissions, "
+                . "hasuserpermission(users, '$user') as has_user_permissions, "
+                . "cast(c.score as float) "
+                . "/ "
+                . "cast($reviews_max_score * c.reviews_count as float) "
+                . "as reviews_score "
+                . "$has_categories from uris a "
+                . "inner join realty_properties b on "
+                . "a.uri = b.uri "
+                . "left join reviews c on "
+                . "b.uri = c.uri "
+                . "where "
+                . "has_permissions > 0 and has_user_permissions > 0 and "
+                . "approved='a' $types $authors $where_date $where_categories "
+                . "$realty_type $realty_country $realty_state_province $realty_city "
+                . "$realty_category $realty_status $realty_foreclosure "
+                . "$realty_commercial $ordering "
+                . "limit ".(($page-1)*$limit).", ".$limit
+            ;
+        }
+        else
+        {
+            $query .= "select haspermission(groups, '$group') as has_permissions, "
+                . "hasuserpermission(users, '$user') as has_user_permissions, "
+                . "$has_categories from uris a "
+                . "inner join realty_properties b on "
+                . "a.uri = b.uri "
+                . "where "
+                . "has_permissions > 0 and has_user_permissions > 0 and "
+                . "approved='a' $types $authors $where_date $where_categories "
+                . "$realty_type $realty_country $realty_state_province $realty_city "
+                . "$realty_category $realty_status $realty_foreclosure "
+                . "$realty_commercial $ordering "
+                . "limit ".(($page-1)*$limit).", ".$limit
+            ;
+        }
+
+        $query = str_replace("type=", "a.type=", $query);
+    }
+    elseif($reviews_enabled)
+    {
+        Jaris\Sql::attach("reviews", $db);
+
         $query .= "select a.uri, haspermission(groups, '$group') as has_permissions, "
-            . "hasuserpermission(users, '$user') as has_user_permissions "
+            . "hasuserpermission(users, '$user') as has_user_permissions, "
+            . "cast(b.score as float) "
+            . "/ "
+            . "cast($reviews_max_score * b.reviews_count as float) "
+            . "as reviews_score "
             . "$has_categories from uris a "
-            . "inner join ecommerce_inventory b on "
+            . "left join reviews b on "
             . "a.uri = b.uri "
-            . "where b.variation=0 and b.in_stock=1 and "
+            . "where "
             . "has_permissions > 0 and has_user_permissions > 0 and "
-            . "approved='a' $types $authors $where_categories $on_sale $ordering "
+            . "approved='a' $types $authors $where_date $where_categories $ordering "
             . "limit ".(($page-1)*$limit).", ".$limit
         ;
 
@@ -369,7 +912,7 @@ function listing_print_results($uri, $content_data)
             . "$has_categories from uris "
             . "where "
             . "has_permissions > 0 and has_user_permissions > 0 and "
-            . "approved='a' $types $authors $where_categories $ordering "
+            . "approved='a' $types $authors $where_date $where_categories $ordering "
             . "limit ".(($page-1)*$limit).", ".$limit
         ;
     }
@@ -404,6 +947,28 @@ function listing_print_results($uri, $content_data)
         $parameters["action"] = Jaris\Uri::url(Jaris\Uri::get());
         $parameters["method"] = "get";
 
+        if(count($content_data["filter_types"]) == 1)
+        {
+            $categories = Jaris\Categories::getList(
+                $content_data["filter_types"][0]
+            );
+
+            foreach($categories as $cat_name => $cat_fields)
+            {
+                if(isset($_REQUEST[$cat_name]))
+                {
+                    foreach($_REQUEST[$cat_name] as $cat_value)
+                    {
+                        $fields[] = array(
+                            "type" => "hidden",
+                            "name" => $cat_name."[]",
+                            "value" => $cat_value
+                        );
+                    }
+                }
+            }
+        }
+
         $fields[] = array(
             "type" => "other",
             "html_code" =>
@@ -431,6 +996,12 @@ function listing_print_results($uri, $content_data)
             {
                 $sorting_list[t("Price Lowest")] = 'pa';
                 $sorting_list[t("Price Highest")] = 'pd';
+            }
+
+            if($reviews_enabled)
+            {
+                $sorting_list[t("Lowest Rating")] = 'sa';
+                $sorting_list[t("Highest Rating")] = 'sd';
             }
 
             $fields[] = array(
@@ -520,7 +1091,12 @@ function listing_print_results($uri, $content_data)
             false
             :
             Jaris\Util::contentPreview(
-                $page_data["content"],
+                (
+                    $page_data["input_format"] == "php_code" ?
+                        Jaris\System::evalPHP($page_data["content"])
+                        :
+                        $page_data["content"]
+                ),
                 $content_data["maximum_words"],
                 true
             )
@@ -547,6 +1123,16 @@ function listing_print_results($uri, $content_data)
                     . '</div>'
                 ;
             }
+        }
+
+        $reviews_score = "";
+
+        if($reviews_enabled)
+        {
+            $reviews_score = '<span class="listing-review-score">'
+                . $fields["reviews_score"] * $reviews_max_score
+                . '</span>'
+            ;
         }
 
         $image_list = Jaris\Data::sort(
@@ -724,6 +1310,21 @@ function listing_print_results($uri, $content_data)
             $arguments["a"] = $_REQUEST["a"];
         }
 
+        if(count($content_data["filter_types"]) == 1)
+        {
+            $categories = Jaris\Categories::getList(
+                $content_data["filter_types"][0]
+            );
+
+            foreach($categories as $cat_name => $cat_fields)
+            {
+                if(isset($_REQUEST[$cat_name]))
+                {
+                    $arguments[$cat_name] = $_REQUEST[$cat_name];
+                }
+            }
+        }
+
         Jaris\System::printNavigation(
             $results_count,
             $page,
@@ -759,6 +1360,163 @@ function listing_block_print_results($uri, $content_data)
         $types = rtrim($types, " or");
 
         $types .= ")";
+    }
+    else
+    {
+        $content_data["filter_types"] = array();
+    }
+
+    // Handle ecommerce settings
+    $ecommerce_installed = Jaris\Modules::isInstalled("ecommerce");
+    $ecommerce_product_types = false;
+
+    if(
+        !empty($content_data["treat_as_products"])
+        &&
+        $ecommerce_installed
+    )
+    {
+        $ecommerce_product_types = true;
+        $product_types = ecommerce_get_product_types();
+
+        foreach($content_data["filter_types"] as $type)
+        {
+            if(!isset($product_types[$type]))
+            {
+                $ecommerce_product_types = false;
+                break;
+            }
+        }
+    }
+
+    $ecommerce_products = $ecommerce_installed
+        &&
+        $ecommerce_product_types
+    ;
+
+    $on_sale = "";
+
+    if($ecommerce_products)
+    {
+        $on_sale = !empty($content_data["onsale_only"]) ?
+            " and on_sale != ''"
+            :
+            ""
+        ;
+    }
+
+    // Handle realty settings
+    $realty_installed = Jaris\Modules::isInstalled("realty");
+    $realty_product_types = false;
+
+    if(
+        !empty($content_data["treat_as_properties"])
+        &&
+        $realty_installed
+    )
+    {
+        $realty_product_types = true;
+
+        foreach($content_data["filter_types"] as $type)
+        {
+            if($type != "property")
+            {
+                $realty_product_types = false;
+                break;
+            }
+        }
+    }
+
+    $realty_properties = $realty_installed
+        &&
+        $realty_product_types
+    ;
+
+    $realty_type = "";
+    $realty_country = "";
+    $realty_state_province = "";
+    $realty_city = "";
+    $realty_category = "";
+    $realty_status = "";
+    $realty_foreclosure = "";
+    $realty_commercial = "";
+
+    if($realty_properties)
+    {
+        $realty_type = !empty($content_data["realty_type"]) ?
+            " and sub_category ='".$content_data["realty_type"]."'"
+            :
+            ""
+        ;
+
+        $realty_country = !empty($content_data["realty_country"]) ?
+            " and country='".$content_data["realty_country"]."'"
+            :
+            ""
+        ;
+
+        $realty_state_province = !empty($content_data["realty_state_province"]) ?
+            " and state_province='".$content_data["realty_state_province"]."'"
+            :
+            ""
+        ;
+
+        $realty_city = !empty($content_data["realty_city"]) ?
+            " and city='".$content_data["realty_city"]."'"
+            :
+            ""
+        ;
+
+        if(
+            isset($content_data["realty_category"])
+            &&
+            trim($content_data["realty_category"]) != ""
+        )
+        {
+
+            $realty_category = " and category='".$content_data["realty_category"]."'";
+        }
+        elseif(
+            $_REQUEST["sub_category"] == "rent"
+        )
+        {
+            $category_list = realty_get_categories("rent");
+
+            $realty_category .= "and category in (";
+            foreach($category_list as $category_name)
+            {
+                $realty_category .= "'"
+                    . str_replace("'", "''", $category_name)
+                    . "',"
+                ;
+            }
+            $realty_category = rtrim($realty_category, ",");
+            $realty_category .= ") ";
+        }
+
+        $realty_status = !empty($content_data["realty_status"]) ?
+            " and status='".$content_data["realty_status"]."'"
+            :
+            ""
+        ;
+
+        if($content_data["realty_foreclosure"] == "y")
+        {
+            $realty_foreclosure = " and is_foreclosure = '1'";
+        }
+        elseif($content_data["realty_foreclosure"] == "n")
+        {
+            $realty_foreclosure = " and is_foreclosure = '0'";
+        }
+
+        if($content_data["realty_commercial"] == "y")
+        {
+            $realty_commercial = " and is_commercial = '1'";
+        }
+        elseif($content_data["realty_commercial"] == "n")
+        {
+            $realty_commercial = " and is_commercial = '0'";
+        }
     }
 
     $authors = "";
@@ -808,6 +1566,7 @@ function listing_block_print_results($uri, $content_data)
     }
 
     $ordering = "";
+    $where_date = "";
     switch($content_data["filter_ordering"])
     {
         case "date_desc":
@@ -834,31 +1593,36 @@ function listing_block_print_results($uri, $content_data)
         case "views_month_desc":
             $ordering = "order by views_month_count desc";
             break;
+        case "current_date_asc":
+            $ordering = "order by created_date asc";
+            $where_date .= "and created_date >= '".time()."'";
+            break;
+        case "current_date_desc":
+            $ordering = "order by created_date desc";
+            $where_date .= "and created_date >= '".time()."'";
+            break;
         default:
             $ordering = "order by created_date desc";
             break;
     }
 
-    $user = Jaris\Authentication::currentUser();
-    $group = Jaris\Authentication::currentUserGroup();
-
-    $results = array();
-
-    if(!$content_data["related_to_current_page"])
+    $skip_current = "";
+    if(
+        !empty($content_data["skip_current_page"])
+        ||
+        (
+            !array_key_exists("skip_current_page", $content_data)
+            &&
+            !empty($content_data["related_to_current_page"])
+        )
+    )
     {
-        $results = Jaris\Sql::getDataList(
-            "search_engine",
-            "uris",
-            0,
-            $content_data["results_to_show"],
-            "where has_permissions > 0 and has_user_permissions > 0 and "
-                . "approved='a' $types $authors $where_categories $ordering",
-            "haspermission(groups, '$group') as has_permissions, "
-                . "hasuserpermission(users, '$user') as has_user_permissions, "
-                . "uri $has_categories"
-        );
+        $skip_current = "uri <> '" . Jaris\Uri::get() . "' and ";
     }
-    else
+
+    $related_select = "";
+    $related_where = "";
+    if(!empty($content_data["related_to_current_page"]))
     {
         $displayed_page_data = Jaris\Pages::get(
             Jaris\Uri::get(),
@@ -877,25 +1641,99 @@ function listing_block_print_results($uri, $content_data)
             $displayed_page_data["content"]
         );
 
-        $results = Jaris\Sql::getDataList(
-            "search_engine",
-            "uris",
-            0,
-            $content_data["results_to_show"],
-            "where uri <> '" . Jaris\Uri::get() . "' and "
-                . "(title_relevancy > 0 or content_relevancy > 0) and "
-                . "has_permissions > 0 and has_user_permissions > 0 and "
-                . "approved='a' $types $authors $where_categories "
-                . "order by title_relevancy desc, content_relevancy desc",
-            "leftsearch(title, '$displayed_title') as title_relevancy, "
-                . "leftsearch(content, '$displayed_content') as content_relevancy, "
-                . "haspermission(groups, '$group') as has_permissions, "
-                . "hasuserpermission(users, '$user') as has_user_permissions, "
-                . "uri $has_categories"
-        );
+        $related_select = ", "
+            . "leftsearch(title, '$displayed_title') as title_relevancy, "
+            . "leftsearch(content, '$displayed_content') as content_relevancy "
+        ;
+        $related_where = "(title_relevancy > 0 or content_relevancy > 0) and ";
+
+        // Change default ordering
+        $ordering = "order by title_relevancy desc, content_relevancy desc";
     }
 
-    $output = '<div class="listing-block-container">';
+    $user = Jaris\Authentication::currentUser();
+    $group = Jaris\Authentication::currentUserGroup();
+
+    // Get results
+    $db = Jaris\Sql::open("search_engine");
+
+    $query = "";
+
+    $limit = intval($content_data["results_to_show"]);
+
+    if($ecommerce_products)
+    {
+        Jaris\Sql::attach("ecommerce_inventory", $db);
+
+        $query .= "select a.uri, haspermission(groups, '$group') as has_permissions, "
+            . "hasuserpermission(users, '$user') as has_user_permissions "
+            . "$has_categories $related_select from uris a "
+            . "inner join ecommerce_inventory b on "
+            . "a.uri = b.uri "
+            . "where "
+            . str_replace("uri <>", "a.uri <>", $skip_current) . " "
+            . "$related_where "
+            . "b.variation=0 and b.in_stock=1 and "
+            . "has_permissions > 0 and has_user_permissions > 0 and "
+            . "approved='a' $types $authors $where_date $where_categories $on_sale $ordering "
+            . "limit 0, ".$limit
+        ;
+
+        $query = str_replace("type=", "a.type=", $query);
+    }
+    elseif($realty_properties)
+    {
+        Jaris\Sql::attach("realty_properties", $db);
+
+        $query .= "select a.uri, haspermission(groups, '$group') as has_permissions, "
+            . "hasuserpermission(users, '$user') as has_user_permissions "
+            . "$has_categories $related_select from uris a "
+            . "inner join realty_properties b on "
+            . "a.uri = b.uri "
+            . "where "
+            . str_replace("uri <>", "a.uri <>", $skip_current) . " "
+            . "$related_where "
+            . "has_permissions > 0 and has_user_permissions > 0 and "
+            . "approved='a' $types $authors $where_date $where_categories "
+            . "$realty_type $realty_country $realty_state_province $realty_city "
+            . "$realty_category $realty_status $realty_foreclosure "
+            . "$realty_commercial $ordering "
+            . "limit 0, ".$limit
+        ;
+
+        $query = str_replace("type=", "a.type=", $query);
+    }
+    else
+    {
+        $query .= "select uri, haspermission(groups, '$group') as has_permissions, "
+            . "hasuserpermission(users, '$user') as has_user_permissions "
+            . "$has_categories $related_select from uris "
+            . "where "
+            . "$skip_current $related_where "
+            . "has_permissions > 0 and has_user_permissions > 0 and "
+            . "approved='a' $types $authors $where_date $where_categories $ordering "
+            . "limit 0, ".$limit
+        ;
+    }
+
+    Jaris\Sql::turbo($db);
+
+    $result = Jaris\Sql::query($query, $db);
+
+    $results = array();
+    if($fields = Jaris\Sql::fetchArray($result))
+    {
+        $results[] = $fields;
+
+        while($fields = Jaris\Sql::fetchArray($result))
+        {
+            $results[] = $fields;
+        }
+    }
+
+    Jaris\Sql::close($db);
+
+    $output = '<div id="listing-block-container-'.$content_data["id"].'" class="listing-block-container">';
 
     foreach($results as $fields)
     {
@@ -915,11 +1753,39 @@ function listing_block_print_results($uri, $content_data)
             false
             :
             Jaris\Util::contentPreview(
-                $page_data["content"],
+                (
+                    $page_data["input_format"] == "php_code" ?
+                        Jaris\System::evalPHP($page_data["content"])
+                        :
+                        $page_data["content"]
+                ),
                 $content_data["maximum_words"],
                 true
             )
         ;
+
+        $price = "";
+
+        if($ecommerce_products && !empty($content_data["show_prices"]))
+        {
+            $price = ecommerce_get_product_price($page_data, $group);
+
+            $price_plain = $price;
+
+            if($price)
+            {
+                $price = '$' . number_format($price, 2, ".", ",");
+            }
+
+            if(!empty($page_data["on_sale"]))
+            {
+                $price = '<div class="on-sale">'
+                    . '<span>' . t("on sale") . '</span> '
+                    . $price
+                    . '</div>'
+                ;
+            }
+        }
 
         $image_list = Jaris\Pages\Images::getList($fields["uri"]);
         $image_name = null;

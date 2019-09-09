@@ -185,7 +185,7 @@ row: 0
                             "/(\n|\r\n|\n\n)+/",
                             "\n",
                             Jaris\Util::stripHTMLTags(
-                                $page_data["content"]
+                                $value
                             )
                         );
                     }

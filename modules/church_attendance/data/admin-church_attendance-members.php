@@ -38,6 +38,14 @@ row: 0
         );
 
         Jaris\View::addTab(
+            t("Courses Member View"),
+            Jaris\Modules::getPageUri(
+                "admin/church-attendance/members/by-course",
+                "church_attendance"
+            )
+        );
+
+        Jaris\View::addTab(
             t("Talents Member View"),
             Jaris\Modules::getPageUri(
                 "admin/church-attendance/members/by-talent",

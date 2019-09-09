@@ -24,6 +24,16 @@ row: 0
 
         $config = unserialize(Jaris\Settings::get("toolbar_items", "ckeditor"));
 
+        $site_css = Jaris\Settings::get("use_site_css", "ckeditor");
+        if(!empty($site_css))
+        {
+            $site_css = unserialize($site_css);
+        }
+        else
+        {
+            $site_css = array();
+        }
+
         $output = "";
 
         if(empty($config[$_REQUEST["group"]]))
@@ -54,10 +64,29 @@ row: 0
             $output .= trim($config[$_REQUEST["group"]]) . "//end";
         }
 
+        $content_css = "";
+        if(
+            isset($site_css[$_REQUEST["group"]]) 
+            && 
+            $site_css[$_REQUEST["group"]]
+        )
+        {
+            $theme_path = trim(
+                parse_url(Jaris\Site::$theme_path)["path"], 
+                "/"
+            );
+            if(file_exists($theme_path . "/style.css"))
+            {
+                $css = Jaris\Uri::url($theme_path . "/style.css");
+                $content_css .= "config.contentsCss = '$css';\n        ";
+            }
+        }
+
         print str_replace(
             "};//end",
             "    config.allowedContent = true;\n        "
-                . "config.protectedSource.push( /<\?[\s\S]*?\?>/g );   "
+                . "config.protectedSource.push( /<\?[\s\S]*?\?>/g );\n        "
+                . $content_css
                 . "// PHP code\n};", 
             $output
         );

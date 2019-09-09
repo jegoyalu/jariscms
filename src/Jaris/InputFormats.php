@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Jefferson González <jgonzalez@jegoyalu.com>
- * @license https://opensource.org/licenses/GPL-3.0 
+ * @license https://opensource.org/licenses/GPL-3.0
  * @link http://github.com/jegoyalu/jariscms Source code.
  */
 
@@ -33,9 +33,8 @@ const SIGNAL_EDIT_INPUT_FORMAT = "hook_edit_input_format";
  * to the input format.
  *
  * @return string "true" string on success error message on fail.
- * @original add_input_format
  */
-static function add($name, $fields)
+static function add(string $name, array $fields): string
 {
     $input_format_data_path = self::getPath($name);
 
@@ -69,9 +68,8 @@ static function add($name, $fields)
  * @param string $name Machine name of the input format.
  *
  * @return string "true" string on success error message on fail.
- * @original delete_input_format
  */
-static function delete($name)
+static function delete(string $name): string
 {
     $input_format_data_path = self::getPath($name);
 
@@ -90,9 +88,8 @@ static function delete($name)
  * @param array $fields Array with all the new values of the input format.
  *
  * @return bool True on success false or fail.
- * @original edit_input_format
  */
-static function edit($name, $fields)
+static function edit(string $name, array $fields): bool
 {
     $input_format_data_path = self::getPath($name);
 
@@ -108,9 +105,8 @@ static function edit($name, $fields)
  * @param string $name Machine name of the input format.
  *
  * @return array An array with all the fields of the input format.
- * @original get_input_format_data
  */
-static function get($name)
+static function get(string $name): array
 {
     $input_format_data_path = self::getPath($name);
 
@@ -130,9 +126,8 @@ static function get($name)
  *  "parse_line_breaks"=>bool
  * )
  * or null if no input format found.
- * @original get_input_formats_list
  */
-static function getList()
+static function getList(): array
 {
     if(!file_exists(Site::dataDir() . "types/input_formats"))
     {
@@ -172,9 +167,8 @@ static function getList()
  * @param string $text The input used to parse links.
  *
  * @return string Text with links turned to html.
- * @original parse_links
  */
-static function parseLinks($text)
+static function parseLinks(string $text): string
 {
     $pattern = "/https?:\/\/(\w*:\w*@)?[-\w.]+(:\d+)?(\/([-\w\/_.]*(\?\S+)?)?)?/";
     preg_match_all($pattern, $text, $matches);
@@ -195,9 +189,8 @@ static function parseLinks($text)
  * @param string $text The input used to parse emails.
  *
  * @return string Text with emails turned to html.
- * @original parse_emails
  */
-static function parseEmails($text)
+static function parseEmails(string $text): string
 {
     $pattern = "/(\w+\.)*\w+@(\w+\.)+[A-Za-z]+/";
     preg_match_all($pattern, $text, $matches);
@@ -217,9 +210,8 @@ static function parseEmails($text)
  * @param string $text The input used to parse line breaks.
  *
  * @return string Text with \n turned to <br />.
- * @original parse_line_breaks
  */
-static function parseLineBreaks($text)
+static function parseLineBreaks(string $text): string
 {
     return nl2br($text);
 }
@@ -229,18 +221,18 @@ static function parseLineBreaks($text)
  *
  * @return array Array in the format
  * $input_formats["machine_name"] = array("title", "description")
- * @original get_input_formats
  */
-static function getAll()
+static function getAll(): array
 {
-    $input_formats["full_html"] = array(
-        "title" => t("Full HTML"),
-        "description" => t("Supports all html tags")
-    );
-
-    $input_formats["php_code"] = array(
-        "title" => t("PHP Code"),
-        "description" => t("For executing php code with no filtering.")
+    $input_formats = array(
+        "full_html" => array(
+            "title" => t("Full HTML"),
+            "description" => t("Supports all html tags")
+        ),
+        "php_code" => array(
+            "title" => t("PHP Code"),
+            "description" => t("For executing php code with no filtering.")
+        )
     );
 
     $input_formats_array = self::getList();
@@ -264,14 +256,16 @@ static function getAll()
  * the data, full_html or php_code.
  *
  * @return string The filtered data.
- * @original filter_data
  */
-static function filter($data, $input_format)
+static function filter(string $data, string $input_format): string
 {
     static $input_formats_array;
 
     if(!is_array($input_formats_array))
         $input_formats_array = array();
+
+    if($input_format == "")
+        $input_format = "full_html";
 
     switch($input_format)
     {
@@ -318,9 +312,8 @@ static function filter($data, $input_format)
  * @param string $name The machine name of the content input format.
  *
  * @return string Path to input format file.
- * @original generate_input_format_path
  */
-static function getPath($name)
+static function getPath(string $name): string
 {
     if(!file_exists(Site::dataDir() . "types/input_formats"))
     {

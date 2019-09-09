@@ -117,20 +117,20 @@ function contact_get_field_data($id, $uri)
  *
  * @param $uri The contact form page path.
  *
- * @return bool True on success or false on failure.
+ * @return array Array on success or empty array on failure.
  */
 function contact_get_fields($uri)
 {
     if(trim($uri) == "")
     {
-        return false;
+        return array();
     }
 
     $path = contact_generate_fields_path($uri);
 
     if(!$path)
     {
-        return false;
+        return array();
     }
 
     $fields = Jaris\Data::parse($path);
@@ -605,20 +605,20 @@ function contact_generate_form_fields($uri, $values = array())
  *
  * @param $uri The path to the contact form page.
  *
- * @return bool True on success or false if no fields exist.
+ * @return string Non empty string on success or empty otherwise.
  */
 function contact_generate_fields_path($uri)
 {
     if(trim($uri) == "")
     {
-        return false;
+        return "";
     }
 
     $path = Jaris\Pages::getPath($uri) . "/contact-fields.php";
 
     if(!file_exists($path))
     {
-        return false;
+        return "";
     }
 
     return $path;

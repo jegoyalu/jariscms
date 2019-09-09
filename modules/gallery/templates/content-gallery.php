@@ -16,7 +16,12 @@
                 <?php
                     $position = $_REQUEST["position"];
 
-                    $images = Jaris\Data::sort($images, "order");
+                    $images = Jaris\Data::sort(
+                        $images,
+                        "order",
+                        $content_data["gallery_sorting"] == "desc" ?
+                            SORT_DESC : SORT_ASC
+                    );
                     $images_per_row = $content_data["images_per_row"];
                     $images_per_page = $content_data["images_per_page"];
 

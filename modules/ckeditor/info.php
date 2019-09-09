@@ -10,14 +10,34 @@
 
 $module["name"] = "CKEditor";
 $module["description"] = "The best web text editor for everyone.";
-$module["version"] = "1.2";
+$module["version"] = "1.2.5";
 $module["author"] = "Jefferson González";
 $module["email"] = "jgonzalez@jegoyalu.com";
 $module["website"] = "http://ckeditor.com/";
 
 /*
 
-=Change Log=
+Version 1.2.5 - Date 10/06/2019
+
+    * Option to the default style.css of site current theme for 
+      edited content.
+
+Version 1.2.4 - Date 31/07/2018
+
+    * Fixed issues reported by phan.
+    * Adjustments for scalar type hints on core.
+
+Version 1.2.3 - Date 11/12/2017
+
+    * Use empty array instead of null for arguments of settings tab.
+
+Version 1.2.2 - Date 14/09/2017
+
+    * Added function that can be used by other modules to activate the editor.
+
+Version 1.2.1 - Date 07/07/2017
+
+    * Enabled browser builtin language corrector.
 
 Version 1.2 - Date 08/05/2017
 

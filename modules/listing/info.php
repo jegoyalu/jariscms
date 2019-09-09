@@ -10,14 +10,57 @@
 
 $module["name"] = t("Content Listing");
 $module["description"] = t("To create pages that display a list of content by a given set of criteria.");
-$module["version"] = "1.5.1";
+$module["version"] = "1.8.3";
 $module["author"] = "Jefferson González";
 $module["email"] = "jgonzalez@jegoyalu.com";
 $module["website"] = "http://www.jegoyalu.com";
 
 /*
 
-=Change Log=
+Version 1.8.3 - Date 12/04/2019
+
+    * Make use of $with_content parementer on
+      Categirues::getSubcategoriesInParentOrder().
+    * Only display categories with content on listing pages with categories
+      enabled.
+
+Version 1.8.2 - Date 12/03/2019
+
+    * Added radiobox option to filters selector.
+    * Fixed error on filter selectors box when no content type filter selected.
+
+Version 1.8.1 - Date 04/03/2019
+
+    * Fixed issue on listing block using null content type.
+
+Version 1.8.0 - Date 19/01/2019
+
+    * Added realty module filtering options.
+
+Version 1.7.1 - Date 31/07/2018
+
+    * Fixed issues reported by phan.
+    * Adjustments for scalar type hints on core.
+
+Version 1.7 - Date 05/06/2018
+
+    * Added additional functionality if reviews module is installed.
+    * Added new 'From current date' ordering mechanism.
+
+Version 1.6.2 - Date 21/04/2018
+
+    * Added id to listing-block-container.
+    * Added skip current page option on listing blocks.
+    * Added ecommerce listing options to listing blocks.
+
+Version 1.6.1 - Date 02/04/2018
+
+    * Fixed summary not showing up if input format was php_code due to
+      strip_tags not working on html content with <?php tags.
+
+Version 1.6 - Date 21/11/2017
+
+    * Added option to display a filters selector block.
 
 Version 1.5.1 - Date 10/05/2017
 
@@ -78,4 +121,4 @@ Version 1.0 - Date 26/11/2011
 
     * First version
 
-**/
+*/

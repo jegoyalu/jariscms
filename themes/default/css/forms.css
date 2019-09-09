@@ -4,14 +4,36 @@ form .caption .required
     font-size: 14px;
 }
 
-input[type=text], input[type=password], input[type=number], select, textarea
+input[type=text], input[type=password], input[type=number], select, textarea,
+.select2-selection
 {
-    padding: 10px 7px 10px 7px;
+    padding: 10px 7px 10px 7px !important;
     font-size: 16px;
     background-color: #fff;
-    border: solid 1px #B5B5B5;
+    border: solid 1px #B5B5B5 !important;
     color: #000;
     box-sizing: border-box;
+    border-radius: 0 !important;
+}
+
+.select2-selection
+{
+    padding: 7px 7px 6px 7px !important;
+}
+
+.select2-container
+{
+    min-width: 200px;
+}
+
+.select2-container .select2-selection
+{
+    width: 100% !important;
+}
+
+.select2-container .select2-selection--single, .select2-selection--multiple
+{
+    height: auto;
 }
 
 textarea
@@ -23,13 +45,14 @@ select:focus,
 input[type=text]:focus,
 input[type=password]:focus,
 input[type=number]:focus,
-textarea:focus
+textarea:focus,
+.select2-container--open .select2-selection
 {
     box-shadow: 0px 0px 2px 1px #6fbbe0;
     border: solid 1px #6fbbe0;
 }
 
-input[type=submit], input[type=reset], input[type=button]
+input[type=submit], input[type=reset], input[type=button], button
 {
     display: inline-block;
     border: 0;
@@ -40,7 +63,8 @@ input[type=submit], input[type=reset], input[type=button]
     cursor: pointer;
 }
 
-input[type=submit]:hover, input[type=reset]:hover, input[type=button]:hover
+input[type=submit]:hover, input[type=reset]:hover, input[type=button]:hover,
+button:hover
 {
     color: #fff;
     background-color: #0abde9;
@@ -48,13 +72,19 @@ input[type=submit]:hover, input[type=reset]:hover, input[type=button]:hover
 
 @media all and (max-width: 480px)
 {
-    input[type=text], input[type=password], input[type=number]
+    input[type=text], input[type=password], input[type=number], select,
+    .select2-container
     {
         width: 93%;
         margin: 0 auto 0 auto;
         display: block;
         -webkit-box-sizing: content-box;
         box-sizing: content-box;
+    }
+
+    .select2-container
+    {
+        width: 100% !important;
     }
 
     .form-checkpassword

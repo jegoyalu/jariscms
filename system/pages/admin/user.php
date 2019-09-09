@@ -101,15 +101,23 @@ row: 0
             );
 
             $fields[] = array(
-                "type" => "submit",
-                "name" => "login",
-                "value" => t("Login")
+                "type" => "other",
+                "html_code" => "<br />"
             );
 
             $fields[] = array(
-                "type" => "reset",
-                "name" => "reset",
-                "value" => t("Reset")
+                "type" => "checkbox",
+                "name" => "remember_me",
+                "id" => "page-remember-me",
+                "value" => array(
+                    t("Remember Me") => true
+                )
+            );
+
+            $fields[] = array(
+                "type" => "submit",
+                "name" => "login",
+                "value" => t("Login")
             );
 
             $fieldset[] = array("fields" => $fields);
@@ -124,13 +132,33 @@ row: 0
                 print "<h2>" . t("Existing User") . "</h2>";
             }
             print Jaris\Forms::generate($parameters, $fieldset);
-            print "<div style=\"margin-top: 15px\">";
-            print "<a href=\"" . Jaris\Uri::url("forgot-password") .
-                "\">" .
-                t("Forgot Password?") .
-                "</a>"
-            ;
-            print "</div>";
+
+            if(!Jaris\Settings::get("forgot_pass_disabled", "main"))
+            {
+                $arguments = array();
+
+                if(isset($_REQUEST["username"]))
+                {
+                    if(Jaris\Forms::validUsername($_REQUEST["username"]))
+                    {
+                        $arguments["username"] = $_REQUEST["username"];
+                    }
+                    elseif(
+                        Jaris\Forms::validEmail($_REQUEST["username"])
+                    )
+                    {
+                        $arguments["email"] = $_REQUEST["username"];
+                    }
+                }
+
+                print "<div style=\"margin-top: 15px\">";
+                print "<a href=\"" . Jaris\Uri::url("forgot-password", $arguments) .
+                    "\">" .
+                    t("Forgot Password?") .
+                    "</a>"
+                ;
+                print "</div>";
+            }
             print "</td>";
 
             if(Jaris\Settings::get("new_registrations", "main"))

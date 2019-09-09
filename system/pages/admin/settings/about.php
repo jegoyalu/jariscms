@@ -47,6 +47,26 @@ row: 0
         print t("For more information about JarisCMS visit:") . " ";
         print " <a target=\"_blank\" href=\"http://jariscms.com\">http://jariscms.com</a>";
         print "</p>";
+
+        print "<h3>" . t("Authors") . "</h3>";
+
+        print "<textarea readonly style=\"width: 100%; min-height: 80px;\">"
+            . "Programming: Jefferson González - (jegoyalu.com)\n"
+            . "Graphics: Yaritza Luyando - (jegoyalu.com)"
+            . "</textarea>"
+        ;
+
+        if(file_exists("changes.txt"))
+        {
+            print "<h3>" . t("Changes Log") . "</h3>";
+
+            print "<textarea readonly style=\"width: 100%; min-height: 400px;\">";
+            $contents = file("changes.txt");
+            unset($contents[0]);
+            unset($contents[1]);
+            print implode("", $contents);
+            print "</textarea>";
+        }
     ?>
     field;
 

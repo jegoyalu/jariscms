@@ -21,7 +21,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
                     "admin/settings/terms-generator",
                     "terms_generator"
                 ),
-                "arguments" => null
+                "arguments" => array()
             );
         }
     }
@@ -41,7 +41,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
             {
                 if(
                     Jaris\Authentication::groupHasPermission(
-                        "edit_settings", 
+                        "edit_settings",
                         Jaris\Authentication::currentUserGroup()
                     )
                 )

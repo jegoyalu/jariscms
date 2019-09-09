@@ -17,9 +17,7 @@ $module["author"] = "Jefferson González";
 $module["email"] = "jgonzalez@jegoyalu.com";
 $module["website"] = "http://www.jegoyalu.com";
 
-/**
-
-=Change Log=
+/*
 
 Version 1.4.2 - Date 13/06/2016
 
@@ -45,4 +43,4 @@ Version 1.1 - Date 2/3/2011
 
     * Fixed browser detection since it was also detecting ie 8 as old
 
-**/
+*/

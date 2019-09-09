@@ -58,7 +58,9 @@ row: 0
         {
             $fields = Jaris\Categories::generateFields(
                 array(
-                    "{$blog_settings['main_category']}" => array($blog_data["category"])
+                    "{$blog_settings['main_category']}" => array(
+                        $blog_data["category"]
+                    )
                 ),
                 $blog_settings["main_category"]
             );

@@ -177,7 +177,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
                 "uri" => Jaris\Modules::getPageUri(
                     "admin/settings/blog", "blog"
                 ),
-                "arguments" => null
+                "arguments" => array()
             );
         }
     }
@@ -196,7 +196,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
         {
             if($page_data["type"] == "blog")
             {
-                $template_path = Jaris\Modules::directory("blog") 
+                $template_path = Jaris\Modules::directory("blog")
                     . "templates/content-blog.php"
                 ;
             }

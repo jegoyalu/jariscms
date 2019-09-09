@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: JarisCMS Ecommerce v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-26 17:28-0400\n"
+"POT-Creation-Date: 2019-01-09 22:55-0400\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Jefferson González <jgonzalez@jegoyalu.com>\n"
 "Language-Team: JegoYalu <servicios@jegoyalu.com>\n"
@@ -13,184 +13,257 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: ../..\n"
 "X-Poedit-KeywordsList: t\n"
-"X-Generator: Poedit 1.8.11\n"
+"X-Generator: Poedit 2.2.1\n"
 "X-Poedit-SearchPath-0: .\n"
 
 #: data/admin-church_attendance-members-add.php:15 functions.php:95
 msgid "Add Member or Visitor"
 msgstr "Añadir Miembro o Visitante"
 
-#: data/admin-church_attendance-members-add.php:82
-#: data/admin-church_attendance-members-edit.php:112
+#: data/admin-church_attendance-members-add.php:88
+#: data/admin-church_attendance-members-edit.php:118
 msgid "First name:"
 msgstr "Nombre:"
 
-#: data/admin-church_attendance-members-add.php:89
-#: data/admin-church_attendance-members-edit.php:122
+#: data/admin-church_attendance-members-add.php:95
+#: data/admin-church_attendance-members-edit.php:128
 msgid "Last name:"
 msgstr "Apellido paterno:"
 
-#: data/admin-church_attendance-members-add.php:96
-#: data/admin-church_attendance-members-edit.php:132
+#: data/admin-church_attendance-members-add.php:102
+#: data/admin-church_attendance-members-edit.php:138
 msgid "Maiden name:"
 msgstr "Apellido materno:"
 
-#: data/admin-church_attendance-members-add.php:103
-#: data/admin-church_attendance-members-edit.php:139
+#: data/admin-church_attendance-members-add.php:109
+#: data/admin-church_attendance-members-edit.php:145
 msgid "Male"
 msgstr "Masculino"
 
-#: data/admin-church_attendance-members-add.php:104
-#: data/admin-church_attendance-members-edit.php:140
+#: data/admin-church_attendance-members-add.php:110
+#: data/admin-church_attendance-members-edit.php:146
 msgid "Female"
 msgstr "Femenino"
 
-#: data/admin-church_attendance-members-add.php:110
-#: data/admin-church_attendance-members-edit.php:146
+#: data/admin-church_attendance-members-add.php:116
+#: data/admin-church_attendance-members-edit.php:152
 msgid "Gender:"
 msgstr "Género:"
 
-#: data/admin-church_attendance-members-add.php:119
-#: data/admin-church_attendance-members-edit.php:155
+#: data/admin-church_attendance-members-add.php:123
+#: data/admin-church_attendance-members-edit.php:159
+msgid "Single"
+msgstr "Soltero"
+
+#: data/admin-church_attendance-members-add.php:124
+#: data/admin-church_attendance-members-edit.php:160
+msgid "Married"
+msgstr "Casado"
+
+#: data/admin-church_attendance-members-add.php:125
+#: data/admin-church_attendance-members-edit.php:161
+msgid "Divorced"
+msgstr "Divorciado"
+
+#: data/admin-church_attendance-members-add.php:126
+#: data/admin-church_attendance-members-edit.php:162
+msgid "Widow"
+msgstr "Enviudado"
+
+#: data/admin-church_attendance-members-add.php:132
+#: data/admin-church_attendance-members-edit.php:168
+msgid "Civil status:"
+msgstr "Estado civil:"
+
+#: data/admin-church_attendance-members-add.php:141
+#: data/admin-church_attendance-members-edit.php:177
 msgid "Day:"
 msgstr "Día:"
 
-#: data/admin-church_attendance-members-add.php:128
-#: data/admin-church_attendance-members-edit.php:167
+#: data/admin-church_attendance-members-add.php:150
+#: data/admin-church_attendance-members-edit.php:189
 #: data/admin-church_attendance-reunions.php:123
 msgid "Month:"
 msgstr "Mes:"
 
-#: data/admin-church_attendance-members-add.php:137
-#: data/admin-church_attendance-members-edit.php:179
+#: data/admin-church_attendance-members-add.php:159
+#: data/admin-church_attendance-members-edit.php:201
 #: data/admin-church_attendance-reunions.php:139
 msgid "Year:"
 msgstr "Año:"
 
-#: data/admin-church_attendance-members-add.php:144
-#: data/admin-church_attendance-members-edit.php:189
+#: data/admin-church_attendance-members-add.php:166
+#: data/admin-church_attendance-members-edit.php:211
 msgid "Birth date"
 msgstr "Fecha de Nacimiento"
 
-#: data/admin-church_attendance-members-add.php:152
 #: data/admin-church_attendance-members-add.php:174
+#: data/admin-church_attendance-members-add.php:232
+#: data/admin-church_attendance-members-by_course.php:131
 #: data/admin-church_attendance-members-delete.php:79
-#: data/admin-church_attendance-members-edit.php:197
-#: data/admin-church_attendance-members-edit.php:222
-#: data/admin-church_attendance-members.php:274
-#: data/admin-church_attendance-members.php:291
-#: data/admin-church_attendance-members.php:308
+#: data/admin-church_attendance-members-edit.php:219
+#: data/admin-church_attendance-members-edit.php:286
+#: data/admin-church_attendance-members.php:286
+#: data/admin-church_attendance-members.php:303
+#: data/admin-church_attendance-members.php:320
 #: data/admin-church_attendance-reunions-delete.php:87
+#: data/admin-settings-church_attendance-courses-delete.php:88
 #: data/admin-settings-church_attendance-groups-delete.php:90
 #: data/admin-settings-church_attendance-talents-delete.php:88
 msgid "No"
 msgstr "No"
 
-#: data/admin-church_attendance-members-add.php:153
 #: data/admin-church_attendance-members-add.php:175
+#: data/admin-church_attendance-members-add.php:233
+#: data/admin-church_attendance-members-by_course.php:130
 #: data/admin-church_attendance-members-delete.php:76
-#: data/admin-church_attendance-members-edit.php:198
-#: data/admin-church_attendance-members-edit.php:223
-#: data/admin-church_attendance-members.php:275
-#: data/admin-church_attendance-members.php:292
-#: data/admin-church_attendance-members.php:309
+#: data/admin-church_attendance-members-edit.php:220
+#: data/admin-church_attendance-members-edit.php:287
+#: data/admin-church_attendance-members.php:287
+#: data/admin-church_attendance-members.php:304
+#: data/admin-church_attendance-members.php:321
 #: data/admin-church_attendance-reunions-delete.php:84
+#: data/admin-settings-church_attendance-courses-delete.php:85
 #: data/admin-settings-church_attendance-groups-delete.php:87
 #: data/admin-settings-church_attendance-talents-delete.php:85
 msgid "Yes"
 msgstr "Sí"
 
-#: data/admin-church_attendance-members-add.php:159
-#: data/admin-church_attendance-members-edit.php:204
+#: data/admin-church_attendance-members-add.php:181
+#: data/admin-church_attendance-members-edit.php:226
 msgid "Has taken discipleship:"
-msgstr "A tomado clases de discipulado:"
+msgstr "Ha tomado clases de discipulado:"
 
-#: data/admin-church_attendance-members-add.php:165
-#: data/admin-church_attendance-members-edit.php:210
+#: data/admin-church_attendance-members-add.php:196
+#: data/admin-church_attendance-members-edit.php:244
+msgid "Taken courses:"
+msgstr "Cursos tomados:"
+
+#: data/admin-church_attendance-members-add.php:202
+#: data/admin-church_attendance-members-edit.php:250
 msgid "Not Yet"
 msgstr "Aún No"
 
-#: data/admin-church_attendance-members-add.php:167
-#: data/admin-church_attendance-members-edit.php:215
+#: data/admin-church_attendance-members-add.php:204
+#: data/admin-church_attendance-members-edit.php:255
 msgid "Year that accepted Jesus Christ:"
 msgstr "Año en que acepto a Jesucristo:"
 
-#: data/admin-church_attendance-members-add.php:181
-#: data/admin-church_attendance-members-edit.php:229
+#: data/admin-church_attendance-members-add.php:211
+#: data/admin-church_attendance-members-edit.php:265
+msgid "Amount of time following Jesus:"
+msgstr "Cantidad de tiempo siguiendo a Jesús:"
+
+#: data/admin-church_attendance-members-add.php:218
+#: data/admin-church_attendance-members-edit.php:272
+msgid "Months"
+msgstr "Meses"
+
+#: data/admin-church_attendance-members-add.php:219
+#: data/admin-church_attendance-members-edit.php:273
+msgid "Years"
+msgstr "Años"
+
+#: data/admin-church_attendance-members-add.php:225
+#: data/admin-church_attendance-members-edit.php:279
+msgid "Time unit for the amount of time following Jesus:"
+msgstr "La unidad de tiempo para la cantidad de tiempo siguiendo a Jesús:"
+
+#: data/admin-church_attendance-members-add.php:239
+#: data/admin-church_attendance-members-edit.php:293
 msgid "Has been baptized:"
-msgstr "A sido bautizado:"
+msgstr "Ha sido bautizado:"
 
-#: data/admin-church_attendance-members-add.php:189
-#: data/admin-church_attendance-members-edit.php:240
-msgid "Amount of family members:"
-msgstr "Cantidad de miembros familiares:"
+#: data/admin-church_attendance-members-add.php:247
+#: data/admin-church_attendance-members-edit.php:304
+msgid "Amount of inmediate family members:"
+msgstr "La cantidad de miembros de familia inmediata:"
 
-#: data/admin-church_attendance-members-add.php:196
-#: data/admin-church_attendance-members-edit.php:247
+#: data/admin-church_attendance-members-add.php:254
+#: data/admin-church_attendance-members-edit.php:311
 msgid "Visitor"
 msgstr "Visitante"
 
-#: data/admin-church_attendance-members-add.php:197
-#: data/admin-church_attendance-members-edit.php:248
+#: data/admin-church_attendance-members-add.php:255
+#: data/admin-church_attendance-members-edit.php:312
 msgid "Member"
 msgstr "Miembro"
 
-#: data/admin-church_attendance-members-add.php:203
-#: data/admin-church_attendance-members-edit.php:254
-#: data/admin-church_attendance-members.php:235
+#: data/admin-church_attendance-members-add.php:256
+#: data/admin-church_attendance-members-edit.php:313
+#: data/admin-church_attendance-members.php:251
+msgid "Inactive"
+msgstr "Inactivo"
+
+#: data/admin-church_attendance-members-add.php:262
+#: data/admin-church_attendance-members-edit.php:319
+#: data/admin-church_attendance-members.php:246
 msgid "Member status:"
 msgstr "Estado del miembro:"
 
-#: data/admin-church_attendance-members-add.php:210
-#: data/admin-church_attendance-members-edit.php:264
+#: data/admin-church_attendance-members-add.php:269
+#: data/admin-church_attendance-members-edit.php:329
 msgid "Postal address:"
 msgstr "Dirección postal:"
 
-#: data/admin-church_attendance-members-add.php:217
-#: data/admin-church_attendance-members-edit.php:274
+#: data/admin-church_attendance-members-add.php:276
+#: data/admin-church_attendance-members-edit.php:339
 msgid "Residential address:"
 msgstr "Dirección Residencial:"
 
-#: data/admin-church_attendance-members-add.php:224
-#: data/admin-church_attendance-members-edit.php:284
+#: data/admin-church_attendance-members-add.php:283
+#: data/admin-church_attendance-members-edit.php:349
 msgid "E-mail:"
 msgstr "Correo Electrónico:"
 
-#: data/admin-church_attendance-members-add.php:231
-#: data/admin-church_attendance-members-edit.php:294
+#: data/admin-church_attendance-members-add.php:290
+#: data/admin-church_attendance-members-edit.php:359
 msgid "Phone:"
 msgstr "Teléfono:"
 
-#: data/admin-church_attendance-members-add.php:238
-#: data/admin-church_attendance-members-edit.php:304
+#: data/admin-church_attendance-members-add.php:297
+#: data/admin-church_attendance-members-edit.php:369
 msgid "Mobile phone:"
 msgstr "Teléfono móvil:"
 
-#: data/admin-church_attendance-members-add.php:253
-#: data/admin-church_attendance-members-edit.php:322
+#: data/admin-church_attendance-members-add.php:304
+#: data/admin-church_attendance-members-edit.php:379
+msgid "Work place:"
+msgstr "Lugar de trabajo:"
+
+#: data/admin-church_attendance-members-add.php:311
+#: data/admin-church_attendance-members-edit.php:389
+msgid "Work phone:"
+msgstr "Teléfono de trabajo:"
+
+#: data/admin-church_attendance-members-add.php:326
+#: data/admin-church_attendance-members-edit.php:407
 msgid "Talents:"
 msgstr "Talentos:"
 
-#: data/admin-church_attendance-members-add.php:268
-#: data/admin-church_attendance-members-edit.php:340
-#: data/admin-church_attendance-members.php:258
+#: data/admin-church_attendance-members-add.php:341
+#: data/admin-church_attendance-members-edit.php:425
+#: data/admin-church_attendance-members.php:270
 msgid "Group:"
 msgstr "Grupo:"
 
-#: data/admin-church_attendance-members-add.php:275
-#: data/admin-church_attendance-members-edit.php:350
+#: data/admin-church_attendance-members-add.php:348
+#: data/admin-church_attendance-members-edit.php:435
 msgid "Notes:"
 msgstr "Notas:"
 
-#: data/admin-church_attendance-members-add.php:281
-#: data/admin-church_attendance-members-edit.php:356
+#: data/admin-church_attendance-members-add.php:354
+#: data/admin-church_attendance-members-edit.php:441
 #: data/admin-church_attendance-reunions-add.php:237
 #: data/admin-church_attendance-reunions-edit.php:224
+#: data/admin-settings-church_attendance-courses.php:120
+#: data/admin-settings-church_attendance-groups.php:133
+#: data/admin-settings-church_attendance-talents.php:120
 msgid "Save"
 msgstr "Guardar"
 
-#: data/admin-church_attendance-members-add.php:287
-#: data/admin-church_attendance-members-edit.php:362
+#: data/admin-church_attendance-members-add.php:360
+#: data/admin-church_attendance-members-edit.php:447
 #: data/admin-church_attendance-reunions-add.php:243
 #: data/admin-church_attendance-reunions-edit.php:230
 msgid "Cancel"
@@ -201,77 +274,93 @@ msgid "Church Attendance Members by Birthdate"
 msgstr "Miembros por Fecha de Nacimiento"
 
 #: data/admin-church_attendance-members-by_birthdate.php:25
+#: data/admin-church_attendance-members-by_course.php:25
 #: data/admin-church_attendance-members-by_talent.php:25
 #: data/admin-church_attendance-members.php:25
 msgid "Add Member"
 msgstr "Añadir Miembro"
 
 #: data/admin-church_attendance-members-by_birthdate.php:33
+#: data/admin-church_attendance-members-by_course.php:33
 #: data/admin-church_attendance-members-by_talent.php:33
 #: data/admin-church_attendance-members.php:33
 msgid "Regular Member View"
 msgstr "Vista Regular de Miembros"
 
 #: data/admin-church_attendance-members-by_birthdate.php:41
+#: data/admin-church_attendance-members-by_course.php:41
 #: data/admin-church_attendance-members-by_talent.php:41
 #: data/admin-church_attendance-members.php:41
+msgid "Courses Member View"
+msgstr "Vista de Miembros por Cursos"
+
+#: data/admin-church_attendance-members-by_birthdate.php:49
+#: data/admin-church_attendance-members-by_course.php:49
+#: data/admin-church_attendance-members-by_talent.php:49
+#: data/admin-church_attendance-members.php:49
 msgid "Talents Member View"
 msgstr "Vista de Miembros por Talento"
 
-#: data/admin-church_attendance-members-by_birthdate.php:49
-#: data/admin-church_attendance-members-by_talent.php:49
-#: data/admin-church_attendance-members.php:49
+#: data/admin-church_attendance-members-by_birthdate.php:57
+#: data/admin-church_attendance-members-by_course.php:57
+#: data/admin-church_attendance-members-by_talent.php:57
+#: data/admin-church_attendance-members.php:57
 msgid "Birthdate Member View"
 msgstr "Vista de Miembros por Fecha de Nacimiento"
 
-#: data/admin-church_attendance-members-by_birthdate.php:81
-#: data/admin-church_attendance-members-by_talent.php:91
-#: data/admin-church_attendance-members.php:215
+#: data/admin-church_attendance-members-by_birthdate.php:89
+#: data/admin-church_attendance-members-by_course.php:177
+#: data/admin-church_attendance-members-by_talent.php:99
+#: data/admin-church_attendance-members.php:226
 #: data/admin-church_attendance-reunions.php:103
 msgid "Total:"
 msgstr "Total:"
 
-#: data/admin-church_attendance-members-by_birthdate.php:101
+#: data/admin-church_attendance-members-by_birthdate.php:109
 msgid "Filter by month:"
 msgstr "Filtrar por mes:"
 
-#: data/admin-church_attendance-members-by_birthdate.php:103
+#: data/admin-church_attendance-members-by_birthdate.php:111
 msgid "Current"
 msgstr "Actual"
 
-#: data/admin-church_attendance-members-by_birthdate.php:114
-#: data/admin-church_attendance-members-by_talent.php:129
-#: data/admin-church_attendance-members.php:338
+#: data/admin-church_attendance-members-by_birthdate.php:122
+#: data/admin-church_attendance-members-by_course.php:142
+#: data/admin-church_attendance-members-by_talent.php:137
+#: data/admin-church_attendance-members.php:350
 #: data/admin-church_attendance-reunions.php:168
 msgid "Filter Results"
 msgstr "Filtrar Resultados"
 
-#: data/admin-church_attendance-members-by_birthdate.php:139
-#: data/admin-church_attendance-members-by_talent.php:151
-#: data/admin-church_attendance-members.php:372
+#: data/admin-church_attendance-members-by_birthdate.php:147
+#: data/admin-church_attendance-members-by_course.php:185
+#: data/admin-church_attendance-members-by_talent.php:159
+#: data/admin-church_attendance-members.php:384
 msgid "First Name"
 msgstr "Nombre"
 
-#: data/admin-church_attendance-members-by_birthdate.php:140
-#: data/admin-church_attendance-members-by_talent.php:152
-#: data/admin-church_attendance-members.php:373
+#: data/admin-church_attendance-members-by_birthdate.php:148
+#: data/admin-church_attendance-members-by_course.php:186
+#: data/admin-church_attendance-members-by_talent.php:160
+#: data/admin-church_attendance-members.php:385
 msgid "Last Names"
 msgstr "Apellidos"
 
-#: data/admin-church_attendance-members-by_birthdate.php:141
+#: data/admin-church_attendance-members-by_birthdate.php:149
 msgid "Birthdate"
 msgstr "Fecha de nacimiento"
 
-#: data/admin-church_attendance-members-by_talent.php:15
-msgid "Church Attendance Members by Talent"
-msgstr "Miembros por Talento"
+#: data/admin-church_attendance-members-by_course.php:15
+msgid "Church Attendance Members by Course"
+msgstr "Miembros por Cursos"
 
-#: data/admin-church_attendance-members-by_talent.php:109
-#: data/admin-church_attendance-members.php:237
-#: data/admin-church_attendance-members.php:249
-#: data/admin-church_attendance-members.php:273
-#: data/admin-church_attendance-members.php:290
-#: data/admin-church_attendance-members.php:307
+#: data/admin-church_attendance-members-by_course.php:105
+#: data/admin-church_attendance-members-by_talent.php:117
+#: data/admin-church_attendance-members.php:248
+#: data/admin-church_attendance-members.php:261
+#: data/admin-church_attendance-members.php:285
+#: data/admin-church_attendance-members.php:302
+#: data/admin-church_attendance-members.php:319
 #: data/admin-church_attendance-reunions-add.php:197
 #: data/admin-church_attendance-reunions-edit.php:186
 #: data/admin-church_attendance-reunions.php:125
@@ -279,11 +368,35 @@ msgstr "Miembros por Talento"
 msgid "All"
 msgstr "Todo"
 
-#: data/admin-church_attendance-members-by_talent.php:119
+#: data/admin-church_attendance-members-by_course.php:115
+msgid "Filter by course:"
+msgstr "Filtrar por curso:"
+
+#: data/admin-church_attendance-members-by_course.php:128
+msgid "Has taken course?"
+msgstr "Ha tomado el curso?"
+
+#: data/admin-church_attendance-members-by_course.php:187
+msgid "Course"
+msgstr "Curso"
+
+#: data/admin-church_attendance-members-by_course.php:243
+msgid ""
+"Please select a course in order to be able to check which members haven't "
+"taken it."
+msgstr ""
+"Por favor seleccione un curso para poder verificar que miembros no lo han "
+"tomado."
+
+#: data/admin-church_attendance-members-by_talent.php:15
+msgid "Church Attendance Members by Talent"
+msgstr "Miembros por Talento"
+
+#: data/admin-church_attendance-members-by_talent.php:127
 msgid "Filter by talent:"
 msgstr "Filtrar por talento:"
 
-#: data/admin-church_attendance-members-by_talent.php:153
+#: data/admin-church_attendance-members-by_talent.php:161
 msgid "Talent"
 msgstr "Talento"
 
@@ -311,60 +424,62 @@ msgstr "Ver Asistencia"
 msgid "Church Attendance Members"
 msgstr "Miembros de la Iglesia"
 
-#: data/admin-church_attendance-members.php:238
+#: data/admin-church_attendance-members.php:249
 msgid "Visitors"
 msgstr "Visitantes"
 
-#: data/admin-church_attendance-members.php:239
+#: data/admin-church_attendance-members.php:250
 msgid "Members"
 msgstr "Miembros"
 
-#: data/admin-church_attendance-members.php:271
+#: data/admin-church_attendance-members.php:283
 msgid "Discipleship:"
 msgstr "Discipulado:"
 
-#: data/admin-church_attendance-members.php:288
+#: data/admin-church_attendance-members.php:300
 msgid "Accepted Christ:"
 msgstr "Acepto a Cristo:"
 
-#: data/admin-church_attendance-members.php:305
+#: data/admin-church_attendance-members.php:317
 msgid "Baptized:"
 msgstr "Bautizado:"
 
-#: data/admin-church_attendance-members.php:322
+#: data/admin-church_attendance-members.php:334
 #: data/admin-church_attendance-reunions.php:152
 msgid "Sort by:"
 msgstr "Ordenar por:"
 
-#: data/admin-church_attendance-members.php:324
+#: data/admin-church_attendance-members.php:336
 msgid "Recent Visit Last"
 msgstr "Visita Más Reciente Ultimo"
 
-#: data/admin-church_attendance-members.php:325
+#: data/admin-church_attendance-members.php:337
 msgid "Recent Visit First"
 msgstr "Visita Más Reciente Primero"
 
-#: data/admin-church_attendance-members.php:326
+#: data/admin-church_attendance-members.php:338
 msgid "Name Ascending"
 msgstr "Nombre Ascendente"
 
-#: data/admin-church_attendance-members.php:327
+#: data/admin-church_attendance-members.php:339
 msgid "Name Descending"
 msgstr "Nombre Descendente"
 
-#: data/admin-church_attendance-members.php:374
+#: data/admin-church_attendance-members.php:386
 msgid "Last Visit"
 msgstr "Última Visita"
 
-#: data/admin-church_attendance-members.php:375
+#: data/admin-church_attendance-members.php:387
 #: data/admin-church_attendance-reunions.php:206
+#: data/admin-settings-church_attendance-courses.php:89
 #: data/admin-settings-church_attendance-groups.php:92
 #: data/admin-settings-church_attendance-talents.php:89
 msgid "Operation"
 msgstr "Operación"
 
-#: data/admin-church_attendance-members.php:427
+#: data/admin-church_attendance-members.php:439
 #: data/admin-church_attendance-reunions.php:265
+#: data/admin-settings-church_attendance-courses.php:112
 #: data/admin-settings-church_attendance-groups.php:124
 #: data/admin-settings-church_attendance-talents.php:112
 msgid "Delete"
@@ -455,6 +570,61 @@ msgstr "Título"
 msgid "Attendance"
 msgstr "Asistencia"
 
+#: data/admin-settings-church_attendance-courses-delete.php:15
+msgid "Delete Course"
+msgstr "Borrar Curso"
+
+#: data/admin-settings-church_attendance-courses-delete.php:27
+msgid "You can not delete the predefined Courses."
+msgstr "No puede borrar los cursos predeterminados."
+
+#: data/admin-settings-church_attendance-courses-delete.php:45
+msgid "Course successfully deleted."
+msgstr "Curso exitosamente borrado."
+
+#: data/admin-settings-church_attendance-courses-delete.php:73
+msgid "Deleting a course will affect all associations for existing members."
+msgstr ""
+"Al borrar un curso se afectaran las asociaciones con todos los miembros "
+"existentes."
+
+#: data/admin-settings-church_attendance-courses-delete.php:74
+msgid "Are you sure you want to delete this course?"
+msgstr "Esta seguro que desea borrar este curso?"
+
+#: data/admin-settings-church_attendance-courses-delete.php:79
+#: data/admin-settings-church_attendance-courses.php:61
+#: data/admin-settings-church_attendance-groups-delete.php:81
+#: data/admin-settings-church_attendance-groups.php:64
+#: data/admin-settings-church_attendance-talents-delete.php:79
+#: data/admin-settings-church_attendance-talents.php:61
+msgid "Label:"
+msgstr "Etiqueta:"
+
+#: data/admin-settings-church_attendance-courses.php:15
+msgid "Courses"
+msgstr "Cursos"
+
+#: data/admin-settings-church_attendance-courses.php:40
+msgid "Courses successfully updated."
+msgstr "Cursos actualizados exitosamente."
+
+#: data/admin-settings-church_attendance-courses.php:68
+#: data/admin-settings-church_attendance-groups.php:71
+#: data/admin-settings-church_attendance-talents.php:68
+msgid "Add"
+msgstr "Añadir"
+
+#: data/admin-settings-church_attendance-courses.php:72
+msgid "Add Course"
+msgstr "Añadir Curso"
+
+#: data/admin-settings-church_attendance-courses.php:88
+#: data/admin-settings-church_attendance-groups.php:91
+#: data/admin-settings-church_attendance-talents.php:88
+msgid "Label"
+msgstr "Etiqueta"
+
 #: data/admin-settings-church_attendance-groups-delete.php:15
 msgid "Delete Members Group"
 msgstr "Borrar Grupo de Miembros"
@@ -476,13 +646,6 @@ msgstr ""
 msgid "Are you sure you want to delete this group?"
 msgstr "Esta seguro que desea borrar este grupo?"
 
-#: data/admin-settings-church_attendance-groups-delete.php:81
-#: data/admin-settings-church_attendance-groups.php:64
-#: data/admin-settings-church_attendance-talents-delete.php:79
-#: data/admin-settings-church_attendance-talents.php:61
-msgid "Label:"
-msgstr "Etiqueta:"
-
 #: data/admin-settings-church_attendance-groups.php:15
 msgid "Member Groups"
 msgstr "Grupos de Miembros"
@@ -491,19 +654,9 @@ msgstr "Grupos de Miembros"
 msgid "Groups successfully updated."
 msgstr "Grupos actualizados exitosamente."
 
-#: data/admin-settings-church_attendance-groups.php:71
-#: data/admin-settings-church_attendance-talents.php:68
-msgid "Add"
-msgstr "Añadir"
-
 #: data/admin-settings-church_attendance-groups.php:75
 msgid "Add Group"
 msgstr "Añadir Grupo"
-
-#: data/admin-settings-church_attendance-groups.php:91
-#: data/admin-settings-church_attendance-talents.php:88
-msgid "Label"
-msgstr "Etiqueta"
 
 #: data/admin-settings-church_attendance-talents-delete.php:15
 msgid "Delete Talent"
@@ -603,108 +756,90 @@ msgstr "Niños"
 msgid "Girls"
 msgstr "Niñas"
 
-#: install.php:88
+#: install.php:88 install.php:145 upgrade.php:84
 msgid "Other"
 msgstr "Otro"
 
-#: install.php:142
+#: install.php:142 upgrade.php:81
+msgid "Discipleschip 101"
+msgstr "Discipulado 101"
+
+#: install.php:143 upgrade.php:82
+msgid "Discipleschip 102"
+msgstr "Discipulado 102"
+
+#: install.php:144 upgrade.php:83
+msgid "Institute"
+msgstr "Instituto"
+
+#: install.php:223
 msgid "Graphic Design"
 msgstr "Diseño Gráfico"
 
-#: install.php:143
+#: install.php:224
 msgid "Adults Teacher"
 msgstr "Maestro de Adultos"
 
-#: install.php:144
+#: install.php:225
 msgid "Poetry Compositor"
 msgstr "Compositor de Poesía"
 
-#: install.php:145
+#: install.php:226
 msgid "Drama"
 msgstr "Drama"
 
-#: install.php:146
+#: install.php:227
 msgid "Pantomimes"
 msgstr "Pantomimas"
 
-#: install.php:147
+#: install.php:228
 msgid "Preach"
 msgstr "Predicar"
 
-#: install.php:148
+#: install.php:229
 msgid "Declaim"
 msgstr "Declamar"
 
-#: install.php:149
+#: install.php:230
 msgid "Music Composer"
 msgstr "Composición Musical"
 
-#: install.php:150
+#: install.php:231
 msgid "Sing"
 msgstr "Cantar"
 
-#: install.php:151
+#: install.php:232
 msgid "Visit the sick"
 msgstr "Visitar enfermos"
 
-#: install.php:152
+#: install.php:233
 msgid "Dance"
 msgstr "Danza"
 
-#: install.php:153
+#: install.php:234
 msgid "Sound"
 msgstr "Sonido"
 
-#: install.php:154
+#: install.php:235
 msgid "Music"
 msgstr "Música"
 
-#: install.php:155
+#: install.php:236
 msgid "Kids Teacher"
 msgstr "Maestro de niños"
 
-#: install.php:156
+#: install.php:237
 msgid "Pray for the sick"
 msgstr "Orar por los enfermos"
 
-#: install.php:157
+#: install.php:238
 msgid "Computers"
 msgstr "Computadoras"
 
-#: install.php:158
+#: install.php:239
 msgid "Counseling"
 msgstr "Consejería"
 
-#: install.php:159
+#: install.php:240
 msgid "Hand out treaties"
 msgstr "Repartir tratados"
-
-#~ msgid "Month"
-#~ msgstr "Mes"
-
-#~ msgid "View"
-#~ msgstr "Ver"
-
-#~ msgid "Filter by status:"
-#~ msgstr "Filtar por estado:"
-
-#~ msgid "group:"
-#~ msgstr "grupo:"
-
-#~ msgid "discipleship:"
-#~ msgstr "discipulado:"
-
-#~ msgid "accepted Christ:"
-#~ msgstr "acepto a Cristo:"
-
-#~ msgid "baptized:"
-#~ msgstr "bautizado:"
-
-#~ msgid "sort by:"
-#~ msgstr "ordenar por:"
-
-#~ msgid "Filter by date:"
-#~ msgstr "Filtrar por fecha:"
-
-#~ msgid "Year"
-#~ msgstr "Año"

@@ -12,14 +12,21 @@
 
 $module["name"] = "Whizzywig";
 $module["description"] = "Integrates the whizzywig editor to jaris cms";
-$module["version"] = "4.5.3";
+$module["version"] = "4.5.5";
 $module["author"] = "Jefferson González";
 $module["email"] = "jgonzalez@jegoyalu.com";
 $module["website"] = "http://www.jegoyalu.com";
 
-/**
+/*
 
-=Change Log=
+Version 4.5.5- Date 31/07/2018
+
+    * Fixed issues reported by phan.
+    * Adjustments for scalar type hints on core.
+
+Version 4.5.4 - Date 11/12/2017
+
+    * Use empty array instead of null for arguments of settings tab.
 
 Version 4.5.3 - Date 13/06/2016
 
@@ -46,4 +53,4 @@ Version 4.3 - Date 22/08/2010
     * Image insertion now uses image name instead of image id to stop problems
     * of browser not refreshing cache when using same id like 0
 
-**/
+*/

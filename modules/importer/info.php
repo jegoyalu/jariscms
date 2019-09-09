@@ -10,12 +10,25 @@
 
 $module["name"] = t("Importer");
 $module["description"] = t("Module to add content into the system by reading a csv file.");
-$module["version"] = "2.2";
+$module["version"] = "2.2.3";
 $module["author"] = "Jefferson González";
 $module["email"] = "jgonzalez@jegoyalu.com";
 $module["website"] = "http://www.jegoyalu.com";
 
 /*
+
+Version 2.2.3 - Date 21/05/2019
+
+    * Improved importer on update only action.
+
+Version 2.2.2 - Date 31/07/2018
+
+    * Fixed issues reported by phan.
+    * Adjustments for scalar type hints on core.
+
+Version 2.2.1 - Date 03/06/2017
+
+    * Fixed bug of export on original content language.
 
 Version 2.2 - Date 26/04/2017
 

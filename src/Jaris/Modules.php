@@ -21,12 +21,16 @@ class Modules
  * @param mixed $var2 Optional argument passed to the hook function.
  * @param mixed $var3 Optional argument passed to the hook function.
  * @param mixed $var4 Optional argument passed to the hook function.
- * @original hook_module
+ * @param mixed $var5 Optional argument passed to the hook function.
  */
 static function hook(
-    $hook, &$var1 = "null", &$var2 = "null",
-    &$var3 = "null", &$var4 = "null"
-)
+    string $hook,
+    &$var1 = "null",
+    &$var2 = "null",
+    &$var3 = "null",
+    &$var4 = "null",
+    &$var5 = "null"
+): void
 {
     static $signals_loaded;
 
@@ -62,16 +66,16 @@ static function hook(
     }
 
     Signals\SignalHandler::sendWithParams(
-        $hook, $var1, $var2, $var3, $var4
+        $hook, $var1, $var2, $var3, $var4, $var5
     );
 }
 
 /**
  * Gets a module path with trailing slash included.
+ *
  * @param string $name
- * @original module_directory
  */
-static function directory($name="")
+static function directory(string $name=""): string
 {
     static $modules = array();
 
@@ -110,9 +114,8 @@ static function directory($name="")
 
 /**
  * Get path where modules should be uploaded with trailing slash.
- * @original get_modules_path
  */
-static function getUploadPath()
+static function getUploadPath(): string
 {
     $path = "sites/" . Site::current();
 
@@ -133,9 +136,8 @@ static function getUploadPath()
  * @return array Info of all modules in the format
  * modules["module_machine_name"] = array("field"=>"value")
  * or empty array if no module available.
- * @original get_modules
  */
-static function getAll()
+static function getAll(): array
 {
     $modules = array();
 
@@ -208,9 +210,8 @@ static function getAll()
  * directory name on the modules directory.
  *
  * @return array Info of the module or false if doesnt exist.
- * @original get_module
  */
-static function get($name)
+static function get(string $name): array
 {
     $module_dir = self::directory($name);
 
@@ -221,6 +222,29 @@ static function get($name)
     if(file_exists($info_file))
     {
         include($info_file);
+
+        $info_content = file_get_contents($module_dir . "info.php");
+
+        if(
+            ($changes_start = strpos($info_content, "/*\n"))
+            !==
+            false
+        )
+        {
+            $changes_start += 2;
+
+            $module["changes"] = trim(
+                trim(
+                    substr($info_content, $changes_start),
+                    "\n */"
+                )
+            );
+        }
+        else
+        {
+            $module["changes"] = "";
+        }
+
         return $module;
     }
 
@@ -231,9 +255,8 @@ static function get($name)
  * Check the modules that are installed.
  *
  * @return array Machine names of each installed module.
- * @original get_installed_modules
  */
-static function getInstalled()
+static function getInstalled(): array
 {
     static $modules;
 
@@ -275,9 +298,8 @@ static function getInstalled()
  *
  * @return string Installed version of given module or empty string if not
  * installed.
- * @original get_installed_version_module
  */
-static function getInstalledVersion($name)
+static function getInstalledVersion(string $name): string
 {
     $module_dir = Site::dataDir() . "modules/$name/";
 
@@ -300,9 +322,8 @@ static function getInstalledVersion($name)
  * @param string $name Machine name of the module.
  *
  * @return bool true if installed false if not.
- * @original is_module_installed
  */
-static function isInstalled($name)
+static function isInstalled(string $name): bool
 {
     if(file_exists(Site::dataDir() . "modules/$name"))
     {
@@ -316,12 +337,11 @@ static function isInstalled($name)
  * Check if a module dependencies are installed.
  *
  * @param string $name Machine name of the module currently its directory name
- *        on the modules directory.
+ * on the modules directory.
  *
  * @return bool true if dependencies are installed false if not.
- * @original check_module_dependecies
  */
-static function checkDependecies($name)
+static function checkDependecies(string $name): bool
 {
     $module_data = self::get($name);
 
@@ -374,9 +394,8 @@ static function checkDependecies($name)
  * on the modules directory.
  *
  * @return bool true if is dependency false if not.
- * @original is_module_dependency
  */
-static function isDependency($name)
+static function isDependency(string $name): bool
 {
     $installed_modules = self::getInstalled();
 
@@ -404,14 +423,12 @@ static function isDependency($name)
  *
  * @param string $name Machine name of the module usually its directory name
  * on the modules directory.
- *
  * @param bool $needs_dependency Reference that returns true
  * if current module needs dependency.
  *
  * @return bool true on success false on fail.
- * @original install_module
  */
-static function install($name, &$needs_dependency = null)
+static function install(string $name, bool &$needs_dependency = false): bool
 {
     if(!self::checkDependecies($name))
     {
@@ -525,9 +542,8 @@ static function install($name, &$needs_dependency = null)
  * true if current module is dependency.
  *
  * @return bool true on success false on fail.
- * @original uninstall_module
  */
-static function uninstall($name, &$is_dependency = null)
+static function uninstall(string $name, bool &$is_dependency = false): bool
 {
     if(self::isDependency($name))
     {
@@ -552,7 +568,8 @@ static function uninstall($name, &$is_dependency = null)
         {
             if(!Pages::delete($fields["new_uri"]))
             {
-                return false;
+                if(file_exists(Pages::getPath($fields["new_uri"])))
+                    return false;
             }
         }
     }
@@ -599,9 +616,8 @@ static function uninstall($name, &$is_dependency = null)
  * its directory name on the modules directory.
  *
  * @return bool true on success false on fail.
- * @original upgrade_module
  */
-static function upgrade($name)
+static function upgrade(string $name): bool
 {
     $module_dir = self::directory($name);
     $module_installation = Site::dataDir() . "modules/$name";
@@ -620,6 +636,9 @@ static function upgrade($name)
         }
     }
 
+    //Stores current state of blocks
+    $blocks_data = array();
+
     //Remove module blocks
     if(file_exists($module_installation . "/blocks.php"))
     {
@@ -627,9 +646,24 @@ static function upgrade($name)
 
         foreach($blocks as $block_fields)
         {
+            $block_position = "";
+
+            $block_data = Blocks::getByField(
+                "module_identifier",
+                $block_fields["module_identifier"],
+                "",
+                $block_position
+            );
+
+            $blocks_data[$block_fields["module_identifier"]] = array(
+                "position" => $block_position,
+                "data" => $block_data
+            );
+
             Blocks::deleteByField(
                 "module_identifier",
-                $block_fields["module_identifier"]
+                $block_fields["module_identifier"],
+                ""
             );
         }
     }
@@ -664,6 +698,60 @@ static function upgrade($name)
                 :
                 "none"
             ;
+
+            if(
+                isset(
+                    $blocks_data[$block_fields["module_identifier"]]
+                )
+            )
+            {
+                $identifier = $block_fields["module_identifier"];
+
+                $position = trim(
+                    $blocks_data[$identifier]["position"]
+                );
+
+                $block_position = !empty($position) ?
+                    $position
+                    :
+                    $block_position
+                ;
+
+                $block_fields["position"] = $blocks_data
+                    [$identifier]
+                    ["position"]
+                ;
+
+                $block_fields["title"] = $blocks_data
+                    [$identifier]
+                    ["data"]["title"]
+                ;
+
+                $block_fields["order"] = $blocks_data
+                    [$identifier]
+                    ["data"]["order"]
+                ;
+
+                $block_fields["display_rule"] = $blocks_data
+                    [$identifier]
+                    ["data"]["display_rule"]
+                ;
+
+                $block_fields["pages"] = $blocks_data
+                    [$identifier]
+                    ["data"]["pages"]
+                ;
+
+                $block_fields["groups"] = $blocks_data
+                    [$identifier]
+                    ["data"]["groups"]
+                ;
+
+                $block_fields["themes"] = $blocks_data
+                    [$identifier]
+                    ["data"]["themes"]
+                ;
+            }
 
             Blocks::add($block_fields, $block_position);
         }
@@ -733,9 +821,8 @@ static function upgrade($name)
  * @param string $module_name Machine name of the module.
  *
  * @return string New uri of the page installed or the original one.
- * @original get_page_uri_module
  */
-static function getPageUri($original_uri, $module_name)
+static function getPageUri(string $original_uri, string $module_name): string
 {
     static $module_pages;
 
@@ -771,9 +858,8 @@ static function getPageUri($original_uri, $module_name)
  *
  * @return string Empty string if the given page uri
  * doesn't belongs to a module.
- * @original get_module_page_path
  */
-static function getPagePath($page)
+static function getPagePath(string $page): string
 {
     static $pages = array();
 
@@ -818,6 +904,47 @@ static function getPagePath($page)
     }
 
     return "";
+}
+
+/**
+ * Gets a module block data directly from the module blocks.php file
+ * which is useful when running the site in development mode.
+ *
+ * @param array $block_data
+ *
+ * @return array
+ */
+static function getBlockData(array $block_data): array
+{
+    static $block_files = array();
+
+    if(count($block_files) <= 0)
+    {
+        $installed_modules = self::getInstalled();
+
+        foreach($installed_modules as $name)
+        {
+            if(file_exists(self::directory($name) . "blocks.php"))
+            {
+                $block_files[] = self::directory($name) . "blocks.php";
+            }
+        }
+    }
+
+    foreach($block_files as $file)
+    {
+        $module_blocks = Data::parse($file);
+
+        foreach($module_blocks as $fields)
+        {
+            if($fields["module_identifier"] == $block_data["module_identifier"])
+            {
+                return $fields;
+            }
+        }
+    }
+
+    return $block_data;
 }
 
 }

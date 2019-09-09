@@ -25,6 +25,7 @@ row: 0
         Jaris\View::addTab(t("List View"), "admin/users/list");
         Jaris\View::addTab(t("Create User"), "admin/users/add");
         Jaris\View::addTab(t("Groups"), "admin/groups");
+        Jaris\View::addTab(t("Import"), "admin/users/import");
         Jaris\View::addTab(t("Export"), "admin/users/export");
 
         $users_csv = Jaris\Site::dataDir() . "users/users.csv";

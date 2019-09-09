@@ -116,7 +116,88 @@ function church_attendance_install()
         Jaris\Sql::close($db);
     }
 
-    // Income/Expenses category database
+    // Courses list
+    if(!Jaris\Sql::dbExists("church_attendance_courses"))
+    {
+        $db = Jaris\Sql::open("church_attendance_courses");
+
+        Jaris\Sql::query(
+            "create table church_attendance_courses ("
+            . "id integer primary key, "
+            . "label text"
+            . ")",
+            $db
+        );
+
+        Jaris\Sql::query(
+            "create index church_attendance_courses_index "
+            . "on church_attendance_courses ("
+            . "id desc"
+            . ")",
+            $db
+        );
+
+        // Strings to assist poedit or other translation tools.
+        $strings = array(
+            t("Discipleschip 101"),
+            t("Discipleschip 102"),
+            t("Institute"),
+            t("Other")
+        );
+
+        //Default income categories
+        $groups = array(
+            "Discipleschip 101",
+            "Discipleschip 102",
+            "Institute",
+            "Other"
+        );
+
+        Jaris\Sql::beginTransaction($db);
+
+        foreach($groups as $group)
+        {
+            $insert = "insert into church_attendance_courses "
+                . "(label) "
+                . "values("
+                . "'$group'"
+                . ")"
+            ;
+
+            Jaris\Sql::query($insert, $db);
+        }
+
+        Jaris\Sql::commitTransaction($db);
+
+        Jaris\Sql::close($db);
+    }
+
+    // Courses count
+    if(!Jaris\Sql::dbExists("church_attendance_courses_count"))
+    {
+        $db = Jaris\Sql::open("church_attendance_courses_count");
+
+        Jaris\Sql::query(
+            "create table church_attendance_courses_count ("
+            . "member_id integer, "
+            . "course_id integer"
+            . ")",
+            $db
+        );
+
+        Jaris\Sql::query(
+            "create index church_attendance_courses_count_index "
+            . "on church_attendance_courses_count ("
+            . "member_id desc,"
+            . "course_id desc"
+            . ")",
+            $db
+        );
+
+        Jaris\Sql::close($db);
+    }
+
+    // Talents list
     if(!Jaris\Sql::dbExists("church_attendance_talents"))
     {
         $db = Jaris\Sql::open("church_attendance_talents");
@@ -200,7 +281,7 @@ function church_attendance_install()
         Jaris\Sql::close($db);
     }
 
-    // Income/Expenses category database
+    // Talents count
     if(!Jaris\Sql::dbExists("church_attendance_talents_count"))
     {
         $db = Jaris\Sql::open("church_attendance_talents_count");
@@ -237,17 +318,23 @@ function church_attendance_install()
             . "last_name text, "
             . "maiden_name text, "
             . "gender text, "
+            . "civil_status text, "
             . "is_member integer, "
             . "postal_address text, "
             . "residential_address text, "
             . "year_accepted_christ integer,"
+            . "time_following_christ text,"
+            . "time_following_christ_unit text,"
             . "baptized integer,"
             . "taken_discipleship integer,"
+            . "courses text,"
             . "family_at_home integer,"
             . "talents text,"
             . "email text,"
             . "phone text, "
             . "mobile_phone text,"
+            . "work_place text,"
+            . "work_phone text,"
             . "birth_date text,"
             . "birth_day integer,"
             . "birth_month integer,"
@@ -267,6 +354,7 @@ function church_attendance_install()
             . "last_name desc, "
             . "maiden_name desc, "
             . "gender desc, "
+            . "civil_status desc, "
             . "birth_date desc,"
             . "birth_day desc,"
             . "birth_month desc,"
@@ -274,6 +362,8 @@ function church_attendance_install()
             . "is_member desc, "
             . "taken_discipleship desc, "
             . "year_accepted_christ desc,"
+            . "time_following_christ desc,"
+            . "time_following_christ_unit desc,"
             . "baptized desc,"
             . "family_at_home desc, "
             . "email desc, "

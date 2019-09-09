@@ -33,7 +33,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
         {
             $styles[] = Jaris\Uri::url(
                 Jaris\Modules::getPageUri(
-                    Jaris\Modules::directory("control_menu") 
+                    Jaris\Modules::directory("control_menu")
                         . "styles/style.css",
                     "control_menu"
                 )
@@ -41,7 +41,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
             $styles[] = Jaris\Uri::url(
                 Jaris\Modules::getPageUri(
-                    "style/control-menu", 
+                    "style/control-menu",
                     "control_menu"
                 )
             );
@@ -60,7 +60,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
                     "admin/settings/control-menu",
                     "control_menu"
                 ),
-                "arguments" => null
+                "arguments" => array()
             );
         }
     }

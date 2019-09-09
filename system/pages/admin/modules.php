@@ -21,9 +21,22 @@ row: 0
     <?php
         Jaris\Authentication::protectedPage(array("view_modules"));
 
+        Jaris\View::addSystemScript("optional/jquery.inlinesearch.js");
+    ?>
+    <script>
+    $(document).ready(function(){
+        $("table.modules-list").inlineSearch({
+            placeholder: "<?php print t("search...") ?>"
+        });
+    });
+    </script>
+    <?php
         Jaris\View::addTab(t("Upload"), "admin/modules/upload");
 
-        print "<table class=\"modules-list\">\n";
+        print "<table "
+            . "class=\"navigation-list navigation-list-hover modules-list\""
+            . ">\n"
+        ;
 
         print "<thead><tr>\n";
 
@@ -33,6 +46,8 @@ row: 0
         print "<td>" . t("Dependencies") . "</td>\n";
 
         print "</tr></thead>\n";
+
+        print "</tbody>";
 
         $modules = Jaris\Modules::getAll();
 
@@ -45,27 +60,46 @@ row: 0
                 array("path" => $module_path)
             );
 
-            $installed_version = Jaris\Modules::getInstalledVersion($module_path);
+            $installed_version = Jaris\Modules::getInstalledVersion(
+                $module_path
+            );
 
             print "<tr>\n";
 
-            print "<td><a title=\"$title\" href=\"$more_url\">{$module_info['name']}</a></td>\n";
+            print "<td>"
+                . "<a title=\"$title\" href=\"$more_url\">"
+                . $module_info['name']
+                . "</a>"
+                . "</td>\n"
+            ;
 
             print "<td>";
             if(Jaris\Modules::isInstalled($module_path))
             {
-                print t("Enabled");
-                print "<br />" . t("Version installed:") . " " . $installed_version;
+                print t("Enabled")
+                    . "<br />" 
+                    . t("Version installed:") 
+                    . " " 
+                    . $installed_version
+                ;
 
                 if($installed_version < $module_info["version"])
                 {
-                    print "<br />" . t("Actual version:") . " " . $module_info["version"];
+                    print "<br />" 
+                        . t("Actual version:") 
+                        . " " 
+                        . $module_info["version"]
+                    ;
                 }
             }
             else
             {
-                print t("Disabled");
-                print "<br />" . t("Version:") . " " . $module_info["version"];
+                print t("Disabled")
+                    . "<br />" 
+                    . t("Version:") 
+                    . " " 
+                    . $module_info["version"]
+                ;
             }
             print "</td>\n";
 
@@ -81,7 +115,11 @@ row: 0
                     "</a>"
                 ;
 
-                if(Jaris\Modules::directory($module_path) != "modules/$module_path/")
+                if(
+                    Jaris\Modules::directory($module_path) 
+                    != 
+                    "modules/$module_path/"
+                )
                 {
                     print "&nbsp;<a href=\"" .
                         Jaris\Uri::url(
@@ -145,7 +183,8 @@ row: 0
             print "</tr>\n";
         }
 
-        print "</table>"
+        print "</tbody>";
+        print "</table>";
     ?>
     field;
 

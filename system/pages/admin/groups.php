@@ -27,7 +27,10 @@ row: 0
         $groups = Jaris\Groups::getList();
         $groups["Guest"] = "guest";
 
-        print "<table class=\"groups-list\">\n";
+        print "<table "
+            . "class=\"groups-list navigation-list navigation-list-hover\""
+            . ">\n"
+        ;
 
         print "<thead><tr>\n";
 

@@ -70,8 +70,8 @@ row: 0
     </script>
 
     <?php
-        Jaris\View::addScript("scripts/jquery-ui/jquery.ui.js");
-        Jaris\View::addScript("scripts/jquery-ui/jquery.ui.touch-punch.min.js");
+        Jaris\View::addSystemScript("jquery-ui/jquery.ui.js");
+        Jaris\View::addSystemScript("jquery-ui/jquery.ui.touch-punch.min.js");
 
         Jaris\View::addTab(t("Create Block"), "admin/blocks/add");
     ?>

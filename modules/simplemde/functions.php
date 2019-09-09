@@ -18,10 +18,20 @@ Jaris\Signals\SignalHandler::listenWithParams(
     {
         global $display_simplemde_on_current_page;
 
-        $textarea_id = unserialize(Jaris\Settings::get("teaxtarea_id", "simplemde"));
-        $forms_to_display = unserialize(Jaris\Settings::get("forms", "simplemde"));
-        $groups = unserialize(Jaris\Settings::get("groups", "simplemde"));
-        $disable_editor = unserialize(Jaris\Settings::get("disable_editor", "simplemde"));
+        $user_group = Jaris\Authentication::currentUserGroup();
+
+        $textarea_id = unserialize(
+            Jaris\Settings::get("teaxtarea_id", "simplemde")
+        );
+        $forms_to_display = unserialize(
+            Jaris\Settings::get("forms", "simplemde")
+        );
+        $groups = unserialize(
+            Jaris\Settings::get("groups", "simplemde")
+        );
+        $disable_editor = unserialize(
+            Jaris\Settings::get("disable_editor", "simplemde")
+        );
 
         if(!is_array($textarea_id))
             $textarea_id = array();
@@ -35,21 +45,22 @@ Jaris\Signals\SignalHandler::listenWithParams(
         if(!is_array($disable_editor))
             $disable_editor = array();
 
-        if(!$textarea_id[Jaris\Authentication::currentUserGroup()])
+        if(!$textarea_id[$user_group])
         {
-            $textarea_id[Jaris\Authentication::currentUserGroup()] = "content,pre_content,sub_content";
+            $textarea_id[$user_group] = "content,pre_content,sub_content";
         }
         else
         {
-            $textarea_id[Jaris\Authentication::currentUserGroup()] = explode(
+            $textarea_id[$user_group] = explode(
                 ",",
-                $textarea_id[Jaris\Authentication::currentUserGroup()]
+                $textarea_id[$user_group]
             );
         }
 
-        if(!$forms_to_display[Jaris\Authentication::currentUserGroup()])
+        if(!$forms_to_display[$user_group])
         {
-            $forms_to_display[] = "add-page-pages,edit-page-pages,translate-page,"
+            $forms_to_display[$user_group] =
+                "add-page-pages,edit-page-pages,translate-page,"
                 . "add-page-block,block-page-edit,add-block,block-edit,"
                 . "translate-block, add-page-block-page, duplicate-page-product,"
                 . "edit-page-blog,add-page-blog,"
@@ -70,25 +81,29 @@ Jaris\Signals\SignalHandler::listenWithParams(
         }
         else
         {
-            $forms_to_display[Jaris\Authentication::currentUserGroup()] = explode(
+            $forms_to_display[$user_group] = explode(
                 ",",
-                $forms_to_display[Jaris\Authentication::currentUserGroup()]
+                $forms_to_display[$user_group]
             );
         }
 
         //Check if current user is on one of the groups that can use the editor
-        if(!$groups[Jaris\Authentication::currentUserGroup()])
+        if(!$groups[$user_group])
         {
             return;
         }
 
-        foreach($forms_to_display[Jaris\Authentication::currentUserGroup()] as $form_name)
+        foreach(
+            $forms_to_display[$user_group]
+            as
+            $form_name
+        )
         {
             $form_name = trim($form_name);
 
             if($parameters["name"] == $form_name)
             {
-                if($disable_editor[Jaris\Authentication::currentUserGroup()])
+                if($disable_editor[$user_group])
                 {
                     if(isset($_REQUEST["disable_simplemde"]))
                     {
@@ -100,7 +115,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
                     }
                 }
 
-                foreach($textarea_id[Jaris\Authentication::currentUserGroup()] as $id)
+                foreach($textarea_id[$user_group] as $id)
                 {
                     $id = trim($id);
 
@@ -123,7 +138,11 @@ Jaris\Signals\SignalHandler::listenWithParams(
                         $found = false;
                         $fields = array();
 
-                        foreach($fieldset_fields["fields"] as $fields_index => $values)
+                        foreach(
+                            $fieldset_fields["fields"]
+                            as
+                            $fields_index => $values
+                        )
                         {
                             if(!isset($values["id"]))
                             {
@@ -135,7 +154,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
                                 $values["id"] == $id
                             )
                             {
-                                if($disable_editor[Jaris\Authentication::currentUserGroup()])
+                                if($disable_editor[$user_group])
                                 {
                                     if($_COOKIE["disable_simplemde"])
                                     {
@@ -175,7 +194,11 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
                                 $new_fields = array();
 
-                                foreach($fieldset_fields["fields"] as $check_index => $field_data)
+                                foreach(
+                                    $fieldset_fields["fields"]
+                                    as
+                                    $check_index => $field_data
+                                )
                                 {
                                     //Copy new fields to the position of
                                     //replaced textarea with simplemde
@@ -244,7 +267,8 @@ Jaris\Signals\SignalHandler::listenWithParams(
             //$scripts[] = "//cdn.simplemde.com/4.5.8/standard/simplemde.js";
 
             $scripts[] = Jaris\Uri::url(
-                Jaris\Modules::directory("simplemde") . "simplemde/simplemde.min.js"
+                Jaris\Modules::directory("simplemde")
+                    . "simplemde/simplemde.min.js"
             );
         }
     }
@@ -261,7 +285,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
                     "admin/settings/simplemde",
                     "simplemde"
                 ),
-                "arguments" => null
+                "arguments" => array()
             );
         }
     }

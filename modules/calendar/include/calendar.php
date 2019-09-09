@@ -38,8 +38,25 @@ function calendar_event_add($data, $uri)
 
     Jaris\Sql::escapeArray($data);
 
-    $date = strtotime($data["day"]."-".$data["month"]."-".$data["year"]);
-    $date_to = strtotime($data["day_to"]."-".$data["month_to"]."-".$data["year_to"]);
+    $am_pm = $data["is_am"] ? "AM" : "PM";
+
+    $minute = str_pad($data['minute'], 2, "0", STR_PAD_LEFT);
+
+    $date = DateTime::createFromFormat(
+        'd/m/Y H:i A',
+        "{$data['day']}/{$data['month']}/{$data['year']} "
+        . "{$data['hour']}:{$minute} $am_pm"
+    )->getTimestamp();
+
+    $am_pm_to = $data["is_am_to"] ? "AM" : "PM";
+
+    $minute_to = str_pad($data['minute_to'], 2, "0", STR_PAD_LEFT);
+
+    $date_to = DateTime::createFromFormat(
+        'd/m/Y H:i A',
+        "{$data['day_to']}/{$data['month_to']}/{$data['year_to']} "
+        . "{$data['hour_to']}:{$minute_to} $am_pm_to"
+    )->getTimestamp();
 
     $db = Jaris\Sql::open("calendar_events", $directory);
 
@@ -150,7 +167,6 @@ function calendar_event_add($data, $uri)
     );
 
     Jaris\Sql::close($db);
-
 }
 
 function calendar_event_edit($id, $data, $uri)
@@ -183,8 +199,25 @@ function calendar_event_edit($id, $data, $uri)
 
     Jaris\Sql::escapeArray($data);
 
-    $date = strtotime($data["day"]."-".$data["month"]."-".$data["year"]);
-    $date_to = strtotime($data["day_to"]."-".$data["month_to"]."-".$data["year_to"]);
+    $am_pm = $data["is_am"] ? "AM" : "PM";
+
+    $minute = str_pad($data['minute'], 2, "0", STR_PAD_LEFT);
+
+    $date = DateTime::createFromFormat(
+        'd/m/Y H:i A',
+        "{$data['day']}/{$data['month']}/{$data['year']} "
+        . "{$data['hour']}:{$minute} $am_pm"
+    )->getTimestamp();
+
+    $am_pm_to = $data["is_am_to"] ? "AM" : "PM";
+
+    $minute_to = str_pad($data['minute_to'], 2, "0", STR_PAD_LEFT);
+
+    $date_to = DateTime::createFromFormat(
+        'd/m/Y H:i A',
+        "{$data['day_to']}/{$data['month_to']}/{$data['year_to']} "
+        . "{$data['hour_to']}:{$minute_to} $am_pm_to"
+    )->getTimestamp();
 
     $db = Jaris\Sql::open("calendar_events", $directory);
 
@@ -298,7 +331,8 @@ function calendar_event_get_events($month, $year, $uri, $user=null)
         "calendar_events",
         0,
         32,
-        "where month=$month and year=$year and approved=1 $author",
+        "where month=$month and year=$year and approved=1 $author "
+        . "order by date asc",
         "*",
         $directory
     );
@@ -658,7 +692,7 @@ function calendar_generate_consecutive($uri)
 
     $page_data = array();
     $db = null;
-    $directory = null;
+    $directory = "";
 
     $output = '<div class="calendar-consecutive">';
 
@@ -676,6 +710,8 @@ function calendar_generate_consecutive($uri)
     {
         $db = Jaris\Sql::open("calendar_events");
     }
+
+    $count = 0;
 
     if(!is_null($db))
     {
@@ -727,8 +763,11 @@ function calendar_generate_consecutive($uri)
             $day = strlen($event_data["day"]) == 1 ?
                 "0" . $event_data["day"] : $event_data["day"]
             ;
-            $month = array_flip(Jaris\Date::getMonths())[date("n", $event_data["date"])];
-            $year = date("Y", $event_data["date"]);
+            $month = array_flip(
+                    Jaris\Date::getMonths()
+                )[date("n", intval($event_data["date"]))]
+            ;
+            $year = date("Y", intval($event_data["date"]));
             $title = '<a href="'.Jaris\Uri::url(
                     Jaris\Modules::getPageUri("calendar/event", "calendar"),
                     array("uri" => $event_uri, "id"=>$event_id)
@@ -756,7 +795,17 @@ function calendar_generate_consecutive($uri)
 
     $output .= '</div>';
 
-    $output .= Jaris\System::printNavigation($count, $page, Jaris\Uri::get(), "", 50);
+    //Generate navigation
+    ob_start();
+    Jaris\System::printNavigation(
+        $count,
+        $page,
+        Jaris\Uri::get(),
+        "",
+        50
+    );
+    $output .= ob_get_contents();
+    ob_end_clean();
 
     return $output;
 }
@@ -765,7 +814,7 @@ function calendar_block_print_results($block_data, $uri=null)
 {
     $page_data = array();
     $db = null;
-    $directory = null;
+    $directory = "";
 
     $output = "";
 
@@ -826,7 +875,10 @@ function calendar_block_print_results($block_data, $uri=null)
             $day = strlen($event_data["day"]) == 1 ?
                 "0" . $event_data["day"] : $event_data["day"]
             ;
-            $month = array_flip(Jaris\Date::getMonths())[date("n", $event_data["date"])];
+            $month = array_flip(
+                    Jaris\Date::getMonths()
+                )[date("n", intval($event_data["date"]))]
+            ;
             $year = date("Y", $event_data["date"]);
             $title = '<a href="'.Jaris\Uri::url(
                     Jaris\Modules::getPageUri("calendar/event", "calendar"),

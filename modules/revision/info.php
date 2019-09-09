@@ -12,14 +12,17 @@
 
 $module["name"] = t("Revisions");
 $module["description"] = t("Adds content revision support.");
-$module["version"] = "1.1.1";
+$module["version"] = "1.1.2";
 $module["author"] = "Jefferson González";
 $module["email"] = "jgonzalez@jegoyalu.com";
 $module["website"] = "http://www.jegoyalu.com";
 
-/**
+/*
 
-=Change Log=
+Version 1.1.2 - Date 31/07/2018
+
+    * Fixed issues reported by phan.
+    * Adjustments for scalar type hints on core.
 
 Version 1.1.1 - Date 05/26/2016
 
@@ -33,4 +36,4 @@ Version 1.0 - Date 17/01/2013
 
     * Initial version
 
-**/
+*/

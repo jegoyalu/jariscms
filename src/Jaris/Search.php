@@ -14,6 +14,20 @@ class Search
 {
 
 /**
+ * Lets you add more conditions to the where clause of the search.
+ * Receives parameters: $where
+ * @var string
+ */
+const SIGNAL_SEARCH_WHERE = "hook_search_where";
+
+/**
+ * Lets you add more conditions to the select clause of the search.
+ * Receives parameters: $select
+ * @var string
+ */
+const SIGNAL_SEARCH_SELECT = "hook_search_select";
+
+/**
  * Search for pages that match specific keywords.
  *
  * @param string $keywords The words to search for.
@@ -22,12 +36,14 @@ class Search
  * @param array $categories an array of categories to match the page.
  * @param int $page
  * @param int $amount
- * @original search_content
  */
 static function start(
-    $keywords, $field_values = null, $categories = array(),
-    $page = 1, $amount = 10
-)
+    string $keywords,
+    array $field_values = [],
+    array $categories = [],
+    int $page = 1,
+    int $amount = 10
+): void
 {
     // To protect agains sql injections be sure $page is a int
     if(!is_numeric($page))
@@ -83,9 +99,8 @@ static function start(
  *
  * @param int $page Current displayed page.
  * @param int $amount The amount of results to display per page.
- * @original search_database
  */
-static function database($page = 1, $amount = 10)
+static function database(int $page = 1, int $amount = 10): void
 {
     // To protect agains sql injections be sure $page is a int
     if(!is_numeric($page))
@@ -119,6 +134,10 @@ static function database($page = 1, $amount = 10)
 
         $user = Authentication::currentUser();
         $group = Authentication::currentUserGroup();
+        $where = "";
+
+        //Call is_system_page hook before returning data
+        Modules::hook(self::SIGNAL_SEARCH_WHERE, $where);
 
         //Search by keywords and categories
         if(count(self::getKeywords()) > 0)
@@ -128,14 +147,19 @@ static function database($page = 1, $amount = 10)
             $categories = serialize(self::getCategories());
             $categories = str_replace("'", "''", $categories);
 
-            $order_clause = false;
+            $order_clause = "order by title_relevancy desc, "
+                . "content_relevancy desc, "
+                . "description_normal desc, "
+                . "keywords_normal desc "
+            ;
+
             switch($_REQUEST["order"])
             {
                 case "newest":
                     $order_clause = "order by created_date desc";
                     break;
                 case "oldest":
-                    $order_clause = "order by created_date desc";
+                    $order_clause = "order by created_date asc";
                     break;
                 case "title_desc":
                     $order_clause = "order by title desc";
@@ -144,40 +168,37 @@ static function database($page = 1, $amount = 10)
                     $order_clause = "order by title asc";
                     break;
                 default:
-                    $order_clause = false;
+                    $order_clause = "order by title_relevancy desc, "
+                        . "content_relevancy desc, "
+                        . "description_normal desc, "
+                        . "keywords_normal desc "
+                    ;
                     break;
             }
 
-            $select = "select
-            leftsearch(title, '$keywords') as title_relevancy, leftsearch(content, '$keywords') as content_relevancy,
-            normalsearch(description, '$keywords') as description_normal, normalsearch(keywords, '$keywords') as keywords_normal,
-            hascategories(categories, '$categories') as has_category,
-            haspermission(groups, '$group') as has_permissions,
-            hasuserpermission(users, '$user') as has_user_permissions,
-            uri from uris where
-            ((title_relevancy > 0 or content_relevancy > 0 or
-            description_normal > 0 or keywords_normal > 0) and
-            has_category > 0 and has_permissions > 0 and
-            has_user_permissions > 0 and approved='a') $type
-            order by title_relevancy desc, content_relevancy desc,
-            description_normal desc, keywords_normal desc limit $page, $amount";
-
-            //Force ordering by user choice instead or relevancy
-            if($order_clause != false)
-            {
-                $select = "select
-                leftsearch(title, '$keywords') as title_relevancy, leftsearch(content, '$keywords') as content_relevancy,
-                normalsearch(description, '$keywords') as description_normal, normalsearch(keywords, '$keywords') as keywords_normal,
-                hascategories(categories, '$categories') as has_category,
-                haspermission(groups, '$group') as has_permissions,
-                hasuserpermission(users, '$user') as has_user_permissions,
-                uri from uris where
-                ((title_relevancy > 0 or content_relevancy > 0 or
-                description_normal > 0 or keywords_normal > 0) and
-                has_category > 0 and has_permissions > 0 and
-                has_user_permissions > 0 and approved='a') $type
-                $order_clause limit $page, $amount";
-            }
+            $select = "select "
+                . "leftsearch(title, '$keywords') as title_relevancy, "
+                . "leftsearch(content, '$keywords') as content_relevancy, "
+                . "normalsearch(description, '$keywords') as description_normal, "
+                . "normalsearch(keywords, '$keywords') as keywords_normal, "
+                . "hascategories(categories, '$categories') as has_category, "
+                . "haspermission(groups, '$group') as has_permissions, "
+                . "hasuserpermission(users, '$user') as has_user_permissions, "
+                . "uri from uris where "
+                . "("
+                . "("
+                . "title_relevancy > 0 or content_relevancy > 0 or "
+                . "description_normal > 0 or keywords_normal > 0"
+                . ") "
+                . "and "
+                . "has_category > 0 and has_permissions > 0 and "
+                . "has_user_permissions > 0 and approved='a'"
+                . ") "
+                . "$type "
+                . "$where "
+                . "$order_clause "
+                . "limit $page, $amount"
+            ;
 
             $result = Sql::query($select, $db);
 
@@ -210,14 +231,15 @@ static function database($page = 1, $amount = 10)
                     break;
             }
 
-            $select = "select
-            hascategories(categories, '$categories') as has_category,
-            haspermission(groups, '$group') as has_permissions,
-            hasuserpermission(users, '$user') as has_user_permissions,
-            uri from uris where
-            has_category > 0 and has_permissions > 0 and
-            has_user_permissions > 0 and approved='a'
-            $type $order_clause limit $page, $amount";
+            $select = "select "
+                . "hascategories(categories, '$categories') as has_category, "
+                . "haspermission(groups, '$group') as has_permissions, "
+                . "hasuserpermission(users, '$user') as has_user_permissions, "
+                . "uri from uris where "
+                . "has_category > 0 and has_permissions > 0 and "
+                . "has_user_permissions > 0 and approved='a' "
+                . "$type $where $order_clause limit $page, $amount"
+            ;
 
             $result = Sql::query($select, $db);
 
@@ -234,13 +256,19 @@ static function database($page = 1, $amount = 10)
 /**
  * Regenerates the sqlite uri database from all the existent content on the system
  * by recursive searching the file system for content pages.
- * @original search_reindex_sqlite
+ *
+ * @return bool True on success false on failure.
  */
-static function reindex()
+static function reindex(): bool
 {
     if(Sql::dbExists("search_engine"))
     {
         unlink(Site::dataDir() . "sqlite/search_engine");
+    }
+
+    if(Sql::dbExists("categories_content"))
+    {
+        unlink(Site::dataDir() . "sqlite/categories_content");
     }
 
     //Recreate database and table
@@ -304,6 +332,8 @@ static function reindex()
 
     Sql::close($db);
 
+    Categories::populateContentCount();
+
     FileSystem::search(
         Site::dataDir() . "pages",
         "/.*data\.php/",
@@ -317,11 +347,12 @@ static function reindex()
 
 /**
  * Assist on the generation of the search database.
+ *
  * @param string $content_path Path to content to index.
+ *
  * @see search_reindex_sqlite()
- * @original search_reindex_callback
  */
-static function reindexCallback($content_path)
+static function reindexCallback(string $content_path): void
 {
     //Obviate system pages from indexation using
     //black list for performance improvement
@@ -338,12 +369,16 @@ static function reindexCallback($content_path)
         )
     );
 
+
     $page_data = Pages::get($uri);
 
     if($page_data["is_system"])
     {
         return;
     }
+
+    // Sum the page categories
+    Categories::incrementContent($page_data["categories"] ?? array());
 
     $data = $page_data;
     $data["users"] = serialize($data["users"]);
@@ -420,10 +455,10 @@ static function reindexCallback($content_path)
 
 /**
  * Get a sql statement to select the proper content type to search.
+ *
  * @return string SQL statement
- * @original get_search_content_type
  */
-static function contentType()
+static function contentType(): string
 {
     if(trim($_REQUEST["type"]) != "")
     {
@@ -441,9 +476,10 @@ static function contentType()
  * @param string $content_path The path of the database file to check.
  * @param array $content_data optional parameter to already pass
  * page data and prevent opening a page file twice.
- * @original check_content
  */
-static function checkContent($content_path, $content_data = array())
+static function checkContent(
+    string $content_path, array $content_data = array()
+): void
 {
     //Obviate system pages from search using black list for performance improvement
     if(System::pagesBlackList($content_path))
@@ -668,12 +704,13 @@ static function checkContent($content_path, $content_data = array())
 
 /**
  * Gets a set of results for a list of uris stored on _SESSION['search']
+ *
  * @param  int $page
  * @param  int $amount
+ *
  * @return array
- * @original get_search_results
  */
-static function getResults($page=1, $amount=10)
+static function getResults(int $page=1, int $amount=10): array
 {
     // To protect against sql injections be sure $page is a int
     if(!is_numeric($page))
@@ -697,20 +734,14 @@ static function getResults($page=1, $amount=10)
     unset($_SESSION["search"]["results"]);
 
     //First we sort title results and content results by relevancy
-    $title_results = Data::sort(
-        $_SESSION["search"]["results_title"],
-        "relevancy",
-        SORT_DESC
-    );
-
-    $content_results = Data::sort(
-        $_SESSION["search"]["results_content"],
-        "relevancy",
-        SORT_DESC
-    );
-
-    if(is_array($title_results))
+    if(is_array($_SESSION["search"]["results_title"]))
     {
+        $title_results = Data::sort(
+            $_SESSION["search"]["results_title"],
+            "relevancy",
+            SORT_DESC
+        );
+
         //Add title results to search results session
         foreach($title_results as $values)
         {
@@ -718,8 +749,14 @@ static function getResults($page=1, $amount=10)
         }
     }
 
-    if(is_array($content_results))
+    if(is_array($_SESSION["search"]["results_content"]))
     {
+        $content_results = Data::sort(
+            $_SESSION["search"]["results_content"],
+            "relevancy",
+            SORT_DESC
+        );
+
         //Add content results to search results session
         foreach($content_results as $values)
         {
@@ -799,13 +836,16 @@ static function getResults($page=1, $amount=10)
 
 /**
  * Generates the html of the search navigation.
+ *
  * @param  int $page
  * @param  int $amount
  * @param  string $search_uri
+ *
  * @return bool
- * @original print_search_navigation
  */
-static function printNavigation($page, $amount = 10, $search_uri = "search")
+static function printNavigation(
+    int $page, int $amount = 10, string $search_uri = "search"
+): bool
 {
     // To protect agains sql injections be sure $page is a int
     if(!is_numeric($page))
@@ -871,7 +911,9 @@ static function printNavigation($page, $amount = 10, $search_uri = "search")
                 {
                     foreach($_REQUEST[$category_name] as $selected)
                     {
-                        $categories_string .= $category_name . "[]=" . $selected . "&";
+                        $categories_string .= $category_name
+                            . "[]=" . $selected . "&"
+                        ;
                     }
                 }
             }
@@ -994,12 +1036,14 @@ static function printNavigation($page, $amount = 10, $search_uri = "search")
 
 /**
  * Cache search results into _SESSION["search"]
+ *
  * @param string $result    Uri of page.
  * @param string $position Can be: title, content or append.
  * @param float $relevancy Used to sort when displaying the content.
- * @original add_result
  */
-static function addResult($result, $position = "append", $relevancy = null)
+static function addResult(
+    string $result, string $position = "append", float $relevancy = 0.0
+): void
 {
     switch($position)
     {
@@ -1027,20 +1071,20 @@ static function addResult($result, $position = "append", $relevancy = null)
 
 /**
  * Get list of results.
+ *
  * @return array
- * @original get_results
  */
-static function getAllResults()
+static function getAllResults(): array
 {
     return $_SESSION["search"]["results"];
 }
 
 /**
  * Get amout of results.
+ *
  * @return int
- * @original get_results_count
  */
-static function getResultsCount()
+static function getResultsCount(): int
 {
     static $count;
 
@@ -1057,6 +1101,10 @@ static function getResultsCount()
 
             $user = Authentication::currentUser();
             $group = Authentication::currentUserGroup();
+            $where = "";
+
+            //Call is_system_page hook before returning data
+            Modules::hook(self::SIGNAL_SEARCH_WHERE, $where);
 
             //Search by keywords and categories
             if(count(self::getKeywords()) > 0)
@@ -1066,17 +1114,28 @@ static function getResultsCount()
                 $categories = serialize(self::getCategories());
                 $categories = str_replace("'", "''", $categories);
 
-                $select = "select
-                leftsearch(title, '$keywords') as title_relevancy, leftsearch(content, '$keywords') as content_relevancy,
-                normalsearch(description, '$keywords') as description_normal, normalsearch(keywords, '$keywords') as keywords_normal,
-                hascategories(categories, '$categories') as has_category,
-                haspermission(groups, '$group') as has_permissions,
-                hasuserpermission(users, '$user') as has_user_permissions,
-                count(uri) as uri_count from uris where
-                ((title_relevancy > 0 or content_relevancy > 0 or
-                description_normal > 0 or keywords_normal > 0) and
-                has_category > 0 and has_permissions > 0 and
-                has_user_permissions > 0 and approved='a') $type";
+                $select = "select "
+                    . "leftsearch(title, '$keywords') as title_relevancy, "
+                    . "leftsearch(content, '$keywords') as content_relevancy, "
+                    . "normalsearch(description, '$keywords') as description_normal, "
+                    . "normalsearch(keywords, '$keywords') as keywords_normal, "
+                    . "hascategories(categories, '$categories') as has_category, "
+                    . "haspermission(groups, '$group') as has_permissions, "
+                    . "hasuserpermission(users, '$user') as has_user_permissions, "
+                    . "count(uri) as uri_count from uris where "
+                    . "("
+                    . "("
+                    . "title_relevancy > 0 or content_relevancy > 0 or "
+                    . "description_normal > 0 or keywords_normal > 0"
+                    . ") "
+                    . "and "
+                    . "has_category > 0 and has_permissions > 0 and "
+                    . "has_user_permissions > 0 and approved='a'"
+                    . ") "
+                    . $type 
+                    . " "
+                    . $where
+                ;
 
                 $result = Sql::query($select, $db);
 
@@ -1092,13 +1151,14 @@ static function getResultsCount()
                 $categories = serialize(self::getCategories());
                 $categories = str_replace("'", "''", $categories);
 
-                $select = "select
-                hascategories(categories, '$categories') as has_category,
-                haspermission(groups, '$group') as has_permissions,
-                hasuserpermission(users, '$user') as has_user_permissions,
-                count(uri) as uri_count from uris where
-                has_category > 0 and has_permissions > 0 and
-                has_user_permissions > 0 and approved='a' $type";
+                $select = "select "
+                    . "hascategories(categories, '$categories') as has_category, "
+                    . "haspermission(groups, '$group') as has_permissions, "
+                    . "hasuserpermission(users, '$user') as has_user_permissions, "
+                    . "count(uri) as uri_count from uris where "
+                    . "has_category > 0 and has_permissions > 0 and "
+                    . "has_user_permissions > 0 and approved='a' $type $where"
+                ;
 
                 $result = Sql::query($select, $db);
 
@@ -1114,24 +1174,27 @@ static function getResultsCount()
         return $count;
     }
 
-    return $_SESSION["search"]["count"];
+    return is_null($_SESSION["search"]["count"]) ?
+        0
+        :
+        $_SESSION["search"]["count"]
+    ;
 }
 
 /**
  * Empty search results stored on _SESSION["search"]
- * @original reset_results
  */
-static function reset()
+static function reset(): void
 {
     unset($_SESSION["search"]);
 }
 
 /**
  * Store keywords in _SESSION["search"]["keywords"]
+ *
  * @param string $keywords
- * @original add_keywords
  */
-static function addKeywords($keywords)
+static function addKeywords(string $keywords): void
 {
     $keywords = trim($keywords);
     $keywords = preg_replace("/ +/", " ", $keywords);
@@ -1141,50 +1204,50 @@ static function addKeywords($keywords)
 
 /**
  * Get keywords.
+ *
  * @return array
- * @original get_keywords
  */
-static function getKeywords()
+static function getKeywords(): array
 {
-    return $_SESSION["search"]["keywords"];
+    return $_SESSION["search"]["keywords"] ?? array();
 }
 
 /**
  * Store fields to display on search results.
- * @param array $field_values [description]
- * @original add_fields
+ *
+ * @param array $field_values
  */
-static function addFields($field_values)
+static function addFields(array $field_values): void
 {
     $_SESSION["search"]["field_values"] = $field_values;
 }
 
 /**
  * Categories to search.
+ *
  * @param array $categories
- * @original add_search_categories
  */
-static function addCategories($categories)
+static function addCategories(array $categories): void
 {
     $_SESSION["search"]["categories"] = $categories;
 }
 
 /**
  * Get categories to search
+ *
  * @return array
- * @original get_search_categories
  */
-static function getCategories()
+static function getCategories(): array
 {
-    return $_SESSION["search"]["categories"];
+    return $_SESSION["search"]["categories"] ?? array();
 }
 
 /**
  * Get the fields to display on search results.
+ *
  * @return array
- * @original get_fields
  */
-static function getFields()
+static function getFields(): array
 {
     if(!$_SESSION["search"]["field_values"])
     {
@@ -1196,15 +1259,18 @@ static function getFields()
 
 /**
  * Highlights the matched words on the search result.
+ *
  * @param  string $result
  * @param  string $input_format
  * @param  string $type
+ *
  * @return string
- * @original highlight_search_results
  */
 static function highlightResults(
-    $result, $input_format = "full_html", $type = "title"
-)
+    string $result,
+    string $input_format = "full_html",
+    string $type = "title"
+): string
 {
     if($input_format == "php_code")
     {
@@ -1316,11 +1382,12 @@ static function highlightResults(
 
 /**
  * Get the fields to display on search results for a given content type.
+ *
  * @param  string $type Machine name of content type.
+ *
  * @return array
- * @original get_type_search_fields
  */
-static function getTypeFields($type)
+static function getTypeFields(string $type): array
 {
     static $types_array;
 

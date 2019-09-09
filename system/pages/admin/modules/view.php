@@ -35,34 +35,45 @@ row: 0
 
     <div class="module-info">
         <div class="info">
-            <div>
-                <span class="label"><?php print t("Name:") ?></span>
+            <h3 style="margin: 0; padding: 0;">
                 <?php print t($info["name"]) ?>
+            </h3>
+
+            <div style="font-size: 20px; border-bottom: solid 1px #d3d3d3; margin-bottom: 20px; padding: 20px 0 20px 0;">
+                <?php print t($info["description"]) ?>
             </div>
+
             <div>
                 <span class="label"><?php print t("Version:") ?></span>
                 <?php print t($info["version"]) ?>
             </div>
-            <div>
-                <span class="label"><?php print t("Description:") ?></span>
-                <?php print t($info["description"]) ?>
-            </div>
+
             <div>
                 <span class="label"><?php print t("Author:") ?></span>
                 <?php print t($info["author"]) ?>
             </div>
+            <?php if($info["email"] != ""){ ?>
             <div>
                 <span class="label"><?php print t("Email:") ?></span>
                 <a href="mailto:<?php print $info["email"] ?>">
                     <?php print $info["email"] ?>
                 </a>
             </div>
+            <?php } ?>
+            <?php if($info["website"] != ""){ ?>
             <div>
                 <span class="label"><?php print t("Website:") ?></span>
                 <a target="_blank" href="<?php print $info["website"] ?>">
                     <?php print t($info["website"]) ?>
                 </a>
             </div>
+            <?php } ?>
+            <?php if($info["changes"] != ""){ ?>
+            <div style="">
+                <h4><?php print t("Changes Log:") ?></h4>
+                <textarea style="width: 100%; min-height: 400px;" readonly="readonly"><?php print $info["changes"] ?></textarea>
+            </div>
+            <?php } ?>
         </div>
     </div>
     field;

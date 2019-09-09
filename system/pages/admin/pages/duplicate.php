@@ -57,7 +57,7 @@ row: 0
             $page_uri = $_REQUEST["uri"] = Jaris\Types::generateURI(
                 $page_data["type"],
                 $page_data["title"],
-                $page_data["author"]
+                Jaris\Authentication::currentUser()
             );
 
             $uri = $page_uri;
