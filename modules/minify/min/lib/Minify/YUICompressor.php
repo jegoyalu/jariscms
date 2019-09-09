@@ -29,7 +29,8 @@
  * @package Minify
  * @author Stephen Clay <steve@mrclay.org>
  */
-class Minify_YUICompressor {
+class Minify_YUICompressor
+{
 
     /**
      * Filepath of the YUI Compressor jar file. This must be set before
@@ -65,7 +66,7 @@ class Minify_YUICompressor {
      *
      * @return string
      */
-    public static function minifyJs($js, $options = array())
+    public static function minifyJs($js, $options = [])
     {
         return self::_minify('js', $js, $options);
     }
@@ -81,7 +82,7 @@ class Minify_YUICompressor {
      *
      * @return string
      */
-    public static function minifyCss($css, $options = array())
+    public static function minifyCss($css, $options = [])
     {
         return self::_minify('css', $css, $options);
     }
@@ -104,7 +105,7 @@ class Minify_YUICompressor {
     private static function _getCmd($userOptions, $type, $tmpFile)
     {
         $o = array_merge(
-            array(
+            [
                 'charset' => ''
                 ,'line-break' => 5000
                 ,'type' => $type
@@ -112,8 +113,8 @@ class Minify_YUICompressor {
                 ,'preserve-semi' => false
                 ,'disable-optimizations' => false
                 ,'stack-size' => ''
-            )
-            ,$userOptions
+            ],
+            $userOptions
         );
         $cmd = self::$javaExecutable
              . (!empty($o['stack-size'])
@@ -128,7 +129,7 @@ class Minify_YUICompressor {
                 ? ' --line-break ' . (int)$o['line-break']
                 : '');
         if ($type === 'js') {
-            foreach (array('nomunge', 'preserve-semi', 'disable-optimizations') as $opt) {
+            foreach (['nomunge', 'preserve-semi', 'disable-optimizations'] as $opt) {
                 $cmd .= $o[$opt]
                     ? " --{$opt}"
                     : '';
@@ -153,4 +154,3 @@ class Minify_YUICompressor {
         }
     }
 }
-

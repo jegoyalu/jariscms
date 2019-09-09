@@ -17,40 +17,34 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("add_files"));
+        Jaris\Authentication::protectedPage(["add_files"]);
 
         $groups = Jaris\Settings::get("groups", "ckeditor") ?
             unserialize(Jaris\Settings::get("groups", "ckeditor")) : false
         ;
 
         //Check if current user is on one of the groups that can use the editor
-        if($groups)
-        {
+        if ($groups) {
             $user_is_in_group = false;
-            foreach($groups as $machine_name => $value)
-            {
-                if(Jaris\Authentication::currentUserGroup() == $machine_name && $value)
-                {
+            foreach ($groups as $machine_name => $value) {
+                if (Jaris\Authentication::currentUserGroup() == $machine_name && $value) {
                     $user_is_in_group = true;
                     break;
                 }
             }
 
-            if(!Jaris\Authentication::isAdminLogged() && !$user_is_in_group)
-            {
+            if (!Jaris\Authentication::isAdminLogged() && !$user_is_in_group) {
                 exit;
             }
         }
 
-        if(empty($_REQUEST["uri"]) || trim($_REQUEST["uri"]) == "")
-        {
+        if (empty($_REQUEST["uri"]) || trim($_REQUEST["uri"]) == "") {
             exit;
         }
 
         $uri = $_REQUEST["uri"];
 
-        if(!Jaris\Pages::userIsOwner($uri))
-        {
+        if (!Jaris\Pages::userIsOwner($uri)) {
             Jaris\Authentication::protectedPage();
         }
     ?>
@@ -88,19 +82,15 @@ row: 0
     ;
     $file_count = count(Jaris\Pages\Files::getList($_REQUEST["uri"]));
 
-    if($maximum_files == "0")
-    {
+    if ($maximum_files == "0") {
         $message = t("File uploads not permitted for this content type.");
         $error = true;
-    }
-    elseif($file_count >= $maximum_files && $maximum_files != "-1")
-    {
+    } elseif ($file_count >= $maximum_files && $maximum_files != "-1") {
         $message = t("Maximum file uploads reached.");
         $error = true;
     }
 
-    if(!$error)
-    {
+    if (!$error) {
         // Name given to uploaded file
         $file_name = "";
 
@@ -112,8 +102,7 @@ row: 0
             $file_name
         );
 
-        if($message == "true")
-        {
+        if ($message == "true") {
             $message = "";
 
             $url = Jaris\Uri::url("file/$uri/$file_name");

@@ -19,37 +19,31 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("add_users"));
+        Jaris\Authentication::protectedPage(["add_users"]);
 
         $email_login = false;
 
-        if(isset($_REQUEST["btnSaveAndEmail"]))
-        {
+        if (isset($_REQUEST["btnSaveAndEmail"])) {
             $_REQUEST["btnSave"] = 1;
             $email_login = true;
         }
 
         $valid_email = true;
-        if(isset($_REQUEST["email"]) && isset($_REQUEST["btnSave"]))
-        {
+        if (isset($_REQUEST["email"]) && isset($_REQUEST["btnSave"])) {
             $valid_email = Jaris\Forms::validEmail($_REQUEST["email"]);
 
-            if(!$valid_email)
-            {
+            if (!$valid_email) {
                 Jaris\View::addMessage(
                     t("The email you entered is not a valid one."),
                     "error"
                 );
-            }
-            else
-            {
+            } else {
                 //Check that the email is not in use by other account
                 $db_users = Jaris\Sql::open("users");
                 $select = "select email from users where email='" . trim($_REQUEST["email"]) . "'";
                 $result = Jaris\Sql::query($select, $db_users);
 
-                if($data = Jaris\Sql::fetchArray($result))
-                {
+                if ($data = Jaris\Sql::fetchArray($result)) {
                     $valid_email = false;
 
                     Jaris\View::addMessage(
@@ -63,12 +57,10 @@ row: 0
         }
 
         $valid_username = true;
-        if(isset($_REQUEST["username"]) && isset($_REQUEST["btnSave"]))
-        {
+        if (isset($_REQUEST["username"]) && isset($_REQUEST["btnSave"])) {
             $valid_username = Jaris\Forms::validUsername($_REQUEST["username"]);
 
-            if(!$valid_username)
-            {
+            if (!$valid_username) {
                 Jaris\View::addMessage(
                     t("The username you provided has invalid characters."),
                     "error"
@@ -76,25 +68,21 @@ row: 0
             }
         }
 
-        if(
+        if (
             $valid_username
             &&
             isset($_REQUEST["username"])
             &&
             isset($_REQUEST["btnSave"])
-        )
-        {
-            if(strlen($_REQUEST["username"]) < 3)
-            {
+        ) {
+            if (strlen($_REQUEST["username"]) < 3) {
                 Jaris\View::addMessage(
                     t("The username should be at least 3 characters long."),
                     "error"
                 );
 
                 $valid_username = false;
-            }
-            else if(strlen($_REQUEST["username"]) > 60)
-            {
+            } elseif (strlen($_REQUEST["username"]) > 60) {
                 Jaris\View::addMessage(
                     t("The username exceeds from 60 characters."),
                     "error"
@@ -104,15 +92,16 @@ row: 0
             }
         }
 
-        if(
+        if (
             isset($_REQUEST["btnSave"]) &&
             !Jaris\Forms::requiredFieldEmpty("add-user") &&
             $valid_email &&
             $valid_username
-        )
-        {
+        ) {
             $fields["name"] = substr(
-                Jaris\Util::stripHTMLTags($_REQUEST["full_name"]), 0, 65
+                Jaris\Util::stripHTMLTags($_REQUEST["full_name"]),
+                0,
+                65
             );
 
             $fields["group"] = $_REQUEST["group"];
@@ -121,7 +110,9 @@ row: 0
             $fields["gender"] = $_REQUEST["gender"];
 
             $fields["birth_date"] = mktime(
-                0, 0, 0,
+                0,
+                0,
+                0,
                 intval($_REQUEST["month"]),
                 intval($_REQUEST["day"]),
                 intval($_REQUEST["year"])
@@ -131,14 +122,11 @@ row: 0
 
             $error = false;
 
-            if(
+            if (
                 strlen($_REQUEST["password"]) >= 6
-            )
-            {
+            ) {
                 $fields["password"] = $_REQUEST["password"];
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(
                     t("The Password should be at least 6 characters long."),
                     "error"
@@ -152,21 +140,17 @@ row: 0
                 Jaris\Util::stripHTMLTags($_REQUEST["website"])
             );
 
-            if(!$error)
-            {
+            if (!$error) {
                 $message = "";
 
-                if(Jaris\Settings::get("user_picture", "main"))
-                {
+                if (Jaris\Settings::get("user_picture", "main")) {
                     $message = Jaris\Users::add(
                         $_REQUEST["username"],
                         $fields["group"],
                         $fields,
                         $_FILES["picture"]
                     );
-                }
-                else
-                {
+                } else {
                     $message = Jaris\Users::add(
                         $_REQUEST["username"],
                         $fields["group"],
@@ -174,8 +158,7 @@ row: 0
                     );
                 }
 
-                if($message == "true")
-                {
+                if ($message == "true") {
                     Jaris\View::addMessage(
                         t("The user has been successfully created.")
                     );
@@ -184,18 +167,17 @@ row: 0
 
                     Jaris\Logger::info(
                         "Added user '{username}'.",
-                        array(
+                        [
                             "username" => $_REQUEST["username"]
-                        )
+                        ]
                     );
 
-                    if($email_login)
-                    {
-                        if(
+                    if ($email_login) {
+                        if (
                             Jaris\Mail::send(
-                                array(
+                                [
                                     $fields["name"] => $fields["email"]
-                                ),
+                                ],
                                 t("Account Created"),
                                 sprintf(
                                     t("Hi %s,<br /><br /> We have created an account for you on %s. Your login details are:<br /><br /><strong>Username:</strong> %s or %s <br /><strong>Password:</strong> %s <br /><br />You can login by visitng:<br /><a href=\"%s\">%s</a>"),
@@ -208,14 +190,11 @@ row: 0
                                     Jaris\Uri::url("admin/user")
                                 )
                             )
-                        )
-                        {
+                        ) {
                             Jaris\View::addMessage(
                                 t("Login details successfully sent to the user.")
                             );
-                        }
-                        else
-                        {
+                        } else {
                             Jaris\View::addMessage(
                                 t("An error occured while sending the login details to the user.")
                             );
@@ -223,15 +202,11 @@ row: 0
                     }
 
                     Jaris\Uri::go("admin/users/list");
-                }
-                else
-                {
+                } else {
                     Jaris\View::addMessage($message, "error");
                 }
             }
-        }
-        elseif(isset($_REQUEST["btnCancel"]))
-        {
+        } elseif (isset($_REQUEST["btnCancel"])) {
             Jaris\Uri::go("admin/users/list");
         }
 
@@ -243,7 +218,7 @@ row: 0
         $parameters["method"] = "post";
         $parameters["enctype"] = "multipart/form-data";
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "limit" => 65,
             "value" => empty($_REQUEST["full_name"]) ?
@@ -253,9 +228,9 @@ row: 0
             "id" => "full_name",
             "required" => true,
             "description" => t("Your full real name.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "limit" => 60,
             "value" => empty($_REQUEST["username"]) ?
@@ -265,9 +240,9 @@ row: 0
             "id" => "name",
             "required" => true,
             "description" => t("The name that you are going to use to log in, at least 3 characters long. Permitted characters are A to Z, 0 to 9 and underscores.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "password",
             "name" => "password",
             "label" => t("Password:"),
@@ -277,9 +252,9 @@ row: 0
             "reveal" => true,
             "required" => true,
             "description" => t("The password used to login, should be at least 6 characters long.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "value" => empty($_REQUEST["email"]) ?
                 "" : $_REQUEST["email"],
@@ -288,9 +263,9 @@ row: 0
             "id" => "email",
             "required" => true,
             "description" => t("The email used in case you forgot your password.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "value" => empty($_REQUEST["website"]) ?
                 "" : $_REQUEST["website"],
@@ -298,15 +273,15 @@ row: 0
             "label" => t("Website:"),
             "id" => "website",
             "description" => t("Corporate or personal website.")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
         //Gender Fields
         $gender[t("Male")] = "m";
         $gender[t("Female")] = "f";
 
-        $gender_fields[] = array(
+        $gender_fields[] = [
             "type" => "radio",
             "name" => "gender",
             "id" => "gender",
@@ -314,15 +289,15 @@ row: 0
             "checked" => empty($_REQUEST["gender"]) ?
                 "" : $_REQUEST["gender"],
             "required" => true
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "name" => t("Gender"),
             "fields" => $gender_fields
-        );
+        ];
 
         //Birthdate fields
-        $birth_date_fields[] = array(
+        $birth_date_fields[] = [
             "type" => "select",
             "name" => "day",
             "label" => t("Day:"),
@@ -333,9 +308,9 @@ row: 0
                 "" : $_REQUEST["day"],
             "required" => true,
             "inline" => true
-        );
+        ];
 
-        $birth_date_fields[] = array(
+        $birth_date_fields[] = [
             "type" => "select",
             "name" => "month",
             "label" => t("Month:"),
@@ -346,9 +321,9 @@ row: 0
                 "" : $_REQUEST["month"],
             "required" => true,
             "inline" => true
-        );
+        ];
 
-        $birth_date_fields[] = array(
+        $birth_date_fields[] = [
             "type" => "select",
             "name" => "year",
             "label" => t("Year:"),
@@ -359,37 +334,35 @@ row: 0
                 "" : $_REQUEST["year"],
             "required" => true,
             "inline" => true
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "name" => t("Birth date"),
             "fields" => $birth_date_fields
-        );
+        ];
 
         //If user pictures are activated.
-        if(Jaris\Settings::get("user_picture", "main"))
-        {
+        if (Jaris\Settings::get("user_picture", "main")) {
             $size = null;
 
-            if(!($size = Jaris\Settings::get("user_picture_size", "main")))
-            {
+            if (!($size = Jaris\Settings::get("user_picture_size", "main"))) {
                 $size = "150x150";
             }
 
-            $fields_picture[] = array(
+            $fields_picture[] = [
                 "id" => "picture",
                 "type" => "file",
                 "name" => "picture",
                 "description" => t("A picture displayed in user post, comments, etc...") . "&nbsp;" . $size
-            );
+            ];
 
-            $fieldset[] = array(
+            $fieldset[] = [
                 "name" => t("Picture"),
                 "fields" => $fields_picture
-            );
+            ];
         }
 
-        $fields_extra[] = array(
+        $fields_extra[] = [
             "type" => "select",
             "name" => "group",
             "label" => t("Group:"),
@@ -398,9 +371,9 @@ row: 0
             "selected" => empty($_REQUEST["group"]) ?
                 "" : $_REQUEST["group"],
             "description" => t("The group where the user belongs.")
-        );
+        ];
 
-        $fields_extra[] = array(
+        $fields_extra[] = [
             "type" => "select",
             "name" => "status",
             "label" => t("Status:"),
@@ -409,38 +382,38 @@ row: 0
             "selected" => empty($_REQUEST["status"]) ?
                 "" : $_REQUEST["status"],
             "description" => t("The account status of this user.")
-        );
+        ];
 
-        $fields_extra[] = array(
+        $fields_extra[] = [
             "type" => "select",
             "name" => "theme",
             "label" => t("Theme:"),
             "value" => Jaris\Themes::getSelectList(),
             "selected" => $_REQUEST["theme"],
             "description" => t("The theme for the site.")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields_extra);
+        $fieldset[] = ["fields" => $fields_extra];
 
-        $fields_submit[] = array(
+        $fields_submit[] = [
             "type" => "submit",
             "name" => "btnSave",
             "value" => t("Save")
-        );
+        ];
 
-        $fields_submit[] = array(
+        $fields_submit[] = [
             "type" => "submit",
             "name" => "btnSaveAndEmail",
             "value" => t("Save and Send Login by E-mail")
-        );
+        ];
 
-        $fields_submit[] = array(
+        $fields_submit[] = [
             "type" => "submit",
             "name" => "btnCancel",
             "value" => t("Cancel")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields_submit);
+        $fieldset[] = ["fields" => $fields_submit];
 
         print Jaris\Forms::generate($parameters, $fieldset);
     ?>

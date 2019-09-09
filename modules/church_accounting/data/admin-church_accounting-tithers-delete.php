@@ -19,12 +19,11 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("manage_tithers_church_accounting"));
+        Jaris\Authentication::protectedPage(["manage_tithers_church_accounting"]);
 
         $element_data = church_accounting_tither_get($_REQUEST["id"]);
 
-        if(isset($_REQUEST["btnYes"]))
-        {
+        if (isset($_REQUEST["btnYes"])) {
             church_accounting_tither_delete($element_data["id"]);
 
             Jaris\View::addMessage(t("Tither successfully deleted."));
@@ -35,9 +34,7 @@ row: 0
                     "church_accounting"
                 )
             );
-        }
-        elseif(isset($_REQUEST["btnNo"]))
-        {
+        } elseif (isset($_REQUEST["btnNo"])) {
             Jaris\Uri::go(
                 Jaris\Modules::getPageUri(
                     "admin/church-accounting/tithers",

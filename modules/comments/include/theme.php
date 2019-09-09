@@ -32,40 +32,33 @@ function comments_theme($comment_data, $page, $type, $include_replies=false)
 
     $user_data = Jaris\Users::get($user);
 
-    if($reply_to)
-    {
+    if ($reply_to) {
         $reply_to_data = comments_get($reply_to, $page);
         $reply_to_user = $reply_to_data["user"];
         $reply_user_data = Jaris\Users::get($reply_to_data["user"]);
     }
 
     $flag_url = "";
-    if(Jaris\Authentication::groupHasPermission("flag_comments", Jaris\Authentication::currentUserGroup()))
-    {
+    if (Jaris\Authentication::groupHasPermission("flag_comments", Jaris\Authentication::currentUserGroup())) {
         $flag_url = "<a id=\"comment-flag-$id-$user\" class=\"comment-flag-link\">" . t("flag") . "</a>";
     }
 
     $reply_url = "";
-    if(Jaris\Authentication::groupHasPermission("add_comments", Jaris\Authentication::currentUserGroup()))
-    {
+    if (Jaris\Authentication::groupHasPermission("add_comments", Jaris\Authentication::currentUserGroup())) {
         $reply_url = "<a id=\"comment-reply-$id-$user\" class=\"comment-reply-link\">" . t("reply") . "</a>";
     }
 
     $delete_url = "";
-    if(Jaris\Authentication::groupHasPermission("delete_comments", Jaris\Authentication::currentUserGroup()))
-    {
-        if(Jaris\Authentication::isAdminLogged() || Jaris\Authentication::currentUser() == $user)
-        {
+    if (Jaris\Authentication::groupHasPermission("delete_comments", Jaris\Authentication::currentUserGroup())) {
+        if (Jaris\Authentication::isAdminLogged() || Jaris\Authentication::currentUser() == $user) {
             $delete_url = "<a id=\"comment-delete-$id-$user\" class=\"comment-delete-link\">" . t("delete") . "</a>";
         }
     }
 
-    if($include_replies)
-    {
+    if ($include_replies) {
         $replies_list = comments_get_replies($comment_data["id"], $page);
 
-        foreach($replies_list as $reply_comment)
-        {
+        foreach ($replies_list as $reply_comment) {
             $replies .= comments_theme(
                 $reply_comment,
                 $page,
@@ -107,20 +100,13 @@ function comments_template_path($page, $type) : string
 
     $template_path = "";
 
-    if(file_exists($current_page))
-    {
+    if (file_exists($current_page)) {
         $template_path = $current_page;
-    }
-    elseif(file_exists($content_type))
-    {
+    } elseif (file_exists($content_type)) {
         $template_path = $content_type;
-    }
-    elseif(file_exists($default_page))
-    {
+    } elseif (file_exists($default_page)) {
         $template_path = $default_page;
-    }
-    else
-    {
+    } else {
         $template_path = Jaris\Modules::directory("comments") . "templates/comments.php";
     }
 
@@ -131,9 +117,12 @@ function comments_template_path($page, $type) : string
 }
 
 function comments_print(
-    $page, $type, $page_number = 1, $ordering="asc", $replies="cascade"
-)
-{
+    $page,
+    $type,
+    $page_number = 1,
+    $ordering="asc",
+    $replies="cascade"
+) {
     $comments_content = "<div id=\"comments\">";
 
     $ordering = $ordering != "desc" ? "asc": "desc";
@@ -142,13 +131,13 @@ function comments_print(
 
     $comments = comments_get_list(
         $page,
-        $page_number - 1, 10,
+        $page_number - 1,
+        10,
         $ordering,
         $include_replies
     );
 
-    foreach($comments as $comment_data)
-    {
+    foreach ($comments as $comment_data) {
         $comments_content .= comments_theme(
             $comment_data,
             $page,
@@ -179,12 +168,11 @@ function comments_print(
 
 function comments_print_post()
 {
-    if(Jaris\Authentication::groupHasPermission("add_comments", Jaris\Authentication::currentUserGroup()))
-    {
+    if (Jaris\Authentication::groupHasPermission("add_comments", Jaris\Authentication::currentUserGroup())) {
         $parameters["name"] = "add-comment";
         $parameters["class"] = "add-comment";
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "textarea",
             "code" => "style=\"height: 60px\"",
             "name" => "comment",
@@ -192,28 +180,26 @@ function comments_print_post()
             "id" => "comment",
             "description" => t("<span id=\"add-comment-left\"></span>&nbsp;characters left"),
             "required" => true
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "other",
             "html_code" => '<input id="add-comment-submit" value="' . t("Post") . '" type="button" />'
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "other",
             "html_code" => ' <input id="add-comment-reset" value="' . t("Reset") . '" type="button" />'
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
         return Jaris\Forms::generate($parameters, $fieldset);
-    }
-    elseif(!Jaris\Authentication::isUserLogged())
-    {
+    } elseif (!Jaris\Authentication::isUserLogged()) {
         return "<div class=\"comment-login\">
-            <a href=\"" . Jaris\Uri::url("admin/user", array("return" => Jaris\Uri::get())) . "\">" .
+            <a href=\"" . Jaris\Uri::url("admin/user", ["return" => Jaris\Uri::get()]) . "\">" .
             t("Login") . "</a> " . t("or") . " " .
-            "<a href=\"" . Jaris\Uri::url("register", array("return" => Jaris\Uri::get())) . "\">" .
+            "<a href=\"" . Jaris\Uri::url("register", ["return" => Jaris\Uri::get()]) . "\">" .
             t("Register") . "</a> " . t("to post a comment.") .
             "</div>"
         ;
@@ -236,32 +222,26 @@ function comments_print_navigation($total_count, $page, $uri, $amount = 30)
     $page_count = 0;
     $remainder_pages = 0;
 
-    if($total_count <= $amount)
-    {
+    if ($total_count <= $amount) {
         $page_count = 1;
-    }
-    else
-    {
+    } else {
         $page_count = floor($total_count / $amount);
         $remainder_pages = $total_count % $amount;
 
-        if($remainder_pages > 0)
-        {
+        if ($remainder_pages > 0) {
             $page_count++;
         }
     }
 
     //In case someone is trying a page out of range or not print if only one page
-    if($page > $page_count || $page < 0 || $page_count == 1)
-    {
+    if ($page > $page_count || $page < 0 || $page_count == 1) {
         return false;
     }
 
     print "<div class=\"search-results\">\n";
     print "<div class=\"navigation\" id=\"comments-navigation\">\n";
-    if($page != 1)
-    {
-        $previous_page = Jaris\Uri::url($uri, array("page" => $page - 1));
+    if ($page != 1) {
+        $previous_page = Jaris\Uri::url($uri, ["page" => $page - 1]);
         $previous_text = t("Previous");
         print "<a class=\"previous\" data-page=\"".($page - 1)."\">$previous_text</a>";
     }
@@ -269,29 +249,22 @@ function comments_print_navigation($total_count, $page, $uri, $amount = 30)
     $start_page = $page;
     $end_page = $page + 10;
 
-    for($start_page; $start_page < $end_page && $start_page <= $page_count; $start_page++)
-    {
+    for ($start_page; $start_page < $end_page && $start_page <= $page_count; $start_page++) {
         $text = t($start_page);
 
-        if($start_page > $page || $start_page < $page)
-        {
-            $url = Jaris\Uri::url($uri, array("page" => $start_page));
+        if ($start_page > $page || $start_page < $page) {
+            $url = Jaris\Uri::url($uri, ["page" => $start_page]);
             print "<a class=\"page\" data-page=\"".$start_page."\">$text</a>";
-        }
-        else
-        {
+        } else {
             print "<a class=\"current-page page\">$text</a>";
         }
     }
 
-    if($page < $page_count)
-    {
-        $next_page = Jaris\Uri::url($uri, array("page" => $page + 1));
+    if ($page < $page_count) {
+        $next_page = Jaris\Uri::url($uri, ["page" => $page + 1]);
         $next_text = t("Next");
         print "<a class=\"next\" data-page=\"".($page + 1)."\">$next_text</a>";
     }
     print "</div>\n";
     print "</div>\n";
 }
-
-?>

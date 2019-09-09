@@ -2,13 +2,13 @@
 
 <div class="content">
 
-<?php if($header){?><div class="content-header"><?php print $header ?></div><?php } ?>
+<?php if ($header) {?><div class="content-header"><?php print $header ?></div><?php } ?>
 
     <table>
         <tr>
-            <?php if($left){?><td class="content-left"><?php print $left ?></td><?php } ?>
+            <?php if ($left) {?><td class="content-left"><?php print $left ?></td><?php } ?>
             <td class="content">
-                <?php if($center){?>
+                <?php if ($center) {?>
                 <div class="content-center">
                     <?php print $center ?>
                 </div>
@@ -24,11 +24,9 @@
                     ?>
 
                     <?php
-                        if(!isset($_COOKIE["poll"][Jaris\Uri::get()]) && !poll_expired(Jaris\Uri::get()))
-                        {
-                            $poll_data = array();
-                            foreach($content_data["option_name"] as $id=>$name)
-                            {
+                        if (!isset($_COOKIE["poll"][Jaris\Uri::get()]) && !poll_expired(Jaris\Uri::get())) {
+                            $poll_data = [];
+                            foreach ($content_data["option_name"] as $id=>$name) {
                                 $poll_data[t($name)] = $id;
                             }
 
@@ -36,12 +34,12 @@
                             $parameters["action"] = Jaris\Uri::url(Jaris\Modules::getPageUri("admin/polls/vote", "polls"));
                             $parameters["method"] = "get";
 
-                            $fields[] = array("type"=>"hidden", "name"=>"uri", "id"=>"uri", "value"=>Jaris\Uri::get());
-                            $fields[] = array("type"=>"hidden", "name"=>"actual_uri", "id"=>"actual_uri", "value"=>Jaris\Uri::get());
-                            $fields[] = array("type"=>"radio", "name"=>"id", "id"=>"id", "value"=>$poll_data, "horizontal_list"=>true);
-                            $fields[] = array("type"=>"submit", "value"=>t("Vote"));
+                            $fields[] = ["type"=>"hidden", "name"=>"uri", "id"=>"uri", "value"=>Jaris\Uri::get()];
+                            $fields[] = ["type"=>"hidden", "name"=>"actual_uri", "id"=>"actual_uri", "value"=>Jaris\Uri::get()];
+                            $fields[] = ["type"=>"radio", "name"=>"id", "id"=>"id", "value"=>$poll_data, "horizontal_list"=>true];
+                            $fields[] = ["type"=>"submit", "value"=>t("Vote")];
 
-                            $fieldset[] = array("fields"=>$fields);
+                            $fieldset[] = ["fields"=>$fields];
 
                             print Jaris\Forms::generate($parameters, $fieldset);
 
@@ -53,37 +51,27 @@
 
                     <?php
                         $total_votes = 0;
-                        foreach($content_data["option_value"] as $value)
-                        {
+                        foreach ($content_data["option_value"] as $value) {
                             $total_votes += $value;
                         }
 
-                        $option_percent = array();
-                        foreach($content_data["option_value"] as $value)
-                        {
-                            if($value <= 0)
-                            {
+                        $option_percent = [];
+                        foreach ($content_data["option_value"] as $value) {
+                            if ($value <= 0) {
                                 $option_percent[] = 0;
-                            }
-                            else
-                            {
+                            } else {
                                 $option_percent[] = floor(($value / $total_votes) * 100);
                             }
                         }
 
-                        for($i=0; $i<count($content_data["option_name"]); $i++)
-                        {
+                        for ($i=0; $i<count($content_data["option_name"]); $i++) {
                             print "<h4>" . t($content_data['option_name'][$i]) . "</h4>\n";
 
-                            if($content_data['option_value'][$i] != 0)
-                            {
+                            if ($content_data['option_value'][$i] != 0) {
                                 print "<div style=\"text-align: center; background-color: #d3d3d3; width: {$option_percent[$i]}%\">{$option_percent[$i]}% " . $content_data['option_value'][$i] . " " . t("of") . " " . $total_votes . " " . t("votes") . "</div>\n";
-                            }
-                            else
-                            {
+                            } else {
                                 print "<div style=\"text-align: center; background-color: #d3d3d3; width: {$option_percent[$i]}%\">{$option_percent[$i]}%</div>\n";
                             }
-
                         }
                     ?>
 
@@ -94,10 +82,10 @@
                 </div>
 
             </td>
-            <?php if($right){?><td class="content-right"><?php print $right ?></td><?php } ?>
+            <?php if ($right) {?><td class="content-right"><?php print $right ?></td><?php } ?>
         </tr>
     </table>
 
-<?php if($footer){?><div class="content-footer"><?php print $footer ?></div><?php } ?>
+<?php if ($footer) {?><div class="content-footer"><?php print $footer ?></div><?php } ?>
 
 </div>

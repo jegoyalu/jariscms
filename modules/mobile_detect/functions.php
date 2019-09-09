@@ -12,66 +12,58 @@
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\Site::SIGNAL_INITIALIZATION,
-    function()
-    {
+    function () {
         $theme = Jaris\Site::$theme;
 
-        if(isset($_REQUEST["device"]))
-        {
-            if(
+        if (isset($_REQUEST["device"])) {
+            if (
                 $_REQUEST["device"] == "desktop" ||
                 $_REQUEST["device"] == "phone" ||
                 $_REQUEST["device"] == "tablet"
-            )
+            ) {
                 Jaris\Session::addCookie("device", $_REQUEST["device"]);
+            }
         }
 
         $mobile_theme = Jaris\Settings::get("mobile_theme", "mobile_detect");
         $tablet_theme = Jaris\Settings::get("tablet_theme", "mobile_detect");
 
-        if(!$mobile_theme)
-        {
-            if(file_exists(Jaris\Themes::directory($theme) . "mobile/info.php"))
-            {
+        if (!$mobile_theme) {
+            if (file_exists(Jaris\Themes::directory($theme) . "mobile/info.php")) {
                 $mobile_theme = "$theme/mobile";
             }
         }
 
-        if(!$tablet_theme)
-        {
-            if(file_exists(Jaris\Themes::directory($theme) . "tablet/info.php"))
-            {
+        if (!$tablet_theme) {
+            if (file_exists(Jaris\Themes::directory($theme) . "tablet/info.php")) {
                 $tablet_theme = "$theme/tablet";
             }
         }
 
-        if(isset($_COOKIE["device"]))
-        {
-            switch($_COOKIE["device"])
-            {
+        if (isset($_COOKIE["device"])) {
+            switch ($_COOKIE["device"]) {
                 case "phone":
-                    if($mobile_theme)
+                    if ($mobile_theme) {
                         $theme = $mobile_theme;
+                    }
                     break;
                 case "tablet":
-                    if($tablet_theme)
+                    if ($tablet_theme) {
                         $theme = $tablet_theme;
+                    }
                     break;
             }
-        }
-        else
-        {
+        } else {
             $device = new Mobile_Detect();
 
-            if($device->isMobile() && !$device->isTablet())
-            {
-                if($mobile_theme)
+            if ($device->isMobile() && !$device->isTablet()) {
+                if ($mobile_theme) {
                     $theme = $mobile_theme;
-            }
-            elseif($device->isTablet())
-            {
-                if($tablet_theme)
+                }
+            } elseif ($device->isTablet()) {
+                if ($tablet_theme) {
                     $theme = $tablet_theme;
+                }
             }
         }
     }
@@ -79,19 +71,19 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\Themes::SIGNAL_GET_ENABLED_THEMES,
-    function(&$themes)
-    {
-        $themes_copy = array();
+    function (&$themes) {
+        $themes_copy = [];
 
-        foreach($themes as $theme)
-        {
+        foreach ($themes as $theme) {
             $themes_copy[] = $theme;
 
-            if(is_dir(Jaris\Themes::directory($theme) . "mobile"))
+            if (is_dir(Jaris\Themes::directory($theme) . "mobile")) {
                 $themes_copy[] = "$theme/mobile";
+            }
 
-            if(is_dir(Jaris\Themes::directory($theme) . "tablet"))
+            if (is_dir(Jaris\Themes::directory($theme) . "tablet")) {
                 $themes_copy[] = "$theme/tablet";
+            }
         }
 
         $themes = $themes_copy;
@@ -100,34 +92,32 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\View::SIGNAL_THEME_TABS,
-    function(&$tabs_array)
-    {
-        if(
+    function (&$tabs_array) {
+        if (
             Jaris\Uri::get() == "admin/themes" ||
             Jaris\Uri::get() == "admin/themes/mobile" ||
             Jaris\Uri::get() == "admin/themes/tablet"
-        )
-        {
-            $tabs_array[0][t("Desktop")] = array(
+        ) {
+            $tabs_array[0][t("Desktop")] = [
                 "uri" => "admin/themes",
-                "arguments" => array()
-            );
+                "arguments" => []
+            ];
 
-            $tabs_array[0][t("Mobile")] = array(
+            $tabs_array[0][t("Mobile")] = [
                 "uri" => Jaris\Modules::getPageUri(
                     "admin/themes/mobile",
                     "mobile_detect"
                 ),
-                "arguments" => array()
-            );
+                "arguments" => []
+            ];
 
-            $tabs_array[0][t("Tablet")] = array(
+            $tabs_array[0][t("Tablet")] = [
                 "uri" => Jaris\Modules::getPageUri(
                     "admin/themes/tablet",
                     "mobile_detect"
                 ),
-                "arguments" => array()
-            );
+                "arguments" => []
+            ];
         }
     }
 );

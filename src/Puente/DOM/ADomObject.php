@@ -42,18 +42,16 @@ abstract class ADomObject
      *
      * @param string $name
      * @param array $arguments
-     * 
+     *
      * @return self
      */
     public function __call(string $name, array $arguments): self
     {
-        if(!$this->name)
-        {
+        if (!$this->name) {
             throw new \Exception("No name specified for the DOM object.");
         }
 
-        switch(count($arguments))
-        {
+        switch (count($arguments)) {
             case 0:
                 $this->callMethod($name);
                 break;
@@ -65,19 +63,29 @@ abstract class ADomObject
                 break;
             case 3:
                 $this->callMethod(
-                    $name, $arguments[0], $arguments[1], $arguments[2]
+                    $name,
+                    $arguments[0],
+                    $arguments[1],
+                    $arguments[2]
                 );
                 break;
             case 4:
                 $this->callMethod(
-                    $name, $arguments[0], $arguments[1], 
-                    $arguments[2], $arguments[3]
+                    $name,
+                    $arguments[0],
+                    $arguments[1],
+                    $arguments[2],
+                    $arguments[3]
                 );
                 break;
             case 5:
                 $this->callMethod(
-                    $name, $arguments[0], $arguments[1], 
-                    $arguments[2], $arguments[3], $arguments[4]
+                    $name,
+                    $arguments[0],
+                    $arguments[1],
+                    $arguments[2],
+                    $arguments[3],
+                    $arguments[4]
                 );
                 break;
             default:
@@ -92,21 +100,18 @@ abstract class ADomObject
      *
      * @param string $name
      * @param array ...$arguments
-     * 
+     *
      * @return self
      */
     public function callMethod(string $name, ...$arguments): self
     {
-        if(!$this->name)
-        {
+        if (!$this->name) {
             throw new \Exception("No name specified for the DOM object.");
         }
 
         $args = "";
-        if(count($arguments) > 0)
-        {
-            foreach($arguments as $value)
-            {
+        if (count($arguments) > 0) {
+            foreach ($arguments as $value) {
                 $this->paramConvert($value);
                 
                 $args .= $value . ", ";
@@ -115,25 +120,19 @@ abstract class ADomObject
             $args = rtrim($args, ", ");
         }
 
-        if($this->owner)
-        {
+        if ($this->owner) {
             $this->owner->addCode(
                 "{$this->name}.$name("
                 . $args
                 . ");"
             );
-        }
-        else
-        {
-            if($this->code)
-            {
+        } else {
+            if ($this->code) {
                 $this->code .= ".$name("
                     . $args
                     . ")"
                 ;
-            }
-            else
-            {
+            } else {
                 $this->code .= "{$this->name}.$name("
                     . $args
                     . ")"
@@ -149,30 +148,23 @@ abstract class ADomObject
      *
      * @param string $name
      * @param string|array|object $value
-     * 
+     *
      * @return self
      */
     public function assignProperty(string $name, $value): self
     {
-        if(!$this->name)
-        {
+        if (!$this->name) {
             throw new \Exception("No name specified for the DOM object.");
         }
 
         $this->paramConvert($value);
 
-        if($this->owner)
-        {
+        if ($this->owner) {
             $this->owner->addCode("{$this->name}.$name=$value;");
-        }
-        else
-        {
-            if($this->code)
-            {
+        } else {
+            if ($this->code) {
                 $this->code .= "; {$this->name}.$name=$value";
-            }
-            else
-            {
+            } else {
                 $this->code .= "{$this->name}.$name=$value";
             }
         }
@@ -206,54 +198,41 @@ abstract class ADomObject
      *
      * @param string|array|object $data
      * @param array $new_data
-     * 
+     *
      * @return self
      */
     public function appendData(&$data, array $new_data): self
     {
-        if(count($new_data) <= 0)
-        {
+        if (count($new_data) <= 0) {
             return $this;
         }
 
-        if(is_string($data))
-        {
+        if (is_string($data)) {
             $data = trim($data);
 
-            if(substr($data, -1) == "}")
-            {
+            if (substr($data, -1) == "}") {
                 $data = substr_replace($data, "", -1);
 
-                foreach($new_data as $name => $value)
-                {
+                foreach ($new_data as $name => $value) {
                     $this->paramConvert($value);
                     $data .= ", $name: $value";
                 }
 
-                if(substr($data, 0, 2) == "{,")
-                {
+                if (substr($data, 0, 2) == "{,") {
                     $data = substr_replace($data, "{", 0, 2);
                 }
 
                 $data .= "}";
-            }
-            else
-            {
+            } else {
                 throw new \Exception("Invalid JSON Object.");
             }
-        }
-        elseif(is_array($data))
-        {
-            foreach($new_data as $name => $value)
-            {
+        } elseif (is_array($data)) {
+            foreach ($new_data as $name => $value) {
                 $this->paramConvert($value);
                 $data[$name] = $value;
             }
-        }
-        elseif(is_object($data))
-        {
-            foreach($new_data as $name => $value)
-            {
+        } elseif (is_object($data)) {
+            foreach ($new_data as $name => $value) {
                 $this->paramConvert($value);
                 $data->$name = $value;
             }
@@ -282,7 +261,7 @@ abstract class ADomObject
      *
      * @param mixed $param Can be a php array/object, number or string with
      * optional js: prefix.
-     * 
+     *
      * @return void
      */
     public function paramConvert(&$param): void
@@ -290,33 +269,25 @@ abstract class ADomObject
         // NOTE: we dont use paramToStr or paramToJSON here reduce the amount
         // of function calls.
 
-        if(is_numeric($param))
-        {
+        if (is_numeric($param)) {
             return;
-        }
-        elseif(is_string($param))
-        {
-            if(strlen($param) > 3 && substr($param, 0, 3) == "js:")
-            {
+        } elseif (is_string($param)) {
+            if (strlen($param) > 3 && substr($param, 0, 3) == "js:") {
                 $param = substr_replace($param, "", 0, 3);
                 return;
             }
 
             $param = "'"
                 . str_replace(
-                    ["'", "\n"], 
-                    ["\\'", "\\n"], 
+                    ["'", "\n"],
+                    ["\\'", "\\n"],
                     $param
-                ) 
+                )
                 . "'"
             ;
-        }
-        elseif(is_array($param) || is_object($param))
-        {
+        } elseif (is_array($param) || is_object($param)) {
             $param = json_encode($param);
-        }
-        else
-        {
+        } else {
             throw new \Exception(
                 "Could not properly convert the given parameter"
             );
@@ -327,17 +298,17 @@ abstract class ADomObject
      * Converts a parameter to a valid string.
      *
      * @param string $param
-     * 
+     *
      * @return void
      */
     public function paramToStr(string &$param): void
     {
         $param = "'"
             . str_replace(
-                ["'", "\n"], 
-                ["\\'", "\\n"], 
+                ["'", "\n"],
+                ["\\'", "\\n"],
                 $param
-            ) 
+            )
             . "'"
         ;
     }
@@ -346,7 +317,7 @@ abstract class ADomObject
      * Converts a parameter to a JSON object.
      *
      * @param mixed $param
-     * 
+     *
      * @return void
      */
     public function paramToJSON(&$param): void

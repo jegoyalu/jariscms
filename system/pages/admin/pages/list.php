@@ -19,7 +19,7 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("view_content"));
+        Jaris\Authentication::protectedPage(["view_content"]);
     ?>
     <script>
         $(document).ready(function(){
@@ -38,19 +38,16 @@ row: 0
         Jaris\View::addTab(t("Navigation View"), "admin/pages");
         Jaris\View::addTab(t("Create Page"), "admin/pages/types");
 
-        if(!isset($_REQUEST["type"]))
-        {
+        if (!isset($_REQUEST["type"])) {
             $_REQUEST["type"] = "";
         }
 
-        if(!isset($_REQUEST["author"]))
-        {
+        if (!isset($_REQUEST["author"])) {
             $_REQUEST["author"] = "";
         }
 
         $type = "";
-        if(!empty($_REQUEST["type"]) && trim($_REQUEST["type"]) != "")
-        {
+        if (!empty($_REQUEST["type"]) && trim($_REQUEST["type"]) != "") {
             $type = str_replace("'", "''", $_REQUEST["type"]);
             $type = "type='$type'";
         }
@@ -58,26 +55,24 @@ row: 0
         $types_array = Jaris\Types::getList();
 
         $author = "";
-        if(!empty($_REQUEST["author"]) && trim($_REQUEST["author"]) != "")
-        {
+        if (!empty($_REQUEST["author"]) && trim($_REQUEST["author"]) != "") {
             $username = str_replace("'", "''", $_REQUEST["author"]);
 
-            if($type)
+            if ($type) {
                 $author = "and ";
+            }
 
             $author .= "author='$username'";
         }
 
         $where = "";
-        if($type || $author)
-        {
+        if ($type || $author) {
             $where = "where ";
         }
 
         $page = 1;
 
-        if(isset($_REQUEST["page"]))
-        {
+        if (isset($_REQUEST["page"])) {
             $page = $_REQUEST["page"];
         }
 
@@ -85,15 +80,13 @@ row: 0
         print "<div style=\"float: left\">";
         print t("Filter by type:") . " <select onchange=\"javascript: this.form.submit()\" name=\"type\">\n";
         print "<option value=\"\">" . t("All") . "</option>\n";
-        foreach($types_array as $machine_name => $type_data)
-        {
+        foreach ($types_array as $machine_name => $type_data) {
             $selected = "";
 
-            if(
+            if (
                 !empty($_REQUEST["author"]) &&
                 $_REQUEST["type"] == $machine_name
-            )
-            {
+            ) {
                 $selected = "selected=\"selected\"";
             }
 
@@ -156,10 +149,10 @@ row: 0
             "admin/pages/list",
             "",
             20,
-            array(
+            [
                 "type" => $_REQUEST["type"],
                 "author" => $_REQUEST["author"]
-            )
+            ]
         );
 
         print "<table class=\"navigation-list\">";
@@ -175,8 +168,7 @@ row: 0
         print "</tr>";
         print "</thead>";
 
-        foreach($pages as $result_fields)
-        {
+        foreach ($pages as $result_fields) {
             $uri = $result_fields["uri"];
 
             $page_data = Jaris\Pages::get($uri);
@@ -185,8 +177,7 @@ row: 0
             ;
             $type = t("system");
 
-            if(isset($page_data["type"]))
-            {
+            if (isset($page_data["type"])) {
                 $type_data = Jaris\Types::get($page_data["type"]);
                 $type = t($type_data["name"]);
             }
@@ -196,31 +187,30 @@ row: 0
             $images = Jaris\Pages\Images::getList($uri);
             $image_url = '';
 
-            foreach($images as $image)
-            {
+            foreach ($images as $image) {
                 $image_url = Jaris\Uri::url(
-                    "image/$uri/{$image['name']}", array("w" => 100)
+                    "image/$uri/{$image['name']}",
+                    ["w" => 100]
                 );
             }
 
-            if($image_url)
+            if ($image_url) {
                 print "<td><a href=\"" . Jaris\Uri::url($uri) . "\"><img src=\"$image_url\" /></a></td>";
-            else
+            } else {
                 print "<td></td>";
+            }
 
             print "<td><a href=\"" . Jaris\Uri::url($uri) . "\">" . Jaris\System::evalPHP($page_data["title"]) . "</a></td>";
 
             print "<td>" . $author . "</td>";
 
             print "<td>";
-            if(isset($page_data["created_date"]))
-            {
+            if (isset($page_data["created_date"])) {
                 print t("Created:") . " "
                     . date("m/d/Y g:i:s a", $page_data["created_date"])
                 ;
             }
-            if(isset($page_data["last_edit_date"]))
-            {
+            if (isset($page_data["last_edit_date"])) {
                 print "<br />" . t("Edited:") . " "
                     . date("m/d/Y g:i:s a", $page_data["last_edit_date"])
                 ;
@@ -229,8 +219,8 @@ row: 0
 
             print "<td>" . $type . "</td>";
 
-            $edit_url = Jaris\Uri::url("admin/pages/edit", array("uri" => $uri));
-            $delete_url = Jaris\Uri::url("admin/pages/delete", array("uri" => $uri));
+            $edit_url = Jaris\Uri::url("admin/pages/edit", ["uri" => $uri]);
+            $delete_url = Jaris\Uri::url("admin/pages/delete", ["uri" => $uri]);
 
             print "<td>"
                 . "<a href=\"$edit_url\">" . t("Edit") . "</a> <br />"
@@ -256,10 +246,10 @@ row: 0
             "admin/pages/list",
             "",
             20,
-            array(
+            [
                 "type" => $_REQUEST["type"],
                 "author" => $_REQUEST["author"]
-            )
+            ]
         );
     ?>
     field;

@@ -11,8 +11,7 @@
 function contact_upgrade()
 {
     // Create income database
-    if(!Jaris\Sql::dbExists("contact_archive"))
-    {
+    if (!Jaris\Sql::dbExists("contact_archive")) {
         //Income database
         $db = Jaris\Sql::open("contact_archive");
 
@@ -49,5 +48,3 @@ function contact_upgrade()
         Jaris\Sql::close($db);
     }
 }
-
-?>

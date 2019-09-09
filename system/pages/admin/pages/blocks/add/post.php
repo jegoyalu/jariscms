@@ -19,23 +19,20 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("add_content_blocks"));
+        Jaris\Authentication::protectedPage(["add_content_blocks"]);
 
-        if(!isset($_REQUEST["uri"]))
-        {
+        if (!isset($_REQUEST["uri"])) {
             Jaris\Uri::go("");
         }
 
-        if(!Jaris\Pages::userIsOwner($_REQUEST["uri"]))
-        {
+        if (!Jaris\Pages::userIsOwner($_REQUEST["uri"])) {
             Jaris\Authentication::protectedPage();
         }
 
-        if(
+        if (
             isset($_REQUEST["btnSave"]) &&
             !Jaris\Forms::requiredFieldEmpty("add-post-block")
-        )
-        {
+        ) {
             $fields["description"] = $_REQUEST["description"];
             $fields["title"] = $_REQUEST["title"];
             $fields["content"] = "";
@@ -43,43 +40,38 @@ row: 0
             $fields["post_block"] = true;
             $fields["uri"] = $_REQUEST["page_uri"];
 
-            if(
+            if (
                 Jaris\Authentication::groupHasPermission(
                     "input_format_content_blocks",
                     Jaris\Authentication::currentUserGroup()
                 )
-            )
-            {
+            ) {
                 $fields["input_format"] = $_REQUEST["input_format"];
             }
 
             $fields["order"] = 0;
             $fields["display_rule"] = "all_except_listed";
 
-            if(
+            if (
                 Jaris\Authentication::groupHasPermission(
                     "return_code_content_blocks",
                     Jaris\Authentication::currentUserGroup()
                 )
-            )
-            {
+            ) {
                 $fields["return"] = $_REQUEST["return"];
             }
 
-            if(
+            if (
                 Jaris\Blocks::add(
                     $fields,
                     $_REQUEST["position"],
                     $_REQUEST["uri"]
                 )
-            )
-            {
+            ) {
                 Jaris\View::addMessage(
                     t("The post block was successfully created.")
                 );
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(
                     Jaris\System::errorMessage("write_error_data"),
                     "error"
@@ -88,14 +80,12 @@ row: 0
 
             Jaris\Uri::go(
                 "admin/pages/blocks",
-                array("uri" => $_REQUEST["uri"])
+                ["uri" => $_REQUEST["uri"]]
             );
-        }
-        elseif(isset($_REQUEST["btnCancel"]))
-        {
+        } elseif (isset($_REQUEST["btnCancel"])) {
             Jaris\Uri::go(
                 "admin/pages/blocks",
-                array("uri" => $_REQUEST["uri"])
+                ["uri" => $_REQUEST["uri"]]
             );
         }
 
@@ -111,13 +101,13 @@ row: 0
         $positions[t("Footer")] = "footer";
         $positions[t("None")] = "none";
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "hidden",
             "name" => "uri",
             "value" => $_REQUEST["uri"]
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "select",
             "name" => "position",
             "label" => t("Position:"),
@@ -125,9 +115,9 @@ row: 0
             "value" => $positions,
             "selected" => isset($_REQUEST["position"]) ?
                 $_REQUEST["position"] : ""
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "name" => "description",
             "value" => isset($_REQUEST["description"]) ?
@@ -135,18 +125,18 @@ row: 0
             "label" => t("Description:"),
             "id" => "description",
             "required" => true
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "name" => "title",
             "value" => isset($_REQUEST["title"]) ?
                 $_REQUEST["title"] : "",
             "label" => t("Title:"),
             "id" => "title"
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "uri",
             "name" => "page_uri",
             "value" => isset($_REQUEST["page_uri"]) ?
@@ -155,53 +145,49 @@ row: 0
             "id" => "page_uri",
             "required" => true,
             "description" => t("The uri of the page to display a summary.")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
                 "input_format_content_blocks",
                 Jaris\Authentication::currentUserGroup()
             )
-        )
-        {
-            $fields_inputformats = array();
+        ) {
+            $fields_inputformats = [];
 
-            foreach(Jaris\InputFormats::getAll() as $machine_name => $fields_formats)
-            {
-
-                $fields_inputformats[] = array(
+            foreach (Jaris\InputFormats::getAll() as $machine_name => $fields_formats) {
+                $fields_inputformats[] = [
                     "type" => "radio",
                     "checked" => $machine_name == "full_html" ? true : false,
                     "name" => "input_format",
                     "description" => $fields_formats["description"],
-                    "value" => array($fields_formats["title"] => $machine_name)
-                );
+                    "value" => [$fields_formats["title"] => $machine_name]
+                ];
             }
 
-            $fieldset[] = array(
+            $fieldset[] = [
                 "fields" => $fields_inputformats,
                 "name" => t("Input Format")
-            );
+            ];
         }
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "fields" => Jaris\Groups::generateFields(),
             "name" => t("Users Access"),
             "collapsed" => true,
             "collapsible" => true,
             "description" => t("Select the groups that can see the block. Don't select anything to display block to everyone.")
-        );
+        ];
 
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
                 "return_code_content_blocks",
                 Jaris\Authentication::currentUserGroup()
             )
-        )
-        {
-            $fields_other[] = array(
+        ) {
+            $fields_other[] = [
                 "type" => "textarea",
                 "name" => "return",
                 "value" => isset($_REQUEST["return"]) ?
@@ -209,22 +195,22 @@ row: 0
                 "label" => t("Return Code:"),
                 "id" => "return",
                 "description" => t("PHP code enclosed with &lt;?php code ?&gt; to evaluate if block should display by printing true or false. for example: &lt;?php if(Jaris\Authentication::isUserLogged()) print \"true\"; else print \"false\"; ?&gt;")
-            );
+            ];
         }
 
-        $fields_other[] = array(
+        $fields_other[] = [
             "type" => "submit",
             "name" => "btnSave",
             "value" => t("Save")
-        );
+        ];
 
-        $fields_other[] = array(
+        $fields_other[] = [
             "type" => "submit",
             "name" => "btnCancel",
             "value" => t("Cancel")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields_other);
+        $fieldset[] = ["fields" => $fields_other];
 
         print Jaris\Forms::generate($parameters, $fieldset);
     ?>

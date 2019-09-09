@@ -9,8 +9,7 @@
  */
 
 //Check PHP version complies with the minimum required.
-if(substr(PHP_VERSION, 0, 1) < 7 && substr(PHP_VERSION, 2, 1) < 1)
-{
+if (substr(PHP_VERSION, 0, 1) < 7 && substr(PHP_VERSION, 2, 1) < 1) {
     exit("Error: please use PHP 7.1.0 or later.");
 }
 
@@ -25,8 +24,7 @@ Jaris\Autoloader::register();
 require 'src/Aliases.php';
 
 //Include backward compatible functions if include dir exists
-if(file_exists("include/forms.php"))
-{
+if (file_exists("include/forms.php")) {
     require 'src/DeprecatedFunctions.php';
 }
 

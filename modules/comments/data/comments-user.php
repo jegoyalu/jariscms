@@ -17,7 +17,7 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("add_comments"));
+        Jaris\Authentication::protectedPage(["add_comments"]);
 
         comments_clean_user_comments(Jaris\Authentication::currentUser());
 
@@ -30,18 +30,16 @@ row: 0
 
         $page = 1;
 
-        if(isset($_REQUEST["page"]))
-        {
+        if (isset($_REQUEST["page"])) {
             $page = $_REQUEST["page"];
         }
 
-        if(
+        if (
             Jaris\Sql::dbExists(
                 "comments",
                 comments_user_path(Jaris\Authentication::currentUser())
             )
-        )
-        {
+        ) {
             $comments_count = Jaris\Sql::countColumn(
                 "comments",
                 "comments",
@@ -74,8 +72,7 @@ row: 0
                 10
             );
 
-            foreach($comments as $data)
-            {
+            foreach ($comments as $data) {
                 $page_data = Jaris\Pages::get($data["uri"]);
                 $comment_data = comments_get($data["id"], $data["uri"]);
 
@@ -100,8 +97,7 @@ row: 0
                     comments_page_path($data["uri"])
                 );
 
-                foreach($replies as $reply_data)
-                {
+                foreach ($replies as $reply_data) {
                     print "<h4>" . t("Recent replies to this comment") . "</h4>";
                     print "<div class=\"text\">\n";
                     print $reply_data["comment_text"];
@@ -113,8 +109,7 @@ row: 0
                 print "</div>\n";
             }
 
-            if($comments_count <= 0)
-            {
+            if ($comments_count <= 0) {
                 Jaris\View::addMessage(t("No comments posted by you yet."));
             }
 

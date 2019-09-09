@@ -17,24 +17,21 @@ row: 0
 
     field: content
     <?php
-        if(isset($_REQUEST["s"]) && Jaris\Authentication::currentUser() == "Guest")
-        {
+        if (isset($_REQUEST["s"]) && Jaris\Authentication::currentUser() == "Guest") {
             session_destroy();
             session_id($_REQUEST["s"]);
             session_start();
         }
 
-        Jaris\Authentication::protectedPage(array("add_comments"));
+        Jaris\Authentication::protectedPage(["add_comments"]);
 
-        if(
+        if (
             isset($_REQUEST["comment"]) &&
             isset($_REQUEST["page"]) &&
-            isset($_REQUEST["type"]))
-        {
+            isset($_REQUEST["type"])) {
             $type_settings = comments_get_settings($_REQUEST["type"]);
 
-            if($type_settings["enabled"])
-            {
+            if ($type_settings["enabled"]) {
                 $comment = substr(
                     Jaris\Util::stripHTMLTags($_REQUEST["comment"]),
                     0,
@@ -43,12 +40,11 @@ row: 0
 
                 $page_data = Jaris\Pages::get($_REQUEST["page"]);
 
-                if(
+                if (
                     trim($comment) != "" &&
                     $page_data &&
                     $page_data["type"] == $_REQUEST["type"]
-                )
-                {
+                ) {
                     $user_data = Jaris\Users::get($page_data["author"]);
 
                     $id = comments_add(
@@ -58,11 +54,10 @@ row: 0
                     );
 
                     //Send poster a new comment notification
-                    if(
+                    if (
                         comments_get_notifications_type($page_data["author"]) != "none" &&
                         Jaris\Authentication::currentUser() != $page_data["author"]
-                    )
-                    {
+                    ) {
                         $comment_user_data = Jaris\Users::get(
                             Jaris\Authentication::currentUser()
                         );
@@ -84,7 +79,7 @@ row: 0
                         $html_message .= "<a target=\"_blank\" href=\"" .
                             Jaris\Uri::url(
                                 "admin/user",
-                                array("return" => $_REQUEST["page"])
+                                ["return" => $_REQUEST["page"]]
                             ) . "\">" . Jaris\Uri::url($_REQUEST["page"]) . "</a>"
                         ;
 

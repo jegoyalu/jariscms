@@ -19,21 +19,19 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("edit_settings"));
+        Jaris\Authentication::protectedPage(["edit_settings"]);
 
-        if(isset($_REQUEST["name"]))
-        {
+        if (isset($_REQUEST["name"])) {
             $file = Jaris\Site::dataDir() . "sqlite/" . $_REQUEST["name"];
 
-            if(file_exists($file))
-            {
+            if (file_exists($file)) {
                 t("Backup sql database '{database}'.");
 
                 Jaris\Logger::info(
                     "Backup sql database '{database}'.",
-                    array(
+                    [
                         "database" => $_REQUEST["name"]
-                    )
+                    ]
                 );
 
                 Jaris\FileSystem::printFile($file, $_REQUEST["name"], true, true);

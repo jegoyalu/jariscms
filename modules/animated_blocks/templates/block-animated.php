@@ -7,7 +7,7 @@
 */
 ?>
 <div class="block animated-block block-<?php print $id ?>">
-    <?php if($title){ ?><div class="title"><?php print $title ?></div><?php } ?>
+    <?php if ($title) { ?><div class="title"><?php print $title ?></div><?php } ?>
 
     <div class="content">
        <?php

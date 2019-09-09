@@ -17,31 +17,28 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("import_content_importer"));
+        Jaris\Authentication::protectedPage(["import_content_importer"]);
 
-        $cat_best_match = function($input, $categories){
+        $cat_best_match = function ($input, $categories) {
             $shortest = -1;
             $closest = "";
             $cat_machine_name = "";
             $subcat_id = "";
-            $product_categories = array();
+            $product_categories = [];
 
-            foreach($categories as $machine_name => $values)
-            {
+            foreach ($categories as $machine_name => $values) {
                 $sub_categories = Jaris\Categories::getSubcategories(
                     $machine_name
                 );
 
-                foreach($sub_categories as $sub_id=>$sub_data)
-                {
+                foreach ($sub_categories as $sub_id=>$sub_data) {
                     $lev = levenshtein(
                         $input,
                         strtolower($sub_data["title"])
                     );
 
                     // exact match
-                    if($lev == 0)
-                    {
+                    if ($lev == 0) {
                         $closest = $sub_data["title"];
                         $shortest = 0;
 
@@ -51,8 +48,7 @@ row: 0
                         break 2;
                     }
 
-                    if($lev <= $shortest || $shortest < 0)
-                    {
+                    if ($lev <= $shortest || $shortest < 0) {
                         $closest  = $sub_data["title"];
                         $shortest = $lev;
 
@@ -67,34 +63,30 @@ row: 0
             return $product_categories;
         };
 
-        if(
+        if (
             isset($_REQUEST["btnUpload"]) &&
             !Jaris\Forms::requiredFieldEmpty("upload-csv-importer")
-        )
-        {
-            $_SESSION["importer"] = array(
+        ) {
+            $_SESSION["importer"] = [
                 "delimeter" => $_REQUEST["delimeter"],
                 "enclosure" => $_REQUEST["enclosure"],
                 "escape" => $_REQUEST["escape"],
                 "file" => $_FILES["csv"]["tmp_name"]
-            );
+            ];
 
             Jaris\Uri::go(
                 Jaris\Modules::getPageUri("admin/pages/import", "importer"),
-                array("action"=>"setup")
+                ["action"=>"setup"]
             );
-        }
-        elseif(
+        } elseif (
             isset($_REQUEST["btnImport"]) &&
             !Jaris\Forms::requiredFieldEmpty("importing-options-importer")
-        )
-        {
-            if(
+        ) {
+            if (
                 !in_array("title", $_REQUEST["column"])
                 &&
                 empty($_REQUEST["update_only"])
-            )
-            {
+            ) {
                 Jaris\View::addMessage(
                     t("Please match a column as the title of the content."),
                     "error"
@@ -102,11 +94,9 @@ row: 0
 
                 Jaris\Uri::go(
                     Jaris\Modules::getPageUri("admin/pages/import", "importer"),
-                    array("action"=>"setup")
+                    ["action"=>"setup"]
                 );
-            }
-            else
-            {
+            } else {
                 //Disables execution time and enables unlimited
                 //execution time
                 set_time_limit(0);
@@ -124,8 +114,7 @@ row: 0
 
                 $update_only = false;
 
-                if(is_array($columns) && in_array("uri", $columns))
-                {
+                if (is_array($columns) && in_array("uri", $columns)) {
                     $update_only = true;
                 }
 
@@ -147,8 +136,7 @@ row: 0
 
                 $images_path = trim($_REQUEST["images_path"]);
 
-                if($images_path == "" || !is_dir($images_path))
-                {
+                if ($images_path == "" || !is_dir($images_path)) {
                     $images_path = false;
                 }
 
@@ -157,15 +145,14 @@ row: 0
 
                 $files_path = trim($_REQUEST["files_path"]);
 
-                if($files_path == "" || !is_dir($files_path))
-                {
+                if ($files_path == "" || !is_dir($files_path)) {
                     $files_path = false;
                 }
 
                 $imported_pages = 0;
 
                 //Start reading the csv lines and creating pages
-                while(
+                while (
                     $columns = fgetcsv(
                         $csv,
                         0,
@@ -173,28 +160,24 @@ row: 0
                         $_SESSION["importer"]["enclosure"],
                         $_SESSION["importer"]["escape"]
                     )
-                )
-                {
+                ) {
                     $uri = "";
 
-                    $page_data = array();
+                    $page_data = [];
 
-                    $page_data["users"] = array();
-                    $page_data["groups"] = array();
+                    $page_data["users"] = [];
+                    $page_data["groups"] = [];
 
-                    $page_categories = array();
+                    $page_categories = [];
 
-                    foreach($_REQUEST["column"] as $index=>$match)
-                    {
-                        switch($match)
-                        {
+                    foreach ($_REQUEST["column"] as $index=>$match) {
+                        switch ($match) {
                             case "uri":
                                 $uri = $columns[$index];
                                 break;
 
                             case "title":
-                                if(!isset($page_data["title"]))
-                                {
+                                if (!isset($page_data["title"])) {
                                     $page_data["title"] = "";
                                 }
 
@@ -202,41 +185,34 @@ row: 0
                                 break;
 
                             case "content":
-                                if(!isset($page_data["content"]))
-                                {
+                                if (!isset($page_data["content"])) {
                                     $page_data["content"] = "";
                                 }
 
-                                if($break_lines)
-                                {
+                                if ($break_lines) {
                                     $page_data["content"] .= preg_replace(
                                         "/\n+/",
                                         "<br />",
                                         $columns[$index]
                                     );
-                                }
-                                else
-                                {
+                                } else {
                                     $page_data["content"] .= $columns[$index];
                                 }
 
                                 break;
 
                             case "category":
-                                foreach($categories as $machine_name => $values)
-                                {
+                                foreach ($categories as $machine_name => $values) {
                                     $sub_categories = Jaris\Categories::getSubcategories(
                                         $machine_name
                                     );
 
-                                    foreach($sub_categories as $sub_id=>$sub_data)
-                                    {
-                                        if(
+                                    foreach ($sub_categories as $sub_id=>$sub_data) {
+                                        if (
                                             trim(strtolower($sub_data["title"]))
                                             ==
                                             trim(strtolower($columns[$index]))
-                                        )
-                                        {
+                                        ) {
                                             $page_categories[$machine_name][] = $sub_id;
 
                                             break 2;
@@ -257,22 +233,18 @@ row: 0
                             case "categories":
                                 $categories_column = explode(",", $columns[$index]);
 
-                                foreach($categories_column as $category_value)
-                                {
-                                    foreach($categories as $machine_name => $values)
-                                    {
+                                foreach ($categories_column as $category_value) {
+                                    foreach ($categories as $machine_name => $values) {
                                         $sub_categories = Jaris\Categories::getSubcategories(
                                             $machine_name
                                         );
 
-                                        foreach($sub_categories as $sub_id=>$sub_data)
-                                        {
-                                            if(
+                                        foreach ($sub_categories as $sub_id=>$sub_data) {
+                                            if (
                                                 trim(strtolower($sub_data["title"]))
                                                 ==
                                                 trim(strtolower($category_value))
-                                            )
-                                            {
+                                            ) {
                                                 $page_categories[$machine_name][] = $sub_id;
 
                                                 break 2;
@@ -286,10 +258,10 @@ row: 0
                             case "users":
                                 $users_column = explode(",", $columns[$index]);
 
-                                foreach($users_column as $user_value)
-                                {
-                                    if(trim($user_value) == "")
+                                foreach ($users_column as $user_value) {
+                                    if (trim($user_value) == "") {
                                         continue;
+                                    }
 
                                     $page_data["users"][] = $user_value;
                                 }
@@ -299,10 +271,10 @@ row: 0
                              case "groups":
                                 $groups_column = explode(",", $columns[$index]);
 
-                                foreach($groups_column as $group_value)
-                                {
-                                    if(trim($group_value) == "")
+                                foreach ($groups_column as $group_value) {
+                                    if (trim($group_value) == "") {
                                         continue;
+                                    }
 
                                     $page_data["groups"][] = $group_value;
                                 }
@@ -310,14 +282,16 @@ row: 0
                                 break;
 
                             case "input_format":
-                                if(trim($columns[$index]) != "")
+                                if (trim($columns[$index]) != "") {
                                     $page_data["input_format"] = $columns[$index];
+                                }
 
                                 break;
 
                             case "type":
-                                if(trim($columns[$index]) != "")
+                                if (trim($columns[$index]) != "") {
                                     $page_data["type"] = $columns[$index];
+                                }
 
                                 break;
 
@@ -343,42 +317,38 @@ row: 0
                         }
                     }
 
-                    if(count($page_categories) > 1)
-                    {
+                    if (count($page_categories) > 1) {
                         $page_data["categories"] = $page_categories;
-                    }
-                    elseif(!$update_only)
-                    {
-                        $page_data["categories"] = array();
+                    } elseif (!$update_only) {
+                        $page_data["categories"] = [];
                     }
 
-                    if(!isset($page_data["input_format"]) && !$update_only)
+                    if (!isset($page_data["input_format"]) && !$update_only) {
                         $page_data["input_format"] = $default_format;
+                    }
 
-                    if(count($page_data["groups"]) < 1 && !$update_only)
+                    if (count($page_data["groups"]) < 1 && !$update_only) {
                         $page_data["groups"] = $_REQUEST["groups"];
+                    }
 
-                    if(!$update_only)
-                    {
+                    if (!$update_only) {
                         $page_data["created_date"] = time();
                         $page_data["author"] = $author;
-                    }
-                    else
-                    {
+                    } else {
                         $page_data["last_edit_date"] = time();
                         $page_data["last_edit_by"] = $author;
                     }
 
-                    if(!isset($page_data["type"]) && !$update_only)
+                    if (!isset($page_data["type"]) && !$update_only) {
                         $page_data["type"] = $_REQUEST["type"];
+                    }
 
 
                     $page_uri = "";
 
                     $page_created_modified = false;
 
-                    if(!$update_only)
-                    {
+                    if (!$update_only) {
                         $uri = Jaris\Types::generateURI(
                             $page_data["type"],
                             $page_data["title"],
@@ -390,23 +360,19 @@ row: 0
                             $page_data,
                             $page_uri
                         );
-                    }
-                    else
-                    {
+                    } else {
                         $page_uri = $uri;
 
                         $old_data = Jaris\Pages::get($uri);
 
                         // Skip page if doesn't exists.
-                        if(!$old_data)
-                        {
+                        if (!$old_data) {
                             continue;
                         }
 
                         $new_data = array_merge($old_data, $page_data);
 
-                        if($_REQUEST["language_code"] != "en")
-                        {
+                        if ($_REQUEST["language_code"] != "en") {
                             $new_data["title"] = $old_data["title"];
                             $new_data["content"] = $old_data["content"];
                         }
@@ -416,8 +382,7 @@ row: 0
                             $new_data
                         );
 
-                        if($_REQUEST["language_code"] != "en")
-                        {
+                        if ($_REQUEST["language_code"] != "en") {
                             $new_data["title"] = $page_data["title"];
                             $new_data["content"] = $page_data["content"];
 
@@ -429,33 +394,26 @@ row: 0
                         }
                     }
 
-                    if($page_created_modified)
-                    {
+                    if ($page_created_modified) {
                         $imported_pages++;
 
                         //Add images
-                        if(count($image_indexes) > 0)
-                        {
-                            if($images_path)
-                            {
-                                foreach($image_indexes as $image_index)
-                                {
-                                    if(trim($columns[$image_index]) == "")
-                                    {
+                        if (count($image_indexes) > 0) {
+                            if ($images_path) {
+                                foreach ($image_indexes as $image_index) {
+                                    if (trim($columns[$image_index]) == "") {
                                         continue;
                                     }
 
                                     Jaris\FileSystem::search(
                                         $images_path,
                                         "/{$columns[$image_index]}/i",
-                                        function($file_full_path, &$stop_search)
-                                            use($columns, $image_index, $page_uri)
-                                        {
-                                            $file = array(
+                                        function ($file_full_path, &$stop_search) use ($columns, $image_index, $page_uri) {
+                                            $file = [
                                                 "name" => $columns[$image_index],
                                                 "tmp_name" => $file_full_path,
                                                 "type" => Jaris\FileSystem::getMimeTypeLocal($file_full_path)
-                                            );
+                                            ];
 
                                             $file_name = "";
 
@@ -475,23 +433,19 @@ row: 0
                         }
 
                         //Add images
-                        if(count($image_url_indexes) > 0)
-                        {
-                            foreach($image_url_indexes as $image_index)
-                            {
-                                if(
+                        if (count($image_url_indexes) > 0) {
+                            foreach ($image_url_indexes as $image_index) {
+                                if (
                                     stristr($columns[$image_index], "http://") === false
                                     &&
                                     stristr($columns[$image_index], "https://") === false
-                                )
-                                {
+                                ) {
                                     continue;
                                 }
 
                                 $image_content = file_get_contents(trim($columns[$image_index]));
 
-                                if($image_content !== false)
-                                {
+                                if ($image_content !== false) {
                                     $image_name_parts = explode(
                                         "/",
                                         trim($columns[$image_index])
@@ -506,13 +460,13 @@ row: 0
                                         $image_content
                                     );
 
-                                    $file = array(
+                                    $file = [
                                         "name" => $image_name,
                                         "tmp_name" => Jaris\Site::dataDir() . $image_name,
                                         "type" => Jaris\FileSystem::getMimeTypeLocal(
                                             Jaris\Site::dataDir() . $image_name
                                         )
-                                    );
+                                    ];
 
                                     Jaris\Pages\Images::add(
                                         $file,
@@ -524,28 +478,22 @@ row: 0
                         }
 
                         //Add files
-                        if(count($file_indexes) > 0)
-                        {
-                            if($files_path)
-                            {
-                                foreach($file_indexes as $file_index)
-                                {
-                                    if(trim($columns[$file_index]) == "")
-                                    {
+                        if (count($file_indexes) > 0) {
+                            if ($files_path) {
+                                foreach ($file_indexes as $file_index) {
+                                    if (trim($columns[$file_index]) == "") {
                                         continue;
                                     }
 
                                     Jaris\FileSystem::search(
                                         $files_path,
                                         "/{$columns[$file_index]}/i",
-                                        function($file_full_path, &$stop_search)
-                                            use($columns, $file_index, $page_uri)
-                                        {
-                                            $file = array(
+                                        function ($file_full_path, &$stop_search) use ($columns, $file_index, $page_uri) {
+                                            $file = [
                                                 "name" => $columns[$file_index],
                                                 "tmp_name" => $file_full_path,
                                                 "type" => Jaris\FileSystem::getMimeTypeLocal($file_full_path)
-                                            );
+                                            ];
 
                                             $file_name = null;
 
@@ -570,14 +518,11 @@ row: 0
 
                 unset($_SESSION["importer"]);
 
-                if(!$update_only)
-                {
+                if (!$update_only) {
                     Jaris\View::addMessage(
                         sprintf(t("Imported a total of %s files."), $imported_pages)
                     );
-                }
-                else
-                {
+                } else {
                     Jaris\View::addMessage(
                         sprintf(t("Updated a total of %s files."), $imported_pages)
                     );
@@ -585,9 +530,7 @@ row: 0
 
                 Jaris\Uri::go("admin/pages/list");
             }
-        }
-        elseif(isset($_REQUEST["btnImportCancel"]))
-        {
+        } elseif (isset($_REQUEST["btnImportCancel"])) {
             unlink($_SESSION["importer"]["file"]);
 
             unset($_SESSION["importer"]);
@@ -598,8 +541,7 @@ row: 0
         }
 
         // Upload CSV form
-        if(!isset($_REQUEST["action"]))
-        {
+        if (!isset($_REQUEST["action"])) {
             $parameters["name"] = "upload-csv-importer";
             $parameters["class"] = "upload-csv-importer";
             $parameters["action"] = Jaris\Uri::url(
@@ -607,61 +549,60 @@ row: 0
             );
             $parameters["method"] = "post";
 
-            $text_fields[] = array(
+            $text_fields[] = [
                 "type" => "text",
                 "name" => "delimeter",
                 "label" => t("Delimiter:"),
                 "value" => ",",
                 "required" => true,
                 "description" => t("The character used to seperate fields on the csv file.")
-            );
+            ];
 
-            $text_fields[] = array(
+            $text_fields[] = [
                 "type" => "text",
                 "name" => "enclosure",
                 "label" => t("Enclosure:"),
                 "value" => '"',
                 "description" => t("The character used to enclose fields on the csv file.")
-            );
+            ];
 
-            $text_fields[] = array(
+            $text_fields[] = [
                 "type" => "text",
                 "name" => "escape",
                 "label" => t("Escape sequence:"),
                 "value" => "\\",
                 "description" => t("The character used to escape special characters like the delimeter and enclosure.")
-            );
+            ];
 
-            $fieldset[] = array(
+            $fieldset[] = [
                 "name" => t("CSV File Parsing Options"),
                 "fields" => $text_fields,
                 "collapsible" => true,
                 "collapsed" => false
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "file",
                 "name" => "csv",
                 "label" => t("Comma Seperated Values (CSV) file:"),
                 "valid_types" => "csv",
                 "required" => true
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "submit",
                 "name" => "btnUpload",
                 "value" => t("Proceed")
-            );
+            ];
 
-            $fieldset[] = array("fields" => $fields);
+            $fieldset[] = ["fields" => $fields];
 
             print Jaris\Forms::generate($parameters, $fieldset);
         }
 
 
         // Importing options form
-        if(isset($_REQUEST["action"]) && $_REQUEST["action"] == "setup")
-        {
+        if (isset($_REQUEST["action"]) && $_REQUEST["action"] == "setup") {
             $parameters["name"] = "importing-options-importer";
             $parameters["class"] = "importing-options-importer";
             $parameters["action"] = Jaris\Uri::url(
@@ -672,25 +613,23 @@ row: 0
             $csv = fopen($_SESSION["importer"]["file"], "r");
 
             // Generate a file content preview
-            $field_preview[] = array(
+            $field_preview[] = [
                 "type" => "other",
                 "html_code" => '<table class="navigation-list">'
-            );
+            ];
 
-            for($row=1; $row<=5; $row++)
-            {
-                if($row == 1)
-                {
-                    $field_preview[] = array(
+            for ($row=1; $row<=5; $row++) {
+                if ($row == 1) {
+                    $field_preview[] = [
                         "type" => "other",
                         "html_code" => '<thead>'
-                    );
+                    ];
                 }
 
-                $field_preview[] = array(
+                $field_preview[] = [
                     "type" => "other",
                     "html_code" => '<tr>'
-                );
+                ];
 
                 $columns = fgetcsv(
                     $csv,
@@ -700,51 +639,46 @@ row: 0
                     $_SESSION["importer"]["escape"]
                 );
 
-                if($columns)
-                {
+                if ($columns) {
                     // Limit the amount of columns to display to 7
                     $columns_count = count($columns) > 7 ? 7 : count($columns);
 
-                    for($pos=0; $pos<$columns_count; $pos++)
-                    {
-                        $field_preview[] = array(
+                    for ($pos=0; $pos<$columns_count; $pos++) {
+                        $field_preview[] = [
                             "type" => "other",
                             "html_code" => "<td>"
                                 . Jaris\Util::contentPreview($columns[$pos], 5, false)
                                 . "</td>"
-                        );
+                        ];
                     }
-                }
-                else
-                {
+                } else {
                     break;
                 }
 
-                $field_preview[] = array(
+                $field_preview[] = [
                     "type" => "other",
                     "html_code" => '</tr>'
-                );
+                ];
 
-                if($row == 1)
-                {
-                    $field_preview[] = array(
+                if ($row == 1) {
+                    $field_preview[] = [
                         "type" => "other",
                         "html_code" => '</thead>'
-                    );
+                    ];
                 }
             }
 
-            $field_preview[] = array(
+            $field_preview[] = [
                 "type" => "other",
                 "html_code" => '</table>'
-            );
+            ];
 
-            $fieldset[] = array(
+            $fieldset[] = [
                 "name" => t("CSV file preview"),
                 "fields" => $field_preview,
                 "collapsible" => true,
                 "collapsed" => false
-            );
+            ];
 
             // Column matching
             fseek($csv, 0);
@@ -759,26 +693,25 @@ row: 0
 
             $update_only = false;
 
-            if(is_array($columns) && in_array("uri", $columns))
-            {
+            if (is_array($columns) && in_array("uri", $columns)) {
                 $update_only = true;
 
                 Jaris\View::addMessage(
                     t("The uri column was detected, this import will only update existing content.")
                 );
 
-                $fields[] = array(
+                $fields[] = [
                     "type" => "hidden",
                     "name" => "update_only",
                     "value" => 1
-                );
+                ];
             }
 
             fclose($csv);
 
-            $column_fields = array();
+            $column_fields = [];
 
-            $field_types = array(
+            $field_types = [
                 t("None") => "none",
                 t("Title") => "title",
                 t("Content") => "content",
@@ -791,10 +724,9 @@ row: 0
                 t("Meta Description") => "meta_description",
                 t("Meta Keywords") => "meta_keywords",
                 t("Custom") => "custom"
-            );
+            ];
 
-            if($update_only)
-            {
+            if ($update_only) {
                 $field_types[t("Uri")] = "uri";
                 $field_types[t("Users List")] = "users";
                 $field_types[t("Groups List")] = "groups";
@@ -803,20 +735,17 @@ row: 0
                 $field_types[t("Content Type")] = "type";
             }
 
-            foreach($columns as $column)
-            {
-                $column_fields[] = array(
+            foreach ($columns as $column) {
+                $column_fields[] = [
                     "type" => "other",
                     "html_code" => '<div style="display: inline-block; margin-right: 15px;">'
-                );
+                ];
 
                 $selected = "";
                 $custom_value = "";
 
-                if($update_only)
-                {
-                    switch($column)
-                    {
+                if ($update_only) {
+                    switch ($column) {
                         case "uri":
                             $selected = "uri";
                             break;
@@ -855,165 +784,145 @@ row: 0
                             $custom_value = $column;
                             break;
                     }
-                }
-                else
-                {
-                    if(stristr($column, "meta_title") !== false)
-                    {
+                } else {
+                    if (stristr($column, "meta_title") !== false) {
                         $selected = "meta_title";
-                    }
-                    elseif(stristr($column, "title") !== false)
-                    {
+                    } elseif (stristr($column, "title") !== false) {
                         $selected = "title";
-                    }
-                    elseif(stristr($column, "content") !== false)
-                    {
+                    } elseif (stristr($column, "content") !== false) {
                         $selected = "content";
-                    }
-                    elseif(stristr($column, "category") !== false)
-                    {
+                    } elseif (stristr($column, "category") !== false) {
                         $selected = "category";
-                    }
-                    elseif(stristr($column, "image") !== false)
-                    {
+                    } elseif (stristr($column, "image") !== false) {
                         $selected = "image";
-                    }
-                    elseif(stristr($column, "file") !== false)
-                    {
+                    } elseif (stristr($column, "file") !== false) {
                         $selected = "file";
-                    }
-                    elseif(stristr($column, "description") !== false)
-                    {
+                    } elseif (stristr($column, "description") !== false) {
                         $selected = "meta_description";
-                    }
-                    elseif(stristr($column, "keywords") !== false)
-                    {
+                    } elseif (stristr($column, "keywords") !== false) {
                         $selected = "meta_keywords";
-                    }
-                    else
-                    {
+                    } else {
                         $selected = "custom";
                         $custom_value = $column;
                     }
                 }
 
-                $column_fields[] = array(
+                $column_fields[] = [
                     "type" => "select",
                     "name" => "column[]",
                     "label" => $column,
                     "value" => $field_types,
                     "selected" => $selected
-                );
+                ];
 
-                $column_fields[] = array(
+                $column_fields[] = [
                     "type" => "text",
                     "name" => "custom_column[]",
                     "value" => $custom_value,
                     "label" => t("Custom field:")
-                );
+                ];
 
-                $column_fields[] = array(
+                $column_fields[] = [
                     "type" => "other",
                     "html_code" => '</div>'
-                );
+                ];
             }
 
-            $fieldset[] = array(
+            $fieldset[] = [
                 "name" => t("Columns matching"),
                 "fields" => $column_fields,
                 "collapsible" => true,
                 "collapsed" => false,
                 "description" => t("Select how to match all the columns.")
-            );
+            ];
 
             $types_list = Jaris\Types::getList();
-            $types = array();
+            $types = [];
 
-            foreach($types_list as $machine_name=>$type_data)
-            {
+            foreach ($types_list as $machine_name=>$type_data) {
                 $types[t($type_data["name"])] = $machine_name;
             }
 
             $languages = array_flip(Jaris\Language::getInstalled());
 
-            $option_fields[] = array(
+            $option_fields[] = [
                 "type" => "select",
                 "name" => "language_code",
                 "label" => t("Language:"),
                 "value" => $languages,
                 "selected" => "en",
                 "description" => t("Language used when updating existing content.")
-            );
+            ];
 
-            $option_fields[] = array(
+            $option_fields[] = [
                 "type" => "select",
                 "name" => "type",
                 "label" => t("Type:"),
                 "value" => $types,
                 "description" => t("Type used when creating pages from the csv file.")
-            );
+            ];
 
-            $option_fields[] = array(
+            $option_fields[] = [
                 "type" => "other",
                 "html_code" => "<br />"
-            );
+            ];
 
-            $option_fields[] = array(
+            $option_fields[] = [
                 "type" => "checkbox",
                 "name" => "newlines_to_brakes",
                 "label" => t("Convert new lines to &lt;br&gt;?"),
                 "description" => t("Enabling this option will convert new lines on the content field into html break tags.")
-            );
+            ];
 
-            $option_fields[] = array(
+            $option_fields[] = [
                 "type" => "text",
                 "name" => "images_path",
                 "label" => t("Images path:"),
                 "description" => t("Relative path to directory which contains all images. Example: resources/images")
-            );
+            ];
 
-            $option_fields[] = array(
+            $option_fields[] = [
                 "type" => "text",
                 "name" => "files_path",
                 "label" => t("Files path:"),
                 "description" => t("Relative path to directory which contains all files. Example: resources/files")
-            );
+            ];
 
-            $fieldset[] = array(
+            $fieldset[] = [
                 "name" => t("Import Options"),
                 "fields" => $option_fields,
                 "collapsible" => true,
                 "collapsed" => false
-            );
+            ];
 
-            $fieldset[] = array(
+            $fieldset[] = [
                 "fields" => Jaris\Groups::generateFields(),
                 "name" => t("Users Access"),
                 "collapsed" => true,
                 "collapsible" => true,
                 "description" => t("Select the groups that can see this content. Don't select anything to display content to everyone.")
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "other",
                 "html_code" => "<p>"
                     .t("Before proceeding to import please take into account that the process can take a huge amount of time.")
                     ."</p>"
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "submit",
                 "name" => "btnImport",
                 "value" => t("Import")
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "submit",
                 "name" => "btnImportCancel",
                 "value" => t("Cancel")
-            );
+            ];
 
-            $fieldset[] = array("fields" => $fields);
+            $fieldset[] = ["fields" => $fields];
 
             print Jaris\Forms::generate($parameters, $fieldset);
         }

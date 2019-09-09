@@ -8,8 +8,7 @@
 
 function church_attendance_upgrade()
 {
-    if(Jaris\Sql::dbExists("church_attendance_members"))
-    {
+    if (Jaris\Sql::dbExists("church_attendance_members")) {
         $data = Jaris\Sql::getDataList(
             "church_attendance_members",
             "church_attendance_members",
@@ -17,8 +16,7 @@ function church_attendance_upgrade()
             1
         );
 
-        if(!array_key_exists("civil_status", $data[0]))
-        {
+        if (!array_key_exists("civil_status", $data[0])) {
             $db = Jaris\Sql::open("church_attendance_members");
 
             Jaris\Sql::query(
@@ -56,8 +54,7 @@ function church_attendance_upgrade()
     }
 
     // Courses list
-    if(!Jaris\Sql::dbExists("church_attendance_courses"))
-    {
+    if (!Jaris\Sql::dbExists("church_attendance_courses")) {
         $db = Jaris\Sql::open("church_attendance_courses");
 
         Jaris\Sql::query(
@@ -77,25 +74,24 @@ function church_attendance_upgrade()
         );
 
         // Strings to assist poedit or other translation tools.
-        $strings = array(
+        $strings = [
             t("Discipleschip 101"),
             t("Discipleschip 102"),
             t("Institute"),
             t("Other")
-        );
+        ];
 
         //Default income categories
-        $groups = array(
+        $groups = [
             "Discipleschip 101",
             "Discipleschip 102",
             "Institute",
             "Other"
-        );
+        ];
 
         Jaris\Sql::beginTransaction($db);
 
-        foreach($groups as $group)
-        {
+        foreach ($groups as $group) {
             $insert = "insert into church_attendance_courses "
                 . "(label) "
                 . "values("
@@ -112,8 +108,7 @@ function church_attendance_upgrade()
     }
 
     // Courses count
-    if(!Jaris\Sql::dbExists("church_attendance_courses_count"))
-    {
+    if (!Jaris\Sql::dbExists("church_attendance_courses_count")) {
         $db = Jaris\Sql::open("church_attendance_courses_count");
 
         Jaris\Sql::query(

@@ -129,7 +129,7 @@ function create_subcategory($category, $data)
     return Jaris\Categories::addSubcategory($category, $data);
 }
 
-function delete_subcategory($category, $id, &$sub_categories=array())
+function delete_subcategory($category, $id, &$sub_categories=[])
 {
     return Jaris\Categories::deleteSubcategory($category, $id, $sub_categories);
 }
@@ -160,18 +160,22 @@ function get_categories_list($type = null)
 }
 
 function get_subcategories_in_parent_order(
-    $category_name, $parent = "root", $position = ""
-)
-{
+    $category_name,
+    $parent = "root",
+    $position = ""
+) {
     return Jaris\Categories::getSubcategoriesInParentOrder(
-        $category_name, $parent, $position
+        $category_name,
+        $parent,
+        $position
     );
 }
 
 function generate_category_fields_list(
-    $selected = [], $main_category = "", $type = ""
-)
-{
+    $selected = [],
+    $main_category = "",
+    $type = ""
+) {
     return Jaris\Categories::generateFields($selected, $main_category, $type);
 }
 
@@ -230,7 +234,7 @@ function files_type_save_uploads($type, $page)
     Jaris\Fields::saveUploads($type, $page);
 }
 
-function generate_type_form_fields($type, $values = array())
+function generate_type_form_fields($type, $values = [])
 {
     return Jaris\Fields::generateFields($type, $values);
 }
@@ -241,11 +245,18 @@ function generate_type_fields_path($type)
 }
 
 function add_file(
-    $file_array, $description, $page = "", &$file_name = null, $move_file = true
-)
-{
+    $file_array,
+    $description,
+    $page = "",
+    &$file_name = null,
+    $move_file = true
+) {
     return Jaris\Pages\Files::add(
-        $file_array, $description, $page, $file_name, $move_file
+        $file_array,
+        $description,
+        $page,
+        $file_name,
+        $move_file
     );
 }
 
@@ -312,12 +323,14 @@ function get_group_list()
 function generate_groups_fields_list(
     $selected = null,
     $field_name="groups",
-    $skip_groups = array(),
+    $skip_groups = [],
     $inline=false
-)
-{
+) {
     return Jaris\Groups::generateFields(
-        $selected, $field_name, $skip_groups, $inline
+        $selected,
+        $field_name,
+        $skip_groups,
+        $inline
     );
 }
 
@@ -327,11 +340,18 @@ function generate_group_path($group_name)
 }
 
 function add_image(
-    $file_array, $description, $page = "", &$file_name = null, $move_file = true
-)
-{
+    $file_array,
+    $description,
+    $page = "",
+    &$file_name = null,
+    $move_file = true
+) {
     return Jaris\Pages\Images::add(
-        $file_array, $description, $page, $file_name, $move_file
+        $file_array,
+        $description,
+        $page,
+        $file_name,
+        $move_file
     );
 }
 
@@ -505,7 +525,7 @@ function get_page_type($page)
     return Jaris\Pages::getType($page);
 }
 
-function is_page_owner($page, &$page_data=array())
+function is_page_owner($page, &$page_data=[])
 {
     return Jaris\Pages::userIsOwner($page, $page_data);
 }
@@ -581,9 +601,12 @@ function get_type_data($name)
 }
 
 function type_get_image_url(
-    $name, $width=null, $height=null, $ar=null, $bg=null
-)
-{
+    $name,
+    $width=null,
+    $height=null,
+    $ar=null,
+    $bg=null
+) {
     return Jaris\Types::getImageUrl($name, $width, $height, $ar, $bg);
 }
 
@@ -622,7 +645,7 @@ function generate_type_path($name)
     return Jaris\Types::getPath($name);
 }
 
-function add_user($username, $group, $fields, $picture = array())
+function add_user($username, $group, $fields, $picture = [])
 {
     return Jaris\Users::add($username, $group, $fields, $picture);
 }
@@ -632,7 +655,7 @@ function delete_user($username)
     return Jaris\Users::delete($username);
 }
 
-function edit_user($username, $group, $new_data, $picture = array())
+function edit_user($username, $group, $new_data, $picture = [])
 {
     return Jaris\Users::edit($username, $group, $new_data, $picture);
 }
@@ -874,7 +897,7 @@ function data_writer($data, $file, $callback=null)
 
 function data_writer_no_lock($data, $file)
 {
-   return Jaris\Data::writeNoLock($data, $file);
+    return Jaris\Data::writeNoLock($data, $file);
 }
 
 function get_data($position, $file)
@@ -1092,8 +1115,7 @@ function forms_add_fieldsets(
     $position,
     &$fieldset,
     $before=false
-)
-{
+) {
     return Jaris\Forms::addFieldsets($fieldsets, $position, $fieldset, $before);
 }
 
@@ -1138,21 +1160,34 @@ function get_image_static_name($image_url, $full_url=true)
 }
 
 function get_image(
-    $path, $width, $height = 0,
-    $aspect_ratio = false, $background_color = "ffffff"
-)
-{
+    $path,
+    $width,
+    $height = 0,
+    $aspect_ratio = false,
+    $background_color = "ffffff"
+) {
     return Jaris\Images::get(
-        $path, $width, $height, $aspect_ratio, $background_color
+        $path,
+        $width,
+        $height,
+        $aspect_ratio,
+        $background_color
     );
 }
 
 function image_resize(
-    $path, $width, $height = 0, $aspect_ratio = false, $background_color = "ffffff"
-)
-{
+    $path,
+    $width,
+    $height = 0,
+    $aspect_ratio = false,
+    $background_color = "ffffff"
+) {
     return Jaris\Images::resize(
-        $path, $width, $height, $aspect_ratio, $background_color
+        $path,
+        $width,
+        $height,
+        $aspect_ratio,
+        $background_color
     );
 }
 
@@ -1239,14 +1274,21 @@ function language_form()
 function add_language($language_code, $name, $translator, $translator_email, $contributors)
 {
     return Jaris\Language::add(
-        $language_code, $name, $translator, $translator_email, $contributors
+        $language_code,
+        $name,
+        $translator,
+        $translator_email,
+        $contributors
     );
 }
 
 function edit_language($language_code, $translator, $translator_email, $contributors)
 {
     return Jaris\Language::edit(
-        $language_code, $translator, $translator_email, $contributors
+        $language_code,
+        $translator,
+        $translator_email,
+        $contributors
     );
 }
 
@@ -1295,7 +1337,7 @@ function user_logout()
     Jaris\Authentication::logout();
 }
 
-function protected_page($permissions = array())
+function protected_page($permissions = [])
 {
     return Jaris\Authentication::protectedPage($permissions);
 }
@@ -1326,13 +1368,26 @@ function get_permissions_array($group)
 }
 
 function send_email(
-    $to, $subject, $html_message, $alt_message = "", $attachments = array(),
-    $reply_to = array(), $bcc = array(), $cc = array(), $from = array()
-)
-{
+    $to,
+    $subject,
+    $html_message,
+    $alt_message = "",
+    $attachments = [],
+    $reply_to = [],
+    $bcc = [],
+    $cc = [],
+    $from = []
+) {
     return Jaris\Mail::send(
-        $to, $subject, $html_message, $alt_message, $attachments,
-        $reply_to, $bcc, $cc, $from
+        $to,
+        $subject,
+        $html_message,
+        $alt_message,
+        $attachments,
+        $reply_to,
+        $bcc,
+        $cc,
+        $from
     );
 }
 
@@ -1347,13 +1402,18 @@ function send_registration_notification($username)
 }
 
 function search_content(
-    $keywords, $field_values = null, $categories = array(),
-    $page = 1, $amount = 10
-)
-{
+    $keywords,
+    $field_values = null,
+    $categories = [],
+    $page = 1,
+    $amount = 10
+) {
     Jaris\Search::start(
-        $keywords, $field_values, $categories,
-        $page, $amount
+        $keywords,
+        $field_values,
+        $categories,
+        $page,
+        $amount
     );
 }
 
@@ -1377,7 +1437,7 @@ function get_search_content_type()
     return Jaris\Search::contentType();
 }
 
-function check_content($content_path, $content_data = array())
+function check_content($content_path, $content_data = [])
 {
     Jaris\Search::checkContent($content_path, $content_data);
 }
@@ -1443,9 +1503,10 @@ function get_fields()
 }
 
 function highlight_search_results(
-    $result, $input_format = "full_html", $type = "title"
-)
-{
+    $result,
+    $input_format = "full_html",
+    $type = "title"
+) {
     return Jaris\Search::highlightResults($result, $input_format, $type);
 }
 
@@ -1505,20 +1566,31 @@ function jaris_sqlite_insert_array_to_table($table_name, $data, &$db)
 }
 
 function jaris_sqlite_delete_from_table(
-    $database, $table, $clause, $directory = ""
-)
-{
+    $database,
+    $table,
+    $clause,
+    $directory = ""
+) {
     return Jaris\Sql::deleteFromTable($database, $table, $clause, $directory);
 }
 
 function jaris_sqlite_get_data_list(
-    $database, $table, $page = 0, $limit = 30,
-    $clause = "", $fields = "*", $directory = ""
-)
-{
+    $database,
+    $table,
+    $page = 0,
+    $limit = 30,
+    $clause = "",
+    $fields = "*",
+    $directory = ""
+) {
     return Jaris\Sql::getDataList(
-        $database, $table, $page, $limit,
-        $clause, $fields, $directory
+        $database,
+        $table,
+        $page,
+        $limit,
+        $clause,
+        $fields,
+        $directory
     );
 }
 
@@ -1558,13 +1630,20 @@ function jaris_sqlite_list_db($directory = "")
 }
 
 function jaris_sqlite_count_column(
-    $database, $table, $column,
-    $where = "", $directory = "", $select_additional = ""
-)
-{
+    $database,
+    $table,
+    $column,
+    $where = "",
+    $directory = "",
+    $select_additional = ""
+) {
     return Jaris\Sql::countColumn(
-        $database, $table, $column,
-        $where, $directory, $select_additional
+        $database,
+        $table,
+        $column,
+        $where,
+        $directory,
+        $select_additional
     );
 }
 
@@ -1618,7 +1697,7 @@ function error_message($type)
     return Jaris\System::errorMessage($type);
 }
 
-function is_system_page($uri = "", &$page_data=array())
+function is_system_page($uri = "", &$page_data=[])
 {
     return Jaris\Pages::isSystem($uri, $page_data);
 }
@@ -1669,13 +1748,20 @@ function get_user_browser()
 }
 
 function print_generic_navigation(
-    $total_count, $page, $uri, $module = "",
-    $amount = 30, $arguments = array()
-)
-{
+    $total_count,
+    $page,
+    $uri,
+    $module = "",
+    $amount = 30,
+    $arguments = []
+) {
     Jaris\System::printNavigation(
-        $total_count, $page, $uri, $module,
-        $amount, $arguments
+        $total_count,
+        $page,
+        $uri,
+        $module,
+        $amount,
+        $arguments
     );
 }
 
@@ -1695,11 +1781,14 @@ function append_hidden_parameters()
 }
 
 function print_content_preview(
-    $string, $word_count = 30, $display_suspensive_points = false
-)
-{
+    $string,
+    $word_count = 30,
+    $display_suspensive_points = false
+) {
     return Jaris\Util::contentPreview(
-        $string, $word_count, $display_suspensive_points
+        $string,
+        $word_count,
+        $display_suspensive_points
     );
 }
 
@@ -1716,7 +1805,9 @@ function fast_cache_if_possible($uri)
 function save_page_to_cache_if_possible($uri, $page_data, $content)
 {
     Jaris\System::savePageToCacheIfPossible(
-        $uri, $page_data, $content
+        $uri,
+        $page_data,
+        $content
     );
 }
 
@@ -1730,17 +1821,17 @@ function get_current_site()
     return Jaris\Site::current();
 }
 
-function add_style($path, $arguments = array())
+function add_style($path, $arguments = [])
 {
     Jaris\View::addStyle($path, $arguments);
 }
 
-function add_script($path, $arguments = array())
+function add_script($path, $arguments = [])
 {
     Jaris\View::addScript($path, $arguments);
 }
 
-function add_tab($name, $uri, $arguments = array(), $row = 0)
+function add_tab($name, $uri, $arguments = [], $row = 0)
 {
     Jaris\View::addTab($name, $uri, $arguments, $row);
 }
@@ -1750,7 +1841,7 @@ function add_message($message, $type = "normal")
     Jaris\View::addMessage($message, $type);
 }
 
-function get_page_meta_tags(&$page_data=array())
+function get_page_meta_tags(&$page_data=[])
 {
     return Jaris\View::getMetaTagsHTML($page_data);
 }
@@ -1793,7 +1884,14 @@ function theme_messages()
 function theme_display($page, $page_data, $content, $left, $center, $right, $header, $footer)
 {
     return Jaris\View::render(
-        $page, $page_data, $content, $left, $center, $right, $header, $footer
+        $page,
+        $page_data,
+        $content,
+        $left,
+        $center,
+        $right,
+        $header,
+        $footer
     );
 }
 
@@ -1912,7 +2010,7 @@ function translate_user_picture_uri($path)
     return Jaris\Uri::getUserPicturePath($path);
 }
 
-function goto_page($uri, $arguments = array(), $ssl = false)
+function goto_page($uri, $arguments = [], $ssl = false)
 {
     return Jaris\Uri::go($uri, $arguments, $ssl);
 }
@@ -1933,13 +2031,18 @@ function generate_uri_for_type($type, $title, $user)
 }
 
 function hook_module(
-    $hook_function, &$var1 = "null", &$var2 = "null",
-    &$var3 = "null", &$var4 = "null"
-)
-{
+    $hook_function,
+    &$var1 = "null",
+    &$var2 = "null",
+    &$var3 = "null",
+    &$var4 = "null"
+) {
     Jaris\Modules::hook(
-        $hook_function, $var1, $var2,
-        $var3, $var4
+        $hook_function,
+        $var1,
+        $var2,
+        $var3,
+        $var4
     );
 }
 

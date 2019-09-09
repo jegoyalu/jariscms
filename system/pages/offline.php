@@ -13,12 +13,9 @@ exit;
 row: 0
     field: title
     <?php
-        if($title = Jaris\Settings::get("site_status_title", "main"))
-        {
+        if ($title = Jaris\Settings::get("site_status_title", "main")) {
             print t($title);
-        }
-        else
-        {
+        } else {
             print t("Under mantainance");
         }
     ?>
@@ -26,12 +23,9 @@ row: 0
 
     field: content
     <?php
-        if($description = Jaris\Settings::get("site_status_description", "main"))
-        {
+        if ($description = Jaris\Settings::get("site_status_description", "main")) {
             print t($description);
-        }
-        else
-        {
+        } else {
             print t("The site is down for mantainance, sorry for any inconvenience it may cause you. Try again later.");
         }
     ?>

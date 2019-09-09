@@ -17,43 +17,48 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("edit_settings"));
+        Jaris\Authentication::protectedPage(["edit_settings"]);
 
-        if(
+        if (
             isset($_REQUEST["btnSave"]) &&
             !Jaris\Forms::requiredFieldEmpty("ogp-settings")
-        )
-        {
+        ) {
             $ogp_settings = Jaris\Settings::getAll("ogp");
 
             Jaris\Settings::save(
-                "image_width", $_REQUEST["image_width"], "ogp"
+                "image_width",
+                $_REQUEST["image_width"],
+                "ogp"
             );
             Jaris\Settings::save(
-                "image_height", $_REQUEST["image_height"], "ogp"
+                "image_height",
+                $_REQUEST["image_height"],
+                "ogp"
             );
             Jaris\Settings::save(
-                "image_count", $_REQUEST["image_count"], "ogp"
+                "image_count",
+                $_REQUEST["image_count"],
+                "ogp"
             );
             Jaris\Settings::save(
-                "image_keep_aspect", $_REQUEST["image_keep_aspect"], "ogp"
+                "image_keep_aspect",
+                $_REQUEST["image_keep_aspect"],
+                "ogp"
             );
 
             $new_image = "";
 
-            if(
+            if (
                 isset($_FILES["image"])
                 &&
                 file_exists($_FILES["image"]["tmp_name"])
-            )
-            {
-                if(
+            ) {
+                if (
                     $_FILES["image"]["type"] == "image/png" ||
                     $_FILES["image"]["type"] == "image/jpeg" ||
                     $_FILES["image"]["type"] == "image/pjpeg" ||
                     $_FILES["image"]["type"] == "image/gif"
-                )
-                {
+                ) {
                     $new_image = Jaris\Files::addUpload(
                         $_FILES["image"],
                         "ogp"
@@ -63,9 +68,7 @@ row: 0
                         Jaris\Files::get($new_image, "ogp"),
                         0755
                     );
-                }
-                else
-                {
+                } else {
                     Jaris\View::addMessage(
                         Jaris\System::errorMessage("image_file_type"),
                         "error"
@@ -73,15 +76,12 @@ row: 0
                 }
             }
 
-            if($new_image != "")
-            {
+            if ($new_image != "") {
                 $current_image = $ogp_settings["current_image"];
 
-                if(Jaris\Settings::save("current_image", $new_image, "ogp"))
-                {
+                if (Jaris\Settings::save("current_image", $new_image, "ogp")) {
                     //Remove old original ogp
-                    if($current_image != $new_image)
-                    {
+                    if ($current_image != $new_image) {
                         Jaris\Files::delete($current_image, "ogp");
                     }
 
@@ -93,18 +93,14 @@ row: 0
                             "ogp"
                         )
                     );
-                }
-                else
-                {
+                } else {
                     Jaris\View::addMessage(
                         Jaris\System::errorMessage("write_error_data"),
                         "error"
                     );
                 }
             }
-        }
-        elseif(isset($_REQUEST["btnCancel"]))
-        {
+        } elseif (isset($_REQUEST["btnCancel"])) {
             Jaris\Uri::go("admin/settings");
         }
 
@@ -121,11 +117,9 @@ row: 0
         );
         $parameters["method"] = "post";
 
-        if(isset($ogp_settings["current_image"]))
-        {
-            if(file_exists(Jaris\Files::get($ogp_settings["current_image"], "ogp")))
-            {
-                $fields[] = array(
+        if (isset($ogp_settings["current_image"])) {
+            if (file_exists(Jaris\Files::get($ogp_settings["current_image"], "ogp"))) {
+                $fields[] = [
                     "type" => "other",
                     "html_code" => "<div style=\"margin-top: 10px;\">"
                         . "<strong>" .
@@ -143,62 +137,62 @@ row: 0
                         ."\" />"
                         . "</div>"
                         . "</div>"
-                );
+                ];
             }
         }
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "file",
             "name" => "image",
             "label" => t("Default image file:"),
             "description" => t("Please upload a 200px X 200px image that will be used as default image if current section doesn't have one. If non is uploaded, a logo.png or logo.jpg image will be scanned from the current theme and used if found.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "name" => "image_width",
             "label" => t("Image width:"),
             "value" => $ogp_settings["image_width"] ?? 498,
             "description" => t("The width of the graph generated images.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "name" => "image_height",
             "label" => t("Image height:"),
             "value" => $ogp_settings["image_height"] ?? 375,
             "description" => t("The height of the graph generated images.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "number",
             "name" => "image_count",
             "label" => t("Image count:"),
             "value" => $ogp_settings["image_count"] ?? 1,
             "description" => t("The amount of images to add.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "radio",
             "name" => "image_keep_aspect",
             "label" => t("Keep aspect ratio?"),
-            "value" => array(t("Yes") => true, t("No") => false),
+            "value" => [t("Yes") => true, t("No") => false],
             "selected" => $ogp_settings["image_keep_aspect"] ?? true
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnSave",
             "value" => t("Save")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnCancel",
             "value" => t("Cancel")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
         print Jaris\Forms::generate($parameters, $fieldset);
     ?>

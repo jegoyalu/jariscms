@@ -1,14 +1,14 @@
 
 
     <tr>
-        <?php if($content_data["thumbnail_show"]){ ?>
+        <?php if ($content_data["thumbnail_show"]) { ?>
         <td class="image"><?php print $image ?></td>
         <?php } ?>
 
-        <?php if($title || $summary || $price){ ?>
+        <?php if ($title || $summary || $price) { ?>
         <td class="preview">
             <div class="title"><?php print $title ?></div>
-            <?php if($reviews_score){ ?>
+            <?php if ($reviews_score) { ?>
             <div class="reviews-score">
                 <?php print $reviews_score ?>
             </div>
@@ -18,7 +18,7 @@
         </td>
         <?php } ?>
 
-        <?php if($content_data["display_more"]){ ?>
+        <?php if ($content_data["display_more"]) { ?>
         <td class="view-more"><?php print $view_more ?></td>
         <?php } ?>
     </tr>

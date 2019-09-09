@@ -21,15 +21,13 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("duplicate_content"));
+        Jaris\Authentication::protectedPage(["duplicate_content"]);
 
-        if(!Jaris\Pages::userIsOwner($_REQUEST["uri"]))
-        {
+        if (!Jaris\Pages::userIsOwner($_REQUEST["uri"])) {
             Jaris\Authentication::protectedPage();
         }
 
-        if(Jaris\Pages::isSystem($_REQUEST["uri"]))
-        {
+        if (Jaris\Pages::isSystem($_REQUEST["uri"])) {
             Jaris\View::addMessage(
                 t("The content you was trying to duplicate is a system page."),
                 "error"
@@ -41,16 +39,14 @@ row: 0
         $page_data = Jaris\Pages::get($_REQUEST["uri"]);
         $type = $page_data["type"];
 
-        if(empty($page_data))
-        {
+        if (empty($page_data)) {
             Jaris\Uri::go("");
         }
 
-        if(
+        if (
             isset($_REQUEST["btnSave"]) &&
             !Jaris\Forms::requiredFieldEmpty("duplicate-page-$type")
-        )
-        {
+        ) {
             $page_data["title"] = $_REQUEST["title"];
             $page_data["content"] = $_REQUEST["content"];
 
@@ -62,8 +58,7 @@ row: 0
 
             $uri = $page_uri;
 
-            if(Jaris\Pages::add($page_uri, $page_data, $uri))
-            {
+            if (Jaris\Pages::add($page_uri, $page_data, $uri)) {
                 // Src files, images and blocks
                 $files_src = Jaris\Pages\Files::getPath($_REQUEST["uri"]);
                 $images_src = Jaris\Pages\Images::getPath($_REQUEST["uri"]);
@@ -80,34 +75,29 @@ row: 0
                 $images_path_dest = str_replace("images.php", "images", $images_dest);
                 $blocks_path_dest = Jaris\Pages::getPath($uri) . "/blocks";
 
-                if(file_exists($files_src))
-                {
+                if (file_exists($files_src)) {
                     copy($files_src, $files_dest);
                 }
 
-                if(file_exists($images_src))
-                {
+                if (file_exists($images_src)) {
                     copy($images_src, $images_dest);
                 }
 
-                if(is_dir($files_path_src))
-                {
+                if (is_dir($files_path_src)) {
                     Jaris\FileSystem::recursiveCopyDir(
                         $files_path_src,
                         $files_path_dest
                     );
                 }
 
-                if(is_dir($images_path_src))
-                {
+                if (is_dir($images_path_src)) {
                     Jaris\FileSystem::recursiveCopyDir(
                         $images_path_src,
                         $images_path_dest
                     );
                 }
 
-                if(is_dir($blocks_path_src))
-                {
+                if (is_dir($blocks_path_src)) {
                     Jaris\FileSystem::recursiveCopyDir(
                         $blocks_path_src,
                         $blocks_path_dest
@@ -118,10 +108,8 @@ row: 0
                     t("The page was successfully duplicated.")
                 );
 
-                Jaris\Uri::go("admin/pages/edit", array("uri" => $uri));
-            }
-            else
-            {
+                Jaris\Uri::go("admin/pages/edit", ["uri" => $uri]);
+            } else {
                 Jaris\View::addMessage(
                     Jaris\System::errorMessage("write_error_data"),
                     "error"
@@ -129,9 +117,7 @@ row: 0
             }
 
             Jaris\Uri::go($_REQUEST["uri"]);
-        }
-        elseif(isset($_REQUEST["btnCancel"]))
-        {
+        } elseif (isset($_REQUEST["btnCancel"])) {
             Jaris\Uri::go($_REQUEST["uri"]);
         }
 
@@ -140,13 +126,13 @@ row: 0
         $parameters["action"] = Jaris\Uri::url("admin/pages/duplicate");
         $parameters["method"] = "post";
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "hidden",
             "name" => "uri",
             "value" => $_REQUEST["uri"]
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "name" => "title",
             "value" => $page_data["title"],
@@ -154,34 +140,36 @@ row: 0
             "id" => "title",
             "required" => true,
             "description" => Jaris\Types::getLabel(
-                $page_data["type"], "title_description"
+                $page_data["type"],
+                "title_description"
             )
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "textarea",
             "name" => "content",
             "value" => $page_data["content"],
             "label" => Jaris\Types::getLabel($page_data["type"], "content_label"),
             "id" => "content",
             "description" => Jaris\Types::getLabel(
-                $page_data["type"], "content_description"
+                $page_data["type"],
+                "content_description"
             )
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnSave",
             "value" => t("Save")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnCancel",
             "value" => t("Cancel")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
         print Jaris\Forms::generate($parameters, $fieldset);
     ?>

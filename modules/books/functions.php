@@ -8,14 +8,12 @@
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\Forms::SIGNAL_GENERATE_FORM,
-    function(&$parameters, &$fieldsets)
-    {
-        if(
+    function (&$parameters, &$fieldsets) {
+        if (
             Jaris\Uri::get() == "admin/pages/edit"
             &&
             $parameters["name"] == "edit-page-book"
-        )
-        {
+        ) {
             Jaris\View::addSystemScript("jquery-ui/jquery.ui.js");
             Jaris\View::addSystemScript(
                 "jquery-ui/jquery.ui.touch-punch.min.js"
@@ -26,24 +24,25 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
             $page_data = Jaris\Pages::get($_REQUEST["uri"]);
 
-            if(isset($page_data["book_pages"]))
-            {
+            if (isset($page_data["book_pages"])) {
                 $page_data["book_pages"] = unserialize(
                     $page_data["book_pages"]
                 );
             }
 
             $attributes_html = Jaris\Forms::beginFieldset(
-                t("Pages"), true, false
+                t("Pages"),
+                true,
+                false
             );
 
             $attributes_html .= '<a id="book-pages-add-link" href="'
                 .Jaris\Uri::url(
                     "admin/pages/add",
-                    array(
+                    [
                         "type"=>"book-page",
                         "book" => $_REQUEST["uri"]
-                    )
+                    ]
                 ).
                 '">'
                 .t("Add Page")
@@ -61,16 +60,16 @@ Jaris\Signals\SignalHandler::listenWithParams(
             $attributes_html .= '</thead>';
             $attributes_html .= '<tbody>';
 
-            if(is_array($page_data["book_pages"]))
-            {
+            if (is_array($page_data["book_pages"])) {
                 $book_pages = books_organize_pages($page_data["book_pages"]);
 
                 $book_pages_dash = books_organize_pages(
-                    $page_data["book_pages"], 0, "&nbsp;-"
+                    $page_data["book_pages"],
+                    0,
+                    "&nbsp;-"
                 );
 
-                foreach($book_pages as $book_page_uri=>$book_page_data)
-                {
+                foreach ($book_pages as $book_page_uri=>$book_page_data) {
                     $attributes_html .= '<tr>';
 
                     $attributes_html .= '<td class="handle">'
@@ -93,13 +92,14 @@ Jaris\Signals\SignalHandler::listenWithParams(
                         . '</option>'
                     ;
 
-                    foreach($book_pages_dash as $dash_uri=>$dash_data)
-                    {
-                        if($dash_uri == $book_page_uri)
+                    foreach ($book_pages_dash as $dash_uri=>$dash_data) {
+                        if ($dash_uri == $book_page_uri) {
                             continue;
+                        }
 
-                        if($dash_data["parent"] == $book_page_uri)
+                        if ($dash_data["parent"] == $book_page_uri) {
                             continue;
+                        }
 
                         $selected = $book_page_data["parent"] == $dash_uri ?
                             "selected" : ""
@@ -118,12 +118,13 @@ Jaris\Signals\SignalHandler::listenWithParams(
                     $attributes_html .= '<td class="action">'
                         . '<a href="'.Jaris\Uri::url(
                             Jaris\Modules::getPageUri(
-                                "admin/books/delete-page", "book"
+                                "admin/books/delete-page",
+                                "book"
                             ),
-                            array(
+                            [
                                 "book"=>$_REQUEST["uri"],
                                 "page"=>$book_page_uri
-                            )
+                            ]
                         ).'">'
                         . t("Delete")
                         . '</a>'
@@ -138,20 +139,17 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
             $attributes_html .= Jaris\Forms::endFieldset();
 
-            $field = array("type"=>"other", "html_code"=>$attributes_html);
+            $field = ["type"=>"other", "html_code"=>$attributes_html];
 
             Jaris\Forms::addFieldAfter($field, "content", $fieldsets);
-        }
-        elseif(
+        } elseif (
             Jaris\Uri::get() == "admin/pages/add"
             &&
             $parameters["name"] == "add-page-book-page"
-        )
-        {
+        ) {
             $books_list = books_get_books();
 
-            if(count($books_list) <= 0)
-            {
+            if (count($books_list) <= 0) {
                 Jaris\View::addMessage(
                     t("Please create a book before adding a book page.")
                 );
@@ -159,17 +157,17 @@ Jaris\Signals\SignalHandler::listenWithParams(
                 Jaris\Uri::go("admin/pages/types");
             }
 
-            $books = array(t("-Parent Book-")=>"");
+            $books = [t("-Parent Book-")=>""];
 
-            foreach($books_list as $book_uri)
-            {
+            foreach ($books_list as $book_uri) {
                 $book_data = Jaris\Pages::get(
-                    $book_uri, Jaris\Language::getCurrent()
+                    $book_uri,
+                    Jaris\Language::getCurrent()
                 );
                 $books[$book_data["title"]] = $book_uri;
             }
 
-            $books_field = array(
+            $books_field = [
                 "type" => "select",
                 "name" => "book",
                 "label" => t("Book:"),
@@ -177,30 +175,28 @@ Jaris\Signals\SignalHandler::listenWithParams(
                 "value" => $books,
                 "selected" => isset($_REQUEST["book"])? $_REQUEST["book"] : "",
                 "description" => t("The book this page belongs to.")
-            );
+            ];
 
             Jaris\Forms::addFieldBefore($books_field, "title", $fieldsets);
-        }
-        elseif(
+        } elseif (
             Jaris\Uri::get() == "admin/pages/edit"
             &&
             $parameters["name"] == "edit-page-book-page"
-        )
-        {
+        ) {
             $page_data = Jaris\Pages::get($_REQUEST["uri"]);
 
             $books_list = books_get_books();
-            $books = array(t("-Parent Book-")=>"");
+            $books = [t("-Parent Book-")=>""];
 
-            foreach($books_list as $book_uri)
-            {
+            foreach ($books_list as $book_uri) {
                 $book_data = Jaris\Pages::get(
-                    $book_uri, Jaris\Language::getCurrent()
+                    $book_uri,
+                    Jaris\Language::getCurrent()
                 );
                 $books[$book_data["title"]] = $book_uri;
             }
 
-            $books_field = array(
+            $books_field = [
                 "type" => "select",
                 "name" => "book",
                 "label" => t("Book:"),
@@ -209,7 +205,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
                 "selected" => isset($_REQUEST["book"]) ?
                     $_REQUEST["book"] : $page_data["book"],
                 "description" => t("The book this page belongs to.")
-            );
+            ];
 
             Jaris\Forms::addFieldBefore($books_field, "title", $fieldsets);
         }
@@ -218,33 +214,26 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\Pages::SIGNAL_CREATE_PAGE,
-    function(&$uri, &$data, &$path)
-    {
-        if($data["type"] == "book")
-        {
-            $data["book_pages"] = serialize(array());
-        }
-        elseif($data["type"] == "book-page")
-        {
-            if(!isset($_REQUEST["book"]))
+    function (&$uri, &$data, &$path) {
+        if ($data["type"] == "book") {
+            $data["book_pages"] = serialize([]);
+        } elseif ($data["type"] == "book-page") {
+            if (!isset($_REQUEST["book"])) {
                 return;
+            }
 
             $data["book"] = $_REQUEST["book"];
 
             $page_data = Jaris\Pages::get($_REQUEST["book"]);
 
             // Add page to book
-            if($page_data)
-            {
+            if ($page_data) {
                 $page_data["book_pages"] = unserialize($page_data["book_pages"]);
 
-                if(is_array($page_data["book_pages"]))
-                {
+                if (is_array($page_data["book_pages"])) {
                     $page_data["book_pages"][$uri] = "";
-                }
-                else
-                {
-                    $page_data["book_pages"] = array();
+                } else {
+                    $page_data["book_pages"] = [];
                     $page_data["book_pages"][$uri] = "";
                 }
 
@@ -258,51 +247,41 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\Pages::SIGNAL_EDIT_PAGE_DATA,
-    function(&$page, &$new_data, &$page_path)
-    {
-        if($new_data["type"] == "book")
-        {
-            $book_pages = array();
+    function (&$page, &$new_data, &$page_path) {
+        if ($new_data["type"] == "book") {
+            $book_pages = [];
 
-            if(is_array($_REQUEST["book_pages"]))
-            {
-                foreach($_REQUEST["book_pages"] as $pos=>$uri)
-                {
+            if (is_array($_REQUEST["book_pages"])) {
+                foreach ($_REQUEST["book_pages"] as $pos=>$uri) {
                     $book_pages[$uri] = $_REQUEST["book_pages_parent"][$pos];
                 }
 
                 $new_data["book_pages"] = serialize($book_pages);
             }
-        }
-        elseif($new_data["type"] == "book-page")
-        {
-            if(!isset($_REQUEST["book"]))
+        } elseif ($new_data["type"] == "book-page") {
+            if (!isset($_REQUEST["book"])) {
                 return;
+            }
 
-            $old_data = array(
+            $old_data = [
                 "book" => $new_data["book"]
-            );
+            ];
 
             $new_data["book"] = $_REQUEST["book"];
 
-            if($old_data["book"] != $new_data["book"])
-            {
+            if ($old_data["book"] != $new_data["book"]) {
                 // Add page to new book
                 $page_data = Jaris\Pages::get($new_data["book"]);
 
-                if($page_data)
-                {
+                if ($page_data) {
                     $page_data["book_pages"] = unserialize(
                         $page_data["book_pages"]
                     );
 
-                    if(is_array($page_data["book_pages"]))
-                    {
+                    if (is_array($page_data["book_pages"])) {
                         $page_data["book_pages"][$page] = "";
-                    }
-                    else
-                    {
-                        $page_data["book_pages"] = array();
+                    } else {
+                        $page_data["book_pages"] = [];
                         $page_data["book_pages"][$page] = "";
                     }
 
@@ -316,8 +295,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
                 // Remove it from previous one
                 $page_data = Jaris\Pages::get($old_data["book"]);
 
-                if($page_data)
-                {
+                if ($page_data) {
                     $page_data["book_pages"] = unserialize(
                         $page_data["book_pages"]
                     );
@@ -337,24 +315,19 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\Pages::SIGNAL_MOVE_PAGE,
-    function(&$actual_uri, &$new_uri)
-    {
+    function (&$actual_uri, &$new_uri) {
         $page_data = Jaris\Pages::get($actual_uri);
 
-        if($page_data["type"] == "book")
-        {
+        if ($page_data["type"] == "book") {
             $page_data["book_pages"] = unserialize($page_data["book_pages"]);
 
-            foreach($page_data["book_pages"] as $page_uri=>$page_parent)
-            {
+            foreach ($page_data["book_pages"] as $page_uri=>$page_parent) {
                 $child_page_data = Jaris\Pages::get($page_uri);
                 $child_page_data["book"] = $new_uri;
 
                 Jaris\Pages::edit($page_uri, $child_page_data);
             }
-        }
-        elseif($page_data["type"] == "book-page")
-        {
+        } elseif ($page_data["type"] == "book-page") {
             $book_page = Jaris\Pages::get($page_data["book"]);
 
             $book_page["book_pages"] = unserialize($book_page["book_pages"]);
@@ -363,10 +336,10 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
             unset($book_page["book_pages"][$actual_uri]);
 
-            foreach($book_page["book_pages"] as $page_uri=>$page_parent)
-            {
-                if($page_parent == $actual_uri)
+            foreach ($book_page["book_pages"] as $page_uri=>$page_parent) {
+                if ($page_parent == $actual_uri) {
                     $book_page["book_pages"][$page_uri] = $new_uri;
+                }
             }
 
             $book_page["book_pages"] = serialize($book_page["book_pages"]);
@@ -378,23 +351,18 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\Pages::SIGNAL_DELETE_PAGE,
-    function(&$page, &$page_path)
-    {
+    function (&$page, &$page_path) {
         $page_data = Jaris\Pages::get($page);
 
-        if($page_data["type"] == "book")
-        {
+        if ($page_data["type"] == "book") {
             $page_data["book_pages"] = unserialize($page_data["book_pages"]);
 
-            foreach($page_data["book_pages"] as $page_uri=>$page_parent)
-            {
+            foreach ($page_data["book_pages"] as $page_uri=>$page_parent) {
                 Jaris\Pages::delete($page_uri, true);
 
                 Jaris\Translate::deletePage($page_uri);
             }
-        }
-        elseif($page_data["type"] == "book-page")
-        {
+        } elseif ($page_data["type"] == "book-page") {
             $book_data = Jaris\Pages::get($page_data["book"]);
 
             $book_data["book_pages"] = unserialize($book_data["book_pages"]);
@@ -410,15 +378,12 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\View::SIGNAL_THEME_TABS,
-    function(&$tabs_array)
-    {
-        if(!Jaris\Pages::isSystem())
-        {
+    function (&$tabs_array) {
+        if (!Jaris\Pages::isSystem()) {
             $page_data = Jaris\Pages::get(Jaris\Uri::get());
 
-            if($page_data["type"] == "book")
-            {
-                if(
+            if ($page_data["type"] == "book") {
+                if (
                     $page_data["author"]
                     ==
                     Jaris\Authentication::currentUser() ||
@@ -427,21 +392,19 @@ Jaris\Signals\SignalHandler::listenWithParams(
                         "edit_all_user_content",
                         Jaris\Authentication::currentUserGroup()
                     )
-                )
-                {
-                    $tabs_array[0][t("Add Page")] = array(
+                ) {
+                    $tabs_array[0][t("Add Page")] = [
                         "uri" => "admin/pages/add",
-                        "arguments" => array(
+                        "arguments" => [
                             "type" => "book-page",
                             "book" => Jaris\Uri::get()
-                        )
-                    );
+                        ]
+                    ];
                 }
             }
 
-            if($page_data["type"] == "book-page")
-            {
-                if(
+            if ($page_data["type"] == "book-page") {
+                if (
                     $page_data["author"]
                     ==
                     Jaris\Authentication::currentUser() ||
@@ -450,14 +413,13 @@ Jaris\Signals\SignalHandler::listenWithParams(
                         "edit_all_user_content",
                         Jaris\Authentication::currentUserGroup()
                     )
-                )
-                {
-                    $tabs_array[0][t("Section Positioning")] = array(
+                ) {
+                    $tabs_array[0][t("Section Positioning")] = [
                         "uri" => "admin/pages/edit",
-                        "arguments" => array(
+                        "arguments" => [
                             "uri" => $page_data["book"]
-                        )
-                    );
+                        ]
+                    ];
                 }
             }
         }
@@ -466,20 +428,16 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\View::SIGNAL_CONTENT_TEMPLATE,
-    function(&$page, &$type, &$template_path)
-    {
+    function (&$page, &$type, &$template_path) {
         $theme = Jaris\Site::$theme;
 
         $default_template = Jaris\Themes::directory($theme) . "content.php";
 
-        if($type == "book" && $template_path == $default_template)
-        {
+        if ($type == "book" && $template_path == $default_template) {
             $template_path = Jaris\Modules::directory("books")
                 . "templates/content-book.php"
             ;
-        }
-        elseif($type == "book-page" && $template_path == $default_template)
-        {
+        } elseif ($type == "book-page" && $template_path == $default_template) {
             $template_path = Jaris\Modules::directory("books")
                 . "templates/content-book-page.php"
             ;

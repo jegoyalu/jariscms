@@ -23,39 +23,33 @@ row: 0
     <?php
         Jaris\Authentication::protectedPage();
 
-        if(!isset($_REQUEST["type"]))
-        {
+        if (!isset($_REQUEST["type"])) {
             $_REQUEST["type"] = "";
         }
 
-        if(!isset($_REQUEST["author"]))
-        {
+        if (!isset($_REQUEST["author"])) {
             $_REQUEST["author"] = "";
         }
 
-        if(!isset($_REQUEST["pages"]) || count($_REQUEST["pages"]) <= 0)
-        {
+        if (!isset($_REQUEST["pages"]) || count($_REQUEST["pages"]) <= 0) {
             Jaris\View::addMessage(
-                t("Please select the content to approve."), 
+                t("Please select the content to approve."),
                 "error"
             );
 
             Jaris\Uri::go(
                 "admin/pages/approve",
-                array(
+                [
                     "type" => $_REQUEST["type"],
                     "author" => $_REQUEST["author"]
-                )
+                ]
             );
         }
 
-        if(isset($_REQUEST["btnYes"]))
-        {
-            foreach($_REQUEST["pages"] as $page_uri)
-            {
+        if (isset($_REQUEST["btnYes"])) {
+            foreach ($_REQUEST["pages"] as $page_uri) {
                 //Approve page
-                if(!Jaris\Pages::approve($page_uri))
-                {
+                if (!Jaris\Pages::approve($page_uri)) {
                     Jaris\View::addMessage(
                         Jaris\System::errorMessage("write_error_data"),
                         "error"
@@ -63,10 +57,10 @@ row: 0
 
                     Jaris\Uri::go(
                         "admin/pages/approve",
-                        array(
+                        [
                             "type" => $_REQUEST["type"],
                             "author" => $_REQUEST["author"]
-                        )
+                        ]
                     );
                 }
             }
@@ -75,20 +69,18 @@ row: 0
 
             Jaris\Uri::go(
                 "admin/pages/approve",
-                array(
+                [
                     "type" => $_REQUEST["type"],
                     "author" => $_REQUEST["author"]
-                )
+                ]
             );
-        }
-        elseif(isset($_REQUEST["btnNo"]))
-        {
+        } elseif (isset($_REQUEST["btnNo"])) {
             Jaris\Uri::go(
                 "admin/pages/approve",
-                array(
+                [
                     "type" => $_REQUEST["type"],
                     "author" => $_REQUEST["author"]
-                )
+                ]
             );
         }
     ?>
@@ -98,7 +90,7 @@ row: 0
     >
         <input type="hidden" name="type" value="<?php print $_REQUEST["type"] ?>" />
         <input type="hidden" name="author" value="<?php print $_REQUEST["author"] ?>" />
-    <?php foreach($_REQUEST["pages"] as $page_uri){ ?>
+    <?php foreach ($_REQUEST["pages"] as $page_uri) { ?>
         <input type="hidden" name="pages[]" value="<?php print $page_uri ?>" />
     <?php } ?>
 
@@ -107,7 +99,7 @@ row: 0
         <div>
             <?php print t("Are you sure you want to approve the listed content?") ?>
             <ul>
-            <?php foreach($_REQUEST["pages"] as $page_uri){ ?>
+            <?php foreach ($_REQUEST["pages"] as $page_uri) { ?>
                 <li>
                     <a target="_blank" href="<?php print Jaris\Uri::url($page_uri) ?>">
                         <?php

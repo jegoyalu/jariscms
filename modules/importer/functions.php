@@ -12,15 +12,14 @@
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\Groups::SIGNAL_SET_GROUP_PERMISSION,
-    function(&$permissions)
-    {
-        $import = array(
+    function (&$permissions) {
+        $import = [
             "import_content_importer"=>t("Import Content")
-        );
+        ];
 
-        $import = array(
+        $import = [
             "export_content_importer"=>t("Export Content")
-        );
+        ];
 
         $permissions[t("Importing/Exporting")] = $import;
     }
@@ -28,54 +27,49 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\System::SIGNAL_GENERATE_ADMIN_PAGE,
-    function(&$sections)
-    {
-        $content = array();
+    function (&$sections) {
+        $content = [];
 
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
-                "import_content_importer", 
+                "import_content_importer",
                 Jaris\Authentication::currentUserGroup()
             )
-        )
-        {
-            $content[] = array(
+        ) {
+            $content[] = [
                 "title" => t("Import Content"),
                 "url" => Jaris\Uri::url(
                     Jaris\Modules::getPageUri(
-                        "admin/pages/import", "importer"
+                        "admin/pages/import",
+                        "importer"
                     )
                 ),
                 "description" => t("Import content into the system by reading a csv file.")
-            );
+            ];
         }
 
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
-                "export_content_importer", 
+                "export_content_importer",
                 Jaris\Authentication::currentUserGroup()
             )
-        )
-        {
-            $content[] = array(
+        ) {
+            $content[] = [
                 "title" => t("Export Content"),
                 "url" => Jaris\Uri::url(
                     Jaris\Modules::getPageUri(
-                        "admin/pages/export", "importer"
+                        "admin/pages/export",
+                        "importer"
                     )
                 ),
                 "description" => t("Export content from the system into a csv file.")
-            );
+            ];
         }
 
-        if(count($content) > 0)
-        {
-            foreach($sections as $section_index => $section_data)
-            {
-                if($section_data["class"] == "content")
-                {
-                    foreach($content as $section)
-                    {
+        if (count($content) > 0) {
+            foreach ($sections as $section_index => $section_data) {
+                if ($section_data["class"] == "content") {
+                    foreach ($content as $section) {
                         $sections[$section_index]["sub_sections"][] = $section;
                     }
 

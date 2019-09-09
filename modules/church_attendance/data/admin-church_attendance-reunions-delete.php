@@ -18,13 +18,12 @@ row: 0
     field: content
     <?php
         Jaris\Authentication::protectedPage(
-            array("manage_reunions_church_attendance")
+    ["manage_reunions_church_attendance"]
         );
 
         $element_data = church_attendance_reunion_get($_REQUEST["id"]);
 
-        if(isset($_REQUEST["btnYes"]))
-        {
+        if (isset($_REQUEST["btnYes"])) {
             church_attendance_reunion_delete($element_data["id"]);
 
             Jaris\View::addMessage(
@@ -37,9 +36,7 @@ row: 0
                     "church_attendance"
                 )
             );
-        }
-        elseif(isset($_REQUEST["btnNo"]))
-        {
+        } elseif (isset($_REQUEST["btnNo"])) {
             Jaris\Uri::go(
                 Jaris\Modules::getPageUri(
                     "admin/church-attendance/reunions",

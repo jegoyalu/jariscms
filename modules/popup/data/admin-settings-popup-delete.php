@@ -17,10 +17,9 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("edit_settings"));
+        Jaris\Authentication::protectedPage(["edit_settings"]);
 
-        if(!isset($_REQUEST["id"]))
-        {
+        if (!isset($_REQUEST["id"])) {
             Jaris\Uri::go(
                 Jaris\Modules::getPageUri(
                     "admin/settings/popup",
@@ -34,19 +33,15 @@ row: 0
             Jaris\Site::dataDir() . "settings/popup.php"
         );
 
-        if(isset($_REQUEST["btnYes"]))
-        {
-            if(
+        if (isset($_REQUEST["btnYes"])) {
+            if (
                 Jaris\Data::delete(
                     $_REQUEST["id"],
                     Jaris\Site::dataDir() . "settings/popup.php"
                 )
-            )
-            {
+            ) {
                 Jaris\View::addMessage(t("Popup successfully deleted."));
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(
                     Jaris\System::errorMessage("write_error_data"),
                     "error"
@@ -59,9 +54,7 @@ row: 0
                     "popup"
                 )
             );
-        }
-        elseif(isset($_REQUEST["btnNo"]))
-        {
+        } elseif (isset($_REQUEST["btnNo"])) {
             Jaris\Uri::go(
                 Jaris\Modules::getPageUri(
                     "admin/settings/popup",

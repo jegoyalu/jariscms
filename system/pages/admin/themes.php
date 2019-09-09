@@ -19,21 +19,18 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("edit_settings"));
+        Jaris\Authentication::protectedPage(["edit_settings"]);
 
         Jaris\View::addTab(t("Upload"), "admin/themes/upload");
 
-        if(isset($_REQUEST["btnSave"]))
-        {
-            if(is_array($_REQUEST["themes_enabled"]))
-            {
-                if(
+        if (isset($_REQUEST["btnSave"])) {
+            if (is_array($_REQUEST["themes_enabled"])) {
+                if (
                     !in_array(
                         $_REQUEST["theme"],
                         $_REQUEST["themes_enabled"]
                     )
-                )
-                {
+                ) {
                     $_REQUEST["themes_enabled"][] = $_REQUEST["theme"];
                 }
             }
@@ -85,34 +82,32 @@ row: 0
         //Used to print the theme preview
         $base_url = Jaris\Site::$base_url;
 
-        foreach($themes as $theme_path => $theme_info)
-        {
+        foreach ($themes as $theme_path => $theme_info) {
             $alt = t("Preview not available");
             $title = t("View theme info.");
             $more_url = Jaris\Uri::url(
-                "admin/themes/view", 
-                array("path" => $theme_path)
+                "admin/themes/view",
+                ["path" => $theme_path]
             );
-            $thumbnail = $base_url 
-                . "/" 
-                . Jaris\Themes::directory($theme_path) 
+            $thumbnail = $base_url
+                . "/"
+                . Jaris\Themes::directory($theme_path)
                 . "preview.png"
             ;
-            $selected = $default_theme == $theme_path ? 
+            $selected = $default_theme == $theme_path ?
                 "checked=\"checked\"" : ""
             ;
             $checked = "";
 
-            if(is_array($themes_enabled))
-            {
-                if(in_array($theme_path, $themes_enabled))
+            if (is_array($themes_enabled)) {
+                if (in_array($theme_path, $themes_enabled)) {
                     $checked = "checked=\"checked\"";
+                }
             }
 
             print "<tr>\n";
 
-            if($theme_info != null)
-            {
+            if ($theme_info != null) {
                 print "<td>"
                     . "<a title=\"$title\" href=\"$more_url\">"
                     . "<img alt=\"$alt\" src=\"$thumbnail\" />"
@@ -121,9 +116,7 @@ row: 0
                 ;
 
                 print "<td>" . t($theme_info['name']) . "</td>\n";
-            }
-            else
-            {
+            } else {
                 print "<td>"
                     . "<img alt=\"$alt\" src=\"$thumbnail\" />"
                     . "</td>\n"

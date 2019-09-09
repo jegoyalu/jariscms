@@ -19,26 +19,25 @@ row: 0
 
     field: content
     <?php
-        if(
+        if (
             !isset($_REQUEST["uri"])
             ||
             trim($_REQUEST["uri"]) == ""
             ||
             !file_exists(Jaris\Pages::getPath($_REQUEST["uri"]) . "/data.php")
-        )
-        {
+        ) {
             Jaris\Uri::go("access-denied");
         }
 
-        if(!Jaris\Pages::userIsOwner($_REQUEST["uri"]))
+        if (!Jaris\Pages::userIsOwner($_REQUEST["uri"])) {
             Jaris\Authentication::protectedPage();
+        }
 
-        Jaris\Authentication::protectedPage(array("view_revisions"));
+        Jaris\Authentication::protectedPage(["view_revisions"]);
 
         $revisions_path = Jaris\Pages::getPath($_REQUEST["uri"]) . "/revisions";
 
-        if(!file_exists($revisions_path))
-        {
+        if (!file_exists($revisions_path)) {
             Jaris\View::addMessage(t("No revisions found."));
             Jaris\Uri::go($_REQUEST["uri"]);
         }
@@ -49,21 +48,19 @@ row: 0
         );
 
         // Add Edit/View tabs if current user has proper permissions
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
                 "edit_content",
                 Jaris\Authentication::currentUserGroup()
             )
             &&
             !trim($page_data["is_system"])
-        )
-        {
-            if(Jaris\Pages::userIsOwner($_REQUEST["uri"]))
-            {
+        ) {
+            if (Jaris\Pages::userIsOwner($_REQUEST["uri"])) {
                 Jaris\View::addTab(
                     t("Edit"),
                     "admin/pages/edit",
-                    array("uri" => $_REQUEST["uri"])
+                    ["uri" => $_REQUEST["uri"]]
                 );
             }
         }
@@ -73,7 +70,7 @@ row: 0
         Jaris\View::addTab(
             t("Revisions"),
             Jaris\Modules::getPageUri("revisions", "revision"),
-            array("uri" => $_REQUEST["uri"])
+            ["uri" => $_REQUEST["uri"]]
         );
 
         $revisions = Jaris\FileSystem::getFiles($revisions_path);
@@ -82,8 +79,7 @@ row: 0
         print "<h2>" . t("Page:") . " " . $page_data["title"] . "</h2>";
 
         // Display comparison chooser form
-        if(count($revisions) > 1)
-        {
+        if (count($revisions) > 1) {
             print "<form action=\"" .
                 Jaris\Uri::url(
                     Jaris\Modules::getPageUri("revision/compare", "revision")
@@ -97,10 +93,9 @@ row: 0
             ;
 
             $options = "";
-            foreach($revisions as $revision)
-            {
+            foreach ($revisions as $revision) {
                 $revision = str_replace(
-                    array($revisions_path . "/", ".php"),
+                    [$revisions_path . "/", ".php"],
                     "",
                     $revision
                 );
@@ -132,8 +127,7 @@ row: 0
             print "<hr />";
         }
 
-        if(count($revisions) > 0)
-        {
+        if (count($revisions) > 0) {
             print "<table class=\"navigation-list\">";
             print "<thead>";
             print "<tr>";
@@ -144,10 +138,9 @@ row: 0
 
             print "<tbody>";
 
-            foreach($revisions as $revision)
-            {
+            foreach ($revisions as $revision) {
                 $revision = str_replace(
-                    array($revisions_path . "/", ".php"),
+                    [$revisions_path . "/", ".php"],
                     "",
                     $revision
                 );
@@ -165,7 +158,8 @@ row: 0
                 print "<td>" .
                     "<a href=\"" .
                     Jaris\Uri::url(
-                        $_REQUEST["uri"], array("rev" => $revision)
+                        $_REQUEST["uri"],
+                        ["rev" => $revision]
                     ) . "\">" .
                     t("View") .
                     "</a></td>"
@@ -176,7 +170,7 @@ row: 0
                     "<a href=\"" .
                     Jaris\Uri::url(
                         Jaris\Modules::getPageUri("revision/revert", "revision"),
-                        array("uri" => $_REQUEST["uri"], "rev" => $revision)
+                        ["uri" => $_REQUEST["uri"], "rev" => $revision]
                     ) . "\">" .
                     t("Revert") .
                     "</a></td>"
@@ -187,7 +181,7 @@ row: 0
                     "<a href=\"" .
                     Jaris\Uri::url(
                         Jaris\Modules::getPageUri("revision/delete", "revision"),
-                        array("uri" => $_REQUEST["uri"], "rev" => $revision)
+                        ["uri" => $_REQUEST["uri"], "rev" => $revision]
                     ) . "\">" .
                     t("Delete") .
                     "</a></td>"
@@ -199,9 +193,7 @@ row: 0
             print "</tbody>";
 
             print "</table>";
-        }
-        else
-        {
+        } else {
             Jaris\View::addMessage(t("No revisions found."));
         }
     ?>

@@ -17,12 +17,9 @@ row: 0
 
     field: content
     <?php
-        if(!Jaris\Authentication::isAdminLogged())
-        {
+        if (!Jaris\Authentication::isAdminLogged()) {
             print t("Enjoy your new webiste, to start working on it login on the left block with your administration account");
-        }
-        else
-        {
+        } else {
             print t("Now that you are logged in you can start by using the administration navigation menu to modify your web page as you like.");
             print " ";
 

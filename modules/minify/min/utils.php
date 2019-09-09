@@ -38,7 +38,7 @@ if (! class_exists('Minify_Loader', false)) {
  *   'groupsConfigFile' : specify if different
  * @return string
  */
-function Minify_getUri($keyOrFiles, $opts = array())
+function Minify_getUri($keyOrFiles, $opts = [])
 {
     return Minify_HTML_Helper::getUri($keyOrFiles, $opts);
 }
@@ -61,7 +61,7 @@ function Minify_mtime($keysAndFiles, $groupsConfigFile = null)
     if (! $groupsConfigFile) {
         $groupsConfigFile = dirname(__FILE__) . '/groupsConfig.php';
     }
-    $sources = array();
+    $sources = [];
     foreach ($keysAndFiles as $keyOrFile) {
         if (is_object($keyOrFile)
             || 0 === strpos($keyOrFile, '/')

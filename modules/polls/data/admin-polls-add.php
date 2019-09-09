@@ -42,15 +42,13 @@ row: 0
     </script>
 
     <?php
-        Jaris\Authentication::protectedPage(array("add_content"));
+        Jaris\Authentication::protectedPage(["add_content"]);
 
-        if(!Jaris\Authentication::hasTypeAccess("poll", Jaris\Authentication::currentUserGroup(), Jaris\Authentication::currentUser()))
-        {
+        if (!Jaris\Authentication::hasTypeAccess("poll", Jaris\Authentication::currentUserGroup(), Jaris\Authentication::currentUser())) {
             Jaris\Authentication::protectedPage();
         }
 
-        if(isset($_REQUEST["btnSave"]) && !Jaris\Forms::requiredFieldEmpty("add-poll"))
-        {
+        if (isset($_REQUEST["btnSave"]) && !Jaris\Forms::requiredFieldEmpty("add-poll")) {
             //Trim uri spaces
             $_REQUEST["uri"] = trim($_REQUEST["uri"]);
 
@@ -59,52 +57,42 @@ row: 0
             $fields["duration"] = $_REQUEST["duration"];
             $fields["option_name"] = serialize($_REQUEST["option_name"]);
 
-            $option_values = array();
-            foreach($_REQUEST["option_name"] as $option)
-            {
+            $option_values = [];
+            foreach ($_REQUEST["option_name"] as $option) {
                 $option_values[] = 0;
             }
 
             $fields["option_value"] = serialize($option_values);
 
-            if(Jaris\Authentication::groupHasPermission("add_edit_meta_content", Jaris\Authentication::currentUserGroup()))
-            {
+            if (Jaris\Authentication::groupHasPermission("add_edit_meta_content", Jaris\Authentication::currentUserGroup())) {
                 $fields["meta_title"] = $_REQUEST["meta_title"];
                 $fields["description"] = $_REQUEST["description"];
                 $fields["keywords"] = $_REQUEST["keywords"];
             }
 
-            if(Jaris\Authentication::groupHasPermission("select_content_groups", Jaris\Authentication::currentUserGroup()))
-            {
+            if (Jaris\Authentication::groupHasPermission("select_content_groups", Jaris\Authentication::currentUserGroup())) {
                 $fields["groups"] = $_REQUEST["groups"];
 
                 $users = explode(",", $_REQUEST["users"]);
 
-                if(count($users) > 0)
-                {
-                    foreach($users as $user_position=>$username)
-                    {
+                if (count($users) > 0) {
+                    foreach ($users as $user_position=>$username) {
                         $users[$user_position] = trim($username);
                     }
                 }
 
                 $fields["users"] = $users;
-            }
-            else
-            {
-                $fields["groups"] = array();
-                $fields["user"] = array();
+            } else {
+                $fields["groups"] = [];
+                $fields["user"] = [];
             }
 
-            $categories = array();
+            $categories = [];
             $categories_list = Jaris\Categories::getList("poll");
 
-            if($categories_list)
-            {
-                foreach($categories_list as $machine_name => $values)
-                {
-                    if(isset($_REQUEST[$machine_name]))
-                    {
+            if ($categories_list) {
+                foreach ($categories_list as $machine_name => $values) {
+                    if (isset($_REQUEST[$machine_name])) {
                         $categories[$machine_name] = $_REQUEST[$machine_name];
                     }
                 }
@@ -112,15 +100,12 @@ row: 0
 
             $fields["categories"] = $categories;
 
-            if(
+            if (
                 Jaris\Authentication::groupHasPermission("input_format_content", Jaris\Authentication::currentUserGroup()) ||
                 Jaris\Authentication::isAdminLogged()
-            )
-            {
+            ) {
                 $fields["input_format"] = $_REQUEST["input_format"];
-            }
-            else
-            {
+            } else {
                 $fields["input_format"] = Jaris\Types::getDefaultInputFormat("poll");
             }
 
@@ -133,11 +118,10 @@ row: 0
             //Stores the uri of the page to display the edit page after saving.
             $uri = "";
 
-            if(
+            if (
                 !Jaris\Authentication::groupHasPermission("manual_uri_content", Jaris\Authentication::currentUserGroup()) ||
                 $_REQUEST["uri"] == ""
-            )
-            {
+            ) {
                 $_REQUEST["uri"] = Jaris\Types::generateURI(
                     $fields["type"],
                     $fields["title"],
@@ -145,26 +129,21 @@ row: 0
                 );
             }
 
-            if(Jaris\Pages::add($_REQUEST["uri"], $fields, $uri))
-            {
+            if (Jaris\Pages::add($_REQUEST["uri"], $fields, $uri)) {
                 polls_sqlite_add($uri, $fields["created_date"]);
 
                 add_recent_poll($uri, $fields["title"]);
 
                 Jaris\View::addMessage(t("The poll was successfully added."));
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(Jaris\System::errorMessage("write_error_data"), "error");
             }
 
             Jaris\Uri::go(
                 Jaris\Modules::getPageUri("admin/polls/edit", "polls"),
-                array("uri" => $uri)
+                ["uri" => $uri]
             );
-        }
-        elseif(isset($_REQUEST["btnCancel"]))
-        {
+        } elseif (isset($_REQUEST["btnCancel"])) {
             Jaris\Uri::go("");
         }
 
@@ -177,46 +156,47 @@ row: 0
 
         $categories = Jaris\Categories::getList("poll");
 
-        if($categories)
-        {
+        if ($categories) {
             $fields_categories = Jaris\Categories::generateFields(
-                [], "", "poll"
+                [],
+                "",
+                "poll"
             );
 
-            $fieldset[] = array(
+            $fieldset[] = [
                 "fields" => $fields_categories,
                 "name" => t("Categories"),
                 "collapsible" => true
-            );
+            ];
         }
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "name" => "title",
             "value" => $_REQUEST["title"],
             "label" => t("Title:"),
             "id" => "title",
             "required" => true
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "textarea",
             "name" => "content",
             "value" => $_REQUEST["content"],
             "label" => t("Content:"),
             "id" => "content"
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "name" => "duration",
             "value" => $_REQUEST["duration"] ? $_REQUEST["duration"] : "7",
             "label" => t("Duration:"),
             "id" => "duration",
             "description" => t("The amount of days the poll is going to be active. Leave blank for unlimited time.")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
         $items = "<table id=\"items-table\" style=\"width: 100%\">";
         $items .= "<thead>";
@@ -234,17 +214,16 @@ row: 0
         $items .= "</table>";
         $items .= "<a id=\"add-item\" style=\"cursor: pointer\">" . t("Add another option") . "</a>";
 
-        $fields_items[] = array("type" => "other", "html_code" => $items);
+        $fields_items[] = ["type" => "other", "html_code" => $items];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "name" => t("Options"),
             "fields" => $fields_items,
             "collapsible" => true
-        );
+        ];
 
-        if(Jaris\Authentication::groupHasPermission("add_edit_meta_content", Jaris\Authentication::currentUserGroup()))
-        {
-            $fields_meta[] = array(
+        if (Jaris\Authentication::groupHasPermission("add_edit_meta_content", Jaris\Authentication::currentUserGroup())) {
+            $fields_meta[] = [
                 "type" => "textarea",
                 "name" => "meta_title",
                 "value" => $_REQUEST["meta_title"],
@@ -252,9 +231,9 @@ row: 0
                 "id" => "meta_title",
                 "limit" => 70,
                 "description" => t("Overrides the original page title on search engine results. Leave blank for default.")
-            );
+            ];
 
-            $fields_meta[] = array(
+            $fields_meta[] = [
                 "type" => "textarea",
                 "name" => "description",
                 "value" => $_REQUEST["description"],
@@ -262,113 +241,107 @@ row: 0
                 "id" => "description",
                 "limit" => 160,
                 "description" => t("Used to generate the meta description for search engines. Leave blank for default.")
-            );
+            ];
 
-            $fields_meta[] = array(
+            $fields_meta[] = [
                 "type" => "textarea",
                 "name" => "keywords",
                 "value" => $_REQUEST["keywords"],
                 "label" => t("Keywords:"),
                 "id" => "keywords",
                 "description" => t("List of words seperated by comma (,) used to generate the meta keywords for search engines. Leave blank for default.")
-            );
+            ];
 
-            $fieldset[] = array(
+            $fieldset[] = [
                 "fields" => $fields_meta,
                 "name" => t("Meta tags"),
                 "collapsible" => true,
                 "collapsed" => true
-            );
+            ];
         }
 
-        if(
+        if (
             Jaris\Authentication::groupHasPermission("input_format_content", Jaris\Authentication::currentUserGroup()) ||
             Jaris\Authentication::isAdminLogged()
-        )
-        {
-            $fields_inputformats = array();
+        ) {
+            $fields_inputformats = [];
 
-            foreach(Jaris\InputFormats::getAll() as $machine_name => $fields_formats)
-            {
-
-                $fields_inputformats[] = array(
+            foreach (Jaris\InputFormats::getAll() as $machine_name => $fields_formats) {
+                $fields_inputformats[] = [
                     "type" => "radio",
                     "checked" => $machine_name == "full_html" ? true : false,
                     "name" => "input_format",
                     "description" => $fields_formats["description"],
-                    "value" => array($fields_formats["title"] => $machine_name)
-                );
+                    "value" => [$fields_formats["title"] => $machine_name]
+                ];
             }
 
-            $fieldset[] = array(
+            $fieldset[] = [
                 "fields" => $fields_inputformats,
                 "name" => t("Input Format")
-            );
+            ];
         }
 
         $extra_fields = Jaris\Fields::generateFields("poll");
 
-        if($extra_fields)
-        {
-            $fieldset[] = array("fields" => $extra_fields);
+        if ($extra_fields) {
+            $fieldset[] = ["fields" => $extra_fields];
         }
 
-        if(Jaris\Authentication::groupHasPermission("select_content_groups", Jaris\Authentication::currentUserGroup()))
-        {
-            $fields_users_access[] = array(
+        if (Jaris\Authentication::groupHasPermission("select_content_groups", Jaris\Authentication::currentUserGroup())) {
+            $fields_users_access[] = [
                 "type" => "other",
                 "html_code" => "<h4>"
                     . t("Select the groups that can see this content. Don't select anything to display content to everyone.")
                     . "</h4>"
-            );
+            ];
 
             $fields_users_access = array_merge(
                 $fields_users_access,
                 Jaris\Groups::generateFields()
             );
 
-            $fields_users_access[] = array(
+            $fields_users_access[] = [
                 "type" => "userarea",
                 "name" => "users",
                 "label" => t("Users:"),
                 "id" => "users",
                 "value" => $_REQUEST["users"],
                 "description" => t("A comma seperated list of users that can see this content. Leave empty to display content to everyone.")
-            );
+            ];
 
-            $fieldset[] = array(
+            $fieldset[] = [
                 "fields" => $fields_users_access,
                 "name" => t("Users Access"),
                 "collapsed" => true,
                 "collapsible" => true
-            );
+            ];
         }
 
-        if(Jaris\Authentication::groupHasPermission("manual_uri_content", Jaris\Authentication::currentUserGroup()))
-        {
-            $fields_other[] = array(
+        if (Jaris\Authentication::groupHasPermission("manual_uri_content", Jaris\Authentication::currentUserGroup())) {
+            $fields_other[] = [
                 "type" => "text",
                 "name" => "uri",
                 "label" => t("Uri:"),
                 "id" => "uri",
                 "value" => $_REQUEST["uri"],
                 "description" => t("The relative path to access the page, for example: section/page, section. Leave empty to auto-generate.")
-            );
+            ];
         }
 
-        $fields_other[] = array(
+        $fields_other[] = [
             "type" => "submit",
             "name" => "btnSave",
             "value" => t("Save")
-        );
+        ];
 
-        $fields_other[] = array(
+        $fields_other[] = [
             "type" => "submit",
             "name" => "btnCancel",
             "value" => t("Cancel")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields_other);
+        $fieldset[] = ["fields" => $fields_other];
 
         print Jaris\Forms::generate($parameters, $fieldset);
     ?>

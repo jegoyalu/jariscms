@@ -13,7 +13,8 @@
  * @package Minify
  * @author Stephen Clay <steve@mrclay.org>
  */
-class Minify_Source {
+class Minify_Source
+{
 
     /**
      * @var int time of last modification
@@ -62,12 +63,12 @@ class Minify_Source {
             $segments = explode('.', $spec['filepath']);
             $ext = strtolower(array_pop($segments));
             switch ($ext) {
-            case 'js'   : $this->contentType = 'application/x-javascript';
+            case 'js': $this->contentType = 'application/x-javascript';
                           break;
-            case 'css'  : $this->contentType = 'text/css';
+            case 'css': $this->contentType = 'text/css';
                           break;
-            case 'htm'  : // fallthrough
-            case 'html' : $this->contentType = 'text/html';
+            case 'htm': // fallthrough
+            case 'html': $this->contentType = 'text/html';
                           break;
             }
             $this->filepath = $spec['filepath'];
@@ -106,12 +107,13 @@ class Minify_Source {
     {
         $content = (null !== $this->filepath)
             ? file_get_contents($this->filepath)
-            : ((null !== $this->_content)
+            : (
+                (null !== $this->_content)
                 ? $this->_content
                 : call_user_func($this->_getContentFunc, $this->_id)
             );
         // remove UTF-8 BOM if present
-        return (pack("CCC",0xef,0xbb,0xbf) === substr($content, 0, 3))
+        return (pack("CCC", 0xef, 0xbb, 0xbf) === substr($content, 0, 3))
             ? substr($content, 3)
             : $content;
     }
@@ -154,9 +156,9 @@ class Minify_Source {
     public static function getDigest($sources)
     {
         foreach ($sources as $source) {
-            $info[] = array(
+            $info[] = [
                 $source->_id, $source->minifier, $source->minifyOptions
-            );
+            ];
         }
         return md5(serialize($info));
     }
@@ -184,4 +186,3 @@ class Minify_Source {
     protected $_getContentFunc = null;
     protected $_id = null;
 }
-

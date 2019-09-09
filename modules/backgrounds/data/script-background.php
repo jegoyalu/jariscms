@@ -16,7 +16,7 @@ row: 0
     field;
 
     field: content
-    <?php if(isset($_REQUEST["id"])){ ?>
+    <?php if (isset($_REQUEST["id"])) { ?>
 
         <?php
             $backgrounds_settings = Jaris\Settings::getAll("backgrounds");
@@ -24,16 +24,14 @@ row: 0
 
             $background = $backgrounds[intval($_REQUEST["id"])];
 
-            $images = array();
+            $images = [];
             $stretch = "false";
             $centerx = "false";
             $centery = "false";
 
-            if($background["multi"])
-            {
+            if ($background["multi"]) {
                 $images = unserialize($background["images"]);
-                foreach($images as $index => $image)
-                {
+                foreach ($images as $index => $image) {
                     //Get full url
                     $images[$index] = '"' . Jaris\Uri::url(Jaris\Files::get($image, "backgrounds")) . '"';
                 }
@@ -47,9 +45,9 @@ row: 0
             }
         ?>
 
-        <?php if($background["multi"]){ ?>
+        <?php if ($background["multi"]) { ?>
             $(document).ready(function(){
-                $<?php if(!empty($background["element"])){ ?>("<?php print $background["element"]; ?>")<?php } ?>.backstretch(
+                $<?php if (!empty($background["element"])) { ?>("<?php print $background["element"]; ?>")<?php } ?>.backstretch(
                     [<?php print $images; ?>],
                     {
                         fade: <?php print $background["fade_speed"]; ?>,
@@ -58,30 +56,30 @@ row: 0
                         responsiveStretch: <?php print $responsive_stretch; ?>,
                         centeredX: <?php print $centerx; ?>,
                         centeredY: <?php print $centery; ?>,
-                        fixed: <?php print ($background["attachment"] == "fixed" ? "true" : "false"); ?>,
+                        fixed: <?php print($background["attachment"] == "fixed" ? "true" : "false"); ?>,
                         wrap: {
                         top: <?php print intval($background["top"]); ?>
-                        <?php if($background["min_width"] > 0){ ?>
+                        <?php if ($background["min_width"] > 0) { ?>
                             ,minWidth: <?php print intval($background["min_width"]); ?>
                         <?php } ?>
-                        <?php if($background["min_height"] > 0){ ?>
+                        <?php if ($background["min_height"] > 0) { ?>
                             ,minHeight: <?php print intval($background["min_height"]); ?>
                         <?php } ?>
-                        <?php if($background["max_width"] > 0){ ?>
+                        <?php if ($background["max_width"] > 0) { ?>
                             ,maxWidth: <?php print intval($background["max_width"]); ?>
                         <?php } ?>
-                        <?php if($background["max_height"] > 0){ ?>
+                        <?php if ($background["max_height"] > 0) { ?>
                             ,maxHeight: <?php print intval($background["max_height"]); ?>
                         <?php } ?>
                         }
                     }
                 );
             });
-        <?php } else{ ?>
+        <?php } else { ?>
             $(document).ready(function(){
-                <?php if(empty($background["element"])){ ?>
+                <?php if (empty($background["element"])) { ?>
                 var backgroundContainer = $('<div class="background background-<?php print intval($_REQUEST["id"]); ?>" />');
-                <?php } else{ ?>
+                <?php } else { ?>
                 var backgroundContainer = $('<?php print $background["element"]; ?>');
                 <?php } ?>
 
@@ -94,7 +92,7 @@ row: 0
                     "<?php print $background["attachment"]; ?>"
                 );
 
-                <?php if(empty($background["element"])){ ?>
+                <?php if (empty($background["element"])) { ?>
                 backgroundContainer.css("min-height", $(window).height()+"px");
                 $("body").css(
                     "background-color",
@@ -104,7 +102,7 @@ row: 0
                 backgroundContainer.appendTo("body");
                 <?php } ?>
 
-                <?php if($background["responsive"] && intval($background["max_width"]) > 0){ ?>
+                <?php if ($background["responsive"] && intval($background["max_width"]) > 0) { ?>
                 function resizeBG()
                 {
                     if($(window).width() >= <?php print $background["max_width"] ?>){
@@ -124,7 +122,7 @@ row: 0
                 });
 
                 resizeBG();
-                <?php } else{ ?>
+                <?php } else { ?>
                 backgroundContainer.css({
                     backgroundSize: "<?php print !empty($background["background_size"]) ? $background["background_size"] : "auto" ?>"
                 });

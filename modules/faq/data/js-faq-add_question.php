@@ -53,60 +53,58 @@ row: 0
         {
             whizzywig.makeWhizzyWig("answer-"+question_id, "all");
         }
-        <?php if(Jaris\Modules::isInstalled("ckeditor")){ ?>
+        <?php if (Jaris\Modules::isInstalled("ckeditor")) { ?>
         else if(typeof CKEDITOR == "object")
         {
             <?php
                 $uicolor = unserialize(Jaris\Settings::get("uicolor", "ckeditor"));
                 $plugins = unserialize(Jaris\Settings::get("plugins", "ckeditor"));
 
-                if(!is_array($uicolor))
-                    $uicolor = array();
+                if (!is_array($uicolor)) {
+                    $uicolor = [];
+                }
 
-                if(empty($uicolor[Jaris\Authentication::currentUserGroup()]))
-                {
+                if (empty($uicolor[Jaris\Authentication::currentUserGroup()])) {
                     $uicolor[Jaris\Authentication::currentUserGroup()] = "FFFFFF";
                 }
 
-                if(
+                if (
                     empty($plugins[Jaris\Authentication::currentUserGroup()]) &&
                     !is_array($plugins[Jaris\Authentication::currentUserGroup()])
-                )
-                {
-                    $plugins[Jaris\Authentication::currentUserGroup()] = array(
+                ) {
+                    $plugins[Jaris\Authentication::currentUserGroup()] = [
                         "quicktable", "youtube", "codemirror"
-                    );
+                    ];
                 }
 
                 $lang = "";
-                if(Jaris\Language::getCurrent() == "es")
-                {
+                if (Jaris\Language::getCurrent() == "es") {
                     $lang .= "language: 'es',";
                 }
 
                 $editor_image_browser = Jaris\Uri::url(
                     Jaris\Modules::getPageUri("ckeditorpic", "ckeditor"),
-                    array("uri" => $_REQUEST["uri"])
+                    ["uri" => $_REQUEST["uri"]]
                 );
 
                 $editor_image_uploader = Jaris\Uri::url(
                     Jaris\Modules::getPageUri("ckeditorpicup", "ckeditor"),
-                    array("uri" => $_REQUEST["uri"])
+                    ["uri" => $_REQUEST["uri"]]
                 );
 
                 $editor_link_browser = Jaris\Uri::url(
                     Jaris\Modules::getPageUri("ckeditorlink", "ckeditor"),
-                    array("uri" => $_REQUEST["uri"])
+                    ["uri" => $_REQUEST["uri"]]
                 );
 
                 $editor_link_uploader = Jaris\Uri::url(
                     Jaris\Modules::getPageUri("ckeditorlinkup", "ckeditor"),
-                    array("uri" => $_REQUEST["uri"])
+                    ["uri" => $_REQUEST["uri"]]
                 );
 
                 $editor_config = Jaris\Uri::url(
                     Jaris\Modules::getPageUri("ckeditorconfig", "ckeditor"),
-                    array("group" => Jaris\Authentication::currentUserGroup())
+                    ["group" => Jaris\Authentication::currentUserGroup()]
                 );
 
                 $interface_color = $uicolor[Jaris\Authentication::currentUserGroup()];

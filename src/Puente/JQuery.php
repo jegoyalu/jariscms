@@ -13,10 +13,10 @@ namespace Puente;
  */
 class JQuery extends DOM\ADomObject
 {
-     /**
-     * Stores generated code if no owner is given.
-     * @var string
-     */
+    /**
+    * Stores generated code if no owner is given.
+    * @var string
+    */
     protected $code;
 
     /**
@@ -34,7 +34,7 @@ class JQuery extends DOM\ADomObject
      * Get an individual jquery instance that can be used on function calls.
      *
      * @param string $selector
-     * 
+     *
      * @return JQuery
      */
     public static function jq(string $selector): JQuery
@@ -54,15 +54,16 @@ class JQuery extends DOM\ADomObject
      *
      * @param string $name
      * @param string $value
-     * 
+     *
      * @return \Puente\JQuery
      */
     public function attr(string $name, string $value=""): self
     {
-        if($value)
+        if ($value) {
             $this->callMethod("attr", $name, $value);
-        else
+        } else {
             $this->callMethod("attr", $name);
+        }
         
         return $this;
     }
@@ -71,7 +72,7 @@ class JQuery extends DOM\ADomObject
      * Remove an attribute from each element in the set of matched elements.
      *
      * @param string $name
-     * 
+     *
      * @return \Puente\JQuery
      */
     public function removeAttr(string $name): self
@@ -87,7 +88,7 @@ class JQuery extends DOM\ADomObject
      * properties.
      *
      * @param array|string $properties Eg: ["tagName" => "div"]
-     * 
+     *
      * @return \Puente\JQuery
      */
     public function prop($properties): self
@@ -101,7 +102,7 @@ class JQuery extends DOM\ADomObject
      * Remove a property for the set of matched elements.
      *
      * @param string $name
-     * 
+     *
      * @return \Puente\JQuery
      */
     public function removeProp(string $name): self
@@ -115,7 +116,7 @@ class JQuery extends DOM\ADomObject
      * Sets the html content of the element.
      *
      * @param string $html
-     * 
+     *
      * @return \Puente\JQuery
      */
     public function html(string $html): self
@@ -129,7 +130,7 @@ class JQuery extends DOM\ADomObject
      * Sets the inner text of the element.
      *
      * @param string $text
-     * 
+     *
      * @return \Puente\JQuery
      */
     public function text(string $text): self
@@ -143,7 +144,7 @@ class JQuery extends DOM\ADomObject
      * Sets the value of a valid form element.
      *
      * @param string $value
-     * 
+     *
      * @return \Puente\JQuery
      */
     public function val(string $value): self
@@ -157,7 +158,7 @@ class JQuery extends DOM\ADomObject
      * Inserts content at the end of the selected elements.
      *
      * @param string $element
-     * 
+     *
      * @return \Puente\JQuery
      */
     public function append(string $element): self
@@ -171,7 +172,7 @@ class JQuery extends DOM\ADomObject
      * Inserts content at the beginning of the selected elements.
      *
      * @param string $element
-     * 
+     *
      * @return \Puente\JQuery
      */
     public function prepend(string $element): self
@@ -185,7 +186,7 @@ class JQuery extends DOM\ADomObject
      * Inserts content after the selected elements.
      *
      * @param string $element
-     * 
+     *
      * @return \Puente\JQuery
      */
     public function after(string $element): self
@@ -199,7 +200,7 @@ class JQuery extends DOM\ADomObject
      * Inserts content before the selected elements.
      *
      * @param string $element
-     * 
+     *
      * @return \Puente\JQuery
      */
     public function before(string $element): self
@@ -213,15 +214,16 @@ class JQuery extends DOM\ADomObject
      * Removes the selected element (and its child elements).
      *
      * @param string $selector Specific child element to remove.
-     * 
+     *
      * @return \Puente\JQuery
      */
     public function remove(string $selector=""): self
     {
-        if($selector)
+        if ($selector) {
             $this->callMethod("remove", $selector);
-        else
+        } else {
             $this->callMethod("remove");
+        }
 
         return $this;
     }
@@ -241,20 +243,21 @@ class JQuery extends DOM\ADomObject
     // Traversing methods
 
     /**
-     * Get the parent of each element in the current set of matched elements, 
+     * Get the parent of each element in the current set of matched elements,
      * optionally filtered by a selector.
      *
-     * @param string $selector A string containing a selector expression to 
+     * @param string $selector A string containing a selector expression to
      * match elements against.
-     * 
+     *
      * @return \Puente\JQuery
      */
     public function parent(string $selector=""): self
     {
-        if($selector)
+        if ($selector) {
             $this->callMethod("parent", $selector);
-        else
+        } else {
             $this->callMethod("parent");
+        }
         
         return $this;
     }
@@ -265,7 +268,7 @@ class JQuery extends DOM\ADomObject
      * Adds one or more classes to the selected elements.
      *
      * @param string $class Space separeted list of classes.
-     * 
+     *
      * @return \Puente\JQuery
      */
     public function addClass(string $class): self
@@ -279,7 +282,7 @@ class JQuery extends DOM\ADomObject
      * Removes one or more classes from the selected elements.
      *
      * @param string $class Space separeted list of classes.
-     * 
+     *
      * @return \Puente\JQuery
      */
     public function removeClass(string $class): self
@@ -293,7 +296,7 @@ class JQuery extends DOM\ADomObject
      * Toggles between adding/removing classes from the selected elements.
      *
      * @param string $class Space separeted list of classes.
-     * 
+     *
      * @return \Puente\JQuery
      */
     public function toggleClass(string $class): self
@@ -307,7 +310,7 @@ class JQuery extends DOM\ADomObject
      * Sets one or more style properties for the selected elements.
      *
      * @param array $attributes
-     * 
+     *
      * @return \Puente\JQuery
      */
     public function css(array $attributes): self
@@ -322,7 +325,7 @@ class JQuery extends DOM\ADomObject
      *
      * @param array $coordinates Can contain position values like top, left,
      * bottom and right. Eg: ["top" => 100, "left" => 20]
-     * 
+     *
      * @return \Puente\JQuery
      */
     public function offset(array $coordinates): self
@@ -333,11 +336,11 @@ class JQuery extends DOM\ADomObject
     }
 
     /**
-     * Set the current vertical position of the scroll bar for each of the 
+     * Set the current vertical position of the scroll bar for each of the
      * set of matched elements.
      *
      * @param string $value
-     * 
+     *
      * @return \Puente\JQuery
      */
     public function scrollTop(string $value): self
@@ -348,11 +351,11 @@ class JQuery extends DOM\ADomObject
     }
 
     /**
-     * Set the current horizontal position of the scroll bar for each of the 
+     * Set the current horizontal position of the scroll bar for each of the
      * set of matched elements.
      *
      * @param string $value
-     * 
+     *
      * @return \Puente\JQuery
      */
     public function scrollLeft(string $value): self
@@ -370,13 +373,13 @@ class JQuery extends DOM\ADomObject
      * @param callable $callback
      * @param string|array|object $data The data you want on your callback
      * as a json string or php array|object, eg: '{width: window.innerWidth}'
-     * 
+     *
      * @return \Puente\JQuery
      */
     public function on(string $event, callable $callback, $data="{}"): self
     {
         $this->owner->addElementEvent(
-            $this->name, 
+            $this->name,
             $event,
             $callback,
             $data
@@ -386,27 +389,24 @@ class JQuery extends DOM\ADomObject
     }
 
     /**
-     * Execute all handlers and behaviors attached to the matched elements 
+     * Execute all handlers and behaviors attached to the matched elements
      * for the given event type.
      *
      * @param string $event A JavaScript event type such as click or submit.
      * @param string|array|object $param JSON object to feed into
      * each of the invoked events or a php array/object.
-     * 
+     *
      * @return \Puente\JQuery
      */
     public function trigger(string $event, $param=""): self
     {
-        if($param != "")
-        {
-            $param = is_string($param) && substr($param, 0, 3) != "js:" ? 
+        if ($param != "") {
+            $param = is_string($param) && substr($param, 0, 3) != "js:" ?
                 "js:$param" : $param
             ;
 
             $this->callMethod("trigger", $event, $param);
-        }
-        else
-        {
+        } else {
             $this->callMethod("trigger", $event);
         }
 
@@ -421,7 +421,7 @@ class JQuery extends DOM\ADomObject
      * @param callable $callback
      * @param string|array|object $data The data you want on your callback
      * as a json string or php array|object, eg: '{width: window.innerWidth}'
-     * 
+     *
      * @return \Puente\JQuery
      */
     public function click(callable $callback, $data="{}"): self
@@ -439,7 +439,7 @@ class JQuery extends DOM\ADomObject
      * @param callable $callback
      * @param string|array|object $data The data you want on your callback
      * as a json string or php array|object, eg: '{width: window.innerWidth}'
-     * 
+     *
      * @return \Puente\JQuery
      */
     public function dblclick(callable $callback, $data="{}"): self
@@ -457,7 +457,7 @@ class JQuery extends DOM\ADomObject
      * @param callable $callback
      * @param string|array|object $data The data you want on your callback
      * as a json string or php array|object, eg: '{width: window.innerWidth}'
-     * 
+     *
      * @return \Puente\JQuery
      */
     public function mouseenter(callable $callback, $data="{}"): self
@@ -475,7 +475,7 @@ class JQuery extends DOM\ADomObject
      * @param callable $callback
      * @param string|array|object $data The data you want on your callback
      * as a json string or php array|object, eg: '{width: window.innerWidth}'
-     * 
+     *
      * @return \Puente\JQuery
      */
     public function mouseleave(callable $callback, $data="{}"): self
@@ -496,7 +496,7 @@ class JQuery extends DOM\ADomObject
      * @param callable $callback
      * @param string|array|object $data The data you want on your callback
      * as a json string or php array|object, eg: '{width: window.innerWidth}'
-     * 
+     *
      * @return \Puente\JQuery
      */
     public function keypress(callable $callback, $data="{}"): self
@@ -514,7 +514,7 @@ class JQuery extends DOM\ADomObject
      * @param callable $callback
      * @param string|array|object $data The data you want on your callback
      * as a json string or php array|object, eg: '{width: window.innerWidth}'
-     * 
+     *
      * @return \Puente\JQuery
      */
     public function keydown(callable $callback, $data="{}"): self
@@ -532,7 +532,7 @@ class JQuery extends DOM\ADomObject
      * @param callable $callback
      * @param string|array|object $data The data you want on your callback
      * as a json string or php array|object, eg: '{width: window.innerWidth}'
-     * 
+     *
      * @return \Puente\JQuery
      */
     public function keyup(callable $callback, $data="{}"): self
@@ -552,7 +552,7 @@ class JQuery extends DOM\ADomObject
      * @param callable $callback
      * @param string|array|object $data The data you want on your callback
      * as a json string or php array|object, eg: '{width: window.innerWidth}'
-     * 
+     *
      * @return \Puente\JQuery
      */
     public function submit(callable $callback, $data="{}"): self
@@ -570,7 +570,7 @@ class JQuery extends DOM\ADomObject
      * @param callable $callback
      * @param string|array|object $data The data you want on your callback
      * as a json string or php array|object, eg: '{width: window.innerWidth}'
-     * 
+     *
      * @return \Puente\JQuery
      */
     public function change(callable $callback, $data="{}"): self
@@ -588,7 +588,7 @@ class JQuery extends DOM\ADomObject
      * @param callable $callback
      * @param string|array|object $data The data you want on your callback
      * as a json string or php array|object, eg: '{width: window.innerWidth}'
-     * 
+     *
      * @return \Puente\JQuery
      */
     public function select(callable $callback, $data="{}"): self
@@ -606,7 +606,7 @@ class JQuery extends DOM\ADomObject
      * @param callable $callback
      * @param string|array|object $data The data you want on your callback
      * as a json string or php array|object, eg: '{width: window.innerWidth}'
-     * 
+     *
      * @return \Puente\JQuery
      */
     public function focus(callable $callback, $data="{}"): self
@@ -624,7 +624,7 @@ class JQuery extends DOM\ADomObject
      * @param callable $callback
      * @param string|array|object $data The data you want on your callback
      * as a json string or php array|object, eg: '{width: window.innerWidth}'
-     * 
+     *
      * @return \Puente\JQuery
      */
     public function blur(callable $callback, $data="{}"): self
@@ -642,7 +642,7 @@ class JQuery extends DOM\ADomObject
      * @param callable $callback
      * @param string|array|object $data The data you want on your callback
      * as a json string or php array|object, eg: '{width: window.innerWidth}'
-     * 
+     *
      * @return \Puente\JQuery
      */
     public function focusin(callable $callback, $data="{}"): self
@@ -660,7 +660,7 @@ class JQuery extends DOM\ADomObject
      * @param callable $callback
      * @param string|array|object $data The data you want on your callback
      * as a json string or php array|object, eg: '{width: window.innerWidth}'
-     * 
+     *
      * @return \Puente\JQuery
      */
     public function focusout(callable $callback, $data="{}"): self
@@ -680,7 +680,7 @@ class JQuery extends DOM\ADomObject
      * @param callable $callback
      * @param string|array|object $data The data you want on your callback
      * as a json string or php array|object, eg: '{width: window.innerWidth}'
-     * 
+     *
      * @return \Puente\JQuery
      */
     public function load(callable $callback, $data="{}"): self
@@ -698,7 +698,7 @@ class JQuery extends DOM\ADomObject
      * @param callable $callback
      * @param string|array|object $data The data you want on your callback
      * as a json string or php array|object, eg: '{width: window.innerWidth}'
-     * 
+     *
      * @return \Puente\JQuery
      */
     public function ready(callable $callback, $data="{}"): self
@@ -716,7 +716,7 @@ class JQuery extends DOM\ADomObject
      * @param callable $callback
      * @param string|array|object $data The data you want on your callback
      * as a json string or php array|object, eg: '{width: window.innerWidth}'
-     * 
+     *
      * @return \Puente\JQuery
      */
     public function resize(callable $callback, $data="{}"): self
@@ -734,7 +734,7 @@ class JQuery extends DOM\ADomObject
      * @param callable $callback
      * @param string|array|object $data The data you want on your callback
      * as a json string or php array|object, eg: '{width: window.innerWidth}'
-     * 
+     *
      * @return \Puente\JQuery
      */
     public function scroll(callable $callback, $data="{}"): self
@@ -752,7 +752,7 @@ class JQuery extends DOM\ADomObject
      * @param callable $callback
      * @param string|array|object $data The data you want on your callback
      * as a json string or php array|object, eg: '{width: window.innerWidth}'
-     * 
+     *
      * @return \Puente\JQuery
      */
     public function unload(callable $callback, $data="{}"): self
@@ -774,21 +774,20 @@ class JQuery extends DOM\ADomObject
      * @param callable $callback
      * @param string|array|object $data The data you want on your callback
      * as a json string or php array|object, eg: '{width: window.innerWidth}'
-     * 
+     *
      * @return \Puente\JQuery
      */
     private function runEffect(
-        string $effect, string $speed="", callable $callback=null, $data="{}"
-    ): self
-    {
+        string $effect,
+        string $speed="",
+        callable $callback=null,
+        $data="{}"
+    ): self {
         $speed = $speed === "" ? "fast" : $speed;
 
-        if($callback == null)
-        {
+        if ($callback == null) {
             $this->callMethod($effect, $speed);
-        }
-        else
-        {
+        } else {
             $this->paramConvert($speed);
             $this->owner->addEventCallback(
                 $this->name.".$effect($speed, {callback});",
@@ -807,13 +806,14 @@ class JQuery extends DOM\ADomObject
      * @param callable $callback
      * @param string|array|object $data The data you want on your callback
      * as a json string or php array|object, eg: '{width: window.innerWidth}'
-     * 
+     *
      * @return \Puente\JQuery
      */
     public function hide(
-        string $speed="", callable $callback=null, $data="{}"
-    ): self
-    {
+        string $speed="",
+        callable $callback=null,
+        $data="{}"
+    ): self {
         return $this->runEffect("hide", $speed, $callback, $data);
     }
 
@@ -824,13 +824,14 @@ class JQuery extends DOM\ADomObject
      * @param callable $callback
      * @param string|array|object $data The data you want on your callback
      * as a json string or php array|object, eg: '{width: window.innerWidth}'
-     * 
+     *
      * @return \Puente\JQuery
      */
     public function show(
-        string $speed="", callable $callback=null, $data="{}"
-    ): self
-    {
+        string $speed="",
+        callable $callback=null,
+        $data="{}"
+    ): self {
         return $this->runEffect("show", $speed, $callback, $data);
     }
 
@@ -841,13 +842,14 @@ class JQuery extends DOM\ADomObject
      * @param callable $callback
      * @param string|array|object $data The data you want on your callback
      * as a json string or php array|object, eg: '{width: window.innerWidth}'
-     * 
+     *
      * @return \Puente\JQuery
      */
     public function toggle(
-        string $speed="", callable $callback=null, $data="{}"
-    ): self
-    {
+        string $speed="",
+        callable $callback=null,
+        $data="{}"
+    ): self {
         return $this->runEffect("toggle", $speed, $callback, $data);
     }
 
@@ -858,13 +860,14 @@ class JQuery extends DOM\ADomObject
      * @param callable $callback
      * @param string|array|object $data The data you want on your callback
      * as a json string or php array|object, eg: '{width: window.innerWidth}'
-     * 
+     *
      * @return \Puente\JQuery
      */
     public function fadeIn(
-        string $speed="", callable $callback=null, $data="{}"
-    ): self
-    {
+        string $speed="",
+        callable $callback=null,
+        $data="{}"
+    ): self {
         return $this->runEffect("fadeIn", $speed, $callback, $data);
     }
 
@@ -875,13 +878,14 @@ class JQuery extends DOM\ADomObject
      * @param callable $callback
      * @param string|array|object $data The data you want on your callback
      * as a json string or php array|object, eg: '{width: window.innerWidth}'
-     * 
+     *
      * @return \Puente\JQuery
      */
     public function fadeOut(
-        string $speed="", callable $callback=null, $data="{}"
-    ): self
-    {
+        string $speed="",
+        callable $callback=null,
+        $data="{}"
+    ): self {
         return $this->runEffect("fadeOut", $speed, $callback, $data);
     }
 
@@ -892,13 +896,14 @@ class JQuery extends DOM\ADomObject
      * @param callable $callback
      * @param string|array|object $data The data you want on your callback
      * as a json string or php array|object, eg: '{width: window.innerWidth}'
-     * 
+     *
      * @return \Puente\JQuery
      */
     public function fadeToggle(
-        string $speed="", callable $callback=null, $data="{}"
-    ): self
-    {
+        string $speed="",
+        callable $callback=null,
+        $data="{}"
+    ): self {
         return $this->runEffect("fadeToggle", $speed, $callback, $data);
     }
 
@@ -910,21 +915,20 @@ class JQuery extends DOM\ADomObject
      * @param callable $callback
      * @param string|array|object $data The data you want on your callback
      * as a json string or php array|object, eg: '{width: window.innerWidth}'
-     * 
+     *
      * @return \Puente\JQuery
      */
     public function fadeTo(
-        string $speed, float $to, callable $callback=null, $data="{}"
-    ): self
-    {
+        string $speed,
+        float $to,
+        callable $callback=null,
+        $data="{}"
+    ): self {
         $speed = $speed === "" ? "fast" : $speed;
 
-        if($callback == null)
-        {
+        if ($callback == null) {
             $this->callMethod("fadeTo", $speed, $to);
-        }
-        else
-        {
+        } else {
             $this->paramConvert($speed);
             $this->paramConvert($to);
 
@@ -945,13 +949,14 @@ class JQuery extends DOM\ADomObject
      * @param callable $callback
      * @param string|array|object $data The data you want on your callback
      * as a json string or php array|object, eg: '{width: window.innerWidth}'
-     * 
+     *
      * @return \Puente\JQuery
      */
     public function slideDown(
-        string $speed="", callable $callback=null, $data="{}"
-    ): self
-    {
+        string $speed="",
+        callable $callback=null,
+        $data="{}"
+    ): self {
         return $this->runEffect("slideDown", $speed, $callback, $data);
     }
 
@@ -962,13 +967,14 @@ class JQuery extends DOM\ADomObject
      * @param callable $callback
      * @param string|array|object $data The data you want on your callback
      * as a json string or php array|object, eg: '{width: window.innerWidth}'
-     * 
+     *
      * @return \Puente\JQuery
      */
     public function slideUp(
-        string $speed="", callable $callback=null, $data="{}"
-    ): self
-    {
+        string $speed="",
+        callable $callback=null,
+        $data="{}"
+    ): self {
         return $this->runEffect("slideUp", $speed, $callback, $data);
     }
 
@@ -979,13 +985,14 @@ class JQuery extends DOM\ADomObject
      * @param callable $callback
      * @param string|array|object $data The data you want on your callback
      * as a json string or php array|object, eg: '{width: window.innerWidth}'
-     * 
+     *
      * @return \Puente\JQuery
      */
     public function slideToggle(
-        string $speed="", callable $callback=null, $data="{}"
-    ): self
-    {
+        string $speed="",
+        callable $callback=null,
+        $data="{}"
+    ): self {
         return $this->runEffect("slideToggle", $speed, $callback, $data);
     }
 
@@ -997,21 +1004,20 @@ class JQuery extends DOM\ADomObject
      * @param callable $callback
      * @param string|array|object $data The data you want on your callback
      * as a json string or php array|object, eg: '{width: window.innerWidth}'
-     * 
+     *
      * @return \Puente\JQuery
      */
     public function animate(
-        array $css, string $speed="", callable $callback=null, $data="{}"
-    ): self
-    {
+        array $css,
+        string $speed="",
+        callable $callback=null,
+        $data="{}"
+    ): self {
         $speed = $speed === "" ? "fast" : $speed;
 
-        if($callback == null)
-        {
+        if ($callback == null) {
             $this->callMethod("animate", $css, $speed);
-        }
-        else
-        {
+        } else {
             $this->paramConvert($css);
             $this->paramConvert($speed);
 
@@ -1026,9 +1032,9 @@ class JQuery extends DOM\ADomObject
     }
 
     /**
-     * Stop the currently-running animation, remove all queued animations, 
+     * Stop the currently-running animation, remove all queued animations,
      * and complete all animations for the matched elements.
-     * 
+     *
      * @param string $queue The name of the queue in which to stop animations.
      * default is 'fx'.
      *
@@ -1036,10 +1042,11 @@ class JQuery extends DOM\ADomObject
      */
     public function finish(string $queue=""): self
     {
-        if($queue)
+        if ($queue) {
             $this->callMethod("finish", $queue);
-        else
+        } else {
             $this->callMethod("finish");
+        }
         
         return $this;
     }

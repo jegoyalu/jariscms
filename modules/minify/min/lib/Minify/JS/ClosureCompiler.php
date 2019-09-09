@@ -13,7 +13,8 @@
  *
  * @todo can use a stream wrapper to unit test this?
  */
-class Minify_JS_ClosureCompiler {
+class Minify_JS_ClosureCompiler
+{
     const URL = 'http://closure-compiler.appspot.com/compile';
 
     /**
@@ -23,7 +24,7 @@ class Minify_JS_ClosureCompiler {
      * @param array $options unused at this point
      * @return string
      */
-    public static function minify($js, array $options = array())
+    public static function minify($js, array $options = [])
     {
         $obj = new self($options);
         return $obj->min($js);
@@ -35,11 +36,11 @@ class Minify_JS_ClosureCompiler {
      *
      * fallbackFunc : default array($this, 'fallback');
      */
-    public function __construct(array $options = array())
+    public function __construct(array $options = [])
     {
         $this->_fallbackFunc = isset($options['fallbackMinifier'])
             ? $options['fallbackMinifier']
-            : array($this, '_fallback');
+            : [$this, '_fallback'];
     }
 
     public function min($js)
@@ -76,20 +77,20 @@ class Minify_JS_ClosureCompiler {
     {
         $allowUrlFopen = preg_match('/1|yes|on|true/i', ini_get('allow_url_fopen'));
         if ($allowUrlFopen) {
-            $contents = file_get_contents(self::URL, false, stream_context_create(array(
-                'http' => array(
+            $contents = file_get_contents(self::URL, false, stream_context_create([
+                'http' => [
                     'method' => 'POST',
                     'header' => "Content-type: application/x-www-form-urlencoded\r\nConnection: close\r\n",
                     'content' => $postBody,
                     'max_redirects' => 0,
                     'timeout' => 15,
-                )
-            )));
+                ]
+            ]));
         } elseif (defined('CURLOPT_POST')) {
             $ch = curl_init(self::URL);
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-type: application/x-www-form-urlencoded'));
+            curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-type: application/x-www-form-urlencoded']);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $postBody);
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
             curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 15);
@@ -97,12 +98,12 @@ class Minify_JS_ClosureCompiler {
             curl_close($ch);
         } else {
             throw new Minify_JS_ClosureCompiler_Exception(
-               "Could not make HTTP request: allow_url_open is false and cURL not available"
+                "Could not make HTTP request: allow_url_open is false and cURL not available"
             );
         }
         if (false === $contents) {
             throw new Minify_JS_ClosureCompiler_Exception(
-               "No HTTP response from server"
+                "No HTTP response from server"
             );
         }
         return trim($contents);
@@ -110,12 +111,12 @@ class Minify_JS_ClosureCompiler {
 
     protected function _buildPostBody($js, $returnErrors = false)
     {
-        return http_build_query(array(
+        return http_build_query([
             'js_code' => $js,
             'output_info' => ($returnErrors ? 'errors' : 'compiled_code'),
             'output_format' => 'text',
             'compilation_level' => 'SIMPLE_OPTIMIZATIONS'
-        ), null, '&');
+        ], null, '&');
     }
 
     /**
@@ -129,4 +130,6 @@ class Minify_JS_ClosureCompiler {
     }
 }
 
-class Minify_JS_ClosureCompiler_Exception extends Exception {}
+class Minify_JS_ClosureCompiler_Exception extends Exception
+{
+}

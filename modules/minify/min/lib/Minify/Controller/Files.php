@@ -24,7 +24,8 @@
  * @package Minify
  * @author Stephen Clay <steve@mrclay.org>
  */
-class Minify_Controller_Files extends Minify_Controller_Base {
+class Minify_Controller_Files extends Minify_Controller_Base
+{
 
     /**
      * Set up file sources
@@ -36,19 +37,20 @@ class Minify_Controller_Files extends Minify_Controller_Base {
      *
      * 'files': (required) array of complete file paths, or a single path
      */
-    public function setupSources($options) {
+    public function setupSources($options)
+    {
         // strip controller options
 
         $files = $options['files'];
         // if $files is a single object, casting will break it
         if (is_object($files)) {
-            $files = array($files);
+            $files = [$files];
         } elseif (! is_array($files)) {
             $files = (array)$files;
         }
         unset($options['files']);
 
-        $sources = array();
+        $sources = [];
         foreach ($files as $file) {
             if ($file instanceof Minify_Source) {
                 $sources[] = $file;
@@ -59,9 +61,9 @@ class Minify_Controller_Files extends Minify_Controller_Base {
             }
             $realPath = realpath($file);
             if (is_file($realPath)) {
-                $sources[] = new Minify_Source(array(
+                $sources[] = new Minify_Source([
                     'filepath' => $realPath
-                ));
+                ]);
             } else {
                 $this->log("The path \"{$file}\" could not be found (or was not a file)");
                 return $options;
@@ -73,4 +75,3 @@ class Minify_Controller_Files extends Minify_Controller_Base {
         return $options;
     }
 }
-

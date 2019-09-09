@@ -13,19 +13,17 @@ function church_attendance_member_add($data)
     );
 
     // Courses list
-    $courses = array();
+    $courses = [];
 
-    if(is_array($data["courses"]))
-    {
+    if (is_array($data["courses"])) {
         $courses = $data["courses"];
         $data["courses"] = serialize($data["courses"]);
     }
 
     // Talents list
-    $talents = array();
+    $talents = [];
 
-    if(is_array($data["talents"]))
-    {
+    if (is_array($data["talents"])) {
         $talents = $data["talents"];
         $data["talents"] = serialize($data["talents"]);
     }
@@ -107,8 +105,7 @@ function church_attendance_member_add($data)
 
     Jaris\Sql::beginTransaction($db_courses_count);
 
-    foreach($courses as $course_id)
-    {
+    foreach ($courses as $course_id) {
         Jaris\Sql::query(
             "insert into church_attendance_courses_count "
             . "("
@@ -132,8 +129,7 @@ function church_attendance_member_add($data)
 
     Jaris\Sql::beginTransaction($db_talents_count);
 
-    foreach($talents as $talent_id)
-    {
+    foreach ($talents as $talent_id) {
         Jaris\Sql::query(
             "insert into church_attendance_talents_count "
             . "("
@@ -160,19 +156,17 @@ function church_attendance_member_edit($id, $data)
     );
 
     // Courses list
-    $courses = array();
+    $courses = [];
 
-    if(is_array($data["courses"]))
-    {
+    if (is_array($data["courses"])) {
         $courses = $data["courses"];
         $data["courses"] = serialize($data["courses"]);
     }
 
     // Talents list
-    $talents = array();
+    $talents = [];
 
-    if(is_array($data["talents"]))
-    {
+    if (is_array($data["talents"])) {
         $talents = $data["talents"];
         $data["talents"] = serialize($data["talents"]);
     }
@@ -241,8 +235,7 @@ function church_attendance_member_edit($id, $data)
 
     Jaris\Sql::beginTransaction($db_courses_count);
 
-    foreach($courses as $course_id)
-    {
+    foreach ($courses as $course_id) {
         Jaris\Sql::query(
             "insert into church_attendance_courses_count "
             . "("
@@ -272,8 +265,7 @@ function church_attendance_member_edit($id, $data)
 
     Jaris\Sql::beginTransaction($db_talents_count);
 
-    foreach($talents as $talent_id)
-    {
+    foreach ($talents as $talent_id) {
         Jaris\Sql::query(
             "insert into church_attendance_talents_count "
             . "("

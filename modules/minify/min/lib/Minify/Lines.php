@@ -11,7 +11,8 @@
  * @author Stephen Clay <steve@mrclay.org>
  * @author Adam Pedersen (Issue 55 fix)
  */
-class Minify_Lines {
+class Minify_Lines
+{
 
     /**
      * Add line numbers in C-style comments
@@ -34,7 +35,7 @@ class Minify_Lines {
      *
      * @return string
      */
-    public static function minify($content, $options = array())
+    public static function minify($content, $options = [])
     {
         $id = (isset($options['id']) && $options['id'])
             ? $options['id']
@@ -52,7 +53,7 @@ class Minify_Lines {
         $padTo = strlen((string) $numLines); // e.g. 103 lines = 3 digits
         $inComment = false;
         $i = 0;
-        $newLines = array();
+        $newLines = [];
         while (null !== ($line = array_shift($lines))) {
             if (('' !== $id) && (0 == $i % 50)) {
                 if ($inComment) {
@@ -71,10 +72,10 @@ class Minify_Lines {
         if (isset($options['currentDir'])) {
             Minify_CSS_UriRewriter::$debugText = '';
             $content = Minify_CSS_UriRewriter::rewrite(
-                 $content
-                ,$options['currentDir']
-                ,isset($options['docRoot']) ? $options['docRoot'] : $_SERVER['DOCUMENT_ROOT']
-                ,isset($options['symlinks']) ? $options['symlinks'] : array()
+                $content,
+                $options['currentDir'],
+                isset($options['docRoot']) ? $options['docRoot'] : $_SERVER['DOCUMENT_ROOT'],
+                isset($options['symlinks']) ? $options['symlinks'] : []
             );
             $content = "/* Minify_CSS_UriRewriter::\$debugText\n\n"
                      . Minify_CSS_UriRewriter::$debugText . "*/\n"
@@ -110,9 +111,8 @@ class Minify_Lines {
                 if ($pos == 0
                     || ($inComment
                         ? substr($line, $pos, 3)
-                        : substr($line, $pos-1, 3)) != '*/*')
-                {
-                        $inComment = ! $inComment;
+                        : substr($line, $pos-1, 3)) != '*/*') {
+                    $inComment = ! $inComment;
                 }
                 $line = substr($line, $pos + 2);
             }

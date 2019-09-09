@@ -14,7 +14,7 @@ namespace Puente\DOM;
  * the window is closed the data is destroyed.
  */
 class SessionStorage extends LocalStorage
-{   
+{
     /**
      * Constructor.
      *

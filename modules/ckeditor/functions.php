@@ -12,8 +12,7 @@ $display_ckeditor_on_current_page = false;
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\Forms::SIGNAL_GENERATE_FORM,
-    function(&$parameters, &$fieldsets)
-    {
+    function (&$parameters, &$fieldsets) {
         global $display_ckeditor_on_current_page;
 
         $textarea_id = unserialize(Jaris\Settings::get("teaxtarea_id", "ckeditor"));
@@ -25,54 +24,53 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
         $user_group = Jaris\Authentication::currentUserGroup();
 
-        if(!is_array($textarea_id))
-            $textarea_id = array();
+        if (!is_array($textarea_id)) {
+            $textarea_id = [];
+        }
 
-        if(!is_array($uicolor))
-            $uicolor = array();
+        if (!is_array($uicolor)) {
+            $uicolor = [];
+        }
 
-        if(!is_array($forms_to_display))
-            $forms_to_display = array();
+        if (!is_array($forms_to_display)) {
+            $forms_to_display = [];
+        }
 
-        if(!is_array($groups))
-            $groups = array();
+        if (!is_array($groups)) {
+            $groups = [];
+        }
 
-        if(!is_array($disable_editor))
-            $disable_editor = array();
+        if (!is_array($disable_editor)) {
+            $disable_editor = [];
+        }
 
-        if(!$textarea_id[$user_group])
-        {
+        if (!$textarea_id[$user_group]) {
             $textarea_id[$user_group] =
                 "content,pre_content,sub_content,"
                     . "registration_welcome_message,registration_benefits,"
                     . "footer-message,site_status_description"
             ;
-        }
-        else
-        {
+        } else {
             $textarea_id[$user_group] = explode(
                 ",",
                 $textarea_id[$user_group]
             );
         }
 
-        if(empty($uicolor[$user_group]))
-        {
+        if (empty($uicolor[$user_group])) {
             $uicolor[$user_group] = "FFFFFF";
         }
 
-        if(
+        if (
             empty($plugins[$user_group]) &&
             !is_array($plugins[$user_group])
-        )
-        {
-            $plugins[Jaris\Authentication::currentUserGroup()] = array(
+        ) {
+            $plugins[Jaris\Authentication::currentUserGroup()] = [
                 "quicktable", "youtube", "codemirror"
-            );
+            ];
         }
 
-        if(!$forms_to_display[$user_group])
-        {
+        if (!$forms_to_display[$user_group]) {
             $forms_to_display[$user_group] =
                 "add-page-pages,edit-page-pages,translate-page,"
                 . "add-page-block,block-page-edit,add-block,block-edit,"
@@ -93,9 +91,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
                 . "listing-blocks-add,listing-blocks-edit,"
                 . "edit-site-settings"
             ;
-        }
-        else
-        {
+        } else {
             $forms_to_display[$user_group] = explode(
                 ",",
                 $forms_to_display[$user_group]
@@ -103,40 +99,32 @@ Jaris\Signals\SignalHandler::listenWithParams(
         }
 
         //Check if current user is on one of the groups that can use the editor
-        if(!$groups[$user_group])
-        {
+        if (!$groups[$user_group]) {
             return;
         }
 
-        if(
+        if (
             !is_array(
                 $forms_to_display[$user_group]
             )
-        )
-        {
+        ) {
             return;
         }
 
-        foreach($forms_to_display[$user_group] as $form_name)
-        {
+        foreach ($forms_to_display[$user_group] as $form_name) {
             $form_name = trim($form_name);
 
-            if($parameters["name"] == $form_name)
-            {
-                if($disable_editor[$user_group])
-                {
-                    if(isset($_REQUEST["disable_ckeditor"]))
-                    {
+            if ($parameters["name"] == $form_name) {
+                if ($disable_editor[$user_group]) {
+                    if (isset($_REQUEST["disable_ckeditor"])) {
                         Jaris\Session::addCookie("disable_ckeditor", 1);
                     }
-                    if(isset($_REQUEST["enable_ckeditor"]))
-                    {
+                    if (isset($_REQUEST["enable_ckeditor"])) {
                         Jaris\Session::removeCookie("disable_ckeditor");
                     }
                 }
 
-                foreach($textarea_id[$user_group] as $id)
-                {
+                foreach ($textarea_id[$user_group] as $id) {
                     $id = trim($id);
 
                     $full_id = $parameters["name"] . "-" . $id;
@@ -147,34 +135,33 @@ Jaris\Signals\SignalHandler::listenWithParams(
                     ;
 
                     $lang = "";
-                    if(Jaris\Language::getCurrent() == "es")
-                    {
+                    if (Jaris\Language::getCurrent() == "es") {
                         $lang .= "language: 'es',";
                     }
 
                     $editor_image_browser = Jaris\Uri::url(
                         Jaris\Modules::getPageUri("ckeditorpic", "ckeditor"),
-                        array("uri" => $_REQUEST["uri"])
+                        ["uri" => $_REQUEST["uri"]]
                     );
 
                     $editor_image_uploader = Jaris\Uri::url(
                         Jaris\Modules::getPageUri("ckeditorpicup", "ckeditor"),
-                        array("uri" => $_REQUEST["uri"])
+                        ["uri" => $_REQUEST["uri"]]
                     );
 
                     $editor_link_browser = Jaris\Uri::url(
                         Jaris\Modules::getPageUri("ckeditorlink", "ckeditor"),
-                        array("uri" => $_REQUEST["uri"])
+                        ["uri" => $_REQUEST["uri"]]
                     );
 
                     $editor_link_uploader = Jaris\Uri::url(
                         Jaris\Modules::getPageUri("ckeditorlinkup", "ckeditor"),
-                        array("uri" => $_REQUEST["uri"])
+                        ["uri" => $_REQUEST["uri"]]
                     );
 
                     $editor_config = Jaris\Uri::url(
                         Jaris\Modules::getPageUri("ckeditorconfig", "ckeditor"),
-                        array("group" => $user_group)
+                        ["group" => $user_group]
                     );
 
                     $interface_color = $uicolor[$user_group];
@@ -203,80 +190,66 @@ Jaris\Signals\SignalHandler::listenWithParams(
                     });
                     </script>";
 
-                    $fields = array();
+                    $fields = [];
 
-                    foreach($fieldsets as $fieldsets_index => $fieldset_fields)
-                    {
+                    foreach ($fieldsets as $fieldsets_index => $fieldset_fields) {
                         $found = false;
-                        $fields = array();
+                        $fields = [];
 
-                        foreach($fieldset_fields["fields"] as $fields_index => $values)
-                        {
-                            if(!isset($values["id"]))
-                            {
+                        foreach ($fieldset_fields["fields"] as $fields_index => $values) {
+                            if (!isset($values["id"])) {
                                 $values["id"] = $values["name"];
                             }
 
-                            if(
+                            if (
                                 $values["type"] == "textarea" &&
                                 $values["id"] == $id
-                            )
-                            {
-                                if($disable_editor[$user_group])
-                                {
-                                    if($_COOKIE["disable_ckeditor"])
-                                    {
-                                        $fields[] = array(
+                            ) {
+                                if ($disable_editor[$user_group]) {
+                                    if ($_COOKIE["disable_ckeditor"]) {
+                                        $fields[] = [
                                             "type" => "submit",
                                             "name" => "enable_ckeditor",
                                             "value" => t("Enable Editor")
-                                        );
+                                        ];
 
                                         $fields[] = $values;
-                                    }
-                                    else
-                                    {
+                                    } else {
                                         $values["code"] = "style=\"width: 100%\" width=\"100%\"";
                                         $values["class"] = "ckeditor";
 
                                         $fields[] = $values;
 
-                                        $fields[] = array(
+                                        $fields[] = [
                                             "type" => "other",
                                             "html_code" => $disable . $editor
-                                        );
+                                        ];
                                     }
-                                }
-                                else
-                                {
+                                } else {
                                     $values["code"] = "style=\"width: 100%\" width=\"100%\"";
                                     $values["class"] = "ckeditor";
 
                                     $fields[] = $values;
 
-                                    $fields[] = array(
+                                    $fields[] = [
                                         "type" => "other",
                                         "html_code" => $editor
-                                    );
+                                    ];
                                 }
 
-                                $new_fields = array();
+                                $new_fields = [];
 
-                                foreach($fieldset_fields["fields"] as $check_index => $field_data)
-                                {
+                                foreach ($fieldset_fields["fields"] as $check_index => $field_data) {
                                     //Copy new fields to the position of
                                     //replaced textarea with ckeditor
-                                    if($check_index == $fields_index)
-                                    {
-                                        foreach($fields as $field)
-                                        {
+                                    if ($check_index == $fields_index) {
+                                        foreach ($fields as $field) {
                                             $new_fields[] = $field;
                                         }
                                     }
 
                                     //Copy the other fields on the fieldset
-                                    else
-                                    {
+                                    else {
                                         $new_fields[] = $field_data;
                                     }
                                 }
@@ -306,12 +279,10 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\System::SIGNAL_GET_SYSTEM_SCRIPTS,
-    function(&$scripts)
-    {
+    function (&$scripts) {
         global $display_ckeditor_on_current_page;
 
-        if($display_ckeditor_on_current_page)
-        {
+        if ($display_ckeditor_on_current_page) {
             //$scripts[] = "//cdn.ckeditor.com/4.5.8/standard/ckeditor.js";
 
             $scripts[] = Jaris\Uri::url(
@@ -323,17 +294,15 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\View::SIGNAL_THEME_TABS,
-    function(&$tabs_array)
-    {
-        if(Jaris\Uri::get() == "admin/settings")
-        {
-            $tabs_array[0][t("CKEditor")] = array(
+    function (&$tabs_array) {
+        if (Jaris\Uri::get() == "admin/settings") {
+            $tabs_array[0][t("CKEditor")] = [
                 "uri" => Jaris\Modules::getPageUri(
                     "admin/settings/ckeditor",
                     "ckeditor"
                 ),
-                "arguments" => array()
-            );
+                "arguments" => []
+            ];
         }
     }
 );
@@ -345,53 +314,51 @@ function ckeditor_textarea_replace($element_id)
 
     $user_group = Jaris\Authentication::currentUserGroup();
 
-    if(!is_array($uicolor))
-        $uicolor = array();
+    if (!is_array($uicolor)) {
+        $uicolor = [];
+    }
 
-    if(empty($uicolor[$user_group]))
-    {
+    if (empty($uicolor[$user_group])) {
         $uicolor[$user_group] = "FFFFFF";
     }
 
-    if(
+    if (
         empty($plugins[$user_group]) &&
         !is_array($plugins[$user_group])
-    )
-    {
-        $plugins[$user_group] = array(
+    ) {
+        $plugins[$user_group] = [
             "quicktable", "youtube", "codemirror"
-        );
+        ];
     }
 
     $lang = "";
-    if(Jaris\Language::getCurrent() == "es")
-    {
+    if (Jaris\Language::getCurrent() == "es") {
         $lang .= "language: 'es',";
     }
 
     $editor_image_browser = Jaris\Uri::url(
         Jaris\Modules::getPageUri("ckeditorpic", "ckeditor"),
-        array("uri" => $_REQUEST["uri"])
+        ["uri" => $_REQUEST["uri"]]
     );
 
     $editor_image_uploader = Jaris\Uri::url(
         Jaris\Modules::getPageUri("ckeditorpicup", "ckeditor"),
-        array("uri" => $_REQUEST["uri"])
+        ["uri" => $_REQUEST["uri"]]
     );
 
     $editor_link_browser = Jaris\Uri::url(
         Jaris\Modules::getPageUri("ckeditorlink", "ckeditor"),
-        array("uri" => $_REQUEST["uri"])
+        ["uri" => $_REQUEST["uri"]]
     );
 
     $editor_link_uploader = Jaris\Uri::url(
         Jaris\Modules::getPageUri("ckeditorlinkup", "ckeditor"),
-        array("uri" => $_REQUEST["uri"])
+        ["uri" => $_REQUEST["uri"]]
     );
 
     $editor_config = Jaris\Uri::url(
         Jaris\Modules::getPageUri("ckeditorconfig", "ckeditor"),
-        array("group" => $user_group)
+        ["group" => $user_group]
     );
 
     $interface_color = $uicolor[$user_group];

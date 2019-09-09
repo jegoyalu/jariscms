@@ -10,7 +10,8 @@
  * @package Minify
  * @author Stephen Clay <steve@mrclay.org>
  */
-class Minify_Controller_MinApp extends Minify_Controller_Base {
+class Minify_Controller_MinApp extends Minify_Controller_Base
+{
 
     /**
      * Set up groups of files as sources
@@ -19,9 +20,10 @@ class Minify_Controller_MinApp extends Minify_Controller_Base {
      *
      * @return array Minify options
      */
-    public function setupSources($options) {
+    public function setupSources($options)
+    {
         // PHP insecure by default: realpath() and other FS functions can't handle null bytes.
-        foreach (array('g', 'b', 'f') as $key) {
+        foreach (['g', 'b', 'f'] as $key) {
             if (isset($_GET[$key])) {
                 $_GET[$key] = str_replace("\x00", '', (string)$_GET[$key]);
             }
@@ -29,16 +31,16 @@ class Minify_Controller_MinApp extends Minify_Controller_Base {
 
         // filter controller options
         $cOptions = array_merge(
-            array(
+            [
                 'allowDirs' => '//'
                 ,'groupsOnly' => false
-                ,'groups' => array()
+                ,'groups' => []
                 ,'noMinPattern' => '@[-\\.]min\\.(?:js|css)$@i' // matched against basename
-            )
-            ,(isset($options['minApp']) ? $options['minApp'] : array())
+            ],
+            (isset($options['minApp']) ? $options['minApp'] : [])
         );
         unset($options['minApp']);
-        $sources = array();
+        $sources = [];
         $this->selectionId = '';
         $firstMissingResource = null;
         if (isset($_GET['g'])) {
@@ -58,7 +60,7 @@ class Minify_Controller_MinApp extends Minify_Controller_Base {
                 $files = $cOptions['groups'][$key];
                 // if $files is a single object, casting will break it
                 if (is_object($files)) {
-                    $files = array($files);
+                    $files = [$files];
                 } elseif (! is_array($files)) {
                     $files = (array)$files;
                 }
@@ -136,11 +138,11 @@ class Minify_Controller_MinApp extends Minify_Controller_Base {
             } else {
                 $base = '/';
             }
-            $allowDirs = array();
+            $allowDirs = [];
             foreach ((array)$cOptions['allowDirs'] as $allowDir) {
                 $allowDirs[] = realpath(str_replace('//', $_SERVER['DOCUMENT_ROOT'] . '/', $allowDir));
             }
-            $basenames = array(); // just for cache id
+            $basenames = []; // just for cache id
             foreach ($files as $file) {
                 $uri = $base . $file;
                 $path = $_SERVER['DOCUMENT_ROOT'] . $uri;
@@ -173,14 +175,14 @@ class Minify_Controller_MinApp extends Minify_Controller_Base {
         }
         if ($sources) {
             if (null !== $firstMissingResource) {
-                array_unshift($sources, new Minify_Source(array(
+                array_unshift($sources, new Minify_Source([
                     'id' => 'missingFile'
                     // should not cause cache invalidation
                     ,'lastModified' => 0
                     // due to caching, filename is unreliable.
                     ,'content' => "/* Minify: at least one missing file. See " . Minify::URL_DEBUG . " */\n"
                     ,'minifier' => ''
-                )));
+                ]));
             }
             $this->sources = $sources;
         } else {

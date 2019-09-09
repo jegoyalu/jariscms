@@ -22,13 +22,11 @@ row: 0
             $type_data = "";
             $type_name = "";
 
-            if(trim($_REQUEST["type"]) != "")
-            {
+            if (trim($_REQUEST["type"]) != "") {
                 $type_data = Jaris\Types::get($_REQUEST["type"]);
             }
 
-            if(isset($type_data["name"]))
-            {
+            if (isset($type_data["name"])) {
                 $type_name = t($type_data["name"]) . " - ";
             }
 
@@ -79,8 +77,7 @@ row: 0
             ;
 
             $type = "";
-            if(trim($_REQUEST["type"]) != "")
-            {
+            if (trim($_REQUEST["type"]) != "") {
                 $type = str_replace("'", "''", $_REQUEST["type"]);
                 $type = "and type='$type'";
             }
@@ -101,11 +98,10 @@ row: 0
 
             $is_first = true;
 
-            foreach($pages as $data)
-            {
+            foreach ($pages as $data) {
                 $page_data = Jaris\Pages::get($data["uri"], Jaris\Language::getCurrent());
 
-                $search = array (
+                $search = [
                     "'<script[^>]*?>.*?</script>'si",  // Strip out javascript
                     "'<[\/\!]*?[^<>]*?>'si",           // Strip out html tags
                     "'([\r\n])[\s]+'",                 // Strip out white space
@@ -117,9 +113,9 @@ row: 0
                     "'&(pound|#163);'i",
                     "'&(copy|#169);'i",
                     "'&#(\d+);'e"
-                );                    // evaluate as php
+                ];                    // evaluate as php
 
-                $replace = array (
+                $replace = [
                     "",
                     "",
                     "\\1",
@@ -131,11 +127,11 @@ row: 0
                     chr(163),
                     chr(169),
                     "chr(\\1)"
-                );
+                ];
 
 
                 $title = str_replace(
-                    array("&", "&amp;"),
+                    ["&", "&amp;"],
                     "and",
                     $page_data["title"]
                 );
@@ -161,21 +157,18 @@ row: 0
 
                 $image_code = "";
 
-                if($rss_settings["images_enable"])
-                {
+                if ($rss_settings["images_enable"]) {
                     $image_list = Jaris\Pages\Images::getList($data["uri"]);
 
-                    if(count($image_list) > 0)
-                    {
-                        foreach($image_list as $image)
-                        {
+                    if (count($image_list) > 0) {
+                        foreach ($image_list as $image) {
                             $image_url = Jaris\Uri::url(
                                 "image/" . $data["uri"] . "/" . $image["name"],
-                                array(
+                                [
                                     "w"=>$rss_settings["images_width"],
                                     "h"=>$rss_settings["images_height"],
                                     "ar"=>$rss_settings["images_keep_aspect_raio"]
-                                )
+                                ]
                             );
 
                             $image_code = '<a href="'.$link.'"><img src="'.$image_url.'" /></a><br />';
@@ -186,8 +179,7 @@ row: 0
                 }
 
                 //Adds to the channel the publication date of latest content
-                if($is_first)
-                {
+                if ($is_first) {
                     print "<pubDate>$date</pubDate>\n";
                     $is_first = false;
                 }

@@ -22,20 +22,16 @@ row: 0
         ;
 
         //Check if current user is on one of the groups that can use the editor
-        if($groups)
-        {
+        if ($groups) {
             $user_is_in_group = false;
-            foreach($groups as $machine_name => $value)
-            {
-                if(Jaris\Authentication::currentUserGroup() == $machine_name && $value)
-                {
+            foreach ($groups as $machine_name => $value) {
+                if (Jaris\Authentication::currentUserGroup() == $machine_name && $value) {
                     $user_is_in_group = true;
                     break;
                 }
             }
 
-            if(!Jaris\Authentication::isAdminLogged() && !$user_is_in_group)
-            {
+            if (!Jaris\Authentication::isAdminLogged() && !$user_is_in_group) {
                 exit;
             }
         }
@@ -43,8 +39,7 @@ row: 0
         $rtnfield = "if_url";
         $altfield = "if_alt";
 
-        if($_REQUEST['element_id'])
-        {
+        if ($_REQUEST['element_id']) {
             $rtnfield = "if_url" . $_REQUEST['element_id'];
             $altfield = "if_alt" . $_REQUEST['element_id'];
         }
@@ -97,8 +92,7 @@ row: 0
     <?php
         $images = Jaris\Pages\Images::getList($uri);
 
-        if($uri && $images)
-        {
+        if ($uri && $images) {
             print "<h2>" .
                 t("Hover over a name below to preview, click it to select.") .
                 "</h2>" . "<br>"
@@ -106,16 +100,13 @@ row: 0
 
             $image_list = "";
 
-            foreach($images as $id => $fields)
-            {
+            foreach ($images as $id => $fields) {
                 $image_url = Jaris\Uri::url("image/$uri/{$fields['name']}");
                 $image_list .= "<a href='#' onclick='WantThis(\"$image_url\", \"{$fields['description']}\")' onmouseover='document.getElementById(\"preview\").src=\"$image_url\";document.getElementById(\"caption\").innerHTML=\"<b>{$fields['name']}</b><br>{$fields['description']}\"'>{$fields['name']}</a></br>";
             }
 
             print $image_list;
-        }
-        else
-        {
+        } else {
             print "<h2>" . t("No images available.") . "</h2>";
         }
     ?>

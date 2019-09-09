@@ -10,7 +10,8 @@
  * @package Minify
  * @author Stephen Clay <steve@mrclay.org>
  */
-class Minify_CSS_UriRewriter {
+class Minify_CSS_UriRewriter
+{
 
     /**
      * rewrite() and rewriteRelative() append debugging information here
@@ -41,13 +42,13 @@ class Minify_CSS_UriRewriter {
      *
      * @return string
      */
-    public static function rewrite($css, $currentDir, $docRoot = null, $symlinks = array())
+    public static function rewrite($css, $currentDir, $docRoot = null, $symlinks = [])
     {
         self::$_docRoot = self::_realpath(
             $docRoot ? $docRoot : $_SERVER['DOCUMENT_ROOT']
         );
         self::$_currentDir = self::_realpath($currentDir);
-        self::$_symlinks = array();
+        self::$_symlinks = [];
 
         // normalize symlinks
         foreach ($symlinks as $link => $target) {
@@ -68,10 +69,8 @@ class Minify_CSS_UriRewriter {
         $css = self::_trimUrls($css);
 
         // rewrite
-        $css = preg_replace_callback('/@import\\s+([\'"])(.*?)[\'"]/'
-            ,array(self::$className, '_processUriCB'), $css);
-        $css = preg_replace_callback('/url\\(\\s*([^\\)\\s]+)\\s*\\)/'
-            ,array(self::$className, '_processUriCB'), $css);
+        $css = preg_replace_callback('/@import\\s+([\'"])(.*?)[\'"]/', [self::$className, '_processUriCB'], $css);
+        $css = preg_replace_callback('/url\\(\\s*([^\\)\\s]+)\\s*\\)/', [self::$className, '_processUriCB'], $css);
 
         return $css;
     }
@@ -92,10 +91,8 @@ class Minify_CSS_UriRewriter {
         $css = self::_trimUrls($css);
 
         // append
-        $css = preg_replace_callback('/@import\\s+([\'"])(.*?)[\'"]/'
-            ,array(self::$className, '_processUriCB'), $css);
-        $css = preg_replace_callback('/url\\(\\s*([^\\)\\s]+)\\s*\\)/'
-            ,array(self::$className, '_processUriCB'), $css);
+        $css = preg_replace_callback('/@import\\s+([\'"])(.*?)[\'"]/', [self::$className, '_processUriCB'], $css);
+        $css = preg_replace_callback('/url\\(\\s*([^\\)\\s]+)\\s*\\)/', [self::$className, '_processUriCB'], $css);
 
         self::$_prependPath = null;
         return $css;
@@ -139,7 +136,7 @@ class Minify_CSS_UriRewriter {
      *
      * @return string
      */
-    public static function rewriteRelative($uri, $realCurrentDir, $realDocRoot, $symlinks = array())
+    public static function rewriteRelative($uri, $realCurrentDir, $realDocRoot, $symlinks = [])
     {
         // prepend path with current dir separator (OS-independent)
         $path = strtr($realCurrentDir, '/', DIRECTORY_SEPARATOR)
@@ -235,7 +232,7 @@ class Minify_CSS_UriRewriter {
      *
      * @var array
      */
-    private static $_symlinks = array();
+    private static $_symlinks = [];
 
     /**
      * Path to prepend

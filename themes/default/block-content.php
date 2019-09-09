@@ -7,19 +7,20 @@
 */
 ?>
 <div class="content-block content-block-<?php print $id ?>">
-    <?php if($title || $post_title){ ?>
+    <?php if ($title || $post_title) { ?>
     <div class="title">
     <?php
-        if($post)
+        if ($post) {
             print $post_title;
-        else
+        } else {
             print $title;
+        }
     ?>
     </div>
     <?php } ?>
 
     <div class="content">
-        <?php if($image){ ?>
+        <?php if ($image) { ?>
         <div class="block-image-thumbnail">
             <?php print $image ?>
         </div>
@@ -28,11 +29,11 @@
         <?php print $content ?>
     </div>
 
-    <?php if($post){ ?>
+    <?php if ($post) { ?>
     <div class="clear"></div>
     <?php } ?>
 
-    <?php if($view_more){ ?>
+    <?php if ($view_more) { ?>
     <div class="block-view-more">
         <?php print $view_more ?>
     </div>

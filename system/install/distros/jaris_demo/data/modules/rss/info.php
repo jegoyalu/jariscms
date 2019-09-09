@@ -43,5 +43,3 @@ Version 1.0 - Date Unknown
     * Initial creation of realty system
 
 **/
-
-?>

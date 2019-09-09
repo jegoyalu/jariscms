@@ -17,30 +17,24 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("edit_settings"));
+        Jaris\Authentication::protectedPage(["edit_settings"]);
 
         //Get exsiting settings or defualt ones if main settings table doesn't exist
         $blog_settings = blog_get_main_settings();
 
-        if(
+        if (
             isset($_REQUEST["btnSave"]) &&
             !Jaris\Forms::requiredFieldEmpty("edit-blog-settings")
-        )
-        {
+        ) {
             //Check if write is possible and continue to write settings
-            if(Jaris\Settings::save("main_category", $_REQUEST["main_category"], "blogs"))
-            {
+            if (Jaris\Settings::save("main_category", $_REQUEST["main_category"], "blogs")) {
                 Jaris\View::addMessage(t("Your settings have been successfully saved."));
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(Jaris\System::errorMessage("write_error_data"), "error");
             }
 
             Jaris\Uri::go("admin/settings");
-        }
-        elseif(isset($_REQUEST["btnCancel"]))
-        {
+        } elseif (isset($_REQUEST["btnCancel"])) {
             Jaris\Uri::go("admin/settings");
         }
 
@@ -54,15 +48,13 @@ row: 0
         $categories[t("-None Selected-")] = "";
         $category_data = Jaris\Categories::getList();
 
-        if($category_data)
-        {
-            foreach($category_data as $machine_name => $data)
-            {
+        if ($category_data) {
+            foreach ($category_data as $machine_name => $data) {
                 $categories[t($data["name"])] = $machine_name;
             }
         }
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "select",
             "name" => "main_category",
             "label" => t("Blog categories:"),
@@ -70,21 +62,21 @@ row: 0
             "value" => $categories,
             "selected" => $blog_settings["main_category"],
             "description" => t("The main category where users can select a sub category that represent its blog content.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnSave",
             "value" => t("Save")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnCancel",
             "value" => t("Cancel")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
         print Jaris\Forms::generate($parameters, $fieldset);
     ?>

@@ -22,8 +22,8 @@
  * @license http://opensource.org/licenses/bsd-license.php  New BSD License
  * @link http://code.google.com/p/minify/
  */
-class Minify {
-
+class Minify
+{
     const VERSION = '2.1.7';
     const TYPE_CSS = 'text/css';
     const TYPE_HTML = 'text/html';
@@ -161,7 +161,7 @@ class Minify {
      *
      * @throws Exception
      */
-    public static function serve($controller, $options = array())
+    public static function serve($controller, $options = [])
     {
         if (! self::$isDocRootSet && 0 === stripos(PHP_OS, 'win')) {
             self::setDocRoot();
@@ -186,13 +186,13 @@ class Minify {
             if (! self::$_options['quiet']) {
                 self::_errorExit(self::$_options['badRequestHeader'], self::URL_DEBUG);
             } else {
-                list(,$statusCode) = explode(' ', self::$_options['badRequestHeader']);
-                return array(
+                list(, $statusCode) = explode(' ', self::$_options['badRequestHeader']);
+                return [
                     'success' => false
                     ,'statusCode' => (int)$statusCode
                     ,'content' => ''
-                    ,'headers' => array()
-                );
+                    ,'headers' => []
+                ];
             }
         }
 
@@ -222,11 +222,11 @@ class Minify {
         }
 
         // check client cache
-        $cgOptions = array(
+        $cgOptions = [
             'lastModifiedTime' => self::$_options['lastModifiedTime']
             ,'isPublic' => self::$_options['isPublic']
             ,'encoding' => self::$_options['encodeMethod']
-        );
+        ];
         if (self::$_options['maxAge'] > 0) {
             $cgOptions['maxAge'] = self::$_options['maxAge'];
         } elseif (self::$_options['debug']) {
@@ -239,12 +239,12 @@ class Minify {
                 $cg->sendHeaders();
                 return;
             } else {
-                return array(
+                return [
                     'success' => true
                     ,'statusCode' => 304
                     ,'content' => ''
                     ,'headers' => $cg->getHeaders()
-                );
+                ];
             }
         } else {
             // client will need output
@@ -254,7 +254,7 @@ class Minify {
 
         if (self::$_options['contentType'] === self::TYPE_CSS
             && self::$_options['rewriteCssUris']) {
-            foreach($controller->sources as $key => $source) {
+            foreach ($controller->sources as $key => $source) {
                 if ($source->filepath
                     && !isset($source->minifyOptions['currentDir'])
                     && !isset($source->minifyOptions['prependRelativePath'])
@@ -315,7 +315,8 @@ class Minify {
         // add headers
         $headers['Content-Length'] = $cacheIsReady
             ? $cacheContentLength
-            : ((function_exists('mb_strlen') && ((int)ini_get('mbstring.func_overload') & 2))
+            : (
+                (function_exists('mb_strlen') && ((int)ini_get('mbstring.func_overload') & 2))
                 ? mb_strlen($content, '8bit')
                 : strlen($content)
             );
@@ -340,14 +341,14 @@ class Minify {
                 echo $content;
             }
         } else {
-            return array(
+            return [
                 'success' => true
                 ,'statusCode' => 200
                 ,'content' => $cacheIsReady
                     ? self::$_cache->fetch($fullCacheId)
                     : $content
                 ,'headers' => $headers
-            );
+            ];
         }
     }
 
@@ -363,16 +364,16 @@ class Minify {
      *
      * @return string
      */
-    public static function combine($sources, $options = array())
+    public static function combine($sources, $options = [])
     {
         $cache = self::$_cache;
         self::$_cache = null;
-        $options = array_merge(array(
+        $options = array_merge([
             'files' => (array)$sources
             ,'quiet' => true
             ,'encodeMethod' => ''
             ,'lastModifiedTime' => 0
-        ), $options);
+        ], $options);
         $out = self::serve('Files', $options);
         self::$_cache = $cache;
         return $out['content'];
@@ -391,9 +392,10 @@ class Minify {
         } elseif (isset($_SERVER['SERVER_SOFTWARE'])
                   && 0 === strpos($_SERVER['SERVER_SOFTWARE'], 'Microsoft-IIS/')) {
             $_SERVER['DOCUMENT_ROOT'] = substr(
-                $_SERVER['SCRIPT_FILENAME']
-                ,0
-                ,strlen($_SERVER['SCRIPT_FILENAME']) - strlen($_SERVER['SCRIPT_NAME']));
+                $_SERVER['SCRIPT_FILENAME'],
+                0,
+                strlen($_SERVER['SCRIPT_FILENAME']) - strlen($_SERVER['SCRIPT_NAME'])
+            );
             $_SERVER['DOCUMENT_ROOT'] = rtrim($_SERVER['DOCUMENT_ROOT'], '\\');
         }
     }
@@ -427,7 +429,7 @@ class Minify {
     protected static function _errorExit($header, $url)
     {
         $url = htmlspecialchars($url, ENT_QUOTES);
-        list(,$h1) = explode(' ', $header, 2);
+        list(, $h1) = explode(' ', $header, 2);
         $h1 = htmlspecialchars($h1);
         // FastCGI environments require 3rd arg to header() to be set
         list(, $code) = explode(' ', $header, 3);
@@ -446,11 +448,11 @@ class Minify {
     protected static function _setupDebug($sources)
     {
         foreach ($sources as $source) {
-            $source->minifier = array('Minify_Lines', 'minify');
+            $source->minifier = ['Minify_Lines', 'minify'];
             $id = $source->getId();
-            $source->minifyOptions = array(
+            $source->minifyOptions = [
                 'id' => (is_file($id) ? basename($id) : $id)
-            );
+            ];
         }
     }
 
@@ -475,7 +477,7 @@ class Minify {
         // these
         $defaultOptions = isset(self::$_options['minifierOptions'][$type])
             ? self::$_options['minifierOptions'][$type]
-            : array();
+            : [];
         // if minifier not set, default is no minification. source objects
         // may still override this
         $defaultMinifier = isset(self::$_options['minifiers'][$type])
@@ -483,10 +485,10 @@ class Minify {
             : false;
 
         // process groups of sources with identical minifiers/options
-        $content = array();
+        $content = [];
         $i = 0;
         $l = count(self::$_controller->sources);
-        $groupToProcessTogether = array();
+        $groupToProcessTogether = [];
         $lastMinifier = null;
         $lastOptions = null;
         do {
@@ -511,12 +513,12 @@ class Minify {
                     ! $source                        // yes, we ran out of sources
                     || $type === self::TYPE_CSS      // yes, to process CSS individually (avoiding PCRE bugs/limits)
                     || $minifier !== $lastMinifier   // yes, minifier changed
-                    || $options !== $lastOptions)    // yes, options changed
-                )
-            {
+                    || $options !== $lastOptions
+                )    // yes, options changed
+                ) {
                 // minify previous sources with last settings
                 $imploded = implode($implodeSeparator, $groupToProcessTogether);
-                $groupToProcessTogether = array();
+                $groupToProcessTogether = [];
                 if ($lastMinifier) {
                     try {
                         $content[] = call_user_func($lastMinifier, $imploded, $lastOptions);
@@ -566,14 +568,14 @@ class Minify {
         $name = preg_replace('/[^a-zA-Z0-9\\.=_,]/', '', self::$_controller->selectionId);
         $name = preg_replace('/\\.+/', '.', $name);
         $name = substr($name, 0, 200 - 34 - strlen($prefix));
-        $md5 = md5(serialize(array(
+        $md5 = md5(serialize([
             Minify_Source::getDigest(self::$_controller->sources)
             ,self::$_options['minifiers']
             ,self::$_options['minifierOptions']
             ,self::$_options['postprocessor']
             ,self::$_options['bubbleCssImports']
             ,self::VERSION
-        )));
+        ]));
         return "{$prefix}_{$name}_{$md5}";
     }
 
@@ -590,7 +592,7 @@ class Minify {
             // bubble CSS imports
             preg_match_all('/@import.*?;/', $css, $imports);
             $css = implode('', $imports[0]) . preg_replace('/@import.*?;/', '', $css);
-        } else if ('' !== self::$importWarning) {
+        } elseif ('' !== self::$importWarning) {
             // remove comments so we don't mistake { in a comment as a block
             $noCommentCss = preg_replace('@/\\*[\\s\\S]*?\\*/@', '', $css);
             $lastImportPos = strrpos($noCommentCss, '@import');

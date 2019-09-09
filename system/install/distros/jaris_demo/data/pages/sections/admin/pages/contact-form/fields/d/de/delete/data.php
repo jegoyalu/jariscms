@@ -9,39 +9,32 @@ row: 0
 
 	field: content
 		<?php
-		Jaris\Authentication::protectedPage(array("edit_content"));
-		
-		if(!Jaris\Pages::userIsOwner($_REQUEST["uri"]))
-		{
-		    Jaris\Authentication::protectedPage();
-		}
-		
-		$field_data = contact_get_field_data($_REQUEST["id"], $_REQUEST["uri"]);
-		
-		if(isset($_REQUEST["btnYes"]))
-		{
-		    if(contact_delete_field($_REQUEST["id"], $_REQUEST["uri"]))
-		    {
-		        Jaris\View::addMessage(t("Contact form field successfully deleted."));
-		    }
-		    else
-		    {
-		        Jaris\View::addMessage(Jaris\System::errorMessage("write_error_data"), "error");
-		    }
-		
-		    Jaris\Uri::go(
-		        Jaris\Modules::getPageUri("admin/pages/contact-form/fields", "contact"),
-		        array("uri" => $_REQUEST["uri"])
-		    );
-		}
-		elseif(isset($_REQUEST["btnNo"]))
-		{
-		    Jaris\Uri::go(
-		        Jaris\Modules::getPageUri("admin/pages/contact-form/fields", "contact"),
-		        array("uri" => $_REQUEST["uri"])
-		    );
-		}
-		    ?>
+        Jaris\Authentication::protectedPage(["edit_content"]);
+        
+        if (!Jaris\Pages::userIsOwner($_REQUEST["uri"])) {
+            Jaris\Authentication::protectedPage();
+        }
+        
+        $field_data = contact_get_field_data($_REQUEST["id"], $_REQUEST["uri"]);
+        
+        if (isset($_REQUEST["btnYes"])) {
+            if (contact_delete_field($_REQUEST["id"], $_REQUEST["uri"])) {
+                Jaris\View::addMessage(t("Contact form field successfully deleted."));
+            } else {
+                Jaris\View::addMessage(Jaris\System::errorMessage("write_error_data"), "error");
+            }
+        
+            Jaris\Uri::go(
+                Jaris\Modules::getPageUri("admin/pages/contact-form/fields", "contact"),
+                ["uri" => $_REQUEST["uri"]]
+            );
+        } elseif (isset($_REQUEST["btnNo"])) {
+            Jaris\Uri::go(
+                Jaris\Modules::getPageUri("admin/pages/contact-form/fields", "contact"),
+                ["uri" => $_REQUEST["uri"]]
+            );
+        }
+            ?>
 		
 		    <form class="contact-form-field-delete" method="post"
 		  action="<?php Jaris\Uri::url(Jaris\Modules::getPageUri("admin/pages/contact-form/fields/delete", "contact")) ?>"

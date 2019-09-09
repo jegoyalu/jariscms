@@ -20,38 +20,36 @@ row: 0
     field: content
     <?php
         //Store return url
-        if(isset($_REQUEST["return"]))
-        {
+        if (isset($_REQUEST["return"])) {
             Jaris\Session::addCookie("return_url", $_REQUEST["return"]);
         }
 
-        if(
+        if (
             !Jaris\Authentication::isUserLogged() &&
             Jaris\Settings::get("login_ssl", "main") &&
             !Jaris\System::isSSLConnection()
-        )
-        {
-            if(Jaris\System::isSSLSupported())
-                Jaris\Uri::go("admin/user", array(), true);
+        ) {
+            if (Jaris\System::isSSLSupported()) {
+                Jaris\Uri::go("admin/user", [], true);
+            }
         }
 
-        if(Jaris\Authentication::login() || Jaris\Authentication::isUserLogged())
-        {
+        if (Jaris\Authentication::login() || Jaris\Authentication::isUserLogged()) {
             // Redirect to prevent resend data browser message
             // if user clicks back.
-            if(isset($_REQUEST["username"]) && isset($_REQUEST["password"]))
+            if (isset($_REQUEST["username"]) && isset($_REQUEST["password"])) {
                 Jaris\Uri::go("admin/user");
+            }
 
             $online = Jaris\Settings::get("site_status", "main");
 
-            if(
+            if (
                 !$online &&
                 !Jaris\Authentication::groupHasPermission(
                     "offline_login",
                     Jaris\Authentication::currentUserGroup()
                 )
-            )
-            {
+            ) {
                 Jaris\View::addMessage(
                     t("Only users with special permissions can login while the site is offline."),
                     "error"
@@ -63,8 +61,7 @@ row: 0
             }
 
             //Goto return url if it is set
-            if(isset($_COOKIE["return_url"]))
-            {
+            if (isset($_COOKIE["return_url"])) {
                 $return = $_COOKIE["return_url"];
 
                 Jaris\Session::removeCookie("return_url");
@@ -74,79 +71,71 @@ row: 0
 
             //Display user page
             Jaris\Users::printPage();
-        }
-        else
-        {
+        } else {
             //To remove any login session data
             Jaris\Authentication::logout();
 
             $parameters["action"] = Jaris\Uri::url("admin/user");
             $parameters["method"] = "post";
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "text",
                 "name" => "username",
                 "label" => t("Username or E-mail:"),
                 "value" => !empty($_REQUEST["username"]) ?
                     $_REQUEST["username"] : "",
                 "id" => "page-username"
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "password",
                 "name" => "password",
                 "label" => t("Password:"),
                 "id" => "page-password",
                 "description" => t("the password is case sensitive")
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "other",
                 "html_code" => "<br />"
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "checkbox",
                 "name" => "remember_me",
                 "id" => "page-remember-me",
-                "value" => array(
+                "value" => [
                     t("Remember Me") => true
-                )
-            );
+                ]
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "submit",
                 "name" => "login",
                 "value" => t("Login")
-            );
+            ];
 
-            $fieldset[] = array("fields" => $fields);
+            $fieldset[] = ["fields" => $fields];
 
             print "<table id=\"my-account\">";
             print "<tbody>";
             print "<tr>";
 
             print "<td class=\"login\">";
-            if(Jaris\Settings::get("new_registrations", "main"))
-            {
+            if (Jaris\Settings::get("new_registrations", "main")) {
                 print "<h2>" . t("Existing User") . "</h2>";
             }
             print Jaris\Forms::generate($parameters, $fieldset);
 
-            if(!Jaris\Settings::get("forgot_pass_disabled", "main"))
-            {
-                $arguments = array();
+            if (!Jaris\Settings::get("forgot_pass_disabled", "main")) {
+                $arguments = [];
 
-                if(isset($_REQUEST["username"]))
-                {
-                    if(Jaris\Forms::validUsername($_REQUEST["username"]))
-                    {
+                if (isset($_REQUEST["username"])) {
+                    if (Jaris\Forms::validUsername($_REQUEST["username"])) {
                         $arguments["username"] = $_REQUEST["username"];
-                    }
-                    elseif(
+                    } elseif (
                         Jaris\Forms::validEmail($_REQUEST["username"])
-                    )
-                    {
+                    ) {
                         $arguments["email"] = $_REQUEST["username"];
                     }
                 }
@@ -161,14 +150,13 @@ row: 0
             }
             print "</td>";
 
-            if(Jaris\Settings::get("new_registrations", "main"))
-            {
+            if (Jaris\Settings::get("new_registrations", "main")) {
                 print "<td class=\"register\">";
                 print "<h2>" . t("Create Account") . "</h2>";
                 print "<a class=\"register-link\" href=\"" .
                     Jaris\Uri::url(
                         "register",
-                        array("return" => $_REQUEST["return"])
+                        ["return" => $_REQUEST["return"]]
                     ) . "\">" .
                     t("Register") .
                     "</a>"

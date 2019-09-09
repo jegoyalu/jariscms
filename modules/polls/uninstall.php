@@ -15,5 +15,3 @@ function polls_uninstall()
     //Delete recent polls block
     Jaris\Blocks::deleteByField("poll_block", "1");
 }
-
-?>

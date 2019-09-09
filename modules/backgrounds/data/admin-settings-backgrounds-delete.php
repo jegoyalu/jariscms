@@ -17,36 +17,28 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("edit_settings"));
+        Jaris\Authentication::protectedPage(["edit_settings"]);
 
         $backgrounds_settings = Jaris\Settings::getAll("backgrounds");
         $backgrounds = unserialize($backgrounds_settings["backgrounds"]);
 
         $background = $backgrounds[intval($_REQUEST["id"])];
 
-        if(isset($_REQUEST["btnYes"]))
-        {
+        if (isset($_REQUEST["btnYes"])) {
             unset($backgrounds[intval($_REQUEST["id"])]);
 
-            if(Jaris\Settings::save("backgrounds", serialize($backgrounds), "backgrounds"))
-            {
-                if($background["multi"])
-                {
+            if (Jaris\Settings::save("backgrounds", serialize($backgrounds), "backgrounds")) {
+                if ($background["multi"]) {
                     $images = unserialize($background["images"]);
-                    foreach($images as $image)
-                    {
+                    foreach ($images as $image) {
                         Jaris\Files::delete($image, "backgrounds");
                     }
-                }
-                else
-                {
+                } else {
                     Jaris\Files::delete($background["image"], "backgrounds");
                 }
 
                 Jaris\View::addMessage(t("Background successfully deleted."));
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(Jaris\System::errorMessage("write_error_data"), "error");
             }
 
@@ -56,9 +48,7 @@ row: 0
                     "backgrounds"
                 )
             );
-        }
-        elseif(isset($_REQUEST["btnNo"]))
-        {
+        } elseif (isset($_REQUEST["btnNo"])) {
             Jaris\Uri::go(
                 Jaris\Modules::getPageUri(
                     "admin/settings/backgrounds",
@@ -68,26 +58,26 @@ row: 0
         }
     ?>
 
-    <?php if($background["multi"]){ ?>
+    <?php if ($background["multi"]) { ?>
         <form class="background-delete" method="post" action="<?php Jaris\Uri::url(Jaris\Modules::getPageUri("admin/settings/backgrounds/delete", "backgrounds")) ?>">
             <input type="hidden" name="id" value="<?php print intval($_REQUEST["id"]) ?>" />
             <div><?php print t("Are you sure you want to delete the multi-image background?") ?>
                 <div>
                     <?php
                     $images = unserialize($background["images"]);
-                    foreach($images as $image)
-                    {
+                    foreach ($images as $image) {
                         ?>
                         <a style="display: block; margin-bottom: 7px" href="<?php print Jaris\Uri::url(Jaris\Files::get($image, "backgrounds")); ?>">
                             <img width="300px" src="<?php print Jaris\Uri::url(Jaris\Files::get($image, "backgrounds")); ?>" />
                         </a>
-                    <?php } ?>
+                    <?php
+                    } ?>
                 </div>
             </div>
             <input class="form-submit" type="submit" name="btnYes" value="<?php print t("Yes") ?>" />
             <input class="form-submit" type="submit" name="btnNo" value="<?php print t("No") ?>" />
         </form>
-    <?php } else{ ?>
+    <?php } else { ?>
         <form class="background-delete" method="post" action="<?php Jaris\Uri::url(Jaris\Modules::getPageUri("admin/settings/backgrounds/delete", "backgrounds")) ?>">
             <input type="hidden" name="id" value="<?php print intval($_REQUEST["id"]) ?>" />
             <div><?php print t("Are you sure you want to delete the background image?") ?>

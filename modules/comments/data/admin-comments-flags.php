@@ -17,12 +17,11 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("manage_comments_flags"));
+        Jaris\Authentication::protectedPage(["manage_comments_flags"]);
 
         $page = 1;
 
-        if(isset($_REQUEST["page"]))
-        {
+        if (isset($_REQUEST["page"])) {
             $page = $_REQUEST["page"];
         }
 
@@ -57,8 +56,7 @@ row: 0
         print "</tr>";
         print "</thead>";
 
-        foreach($flags as $data)
-        {
+        foreach ($flags as $data) {
             $comment_data = comments_get($data["id"], $data["uri"]);
             $page_data = Jaris\Pages::get($data["uri"]);
 
@@ -79,11 +77,11 @@ row: 0
                     "admin/comments/flags/delete",
                     "comments"
                 ),
-                array(
+                [
                     "id" => $comment_data["id"],
                     "user" => $comment_data["user"],
                     "page" => $data["uri"]
-                )
+                ]
             );
 
             $remove_flags_url = Jaris\Uri::url(
@@ -91,11 +89,11 @@ row: 0
                     "admin/comments/flags/remove",
                     "comments"
                 ),
-                array(
+                [
                     "id" => $comment_data["id"],
                     "user" => $comment_data["user"],
                     "page" => $data["uri"]
-                )
+                ]
             );
 
             print "<td>" .

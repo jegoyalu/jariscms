@@ -19,16 +19,15 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("edit_settings"));
+        Jaris\Authentication::protectedPage(["edit_settings"]);
 
-        if(isset($_REQUEST["btnYes"]))
-        {
-            if(
+        if (isset($_REQUEST["btnYes"])) {
+            if (
                 Jaris\FileSystem::recursiveRemoveDir(
-                    Jaris\Site::dataDir() . "cache", true
+                    Jaris\Site::dataDir() . "cache",
+                    true
                 )
-            )
-            {
+            ) {
                 Jaris\Modules::hook(Jaris\System::SIGNAL_CLEAR_PAGE_CACHE);
 
                 Jaris\View::addMessage(t("Page cache cleared successfully."));
@@ -36,9 +35,7 @@ row: 0
                 t("Cleared page cache.");
 
                 Jaris\Logger::info("Cleared page cache.");
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(
                     Jaris\System::errorMessage("write_error_data"),
                     "error"
@@ -46,9 +43,7 @@ row: 0
             }
 
             Jaris\Uri::go("admin/settings/advanced");
-        }
-        elseif(isset($_REQUEST["btnNo"]))
-        {
+        } elseif (isset($_REQUEST["btnNo"])) {
             Jaris\Uri::go("admin/settings/advanced");
         }
     ?>

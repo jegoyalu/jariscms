@@ -33,7 +33,7 @@ row: 0
     </style>
 
     <?php
-        Jaris\Authentication::protectedPage(array("edit_settings"));
+        Jaris\Authentication::protectedPage(["edit_settings"]);
 
         $actual_items = unserialize(Jaris\Settings::get("toolbar_items", "whizzywig"));
         $classes = unserialize(Jaris\Settings::get("teaxtarea_id", "whizzywig"));
@@ -41,25 +41,21 @@ row: 0
         $groups = unserialize(Jaris\Settings::get("groups", "whizzywig"));
         $disable_editor = unserialize(Jaris\Settings::get("disable_editor", "whizzywig"));
 
-        if(isset($_REQUEST["btnSave"], $_REQUEST["group"]))
-        {
+        if (isset($_REQUEST["btnSave"], $_REQUEST["group"])) {
             $actual_items[$_REQUEST["group"]] = $_REQUEST["toolbar_items"];
             $classes[$_REQUEST["group"]] = $_REQUEST["teaxtarea_id"];
             $forms_to_display[$_REQUEST["group"]] = $_REQUEST["forms"];
             $groups[$_REQUEST["group"]] = $_REQUEST["groups"];
             $disable_editor[$_REQUEST["group"]] = $_REQUEST["disable_editor"];
 
-            if(Jaris\Settings::save("toolbar_items", serialize($actual_items), "whizzywig"))
-            {
+            if (Jaris\Settings::save("toolbar_items", serialize($actual_items), "whizzywig")) {
                 Jaris\Settings::save("teaxtarea_id", serialize($classes), "whizzywig");
                 Jaris\Settings::save("forms", serialize($forms_to_display), "whizzywig");
                 Jaris\Settings::save("groups", serialize($groups), "whizzywig");
                 Jaris\Settings::save("disable_editor", serialize($disable_editor), "whizzywig");
 
                 Jaris\View::addMessage(t("Your changes have been saved."));
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(Jaris\System::errorMessage("write_error_data"));
             }
 
@@ -87,8 +83,7 @@ row: 0
         $groups_list = Jaris\Groups::getList();
         $groups_list[] = "guest";
 
-        foreach($groups_list as $group)
-        {
+        foreach ($groups_list as $group) {
             $group_data = Jaris\Groups::get($group);
 
             print "<tr>\n";
@@ -103,7 +98,7 @@ row: 0
 
             $edit_url = Jaris\Uri::url(
                 Jaris\Modules::getPageUri("admin/settings/whizzywig", "whizzywig"),
-                array("group" => $group)
+                ["group" => $group]
             );
 
             print "<td>\n";
@@ -117,8 +112,7 @@ row: 0
 
         print "<br />";
 
-        if(isset($_REQUEST["group"]))
-        {
+        if (isset($_REQUEST["group"])) {
             $parameters["name"] = "whizzywig-settings";
             $parameters["class"] = "whizzywig-settings";
             $parameters["action"] = Jaris\Uri::url(
@@ -126,20 +120,20 @@ row: 0
             );
             $parameters["method"] = "post";
 
-            $fields_enable_whizzywig[] = array(
+            $fields_enable_whizzywig[] = [
                 "type" => "other",
                 "html_code" => "<br />"
-            );
+            ];
 
-            $fields_enable_whizzywig[] = array(
+            $fields_enable_whizzywig[] = [
                 "type" => "checkbox",
                 "checked" => $groups[$_REQUEST["group"]],
                 "name" => "groups",
                 "label" => t("Enable Whizzywig?"),
                 "id" => "groups"
-            );
+            ];
 
-            $fieldset[] = array("fields" => $fields_enable_whizzywig);
+            $fieldset[] = ["fields" => $fields_enable_whizzywig];
 
             $description = t("Here you specify what items are showed on the toolbar of whizzywig editor. The default value is <b>all</b> equivalent to the following:");
             $description .= "<br />";
@@ -149,7 +143,7 @@ row: 0
                 . "clean html spellcheck fullscreen"
             ;
 
-            $fields_first[] = array(
+            $fields_first[] = [
                 "type" => "textarea",
                 "description" => $description,
                 "value" => $actual_items[$_REQUEST["group"]] ?
@@ -157,11 +151,11 @@ row: 0
                 "name" => "toolbar_items",
                 "label" => t("Toolbar Items:"),
                 "id" => "toolbar_items"
-            );
+            ];
 
-            $fieldset[] = array("fields" => $fields_first);
+            $fieldset[] = ["fields" => $fields_first];
 
-            $fields_pages[] = array(
+            $fields_pages[] = [
                 "type" => "textarea",
                 "name" => "teaxtarea_id",
                 "label" => t("Textarea Id:"),
@@ -169,9 +163,9 @@ row: 0
                 "value" => $classes[$_REQUEST["group"]] ?
                     $classes[$_REQUEST["group"]] : "content",
                 "description" => t("List of textarea id's seperated by comma (,).")
-            );
+            ];
 
-            $fields_pages[] = array(
+            $fields_pages[] = [
                 "type" => "textarea",
                 "name" => "forms",
                 "label" => t("Form names:"),
@@ -182,48 +176,48 @@ row: 0
                     "add-page-pages,edit-page-pages,translate-page,"
                     . "add-page-block,block-page-edit,add-block,block-edit,"
                     . "add-page-block-page"
-            );
+            ];
 
-            $fieldset[] = array(
+            $fieldset[] = [
                 "fields" => $fields_pages,
                 "name" => "Forms to display",
                 "description" => t("List of form names seperated by comma (,).")
-            );
+            ];
 
-            $fields_disable_editor[] = array(
+            $fields_disable_editor[] = [
                 "type" => "other",
                 "html_code" => "<br />"
-            );
+            ];
 
-            $fields_disable_editor[] = array(
+            $fields_disable_editor[] = [
                 "type" => "checkbox",
                 "checked" => $disable_editor[$_REQUEST["group"]],
                 "name" => "disable_editor",
                 "label" => t("Show disable editor button?"),
                 "id" => "disable_editor"
-            );
+            ];
 
-            $fieldset[] = array("fields" => $fields_disable_editor);
+            $fieldset[] = ["fields" => $fields_disable_editor];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "hidden",
                 "name" => "group",
                 "value" => $_REQUEST["group"]
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "submit",
                 "name" => "btnSave",
                 "value" => t("Save")
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "submit",
                 "name" => "btnCancel",
                 "value" => t("Cancel")
-            );
+            ];
 
-            $fieldset[] = array("fields" => $fields);
+            $fieldset[] = ["fields" => $fields];
 
             $group_data = Jaris\Groups::get($_REQUEST["group"]);
 

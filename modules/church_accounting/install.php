@@ -13,8 +13,7 @@
 function church_accounting_install()
 {
     // Create income database
-    if(!Jaris\Sql::dbExists("church_accounting_income"))
-    {
+    if (!Jaris\Sql::dbExists("church_accounting_income")) {
         //Income database
         $db = Jaris\Sql::open("church_accounting_income");
 
@@ -60,8 +59,7 @@ function church_accounting_install()
     }
 
     // Create expenses database
-    if(!Jaris\Sql::dbExists("church_accounting_expenses"))
-    {
+    if (!Jaris\Sql::dbExists("church_accounting_expenses")) {
         $db = Jaris\Sql::open("church_accounting_expenses");
 
         Jaris\Sql::query(
@@ -103,8 +101,7 @@ function church_accounting_install()
     }
 
     // Income/Expenses category database
-    if(!Jaris\Sql::dbExists("church_accounting_categories"))
-    {
+    if (!Jaris\Sql::dbExists("church_accounting_categories")) {
         $db = Jaris\Sql::open("church_accounting_categories");
 
         Jaris\Sql::query(
@@ -126,7 +123,7 @@ function church_accounting_install()
         );
 
         // Strings to assist poedit or other translation tools.
-        $strings = array(
+        $strings = [
             // Income
             t("Tithe"),
             t("Offering"),
@@ -142,18 +139,18 @@ function church_accounting_install()
             t("Travel"),
             t("Donation"),
             t("Other")
-        );
+        ];
 
         //Default income categories
-        $income = array(
+        $income = [
             "Tithe",
             "Offerings",
             "Bank Interest",
             "Other"
-        );
+        ];
 
         //Default expense categories
-        $expenses = array(
+        $expenses = [
             "Activities",
             "Rent",
             "Radio Broadcasting",
@@ -163,12 +160,11 @@ function church_accounting_install()
             "Travel",
             "Donation",
             "Other"
-        );
+        ];
 
         Jaris\Sql::beginTransaction($db);
 
-        foreach($income as $element)
-        {
+        foreach ($income as $element) {
             $insert = "insert into church_accounting_categories "
                 . "(label, type) "
                 . "values("
@@ -180,8 +176,7 @@ function church_accounting_install()
             Jaris\Sql::query($insert, $db);
         }
 
-        foreach($expenses as $element)
-        {
+        foreach ($expenses as $element) {
             $insert = "insert into church_accounting_categories "
                 . "(label, type) "
                 . "values("
@@ -199,8 +194,7 @@ function church_accounting_install()
     }
 
     // Tithers database
-    if(!Jaris\Sql::dbExists("church_accounting_tithers"))
-    {
+    if (!Jaris\Sql::dbExists("church_accounting_tithers")) {
         $db = Jaris\Sql::open("church_accounting_tithers");
 
         Jaris\Sql::query(

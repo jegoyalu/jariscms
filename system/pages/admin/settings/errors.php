@@ -19,7 +19,7 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("edit_settings"));
+        Jaris\Authentication::protectedPage(["edit_settings"]);
 
         Jaris\View::addTab(t("System Log"), "admin/settings/log");
         Jaris\View::addTab(t("Errors Log"), "admin/settings/errors");
@@ -27,19 +27,17 @@ row: 0
         Jaris\View::addTab(
             t("Clear Errors Log"),
             "admin/settings/errors-clear",
-            array(),
+            [],
             1
         );
 
         $ordering = "order by error_date desc";
 
-        if(!isset($_REQUEST["ordering"]))
-        {
+        if (!isset($_REQUEST["ordering"])) {
             $_REQUEST["ordering"] = "";
         }
 
-        switch($_REQUEST["ordering"])
-        {
+        switch ($_REQUEST["ordering"]) {
             case "level_desc":
                 $ordering = "order by error_type desc";
                 break;
@@ -58,29 +56,24 @@ row: 0
 
         $page = 1;
 
-        if(isset($_REQUEST["page"]))
-        {
+        if (isset($_REQUEST["page"])) {
             $page = $_REQUEST["page"];
         }
 
-        $order_by = array(
+        $order_by = [
             t("Date Descending") => "date_desc",
             t("Date Ascending") => "date_asc",
             t("Error Level Descending") => "level_desc",
             t("Error Level Ascending") => "level_asc"
-        );
+        ];
 
         print "<form method=\"get\" action=\"" . Jaris\Uri::url("admin/settings/errors") . "\">\n";
         print "<input type=\"hidden\" name=\"page\" value=\"$page\" />\n";
         print t("Order by:") . " <select onchange=\"javascript: this.form.submit()\" name=\"ordering\">\n";
-        foreach($order_by as $order_title=>$order_value)
-        {
-            if($order_value == $_REQUEST["ordering"])
-            {
+        foreach ($order_by as $order_title=>$order_value) {
+            if ($order_value == $_REQUEST["ordering"]) {
                 print "<option selected value=\"$order_value\">$order_title</option>\n";
-            }
-            else
-            {
+            } else {
                 print "<option value=\"$order_value\">$order_title</option>\n";
             }
         }
@@ -109,12 +102,12 @@ row: 0
             "admin/settings/errors",
             "",
             100,
-            array(
+            [
                 "ordering" => $_REQUEST["ordering"]
-            )
+            ]
         );
 
-        $errortype = array(
+        $errortype = [
             E_ERROR => t('Error'),
             E_WARNING => t('Warning'),
             E_PARSE => t('Parsing Error'),
@@ -128,7 +121,7 @@ row: 0
             E_USER_NOTICE => t('User Notice'),
             E_STRICT => t('Runtime Notice'),
             E_RECOVERABLE_ERROR => t('Catchable Fatal Error')
-        );
+        ];
 
         print "<table class=\"navigation-list\">";
         print "<thead>";
@@ -144,65 +137,58 @@ row: 0
 
         print "<tbody>";
 
-        foreach($errors as $error)
-        {
+        foreach ($errors as $error) {
             print "<tr>";
 
             print "<td>" . date("r", $error["error_date"]) . "</td>";
 
             print "<td>" . $errortype[$error["error_type"]] . "</td>";
 
-            if(
+            if (
                 "" . stripos($error["error_message"], "eval()'d code") .  "" != ""
-            )
-            {
-                $matches = array();
+            ) {
+                $matches = [];
 
                 preg_match("/line ([0-9]+) and/", $error["error_message"], $matches);
 
                 $error_line_url = Jaris\Uri::url(
                     "admin/settings/error-line",
-                    array(
+                    [
                         "page" => $error["error_page"],
                         "line" => $matches[1]
-                    )
+                    ]
                 );
 
                 print "<td><a href=\"".$error_line_url."#l{$matches[1]}\">"
                     . $error["error_message"]
                     . "</a></td>";
-            }
-            else
-            {
+            } else {
                 print "<td>" . $error["error_message"] . "</td>";
             }
 
             print "<td>" . $error["error_file"] . "</td>";
 
-            if(
+            if (
                 "" . stripos($error["error_file"], "eval()'d code") .  "" != ""
-            )
-            {
+            ) {
                 $error_line_url = Jaris\Uri::url(
                     "admin/settings/error-line",
-                    array(
+                    [
                         "page" => $error["error_page"],
                         "line" => $error["error_line"]
-                    )
+                    ]
                 );
 
                 print "<td><a href=\"".$error_line_url."#l{$error["error_line"]}\">"
                     . $error["error_line"]
                     . "</a></td>";
-            }
-            else
-            {
+            } else {
                 $error_line_url = Jaris\Uri::url(
                     "admin/settings/error-line",
-                    array(
+                    [
                         "include" => $error["error_file"],
                         "line" => $error["error_line"]
-                    )
+                    ]
                 );
 
                 print "<td><a href=\"".$error_line_url."#l{$error["error_line"]}\">"
@@ -227,9 +213,9 @@ row: 0
             "admin/settings/errors",
             "",
             100,
-            array(
+            [
                 "ordering" => $_REQUEST["ordering"]
-            )
+            ]
         );
     ?>
     field;

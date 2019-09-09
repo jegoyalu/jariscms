@@ -88,11 +88,10 @@ function church_accounting_category_list($type=ChurchAccountingCategory::INCOME)
 {
     Jaris\Sql::escapeVar($type, "int");
 
-    static $list = array();
+    static $list = [];
 
-    if(!isset($list[$type]))
-    {
-        $list[$type] = array();
+    if (!isset($list[$type])) {
+        $list[$type] = [];
 
         $db = Jaris\Sql::open("church_accounting_categories");
 
@@ -102,8 +101,7 @@ function church_accounting_category_list($type=ChurchAccountingCategory::INCOME)
 
         $result = Jaris\Sql::query($select, $db);
 
-        while($data = Jaris\Sql::fetchArray($result))
-        {
+        while ($data = Jaris\Sql::fetchArray($result)) {
             $list[$type][$data["id"]] = $data["label"];
         }
 

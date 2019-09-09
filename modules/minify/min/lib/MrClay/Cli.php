@@ -18,12 +18,13 @@ use InvalidArgumentException;
  * @author Steve Clay <steve@mrclay.org>
  * @license http://www.opensource.org/licenses/mit-license.php  MIT License
  */
-class Cli {
+class Cli
+{
 
     /**
      * @var array validation errors
      */
-    public $errors = array();
+    public $errors = [];
 
     /**
      * @var array option values available after validation.
@@ -36,17 +37,17 @@ class Cli {
      *     ,'f.raw' => "~/file"       // file path as given to option
      * )
      */
-    public $values = array();
+    public $values = [];
 
     /**
      * @var array
      */
-    public $moreArgs = array();
+    public $moreArgs = [];
 
     /**
      * @var array
      */
-    public $debug = array();
+    public $debug = [];
 
     /**
      * @var bool The user wants help info
@@ -56,7 +57,7 @@ class Cli {
     /**
      * @var Arg[]
      */
-    protected $_args = array();
+    protected $_args = [];
 
     /**
      * @var resource
@@ -136,8 +137,8 @@ class Cli {
     public function validate()
     {
         $options = '';
-        $this->errors = array();
-        $this->values = array();
+        $this->errors = [];
+        $this->values = [];
         $this->_stdin = null;
 
         if ($this->isHelpRequest) {
@@ -381,4 +382,3 @@ class Cli {
         $this->errors[$letter][] = sprintf($msg, $value);
     }
 }
-

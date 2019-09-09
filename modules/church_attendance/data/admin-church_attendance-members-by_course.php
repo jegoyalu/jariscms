@@ -18,7 +18,7 @@ row: 0
     field: content
     <?php
         Jaris\Authentication::protectedPage(
-            array("manage_members_church_attendance")
+    ["manage_members_church_attendance"]
         );
 
         Jaris\View::addTab(
@@ -63,36 +63,30 @@ row: 0
 
         $page = 1;
 
-        if(isset($_REQUEST["page"]))
-        {
+        if (isset($_REQUEST["page"])) {
             $page = $_REQUEST["page"];
         }
 
         $course = "";
         $course_val = "0";
-        if(!empty($_REQUEST["course"]))
-        {
+        if (!empty($_REQUEST["course"])) {
             $course_val = intval($_REQUEST["course"]);
             $course = "course_id=$course_val";
         }
 
         $where = "";
 
-        if($course)
-        {
+        if ($course) {
             $where .= "where ";
         }
 
-        if($course)
-        {
+        if ($course) {
             $where .= "$course ";
         }
 
         $course_taken = true;
-        if(!empty($_REQUEST["taken"]))
-        {
-            if($_REQUEST["taken"] == "n")
-            {
+        if (!empty($_REQUEST["taken"])) {
+            if ($_REQUEST["taken"] == "n") {
                 $course_taken = false;
             }
         }
@@ -102,14 +96,13 @@ row: 0
         $parameters["method"] = "get";
 
         $courses_list = church_attendance_courses_list();
-        $courses_value = array(t("All") => "");
+        $courses_value = [t("All") => ""];
 
-        foreach($courses_list as $course_id => $course_name)
-        {
+        foreach ($courses_list as $course_id => $course_name) {
             $courses_value[t($course_name)] = $course_id;
         }
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "select",
             "name" => "course",
             "label" => t("Filter by course:"),
@@ -120,50 +113,45 @@ row: 0
                 "",
             "code" => 'onchange="javascript: this.form.submit()"',
             "inline" => true
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "select",
             "name" => "taken",
             "label" => t("Has taken course?"),
-            "value" => arraY(
+            "value" => [
                 t("Yes") => "y",
                 t("No") => "n"
-            ),
+            ],
             "selected" => isset($_REQUEST["taken"]) ?
                 $_REQUEST["taken"]
                 :
                 "y",
             "code" => 'style="min-width: 150px;" onchange="javascript: this.form.submit()"',
             "inline" => true
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "name" => t("Filter Results"),
             "fields" => $fields,
             "collapsible" => true,
             "collapsed" => !isset($_REQUEST["course"])
-        );
+        ];
 
         print Jaris\Forms::generate($parameters, $fieldset);
 
         $results_count = 0;
 
-        if($course_taken)
-        {
+        if ($course_taken) {
             $results_count = Jaris\Sql::countColumn(
                 "church_attendance_courses_count",
                 "church_attendance_courses_count",
                 "member_id",
                 $where
             );
-        }
-        elseif($course_val == "0")
-        {
+        } elseif ($course_val == "0") {
             $results_count = 0;
-        }
-        else
-        {
+        } else {
             $results_count = Jaris\Sql::countColumn(
                 "church_attendance_members",
                 "church_attendance_members",
@@ -190,8 +178,7 @@ row: 0
 
         print "<tbody>";
 
-        if($course_taken)
-        {
+        if ($course_taken) {
             $courses = Jaris\Sql::getDataList(
                 "church_attendance_courses_count",
                 "church_attendance_courses_count",
@@ -200,8 +187,7 @@ row: 0
                 $where
             );
 
-            foreach($courses as $course_data)
-            {
+            foreach ($courses as $course_data) {
                 $member_data = church_attendance_member_get(
                     $course_data["member_id"]
                 );
@@ -213,7 +199,7 @@ row: 0
                         "admin/church-attendance/members/edit",
                         "church_attendance"
                     ),
-                    array("id"=>$member_data["id"])
+                    ["id"=>$member_data["id"]]
                 );
 
                 print "<td>"
@@ -236,21 +222,16 @@ row: 0
 
                 print "</tr>";
             }
-        }
-        elseif($course_val == "0")
-        {
+        } elseif ($course_val == "0") {
             Jaris\View::addMessage(
                 t("Please select a course in order to be able to check which members haven't taken it."),
                 "error"
             );
-        }
-        else
-        {
+        } else {
             $members_db = Jaris\Sql::open("church_attendance_members");
 
             $item_start = 0;
-            if($page > 1)
-            {
+            if ($page > 1) {
                 $item_start = (($page-1)*20);
             }
 
@@ -261,8 +242,7 @@ row: 0
                 $members_db
             );
 
-            while($member_data = Jaris\Sql::fetchArray($results))
-            {
+            while ($member_data = Jaris\Sql::fetchArray($results)) {
                 print "<tr>";
 
                 $edit_url = Jaris\Uri::url(
@@ -270,7 +250,7 @@ row: 0
                         "admin/church-attendance/members/edit",
                         "church_attendance"
                     ),
-                    array("id"=>$member_data["id"])
+                    ["id"=>$member_data["id"]]
                 );
 
                 print "<td>"
@@ -306,10 +286,10 @@ row: 0
             "admin/church-attendance/members/by-course",
             "church_attendance",
             20,
-            array(
+            [
                 "course" => $_REQUEST["course"],
                 "taken" => $_REQUEST["taken"]
-            )
+            ]
         );
     ?>
     field;

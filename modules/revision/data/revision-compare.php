@@ -22,35 +22,31 @@ row: 0
         $rev1 = intval($_REQUEST["rev1"]);
         $rev2 = intval($_REQUEST["rev2"]);
 
-        if(
+        if (
             !isset($_REQUEST["uri"]) ||
             trim($_REQUEST["uri"]) == "" ||
             !file_exists(Jaris\Pages::getPath($_REQUEST["uri"]) . "/data.php")
-        )
-        {
+        ) {
             Jaris\Uri::go("access-denied");
         }
 
-        if(!Jaris\Pages::userIsOwner($_REQUEST["uri"]))
-        {
+        if (!Jaris\Pages::userIsOwner($_REQUEST["uri"])) {
             Jaris\Authentication::protectedPage();
         }
 
-        Jaris\Authentication::protectedPage(array("view_revisions"));
+        Jaris\Authentication::protectedPage(["view_revisions"]);
 
         $revisions_path = Jaris\Pages::getPath($_REQUEST["uri"]) . "/revisions";
 
-        if(!file_exists($revisions_path))
-        {
+        if (!file_exists($revisions_path)) {
             Jaris\View::addMessage(t("No revisions found."));
             Jaris\Uri::go($_REQUEST["uri"]);
         }
 
-        if(
+        if (
             !file_exists($revisions_path . "/" . $rev1 . ".php") ||
             !file_exists($revisions_path . "/" . $rev2 . ".php")
-        )
-        {
+        ) {
             Jaris\View::addMessage(t("Invalid revisions."), "error");
             Jaris\Uri::go($_REQUEST["uri"]);
         }
@@ -61,21 +57,19 @@ row: 0
         );
 
         // Add Edit tab if current user has proper permissions
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
                 "edit_content",
                 Jaris\Authentication::currentUserGroup()
             )
             &&
             !trim($page_data["is_system"])
-        )
-        {
-            if(Jaris\Pages::userIsOwner($_REQUEST["uri"]))
-            {
+        ) {
+            if (Jaris\Pages::userIsOwner($_REQUEST["uri"])) {
                 Jaris\View::addTab(
                     t("Edit"),
                     "admin/pages/edit",
-                    array("uri" => $_REQUEST["uri"])
+                    ["uri" => $_REQUEST["uri"]]
                 );
             }
         }
@@ -86,7 +80,7 @@ row: 0
         Jaris\View::addTab(
             t("Revisions"),
             Jaris\Modules::getPageUri("revisions", "revision"),
-            array("uri" => $_REQUEST["uri"])
+            ["uri" => $_REQUEST["uri"]]
         );
 
         $revisions = Jaris\FileSystem::getFiles($revisions_path);
@@ -107,10 +101,9 @@ row: 0
         ;
 
         $options1 = "";
-        foreach($revisions as $revision)
-        {
+        foreach ($revisions as $revision) {
             $revision = str_replace(
-                array($revisions_path . "/", ".php"),
+                [$revisions_path . "/", ".php"],
                 "",
                 $revision
             );
@@ -122,8 +115,7 @@ row: 0
 
             $selected = "";
 
-            if($rev1 == $revision)
-            {
+            if ($rev1 == $revision) {
                 $selected = "selected=\"selected\"";
             }
 
@@ -136,10 +128,9 @@ row: 0
         print "</select>&nbsp;";
 
         $options2 = "";
-        foreach($revisions as $revision)
-        {
+        foreach ($revisions as $revision) {
             $revision = str_replace(
-                array($revisions_path . "/", ".php"),
+                [$revisions_path . "/", ".php"],
                 "",
                 $revision
             );
@@ -151,8 +142,9 @@ row: 0
 
             $selected = "";
 
-            if($rev2 == $revision)
+            if ($rev2 == $revision) {
                 $selected = "selected=\"selected\"";
+            }
 
             $options2 .= "<option $selected value=\"$revision\">$date</option>";
         }

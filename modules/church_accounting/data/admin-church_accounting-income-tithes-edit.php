@@ -17,7 +17,7 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("edit_income_church_accounting"));
+        Jaris\Authentication::protectedPage(["edit_income_church_accounting"]);
     ?>
     <script type="text/javascript">
         row_id = 1;
@@ -77,8 +77,7 @@ row: 0
 
         $offerings_data = church_accounting_income_get($_REQUEST["id"]);
 
-        if(!is_array($offerings_data))
-        {
+        if (!is_array($offerings_data)) {
             Jaris\Uri::go(
                 Jaris\Modules::getPageUri(
                     "admin/church-accounting/income",
@@ -89,8 +88,7 @@ row: 0
 
         $tither_data = church_accounting_tither_get($offerings_data["tither"]);
 
-        if(!is_array($tither_data))
-        {
+        if (!is_array($tither_data)) {
             Jaris\Uri::go(
                 Jaris\Modules::getPageUri(
                     "admin/church-accounting/income",
@@ -99,11 +97,10 @@ row: 0
             );
         }
 
-        if(
+        if (
             isset($_REQUEST["btnSave"]) &&
             !Jaris\Forms::requiredFieldEmpty("edit-income-tithe")
-        )
-        {
+        ) {
             $data = $offerings_data;
 
             $data["day"] = $_REQUEST["day"];
@@ -115,15 +112,13 @@ row: 0
             $data["prepared_by"] = $_REQUEST["prepared_by"];
             $data["verified_by"] = $_REQUEST["verified_by"];
 
-            $ckecks = array();
-            if(isset($_REQUEST["checks"]["number"]))
-            {
-                foreach($_REQUEST["checks"]["number"] as $index=>$value)
-                {
-                    $checks[] = array(
+            $ckecks = [];
+            if (isset($_REQUEST["checks"]["number"])) {
+                foreach ($_REQUEST["checks"]["number"] as $index=>$value) {
+                    $checks[] = [
                         "number"=>$value,
                         "amount"=>$_REQUEST["checks"]["amount"][$index]
-                    );
+                    ];
                 }
             }
             $data["checks"] = $checks;
@@ -131,34 +126,28 @@ row: 0
             $attachments = $data["attachments"];
 
             //Delete removed files
-            foreach($attachments as $file)
-            {
-                if(is_array($_REQUEST["file_list"]))
-                {
-                    if(!in_array($file, $_REQUEST["file_list"]))
-                    {
+            foreach ($attachments as $file) {
+                if (is_array($_REQUEST["file_list"])) {
+                    if (!in_array($file, $_REQUEST["file_list"])) {
                         church_accounting_attachments_delete($file);
                     }
-                }
-                else
-                {
+                } else {
                     church_accounting_attachments_delete($file);
                 }
             }
 
-            if(is_array($_REQUEST["file_list"]))
+            if (is_array($_REQUEST["file_list"])) {
                 $attachments = $_REQUEST["file_list"];
-            else
-                $attachments = array();
+            } else {
+                $attachments = [];
+            }
 
-            if(is_array($_FILES["attachments"]["name"]))
-            {
-                foreach($_FILES["attachments"]["name"] as $file_index => $file_name)
-                {
-                    $attachments[] = array(
+            if (is_array($_FILES["attachments"]["name"])) {
+                foreach ($_FILES["attachments"]["name"] as $file_index => $file_name) {
+                    $attachments[] = [
                         "name" => $file_name,
                         "tmp_name" => $_FILES["attachments"]["tmp_name"][$file_index]
-                    );
+                    ];
                 }
             }
             $data["attachments"] = $attachments;
@@ -173,9 +162,7 @@ row: 0
                     "church_accounting"
                 )
             );
-        }
-        elseif(isset($_REQUEST["btnCancel"]))
-        {
+        } elseif (isset($_REQUEST["btnCancel"])) {
             Jaris\Uri::go(
                 Jaris\Modules::getPageUri(
                     "admin/church-accounting/income",
@@ -189,13 +176,13 @@ row: 0
         $parameters["action"] = Jaris\Uri::url(Jaris\Uri::get());
         $parameters["method"] = "post";
 
-        $fields_tither[] = array(
+        $fields_tither[] = [
             "type" => "hidden",
             "name" => "tid",
             "value" => $tither_data["id"]
-        );
+        ];
 
-        $fields_tither[] = array(
+        $fields_tither[] = [
             "type" => "text",
             "name" => "tither",
             "label" => t("Tither:"),
@@ -203,17 +190,17 @@ row: 0
                 . $tither_data["last_name"] . " "
                 . $tither_data["maiden_name"],
             "readonly" => true
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields_tither);
+        $fieldset[] = ["fields" => $fields_tither];
 
-        $fields_date[] = array(
+        $fields_date[] = [
             "type" => "hidden",
             "name" => "id",
             "value" => $offerings_data["id"]
-        );
+        ];
 
-        $fields_date[] = array(
+        $fields_date[] = [
             "type" => "select",
             "name" => "day",
             "label" => t("Day:"),
@@ -221,9 +208,9 @@ row: 0
             "selected" => isset($_REQUEST["day"]) ?
                 $_REQUEST["day"] : $offerings_data["day"],
             "inline" => true
-        );
+        ];
 
-        $fields_date[] = array(
+        $fields_date[] = [
             "type" => "select",
             "name" => "month",
             "label" => t("Month:"),
@@ -231,9 +218,9 @@ row: 0
             "selected" => isset($_REQUEST["month"]) ?
                 $_REQUEST["month"] : $offerings_data["month"],
             "inline" => true
-        );
+        ];
 
-        $fields_date[] = array(
+        $fields_date[] = [
             "type" => "select",
             "name" => "year",
             "label" => t("Year:"),
@@ -241,35 +228,34 @@ row: 0
             "selected" => isset($_REQUEST["year"]) ?
                 $_REQUEST["year"] : $offerings_data["year"],
             "inline" => true
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "name" => t("Date"),
             "fields" => $fields_date,
             "description" => t("Date when the offerings where received.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "textarea",
             "name" => "description",
             "value" => isset($_REQUEST["description"]) ?
                 $_REQUEST["description"] : $offerings_data["description"],
             "label" => t("Description:"),
             "description" => t("A brief or detailed description about the income.")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
-        $fields_cash = array();
-        foreach($offerings_data["cash"] as $index=>$cash_data)
-        {
-            $fields_cash[] = array(
+        $fields_cash = [];
+        foreach ($offerings_data["cash"] as $index=>$cash_data) {
+            $fields_cash[] = [
                 "type" => "hidden",
                 "name" => "cash[$index][amount]",
                 "value" => $cash_data["amount"]
-            );
+            ];
 
-            $fields_cash[] = array(
+            $fields_cash[] = [
                 "type" => "number",
                 "name" => "cash[$index][quantity]",
                 "value" => isset($_REQUEST["cash"][$index]["quantity"]) ?
@@ -278,16 +264,16 @@ row: 0
                     $cash_data['quantity'],
                 "label" => "\${$cash_data['amount']}",
                 "inline" => true
-            );
+            ];
         }
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "name" => t("Cash"),
             "fields" => $fields_cash,
             "collapsible" => true,
             "collapsed" => true,
             "description" => t("Enter the quantity received for each amount that applies.")
-        );
+        ];
 
         $subject_html = "<table id=\"items-table\" style=\"width: 100%\">";
         $subject_html .= "<thead>";
@@ -300,8 +286,7 @@ row: 0
         $subject_html .= "<tbody>";
 
         $i = 1;
-        foreach($offerings_data["checks"] as $check_data)
-        {
+        foreach ($offerings_data["checks"] as $check_data) {
             $number = $check_data["number"];
             $amount = $check_data["amount"];
 
@@ -319,14 +304,14 @@ row: 0
         $subject_html .= "<a id=\"add-item\" style=\"cursor: pointer; display: block; margin-top: 8px\">" . t("Add check") . "</a>";
         $subject_html .= '<script type="text/javascript">row_id = '.$i.';</script>';
 
-        $fields_checks[] = array("type" => "other", "html_code" => $subject_html);
+        $fields_checks[] = ["type" => "other", "html_code" => $subject_html];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "name" => t("Checks"),
             "fields" => $fields_checks,
             "collapsible" => true,
             "description" => t("Any checks received as offering.")
-        );
+        ];
 
         $files = "<table class=\"navigation-list\">";
         $files .= "<thead>";
@@ -338,10 +323,8 @@ row: 0
         $files .= "</thead>";
 
         $files .= "<tbody>";
-        if(is_array($offerings_data["attachments"]))
-        {
-            foreach($offerings_data["attachments"] as $file)
-            {
+        if (is_array($offerings_data["attachments"])) {
+            foreach ($offerings_data["attachments"] as $file) {
                 $files .= "<tr>";
 
                 $files .= "<td><a class=\"sort-handle\"></a></td>";
@@ -351,7 +334,7 @@ row: 0
                         "admin/church-accounting/attachment",
                         "church_accounting"
                     ),
-                    array("f" => $file)
+                    ["f" => $file]
                 );
 
                 $file_elements = explode("/", $file);
@@ -373,30 +356,30 @@ row: 0
 
         $files .= "</table>";
 
-        $fields_attachments[] = array(
+        $fields_attachments[] = [
             "type" => "file",
             "name" => "attachments",
             "multiple" => true,
             "label" => t("Files:")
-        );
+        ];
 
-        $fields_attachments[] = array(
+        $fields_attachments[] = [
             "type" => "other",
             "html_code" => "<div style=\"margin-top: 10px;\">"
                 . "<strong>" . t("Current files:") . "</strong>"
                 . "<hr />"
                 . "$files"
                 . "</div>"
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "name" => t("Attachments"),
             "fields" => $fields_attachments,
             "collapsible" => true,
             "description" => t("You can attach any file type like photos of checks, etc...")
-        );
+        ];
 
-        $fields_other[] = array(
+        $fields_other[] = [
             "type" => "text",
             "name" => "total",
             "value" => isset($_REQUEST["total"]) ?
@@ -405,39 +388,39 @@ row: 0
                 church_accounting_income_get_residue($offerings_data),
             "label" => t("Additional amount"),
             "description" => t("Any other additional amount.")
-        );
+        ];
 
-        $fields_other[] = array(
+        $fields_other[] = [
             "type" => "user",
             "name" => "prepared_by",
             "value" => isset($_REQUEST["prepared_by"]) ?
                 $_REQUEST["prepared_by"] : $offerings_data["prepared_by"],
             "label" => t("Prepared by:"),
             "description" => t("The treasurer or person who entered this data.")
-        );
+        ];
 
-        $fields_other[] = array(
+        $fields_other[] = [
             "type" => "user",
             "name" => "verified_by",
             "value" => isset($_REQUEST["verified_by"]) ?
                 $_REQUEST["verified_by"] : $offerings_data["verified_by"],
             "label" => t("Verified by:"),
             "description" => t("The sub-treasurer or person who verified this data.")
-        );
+        ];
 
-        $fields_other[] = array(
+        $fields_other[] = [
             "type" => "submit",
             "name" => "btnSave",
             "value" => t("Save")
-        );
+        ];
 
-        $fields_other[] = array(
+        $fields_other[] = [
             "type" => "submit",
             "name" => "btnCancel",
             "value" => t("Cancel")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields_other);
+        $fieldset[] = ["fields" => $fields_other];
 
         print Jaris\Forms::generate($parameters, $fieldset);
     ?>

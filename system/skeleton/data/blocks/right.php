@@ -27,26 +27,26 @@ row: 0
         $parameters["action"] = Jaris\Uri::url("search");
         $parameters["method"] = "get";
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "hidden",
             "name" => "search",
             "value" => 1
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "name" => "keywords",
             "id" => "search",
             "value" => empty($_REQUEST["keywords"]) ?
                 "" : $_REQUEST["keywords"]
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "value" => t("Search")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
         print Jaris\Forms::generate($parameters, $fieldset);
     ?>
@@ -66,12 +66,9 @@ row: 0
 
     field: return
     <?php
-        if(Jaris\Uri::get() == "search")
-        {
+        if (Jaris\Uri::get() == "search") {
             print "false";
-        }
-        else
-        {
+        } else {
             print "true";
         }
     ?>

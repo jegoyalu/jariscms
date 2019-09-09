@@ -20,34 +20,28 @@ row: 0
     field: content
     <?php
         Jaris\Authentication::protectedPage(
-            array("view_modules", "install_modules")
+    ["view_modules", "install_modules"]
         );
 
-        if(file_exists(Jaris\Site::dataDir() . "data_cache"))
-        {
+        if (file_exists(Jaris\Site::dataDir() . "data_cache")) {
             Jaris\View::addMessage(
                 t("Data caching is enabled, please disable it first."),
                 "error"
             );
-        }
-        elseif(isset($_REQUEST["path"]))
-        {
+        } elseif (isset($_REQUEST["path"])) {
             $needs_dependency = false;
-            if(Jaris\Modules::install($_REQUEST["path"], $needs_dependency))
-            {
+            if (Jaris\Modules::install($_REQUEST["path"], $needs_dependency)) {
                 Jaris\View::addMessage(t("Module successfully installed."));
 
                 t("Installed module '{module_name}'.");
 
                 Jaris\Logger::info(
                     "Installed module '{module_name}'.",
-                    array(
+                    [
                         "module_name" => $_REQUEST["path"]
-                    )
+                    ]
                 );
-            }
-            else if(!$needs_dependency)
-            {
+            } elseif (!$needs_dependency) {
                 Jaris\View::addMessage(
                     Jaris\System::errorMessage("write_error_data"),
                     "error"

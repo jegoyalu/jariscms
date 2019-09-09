@@ -15,8 +15,7 @@ exit;
 row: 0
     field: title
     <?php
-        if(!isset($_REQUEST["type"]))
-        {
+        if (!isset($_REQUEST["type"])) {
             $_REQUEST["type"] = "pages";
         }
 
@@ -28,25 +27,23 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("add_content"));
+        Jaris\Authentication::protectedPage(["add_content"]);
 
-        if(!isset($_REQUEST["type"]))
-        {
+        if (!isset($_REQUEST["type"])) {
             $_REQUEST["type"] = "pages";
         }
 
-        if(
+        if (
             !Jaris\Authentication::hasTypeAccess(
                 $_REQUEST["type"],
                 Jaris\Authentication::currentUserGroup(),
                 Jaris\Authentication::currentUser()
             )
-        )
-        {
+        ) {
             Jaris\Authentication::protectedPage();
         }
 
-        if(
+        if (
             isset($_REQUEST["btnSave"]) &&
             !Jaris\Forms::requiredFieldEmpty("add-page-{$_REQUEST['type']}") &&
             Jaris\Authentication::hasTypeAccess(
@@ -55,62 +52,52 @@ row: 0
                 Jaris\Authentication::currentUser()
             ) &&
             Jaris\Fields::validUploads($_REQUEST["type"])
-        )
-        {
+        ) {
             //Trim uri spaces
             $_REQUEST["uri"] = trim($_REQUEST["uri"]);
 
             $fields["title"] = $_REQUEST["title"];
             $fields["content"] = $_REQUEST["content"];
 
-            if(
+            if (
                 Jaris\Authentication::groupHasPermission(
                     "add_edit_meta_content",
                     Jaris\Authentication::currentUserGroup()
                 )
-            )
-            {
+            ) {
                 $fields["meta_title"] = $_REQUEST["meta_title"];
                 $fields["description"] = $_REQUEST["description"];
                 $fields["keywords"] = $_REQUEST["keywords"];
             }
 
-            if(
+            if (
                 Jaris\Authentication::groupHasPermission(
                     "select_content_groups",
                     Jaris\Authentication::currentUserGroup()
                 )
-            )
-            {
+            ) {
                 $fields["groups"] = $_REQUEST["groups"];
 
                 $users = explode(",", $_REQUEST["users"]);
 
-                if(count($users) > 0)
-                {
-                    foreach($users as $user_position=>$username)
-                    {
+                if (count($users) > 0) {
+                    foreach ($users as $user_position=>$username) {
                         $users[$user_position] = trim($username);
                     }
                 }
 
                 $fields["users"] = $users;
-            }
-            else
-            {
-                $fields["groups"] = array();
-                $fields["users"] = array();
+            } else {
+                $fields["groups"] = [];
+                $fields["users"] = [];
             }
 
-            $categories = array();
+            $categories = [];
             $categories_list = Jaris\Categories::getList($_REQUEST["type"]);
 
-            if($categories_list)
-            {
-                foreach($categories_list as $machine_name => $values)
-                {
-                    if(isset($_REQUEST[$machine_name]))
-                    {
+            if ($categories_list) {
+                foreach ($categories_list as $machine_name => $values) {
+                    if (isset($_REQUEST[$machine_name])) {
                         $categories[$machine_name] = $_REQUEST[$machine_name];
                     }
                 }
@@ -118,18 +105,15 @@ row: 0
 
             $fields["categories"] = $categories;
 
-            if(
+            if (
                 Jaris\Authentication::groupHasPermission(
                     "input_format_content",
                     Jaris\Authentication::currentUserGroup()
                 ) ||
                 Jaris\Authentication::isAdminLogged()
-            )
-            {
+            ) {
                 $fields["input_format"] = $_REQUEST["input_format"];
-            }
-            else
-            {
+            } else {
                 $fields["input_format"] = Jaris\Types::getDefaultInputFormat(
                     $_REQUEST["type"]
                 );
@@ -144,14 +128,13 @@ row: 0
             //Stores the uri of the page to display the edit page after saving.
             $uri = "";
 
-            if(
+            if (
                 !Jaris\Authentication::groupHasPermission(
                     "manual_uri_content",
                     Jaris\Authentication::currentUserGroup()
                 ) ||
                 $_REQUEST["uri"] == ""
-            )
-            {
+            ) {
                 $_REQUEST["uri"] = Jaris\Types::generateURI(
                     $fields["type"],
                     $fields["title"],
@@ -159,70 +142,56 @@ row: 0
                 );
             }
 
-            if(Jaris\Pages::add($_REQUEST["uri"], $fields, $uri))
-            {
+            if (Jaris\Pages::add($_REQUEST["uri"], $fields, $uri)) {
                 Jaris\Fields::saveUploads($fields["type"], $uri);
 
                 Jaris\View::addMessage(t("The page was successfully created."));
 
-                if(
+                if (
                     Jaris\Types::groupRequiresApproval(
                         $fields["type"],
                         current_user_group()
                     )
-                )
-                {
+                ) {
                     Jaris\View::addMessage(t("This content requires the administrator approval. If the content is approved it will be listed on the main sections of the site."));
 
                     Jaris\Mail::sendContentApproveNotification($uri, $fields["type"]);
                 }
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(
                     Jaris\System::errorMessage("write_error_data"),
                     "error"
                 );
             }
 
-            if(
+            if (
                 Jaris\Authentication::groupHasPermission(
                     "edit_content",
                     Jaris\Authentication::currentUserGroup()
                 )
-            )
-            {
-                Jaris\Uri::go("admin/pages/edit", array("uri" => $uri));
-            }
-            else
-            {
+            ) {
+                Jaris\Uri::go("admin/pages/edit", ["uri" => $uri]);
+            } else {
                 Jaris\Uri::go($uri);
             }
-        }
-        elseif(isset($_REQUEST["btnCancel"]))
-        {
-            if(
+        } elseif (isset($_REQUEST["btnCancel"])) {
+            if (
                 Jaris\Authentication::groupHasPermission(
                     "view_content",
                     Jaris\Authentication::currentUserGroup()
                 )
-            )
-            {
+            ) {
                 Jaris\Uri::go("admin/pages");
-            }
-            else
-            {
+            } else {
                 Jaris\Uri::go("admin/pages/types");
             }
-        }
-        elseif(
+        } elseif (
             !Jaris\Authentication::hasTypeAccess(
                 $_REQUEST["type"],
                 Jaris\Authentication::currentUserGroup(),
                 Jaris\Authentication::currentUser()
             )
-        )
-        {
+        ) {
             Jaris\View::addMessage(
                 t("You do not have permissions to add content of that type."),
                 "error"
@@ -236,23 +205,21 @@ row: 0
 
         $categories = Jaris\Categories::getList($_REQUEST["type"]);
 
-        if($categories)
-        {
-
+        if ($categories) {
             $fields_categories = Jaris\Categories::generateFields(
                 $_REQUEST,
                 "",
                 $_REQUEST["type"]
             );
 
-            $fieldset[] = array(
+            $fieldset[] = [
                 "fields" => $fields_categories,
                 "name" => t("Categories"),
                 "collapsible" => true
-            );
+            ];
         }
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "name" => "title",
             "value" => isset($_REQUEST["title"]) ?
@@ -264,9 +231,9 @@ row: 0
                 $_REQUEST["type"],
                 "title_description"
             )
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "textarea",
             "name" => "content",
             "value" => isset($_REQUEST["content"]) ?
@@ -277,18 +244,17 @@ row: 0
                 $_REQUEST["type"],
                 "content_description"
             )
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
                 "add_edit_meta_content",
                 Jaris\Authentication::currentUserGroup()
             )
-        )
-        {
-            $fields_meta[] = array(
+        ) {
+            $fields_meta[] = [
                 "type" => "textarea",
                 "name" => "meta_title",
                 "value" => isset($_REQUEST["meta_title"]) ?
@@ -297,9 +263,9 @@ row: 0
                 "id" => "meta_title",
                 "limit" => 70,
                 "description" => t("Overrides the original page title on search engine results. Leave blank for default.")
-            );
+            ];
 
-            $fields_meta[] = array(
+            $fields_meta[] = [
                 "type" => "textarea",
                 "name" => "description",
                 "value" => isset($_REQUEST["description"]) ?
@@ -308,9 +274,9 @@ row: 0
                 "id" => "description",
                 "limit" => 160,
                 "description" => t("Used to generate the meta description for search engines. Leave blank for default.")
-            );
+            ];
 
-            $fields_meta[] = array(
+            $fields_meta[] = [
                 "type" => "textarea",
                 "name" => "keywords",
                 "value" => isset($_REQUEST["keywords"]) ?
@@ -318,79 +284,73 @@ row: 0
                 "label" => t("Keywords:"),
                 "id" => "keywords",
                 "description" => t("List of words seperated by comma (,) used to generate the meta keywords for search engines. Leave blank for default.")
-            );
+            ];
 
-            $fieldset[] = array(
+            $fieldset[] = [
                 "fields" => $fields_meta,
                 "name" => t("Meta tags"),
                 "collapsible" => true,
                 "collapsed" => true
-            );
+            ];
         }
 
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
                 "input_format_content",
                 Jaris\Authentication::currentUserGroup()
             ) ||
             Jaris\Authentication::isAdminLogged()
-        )
-        {
-            $fields_inputformats = array();
+        ) {
+            $fields_inputformats = [];
 
-            foreach(Jaris\InputFormats::getAll() as $machine_name => $fields_formats)
-            {
-
-                $fields_inputformats[] = array(
+            foreach (Jaris\InputFormats::getAll() as $machine_name => $fields_formats) {
+                $fields_inputformats[] = [
                     "type" => "radio",
                     "checked" => $machine_name == Jaris\Types::getDefaultInputFormat($_REQUEST["type"]) ?
                         true : false,
                     "name" => "input_format",
                     "description" => $fields_formats["description"],
-                    "value" => array($fields_formats["title"] => $machine_name)
-                );
+                    "value" => [$fields_formats["title"] => $machine_name]
+                ];
             }
 
-            $fieldset[] = array(
+            $fieldset[] = [
                 "fields" => $fields_inputformats,
                 "name" => t("Input Format")
-            );
+            ];
         }
 
         //If page has no type defaults to 'pages' type
         $current_type = trim($_REQUEST["type"]);
-        if($current_type == "")
-        {
+        if ($current_type == "") {
             $current_type = "pages";
         }
 
         $extra_fields = Jaris\Fields::generateFields($current_type);
 
-        if($extra_fields)
-        {
-            $fieldset[] = array("fields" => $extra_fields);
+        if ($extra_fields) {
+            $fieldset[] = ["fields" => $extra_fields];
         }
 
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
                 "select_content_groups",
                 Jaris\Authentication::currentUserGroup()
             )
-        )
-        {
-            $fields_users_access[] = array(
+        ) {
+            $fields_users_access[] = [
                 "type" => "other",
                 "html_code" => "<h4>"
                     . t("Select the groups that can see this content. Don't select anything to display content to everyone.")
                     . "</h4>"
-            );
+            ];
 
             $fields_users_access = array_merge(
                 $fields_users_access,
                 Jaris\Groups::generateFields($_REQUEST["groups"])
             );
 
-            $fields_users_access[] = array(
+            $fields_users_access[] = [
                 "type" => "userarea",
                 "name" => "users",
                 "label" => t("Users:"),
@@ -398,24 +358,23 @@ row: 0
                 "value" => isset($_REQUEST["users"]) ?
                     $_REQUEST["users"] : "",
                 "description" => t("A comma seperated list of users that can see this content. Leave empty to display content to everyone.")
-            );
+            ];
 
-            $fieldset[] = array(
+            $fieldset[] = [
                 "fields" => $fields_users_access,
                 "name" => t("Users Access"),
                 "collapsed" => true,
                 "collapsible" => true
-            );
+            ];
         }
 
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
                 "manual_uri_content",
                 Jaris\Authentication::currentUserGroup()
             )
-        )
-        {
-            $fields_other[] = array(
+        ) {
+            $fields_other[] = [
                 "type" => "text",
                 "name" => "uri",
                 "label" => t("Uri:"),
@@ -423,58 +382,54 @@ row: 0
                 "value" => isset($_REQUEST["uri"]) ?
                     $_REQUEST["uri"] : "",
                 "description" => t("The relative path to access the page, for example: section/page, section. Leave empty to auto-generate.")
-            );
+            ];
         }
 
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
                 "select_type_content",
                 Jaris\Authentication::currentUserGroup()
             )
-        )
-        {
-            $types = array();
+        ) {
+            $types = [];
             $types_array = Jaris\Types::getList(
                 Jaris\Authentication::currentUserGroup(),
                 Jaris\Authentication::currentUser()
             );
 
-            foreach($types_array as $machine_name => $type_fields)
-            {
+            foreach ($types_array as $machine_name => $type_fields) {
                 $types[t(trim($type_fields["name"]))] = $machine_name;
             }
 
-            $fields_other[] = array(
+            $fields_other[] = [
                 "type" => "select",
                 "selected" => $current_type,
                 "name" => "type",
                 "label" => t("Type:"),
                 "id" => "type",
                 "value" => $types
-            );
-        }
-        else
-        {
-            $fields_other[] = array(
+            ];
+        } else {
+            $fields_other[] = [
                 "type" => "hidden",
                 "name" => "type",
                 "value" => $current_type
-            );
+            ];
         }
 
-        $fields_other[] = array(
+        $fields_other[] = [
             "type" => "submit",
             "name" => "btnSave",
             "value" => t("Save")
-        );
+        ];
 
-        $fields_other[] = array(
+        $fields_other[] = [
             "type" => "submit",
             "name" => "btnCancel",
             "value" => t("Cancel")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields_other);
+        $fieldset[] = ["fields" => $fields_other];
 
         print Jaris\Forms::generate($parameters, $fieldset);
     ?>

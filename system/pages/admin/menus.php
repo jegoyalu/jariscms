@@ -19,7 +19,7 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("view_menus"));
+        Jaris\Authentication::protectedPage(["view_menus"]);
     ?>
     <script>
         $(document).ready(function() {
@@ -32,8 +32,7 @@ row: 0
     <?php
         $menu_list = Jaris\Menus::getList();
 
-        foreach($menu_list as $menu_name)
-        {
+        foreach ($menu_list as $menu_name) {
             print "$(\".menu-list tbody.$menu_name\").sortable({
                     cursor: 'crosshair',
                     helper: fixHelper,
@@ -58,21 +57,17 @@ row: 0
                 "order"
             );
 
-            foreach($menu_items_list as $id => $fields)
-            {
+            foreach ($menu_items_list as $id => $fields) {
                 $select = "<select name=\"parent[]\">\n";
-                $menu_items_for_parent["root"] = array("title" => "&lt;root&gt;");
+                $menu_items_for_parent["root"] = ["title" => "&lt;root&gt;"];
                 $menu_items_for_parent += Jaris\Menus::getItemsList($menu_name);
-                foreach($menu_items_for_parent as $select_id => $select_fields)
-                {
+                foreach ($menu_items_for_parent as $select_id => $select_fields) {
                     $selected = "";
-                    if("" . $fields["parent"] . "" == "" . $select_id . "")
-                    {
+                    if ("" . $fields["parent"] . "" == "" . $select_id . "") {
                         $selected = "selected";
                     }
 
-                    if("" . $select_id . "" != "" . $id . "")
-                    {
+                    if ("" . $select_id . "" != "" . $id . "") {
                         $select .= "<option $selected value=\"$select_id\">" .
                             t($select_fields['title']) .
                             "</option>\n"
@@ -140,12 +135,10 @@ row: 0
     >
 
     <?php
-        if(isset($_REQUEST["btnSave"]))
-        {
+        if (isset($_REQUEST["btnSave"])) {
             $saved = true;
 
-            for($i = 0; $i < count($_REQUEST["menu"]); $i++)
-            {
+            for ($i = 0; $i < count($_REQUEST["menu"]); $i++) {
                 $item_data = Jaris\Menus::getItem(
                     intval($_REQUEST["item_id"][$i]),
                     $_REQUEST["menu"][$i]
@@ -155,21 +148,19 @@ row: 0
 
                 //Checks if client is trying to move a root parent menu to
                 //its own submenu and makes subs menu root menu
-                if(
+                if (
                     $item_data["parent"] == "root" &&
                     $_REQUEST["parent"][$i] != "root"
-                )
-                {
+                ) {
                     $new_parent_item = Jaris\Menus::getItem(
                         intval($_REQUEST["parent"][$i]),
                         $_REQUEST["menu"][$i]
                     );
 
-                    if(
+                    if (
                         "" . $new_parent_item["parent"] . "" ==
                         "" . $_REQUEST["item_id"][$i] . ""
-                    )
-                    {
+                    ) {
                         $new_parent_item["parent"] = "root";
 
                         Jaris\Menus::editItem(
@@ -183,25 +174,21 @@ row: 0
                 $item_data["parent"] = $_REQUEST["parent"][$i];
 
 
-                if(
+                if (
                     !Jaris\Menus::editItem(
                         intval($_REQUEST["item_id"][$i]),
                         $_REQUEST["menu"][$i],
                         $item_data
                     )
-                )
-                {
+                ) {
                     $saved = false;
                     break;
                 }
             }
 
-            if($saved)
-            {
+            if ($saved) {
                 Jaris\View::addMessage(t("Your changes have been saved."));
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(
                     Jaris\System::errorMessage("write_error_data"),
                     "error"
@@ -224,8 +211,7 @@ row: 0
 
         print "</tr></thead>\n";
 
-        foreach($menu_list as $menu_name)
-        {
+        foreach ($menu_list as $menu_name) {
             print "<tbody>\n";
             print "<tr>\n";
             print "<td class=\"name\" colspan=\"1\">\n";
@@ -236,17 +222,17 @@ row: 0
 
             $add_url = Jaris\Uri::url(
                 "admin/menus/add-item",
-                array("menu" => $menu_name)
+                ["menu" => $menu_name]
             );
 
             $rename_menu = Jaris\Uri::url(
                 "admin/menus/rename",
-                array("current_name" => $menu_name)
+                ["current_name" => $menu_name]
             );
 
             $delete_menu = Jaris\Uri::url(
                 "admin/menus/delete",
-                array("menu" => $menu_name)
+                ["menu" => $menu_name]
             );
 
             print "<td class=\"options\" colspan=\"3\">";
@@ -264,8 +250,7 @@ row: 0
                 "order"
             );
 
-            if(count($menu_items_list) > 0)
-            {
+            if (count($menu_items_list) > 0) {
                 print "<tbody>\n";
                 print "<tr class=\"head\">\n";
 
@@ -280,9 +265,7 @@ row: 0
                 print "<tbody class=\"$menu_name items\">\n";
                 print_menu_items($menu_name);
                 print "</tbody>\n";
-            }
-            else
-            {
+            } else {
                 print "<tbody>";
                 print "<tr><td colspan=\"4\">";
                 print t("No menu items available.");

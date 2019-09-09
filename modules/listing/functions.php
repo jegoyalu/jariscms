@@ -8,65 +8,56 @@
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\Site::SIGNAL_INITIALIZATION,
-    function()
-    {
+    function () {
         $uri = $_REQUEST["uri"];
 
-        if($uri && Jaris\Uri::get() != "admin/pages/add")
-        {
+        if ($uri && Jaris\Uri::get() != "admin/pages/add") {
             $page_data = Jaris\Pages::get($uri);
-            if($page_data["type"] == "listing")
-            {
-                switch(Jaris\Uri::get())
-                {
+            if ($page_data["type"] == "listing") {
+                switch (Jaris\Uri::get()) {
                     case "admin/pages/edit":
                         Jaris\Uri::go(
                             Jaris\Modules::getPageUri(
                                 "admin/pages/listing/edit",
                                 "listing"
                             ),
-                            array("uri" => $uri)
+                            ["uri" => $uri]
                         );
+                        // no break
                     default:
                         break;
                 }
             }
-        }
-        else if($_REQUEST["type"])
-        {
+        } elseif ($_REQUEST["type"]) {
             $page = Jaris\Uri::get();
-            if($page == "admin/pages/add" && $_REQUEST["type"] == "listing")
-            {
+            if ($page == "admin/pages/add" && $_REQUEST["type"] == "listing") {
                 Jaris\Uri::go(
                     Jaris\Modules::getPageUri(
                         "admin/pages/listing/add",
                         "listing"
                     ),
-                    array("type" => "listing", "uri" => $uri)
+                    ["type" => "listing", "uri" => $uri]
                 );
             }
         }
 
-        if(isset($_REQUEST["id"], $_REQUEST["position"]))
-        {
-            if(Jaris\Uri::get() == "admin/blocks/edit")
-            {
+        if (isset($_REQUEST["id"], $_REQUEST["position"])) {
+            if (Jaris\Uri::get() == "admin/blocks/edit") {
                 $block_data = Jaris\Blocks::get(
                     $_REQUEST["id"],
                     $_REQUEST["position"]
                 );
 
-                if($block_data["is_listing_block"])
-                {
+                if ($block_data["is_listing_block"]) {
                     Jaris\Uri::go(
                         Jaris\Modules::getPageUri(
                             "admin/blocks/listing/edit",
                             "listing"
                         ),
-                        array(
+                        [
                             "id" => $_REQUEST["id"],
                             "position" => $_REQUEST["position"]
-                        )
+                        ]
                     );
                 }
             }
@@ -76,16 +67,14 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\System::SIGNAL_GENERATE_ADMIN_PAGE,
-    function(&$sections)
-    {
-        if(
+    function (&$sections) {
+        if (
             Jaris\Authentication::groupHasPermission(
                 "add_blocks",
                 Jaris\Authentication::currentUserGroup()
             )
-        )
-        {
-            $content = array(
+        ) {
+            $content = [
                 "title" => t("Add Listing Block"),
                 "url" => Jaris\Uri::url(
                     Jaris\Modules::getPageUri(
@@ -94,15 +83,12 @@ Jaris\Signals\SignalHandler::listenWithParams(
                     )
                 ),
                 "description" => t("Create blocks to display a list a content by a given criteria.")
-            );
+            ];
         }
 
-        if(isset($content))
-        {
-            foreach($sections as $section_index => $section_data)
-            {
-                if($section_data["class"] == "blocks")
-                {
+        if (isset($content)) {
+            foreach ($sections as $section_index => $section_data) {
+                if ($section_data["class"] == "blocks") {
                     $sections[$section_index]["sub_sections"][] = $content;
                     break;
                 }
@@ -113,10 +99,8 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\View::SIGNAL_THEME_CONTENT,
-    function(&$content, &$content_title, &$content_data)
-    {
-        if($content_data["type"] == "listing")
-        {
+    function (&$content, &$content_title, &$content_data) {
+        if ($content_data["type"] == "listing") {
             Jaris\View::addStyle(
                 Jaris\Modules::directory("listing")
                     . "styles/lists.css"
@@ -144,33 +128,29 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\View::SIGNAL_THEME_TABS,
-    function(&$tabs_array)
-    {
-        if(!Jaris\Pages::isSystem())
-        {
+    function (&$tabs_array) {
+        if (!Jaris\Pages::isSystem()) {
             $page_data = Jaris\Pages::get(Jaris\Uri::get());
-            if($page_data["type"] == "listing")
-            {
-                if(
+            if ($page_data["type"] == "listing") {
+                if (
                     $page_data["author"] == Jaris\Authentication::currentUser() ||
                     Jaris\Authentication::isAdminLogged() ||
                     Jaris\Authentication::groupHasPermission(
                         "edit_all_user_content",
                         Jaris\Authentication::currentUserGroup()
                     )
-                )
-                {
+                ) {
                     unset($tabs_array[0][t("Edit")]);
 
-                    $new_tabs_array = array();
+                    $new_tabs_array = [];
 
-                    $new_tabs_array[0][t("Edit Listing")] = array(
+                    $new_tabs_array[0][t("Edit Listing")] = [
                         "uri" => Jaris\Modules::getPageUri(
                             "admin/pages/listing/edit",
                             "listing"
                         ),
-                        "arguments" => array("uri" => Jaris\Uri::get())
-                    );
+                        "arguments" => ["uri" => Jaris\Uri::get()]
+                    ];
 
                     $new_tabs_array[0] = array_merge(
                         $new_tabs_array[0],
@@ -180,18 +160,15 @@ Jaris\Signals\SignalHandler::listenWithParams(
                     $tabs_array[0] = $new_tabs_array[0];
                 }
             }
-        }
-        else
-        {
-            if(Jaris\Uri::get() == "admin/blocks")
-            {
-                $tabs_array[0][t("Create Listing Block")] = array(
+        } else {
+            if (Jaris\Uri::get() == "admin/blocks") {
+                $tabs_array[0][t("Create Listing Block")] = [
                     "uri" => Jaris\Modules::getPageUri(
                         "admin/blocks/listing/add",
                         "listing"
                     ),
-                    "arguments" => array()
-                );
+                    "arguments" => []
+                ];
             }
         }
     }
@@ -199,10 +176,8 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\View::SIGNAL_THEME_BLOCK,
-    function(&$position, &$page, &$field)
-    {
-        if($field["is_listing_block"])
-        {
+    function (&$position, &$page, &$field) {
+        if ($field["is_listing_block"]) {
             Jaris\View::addStyle(
                 Jaris\Modules::directory("listing")
                     . "styles/lists.css"

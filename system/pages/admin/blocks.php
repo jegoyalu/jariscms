@@ -20,7 +20,7 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("view_blocks"));
+        Jaris\Authentication::protectedPage(["view_blocks"]);
     ?>
     <script>
         $(document).ready(function() {
@@ -81,12 +81,10 @@ row: 0
     >
 
         <?php
-            if(isset($_REQUEST["btnSave"]))
-            {
+            if (isset($_REQUEST["btnSave"])) {
                 $saved = true;
 
-                for($i = 0; $i < count($_REQUEST["id"]); $i++)
-                {
+                for ($i = 0; $i < count($_REQUEST["id"]); $i++) {
                     $new_block_data = Jaris\Blocks::get(
                         intval($_REQUEST["id"][$i]),
                         $_REQUEST["previous_position"][$i]
@@ -94,23 +92,21 @@ row: 0
 
                     $new_block_data["order"] = $i;
 
-                    if(
+                    if (
                         !Jaris\Blocks::edit(
                             intval($_REQUEST["id"][$i]),
                             $_REQUEST["previous_position"][$i],
                             $new_block_data
                         )
-                    )
-                    {
+                    ) {
                         $saved = false;
                         break;
                     }
 
-                    if(
+                    if (
                         $_REQUEST["previous_position"][$i] !=
                         $_REQUEST["position"][$i]
-                    )
-                    {
+                    ) {
                         Jaris\Blocks::move(
                             intval($_REQUEST["id"][$i]),
                             $_REQUEST["previous_position"][$i],
@@ -119,12 +115,9 @@ row: 0
                     }
                 }
 
-                if($saved)
-                {
+                if ($saved) {
                     Jaris\View::addMessage(t("Your changes have been saved."));
-                }
-                else
-                {
+                } else {
                     Jaris\View::addMessage(
                         Jaris\System::errorMessage("write_error_data"),
                         "error"
@@ -152,8 +145,7 @@ row: 0
 
             print "</tr></thead>\n";
 
-            foreach($block_positions as $block_caption => $block_name)
-            {
+            foreach ($block_positions as $block_caption => $block_name) {
                 print "<tbody><tr><td colspan=\"4\"><h3>" .
                     t($block_caption) .
                     "</h3></td></tr></tbody>\n"
@@ -164,8 +156,7 @@ row: 0
                     "order"
                 );
 
-                if(count($blocks_list) > 0)
-                {
+                if (count($blocks_list) > 0) {
                     print "<tbody><tr class=\"head\">\n";
 
                     print "<td>" . t("Order") . "</td>\n";
@@ -177,8 +168,7 @@ row: 0
 
                     print "<tbody class=\"$block_name blocks\">\n";
 
-                    foreach($blocks_list as $id => $fields)
-                    {
+                    foreach ($blocks_list as $id => $fields) {
                         print "<tr>\n";
 
                         print "<td>\n";
@@ -193,8 +183,7 @@ row: 0
                         print "<td>\n";
                         print "<select name=\"position[]\">\n";
 
-                        foreach($block_positions as $caption => $position)
-                        {
+                        foreach ($block_positions as $caption => $position) {
                             $selected = $block_name == $position ?
                                 " selected" :
                                 ""
@@ -220,8 +209,7 @@ row: 0
                             "</a>"
                         ;
 
-                        if(!$fields["is_system"])
-                        {
+                        if (!$fields["is_system"]) {
                             print "&nbsp;";
                             print "<a href=\"" .
                                 Jaris\Uri::url("admin/blocks/delete", $url_arguments) .
@@ -236,9 +224,7 @@ row: 0
                         print "</tr>\n";
                     }
                     print "</tbody>\n";
-                }
-                else
-                {
+                } else {
                     print "<tbody>";
                     print "<tr><td colspan=\"4\">";
                     print t("No block available.");

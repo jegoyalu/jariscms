@@ -21,20 +21,17 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("delete_images"));
+        Jaris\Authentication::protectedPage(["delete_images"]);
 
-        if(!isset($_REQUEST["uri"]))
-        {
+        if (!isset($_REQUEST["uri"])) {
             Jaris\Uri::go("");
         }
 
-        if(!Jaris\Pages::userIsOwner($_REQUEST["uri"]))
-        {
+        if (!Jaris\Pages::userIsOwner($_REQUEST["uri"])) {
             Jaris\Authentication::protectedPage();
         }
 
-        if(!isset($_REQUEST["images"]) || count($_REQUEST["images"]) <= 0)
-        {
+        if (!isset($_REQUEST["images"]) || count($_REQUEST["images"]) <= 0) {
             Jaris\View::addMessage(
                 t("Please select the images to delete."),
                 "error"
@@ -42,24 +39,21 @@ row: 0
 
             Jaris\Uri::go(
                 "admin/pages/images",
-                array(
+                [
                     "uri" => $_REQUEST["uri"]
-                )
+                ]
             );
         }
 
-        if(isset($_REQUEST["btnYes"]))
-        {
-            foreach($_REQUEST["images"] as $image_id)
-            {
+        if (isset($_REQUEST["btnYes"])) {
+            foreach ($_REQUEST["images"] as $image_id) {
                 //Delete page
-                if(
+                if (
                     !Jaris\Pages\Images::delete(
                         intval($image_id),
                         $_REQUEST["uri"]
                     )
-                )
-                {
+                ) {
                     Jaris\View::addMessage(
                         Jaris\System::errorMessage("write_error_data"),
                         "error"
@@ -67,9 +61,9 @@ row: 0
 
                     Jaris\Uri::go(
                         "admin/pages/images",
-                        array(
+                        [
                             "uri" => $_REQUEST["uri"]
-                        )
+                        ]
                     );
                 }
             }
@@ -78,18 +72,16 @@ row: 0
 
             Jaris\Uri::go(
                 "admin/pages/images",
-                array(
+                [
                     "uri" => $_REQUEST["uri"]
-                )
+                ]
             );
-        }
-        elseif(isset($_REQUEST["btnNo"]))
-        {
+        } elseif (isset($_REQUEST["btnNo"])) {
             Jaris\Uri::go(
                 "admin/pages/images",
-                array(
+                [
                     "uri" => $_REQUEST["uri"]
-                )
+                ]
             );
         }
     ?>
@@ -98,7 +90,7 @@ row: 0
           action="<?php Jaris\Uri::url("admin/pages/images/delete-selected") ?>"
     >
         <input type="hidden" name="uri" value="<?php print $_REQUEST["uri"] ?>" />
-    <?php foreach($_REQUEST["images"] as $image_id){ ?>
+    <?php foreach ($_REQUEST["images"] as $image_id) { ?>
         <input type="hidden" name="images[]" value="<?php print $image_id ?>" />
     <?php } ?>
 
@@ -106,10 +98,10 @@ row: 0
 
         <div>
             <div><?php print t("Are you sure you want to delete the listed images?") ?></div>
-            <?php foreach($_REQUEST["images"] as $image_id){ ?>
+            <?php foreach ($_REQUEST["images"] as $image_id) { ?>
                 <div style="padding: 5px; display: inline;">
                     <a target="_blank" href="<?php print Jaris\Uri::url("image/{$_REQUEST["uri"]}/" . $image_id) ?>">
-                        <img src="<?php print Jaris\Uri::url("image/{$_REQUEST["uri"]}/" . $image_id, array("w" => "100")) ?>" />
+                        <img src="<?php print Jaris\Uri::url("image/{$_REQUEST["uri"]}/" . $image_id, ["w" => "100"]) ?>" />
                     </a>
                 </div>
             <?php } ?>

@@ -17,39 +17,39 @@ class SignalData
  * Associative array with references to stored arguments.
  * @var array
  */
-public $arguments;
+    public $arguments;
 
-/**
- * Default constructor.
- */
-public function __construct()
-{
-    $this->arguments = array();
-}
+    /**
+     * Default constructor.
+     */
+    public function __construct()
+    {
+        $this->arguments = [];
+    }
 
-/**
- * Store a reference to a variable.
- *
- * @param string $name Name of variable.
- * @param mixed $value Current variable.
- */
-public function Add(string $name, &$value): void
-{
-    $this->arguments[$name] = &$value;
-}
+    /**
+     * Store a reference to a variable.
+     *
+     * @param string $name Name of variable.
+     * @param mixed $value Current variable.
+     */
+    public function Add(string $name, &$value): void
+    {
+        $this->arguments[$name] = &$value;
+    }
 
-/**
- * Override default getter so we can get stored references.
- *
- * @param string $name
- * @return mixed Returns null if property isn't found.
- */
-public function &__get(string $name)
-{
-    if(!isset($this->arguments[$name]))
-        return null;
+    /**
+     * Override default getter so we can get stored references.
+     *
+     * @param string $name
+     * @return mixed Returns null if property isn't found.
+     */
+    public function &__get(string $name)
+    {
+        if (!isset($this->arguments[$name])) {
+            return null;
+        }
 
-    return $this->arguments[$name];
-}
-
+        return $this->arguments[$name];
+    }
 }

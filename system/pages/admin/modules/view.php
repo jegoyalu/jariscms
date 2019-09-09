@@ -19,16 +19,13 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("view_modules"));
+        Jaris\Authentication::protectedPage(["view_modules"]);
 
         $info = null;
 
-        if(isset($_REQUEST["path"]))
-        {
+        if (isset($_REQUEST["path"])) {
             $info = Jaris\Modules::get($_REQUEST["path"]);
-        }
-        else
-        {
+        } else {
             Jaris\Uri::go("admin/modules");
         }
     ?>
@@ -52,7 +49,7 @@ row: 0
                 <span class="label"><?php print t("Author:") ?></span>
                 <?php print t($info["author"]) ?>
             </div>
-            <?php if($info["email"] != ""){ ?>
+            <?php if ($info["email"] != "") { ?>
             <div>
                 <span class="label"><?php print t("Email:") ?></span>
                 <a href="mailto:<?php print $info["email"] ?>">
@@ -60,7 +57,7 @@ row: 0
                 </a>
             </div>
             <?php } ?>
-            <?php if($info["website"] != ""){ ?>
+            <?php if ($info["website"] != "") { ?>
             <div>
                 <span class="label"><?php print t("Website:") ?></span>
                 <a target="_blank" href="<?php print $info["website"] ?>">
@@ -68,7 +65,7 @@ row: 0
                 </a>
             </div>
             <?php } ?>
-            <?php if($info["changes"] != ""){ ?>
+            <?php if ($info["changes"] != "") { ?>
             <div style="">
                 <h4><?php print t("Changes Log:") ?></h4>
                 <textarea style="width: 100%; min-height: 400px;" readonly="readonly"><?php print $info["changes"] ?></textarea>

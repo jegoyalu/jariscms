@@ -137,8 +137,7 @@ function blog_edit_post($actual_uri, $new_uri, $username)
 
 function blog_delete_post($page, $username)
 {
-    if(Jaris\Users::exists($username))
-    {
+    if (Jaris\Users::exists($username)) {
         $user_data = Jaris\Users::get($username);
 
         $db_path = str_replace(
@@ -156,9 +155,7 @@ function blog_delete_post($page, $username)
         Jaris\Sql::query($delete, $db);
 
         Jaris\Sql::close($db);
-    }
-    else
-    {
+    } else {
         $db = Jaris\Sql::open("blog");
 
         $delete = "delete from blogs where user='$username'";
@@ -171,18 +168,15 @@ function blog_delete_post($page, $username)
 
 function blog_create_if_not_exists($user)
 {
-    if($user_data = Jaris\Users::get($user))
-    {
-        if(!$user_data["blog"])
-        {
+    if ($user_data = Jaris\Users::get($user)) {
+        if (!$user_data["blog"]) {
             $db = Jaris\Sql::open("blog");
 
             $select = "select user from blogs where user='" . str_replace("'", "''", $user) . "'";
 
             $result = Jaris\Sql::query($select, $db);
 
-            if(!($data = Jaris\Sql::fetchArray($result)))
-            {
+            if (!($data = Jaris\Sql::fetchArray($result))) {
                 $fields["created_timestamp"] = time();
                 $fields["user"] = $user;
                 $fields["views"] = "0";
@@ -218,8 +212,7 @@ function blog_create_if_not_exists($user)
                 Jaris\Users::getPath($user, $user_data["group"])
             );
 
-            if(!Jaris\Sql::dbExists("blog", $db_path))
-            {
+            if (!Jaris\Sql::dbExists("blog", $db_path)) {
                 $db_post = Jaris\Sql::open("blog", $db_path);
 
                 $create = "create table post (id integer primary key, created_timestamp text, edited_timestamp text, month text, year text, uri text)";
@@ -258,8 +251,7 @@ function blog_subscribed($blog, $user)
 
 function blog_subscribe($blog, $user)
 {
-    if(!blog_subscribed($blog, $user))
-    {
+    if (!blog_subscribed($blog, $user)) {
         $fields["user_blog"] = $blog;
         $fields["subscriber"] = $user;
 
@@ -333,11 +325,10 @@ function blog_theme($post_data)
 
     $thumbnail = false;
 
-    foreach($images as $image_id => $image_data)
-    {
+    foreach ($images as $image_id => $image_data) {
         $thumbnail = Jaris\Uri::url(
             "image/" . $post_data["uri"] . "/$image_id",
-            array("w" => 100, "h" => 60)
+            ["w" => 100, "h" => 60]
         );
 
         break;
@@ -348,16 +339,14 @@ function blog_theme($post_data)
     $page_data["title"] = $page_data_translation["title"];
     $page_data["content"] = $page_data_translation["content"];
 
-    if(!$thumbnail)
-    {
+    if (!$thumbnail) {
         $type_image = Jaris\Types::getImageUrl(
             $page_data["type"],
             100,
             60
         );
 
-        if($type_image != "")
-        {
+        if ($type_image != "") {
             $thumbnail = $type_image;
         }
     }
@@ -399,20 +388,13 @@ function blog_template_path($page)
 
     $template_path = "";
 
-    if(file_exists($current_page))
-    {
+    if (file_exists($current_page)) {
         $template_path = $current_page;
-    }
-    elseif(file_exists($default_page))
-    {
+    } elseif (file_exists($default_page)) {
         $template_path = $default_page;
-    }
-    else
-    {
+    } else {
         $template_path = Jaris\Modules::directory("blog") . "templates/blog-post.php";
     }
 
     return $template_path;
 }
-
-?>

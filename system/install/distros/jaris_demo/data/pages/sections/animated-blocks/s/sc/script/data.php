@@ -9,14 +9,14 @@ row: 0
 
 	field: content
 		<?php
-		$block_data = Jaris\Blocks::get($_REQUEST["id"], $_REQUEST["position"]);
-		$settings = animated_blocks_get_settings($block_data);
-		$id = "animated-block-{$_REQUEST['position']}-{$_REQUEST['id']}";
-		$container = "animated-block-container-{$_REQUEST['position']}-{$_REQUEST['id']}";
-		$prev_id = $id . "-prev";
-		$next_id = $id . "-next";
-		$pager_id = $id . "-pager";
-		    ?>
+        $block_data = Jaris\Blocks::get($_REQUEST["id"], $_REQUEST["position"]);
+        $settings = animated_blocks_get_settings($block_data);
+        $id = "animated-block-{$_REQUEST['position']}-{$_REQUEST['id']}";
+        $container = "animated-block-container-{$_REQUEST['position']}-{$_REQUEST['id']}";
+        $prev_id = $id . "-prev";
+        $next_id = $id . "-next";
+        $pager_id = $id . "-pager";
+            ?>
 		    //<script>
 		    $(document).ready(function(){
 		
@@ -27,11 +27,11 @@ row: 0
 		slideResize: 0,
 		containerResize: 0,
 		pause: '<?php print $settings["hover_pause"] ?>'
-		    <?php if($settings["display_navigation"]){ ?>
+		    <?php if ($settings["display_navigation"]) { ?>
 		, prev: '#<?php print $prev_id ?>',
 		next: '#<?php print $next_id ?>'
 		    <?php } ?>
-		    <?php if($settings["display_pager"]){ ?>
+		    <?php if ($settings["display_pager"]) { ?>
 		, pager: '#<?php print $pager_id ?>'
 		    <?php } ?>
 		});
@@ -78,7 +78,7 @@ row: 0
 		    animated_block_title_link.css("font-size", <?php print intval($settings["title_size"]) ?>*resize + "px");
 		    animated_block_description.css("font-size", <?php print intval($settings["description_size"]) ?>*resize + "px");
 		
-		<?php if($settings["content_position"] == "top"){ ?>
+		<?php if ($settings["content_position"] == "top") { ?>
 		
 		    animated_content.css("height", animated_container.height() + "px");
 		    animated_container.css("position", "absolute");
@@ -86,7 +86,7 @@ row: 0
 		    animated_block_title.css("width", animated_slide.width() + "px");
 		    animated_block_description.css("width", animated_slide.width() + "px");
 		
-		<?php } elseif($settings["content_position"] == "bottom"){ ?>
+		<?php } elseif ($settings["content_position"] == "bottom") { ?>
 		
 		    animated_content.css("position", "absolute");
 		    animated_content.css("width", animated_slide.width() + "px");
@@ -97,7 +97,7 @@ row: 0
 		    animated_block_title.css("width", animated_slide.width() + "px");
 		    animated_block_description.css("width", animated_slide.width() + "px");
 		
-		<?php } elseif($settings["content_position"] == "right"){ ?>
+		<?php } elseif ($settings["content_position"] == "right") { ?>
 		
 		    animated_content.css("width", (<?php print intval($settings["content_width"]) ?> * resize) + "px");
 		    animated_content.css("height", animated_slide.height() + "px");
@@ -110,7 +110,7 @@ row: 0
 		    animated_container.css("top", animated_content.css("top"));
 		    animated_container.css("left", animated_content.css("left"));
 		
-		<?php } elseif($settings["content_position"] == "left"){ ?>
+		<?php } elseif ($settings["content_position"] == "left") { ?>
 		
 		    animated_content.css("width", (<?php print intval($settings["content_width"]) ?> * resize) + "px");
 		    animated_content.css("height", animated_slide.height() + "px");
@@ -123,28 +123,28 @@ row: 0
 		<?php } ?>
 		
 		
-		    <?php if(!$settings["image_as_background"]){ ?>
+		    <?php if (!$settings["image_as_background"]) { ?>
 		
-		<?php if($settings["image_position"] == "top left"){ ?>
+		<?php if ($settings["image_position"] == "top left") { ?>
 		
 		    animated_image.css("position", "absolute");
 		    animated_image.css("z-index", "-2");
 		    animated_image.css("top", "0px");
 		
-		<?php } elseif($settings["image_position"] == "top right"){ ?>
+		<?php } elseif ($settings["image_position"] == "top right") { ?>
 		
 		    animated_image.css("position", "absolute");
 		    animated_image.css("z-index", "-2");
 		    animated_image.css("top", "0px");
 		    animated_image.css("left", (animated_slide.width() - animated_image.width()) + "px");
 		
-		<?php } elseif($settings["image_position"] == "bottom left"){ ?>
+		<?php } elseif ($settings["image_position"] == "bottom left") { ?>
 		
 		    animated_image.css("position", "absolute");
 		    animated_image.css("z-index", "-2");
 		    animated_image.css("top", (animated_slide.height() - animated_image.height()) + "px");
 		
-		<?php } elseif($settings["image_position"] == "bottom right"){ ?>
+		<?php } elseif ($settings["image_position"] == "bottom right") { ?>
 		
 		    animated_image.css("position", "absolute");
 		    animated_image.css("z-index", "-2");
@@ -153,11 +153,11 @@ row: 0
 		
 		<?php } ?>
 		
-		    <?php } else{ ?>
+		    <?php } else { ?>
 		    animated_slide.css("background-size", width + "px " + height + "px");
 		    <?php } ?>
 		
-		<?php if($settings["display_pager"]){ ?>
+		<?php if ($settings["display_pager"]) { ?>
 		    var animated_block_pager = $("#<?php print $pager_id ?>");
 		    var animated_block_pager_link = $("#<?php print $pager_id ?> a");
 		
@@ -165,7 +165,7 @@ row: 0
 		    animated_block_pager_link.css("font-size", <?php print intval($settings["pager_size"]) ?>*resize + "px");
 		<?php } ?>
 		
-		<?php if($settings["display_navigation"]){ ?>
+		<?php if ($settings["display_navigation"]) { ?>
 		    var animated_block_prev = $("#<?php print $prev_id ?> div");
 		    var animated_block_next = $("#<?php print $next_id ?> div");
 		

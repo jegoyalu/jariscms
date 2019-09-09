@@ -21,5 +21,3 @@ function gallery_install()
 
     Jaris\Types::add("gallery", $new_type);
 }
-
-?>

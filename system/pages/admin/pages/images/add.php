@@ -19,15 +19,13 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("add_images"));
+        Jaris\Authentication::protectedPage(["add_images"]);
 
-        if(!isset($_REQUEST["uri"]))
-        {
+        if (!isset($_REQUEST["uri"])) {
             Jaris\Uri::go("");
         }
 
-        if(!Jaris\Pages::userIsOwner($_REQUEST["uri"]))
-        {
+        if (!Jaris\Pages::userIsOwner($_REQUEST["uri"])) {
             Jaris\Authentication::protectedPage();
         }
 
@@ -44,76 +42,69 @@ row: 0
 
         $image_count = count(Jaris\Pages\Images::getList($_REQUEST["uri"]));
 
-        if($maximum_images == "0")
-        {
+        if ($maximum_images == "0") {
             Jaris\View::addMessage(
                 t("Image uploads not permitted for this content type.")
             );
 
             Jaris\Uri::go(
                 "admin/pages/files",
-                array("uri" => $_REQUEST["uri"])
+                ["uri" => $_REQUEST["uri"]]
             );
-        }
-        elseif($image_count >= $maximum_images && $maximum_images != "-1")
-        {
+        } elseif ($image_count >= $maximum_images && $maximum_images != "-1") {
             Jaris\View::addMessage(t("Maximum image uploads reached."));
 
             Jaris\Uri::go(
                 "admin/pages/files",
-                array("uri" => $_REQUEST["uri"])
+                ["uri" => $_REQUEST["uri"]]
             );
         }
 
-        $arguments = array("uri" => $_REQUEST["uri"]);
+        $arguments = ["uri" => $_REQUEST["uri"]];
 
         //Image compression configurations
         $image_compression = Jaris\Settings::get("image_compression", "main");
         $has_width_edit_permission = Jaris\Authentication::groupHasPermission(
-            "edit_upload_width", Jaris\Authentication::currentUserGroup()
+            "edit_upload_width",
+            Jaris\Authentication::currentUserGroup()
         );
         $max_width = Jaris\Settings::get("image_compression_maxwidth", "main");
         $image_quality = Jaris\Settings::get("image_compression_quality", "main");
 
-        if(
+        if (
             isset($_REQUEST["btnSave"]) &&
             !Jaris\Forms::requiredFieldEmpty("add-image")
-        )
-        {
+        ) {
             $message = "";
-            foreach($_FILES["image"]["name"] as $file_index => $file_name)
-            {
-                if($image_count >= $maximum_images && $maximum_images != "-1")
+            foreach ($_FILES["image"]["name"] as $file_index => $file_name) {
+                if ($image_count >= $maximum_images && $maximum_images != "-1") {
                     break;
+                }
 
-                $file = array(
+                $file = [
                     "name" => $file_name,
                     "tmp_name" => $_FILES["image"]["tmp_name"][$file_index],
                     "type" => $_FILES["image"]["type"][$file_index]
-                );
+                ];
 
                 //Resize and compress image
-                if($image_compression)
-                {
+                if ($image_compression) {
                     //Get width override if user changed it
                     //from default and has permissions
-                    if($has_width_edit_permission)
-                    {
+                    if ($has_width_edit_permission) {
                         $max_width = $_REQUEST["max_width_override"];
                     }
 
 
                     $image_info = getimagesize($file["tmp_name"]);
 
-                    if($image_info[0] > $max_width)
-                    {
+                    if ($image_info[0] > $max_width) {
                         $image = Jaris\Images::get(
                             $file["tmp_name"],
                             intval($max_width)
                         );
 
-                        switch($image_info["mime"])
-                        {
+                        switch ($image_info["mime"]) {
                             case "image/jpeg":
                                 imagejpeg(
                                     $image["binary_data"],
@@ -145,28 +136,22 @@ row: 0
                     $_REQUEST["uri"]
                 );
 
-                if($message == "true")
-                {
+                if ($message == "true") {
                     $image_count++;
 
                     continue;
-                }
-                else
-                {
+                } else {
                     Jaris\View::addMessage($message, "error");
                     break;
                 }
             }
 
-            if($message == "true")
-            {
+            if ($message == "true") {
                 Jaris\View::addMessage(t("The image was successfully added."));
             }
 
             Jaris\Uri::go("admin/pages/images", $arguments);
-        }
-        elseif(isset($_REQUEST["btnCancel"]))
-        {
+        } elseif (isset($_REQUEST["btnCancel"])) {
             Jaris\Uri::go("admin/pages/images", $arguments);
         }
 
@@ -176,13 +161,13 @@ row: 0
         $parameters["method"] = "post";
         $parameters["enctype"] = "multipart/form-data";
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "hidden",
             "name" => "uri",
             "value" => $_REQUEST["uri"]
-        );
+        ];
 
-        $image_fields[] = array(
+        $image_fields[] = [
             "type" => "file",
             "name" => "image",
             "description_field" => true,
@@ -191,13 +176,12 @@ row: 0
             "label" => t("Image file:"),
             "id" => "image",
             "required" => true
-        );
+        ];
 
-        $fieldset[] = array("fields" => $image_fields);
+        $fieldset[] = ["fields" => $image_fields];
 
-        if($image_compression && $has_width_edit_permission)
-        {
-            $image_compression_fields[] = array(
+        if ($image_compression && $has_width_edit_permission) {
+            $image_compression_fields[] = [
                 "type" => "text",
                 "name" => "max_width_override",
                 "value" => $max_width,
@@ -205,27 +189,27 @@ row: 0
                 "id" => "description",
                 "description" => t("The width the image should be resized to.") .
                 " (" . t("default:") . " $max_width" . ")"
-            );
+            ];
 
-            $fieldset[] = array(
+            $fieldset[] = [
                 "name" => "Image compression enabled",
                 "fields" => $image_compression_fields
-            );
+            ];
         }
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnSave",
             "value" => t("Save")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnCancel",
             "value" => t("Cancel")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
         print Jaris\Forms::generate($parameters, $fieldset);
     ?>

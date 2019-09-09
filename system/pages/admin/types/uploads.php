@@ -19,26 +19,23 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("edit_types"));
+        Jaris\Authentication::protectedPage(["edit_types"]);
 
-        if(!isset($_REQUEST["type"]))
-        {
+        if (!isset($_REQUEST["type"])) {
             Jaris\Uri::go("admin/types");
         }
 
         Jaris\View::addTab(
             t("Type"),
             "admin/types/edit",
-            array("type" => $_REQUEST["type"])
+            ["type" => $_REQUEST["type"]]
         );
 
         //Get exsiting settings or defualt ones if main settings table doesn't exist
         $type_settings = Jaris\Types::get($_REQUEST["type"]);
 
-        if(isset($_REQUEST["btnSave"]))
-        {
-            foreach(Jaris\Groups::getList() as $name => $machine_name)
-            {
+        if (isset($_REQUEST["btnSave"])) {
+            foreach (Jaris\Groups::getList() as $name => $machine_name) {
                 $type_settings["uploads"][$machine_name]["maximum_images"] =
                     $_REQUEST["{$machine_name}_maximum_images"]
                 ;
@@ -49,8 +46,7 @@ row: 0
             }
 
             //Check if save was successful
-            if(Jaris\Types::edit($_REQUEST["type"], $type_settings))
-            {
+            if (Jaris\Types::edit($_REQUEST["type"], $type_settings)) {
                 Jaris\View::addMessage(
                     t("Your settings have been successfully saved.")
                 );
@@ -59,13 +55,11 @@ row: 0
 
                 Jaris\Logger::info(
                     "Edited content type '{machine_name}' upload settings.",
-                    array(
+                    [
                         "machine_name" => $_REQUEST["type"]
-                    )
+                    ]
                 );
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(
                     Jaris\System::errorMessage("write_error_data"),
                     "error"
@@ -74,14 +68,12 @@ row: 0
 
             Jaris\Uri::go(
                 "admin/types/edit",
-                array("type" => $_REQUEST["type"])
+                ["type" => $_REQUEST["type"]]
             );
-        }
-        elseif(isset($_REQUEST["btnCancel"]))
-        {
+        } elseif (isset($_REQUEST["btnCancel"])) {
             Jaris\Uri::go(
                 "admin/types/edit",
-                array("type" => $_REQUEST["type"])
+                ["type" => $_REQUEST["type"]]
             );
         }
 
@@ -90,17 +82,16 @@ row: 0
         $parameters["action"] = Jaris\Uri::url("admin/types/uploads");
         $parameters["method"] = "post";
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "hidden",
             "name" => "type",
             "value" => $_REQUEST["type"]
-        );
+        ];
 
-        foreach(Jaris\Groups::getList() as $name => $machine_name)
-        {
+        foreach (Jaris\Groups::getList() as $name => $machine_name) {
             unset($file_fields);
 
-            $file_fields[] = array(
+            $file_fields[] = [
                 "type" => "text",
                 "label" => t("Images:"),
                 "name" => "{$machine_name}_maximum_images",
@@ -110,9 +101,9 @@ row: 0
                     :
                     "-1",
                 "description" => t("Maximum images user can upload per post. -1 for unlimited")
-            );
+            ];
 
-            $file_fields[] = array(
+            $file_fields[] = [
                 "type" => "text",
                 "label" => t("Files:"),
                 "name" => "{$machine_name}_maximum_files",
@@ -122,28 +113,28 @@ row: 0
                     :
                     "-1",
                 "description" => t("Maximum files user can upload per post. -1 for unlimited")
-            );
+            ];
 
-            $fieldset[] = array(
+            $fieldset[] = [
                 "name" => t($name),
                 "fields" => $file_fields,
                 "collapsible" => true
-            );
+            ];
         }
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnSave",
             "value" => t("Save")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnCancel",
             "value" => t("Cancel")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
         print Jaris\Forms::generate($parameters, $fieldset);
     ?>

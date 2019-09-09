@@ -17,7 +17,7 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("manage_tithers_church_accounting"));
+        Jaris\Authentication::protectedPage(["manage_tithers_church_accounting"]);
 
         Jaris\View::addTab(
             t("Add Tither"),
@@ -29,8 +29,7 @@ row: 0
 
         $page = 1;
 
-        if(isset($_REQUEST["page"]))
-        {
+        if (isset($_REQUEST["page"])) {
             $page = $_REQUEST["page"];
         }
 
@@ -70,8 +69,7 @@ row: 0
         print "</thead>";
 
         print "<tbody>";
-        foreach($tithers as $tithers_data)
-        {
+        foreach ($tithers as $tithers_data) {
             print "<tr>";
 
             $edit_url = Jaris\Uri::url(
@@ -79,7 +77,7 @@ row: 0
                     "admin/church-accounting/tithers/edit",
                     "church_accounting"
                 ),
-                array("id"=>$tithers_data["id"])
+                ["id"=>$tithers_data["id"]]
             );
 
             print "<td>"
@@ -95,13 +93,11 @@ row: 0
             ;
 
             print "<td>";
-            if(trim($tithers_data["email"]) != ""){
+            if (trim($tithers_data["email"]) != "") {
                 print $tithers_data["email"];
-            }
-            elseif(trim($tithers_data["phone"]) != ""){
+            } elseif (trim($tithers_data["phone"]) != "") {
                 print $tithers_data["phone"];
-            }
-            elseif(trim($tithers_data["mobile_phone"]) != ""){
+            } elseif (trim($tithers_data["mobile_phone"]) != "") {
                 print $tithers_data["mobile_phone"];
             }
             print "</td>";
@@ -111,7 +107,7 @@ row: 0
                     "admin/church-accounting/income/tithes/add",
                     "church_accounting"
                 ),
-                array("tid"=>$tithers_data["id"])
+                ["tid"=>$tithers_data["id"]]
             );
 
             $add_tither_offering_url = Jaris\Uri::url(
@@ -119,7 +115,7 @@ row: 0
                     "admin/church-accounting/income/tither-offerings/add",
                     "church_accounting"
                 ),
-                array("tid"=>$tithers_data["id"])
+                ["tid"=>$tithers_data["id"]]
             );
 
             $delete_url = Jaris\Uri::url(
@@ -127,7 +123,7 @@ row: 0
                     "admin/church-accounting/tithers/delete",
                     "church_accounting"
                 ),
-                array("id"=>$tithers_data["id"])
+                ["id"=>$tithers_data["id"]]
             );
 
             print "<td>"

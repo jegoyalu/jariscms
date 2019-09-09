@@ -19,7 +19,7 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("view_keys_api"));
+        Jaris\Authentication::protectedPage(["view_keys_api"]);
 
         Jaris\View::addTab(t("Add Key"), "admin/settings/api/add-key");
 
@@ -29,8 +29,7 @@ row: 0
 
         $page = 1;
 
-        if(isset($_REQUEST["page"]))
-        {
+        if (isset($_REQUEST["page"])) {
             $page = $_REQUEST["page"];
         }
 
@@ -57,16 +56,15 @@ row: 0
         print "</tr>";
         print "</thead>";
 
-        foreach($keys as $data)
-        {
+        foreach ($keys as $data) {
             $edit_url = Jaris\Uri::url(
                 "admin/settings/api/edit-key",
-                array("id" => $data["id"])
+                ["id" => $data["id"]]
             );
 
             $delete_url = Jaris\Uri::url(
                 "admin/settings/api/delete-key",
-                array("id" => $data["id"])
+                ["id" => $data["id"]]
             );
 
             print "<td>".$data["key"]."</td>";

@@ -17,14 +17,12 @@ row: 0
 
     field: content
     <?php
-        if(!defined("JSON_PRETTY_PRINT"))
-        {
+        if (!defined("JSON_PRETTY_PRINT")) {
             define("JSON_PRETTY_PRINT", 128);
         }
 
         // Return versiculos
-        if(isset($_REQUEST["libro"]) && isset($_REQUEST["capitulo"]))
-        {
+        if (isset($_REQUEST["libro"]) && isset($_REQUEST["capitulo"])) {
             print json_encode(
                 range(
                     1,
@@ -40,8 +38,7 @@ row: 0
             return;
         }
         // Get states/provinces
-        elseif(isset($_REQUEST["libro"]))
-        {
+        elseif (isset($_REQUEST["libro"])) {
             print json_encode(
                 range(
                     1,
@@ -57,10 +54,10 @@ row: 0
         }
 
         print json_encode(
-            array(
+            [
                 "error" => "Nothing found.",
                 JSON_PRETTY_PRINT
-            )
+            ]
         );
 
         return;

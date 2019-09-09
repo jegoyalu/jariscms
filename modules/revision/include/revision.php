@@ -28,8 +28,7 @@ function revision_diff_file($older, $newer)
     $line_number = 1;
 
     // loop over the lines in the diff
-    foreach($diff as $line)
-    {
+    foreach ($diff as $line) {
         $html .= "<tr>";
 
         $html .= "<td class=\"linenum\">$line_number</td>";
@@ -37,13 +36,12 @@ function revision_diff_file($older, $newer)
         $html .= "<td>";
 
         // extend the HTML with the line
-        switch($line[1])
-        {
-            case Diff::UNMODIFIED : $element = 'span';
+        switch ($line[1]) {
+            case Diff::UNMODIFIED: $element = 'span';
                 break;
-            case Diff::DELETED : $element = 'del';
+            case Diff::DELETED: $element = 'del';
                 break;
-            case Diff::INSERTED : $element = 'ins';
+            case Diff::INSERTED: $element = 'ins';
                 break;
         }
         $html .=
@@ -85,5 +83,3 @@ function revision_diff_html($older, $newer)
 
     return html_diff($older, $newer);
 }
-
-?>

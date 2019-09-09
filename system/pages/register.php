@@ -17,11 +17,10 @@ row: 0
 
     field: content
     <?php
-        if(
+        if (
             !Jaris\Settings::get("new_registrations", "main") &&
             !Jaris\Authentication::isAdminLogged()
-        )
-        {
+        ) {
             Jaris\View::addMessage(
                 t("Registrations are disabled, sorry for any inconvinience."),
                 "error"
@@ -31,33 +30,26 @@ row: 0
         }
 
         //Store return url
-        if(isset($_REQUEST["return"]))
-        {
+        if (isset($_REQUEST["return"])) {
             Jaris\Session::addCookie("return_url", $_REQUEST["return"]);
         }
 
-        if(Jaris\Authentication::isUserLogged())
-        {
+        if (Jaris\Authentication::isUserLogged()) {
             Jaris\Uri::go("admin/user");
         }
 
         $valid_email = true;
-        if(isset($_REQUEST["email"]) && isset($_REQUEST["btnSave"]))
-        {
+        if (isset($_REQUEST["email"]) && isset($_REQUEST["btnSave"])) {
             $valid_email = Jaris\Forms::validEmail($_REQUEST["email"]);
 
-            if(!$valid_email)
-            {
+            if (!$valid_email) {
                 Jaris\View::addMessage(
                     t("The email you entered is not a valid one."),
                     "error"
                 );
-            }
-            else
-            {
+            } else {
                 //Check that the email is not in use by other account
-                if(Jaris\Users::getByEmail($_REQUEST["email"]))
-                {
+                if (Jaris\Users::getByEmail($_REQUEST["email"])) {
                     $valid_email = false;
                     Jaris\View::addMessage(
                         t("The email you entered already has a registered account associated to it."),
@@ -68,12 +60,10 @@ row: 0
         }
 
         $valid_username = true;
-        if(isset($_REQUEST["username"]) && isset($_REQUEST["btnSave"]))
-        {
+        if (isset($_REQUEST["username"]) && isset($_REQUEST["btnSave"])) {
             $valid_username = Jaris\Forms::validUsername($_REQUEST["username"]);
 
-            if(!$valid_username)
-            {
+            if (!$valid_username) {
                 Jaris\View::addMessage(
                     t("The username you provided has invalid characters."),
                     "error"
@@ -81,25 +71,21 @@ row: 0
             }
         }
 
-        if(
+        if (
             $valid_username
             &&
             isset($_REQUEST["username"])
             &&
             isset($_REQUEST["btnSave"])
-        )
-        {
-            if(strlen($_REQUEST["username"]) < 3)
-            {
+        ) {
+            if (strlen($_REQUEST["username"]) < 3) {
                 Jaris\View::addMessage(
                     t("The username should be at least 3 characters long."),
                     "error"
                 );
 
                 $valid_username = false;
-            }
-            else if(strlen($_REQUEST["username"]) > 60)
-            {
+            } elseif (strlen($_REQUEST["username"]) > 60) {
                 Jaris\View::addMessage(
                     t("The username exceeds from 60 characters."),
                     "error"
@@ -110,18 +96,16 @@ row: 0
         }
 
         $agree_terms = true;
-        if(
+        if (
             Jaris\Settings::get("registration_terms", "main")
             &&
             isset($_REQUEST["accept_terms_conditions"])
             &&
             isset($_REQUEST["btnSave"])
-        )
-        {
+        ) {
             $agree_terms = $_REQUEST["accept_terms_conditions"];
 
-            if(!$agree_terms)
-            {
+            if (!$agree_terms) {
                 Jaris\View::addMessage(
                     t("You must agree to the terms and conditions of this website in order to register."),
                     "error"
@@ -139,18 +123,15 @@ row: 0
 
         $valid_group = true;
 
-        if(
+        if (
             Jaris\Settings::get("registration_can_select_group", "main") &&
             isset($_REQUEST["btnSave"])
-        )
-        {
-            if(count($groups) > 0)
-            {
-                if(
+        ) {
+            if (count($groups) > 0) {
+                if (
                     !in_array($_REQUEST["group"], $groups) ||
                     !isset($_REQUEST["group"])
-                )
-                {
+                ) {
                     Jaris\View::addMessage(
                         t("Please select a valid Account Type."),
                         "error"
@@ -158,27 +139,22 @@ row: 0
 
                     $valid_group = false;
                 }
-            }
-            else
-            {
+            } else {
                 $_REQUEST["group"] = "regular";
             }
-        }
-        elseif(
+        } elseif (
             !Jaris\Settings::get("registration_can_select_group", "main")
             ||
             empty($_REQUEST["group"])
-        )
-        {
+        ) {
             $_REQUEST["group"] = "regular";
         }
 
-        if(
+        if (
             isset($_REQUEST["btnSave"]) &&
             !Jaris\Forms::requiredFieldEmpty("register-user") &&
             $valid_email && $valid_username && $valid_group && $agree_terms
-        )
-        {
+        ) {
             $fields["name"] = substr(
                 Jaris\Util::stripHTMLTags($_REQUEST["full_name"]),
                 0,
@@ -191,13 +167,15 @@ row: 0
             $fields["gender"] = $_REQUEST["gender"];
 
             $fields["birth_date"] = mktime(
-                0, 0, 0,
+                0,
+                0,
+                0,
                 intval($_REQUEST["month"]),
                 intval($_REQUEST["day"]),
                 intval($_REQUEST["year"])
             );
 
-            if(
+            if (
                 (
                     Jaris\Settings::get("registration_needs_approval", "main")
                     &&
@@ -209,25 +187,19 @@ row: 0
                     &&
                     in_array($_REQUEST["group"], $groups_approval)
                 )
-            )
-            {
+            ) {
                 $fields["status"] = "0";
-            }
-            else
-            {
+            } else {
                 $fields["status"] = "1";
             }
 
             $error = false;
 
-            if(
+            if (
                 strlen($_REQUEST["password"]) >= 6
-            )
-            {
+            ) {
                 $fields["password"] = $_REQUEST["password"];
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(
                     t("The Password should be at least 6 characters long."),
                     "error"
@@ -238,21 +210,17 @@ row: 0
 
             $fields["email"] = trim($_REQUEST["email"]);
 
-            if(!$error)
-            {
+            if (!$error) {
                 $message = "";
 
-                if(Jaris\Settings::get("user_picture", "main"))
-                {
+                if (Jaris\Settings::get("user_picture", "main")) {
                     $message = Jaris\Users::add(
                         $_REQUEST["username"],
                         $fields["group"],
                         $fields,
-                        $_FILES["picture"] ?? array()
+                        $_FILES["picture"] ?? []
                     );
-                }
-                else
-                {
+                } else {
                     $message = Jaris\Users::add(
                         $_REQUEST["username"],
                         $fields["group"],
@@ -260,16 +228,14 @@ row: 0
                     );
                 }
 
-                if($message == "true")
-                {
-                    if(
+                if ($message == "true") {
+                    if (
                         (Jaris\Settings::get("registration_needs_approval", "main") &&
                         !Jaris\Settings::get("registration_can_select_group", "main")) ||
 
                         (Jaris\Settings::get("registration_can_select_group", "main") &&
                         in_array($_REQUEST["group"], $groups_approval))
-                    )
-                    {
+                    ) {
                         Jaris\View::addMessage(
                             t("Your registration is awaiting for approval. If the registration is approved you will receive an email notification.")
                         );
@@ -277,42 +243,30 @@ row: 0
                         Jaris\Mail::sendRegistrationNotification(
                             $_REQUEST["username"]
                         );
-                    }
-                    else
-                    {
-                        if(Jaris\Settings::get("registration_needs_activation", "main"))
-                        {
+                    } else {
+                        if (Jaris\Settings::get("registration_needs_activation", "main")) {
                             Jaris\View::addMessage(
                                 t("Your account has been successfully created. An activation e-mail was sent.")
                             );
-                        }
-                        else
-                        {
+                        } else {
                             Jaris\View::addMessage(
                                 t("Your account has been successfully created. Enter your details to login.")
                             );
                         }
                     }
 
-                    if(Jaris\Settings::get("registration_needs_activation", "main"))
-                    {
+                    if (Jaris\Settings::get("registration_needs_activation", "main")) {
                         Jaris\Mail::sendEmailActivation($_REQUEST["username"]);
-                    }
-                    else
-                    {
+                    } else {
                         Jaris\Mail::sendWelcomeMessage($_REQUEST["username"]);
                     }
 
                     Jaris\Uri::go("admin/user");
-                }
-                else
-                {
+                } else {
                     Jaris\View::addMessage($message, "error");
                 }
             }
-        }
-        elseif(isset($_REQUEST["btnCancel"]))
-        {
+        } elseif (isset($_REQUEST["btnCancel"])) {
             Jaris\Uri::go("");
         }
 
@@ -324,7 +278,7 @@ row: 0
         $parameters["method"] = "post";
         $parameters["enctype"] = "multipart/form-data";
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "limit" => 65,
             "value" => $_REQUEST["full_name"],
@@ -333,9 +287,9 @@ row: 0
             "id" => "full_name",
             "required" => true,
             "description" => t("Your full real name.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "limit" => 60,
             "value" => $_REQUEST["username"],
@@ -344,9 +298,9 @@ row: 0
             "id" => "name",
             "required" => true,
             "description" => t("The name that you are going to use to log in, at least 3 characters long. Permitted characters are A to Z, 0 to 9 and underscores.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "password",
             "name" => "password",
             "label" => t("Password:"),
@@ -355,9 +309,9 @@ row: 0
             "reveal" => true,
             "required" => true,
             "description" => t("The password used to login, should be at least 6 characters long.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "value" => $_REQUEST["email"],
             "name" => "email",
@@ -366,13 +320,13 @@ row: 0
             "required" => true,
             "inline" => true,
             "description" => t("The email used in case you forgot your password.")
-        );
+        ];
 
         //Gender Fields
         $gender[t("Male")] = "m";
         $gender[t("Female")] = "f";
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "radio",
             "label" => t("Gender:"),
             "name" => "gender",
@@ -380,12 +334,12 @@ row: 0
             "value" => $gender,
             "checked" => $_REQUEST["gender"],
             "required" => true
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
         //Birthdate fields
-        $birth_date_fields[] = array(
+        $birth_date_fields[] = [
             "type" => "select",
             "name" => "day",
             "label" => t("Day:"),
@@ -395,9 +349,9 @@ row: 0
             "selected" => $_REQUEST["day"],
             "required" => true,
             "inline" => true
-        );
+        ];
 
-        $birth_date_fields[] = array(
+        $birth_date_fields[] = [
             "type" => "select",
             "name" => "month",
             "label" => t("Month:"),
@@ -407,9 +361,9 @@ row: 0
             "selected" => $_REQUEST["month"],
             "required" => true,
             "inline" => true
-        );
+        ];
 
-        $birth_date_fields[] = array(
+        $birth_date_fields[] = [
             "type" => "select",
             "name" => "year",
             "label" => t("Year:"),
@@ -419,53 +373,47 @@ row: 0
             "selected" => $_REQUEST["year"],
             "required" => true,
             "inline" => true
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "name" => t("Birth date"),
             "fields" => $birth_date_fields
-        );
+        ];
 
         //If user pictures are activated.
-        if(Jaris\Settings::get("user_picture", "main"))
-        {
+        if (Jaris\Settings::get("user_picture", "main")) {
             $size = null;
-            if(!($size = Jaris\Settings::get("user_picture_size", "main")))
-            {
+            if (!($size = Jaris\Settings::get("user_picture_size", "main"))) {
                 $size = "150x150";
             }
 
-            $fields_picture[] = array(
+            $fields_picture[] = [
                 "id" => "picture",
                 "type" => "file",
                 "name" => "picture",
                 "valid_types" => "gif,jpg,jpeg,png",
                 "description" => t("A logo or picture of your self.") .
                 "&nbsp;" . $size
-            );
+            ];
 
-            $fieldset[] = array(
+            $fieldset[] = [
                 "name" => t("Picture"),
                 "fields" => $fields_picture
-            );
+            ];
         }
 
-        if(Jaris\Settings::get("registration_can_select_group", "main"))
-        {
-            if(count($groups) > 0)
-            {
-                $fields_group = array();
-                foreach($groups as $group_machine_name)
-                {
+        if (Jaris\Settings::get("registration_can_select_group", "main")) {
+            if (count($groups) > 0) {
+                $fields_group = [];
+                foreach ($groups as $group_machine_name) {
                     $group_data = Jaris\Groups::get($group_machine_name);
 
                     $requires_approval = "";
-                    if(in_array($group_machine_name, $groups_approval))
-                    {
+                    if (in_array($group_machine_name, $groups_approval)) {
                         $requires_approval .= t("(requires approval)");
                     }
 
-                    $fields_group[] = array(
+                    $fields_group[] = [
                         "type" => "radio",
                         "checked" => (
                             $group_machine_name == $_REQUEST["group"] ?
@@ -475,25 +423,24 @@ row: 0
                         "description" => $group_data["description"]
                             . " "
                             . $requires_approval,
-                        "value" => array(
+                        "value" => [
                             $group_data["name"] => $group_machine_name
-                        )
-                    );
+                        ]
+                    ];
                 }
 
-                $fieldset[] = array(
+                $fieldset[] = [
                     "name" => t("Account Type"),
                     "fields" => $fields_group
-                );
+                ];
             }
         }
 
-        if(Jaris\Settings::get("registration_terms", "main"))
-        {
+        if (Jaris\Settings::get("registration_terms", "main")) {
             $terms[t("I do not agree")] = false;
             $terms[t("I agree")] = true;
 
-            $fields_submit[] = array(
+            $fields_submit[] = [
                 "type" => "textarea",
                 "name" => "terms_conditions",
                 "label" => t("Terms and Conditions:"),
@@ -501,38 +448,38 @@ row: 0
                 "value" => Jaris\Settings::get("registration_terms", "main"),
                 "readonly" => true,
                 "description" => t("The terms and conditions that you have to accept in order to register.")
-            );
+            ];
 
-            $fields_submit[] = array(
+            $fields_submit[] = [
                 "type" => "radio",
                 "name" => "accept_terms_conditions",
                 "id" => "accept_terms_conditions",
                 "value" => $terms,
                 "checked" => false
-            );
+            ];
         }
 
-        $fields_submit[] = array(
+        $fields_submit[] = [
             "type" => "validate_sum",
             "label" => t("Validation:"),
             "required" => true,
             "name" => "captcha",
             "id" => "captcha"
-        );
+        ];
 
-        $fields_submit[] = array(
+        $fields_submit[] = [
             "type" => "submit",
             "name" => "btnSave",
             "value" => t("Register")
-        );
+        ];
 
-        $fields_submit[] = array(
+        $fields_submit[] = [
             "type" => "submit",
             "name" => "btnCancel",
             "value" => t("Cancel")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields_submit);
+        $fieldset[] = ["fields" => $fields_submit];
 
         print Jaris\Forms::generate($parameters, $fieldset);
     ?>

@@ -20,90 +20,75 @@ row: 0
         // Get calendar uri
         $uri = "";
 
-        $page_data = array();
+        $page_data = [];
 
-        if(isset($_REQUEST["uri"]) && trim($_REQUEST["uri"]) != "")
-        {
+        if (isset($_REQUEST["uri"]) && trim($_REQUEST["uri"]) != "") {
             $uri = trim($_REQUEST["uri"]);
 
             $page_data = Jaris\Pages::get($uri);
 
-            if(!$page_data)
-            {
+            if (!$page_data) {
                 Jaris\Uri::go("");
             }
 
-            if($page_data["type"] != "calendar")
-            {
+            if ($page_data["type"] != "calendar") {
                 Jaris\Uri::go("");
             }
 
-            if(!calendar_event_can_add($uri, $page_data))
-            {
+            if (!calendar_event_can_add($uri, $page_data)) {
                 Jaris\Authentication::protectedPage();
             }
-        }
-        else
-        {
+        } else {
             Jaris\Uri::go("");
         }
 
         // Get events list page number
         $page = 1;
 
-        if(isset($_REQUEST["page"]))
-        {
+        if (isset($_REQUEST["page"])) {
             $page = $_REQUEST["page"];
         }
 
         // Filter options
-        $options = array();
+        $options = [];
 
         // Month
-        if(trim($_REQUEST["month"]) != "")
-        {
+        if (trim($_REQUEST["month"]) != "") {
             $month = intval($_REQUEST["month"]);
             $options[] = "month=$month";
         }
 
         // Year
-        if(trim($_REQUEST["year"]) != "")
-        {
+        if (trim($_REQUEST["year"]) != "") {
             $year = intval($_REQUEST["year"]);
             $options[] = "year=$year";
         }
 
         // Status
-        $status = array(
+        $status = [
             0 => t("Approved"),
             1 => t("Pending")
-        );
+        ];
 
-        if(trim($_REQUEST["status"]) != "")
-        {
-            if($_REQUEST["status"] == "1")
-            {
+        if (trim($_REQUEST["status"]) != "") {
+            if ($_REQUEST["status"] == "1") {
                 $options[] = "approved=1";
-            }
-            else
-            {
+            } else {
                 $options[] = "approved=0";
             }
         }
 
         // Sorting
-        $sorting_array = array(
+        $sorting_array = [
             t("Date Descending") => "date_desc",
             t("Date Ascending") => "date_asc",
             t("Approved Descending") => "status_desc",
             t("Approved Ascending") => "status_asc"
-        );
+        ];
 
         $sorting = "";
-        if(trim($_REQUEST["sorting"]) != "")
-        {
-            switch(trim($_REQUEST["sorting"]))
-            {
+        if (trim($_REQUEST["sorting"]) != "") {
+            switch (trim($_REQUEST["sorting"])) {
                 case "status_asc":
                     $sorting = 'order by approved asc';
                     break;
@@ -116,22 +101,18 @@ row: 0
                 default:
                     $sorting = 'order by date desc';
             }
-        }
-        else
-        {
+        } else {
             $sorting = 'order by date desc';
         }
 
         // Author
-        if(!Jaris\Pages::userIsOwner($uri, $page_data))
-        {
+        if (!Jaris\Pages::userIsOwner($uri, $page_data)) {
             $options[] = "author='".Jaris\Authentication::currentUser()."'";
         }
 
         // Assemble where
         $where = "";
-        if(count($options) > 0)
-        {
+        if (count($options) > 0) {
             $where = "where "
                 . implode(" and ", $options)
             ;
@@ -140,7 +121,7 @@ row: 0
         Jaris\View::addTab(
             t("Add Event"),
             Jaris\Modules::getPageUri("admin/calendar/events/add", "calendar"),
-            array("uri"=>$uri)
+            ["uri"=>$uri]
         );
 
         Jaris\View::addTab(
@@ -156,12 +137,10 @@ row: 0
         print "<div style=\"float: left\">";
         print t("Filter by:") . " <select onchange=\"javascript: this.form.submit()\" name=\"status\">\n";
         print "<option value=\"\">" . t("All") . "</option>\n";
-        foreach($status as $id=>$name)
-        {
+        foreach ($status as $id=>$name) {
             $selected = "";
 
-            if($_REQUEST["status"] == $id && trim($_REQUEST["status"]) != "")
-            {
+            if ($_REQUEST["status"] == $id && trim($_REQUEST["status"]) != "") {
                 $selected = "selected=\"selected\"";
             }
 
@@ -171,12 +150,10 @@ row: 0
 
         print t("Month:") . " <select onchange=\"javascript: this.form.submit()\" name=\"month\">\n";
         print "<option value=\"\">" . t("All") . "</option>\n";
-        foreach(Jaris\Date::getMonths() as $month_name=>$month_value)
-        {
+        foreach (Jaris\Date::getMonths() as $month_name=>$month_value) {
             $selected = "";
 
-            if($_REQUEST["month"] == $month_value)
-            {
+            if ($_REQUEST["month"] == $month_value) {
                 $selected = "selected=\"selected\"";
             }
 
@@ -186,12 +163,10 @@ row: 0
 
         print t("Year:") . " <select onchange=\"javascript: this.form.submit()\" name=\"year\">\n";
         print "<option value=\"\">" . t("All") . "</option>\n";
-        foreach(Jaris\Date::getYears() as $year)
-        {
+        foreach (Jaris\Date::getYears() as $year) {
             $selected = "";
 
-            if($_REQUEST["year"] == $year)
-            {
+            if ($_REQUEST["year"] == $year) {
                 $selected = "selected=\"selected\"";
             }
 
@@ -202,12 +177,10 @@ row: 0
 
         print "<div style=\"float: right; margin-left: 10px;\">";
         print t("Sort by:") . " <select onchange=\"javascript: this.form.submit()\" name=\"sorting\">\n";
-        foreach($sorting_array as $label => $value)
-        {
+        foreach ($sorting_array as $label => $value) {
             $selected = "";
 
-            if($_REQUEST["sorting"] == $value)
-            {
+            if ($_REQUEST["sorting"] == $value) {
                 $selected = "selected=\"selected\"";
             }
 
@@ -224,10 +197,9 @@ row: 0
         $directory = Jaris\Pages::getPath($uri);
 
         $count = 0;
-        $events = array();
+        $events = [];
 
-        if(Jaris\Sql::dbExists("calendar_events", $directory))
-        {
+        if (Jaris\Sql::dbExists("calendar_events", $directory)) {
             $count += Jaris\Sql::countColumn(
                 "calendar_events",
                 "calendar_events",
@@ -260,15 +232,15 @@ row: 0
         print "</tr>";
         print "</thead>";
 
-        foreach($events as $event)
-        {
+        foreach ($events as $event) {
             print "<tr>";
 
             $edit = Jaris\Uri::url(
                 Jaris\Modules::getPageUri(
-                    "admin/calendar/events/edit", "calendar"
+                    "admin/calendar/events/edit",
+                    "calendar"
                 ),
-                array("uri" => $uri, "id" => $event["id"])
+                ["uri" => $uri, "id" => $event["id"]]
             );
 
             print "<td>"
@@ -304,18 +276,16 @@ row: 0
             ;
 
             print "<td>";
-            if($event["approved"] == 1)
-            {
+            if ($event["approved"] == 1) {
                 print t("Approved");
-            }
-            else
-            {
+            } else {
                 $approve = " (<a href=\"" .
                     Jaris\Uri::url(
                         Jaris\Modules::getPageUri(
-                            "admin/calendar/events/approve", "calendar"
+                            "admin/calendar/events/approve",
+                            "calendar"
                         ),
-                        array("uri" => $uri, "id" => $event["id"])
+                        ["uri" => $uri, "id" => $event["id"]]
                     ) . "\">" . t("approve") . "</a>)"
                 ;
 
@@ -327,9 +297,10 @@ row: 0
             $delete = "<a href=\"" .
                 Jaris\Uri::url(
                     Jaris\Modules::getPageUri(
-                        "admin/calendar/events/delete", "calendar"
+                        "admin/calendar/events/delete",
+                        "calendar"
                     ),
-                    array("uri" => $uri, "id" => $event["id"])
+                    ["uri" => $uri, "id" => $event["id"]]
                 ) . "\">" . t("delete") . "</a>"
             ;
 
@@ -348,13 +319,13 @@ row: 0
             "admin/calendar/events",
             "calendar",
             30,
-            array(
+            [
                 "uri" => $uri,
                 "status" => $_REQUEST["status"],
                 "month" => $_REQUEST["month"],
                 "year" => $_REQUEST["year"],
                 "sorting" => $_REQUEST["sorting"]
-            )
+            ]
         );
     ?>
     field;

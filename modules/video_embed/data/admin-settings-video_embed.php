@@ -17,18 +17,16 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("edit_settings"));
+        Jaris\Authentication::protectedPage(["edit_settings"]);
 
-        if(isset($_REQUEST["btnSave"]))
-        {
-            if(
+        if (isset($_REQUEST["btnSave"])) {
+            if (
                 Jaris\Settings::save(
                     "default_width",
                     strval(intval($_REQUEST["default_width"])),
                     "video_embed"
                 )
-            )
-            {
+            ) {
                 Jaris\Settings::save(
                     "default_height",
                     strval(intval($_REQUEST["default_height"])),
@@ -42,9 +40,7 @@ row: 0
                 );
 
                 Jaris\View::addMessage(t("Your changes have been saved."));
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(Jaris\System::errorMessage("write_error_data"));
             }
 
@@ -63,7 +59,7 @@ row: 0
         );
         $parameters["method"] = "post";
 
-        $fields_main[] = array(
+        $fields_main[] = [
             "type" => "text",
             "name" => "default_width",
             "label" => t("Default width:"),
@@ -73,9 +69,9 @@ row: 0
                 "640",
             "required" => true,
             "description" => t("The default width of the video player.")
-        );
+        ];
 
-        $fields_main[] = array(
+        $fields_main[] = [
             "type" => "text",
             "name" => "default_height",
             "label" => t("Default height:"),
@@ -85,13 +81,13 @@ row: 0
                 "385",
             "required" => true,
             "description" => t("The default height of the video player.")
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "fields" => $fields_main
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "name" => t("Types to scan for video links"),
             "fields" => Jaris\Types::generateFields(
                 unserialize(
@@ -103,21 +99,21 @@ row: 0
             ),
             "collapsible" => true,
             "description" => t("Do not select everything to scan all content types.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnSave",
             "value" => t("Save")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnCancel",
             "value" => t("Cancel")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
         print Jaris\Forms::generate($parameters, $fieldset);
     ?>

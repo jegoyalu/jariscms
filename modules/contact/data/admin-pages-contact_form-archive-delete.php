@@ -19,15 +19,13 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("edit_content"));
+        Jaris\Authentication::protectedPage(["edit_content"]);
 
-        if(!Jaris\Pages::userIsOwner($_REQUEST["uri"]))
-        {
+        if (!Jaris\Pages::userIsOwner($_REQUEST["uri"])) {
             Jaris\Authentication::protectedPage();
         }
 
-        if(isset($_REQUEST["btnYes"]))
-        {
+        if (isset($_REQUEST["btnYes"])) {
             contact_archive_message_delete($_REQUEST["id"]);
 
             Jaris\View::addMessage(t("Archived message successfully deleted."));
@@ -37,17 +35,15 @@ row: 0
                     "admin/pages/contact-form/archive",
                     "contact"
                 ),
-                array("uri" => $_REQUEST["uri"])
+                ["uri" => $_REQUEST["uri"]]
             );
-        }
-        elseif(isset($_REQUEST["btnNo"]))
-        {
+        } elseif (isset($_REQUEST["btnNo"])) {
             Jaris\Uri::go(
                 Jaris\Modules::getPageUri(
                     "admin/pages/contact-form/archive",
                     "contact"
                 ),
-                array("uri" => $_REQUEST["uri"])
+                ["uri" => $_REQUEST["uri"]]
             );
         }
     ?>

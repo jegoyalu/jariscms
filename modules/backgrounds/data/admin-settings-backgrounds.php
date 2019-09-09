@@ -17,7 +17,7 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("edit_settings"));
+        Jaris\Authentication::protectedPage(["edit_settings"]);
 
         Jaris\View::addTab(
             t("Add Background"),
@@ -39,8 +39,7 @@ row: 0
 
         $backgrounds = unserialize($backgrounds_settings["backgrounds"]);
 
-        if(is_array($backgrounds) && count($backgrounds) > 0)
-        {
+        if (is_array($backgrounds) && count($backgrounds) > 0) {
             print "<table class=\"navigation-list\">";
             print "<thead>";
             print "<tr>";
@@ -49,14 +48,13 @@ row: 0
             print "</tr>";
             print "</thead>";
 
-            foreach($backgrounds as $background_id => $background)
-            {
+            foreach ($backgrounds as $background_id => $background) {
                 $edit_url = Jaris\Uri::url(
                     Jaris\Modules::getPageUri(
                         "admin/settings/backgrounds/edit",
                         "backgrounds"
                     ),
-                    array("id" => $background_id)
+                    ["id" => $background_id]
                 );
 
                 $delete_url = Jaris\Uri::url(
@@ -64,17 +62,16 @@ row: 0
                         "admin/settings/backgrounds/delete",
                         "backgrounds"
                     ),
-                    array("id" => $background_id)
+                    ["id" => $background_id]
                 );
 
-                if($background["multi"])
-                {
+                if ($background["multi"]) {
                     $edit_url = Jaris\Uri::url(
                         Jaris\Modules::getPageUri(
                             "admin/settings/backgrounds/multi/edit",
                             "backgrounds"
                         ),
-                        array("id" => $background_id)
+                        ["id" => $background_id]
                     );
                 }
 
@@ -94,9 +91,7 @@ row: 0
             }
 
             print "</table>";
-        }
-        else
-        {
+        } else {
             Jaris\View::addMessage(
                 t("No background images available. Click on one of the options add one.")
             );

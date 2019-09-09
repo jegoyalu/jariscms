@@ -17,19 +17,14 @@ row: 0
 
     field: content
     <?php
-        if(!Jaris\Authentication::hasTypeAccess("blog", Jaris\Authentication::currentUserGroup()))
-        {
+        if (!Jaris\Authentication::hasTypeAccess("blog", Jaris\Authentication::currentUserGroup())) {
             Jaris\Authentication::protectedPage();
         }
 
-        if(isset($_REQUEST["user"]))
-        {
-            if($user_data = Jaris\Users::get($_REQUEST["user"]))
-            {
-                if(Jaris\Authentication::hasTypeAccess("blog", $user_data["group"]))
-                {
-                    if(blog_subscribe($_REQUEST["user"], Jaris\Authentication::currentUser()))
-                    {
+        if (isset($_REQUEST["user"])) {
+            if ($user_data = Jaris\Users::get($_REQUEST["user"])) {
+                if (Jaris\Authentication::hasTypeAccess("blog", $user_data["group"])) {
+                    if (blog_subscribe($_REQUEST["user"], Jaris\Authentication::currentUser())) {
                         Jaris\View::addMessage(t("Subscribtion done."));
 
                         Jaris\Uri::go(
@@ -37,9 +32,7 @@ row: 0
                             "/" .
                             $_REQUEST["user"]
                         );
-                    }
-                    else
-                    {
+                    } else {
                         Jaris\View::addMessage(t("Already subscribed."));
 
                         Jaris\Uri::go(

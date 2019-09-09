@@ -20,23 +20,21 @@ row: 0
     field: content
     <?php
         Jaris\Authentication::protectedPage(
-            array("edit_post_settings_content_blocks")
+    ["edit_post_settings_content_blocks"]
         );
 
-        if(!isset($_REQUEST["uri"]))
-        {
+        if (!isset($_REQUEST["uri"])) {
             Jaris\Uri::go("");
         }
 
-        if(!Jaris\Pages::userIsOwner($_REQUEST["uri"]))
-        {
+        if (!Jaris\Pages::userIsOwner($_REQUEST["uri"])) {
             Jaris\Authentication::protectedPage();
         }
 
         $page_uri = $_REQUEST["uri"];
-        $arguments = array(
+        $arguments = [
             "uri" => $_REQUEST["uri"]
-        );
+        ];
 
         Jaris\View::addTab(t("Edit"), "admin/pages/edit", $arguments);
         Jaris\View::addTab(t("View"), $_REQUEST["uri"]);
@@ -50,11 +48,10 @@ row: 0
         Jaris\View::addTab(t("Create Post Block"), "admin/pages/blocks/add/post", $arguments, 1);
         Jaris\View::addTab(t("Post Settings"), "admin/pages/blocks/post/settings", $arguments, 1);
 
-        if(
+        if (
             isset($_REQUEST["btnSave"]) &&
             !Jaris\Forms::requiredFieldEmpty("edit-block-post-settings")
-        )
-        {
+        ) {
             $fields["display_title"] = $_REQUEST["display_title"];
             $fields["display_image"] = $_REQUEST["display_image"];
             $fields["thumbnail_width"] = $_REQUEST["thumbnail_width"];
@@ -65,12 +62,9 @@ row: 0
             $fields["display_view_more"] = $_REQUEST["display_view_more"];
 
             //Check if write is possible and continue to write settings
-            if(Jaris\Blocks::setPostSettings($fields, $_REQUEST["uri"]))
-            {
+            if (Jaris\Blocks::setPostSettings($fields, $_REQUEST["uri"])) {
                 Jaris\View::addMessage(t("Post settings successfully saved."));
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(
                     Jaris\System::errorMessage("write_error_data"),
                     "error"
@@ -79,14 +73,12 @@ row: 0
 
             Jaris\Uri::go(
                 "admin/pages/blocks",
-                array("uri" => $_REQUEST["uri"])
+                ["uri" => $_REQUEST["uri"]]
             );
-        }
-        elseif(isset($_REQUEST["btnCancel"]))
-        {
+        } elseif (isset($_REQUEST["btnCancel"])) {
             Jaris\Uri::go(
                 "admin/pages/blocks",
-                array("uri" => $_REQUEST["uri"])
+                ["uri" => $_REQUEST["uri"]]
             );
         }
 
@@ -100,31 +92,31 @@ row: 0
         $enable_disable[t("Enable")] = true;
         $enable_disable[t("Disable")] = false;
 
-        $display_title_fields[] = array(
+        $display_title_fields[] = [
             "type" => "radio",
             "name" => "display_title",
             "id" => "display_title",
             "value" => $enable_disable,
             "checked" => $settings["display_title"]
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "name" => t("Display post title"),
             "fields" => $display_title_fields,
             "collapsible" => true,
             "collapsed" => false,
             "description" => t("Overrides the block title with the title of the page from the given uri.")
-        );
+        ];
 
-        $display_image_fields[] = array(
+        $display_image_fields[] = [
             "type" => "radio",
             "name" => "display_image",
             "id" => "display_image",
             "value" => $enable_disable,
             "checked" => $settings["display_image"]
-        );
+        ];
 
-        $display_image_fields[] = array(
+        $display_image_fields[] = [
             "type" => "text",
             "name" => "thumbnail_width",
             "label" => t("Thumbnail width:"),
@@ -132,62 +124,62 @@ row: 0
             "value" => $settings["thumbnail_width"],
             "required" => true,
             "description" => t("The maximum width of the image thumbnail in pixels.")
-        );
+        ];
 
-        $display_image_fields[] = array(
+        $display_image_fields[] = [
             "type" => "text",
             "name" => "thumbnail_height",
             "label" => t("Thumbnail height:"),
             "id" => "thumbnail_height",
             "value" => $settings["thumbnail_height"],
             "description" => t("The maximum height of the image thumbnail in pixels.")
-        );
+        ];
 
-        $display_image_fields[] = array(
+        $display_image_fields[] = [
             "type" => "color",
             "name" => "thumbnail_background_color",
             "label" => t("Background color:"),
             "id" => "thumbnail_background_color",
             "value" => $settings["thumbnail_background_color"],
             "description" => t("The background color of the thumbnail in case is neccesary.")
-        );
+        ];
 
-        $display_image_fields[] = array(
+        $display_image_fields[] = [
             "type" => "other",
             "html_code" => "<br />"
-        );
+        ];
 
-        $display_image_fields[] = array(
+        $display_image_fields[] = [
             "type" => "checkbox",
             "label" => t("Keep aspect ratio?"),
             "name" => "keep_aspect_ratio",
             "id" => "keep_aspect_ratio",
             "checked" => $settings["keep_aspect_ratio"]
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "name" => t("Display image thumbnail"),
             "fields" => $display_image_fields,
             "collapsible" => true,
             "collapsed" => false
-        );
+        ];
 
-        $display_link_fields[] = array(
+        $display_link_fields[] = [
             "type" => "radio",
             "name" => "display_view_more",
             "id" => "display_view_more",
             "value" => $enable_disable,
             "checked" => $settings["display_view_more"]
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "name" => t("Display view more link"),
             "fields" => $display_link_fields,
             "collapsible" => true,
             "collapsed" => false
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "name" => "maximum_words",
             "id" => "maximum_words",
@@ -195,27 +187,27 @@ row: 0
             "value" => $settings["maximum_words"],
             "required" => true,
             "description" => t("Amount of words displayed of the page summary.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "hidden",
             "name" => "uri",
             "value" => $_REQUEST["uri"]
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnSave",
             "value" => t("Save")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnCancel",
             "value" => t("Cancel")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
         print Jaris\Forms::generate($parameters, $fieldset);
     ?>

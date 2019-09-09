@@ -23,7 +23,7 @@
     </div>
 
     <div class="description">
-        <?php if($thumbnail) { ?>
+        <?php if ($thumbnail) { ?>
         <a class="thumbnail" href="<?php print $url ?>">
             <img alt="<?php print $title ?>" src="<?php print $thumbnail ?>" />
         </a>

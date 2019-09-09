@@ -39,16 +39,13 @@ row: 0
 
         $content_type = $page_data["filter_types"][0];
 
-        if(trim($content_type) != "")
-        {
+        if (trim($content_type) != "") {
             $categories = Jaris\Categories::getList($content_type);
 
-            $selected_categories = array();
+            $selected_categories = [];
 
-            foreach($categories as $cat_name => $cat_fields)
-            {
-                if(isset($_REQUEST[$cat_name]))
-                {
+            foreach ($categories as $cat_name => $cat_fields) {
+                if (isset($_REQUEST[$cat_name])) {
                     $selected_categories[$cat_name] = $_REQUEST[$cat_name];
                 }
             }
@@ -66,15 +63,15 @@ row: 0
             $parameters["action"] = Jaris\Uri::url(Jaris\Uri::get());
             $parameters["method"] = "get";
 
-            $fieldset[] = array("fields" => $fields);
+            $fieldset[] = ["fields" => $fields];
 
-            $fields_other[] = array(
+            $fields_other[] = [
                 "type" => "submit",
                 "name" => "filter",
                 "value" => t("Filter")
-            );
+            ];
 
-            $fieldset[] = array("fields" => $fields_other);
+            $fieldset[] = ["fields" => $fields_other];
 
             print Jaris\Forms::generate($parameters, $fieldset);
         }
@@ -97,20 +94,18 @@ row: 0
     <?php
         $page_data = Jaris\Site::$page_data[0];
 
-        if($page_data["type"] == "listing")
-        {
+        if ($page_data["type"] == "listing") {
             $page_data["filter_types"] = unserialize(
                 $page_data["filter_types"]
             );
 
-            if(
+            if (
                 $page_data["show_categories"]
                 &&
                 is_array($page_data["filter_types"])
                 &&
                 count($page_data["filter_types"]) == 1
-            )
-            {
+            ) {
                 return true;
             }
         }

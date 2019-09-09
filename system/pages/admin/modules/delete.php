@@ -19,20 +19,18 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("delete_modules"));
+        Jaris\Authentication::protectedPage(["delete_modules"]);
 
-        if(!isset($_REQUEST["path"]))
-        {
+        if (!isset($_REQUEST["path"])) {
             Jaris\Uri::go("admin/modules");
         }
 
-        if(
+        if (
             Jaris\Modules::directory(
                 $_REQUEST["path"]
             ) ==
             "modules/" . $_REQUEST["path"] . "/"
-        )
-        {
+        ) {
             Jaris\View::addMessage(
                 "System modules can not be deleted.",
                 "error"
@@ -41,27 +39,23 @@ row: 0
             Jaris\Uri::go("admin/modules");
         }
 
-        if(isset($_REQUEST["btnYes"]))
-        {
-            if(
+        if (isset($_REQUEST["btnYes"])) {
+            if (
                 Jaris\FileSystem::recursiveRemoveDir(
                     Jaris\Modules::directory($_REQUEST["path"])
                 )
-            )
-            {
+            ) {
                 Jaris\View::addMessage(t("Module successfully deleted."));
 
                 t("Deleted module '{module_name}'.");
 
                 Jaris\Logger::info(
                     "Deleted module '{module_name}'.",
-                    array(
+                    [
                         "module_name" => $_REQUEST["path"]
-                    )
+                    ]
                 );
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(
                     Jaris\System::errorMessage("write_error_data"),
                     "error"
@@ -69,9 +63,7 @@ row: 0
             }
 
             Jaris\Uri::go("admin/modules");
-        }
-        elseif(isset($_REQUEST["btnNo"]))
-        {
+        } elseif (isset($_REQUEST["btnNo"])) {
             Jaris\Uri::go("admin/modules");
         }
 

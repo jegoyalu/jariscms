@@ -17,13 +17,11 @@ row: 0
 
     field: content
     <?php
-        if(isset($_REQUEST["btnView"]))
-        {
-            if($_REQUEST["type"] != "")
-            {
+        if (isset($_REQUEST["btnView"])) {
+            if ($_REQUEST["type"] != "") {
                 Jaris\Uri::go(
                     Jaris\Modules::getPageUri("rss", "rss"),
-                    array("type" => $_REQUEST["type"])
+                    ["type" => $_REQUEST["type"]]
                 );
             }
 
@@ -38,30 +36,29 @@ row: 0
         $parameters["method"] = "post";
 
         $types = Jaris\Types::getList();
-        $types_list = array();
+        $types_list = [];
         $types_list[t("All")] = "";
 
-        foreach($types as $type_name => $type_data)
-        {
+        foreach ($types as $type_name => $type_data) {
             $types_list[t($type_data["name"])] = $type_name;
         }
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "select",
             "name" => "type",
             "label" => t("Type of content:"),
             "id" => "type",
             "value" => $types_list,
             "selected" => ""
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnView",
             "value" => t("View")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
         print "<p>" .
             t("You can use the rss selecter tool to generate rss by content type.") .

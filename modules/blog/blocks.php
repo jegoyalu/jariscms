@@ -34,13 +34,10 @@ row: 0
         $username = "";
 
         //Get blogs username
-        if(Jaris\Pages::getType(Jaris\Uri::get()) == "blog")
-        {
+        if (Jaris\Pages::getType(Jaris\Uri::get()) == "blog") {
             $page_data = Jaris\Pages::get(Jaris\Uri::get());
             $username = $page_data["author"];
-        }
-        else
-        {
+        } else {
             $uri_parts = explode("/", Jaris\Uri::get());
             $username = $uri_parts[2];
         }
@@ -49,8 +46,7 @@ row: 0
         $database_path = Jaris\Users::getPath($username, $user_data["group"]);
         $database_path = str_replace("data.php", "", $database_path);
 
-        if(Jaris\Sql::dbExists("blog", $database_path))
-        {
+        if (Jaris\Sql::dbExists("blog", $database_path)) {
             $months[1] = t("January");
             $months[2] = t("February");
             $months[3] = t("March");
@@ -76,8 +72,7 @@ row: 0
 
             print "<ul class=\"blog-archive-links\">";
 
-            while($months_found <= 12 && $total_post_checked < $total_post_count)
-            {
+            while ($months_found <= 12 && $total_post_checked < $total_post_count) {
                 $post_count = Jaris\Sql::countColumn(
                     "blog",
                     "post",
@@ -86,14 +81,13 @@ row: 0
                     $database_path
                 );
 
-                if($post_count > 0)
-                {
+                if ($post_count > 0) {
                     $months_found++;
                     $total_post_checked += $post_count;
 
                     $url = Jaris\Uri::url(
                         "blog/user/$username",
-                        array("m"=>$current_month, "y"=>$current_year)
+                        ["m"=>$current_month, "y"=>$current_year]
                     );
 
                     print "<li>"
@@ -113,13 +107,10 @@ row: 0
                     ;
                 }
 
-                if($current_month == 1)
-                {
+                if ($current_month == 1) {
                     $current_year--;
                     $current_month = 12;
-                }
-                else
-                {
+                } else {
                     $current_month--;
                 }
             }
@@ -143,15 +134,12 @@ row: 0
 
     field: return
     <?php
-        if(
+        if (
             Jaris\Pages::getType(Jaris\Uri::get()) == "blog" ||
             strpos(Jaris\Uri::get(), "blog/user/") !== false
-        )
-        {
+        ) {
             print "true";
-        }
-        else
-        {
+        } else {
             print "false";
         }
     ?>
@@ -198,8 +186,7 @@ row: 1
 
         print "<div class=\"blog-recent-post\">\n";
         print "<ul>\n";
-        while($data = Jaris\Sql::fetchArray($result))
-        {
+        while ($data = Jaris\Sql::fetchArray($result)) {
             $post_data = Jaris\Pages::get($data["uri"]);
 
             print "<li>"
@@ -230,12 +217,9 @@ row: 1
 
     field: return
     <?php
-        if(Jaris\Pages::getType(Jaris\Uri::get()) == "blog")
-        {
+        if (Jaris\Pages::getType(Jaris\Uri::get()) == "blog") {
             print "true";
-        }
-        else
-        {
+        } else {
             print "false";
         }
     ?>
@@ -277,16 +261,12 @@ row: 2
 
         $result = Jaris\Sql::query($select, $db);
 
-        while($data = Jaris\Sql::fetchArray($result))
-        {
+        while ($data = Jaris\Sql::fetchArray($result)) {
             $user_data = Jaris\Users::get($data["user"]);
 
-            if($user_data["picture"])
-            {
+            if ($user_data["picture"]) {
                 $picture = Jaris\Uri::url("image/user/" . $data["user"]);
-            }
-            else
-            {
+            } else {
                 $picture = Jaris\Uri::url(
                     Jaris\Modules::directory("blog") . "images/no-picture.png"
                 );
@@ -333,8 +313,7 @@ row: 2
                 . "</div>\n"
             ;
 
-            if($data["description"])
-            {
+            if ($data["description"]) {
                 print "<div class=\"description\">"
                     . $data["description"]
                     . "</div>\n"
@@ -400,16 +379,12 @@ row: 3
 
         $result = Jaris\Sql::query($select, $db);
 
-        while($data = Jaris\Sql::fetchArray($result))
-        {
+        while ($data = Jaris\Sql::fetchArray($result)) {
             $user_data = Jaris\Users::get($data["user"]);
 
-            if($user_data["picture"])
-            {
+            if ($user_data["picture"]) {
                 $picture = Jaris\Uri::url("image/user/" . $data["user"]);
-            }
-            else
-            {
+            } else {
                 $picture = Jaris\Uri::url(
                     Jaris\Modules::directory("blog") . "images/no-picture.png"
                 );
@@ -504,8 +479,7 @@ row: 4
     <?php
         $settings = blog_get_main_settings();
 
-        if($settings["main_category"] != "")
-        {
+        if ($settings["main_category"] != "") {
             $subcategories = Jaris\Categories::getSubcategories(
                 $settings["main_category"]
             );
@@ -522,13 +496,12 @@ row: 4
                 . "</li>"
             ;
 
-            foreach($subcategories as $id=>$data)
-            {
+            foreach ($subcategories as $id=>$data) {
                 print "<li>"
                     . "<a href=\""
                     . Jaris\Uri::url(
                         Jaris\Modules::getPageUri("blog/browser", "blog"),
-                        array("c"=>$id)
+                        ["c"=>$id]
                     )
                     . "\">"
                     . t($data["title"])
@@ -541,7 +514,7 @@ row: 4
                 . "<a href=\""
                 . Jaris\Uri::url(
                     Jaris\Modules::getPageUri("blog/browser", "blog"),
-                    array("c"=>-1)
+                    ["c"=>-1]
                 )
                 . "\">"
                 . t("Other")

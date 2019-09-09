@@ -26,7 +26,8 @@
  * @package Minify
  * @author Stephen Clay <steve@mrclay.org>
  */
-class Minify_Controller_Groups extends Minify_Controller_Base {
+class Minify_Controller_Groups extends Minify_Controller_Base
+{
 
     /**
      * Set up groups of files as sources
@@ -38,7 +39,8 @@ class Minify_Controller_Groups extends Minify_Controller_Base {
      *
      * @return array Minify options
      */
-    public function setupSources($options) {
+    public function setupSources($options)
+    {
         // strip controller options
         $groups = $options['groups'];
         unset($options['groups']);
@@ -46,7 +48,8 @@ class Minify_Controller_Groups extends Minify_Controller_Base {
         // mod_fcgid places PATH_INFO in ORIG_PATH_INFO
         $pi = isset($_SERVER['ORIG_PATH_INFO'])
             ? substr($_SERVER['ORIG_PATH_INFO'], 1)
-            : (isset($_SERVER['PATH_INFO'])
+            : (
+                isset($_SERVER['PATH_INFO'])
                 ? substr($_SERVER['PATH_INFO'], 1)
                 : false
             );
@@ -55,12 +58,12 @@ class Minify_Controller_Groups extends Minify_Controller_Base {
             $this->log("Missing PATH_INFO or no group set for \"$pi\"");
             return $options;
         }
-        $sources = array();
+        $sources = [];
 
         $files = $groups[$pi];
         // if $files is a single object, casting will break it
         if (is_object($files)) {
-            $files = array($files);
+            $files = [$files];
         } elseif (! is_array($files)) {
             $files = (array)$files;
         }
@@ -74,9 +77,9 @@ class Minify_Controller_Groups extends Minify_Controller_Base {
             }
             $realPath = realpath($file);
             if (is_file($realPath)) {
-                $sources[] = new Minify_Source(array(
+                $sources[] = new Minify_Source([
                     'filepath' => $realPath
-                ));
+                ]);
             } else {
                 $this->log("The path \"{$file}\" could not be found (or was not a file)");
                 return $options;
@@ -88,4 +91,3 @@ class Minify_Controller_Groups extends Minify_Controller_Base {
         return $options;
     }
 }
-

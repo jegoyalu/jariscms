@@ -14,26 +14,19 @@ row: 0
     field: title
     <?php
         $id = 0;
-        if(!isset($_REQUEST["id"]) || intval($_REQUEST["id"]) <= 0)
-        {
+        if (!isset($_REQUEST["id"]) || intval($_REQUEST["id"]) <= 0) {
             Jaris\Uri::go("");
-        }
-        else
-        {
+        } else {
             $id = intval($_REQUEST["id"]);
         }
 
-        if(!isset($_REQUEST["uri"]) || trim($_REQUEST["uri"]) == "")
-        {
+        if (!isset($_REQUEST["uri"]) || trim($_REQUEST["uri"]) == "") {
             Jaris\Uri::go("");
-        }
-        elseif(!($page_data = Jaris\Pages::get($_REQUEST["uri"])))
-        {
+        } elseif (!($page_data = Jaris\Pages::get($_REQUEST["uri"]))) {
             Jaris\Uri::go("");
         }
 
-        if($page_data["type"] != "calendar")
-        {
+        if ($page_data["type"] != "calendar") {
             Jaris\Uri::go("");
         }
 
@@ -41,12 +34,9 @@ row: 0
 
         $event_data = calendar_event_data($id, $uri);
 
-        if($event_data["approved"])
-        {
+        if ($event_data["approved"]) {
             print Jaris\Util::stripHTMLTags($event_data["title"]);
-        }
-        else
-        {
+        } else {
             Jaris\Uri::go($uri);
         }
     ?>
@@ -59,8 +49,7 @@ row: 0
 
         $event_data = calendar_event_data($id, $uri);
 
-        if(count($event_data) > 0)
-        {
+        if (count($event_data) > 0) {
             $google_map_key = Jaris\Settings::get("google_maps", "keys");
             $map_key_param = !empty($google_map_key) ?
                 "&key=$google_map_key"
@@ -73,21 +62,20 @@ row: 0
 
             Jaris\View::addStyle(Jaris\Modules::directory("calendar") . "styles/calendar.css");
 
-            if(
+            if (
                 Jaris\Pages::userIsOwner($uri) ||
                 $event_data["author"] == Jaris\Authentication::currentUser()
-            )
-            {
+            ) {
                 Jaris\View::addTab(
                     t("Edit Event"),
                     Jaris\Modules::getPageUri("admin/calendar/events/edit", "calendar"),
-                    array("uri" => $uri, "id" => $id)
+                    ["uri" => $uri, "id" => $id]
                 );
 
                 Jaris\View::addTab(
                     t("Delete Event"),
                     Jaris\Modules::getPageUri("admin/calendar/events/delete", "calendar"),
-                    array("uri" => $uri, "id" => $id)
+                    ["uri" => $uri, "id" => $id]
                 );
             }
 
@@ -122,7 +110,7 @@ row: 0
             $url = trim($event_data["all_data"]["url"]) != "" ?
                 (
                     "http://" . str_replace(
-                        array("http://", "https://"),
+                        ["http://", "https://"],
                         "",
                         $event_data["all_data"]["url"]
                     )
@@ -131,32 +119,30 @@ row: 0
                 ""
             ;
 
-            $images = array();
-            foreach($event_data["attachments"] as $file)
-            {
+            $images = [];
+            foreach ($event_data["attachments"] as $file) {
                 $file_parts = explode(".", $file);
 
-                if(
+                if (
                     in_array(
                         strtolower(array_pop($file_parts)),
-                        array("jpg", "jpeg", "gif", "png"))
-                )
-                {
+                        ["jpg", "jpeg", "gif", "png"]
+                    )
+                ) {
                     $images[] = $file;
                 }
             }
 
-            $files = array();
-            foreach($event_data["attachments"] as $file)
-            {
+            $files = [];
+            foreach ($event_data["attachments"] as $file) {
                 $file_parts = explode(".", $file);
 
-                if(
+                if (
                     in_array(
                         strtolower(array_pop($file_parts)),
-                        array("pdf"))
-                )
-                {
+                        ["pdf"]
+                    )
+                ) {
                     $files[] = $file;
                 }
             }
@@ -171,17 +157,12 @@ row: 0
                 . "templates/calendar-event.php"
             ;
 
-            if(file_exists($custom_template))
-            {
+            if (file_exists($custom_template)) {
                 include($custom_template);
-            }
-            else
-            {
+            } else {
                 include($default_template);
             }
-        }
-        else
-        {
+        } else {
             Jaris\Uri::go($uri);
         }
     ?>

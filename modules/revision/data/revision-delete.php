@@ -27,7 +27,7 @@ row: 0
             . "/revisions/" . $revision . ".php"
         ;
 
-        if(
+        if (
             !isset($_REQUEST["uri"])
             ||
             !isset($_REQUEST["rev"])
@@ -39,27 +39,21 @@ row: 0
             !file_exists(Jaris\Pages::getPath($_REQUEST["uri"]) . "/data.php")
             ||
             !file_exists($revision_file)
-        )
-        {
+        ) {
             Jaris\Uri::go("access-denied");
         }
 
-        if(!Jaris\Pages::userIsOwner($_REQUEST["uri"]))
-        {
+        if (!Jaris\Pages::userIsOwner($_REQUEST["uri"])) {
             Jaris\Authentication::protectedPage();
         }
 
-        Jaris\Authentication::protectedPage(array("delete_revisions"));
+        Jaris\Authentication::protectedPage(["delete_revisions"]);
 
 
-        if(isset($_REQUEST["btnYes"]))
-        {
-            if(unlink($revision_file))
-            {
+        if (isset($_REQUEST["btnYes"])) {
+            if (unlink($revision_file)) {
                 Jaris\View::addMessage(t("Revision successfully removed."));
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(
                     Jaris\System::errorMessage("write_error_data"),
                     "error"
@@ -68,14 +62,12 @@ row: 0
 
             Jaris\Uri::go(
                 Jaris\Modules::getPageUri("revisions", "revision"),
-                array("uri" => $_REQUEST["uri"])
+                ["uri" => $_REQUEST["uri"]]
             );
-        }
-        elseif(isset($_REQUEST["btnNo"]))
-        {
+        } elseif (isset($_REQUEST["btnNo"])) {
             Jaris\Uri::go(
                 Jaris\Modules::getPageUri("revisions", "revision"),
-                array("uri" => $_REQUEST["uri"])
+                ["uri" => $_REQUEST["uri"]]
             );
         }
     ?>

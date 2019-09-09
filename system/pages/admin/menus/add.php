@@ -19,17 +19,15 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("view_menus", "add_menus"));
+        Jaris\Authentication::protectedPage(["view_menus", "add_menus"]);
 
-        if(
+        if (
             isset($_REQUEST["btnSave"]) &&
             !Jaris\Forms::requiredFieldEmpty("add-menu")
-        )
-        {
+        ) {
             $message = Jaris\Menus::add($_REQUEST["menu_name"]);
 
-            if($message == "true")
-            {
+            if ($message == "true") {
                 //Create block for the menu
                 $menu_block["description"] = $_REQUEST["menu_name"] . " " . "menu";
                 $menu_block["title"] = $_REQUEST["menu_name"] . " " . "menu";
@@ -60,20 +58,16 @@ row: 0
 
                 Jaris\Logger::info(
                     "Added menu '{machine_name}'.",
-                    array(
+                    [
                         "machine_name" => $_REQUEST["menu_name"]
-                    )
+                    ]
                 );
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage($message, "error");
             }
 
             Jaris\Uri::go("admin/menus");
-        }
-        elseif(isset($_REQUEST["btnCancel"]))
-        {
+        } elseif (isset($_REQUEST["btnCancel"])) {
             Jaris\Uri::go("admin/menus");
         }
 
@@ -82,28 +76,28 @@ row: 0
         $parameters["action"] = Jaris\Uri::url("admin/menus/add");
         $parameters["method"] = "post";
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "name" => "menu_name",
             "label" => t("Name:"),
             "id" => "menu_name",
             "description" => t("A machine readable name. For example: my-menu"),
             "required" => true
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnSave",
             "value" => t("Save")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnCancel",
             "value" => t("Cancel")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
         print Jaris\Forms::generate($parameters, $fieldset);
     ?>

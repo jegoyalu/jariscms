@@ -12,16 +12,13 @@
 
 function comments_get_settings($type)
 {
-    $settings = array();
-    if(!($settings = Jaris\Settings::get($type, "comments")))
-    {
+    $settings = [];
+    if (!($settings = Jaris\Settings::get($type, "comments"))) {
         $settings["enabled"] = false;
         $settings["ordering"] = "asc";
         $settings["replies"] = "cascade";
         $settings["maximun_characters"] = 500;
-    }
-    else
-    {
+    } else {
         $settings = unserialize($settings);
 
         $settings["enabled"] = $settings["enabled"] ?
@@ -75,8 +72,7 @@ function comments_get($id, $page)
 
 function comments_add($comment, $page, $reply_to_id = null)
 {
-    if($reply_to_id <= 0)
-    {
+    if ($reply_to_id <= 0) {
         $reply_to_id = "null";
     }
 
@@ -304,8 +300,7 @@ function comments_is_from_current_user($id, $page)
 
     $data = Jaris\Sql::fetchArray($result);
 
-    if($data["user"] == Jaris\Authentication::currentUser())
-    {
+    if ($data["user"] == Jaris\Authentication::currentUser()) {
         Jaris\Sql::close($db);
         return true;
     }
@@ -323,8 +318,7 @@ function comments_is_from_current_user($id, $page)
 function comments_create_db_if_needed($page, $user)
 {
     //Create page comments data base
-    if(!Jaris\Sql::dbExists("comments", comments_page_path($page)))
-    {
+    if (!Jaris\Sql::dbExists("comments", comments_page_path($page))) {
         $db = Jaris\Sql::open("comments", comments_page_path($page));
 
         Jaris\Sql::query(
@@ -354,8 +348,7 @@ function comments_create_db_if_needed($page, $user)
     }
 
     //Create user comments data base
-    if(!Jaris\Sql::dbExists("comments", comments_user_path($user)))
-    {
+    if (!Jaris\Sql::dbExists("comments", comments_user_path($user))) {
         $db = Jaris\Sql::open("comments", comments_user_path($user));
 
         Jaris\Sql::query(
@@ -387,8 +380,7 @@ function comments_create_db_if_needed($page, $user)
 
 function comments_user_path($user)
 {
-    if($user == "Guest")
-    {
+    if ($user == "Guest") {
         return null;
     }
 
@@ -419,21 +411,22 @@ function comments_page_path($page)
  * @return array with each page uri not longer than $limit
  */
 function comments_get_list(
-    $page_uri, $page = 0, $limit = 30, $ordering="asc", $replies=false
-)
-{
+    $page_uri,
+    $page = 0,
+    $limit = 30,
+    $ordering="asc",
+    $replies=false
+) {
     $db = null;
     $page *= $limit;
-    $comments = array();
+    $comments = [];
 
     $replies_where = "";
-    if(!$replies)
-    {
+    if (!$replies) {
         $replies_where .= "where reply_to is null";
     }
 
-    if(Jaris\Sql::dbExists("comments", comments_page_path($page_uri)))
-    {
+    if (Jaris\Sql::dbExists("comments", comments_page_path($page_uri))) {
         $db = Jaris\Sql::open("comments", comments_page_path($page_uri));
 
         $result = Jaris\Sql::query(
@@ -443,27 +436,21 @@ function comments_get_list(
             . "limit $page, $limit",
             $db
         );
-    }
-    else
-    {
+    } else {
         return $comments;
     }
 
-    $fields = array();
-    if($fields = Jaris\Sql::fetchArray($result))
-    {
+    $fields = [];
+    if ($fields = Jaris\Sql::fetchArray($result)) {
         $comments[] = $fields;
 
-        while($fields = Jaris\Sql::fetchArray($result))
-        {
+        while ($fields = Jaris\Sql::fetchArray($result)) {
             $comments[] = $fields;
         }
 
         Jaris\Sql::close($db);
         return $comments;
-    }
-    else
-    {
+    } else {
         Jaris\Sql::close($db);
         return $comments;
     }
@@ -480,10 +467,9 @@ function comments_get_list(
 function comments_get_replies($comment_id, $page_uri)
 {
     $db = null;
-    $comments = array();
+    $comments = [];
 
-    if(Jaris\Sql::dbExists("comments", comments_page_path($page_uri)))
-    {
+    if (Jaris\Sql::dbExists("comments", comments_page_path($page_uri))) {
         $db = Jaris\Sql::open("comments", comments_page_path($page_uri));
 
         $result = Jaris\Sql::query(
@@ -492,27 +478,21 @@ function comments_get_replies($comment_id, $page_uri)
             . "order by created_timestamp asc ",
             $db
         );
-    }
-    else
-    {
+    } else {
         return $comments;
     }
 
-    $fields = array();
-    if($fields = Jaris\Sql::fetchArray($result))
-    {
+    $fields = [];
+    if ($fields = Jaris\Sql::fetchArray($result)) {
         $comments[] = $fields;
 
-        while($fields = Jaris\Sql::fetchArray($result))
-        {
+        while ($fields = Jaris\Sql::fetchArray($result)) {
             $comments[] = $fields;
         }
 
         Jaris\Sql::close($db);
         return $comments;
-    }
-    else
-    {
+    } else {
         Jaris\Sql::close($db);
         return $comments;
     }
@@ -520,8 +500,9 @@ function comments_get_replies($comment_id, $page_uri)
 
 function comments_clean_user_comments($user)
 {
-    if(!Jaris\Sql::dbExists("comments", comments_user_path($user)))
+    if (!Jaris\Sql::dbExists("comments", comments_user_path($user))) {
         return;
+    }
 
     //Make a copy because of db locks while reading and writing at same time
     $comments_original = comments_user_path($user) . "comments";
@@ -539,27 +520,23 @@ function comments_clean_user_comments($user)
 
     $result = Jaris\Sql::query($select, $db_copy);
 
-    while($comment = Jaris\Sql::fetchArray($result))
-    {
+    while ($comment = Jaris\Sql::fetchArray($result)) {
         //Delete comment if original page that hold comment was deleted
-        if(!Jaris\Sql::dbExists("comments", comments_page_path($comment["uri"])))
-        {
+        if (!Jaris\Sql::dbExists("comments", comments_page_path($comment["uri"]))) {
             $delete = "delete from comments where id={$comment['id']} and uri='{$comment['uri']}'";
 
             Jaris\Sql::query($delete, $db);
         }
 
         //Delete if comment doesnt exist on the page comments database
-        else
-        {
+        else {
             $db_page = Jaris\Sql::open("comments", comments_page_path($comment["uri"]));
 
             $select_page = "select id from comments where id={$comment['id']}";
 
             $result_page = Jaris\Sql::query($select_page, $db_page);
 
-            if(!($comment_page = Jaris\Sql::fetchArray($result_page)))
-            {
+            if (!($comment_page = Jaris\Sql::fetchArray($result_page))) {
                 $delete = "delete from comments where id={$comment['id']} and uri='{$comment['uri']}'";
 
                 Jaris\Sql::query($delete, $db);
@@ -587,37 +564,30 @@ function comments_get_flagged_list($page = 0, $limit = 30)
 {
     $db = null;
     $page *= $limit;
-    $comments = array();
+    $comments = [];
 
-    if(Jaris\Sql::dbExists("comments"))
-    {
+    if (Jaris\Sql::dbExists("comments")) {
         $db = Jaris\Sql::open("comments");
 
         $result = Jaris\Sql::query(
             "select * from comments where flags > 0 order by flags desc limit $page, $limit",
             $db
         );
-    }
-    else
-    {
+    } else {
         return $comments;
     }
 
-    $fields = array();
-    if($fields = Jaris\Sql::fetchArray($result))
-    {
+    $fields = [];
+    if ($fields = Jaris\Sql::fetchArray($result)) {
         $comments[] = $fields;
 
-        while($fields = Jaris\Sql::fetchArray($result))
-        {
+        while ($fields = Jaris\Sql::fetchArray($result)) {
             $comments[] = $fields;
         }
 
         Jaris\Sql::close($db);
         return $comments;
-    }
-    else
-    {
+    } else {
         Jaris\Sql::close($db);
         return $comments;
     }
@@ -646,17 +616,17 @@ function comments_get_notifications_type($user)
 {
     $user_data = Jaris\Users::get($user);
 
-    if(isset($user_data["comments_notification"]))
+    if (isset($user_data["comments_notification"])) {
         return $user_data["comments_notification"];
-    else
+    } else {
         return "all";
+    }
 }
 
 function comments_notifications_initial_subscribe($user, $page)
 {
     //Create page comments_subscribers data base
-    if(!Jaris\Sql::dbExists("comments_subscribers", comments_page_path($page)))
-    {
+    if (!Jaris\Sql::dbExists("comments_subscribers", comments_page_path($page))) {
         $db = Jaris\Sql::open("comments_subscribers", comments_page_path($page));
 
         Jaris\Sql::query("create table comments_subscribers (user text, subscribed integer)", $db);
@@ -670,8 +640,7 @@ function comments_notifications_initial_subscribe($user, $page)
 
     $result = Jaris\Sql::query("select * from comments_subscribers where user='$user'", $db);
 
-    if(!($data = Jaris\Sql::fetchArray($result)))
-    {
+    if (!($data = Jaris\Sql::fetchArray($result))) {
         Jaris\Sql::query("insert into comments_subscribers (user, subscribed) values('$user', 1)", $db);
     }
 
@@ -681,8 +650,7 @@ function comments_notifications_initial_subscribe($user, $page)
 function comments_notifications_subscribe($user, $page)
 {
     //Create page comments_subscribers data base
-    if(!Jaris\Sql::dbExists("comments_subscribers", comments_page_path($page)))
-    {
+    if (!Jaris\Sql::dbExists("comments_subscribers", comments_page_path($page))) {
         $db = Jaris\Sql::open("comments_subscribers", comments_page_path($page));
 
         Jaris\Sql::query("create table comments_subscribers (user text, subscribed integer)", $db);
@@ -696,12 +664,9 @@ function comments_notifications_subscribe($user, $page)
 
     $result = Jaris\Sql::query("select * from comments_subscribers where user='$user'", $db);
 
-    if(!($data = Jaris\Sql::fetchArray($result)))
-    {
+    if (!($data = Jaris\Sql::fetchArray($result))) {
         Jaris\Sql::query("insert into comments_subscribers (user, subscribed) values('$user', 1)", $db);
-    }
-    else
-    {
+    } else {
         Jaris\Sql::query("update comments_subscribers set subscribed=1 where user='$user'", $db);
     }
 
@@ -710,8 +675,7 @@ function comments_notifications_subscribe($user, $page)
 
 function comments_notifications_unsubscribe($user, $page)
 {
-    if(Jaris\Sql::dbExists("comments_subscribers", comments_page_path($page)))
-    {
+    if (Jaris\Sql::dbExists("comments_subscribers", comments_page_path($page))) {
         $db = Jaris\Sql::open("comments_subscribers", comments_page_path($page));
 
         Jaris\Sql::query("update comments_subscribers set subscribed=0 where user='$user'", $db);
@@ -725,16 +689,15 @@ function comments_notifications_is_subscribed($user, $page)
     $is_subscribed = false;
 
     //Create page comments data base
-    if(Jaris\Sql::dbExists("comments_subscribers", comments_page_path($page)))
-    {
+    if (Jaris\Sql::dbExists("comments_subscribers", comments_page_path($page))) {
         $db = Jaris\Sql::open("comments_subscribers", comments_page_path($page));
 
         $result = Jaris\Sql::query("select * from comments_subscribers where user='$user'", $db);
 
-        if($data = Jaris\Sql::fetchArray($result))
-        {
-            if($data["subscribed"] > 0)
+        if ($data = Jaris\Sql::fetchArray($result)) {
+            if ($data["subscribed"] > 0) {
                 $is_subscribed = true;
+            }
         }
 
         Jaris\Sql::close($db);
@@ -742,5 +705,3 @@ function comments_notifications_is_subscribed($user, $page)
 
     return $is_subscribed;
 }
-
-?>

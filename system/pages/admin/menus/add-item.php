@@ -20,21 +20,18 @@ row: 0
     field: content
     <?php
         Jaris\Authentication::protectedPage(
-            array("view_menus", "add_menu_items")
+    ["view_menus", "add_menu_items"]
         );
 
-        if(!isset($_REQUEST["menu"]))
-        {
+        if (!isset($_REQUEST["menu"])) {
             Jaris\Uri::go("admin/menus");
         }
 
-        if(
+        if (
             isset($_REQUEST["btnSave"]) &&
             !Jaris\Forms::requiredFieldEmpty("add-menu-item")
-        )
-        {
-            if(trim($_REQUEST["url"]) == "")
-            {
+        ) {
+            if (trim($_REQUEST["url"]) == "") {
                 $_REQUEST["url"] = Jaris\Uri::fromText($_REQUEST["title"]);
             }
 
@@ -47,8 +44,7 @@ row: 0
             $fields["disabled"] = $_REQUEST["disabled"];
             $fields["order"] = 0;
 
-            if(Jaris\Menus::addItem($_REQUEST["menu"], $fields))
-            {
+            if (Jaris\Menus::addItem($_REQUEST["menu"], $fields)) {
                 Jaris\View::addMessage(
                     t("The menu item was successfully created.")
                 );
@@ -57,14 +53,12 @@ row: 0
 
                 Jaris\Logger::info(
                     "Added menu item '{title}' to '{machine_name}'.",
-                    array(
+                    [
                         "title" => $fields["title"],
                         "machine_name" => $_REQUEST["menu"]
-                    )
+                    ]
                 );
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(
                     Jaris\System::errorMessage("write_error_data"),
                     "error"
@@ -72,9 +66,7 @@ row: 0
             }
 
             Jaris\Uri::go("admin/menus");
-        }
-        elseif(isset($_REQUEST["btnCancel"]))
-        {
+        } elseif (isset($_REQUEST["btnCancel"])) {
             Jaris\Uri::go("admin/menus");
         }
 
@@ -83,115 +75,113 @@ row: 0
         $parameters["action"] = Jaris\Uri::url("admin/menus/add-item");
         $parameters["method"] = "post";
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "hidden",
             "name" => "menu",
             "value" => $_REQUEST["menu"]
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "name" => "title",
             "label" => t("Title:"),
             "id" => "title",
             "required" => true
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "uri",
             "name" => "url",
             "label" => t("Url:"),
             "id" => "url",
             "description" => t("The relative path to access a page, for example: section/page, section or the full url like http://domain.com/section. Leave empty to auto-generate.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "name" => "description",
             "label" => t("Description:"),
             "id" => "description",
             "description" => t("Small descriptive popup shown to user on mouse over.")
-        );
+        ];
 
         $targets[t("New Window")] = "_blank";
         $targets[t("Current Window")] = "_self";
         $targets[t("Parent frameset")] = "_parent";
         $targets[t("Full body of window")] = "_top";
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "select",
             "value" => $targets,
             "selected" => $_REQUEST["target"] ? $_REQUEST["target"] : "_self",
             "name" => "target",
             "label" => t("Target:"),
             "id" => "target"
-        );
+        ];
 
         $menus["&lt;root&gt;"] = "root";
 
         $menu_items_array = Jaris\Menus::getItemsList($_REQUEST["menu"]);
 
-        if(empty($_REQUEST["menu"]))
-        {
+        if (empty($_REQUEST["menu"])) {
             Jaris\View::addMessage(t("Parent menu does not exists."));
             Jaris\Uri::go("admin/menus");
         }
 
-        foreach($menu_items_array as $id => $items)
-        {
+        foreach ($menu_items_array as $id => $items) {
             $menus[$items["title"]] = "$id";
         }
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "select",
             "name" => "parent",
             "selected" => "root",
             "label" => t("Parent:"),
             "id" => "parent",
             "value" => $menus
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
-        $fields_expanded[] = array(
+        $fields_expanded[] = [
             "type" => "checkbox",
             "name" => "expanded",
             "label" => t("Show item elements?:"),
             "id" => "expanded",
             "checked" => false
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "fields" => $fields_expanded,
             "name" => t("Expanded")
-        );
+        ];
 
-        $fields_disabled[] = array(
+        $fields_disabled[] = [
             "type" => "checkbox",
             "name" => "disabled",
             "label" => t("Disable item?:"),
             "id" => "disabled",
             "checked" => false
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "fields" => $fields_disabled,
             "name" => t("Disabled")
-        );
+        ];
 
-        $fields_submit[] = array(
+        $fields_submit[] = [
             "type" => "submit",
             "name" => "btnSave",
             "value" => t("Save")
-        );
+        ];
 
-        $fields_submit[] = array(
+        $fields_submit[] = [
             "type" => "submit",
             "name" => "btnCancel",
             "value" => t("Cancel")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields_submit);
+        $fieldset[] = ["fields" => $fields_submit];
 
         print "<h3>" . t("Menu:") . " " . t($_REQUEST["menu"]) . "</h3>";
 

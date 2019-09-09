@@ -24,7 +24,8 @@
  * @package doo.auth
  * @since 1.0
  */
-class DooDigestAuth{
+class DooDigestAuth
+{
 
     /**
      * Authenticate against a list of username and passwords.
@@ -38,12 +39,13 @@ class DooDigestAuth{
      * @param string $fail_url URL to be redirect if the User cancel the login
      * @return string The username if login success.
      */
-    public static function http_auth($realm, $users, $fail_msg=NULL, $fail_url=NULL){
+    public static function http_auth($realm, $users, $fail_msg=null, $fail_url=null)
+    {
         $realm = "Restricted area - $realm";
 
         //user => password
         //$users = array('admin' => '1234', 'guest' => 'guest');
-        if(!empty($_SERVER['REDIRECT_HTTP_AUTHORIZATION']) && strpos($_SERVER['REDIRECT_HTTP_AUTHORIZATION'], 'Digest')===0){
+        if (!empty($_SERVER['REDIRECT_HTTP_AUTHORIZATION']) && strpos($_SERVER['REDIRECT_HTTP_AUTHORIZATION'], 'Digest')===0) {
             $_SERVER['PHP_AUTH_DIGEST'] = $_SERVER['REDIRECT_HTTP_AUTHORIZATION'];
         }
 
@@ -51,22 +53,26 @@ class DooDigestAuth{
             header('WWW-Authenticate: Digest realm="'.$realm.
                    '",qop="auth",nonce="'.uniqid().'",opaque="'.md5($realm).'"');
             header('HTTP/1.1 401 Unauthorized');
-            if($fail_msg!=NULL)
+            if ($fail_msg!=null) {
                 die($fail_msg);
-            if($fail_url!=NULL)
+            }
+            if ($fail_url!=null) {
                 die("<script>window.location.href = '$fail_url'</script>");
+            }
             exit;
         }
 
         // analyze the PHP_AUTH_DIGEST variable
-        if (!($data = self::http_digest_parse($_SERVER['PHP_AUTH_DIGEST'])) || !isset($users[$data['username']])){
+        if (!($data = self::http_digest_parse($_SERVER['PHP_AUTH_DIGEST'])) || !isset($users[$data['username']])) {
             header('WWW-Authenticate: Digest realm="'.$realm.
                    '",qop="auth",nonce="'.uniqid().'",opaque="'.md5($realm).'"');
             header('HTTP/1.1 401 Unauthorized');
-            if($fail_msg!=NULL)
+            if ($fail_msg!=null) {
                 die($fail_msg);
-            if($fail_url!=NULL)
+            }
+            if ($fail_url!=null) {
                 die("<script>window.location.href = '$fail_url'</script>");
+            }
             exit;
         }
 
@@ -75,14 +81,16 @@ class DooDigestAuth{
         $A2 = md5($_SERVER['REQUEST_METHOD'].':'.$data['uri']);
         $valid_response = md5($A1.':'.$data['nonce'].':'.$data['nc'].':'.$data['cnonce'].':'.$data['qop'].':'.$A2);
 
-        if ($data['response'] != $valid_response){
+        if ($data['response'] != $valid_response) {
             header('HTTP/1.1 401 Unauthorized');
             header('WWW-Authenticate: Digest realm="'.$realm.
                    '",qop="auth",nonce="'.uniqid().'",opaque="'.md5($realm).'"');
-            if($fail_msg!=NULL)
+            if ($fail_msg!=null) {
                 die($fail_msg);
-            if($fail_url!=NULL)
+            }
+            if ($fail_url!=null) {
                 die("<script>window.location.href = '$fail_url'</script>");
+            }
             exit;
         }
 
@@ -109,13 +117,11 @@ class DooDigestAuth{
         $res = preg_match('/cnonce=\"([^\"]+)\"/i', $txt, $match);
         $data['cnonce'] = $match[1];
         $res = preg_match('/qop=([^,]+)/i', $txt, $match);
-        $data['qop'] = str_replace('"','',$match[1]);
+        $data['qop'] = str_replace('"', '', $match[1]);
         $res = preg_match('/uri=\"([^\"]+)\"/i', $txt, $match);
         $data['uri'] = $match[1];
         $res = preg_match('/response=\"([^\"]+)\"/i', $txt, $match);
         $data['response'] = $match[1];
         return $data;
     }
-
-
 }

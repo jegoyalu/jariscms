@@ -17,17 +17,16 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("translate_languages"));
+        Jaris\Authentication::protectedPage(["translate_languages"]);
 
-        if(!isset($_REQUEST["id"]) || !isset($_REQUEST["position"]))
-        {
+        if (!isset($_REQUEST["id"]) || !isset($_REQUEST["position"])) {
             Jaris\Uri::go("admin/blocks");
         }
 
-        $arguments = array(
+        $arguments = [
             "id" => $_REQUEST["id"],
             "position" => $_REQUEST["position"]
-        );
+        ];
 
         //Tabs
         Jaris\View::addTab(t("Delete"), "admin/blocks/delete", $arguments);
@@ -46,10 +45,8 @@ row: 0
 
         print "</tr></thead>\n";
 
-        foreach($languages as $code => $name)
-        {
-            if($code != "en")
-            {
+        foreach ($languages as $code => $name) {
+            if ($code != "en") {
                 print "<tr>\n";
 
                 print "<td>" . $code . "</td>\n";
@@ -57,12 +54,12 @@ row: 0
 
                 $edit_url = Jaris\Uri::url(
                     "admin/languages/translate",
-                    array(
+                    [
                         "code" => $code,
                         "type" => "block",
                         "id" => $_REQUEST["id"],
                         "position" => $_REQUEST["position"]
-                    )
+                    ]
                 );
 
                 $edit_text = t("Translate");

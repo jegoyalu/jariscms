@@ -19,15 +19,13 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("delete_images"));
+        Jaris\Authentication::protectedPage(["delete_images"]);
 
-        if(!isset($_REQUEST["uri"]))
-        {
+        if (!isset($_REQUEST["uri"])) {
             Jaris\Uri::go("");
         }
 
-        if(!Jaris\Pages::userIsOwner($_REQUEST["uri"]))
-        {
+        if (!Jaris\Pages::userIsOwner($_REQUEST["uri"])) {
             Jaris\Authentication::protectedPage();
         }
 
@@ -36,19 +34,15 @@ row: 0
             $_REQUEST["uri"]
         );
 
-        if(isset($_REQUEST["btnYes"]))
-        {
-            if(
+        if (isset($_REQUEST["btnYes"])) {
+            if (
                 Jaris\Pages\Images::delete(
                     intval($_REQUEST["id"]),
                     $_REQUEST["uri"]
                 )
-            )
-            {
+            ) {
                 Jaris\View::addMessage(t("Image successfully deleted."));
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(
                     Jaris\System::errorMessage("write_error_data"),
                     "error"
@@ -57,14 +51,12 @@ row: 0
 
             Jaris\Uri::go(
                 "admin/pages/images",
-                array("uri" => $_REQUEST["uri"])
+                ["uri" => $_REQUEST["uri"]]
             );
-        }
-        elseif(isset($_REQUEST["btnNo"]))
-        {
+        } elseif (isset($_REQUEST["btnNo"])) {
             Jaris\Uri::go(
                 "admin/pages/images",
-                array("uri" => $_REQUEST["uri"])
+                ["uri" => $_REQUEST["uri"]]
             );
         }
     ?>
@@ -80,7 +72,7 @@ row: 0
                 <a
                     href="<?php print Jaris\Uri::url("image/{$_REQUEST['uri']}/{$image_data['name']}"); ?>"
                 >
-                    <img src="<?php print Jaris\Uri::url("image/{$_REQUEST['uri']}/{$image_data['name']}", array("w" => "100")); ?>" />
+                    <img src="<?php print Jaris\Uri::url("image/{$_REQUEST['uri']}/{$image_data['name']}", ["w" => "100"]); ?>" />
                 </a>
             </div>
         </div>

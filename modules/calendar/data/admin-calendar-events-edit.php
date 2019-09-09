@@ -46,29 +46,22 @@ row: 0
         }
     </style>
     <?php
-        $page_data = array();
+        $page_data = [];
 
         $id = 0;
-        if(!isset($_REQUEST["id"]) || intval($_REQUEST["id"]) <= 0)
-        {
+        if (!isset($_REQUEST["id"]) || intval($_REQUEST["id"]) <= 0) {
             Jaris\Uri::go("");
-        }
-        else
-        {
+        } else {
             $id = intval($_REQUEST["id"]);
         }
 
-        if(!isset($_REQUEST["uri"]) || trim($_REQUEST["uri"]) == "")
-        {
+        if (!isset($_REQUEST["uri"]) || trim($_REQUEST["uri"]) == "") {
             Jaris\Uri::go("");
-        }
-        elseif(!($page_data = Jaris\Pages::get($_REQUEST["uri"])))
-        {
+        } elseif (!($page_data = Jaris\Pages::get($_REQUEST["uri"]))) {
             Jaris\Uri::go("");
         }
 
-        if($page_data["type"] != "calendar")
-        {
+        if ($page_data["type"] != "calendar") {
             Jaris\Uri::go("");
         }
 
@@ -78,11 +71,9 @@ row: 0
 
         $is_page_owner = Jaris\Pages::userIsOwner($uri, $page_data);
 
-        if(
-            $event_data["author"] != Jaris\Authentication::currentUser())
-        {
-            if(!$is_page_owner)
-            {
+        if (
+            $event_data["author"] != Jaris\Authentication::currentUser()) {
+            if (!$is_page_owner) {
                 Jaris\Authentication::protectedPage();
             }
         }
@@ -90,20 +81,19 @@ row: 0
         Jaris\View::addTab(
             t("View Event"),
             Jaris\Modules::getPageUri("calendar/event", "calendar"),
-            array("uri" => $uri, "id" => $id)
+            ["uri" => $uri, "id" => $id]
         );
 
         Jaris\View::addTab(
             t("Delete Event"),
             Jaris\Modules::getPageUri("admin/calendar/events/delete", "calendar"),
-            array("uri" => $uri, "id" => $id)
+            ["uri" => $uri, "id" => $id]
         );
 
-        if(
+        if (
             isset($_REQUEST["btnSave"]) &&
             !Jaris\Forms::requiredFieldEmpty("calendar-edit-event")
-        )
-        {
+        ) {
             $data = calendar_event_data($id, $uri);
 
             $data["title"] = trim($_REQUEST["title"]);
@@ -126,29 +116,22 @@ row: 0
             $data["is_am_to"] = intval($_REQUEST["is_am_to"]) >= 1 ? 1 : 0;
 
             //Delete removed attachments
-            if(is_array($data["attachments"]))
-            {
-                if(
+            if (is_array($data["attachments"])) {
+                if (
                     isset($_REQUEST["files_list"])
                     &&
                     is_array($_REQUEST["files_list"])
-                )
-                {
-                    foreach($data["attachments"] as $file)
-                    {
-                        if(!in_array($file, $_REQUEST["files_list"]))
-                        {
+                ) {
+                    foreach ($data["attachments"] as $file) {
+                        if (!in_array($file, $_REQUEST["files_list"])) {
                             Jaris\Files::delete(
                                 $file,
                                 "calendar/" .  str_replace("/", "-", $uri)
                             );
                         }
                     }
-                }
-                else
-                {
-                    foreach($data["attachments"] as $file)
-                    {
+                } else {
+                    foreach ($data["attachments"] as $file) {
                         Jaris\Files::delete(
                             $file,
                             "calendar/" .  str_replace("/", "-", $uri)
@@ -160,14 +143,12 @@ row: 0
             $data["attachments"] = $_REQUEST["files_list"];
 
             //Add new attachments
-            if(is_array($_FILES["attachments"]["name"]))
-            {
-                foreach($_FILES["attachments"]["name"] as $file_index => $file_name)
-                {
-                    $file = array(
+            if (is_array($_FILES["attachments"]["name"])) {
+                foreach ($_FILES["attachments"]["name"] as $file_index => $file_name) {
+                    $file = [
                         "name" => $file_name,
                         "tmp_name" => $_FILES["attachments"]["tmp_name"][$file_index]
-                    );
+                    ];
 
                     $data["attachments"][] = Jaris\Files::addUpload(
                         $file,
@@ -176,14 +157,12 @@ row: 0
                 }
             }
 
-            if(!is_array($data["attachments"]))
-            {
-                $data["attachments"] = array();
+            if (!is_array($data["attachments"])) {
+                $data["attachments"] = [];
             }
 
             //Chmod all uploaded files to 0755
-            foreach($data["attachments"] as $file)
-            {
+            foreach ($data["attachments"] as $file) {
                 chmod(
                     Jaris\Files::get(
                         $file,
@@ -197,14 +176,12 @@ row: 0
 
             Jaris\Uri::go(
                 Jaris\Modules::getPageUri("admin/calendar/events", "calendar"),
-                array("uri" => $uri)
+                ["uri" => $uri]
             );
-        }
-        elseif(isset($_REQUEST["btnCancel"]))
-        {
+        } elseif (isset($_REQUEST["btnCancel"])) {
             Jaris\Uri::go(
                 Jaris\Modules::getPageUri("admin/calendar/events", "calendar"),
-                array("uri" => $uri)
+                ["uri" => $uri]
             );
         }
 
@@ -215,19 +192,19 @@ row: 0
         );
         $parameters["method"] = "post";
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "hidden",
             "name" => "uri",
             "value" => $_REQUEST["uri"]
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "hidden",
             "name" => "id",
             "value" => $_REQUEST["id"]
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "name" => "title",
             "label" => t("Title:"),
@@ -237,9 +214,9 @@ row: 0
                 $event_data["title"],
             "required" => true,
             "description" => t("A brief description of the event.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "textarea",
             "name" => "description",
             "value" => isset($_REQUEST["description"]) ?
@@ -249,9 +226,9 @@ row: 0
             "label" => t("Description:"),
             "required" => true,
             "description" => t("A detailed description of the event.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "textarea",
             "name" => "place",
             "value" => isset($_REQUEST["place"]) ?
@@ -260,9 +237,9 @@ row: 0
                 $event_data["place"],
             "label" => t("Place:"),
             "description" => t("The physical address or description of the area where the event is goint to take place.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "name" => "url",
             "value" => isset($_REQUEST["url"]) ?
@@ -271,9 +248,9 @@ row: 0
                 $event_data["url"],
             "label" => t("Url:"),
             "description" => t("A general purpose url or registration page for this event.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "gmap-location",
             "name" => "location",
             "lat_name" => "latitude",
@@ -289,16 +266,16 @@ row: 0
             "label" => t("Map:"),
             "description" => t("Select or search the location of the event on the map. Don't select anything to not display the map."),
             "required" => true
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
-        $fields_date[] = array(
+        $fields_date[] = [
             "type" => "other",
             "html_code" => '<h3>'.t("From").'</h3>'
-        );
+        ];
 
-        $fields_date[] = array(
+        $fields_date[] = [
             "type" => "select",
             "name" => "day",
             "selected" => isset($_REQUEST["day"]) ?
@@ -309,9 +286,9 @@ row: 0
             "inline" => true,
             "required" => true,
             "label" => t("Day:")
-        );
+        ];
 
-        $fields_date[] = array(
+        $fields_date[] = [
             "type" => "select",
             "name" => "month",
             "selected" => isset($_REQUEST["month"]) ?
@@ -322,9 +299,9 @@ row: 0
             "inline" => true,
             "required" => true,
             "label" => t("Month:")
-        );
+        ];
 
-        $fields_date[] = array(
+        $fields_date[] = [
             "type" => "select",
             "name" => "year",
             "selected" => isset($_REQUEST["year"]) ?
@@ -335,14 +312,14 @@ row: 0
             "inline" => true,
             "required" => true,
             "label" => t("Year:")
-        );
+        ];
 
-        $fields_date[] = array(
+        $fields_date[] = [
             "type" => "other",
             "html_code" => '<h3>'.t("To").'</h3>'
-        );
+        ];
 
-        $fields_date[] = array(
+        $fields_date[] = [
             "type" => "select",
             "name" => "day_to",
             "selected" => isset($_REQUEST["day_to"]) ?
@@ -353,9 +330,9 @@ row: 0
             "inline" => true,
             "required" => true,
             "label" => t("Day:")
-        );
+        ];
 
-        $fields_date[] = array(
+        $fields_date[] = [
             "type" => "select",
             "name" => "month_to",
             "selected" => isset($_REQUEST["month_to"]) ?
@@ -366,9 +343,9 @@ row: 0
             "inline" => true,
             "required" => true,
             "label" => t("Month:")
-        );
+        ];
 
-        $fields_date[] = array(
+        $fields_date[] = [
             "type" => "select",
             "name" => "year_to",
             "selected" => isset($_REQUEST["year_to"]) ?
@@ -379,21 +356,20 @@ row: 0
             "inline" => true,
             "required" => true,
             "label" => t("Year:")
-        );
+        ];
 
-        $fieldset[] = array("name"=>t("Date"), "fields" => $fields_date);
+        $fieldset[] = ["name"=>t("Date"), "fields" => $fields_date];
 
-        $fields_time[] = array(
+        $fields_time[] = [
             "type" => "other",
             "html_code" => '<h3>'.t("From").'</h3>'
-        );
+        ];
 
-        $hours = array();
-        for($i=1; $i<=12; $i++)
-        {
+        $hours = [];
+        for ($i=1; $i<=12; $i++) {
             $hours[$i] = $i;
         }
-        $fields_time[] = array(
+        $fields_time[] = [
             "type" => "select",
             "name" => "hour",
             "selected" => isset($_REQUEST["hour"]) ?
@@ -404,21 +380,17 @@ row: 0
             "inline" => true,
             "required" => true,
             "label" => t("Hour:")
-        );
+        ];
 
-        $minutes = array();
-        for($i=0; $i<=60; $i++)
-        {
-            if(strlen(strval($i)) < 2)
-            {
+        $minutes = [];
+        for ($i=0; $i<=60; $i++) {
+            if (strlen(strval($i)) < 2) {
                 $minutes["0$i"] = $i;
-            }
-            else
-            {
+            } else {
                 $minutes[$i] = $i;
             }
         }
-        $fields_time[] = array(
+        $fields_time[] = [
             "type" => "select",
             "name" => "minute",
             "selected" => isset($_REQUEST["minute"]) ?
@@ -429,27 +401,27 @@ row: 0
             "inline" => true,
             "required" => true,
             "label" => t("Minute:")
-        );
+        ];
 
-        $fields_time[] = array(
+        $fields_time[] = [
             "type" => "select",
             "name" => "is_am",
             "selected" => isset($_REQUEST["is_am"]) ?
                 $_REQUEST["is_am"]
                 :
                 $event_data["is_am"],
-            "value" => array("AM"=>1, "PM"=>0),
+            "value" => ["AM"=>1, "PM"=>0],
             "inline" => true,
             "required" => true,
             "label" => t("AM/PM:")
-        );
+        ];
 
-        $fields_time[] = array(
+        $fields_time[] = [
             "type" => "other",
             "html_code" => '<h3>'.t("To").'</h3>'
-        );
+        ];
 
-        $fields_time[] = array(
+        $fields_time[] = [
             "type" => "select",
             "name" => "hour_to",
             "selected" => isset($_REQUEST["hour_to"]) ?
@@ -460,9 +432,9 @@ row: 0
             "inline" => true,
             "required" => true,
             "label" => t("Hour:")
-        );
+        ];
 
-        $fields_time[] = array(
+        $fields_time[] = [
             "type" => "select",
             "name" => "minute_to",
             "selected" => isset($_REQUEST["minute_to"]) ?
@@ -473,22 +445,22 @@ row: 0
             "inline" => true,
             "required" => true,
             "label" => t("Minute:")
-        );
+        ];
 
-        $fields_time[] = array(
+        $fields_time[] = [
             "type" => "select",
             "name" => "is_am_to",
             "selected" => isset($_REQUEST["is_am_to"]) ?
                 $_REQUEST["is_am_to"]
                 :
                 $event_data["is_am_to"],
-            "value" => array("AM"=>1, "PM"=>0),
+            "value" => ["AM"=>1, "PM"=>0],
             "inline" => true,
             "required" => true,
             "label" => t("AM/PM:")
-        );
+        ];
 
-        $fieldset[] = array("name"=>t("Time"), "fields" => $fields_time);
+        $fieldset[] = ["name"=>t("Time"), "fields" => $fields_time];
 
         $files = "<table class=\"navigation-list\">";
         $files .= "<thead>";
@@ -500,10 +472,8 @@ row: 0
         $files .= "</thead>";
 
         $files .= "<tbody>";
-        if(is_array($event_data["attachments"]))
-        {
-            foreach($event_data["attachments"] as $file)
-            {
+        if (is_array($event_data["attachments"])) {
+            foreach ($event_data["attachments"] as $file) {
                 $files .= "<tr>";
 
                 $files .= "<td><a class=\"sort-handle\"></a></td>";
@@ -525,35 +495,35 @@ row: 0
 
         $files .= "</table>";
 
-        $fields_submit[] = array(
+        $fields_submit[] = [
             "type" => "file",
             "name" => "attachments",
             "multiple" => true,
             "valid_types" => "jpg, jpeg, png, gif, pdf",
             "label" => t("Attachments:"),
             "description" => t("Here you can upload promotional material like flyers or downloadable pdf.")
-        );
+        ];
 
-        $fields_submit[] = array(
+        $fields_submit[] = [
             "type" => "other",
             "html_code" => "<div style=\"margin-top: 10px;\"><strong>" .
                 t("Current attachments:") .
                 "</strong><hr />$files</div>"
-        );
+        ];
 
-        $fields_submit[] = array(
+        $fields_submit[] = [
             "type" => "submit",
             "name" => "btnSave",
             "value" => t("Save")
-        );
+        ];
 
-        $fields_submit[] = array(
+        $fields_submit[] = [
             "type" => "submit",
             "name" => "btnCancel",
             "value" => t("Cancel")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields_submit);
+        $fieldset[] = ["fields" => $fields_submit];
 
         print Jaris\Forms::generate($parameters, $fieldset);
     ?>

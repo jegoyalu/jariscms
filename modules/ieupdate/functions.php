@@ -12,15 +12,13 @@
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\System::SIGNAL_GET_SYSTEM_STYLES,
-    function(&$styles)
-    {
-        if(
-            Jaris\System::getUserBrowser() == "ie" && 
+    function (&$styles) {
+        if (
+            Jaris\System::getUserBrowser() == "ie" &&
             !isset($_COOKIE["ie_check"])
-        )
-        {
+        ) {
             $styles[] = Jaris\Uri::url(
-                Jaris\Modules::directory("ieupdate") 
+                Jaris\Modules::directory("ieupdate")
                     . "css/style.css"
             );
         }
@@ -29,17 +27,13 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\System::SIGNAL_GET_SYSTEM_SCRIPTS,
-    function(&$scripts)
-    {
-        if(
-            Jaris\System::getUserBrowser() == "ie" && 
+    function (&$scripts) {
+        if (
+            Jaris\System::getUserBrowser() == "ie" &&
             !isset($_COOKIE["ie_check"])
-        )
-        {
+        ) {
             $scripts[] = Jaris\Uri::url("ie-update-script");
-        }
-        else
-        {
+        } else {
             Jaris\Session::addCookie("ie_check", 1);
         }
     }

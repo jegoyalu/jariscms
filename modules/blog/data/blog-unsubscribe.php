@@ -17,17 +17,13 @@ row: 0
 
     field: content
     <?php
-        if(!Jaris\Authentication::hasTypeAccess("blog", Jaris\Authentication::currentUserGroup()))
-        {
+        if (!Jaris\Authentication::hasTypeAccess("blog", Jaris\Authentication::currentUserGroup())) {
             Jaris\Authentication::protectedPage();
         }
 
-        if(isset($_REQUEST["user"]))
-        {
-            if($user_data = Jaris\Users::get($_REQUEST["user"]))
-            {
-                if(Jaris\Authentication::hasTypeAccess("blog", $user_data["group"]))
-                {
+        if (isset($_REQUEST["user"])) {
+            if ($user_data = Jaris\Users::get($_REQUEST["user"])) {
+                if (Jaris\Authentication::hasTypeAccess("blog", $user_data["group"])) {
                     blog_unsubscribe($_REQUEST["user"], Jaris\Authentication::currentUser());
 
                     Jaris\View::addMessage(t("Unsubscribtion done."));

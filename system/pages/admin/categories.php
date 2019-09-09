@@ -19,7 +19,7 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("view_categories"));
+        Jaris\Authentication::protectedPage(["view_categories"]);
     ?>
     <script>
         $(document).ready(function() {
@@ -53,36 +53,30 @@ row: 0
     >
 
     <?php
-        if(isset($_REQUEST["btnSave"]))
-        {
+        if (isset($_REQUEST["btnSave"])) {
             $saved = true;
 
-            for($i = 0; $i < count($_REQUEST["category_name"]); $i++)
-            {
+            for ($i = 0; $i < count($_REQUEST["category_name"]); $i++) {
                 $new_category_data = Jaris\Categories::get(
                     $_REQUEST["category_name"][$i]
                 );
 
                 $new_category_data["order"] = $i;
 
-                if(
+                if (
                     !Jaris\Categories::edit(
                         $_REQUEST["category_name"][$i],
                         $new_category_data
                     )
-                )
-                {
+                ) {
                     $saved = false;
                     break;
                 }
             }
 
-            if($saved)
-            {
+            if ($saved) {
                 Jaris\View::addMessage(t("Your changes have been saved."));
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(
                     Jaris\System::errorMessage("write_error_data"),
                     "error"
@@ -105,10 +99,8 @@ row: 0
 
         print "<tbody>\n";
 
-        if($categories_array)
-        {
-            foreach($categories_array as $machine_name => $fields)
-            {
+        if ($categories_array) {
+            foreach ($categories_array as $machine_name => $fields) {
                 print "<tr>\n";
 
                 print "<td>";
@@ -122,17 +114,17 @@ row: 0
 
                 $edit_url = Jaris\Uri::url(
                     "admin/categories/edit",
-                    array("category" => $machine_name)
+                    ["category" => $machine_name]
                 );
 
                 $delete_url = Jaris\Uri::url(
                     "admin/categories/delete",
-                    array("category" => $machine_name)
+                    ["category" => $machine_name]
                 );
 
                 $subcategories_url = Jaris\Uri::url(
                     "admin/categories/subcategories",
-                    array("category" => $machine_name)
+                    ["category" => $machine_name]
                 );
 
                 $edit_text = t("Edit");

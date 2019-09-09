@@ -30,5 +30,3 @@ function google_translate_install()
         . "</a>"
     );
 }
-
-?>

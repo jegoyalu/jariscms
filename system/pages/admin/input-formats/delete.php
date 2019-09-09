@@ -19,41 +19,34 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("delete_input_formats"));
+        Jaris\Authentication::protectedPage(["delete_input_formats"]);
 
-        if(!isset($_REQUEST["input_format"]))
-        {
+        if (!isset($_REQUEST["input_format"])) {
             Jaris\Uri::go("admin/input-formats");
         }
 
         $input_format_data = Jaris\InputFormats::get($_REQUEST["input_format"]);
 
-        if(isset($_REQUEST["btnYes"]))
-        {
+        if (isset($_REQUEST["btnYes"])) {
             $message = Jaris\InputFormats::delete($_REQUEST["input_format"]);
 
-            if($message == "true")
-            {
+            if ($message == "true") {
                 Jaris\View::addMessage(t("Input format successfully deleted."));
 
                 t("Deleted input format '{machine_name}'.");
 
                 Jaris\Logger::info(
                     "Deleted input format '{machine_name}'.",
-                    array(
+                    [
                         "machine_name" => $_REQUEST["input_format"]
-                    )
+                    ]
                 );
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage($message, "error");
             }
 
             Jaris\Uri::go("admin/input-formats");
-        }
-        elseif(isset($_REQUEST["btnNo"]))
-        {
+        } elseif (isset($_REQUEST["btnNo"])) {
             Jaris\Uri::go("admin/input-formats");
         }
     ?>

@@ -56,8 +56,7 @@ row: 0
             . "</textarea>"
         ;
 
-        if(file_exists("changes.txt"))
-        {
+        if (file_exists("changes.txt")) {
             print "<h3>" . t("Changes Log") . "</h3>";
 
             print "<textarea readonly style=\"width: 100%; min-height: 400px;\">";

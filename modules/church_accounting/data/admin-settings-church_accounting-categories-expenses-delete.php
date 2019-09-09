@@ -19,10 +19,9 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("manage_categories_church_accounting"));
+        Jaris\Authentication::protectedPage(["manage_categories_church_accounting"]);
 
-        if($_REQUEST["id"] < 14)
-        {
+        if ($_REQUEST["id"] < 14) {
             Jaris\View::addMessage(
                 t("You can not delete the predefined categories."),
                 "error"
@@ -38,8 +37,7 @@ row: 0
 
         $element_data = church_accounting_category_get($_REQUEST["id"]);
 
-        if(isset($_REQUEST["btnYes"]))
-        {
+        if (isset($_REQUEST["btnYes"])) {
             church_accounting_category_delete($element_data["id"]);
 
             church_accounting_expense_move_to_other($element_data["id"]);
@@ -52,9 +50,7 @@ row: 0
                     "church_accounting"
                 )
             );
-        }
-        elseif(isset($_REQUEST["btnNo"]))
-        {
+        } elseif (isset($_REQUEST["btnNo"])) {
             Jaris\Uri::go(
                 Jaris\Modules::getPageUri(
                     "admin/settings/church-accounting/categories/expenses",

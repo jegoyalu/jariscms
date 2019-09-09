@@ -18,17 +18,14 @@
  */
 function contact_add_field($field, $uri)
 {
-    if(trim($uri) == "")
-    {
+    if (trim($uri) == "") {
         return false;
     }
 
     $path = Jaris\Pages::getPath($uri) . "/contact-fields.php";
 
-    foreach($field as $name=>$value)
-    {
-        if(is_array($value))
-        {
+    foreach ($field as $name=>$value) {
+        if (is_array($value)) {
             $field[$name] = serialize($value);
         }
     }
@@ -47,15 +44,13 @@ function contact_add_field($field, $uri)
  */
 function contact_edit_field($id, $field, $uri)
 {
-    if(trim($id) == "" && trim($uri) == "")
-    {
+    if (trim($id) == "" && trim($uri) == "") {
         return false;
     }
 
     $path = contact_generate_fields_path($uri);
 
-    if(!$path)
-    {
+    if (!$path) {
         return false;
     }
 
@@ -72,15 +67,13 @@ function contact_edit_field($id, $field, $uri)
  */
 function contact_delete_field($id, $uri)
 {
-    if(trim($id) == "" && trim($uri) == "")
-    {
+    if (trim($id) == "" && trim($uri) == "") {
         return false;
     }
 
     $path = contact_generate_fields_path($uri);
 
-    if(!$path)
-    {
+    if (!$path) {
         return false;
     }
 
@@ -97,15 +90,13 @@ function contact_delete_field($id, $uri)
  */
 function contact_get_field_data($id, $uri)
 {
-    if(trim($id) == "" && trim($uri) == "")
-    {
+    if (trim($id) == "" && trim($uri) == "") {
         return false;
     }
 
     $fields = contact_get_fields($uri);
 
-    if(!$fields)
-    {
+    if (!$fields) {
         return false;
     }
 
@@ -121,16 +112,14 @@ function contact_get_field_data($id, $uri)
  */
 function contact_get_fields($uri)
 {
-    if(trim($uri) == "")
-    {
-        return array();
+    if (trim($uri) == "") {
+        return [];
     }
 
     $path = contact_generate_fields_path($uri);
 
-    if(!$path)
-    {
-        return array();
+    if (!$path) {
+        return [];
     }
 
     $fields = Jaris\Data::parse($path);
@@ -151,15 +140,11 @@ function contact_append_fields($uri, &$current_fields)
 {
     $fields = contact_get_fields($uri);
 
-    if($fields)
-    {
-        foreach($fields as $id => $field)
-        {
+    if ($fields) {
+        foreach ($fields as $id => $field) {
             //Skip file uploads since they are handled seperately
-            if($field["type"] == "file")
-            {
-                if(!empty($_FILES[$field["variable_name"]]["name"]))
-                {
+            if ($field["type"] == "file") {
+                if (!empty($_FILES[$field["variable_name"]]["name"])) {
                     $current_fields[$field["variable_name"]] = $_FILES
                         [$field["variable_name"]]
                         ["name"]
@@ -172,27 +157,21 @@ function contact_append_fields($uri, &$current_fields)
             $value = "";
 
             //Concatenate values for multiple checkbox
-            if(is_array($_REQUEST[$field["variable_name"]]))
-            {
-                foreach($_REQUEST[$field["variable_name"]] as $option)
-                {
+            if (is_array($_REQUEST[$field["variable_name"]])) {
+                foreach ($_REQUEST[$field["variable_name"]] as $option) {
                     $value .= $option . ", ";
                 }
 
                 $value = rtrim($value, ",");
-            }
-            else
-            {
+            } else {
                 $value .= $_REQUEST[$field["variable_name"]];
             }
 
-            if($field["strip_html"])
-            {
+            if ($field["strip_html"]) {
                 $value = Jaris\Util::stripHTMLTags($value);
             }
 
-            if($field["limit"] > 0)
-            {
+            if ($field["limit"] > 0) {
                 $value = substr($value, 0, $field["limit"]);
             }
 
@@ -214,28 +193,23 @@ function contact_files_upload_pass($uri)
 
     $pass = true;
 
-    foreach($fields as $id => $field_data)
-    {
-        if($field_data["type"] == "file")
-        {
+    foreach ($fields as $id => $field_data) {
+        if ($field_data["type"] == "file") {
             //Skip files not uploaded and not required
-            if(
+            if (
                 trim($_FILES[$field_data["variable_name"]]["name"]) == "" &&
                 !$field_data["required"]
-            )
-            {
+            ) {
                 continue;
             }
 
             //Check file size didnt exceeded the maximum allowed
-            if($field_data["size"] > 0)
-            {
-                if(
+            if ($field_data["size"] > 0) {
+                if (
                     (filesize($_FILES[$field_data["variable_name"]]["tmp_name"]) / 1024)
                     >
                     (intval($field_data["size"]) + 1)
-                )
-                {
+                ) {
                     Jaris\View::addMessage(
                         t("File size exceeded by") . " " .
                             t($field_data["name"]) . ". " .
@@ -256,26 +230,20 @@ function contact_files_upload_pass($uri)
 
             $valid_extension = false;
 
-            if(trim($field_data["extensions"]) != "")
-            {
+            if (trim($field_data["extensions"]) != "") {
                 $extensions = explode(",", $field_data["extensions"]);
 
-                foreach($extensions as $extension)
-                {
-                    if(trim($extension) == $file_extension)
-                    {
+                foreach ($extensions as $extension) {
+                    if (trim($extension) == $file_extension) {
                         $valid_extension = true;
                         break;
                     }
                 }
-            }
-            else
-            {
+            } else {
                 $valid_extension = true;
             }
 
-            if(!$valid_extension)
-            {
+            if (!$valid_extension) {
                 Jaris\View::addMessage(
                     t("Incorrect file type uploaded for") . " " .
                         t($field_data["name"]) . ". " .
@@ -295,18 +263,15 @@ function contact_get_file_attachments($uri)
 {
     $fields = contact_get_fields($uri);
 
-    $attachments = array();
+    $attachments = [];
 
-    foreach($fields as $id => $field_data)
-    {
-        if($field_data["type"] == "file")
-        {
+    foreach ($fields as $id => $field_data) {
+        if ($field_data["type"] == "file") {
             //Skip files not uploaded and not required
-            if(
+            if (
                 trim($_FILES[$field_data["variable_name"]]["name"]) == "" &&
                 !$field_data["required"]
-            )
-            {
+            ) {
                 continue;
             }
 
@@ -323,33 +288,28 @@ function contact_get_file_attachments($uri)
  * @param $uri The machine name of the $uri.
  * @param $values Array of the values in the format $values["variable_name"] = value.
  */
-function contact_generate_form_fields($uri, $values = array())
+function contact_generate_form_fields($uri, $values = [])
 {
-    if(trim($uri) == "")
-    {
+    if (trim($uri) == "") {
         return false;
     }
 
     $fields = contact_get_fields($uri);
 
-    if(!$fields)
-    {
+    if (!$fields) {
         return false;
     }
 
-    $form_fields = array();
+    $form_fields = [];
 
-    foreach($fields as $id => $field)
-    {
-        if(
+    foreach ($fields as $id => $field) {
+        if (
             $field["type"] == "text" ||
             $field["type"] == "password" ||
             $field["type"] == "textarea"
-        )
-        {
-            if($field["limit"] > 0)
-            {
-                $form_fields[] = array(
+        ) {
+            if ($field["limit"] > 0) {
+                $form_fields[] = [
                     "type" => $field["type"],
                     "limit" => $field["limit"],
                     "value" => $_REQUEST[$field["variable_name"]] ?
@@ -368,11 +328,9 @@ function contact_generate_form_fields($uri, $values = array())
                     "required" => $field["required"],
                     "readonly" => $field["readonly"],
                     "description" => t($field["description"])
-                );
-            }
-            else
-            {
-                $form_fields[] = array(
+                ];
+            } else {
+                $form_fields[] = [
                     "type" => $field["type"],
                     "value" => $_REQUEST[$field["variable_name"]] ?
                         $_REQUEST[$field["variable_name"]]
@@ -390,12 +348,10 @@ function contact_generate_form_fields($uri, $values = array())
                     "required" => $field["required"],
                     "readonly" => $field["readonly"],
                     "description" => t($field["description"])
-                );
+                ];
             }
-        }
-        elseif($field["type"] == "color" || $field["type"] == "date")
-        {
-            $form_fields[] = array(
+        } elseif ($field["type"] == "color" || $field["type"] == "date") {
+            $form_fields[] = [
                 "type" => $field["type"],
                 "value" => $_REQUEST[$field["variable_name"]] ?
                     $_REQUEST[$field["variable_name"]]
@@ -413,25 +369,19 @@ function contact_generate_form_fields($uri, $values = array())
                 "required" => $field["required"],
                 "readonly" => $field["readonly"],
                 "description" => t($field["description"])
-            );
-        }
-        elseif($field["type"] == "file")
-        {
+            ];
+        } elseif ($field["type"] == "file") {
             $description = "";
-            if(trim($field["description"]) != "")
-            {
+            if (trim($field["description"]) != "") {
                 //To add a space after user entered description
                 $description .= " ";
             }
 
             $description .= t("Allowed file types:") . " ";
 
-            if(trim($field["extensions"]) != "")
-            {
+            if (trim($field["extensions"]) != "") {
                 $description .= $field["extensions"];
-            }
-            else
-            {
+            } else {
                 //If no extension was entered by the user just display all
                 $description .= t("all");
             }
@@ -439,16 +389,13 @@ function contact_generate_form_fields($uri, $values = array())
             $description .= " ";
             $description .= t("Maximum allowed size is:") . " ";
 
-            if($field["size"] > 0)
-            {
+            if ($field["size"] > 0) {
                 $description .= intval($field["size"]) . "K";
-            }
-            else
-            {
+            } else {
                 $description .= ini_get("upload_max_filesize");
             }
 
-            $form_fields[] = array(
+            $form_fields[] = [
                 "type" => $field["type"],
                 "valid_types" => trim($field['extensions']),
                 "name" => $field["variable_name"],
@@ -458,11 +405,9 @@ function contact_generate_form_fields($uri, $values = array())
                 "required" => $field["required"],
                 "readonly" => $field["readonly"],
                 "description" => t($field["description"]) . $description
-            );
-        }
-        elseif($field["type"] == "hidden")
-        {
-            $form_fields[] = array(
+            ];
+        } elseif ($field["type"] == "hidden") {
+            $form_fields[] = [
                 "type" => $field["type"],
                 "value" => $_REQUEST[$field["variable_name"]] ?
                     $_REQUEST[$field["variable_name"]]
@@ -476,23 +421,19 @@ function contact_generate_form_fields($uri, $values = array())
                 "name" => $field["variable_name"],
                 "required" => $field["required"],
                 "readonly" => $field["readonly"]
-            );
-        }
-        elseif($field["type"] == "select")
-        {
-            $select = array();
+            ];
+        } elseif ($field["type"] == "select") {
+            $select = [];
 
             $select_values = explode(",", $field["values"]);
             $select_captions = explode(",", $field["captions"]);
 
-            for($i = 0; $i < count($select_values); $i++)
-            {
+            for ($i = 0; $i < count($select_values); $i++) {
                 $select[t(trim($select_captions[$i]))] = trim($select_values[$i]);
             }
 
-            if(count($select) > 0)
-            {
-                $form_fields[] = array(
+            if (count($select) > 0) {
+                $form_fields[] = [
                     "type" => $field["type"],
                     "value" => $select,
                     "selected" => $_REQUEST[$field["variable_name"]] ?
@@ -511,25 +452,21 @@ function contact_generate_form_fields($uri, $values = array())
                     "required" => $field["required"],
                     "readonly" => $field["readonly"],
                     "description" => t($field["description"])
-                );
+                ];
             }
-        }
-        elseif($field["type"] == "radio")
-        {
-            $select = array();
+        } elseif ($field["type"] == "radio") {
+            $select = [];
 
             $select_values = explode(",", $field["values"]);
             $select_captions = explode(",", $field["captions"]);
 
 
-            for($i = 0; $i < count($select_values); $i++)
-            {
+            for ($i = 0; $i < count($select_values); $i++) {
                 $select[t(trim($select_captions[$i]))] = trim($select_values[$i]);
             }
 
-            if(count($select) > 0)
-            {
-                $form_fields[] = array(
+            if (count($select) > 0) {
+                $form_fields[] = [
                     "type" => $field["type"],
                     "value" => $select,
                     "checked" => $_REQUEST[$field["variable_name"]] ?
@@ -548,25 +485,21 @@ function contact_generate_form_fields($uri, $values = array())
                     "required" => $field["required"],
                     "readonly" => $field["readonly"],
                     "description" => t($field["description"])
-                );
+                ];
             }
-        }
-        elseif($field["type"] == "checkbox")
-        {
-            $select = array();
+        } elseif ($field["type"] == "checkbox") {
+            $select = [];
 
             $select_values = explode(",", $field["values"]);
             $select_captions = explode(",", $field["captions"]);
 
 
-            for($i = 0; $i < count($select_values); $i++)
-            {
+            for ($i = 0; $i < count($select_values); $i++) {
                 $select[t(trim($select_captions[$i]))] = trim($select_values[$i]);
             }
 
-            if(count($select) > 0)
-            {
-                $form_fields[] = array(
+            if (count($select) > 0) {
+                $form_fields[] = [
                     "type" => $field["type"],
                     "value" => $select,
                     "checked" => $_REQUEST[$field["variable_name"]] ?
@@ -585,15 +518,13 @@ function contact_generate_form_fields($uri, $values = array())
                     "required" => $field["required"],
                     "readonly" => $field["readonly"],
                     "description" => t($field["description"])
-                );
+                ];
             }
-        }
-        elseif($field["type"] == "other")
-        {
-            $form_fields[] = array(
+        } elseif ($field["type"] == "other") {
+            $form_fields[] = [
                 "type" => $field["type"],
                 "html_code" => Jaris\System::evalPHP($field["default"])
-            );
+            ];
         }
     }
 
@@ -609,15 +540,13 @@ function contact_generate_form_fields($uri, $values = array())
  */
 function contact_generate_fields_path($uri)
 {
-    if(trim($uri) == "")
-    {
+    if (trim($uri) == "") {
         return "";
     }
 
     $path = Jaris\Pages::getPath($uri) . "/contact-fields.php";
 
-    if(!file_exists($path))
-    {
+    if (!file_exists($path)) {
         return "";
     }
 
@@ -625,20 +554,21 @@ function contact_generate_fields_path($uri)
 }
 
 function contact_archive_message_add(
-    $page, $html_message, $fields=array(),
-    $fields_value=array(), $from=array(), $attachments=array()
-)
-{
-    if(Jaris\Sql::dbExists("contact_archive"))
-    {
+    $page,
+    $html_message,
+    $fields=[],
+    $fields_value=[],
+    $from=[],
+    $attachments=[]
+) {
+    if (Jaris\Sql::dbExists("contact_archive")) {
         $fields = serialize($fields);
         $fields_value = serialize($fields_value);
         $from = serialize($from);
 
-        $stored_attachments = array();
+        $stored_attachments = [];
 
-        foreach($attachments as $att_name => $att_path)
-        {
+        foreach ($attachments as $att_name => $att_path) {
             $stored_attachments[] = Jaris\Files::add(
                 $att_path,
                 $att_name,
@@ -704,8 +634,7 @@ function contact_archive_message_get($id)
 
     Jaris\Sql::close($db);
 
-    if(is_array($data))
-    {
+    if (is_array($data)) {
         $data["fields"] = unserialize($data["fields"]);
         $data["fields_value"] = unserialize($data["fields_value"]);
         $data["from_info"] = unserialize($data["from_info"]);
@@ -719,8 +648,7 @@ function contact_archive_message_delete($id)
 {
     $message_data = contact_archive_message_get($id);
 
-    foreach($message_data["attachments"] as $attachment)
-    {
+    foreach ($message_data["attachments"] as $attachment) {
         Jaris\Files::delete(
             $attachment,
             "contact/" . str_replace("/", "-", $message_data["uri"])
@@ -738,5 +666,3 @@ function contact_archive_message_delete($id)
 
     Jaris\Sql::close($db);
 }
-
-?>

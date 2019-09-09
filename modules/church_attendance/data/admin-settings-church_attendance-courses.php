@@ -18,19 +18,14 @@ row: 0
     field: content
     <?php
         Jaris\Authentication::protectedPage(
-            array("manage_groups_church_attendance")
+    ["manage_groups_church_attendance"]
         );
 
-        if(isset($_REQUEST["action"]))
-        {
-            if($_REQUEST["action"] == "add")
-            {
+        if (isset($_REQUEST["action"])) {
+            if ($_REQUEST["action"] == "add") {
                 church_attendance_courses_add($_REQUEST["label"]);
-            }
-            elseif($_REQUEST["action"] == "edit")
-            {
-                foreach($_REQUEST["id"] as $index=>$id)
-                {
+            } elseif ($_REQUEST["action"] == "edit") {
+                foreach ($_REQUEST["id"] as $index=>$id) {
                     church_attendance_courses_edit(
                         $id,
                         $_REQUEST["label"][$index]
@@ -50,36 +45,35 @@ row: 0
         );
         $parameters["method"] = "post";
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "hidden",
             "name" => "action",
             "value" => "add"
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "label" => t("Label:"),
             "name" => "label"
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnAdd",
             "value" => t("Add")
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "name" => t("Add Course"),
             "fields" => $fields,
             "collapsible" => true,
             "collapsed" => count($elements) > 0
-        );
+        ];
 
         print Jaris\Forms::generate($parameters, $fieldset);
 
         // List elements
-        if(is_array($elements) && count($elements) > 0)
-        {
+        if (is_array($elements) && count($elements) > 0) {
             print '<form action="'.Jaris\Uri::url(Jaris\Uri::get()).'" method="POST">';
             print '<input type="hidden" name="action" value="edit" />';
             print "<table class=\"navigation-list\">";
@@ -91,8 +85,7 @@ row: 0
             print "</thead>";
 
             print "<tbody>";
-            foreach($elements as $id=>$label)
-            {
+            foreach ($elements as $id=>$label) {
                 print "<tr>";
 
                 print "<td>";
@@ -105,7 +98,7 @@ row: 0
                         "admin/settings/church-attendance/courses/delete",
                         "church_attendance"
                     ),
-                    array("id"=>$id)
+                    ["id"=>$id]
                 );
 
                 print "<td>";

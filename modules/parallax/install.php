@@ -19,5 +19,3 @@ function parallax_install()
         "\">" . t("Add Parallax Now") . "</a>"
     );
 }
-
-?>

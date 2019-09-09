@@ -22,8 +22,7 @@ function blog_install()
     Jaris\Types::add("blog", $blog_fields);
 
     //Create blog data base
-    if(!Jaris\Sql::dbExists("blog"))
-    {
+    if (!Jaris\Sql::dbExists("blog")) {
         $db = Jaris\Sql::open("blog");
 
         Jaris\Sql::query(
@@ -58,8 +57,7 @@ function blog_install()
     }
 
     //Create blog subscriptions data base
-    if(!Jaris\Sql::dbExists("blog_subscriptions"))
-    {
+    if (!Jaris\Sql::dbExists("blog_subscriptions")) {
         $db = Jaris\Sql::open("blog_subscriptions");
 
         Jaris\Sql::query(
@@ -112,5 +110,3 @@ function blog_install()
         . "</a>"
     );
 }
-
-?>

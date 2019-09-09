@@ -79,5 +79,3 @@ Version 1.1 - Date 25/08/2010
     * Fixed theme_block hook function to comply with new jaris cms 4.3.4 changes
 
 **/
-
-?>

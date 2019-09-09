@@ -19,82 +19,74 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("translate_languages"));
+        Jaris\Authentication::protectedPage(["translate_languages"]);
 
-        if(!isset($_REQUEST["uri"]))
-        {
+        if (!isset($_REQUEST["uri"])) {
             Jaris\Uri::go("");
         }
 
-        if(!Jaris\Pages::userIsOwner($_REQUEST["uri"]))
-        {
+        if (!Jaris\Pages::userIsOwner($_REQUEST["uri"])) {
             Jaris\Authentication::protectedPage();
         }
 
-        $arguments = array(
+        $arguments = [
             "uri" => $_REQUEST["uri"]
-        );
+        ];
 
         //Tabs
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
                 "edit_content",
                 Jaris\Authentication::currentUserGroup()
             )
-        )
-        {
+        ) {
             Jaris\View::addTab(t("Edit"), "admin/pages/edit", $arguments);
         }
 
         Jaris\View::addTab(t("View"), $_REQUEST["uri"]);
 
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
                 "view_content_blocks",
                 Jaris\Authentication::currentUserGroup()
             )
-        )
-        {
+        ) {
             Jaris\View::addTab(t("Blocks"), "admin/pages/blocks", $arguments);
         }
 
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
                 "view_images",
                 Jaris\Authentication::currentUserGroup()
             )
-        )
-        {
+        ) {
             Jaris\View::addTab(t("Images"), "admin/pages/images", $arguments);
         }
 
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
                 "view_files",
                 Jaris\Authentication::currentUserGroup()
             )
-        )
-        {
+        ) {
             Jaris\View::addTab(t("Files"), "admin/pages/files", $arguments);
         }
 
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
                 "translate_languages",
                 Jaris\Authentication::currentUserGroup()
             )
-        )
-        {
+        ) {
             Jaris\View::addTab(t("Translate"), "admin/pages/translate", $arguments);
         }
 
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
                 "delete_content",
                 Jaris\Authentication::currentUserGroup()
             )
-        )
-        {
+        ) {
             Jaris\View::addTab(t("Delete"), "admin/pages/delete", $arguments);
         }
 
@@ -110,10 +102,8 @@ row: 0
 
         print "</tr></thead>\n";
 
-        foreach($languages as $code => $name)
-        {
-            if($code != "en")
-            {
+        foreach ($languages as $code => $name) {
+            if ($code != "en") {
                 print "<tr>\n";
 
                 print "<td>" . $code . "</td>\n";
@@ -121,11 +111,11 @@ row: 0
 
                 $edit_url = Jaris\Uri::url(
                     "admin/languages/translate",
-                    array(
+                    [
                         "code" => $code,
                         "type" => "page",
                         "uri" => $_REQUEST["uri"]
-                    )
+                    ]
                 );
 
                 $edit_text = t("Translate");

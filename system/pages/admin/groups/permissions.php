@@ -20,11 +20,10 @@ row: 0
     field: content
     <?php
         Jaris\Authentication::protectedPage(
-            array("view_groups", "edit_groups")
+    ["view_groups", "edit_groups"]
         );
 
-        if(!isset($_REQUEST["group"]))
-        {
+        if (!isset($_REQUEST["group"])) {
             Jaris\Uri::go("admin/groups");
         }
 
@@ -32,30 +31,25 @@ row: 0
 
         $permissions = Jaris\Groups::getPermissions($_REQUEST["group"]);
 
-        if(isset($_REQUEST["btnSave"]))
-        {
+        if (isset($_REQUEST["btnSave"])) {
             //Save new permissions value
             $permissions_saved = true;
-            foreach($permissions as $group => $permissions_list)
-            {
-                foreach($permissions_list as $machine_name => $human_name)
-                {
-                    if(
+            foreach ($permissions as $group => $permissions_list) {
+                foreach ($permissions_list as $machine_name => $human_name) {
+                    if (
                         !Jaris\Groups::setPermission(
                             $machine_name,
                             $_REQUEST[$machine_name],
                             $_REQUEST["group"]
                         )
-                    )
-                    {
+                    ) {
                         $permissions_saved = false;
                         break 2;
                     }
                 }
             }
 
-            if($permissions_saved)
-            {
+            if ($permissions_saved) {
                 Jaris\View::addMessage(
                     t("The changes have been successfully saved.")
                 );
@@ -64,13 +58,11 @@ row: 0
 
                 Jaris\Logger::info(
                     "Updated permissions for group '{machine_name}'.",
-                    array(
+                    [
                         "machine_name" => $_REQUEST["group"]
-                    )
+                    ]
                 );
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(
                     Jaris\System::errorMessage("write_error_data"),
                     "error"
@@ -79,11 +71,9 @@ row: 0
 
             Jaris\Uri::go(
                 "admin/groups/permissions",
-                array("group" => $_REQUEST["group"])
+                ["group" => $_REQUEST["group"]]
             );
-        }
-        elseif(isset($_REQUEST["btnCancel"]))
-        {
+        } elseif (isset($_REQUEST["btnCancel"])) {
             Jaris\Uri::go("admin/groups");
         }
 
@@ -92,13 +82,11 @@ row: 0
         $parameters["action"] = Jaris\Uri::url("admin/groups/permissions");
         $parameters["method"] = "post";
 
-        foreach($permissions as $group => $permissions_list)
-        {
-            $fields = array();
+        foreach ($permissions as $group => $permissions_list) {
+            $fields = [];
 
-            foreach($permissions_list as $machine_name => $human_name)
-            {
-                $fields[] = array(
+            foreach ($permissions_list as $machine_name => $human_name) {
+                $fields[] = [
                     "type" => "checkbox",
                     "checked" => Jaris\Authentication::groupHasPermission(
                         $machine_name,
@@ -107,36 +95,36 @@ row: 0
                     "name" => $machine_name,
                     "label" => $human_name,
                     "id" => $machine_name
-                );
+                ];
             }
 
-            $fieldset[] = array(
+            $fieldset[] = [
                 "name" => $group,
                 "fields" => $fields,
                 "collapsible" => true,
                 "collapsed" => true
-            );
+            ];
         }
 
-        $fields_submit[] = array(
+        $fields_submit[] = [
             "type" => "hidden",
             "name" => "group",
             "value" => $_REQUEST["group"]
-        );
+        ];
 
-        $fields_submit[] = array(
+        $fields_submit[] = [
             "type" => "submit",
             "name" => "btnSave",
             "value" => t("Save")
-        );
+        ];
 
-        $fields_submit[] = array(
+        $fields_submit[] = [
             "type" => "submit",
             "name" => "btnCancel",
             "value" => t("Cancel")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields_submit);
+        $fieldset[] = ["fields" => $fields_submit];
 
         print Jaris\Forms::generate($parameters, $fieldset);
     ?>

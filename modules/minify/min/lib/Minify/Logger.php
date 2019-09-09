@@ -12,7 +12,8 @@
  *
  * @todo lose this singleton! pass log object in Minify::serve and distribute to others
  */
-class Minify_Logger {
+class Minify_Logger
+{
 
     /**
      * Set logger object.
@@ -23,7 +24,8 @@ class Minify_Logger {
      * @param mixed $obj or a "falsey" value to disable
      * @return null
      */
-    public static function setLogger($obj = null) {
+    public static function setLogger($obj = null)
+    {
         self::$_logger = $obj
             ? $obj
             : null;
@@ -35,8 +37,11 @@ class Minify_Logger {
      * @param string $msg message to log
      * @return null
      */
-    public static function log($msg, $label = 'Minify') {
-        if (! self::$_logger) return;
+    public static function log($msg, $label = 'Minify')
+    {
+        if (! self::$_logger) {
+            return;
+        }
         self::$_logger->log($msg, $label);
     }
 

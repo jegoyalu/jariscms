@@ -22,33 +22,32 @@ row: 0
     field: content
     <?php
         Jaris\View::addStyle(
-            Jaris\Modules::directory("biblia") . "styles/biblia.css"
+        Jaris\Modules::directory("biblia") . "styles/biblia.css"
         );
 
-        $parameters = array();
+        $parameters = [];
         $parameters["name"] = "biblia";
         $parameters["action"] = Jaris\Uri::url(Jaris\Uri::get());
         $parameters["method"] = "get";
 
-        $fields = array();
+        $fields = [];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "name" => "q",
             "label" => "Palabra:",
             "value" => $_REQUEST["q"],
             "placeholder" => "palabra o palabras a buscar..."
-        );
+        ];
 
         $libros = biblia_get_libros_machine();
 
-        $libros_list = array("Todos" => "");
-        foreach($libros as $libro_machine => $libro_data)
-        {
+        $libros_list = ["Todos" => ""];
+        foreach ($libros as $libro_machine => $libro_data) {
             $libros_list[$libro_data[1]] = $libro_machine;
         }
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "select",
             "selected" => $_REQUEST["libro"],
             "name" => "libro",
@@ -56,17 +55,16 @@ row: 0
             "label" => t("Libro:"),
             "id" => "libro",
             "inline" => true
-        );
+        ];
 
         $biblias = biblia_get_all();
-        $biblias_list = array();
+        $biblias_list = [];
 
-        foreach($biblias as $biblia => $biblia_data)
-        {
+        foreach ($biblias as $biblia => $biblia_data) {
             $biblias_list[$biblia_data["codigo"]] = $biblia;
         }
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "select",
             "selected" => $_REQUEST["biblia"],
             "name" => "biblia",
@@ -74,28 +72,26 @@ row: 0
             "label" => t("Versión:"),
             "id" => "biblia",
             "inline" => true
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "search",
             "value" => "Buscar"
-        );
+        ];
 
-        $fieldset = array();
+        $fieldset = [];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "fields" => $fields
-        );
+        ];
 
         print Jaris\Forms::generate($parameters, $fieldset);
 
-        if(isset($_REQUEST["q"]))
-        {
+        if (isset($_REQUEST["q"])) {
             $page = 1;
 
-            if(isset($_REQUEST["page"]))
-            {
+            if (isset($_REQUEST["page"])) {
                 $page = intval($_REQUEST["page"]);
             }
 
@@ -114,8 +110,7 @@ row: 0
 
             $like = "";
 
-            foreach($palabras as $palabra)
-            {
+            foreach ($palabras as $palabra) {
                 $like = "texto like '%$query%' "
                     . "or "
                 ;
@@ -124,8 +119,7 @@ row: 0
             $like = rtrim($like, "or ");
 
             $libro = "";
-            if(isset($_REQUEST["libro"]) && trim($_REQUEST["libro"]) != "")
-            {
+            if (isset($_REQUEST["libro"]) && trim($_REQUEST["libro"]) != "") {
                 $libro .= "and libro='".$libros[$_REQUEST["libro"]][0]."'";
             }
 
@@ -149,26 +143,25 @@ row: 0
 
 
             print '<div id="versiculos-buscar">';
-            foreach(
+            foreach (
                 $results
                 as
                 $versiculo
-            )
-            {
+            ) {
                 $libro = $libro_machine = preg_replace(
                     "/ +/",
                     "-",
                     str_replace(
-                        array(
+                        [
                             "á", "é", "í", "ó", "ú", "ñ",
                             "Á", "É", "Í", "Ó", "Ú", "Ñ",
                             "ü", "Ü", "-"
-                        ),
-                        array(
+                        ],
+                        [
                             "a", "e", "i", "o", "u", "n",
                             "a", "e", "i", "o", "u", "n",
                             "u", "u", " "
-                        ),
+                        ],
                         trim(
                             strtolower(
                                 biblia_get_libros()[$versiculo["libro"]]
@@ -189,20 +182,19 @@ row: 0
                 );
 
                 $palabras = array_map(
-                    function($string){
+                    function ($string) {
                         return strtolower($string);
                     },
                     $palabras
                 );
 
                 $palabras_new = $palabras;
-                foreach($palabras as $palabra)
-                {
+                foreach ($palabras as $palabra) {
                     $palabras_new[] = ucwords($palabra);
                 }
 
                 $palabras_strong = array_map(
-                    function($string){
+                    function ($string) {
                         return "<strong style=\"color: red;\">".$string."</strong>";
                     },
                     $palabras_new
@@ -240,11 +232,11 @@ row: 0
                 "biblia/buscar",
                 "biblia",
                 30,
-                array(
+                [
                     "libro" => $_REQUEST["libro"],
                     "biblia" => $_REQUEST["biblia"],
                     "q" => $_REQUEST["q"]
-                )
+                ]
             );
         }
     ?>

@@ -26,5 +26,3 @@ Version 1.0 - Date 01/04/2016
     * Initial version.
 
 **/
-
-?>

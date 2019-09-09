@@ -20,8 +20,7 @@ function jquery_fancybox_install()
                 "admin/settings/jquery/fancybox",
                 "jquery_fancybox"
             )
-        ) . "\">" . t("Configure Now") . "</a>")
+        ) . "\">" . t("Configure Now") . "</a>"
+    )
     ;
 }
-
-?>

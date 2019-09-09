@@ -17,7 +17,7 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("view_income_church_accounting"));
+        Jaris\Authentication::protectedPage(["view_income_church_accounting"]);
 
         Jaris\View::addTab(
             t("Add Offerings"),
@@ -52,70 +52,58 @@ row: 0
         );
 
 
-        $options = array();
+        $options = [];
 
-        $types = array(
+        $types = [
             0 => t("Offerings"),
             1 => t("Tithes")
-        );
+        ];
 
-        if(trim($_REQUEST["type"]) != "")
-        {
-            if($_REQUEST["type"] == "1")
-            {
+        if (trim($_REQUEST["type"]) != "") {
+            if ($_REQUEST["type"] == "1") {
                 $options[] = "is_tithe=1";
-            }
-            else
-            {
+            } else {
                 $options[] = "is_tithe=0";
             }
         }
 
         $categories = church_accounting_category_list();
 
-        if(trim($_REQUEST["cat"]) != "")
-        {
+        if (trim($_REQUEST["cat"]) != "") {
             $category = intval($_REQUEST["cat"]);
             $options[] = "category=$category";
         }
 
-        if(trim($_REQUEST["month"]) != "")
-        {
+        if (trim($_REQUEST["month"]) != "") {
             $month = intval($_REQUEST["month"]);
             $options[] = "month=$month";
         }
 
-        if(trim($_REQUEST["year"]) != "")
-        {
+        if (trim($_REQUEST["year"]) != "") {
             $year = intval($_REQUEST["year"]);
             $options[] = "year=$year";
         }
 
-        $sorting_array = array(
+        $sorting_array = [
             t("Date Descending") => "date_desc",
             t("Date Ascending") => "date_asc"
-        );
+        ];
 
         $sorting = "";
-        if(trim($_REQUEST["sorting"]) != "")
-        {
-            switch(trim($_REQUEST["sorting"]))
-            {
+        if (trim($_REQUEST["sorting"]) != "") {
+            switch (trim($_REQUEST["sorting"])) {
                 case "date_asc":
                     $sorting = 'order by created_date asc';
                     break;
                 default:
                     $sorting = 'order by created_date desc';
             }
-        }
-        else
-        {
+        } else {
             $sorting = 'order by created_date desc';
         }
 
         $where = "";
-        if(count($options) > 0)
-        {
+        if (count($options) > 0) {
             $where = "where "
                 . implode(" and ", $options)
             ;
@@ -123,8 +111,7 @@ row: 0
 
         $page = 1;
 
-        if(isset($_REQUEST["page"]))
-        {
+        if (isset($_REQUEST["page"])) {
             $page = $_REQUEST["page"];
         }
 
@@ -135,12 +122,10 @@ row: 0
         print "<div style=\"float: left\">";
         print t("Filter by:") . " <select onchange=\"javascript: this.form.submit()\" name=\"type\">\n";
         print "<option value=\"\">" . t("All") . "</option>\n";
-        foreach($types as $id=>$name)
-        {
+        foreach ($types as $id=>$name) {
             $selected = "";
 
-            if($_REQUEST["type"] == $id && trim($_REQUEST["type"]) != "")
-            {
+            if ($_REQUEST["type"] == $id && trim($_REQUEST["type"]) != "") {
                 $selected = "selected=\"selected\"";
             }
 
@@ -151,14 +136,12 @@ row: 0
 
         print t("Category:") . " <select onchange=\"javascript: this.form.submit()\" name=\"cat\">\n";
         print "<option value=\"\">" . t("All") . "</option>\n";
-        foreach($categories as $category_id=>$category_name)
-        {
+        foreach ($categories as $category_id=>$category_name) {
             $selected = "";
 
             $category_name = t($category_name);
 
-            if($_REQUEST["cat"] == $category_id)
-            {
+            if ($_REQUEST["cat"] == $category_id) {
                 $selected = "selected=\"selected\"";
             }
 
@@ -168,12 +151,10 @@ row: 0
 
         print t("Month:") . " <select onchange=\"javascript: this.form.submit()\" name=\"month\">\n";
         print "<option value=\"\">" . t("All") . "</option>\n";
-        foreach(Jaris\Date::getMonths() as $month_name=>$month_value)
-        {
+        foreach (Jaris\Date::getMonths() as $month_name=>$month_value) {
             $selected = "";
 
-            if($_REQUEST["month"] == $month_value)
-            {
+            if ($_REQUEST["month"] == $month_value) {
                 $selected = "selected=\"selected\"";
             }
 
@@ -183,12 +164,10 @@ row: 0
 
         print t("Year:") . " <select onchange=\"javascript: this.form.submit()\" name=\"year\">\n";
         print "<option value=\"\">" . t("All") . "</option>\n";
-        foreach(Jaris\Date::getYears() as $year)
-        {
+        foreach (Jaris\Date::getYears() as $year) {
             $selected = "";
 
-            if($_REQUEST["year"] == $year)
-            {
+            if ($_REQUEST["year"] == $year) {
                 $selected = "selected=\"selected\"";
             }
 
@@ -199,12 +178,10 @@ row: 0
 
         print "<div style=\"float: right; margin-left: 10px;\">";
         print t("Sort by:") . " <select onchange=\"javascript: this.form.submit()\" name=\"sorting\">\n";
-        foreach($sorting_array as $label => $value)
-        {
+        foreach ($sorting_array as $label => $value) {
             $selected = "";
 
-            if($_REQUEST["sorting"] == $value)
-            {
+            if ($_REQUEST["sorting"] == $value) {
                 $selected = "selected=\"selected\"";
             }
 
@@ -243,13 +220,13 @@ row: 0
             "admin/church-accounting/income",
             "church_accounting",
             20,
-            array(
+            [
                 "type" => $_REQUEST["type"],
                 "cat" => $_REQUEST["cat"],
                 "month" => $_REQUEST["month"],
                 "year" => $_REQUEST["year"],
                 "sorting" => $_REQUEST["sorting"]
-            )
+            ]
         );
 
         $months = array_flip(Jaris\Date::getMonths());
@@ -265,8 +242,7 @@ row: 0
         print "</thead>";
 
         print "<tbody>";
-        foreach($income as $income_data)
-        {
+        foreach ($income as $income_data) {
             print "<tr>";
 
             print "<td>"
@@ -284,34 +260,29 @@ row: 0
             print "<td>$" . number_format($income_data["total"], 2, ".", ",") . "</td>";
 
             $edit_url = "";
-            if(intval($income_data["is_tithe"]) == 1)
-            {
+            if (intval($income_data["is_tithe"]) == 1) {
                 $edit_url .= Jaris\Uri::url(
                     Jaris\Modules::getPageUri(
                         "admin/church-accounting/income/tithes/edit",
                         "church_accounting"
                     ),
-                    array("id"=>$income_data["id"])
+                    ["id"=>$income_data["id"]]
                 );
-            }
-            elseif(intval($income_data["tither"]) > 0)
-            {
+            } elseif (intval($income_data["tither"]) > 0) {
                 $edit_url .= Jaris\Uri::url(
                     Jaris\Modules::getPageUri(
                         "admin/church-accounting/income/tither-offerings/edit",
                         "church_accounting"
                     ),
-                    array("id"=>$income_data["id"])
+                    ["id"=>$income_data["id"]]
                 );
-            }
-            else
-            {
+            } else {
                 $edit_url .= Jaris\Uri::url(
                     Jaris\Modules::getPageUri(
                         "admin/church-accounting/income/offerings/edit",
                         "church_accounting"
                     ),
-                    array("id"=>$income_data["id"])
+                    ["id"=>$income_data["id"]]
                 );
             }
 
@@ -320,7 +291,7 @@ row: 0
                     "admin/church-accounting/income/delete",
                     "church_accounting"
                 ),
-                array("id"=>$income_data["id"])
+                ["id"=>$income_data["id"]]
             );
 
             print "<td>"
@@ -342,13 +313,13 @@ row: 0
             "admin/church-accounting/income",
             "church_accounting",
             20,
-            array(
+            [
                 "type" => $_REQUEST["type"],
                 "cat" => $_REQUEST["cat"],
                 "month" => $_REQUEST["month"],
                 "year" => $_REQUEST["year"],
                 "sorting" => $_REQUEST["sorting"]
-            )
+            ]
         );
     ?>
     field;

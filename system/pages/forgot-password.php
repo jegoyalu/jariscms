@@ -14,12 +14,9 @@ row: 0
     field: title
     <?php
         Jaris\Site::setHTTPStatus(401);
-        if(isset($_REQUEST["token"]) && isset($_REQUEST["username"]))
-        {
+        if (isset($_REQUEST["token"]) && isset($_REQUEST["username"])) {
             print t("Password reset form");
-        }
-        else
-        {
+        } else {
             print t("Forgot your password?");
         }
     ?>
@@ -27,8 +24,7 @@ row: 0
 
     field: content
     <?php
-        if(Jaris\Settings::get("forgot_pass_disabled", "main"))
-        {
+        if (Jaris\Settings::get("forgot_pass_disabled", "main")) {
             Jaris\View::addMessage(
                 t("The 'forgot password' functionality is disabled."),
                 "error"
@@ -37,12 +33,10 @@ row: 0
             Jaris\Uri::go("admin/user");
         }
 
-        if(isset($_REQUEST["token"]) && isset($_REQUEST["username"]))
-        {
+        if (isset($_REQUEST["token"]) && isset($_REQUEST["username"])) {
             $user_data = Jaris\Users::get($_REQUEST["username"]);
 
-            if(!$user_data)
-            {
+            if (!$user_data) {
                 Jaris\View::addMessage(
                     Jaris\System::errorMessage("user_not_exist"),
                     "error"
@@ -51,12 +45,11 @@ row: 0
                 Jaris\Uri::go("forgot-password");
             }
 
-            if(
+            if (
                 $_REQUEST["token"] != $user_data["token"]
                 ||
                 $user_data["token_expire"] < time()
-            )
-            {
+            ) {
                 Jaris\View::addMessage(
                     t("The password reset request has expired, please try again."),
                     "error"
@@ -65,22 +58,18 @@ row: 0
                 Jaris\Uri::go("forgot-password");
             }
 
-            if(
+            if (
                 isset($_REQUEST["btnChange"])
                 &&
                 !Jaris\Forms::requiredFieldEmpty("change-user-password")
-            )
-            {
+            ) {
                 $error = false;
 
-                if(
+                if (
                     strlen($_REQUEST["password"]) >= 6
-                )
-                {
+                ) {
                     $user_data["password"] = crypt($_REQUEST["password"]);
-                }
-                else
-                {
+                } else {
                     Jaris\View::addMessage(
                         t("The Password should be at least 6 characters long."),
                         "error"
@@ -89,13 +78,12 @@ row: 0
                     $error = true;
                 }
 
-                if(!$error)
-                {
+                if (!$error) {
                     unset($user_data["token"]);
                     unset($user_data["token_expire"]);
                     unset($user_data["login_fails"]);
 
-                    if(
+                    if (
                         (
                             $message = Jaris\Users::edit(
                                 $_REQUEST["username"],
@@ -105,25 +93,20 @@ row: 0
                         )
                         !=
                         "true"
-                    )
-                    {
+                    ) {
                         Jaris\View::addMessage($message, "error");
-                    }
-                    else
-                    {
+                    } else {
                         Jaris\View::addMessage(
                             t("Your password has been reset successfully. Now you can login with the new password.")
                         );
 
                         Jaris\Uri::go(
                             "admin/user",
-                            array("username" => $_REQUEST["email"])
+                            ["username" => $_REQUEST["email"]]
                         );
                     }
                 }
-            }
-            elseif(isset($_REQUEST["btnCancel"]))
-            {
+            } elseif (isset($_REQUEST["btnCancel"])) {
                 Jaris\Uri::go("admin/user");
             }
 
@@ -133,29 +116,29 @@ row: 0
             $parameters["method"] = "post";
 
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "hidden",
                 "name" => "token",
                 "value" => $_REQUEST["token"]
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "text",
                 "name" => "username",
                 "label" => t("Current username:"),
                 "value" => $_REQUEST["username"],
                 "readonly" => true
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "text",
                 "name" => "email",
                 "label" => t("Current e-mail:"),
                 "value" => $user_data["email"],
                 "readonly" => true
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "password",
                 "name" => "password",
                 "label" => t("New password:"),
@@ -163,61 +146,51 @@ row: 0
                 "reveal" => true,
                 "required" => true,
                 "description" => t("The new password used to login, should be at least 6 characters long.")
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "submit",
                 "name" => "btnChange",
                 "value" => t("Change Password")
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "submit",
                 "name" => "btnCancel",
                 "value" => t("Cancel")
-            );
+            ];
 
-            $fieldset[] = array("fields" => $fields);
+            $fieldset[] = ["fields" => $fields];
 
             print Jaris\Forms::generate($parameters, $fieldset);
-        }
-        else
-        {
-            if(isset($_REQUEST["btnReset"]))
-            {
+        } else {
+            if (isset($_REQUEST["btnReset"])) {
                 $message = "";
-                if(isset($_REQUEST["username"]))
-                {
+                if (isset($_REQUEST["username"])) {
                     $message = Jaris\Users::resetPassword(
                         $_REQUEST["username"]
                     );
                 }
 
-                if(
+                if (
                     $message != "true" &&
                     isset($_REQUEST["email"]) &&
                     $_REQUEST["email"] != ""
-                )
-                {
+                ) {
                     $message = Jaris\Users::resetPasswordByEmail($_REQUEST["email"]);
                 }
 
-                if($message == "true")
-                {
+                if ($message == "true") {
                     Jaris\View::addMessage(
                         t("The password reset request was successfully processed. Check your e-mail inbox for details.")
                     );
-                }
-                else
-                {
+                } else {
                     Jaris\View::addMessage($message, "error");
                     Jaris\Uri::go("forgot-password");
                 }
 
                 Jaris\Uri::go("admin/user");
-            }
-            elseif(isset($_REQUEST["btnCancel"]))
-            {
+            } elseif (isset($_REQUEST["btnCancel"])) {
                 Jaris\Uri::go("admin/user");
             }
 
@@ -226,51 +199,48 @@ row: 0
             $parameters["action"] = Jaris\Uri::url("forgot-password");
             $parameters["method"] = "post";
 
-            if(isset($_REQUEST["username"]) || !isset($_REQUEST["email"]))
-            {
-                $fields[] = array(
+            if (isset($_REQUEST["username"]) || !isset($_REQUEST["email"])) {
+                $fields[] = [
                     "type" => "text",
                     "name" => "username",
                     "label" => t("Username:"),
                     "id" => "username",
                     "value" => $_REQUEST["username"] ?? "",
                     "description" => t("If you remember your username write it down.")
-                );
+                ];
             }
 
-            if(!isset($_REQUEST["username"]) && !isset($_REQUEST["email"]))
-            {
-                $fields[] = array(
+            if (!isset($_REQUEST["username"]) && !isset($_REQUEST["email"])) {
+                $fields[] = [
                     "type" => "other",
                     "html_code" => "<h3>" . t("OR") . "</h3>"
-                );
+                ];
             }
 
-            if(isset($_REQUEST["email"]) || !isset($_REQUEST["username"]))
-            {
-                $fields[] = array(
+            if (isset($_REQUEST["email"]) || !isset($_REQUEST["username"])) {
+                $fields[] = [
                     "type" => "text",
                     "name" => "email",
                     "label" => t("E-mail:"),
                     "id" => "email",
                     "value" => $_REQUEST["email"] ?? "",
                     "description" => t("If you remember the e-mail that you used to register the account write it down.")
-                );
+                ];
             }
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "submit",
                 "name" => "btnReset",
                 "value" => t("Reset Password")
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "submit",
                 "name" => "btnCancel",
                 "value" => t("Cancel")
-            );
+            ];
 
-            $fieldset[] = array("fields" => $fields);
+            $fieldset[] = ["fields" => $fields];
 
             print Jaris\Forms::generate($parameters, $fieldset);
         }

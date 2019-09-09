@@ -19,7 +19,7 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("view_users"));
+        Jaris\Authentication::protectedPage(["view_users"]);
 
         Jaris\View::addTab(t("Navigation View"), "admin/users");
         Jaris\View::addTab(t("List View"), "admin/users/list");
@@ -28,59 +28,51 @@ row: 0
         Jaris\View::addTab(t("Import"), "admin/users/import");
         Jaris\View::addTab(t("Export"), "admin/users/export");
 
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
                 "edit_users",
                 Jaris\Authentication::currentUserGroup()
             )
-        )
-        {
+        ) {
             Jaris\View::addTab(
                 t("Re-index Users List"),
                 "admin/users/re-index",
-                array(),
+                [],
                 1
             );
         }
 
         $page = 1;
 
-        if(isset($_REQUEST["page"]))
-        {
+        if (isset($_REQUEST["page"])) {
             $page = $_REQUEST["page"];
         }
 
-        if(!isset($_REQUEST["group"]))
-        {
+        if (!isset($_REQUEST["group"])) {
             $_REQUEST["group"] = "";
         }
 
-        if(!isset($_REQUEST["keywords"]))
-        {
+        if (!isset($_REQUEST["keywords"])) {
             $_REQUEST["keywords"] = "";
         }
 
-        if(!isset($_REQUEST["status"]))
-        {
+        if (!isset($_REQUEST["status"])) {
             $_REQUEST["status"] = "";
         }
 
-        if(!isset($_REQUEST["sort"]))
-        {
+        if (!isset($_REQUEST["sort"])) {
             $_REQUEST["user_asc"] = "";
         }
 
 
         $group = "";
-        if(trim($_REQUEST["group"]) != "")
-        {
+        if (trim($_REQUEST["group"]) != "") {
             $is_regular = $_REQUEST["group"] == "regular" ? true : false;
 
             $group = str_replace("'", "''", $_REQUEST["group"]);
             $group = "where user_group='$group'";
 
-            if($is_regular)
-            {
+            if ($is_regular) {
                 $group .= " or user_group=''";
             }
         }
@@ -88,16 +80,12 @@ row: 0
         $groups_array = Jaris\Groups::getList();
 
         $keywords = "";
-        if(trim($_REQUEST["keywords"]) != "")
-        {
+        if (trim($_REQUEST["keywords"]) != "") {
             $keyword = str_replace("'", "''", $_REQUEST["keywords"]);
 
-            if($group == "")
-            {
+            if ($group == "") {
                 $keywords = "where ";
-            }
-            else
-            {
+            } else {
                 $keywords .= "and ";
             }
 
@@ -116,21 +104,19 @@ row: 0
         }
 
         $status = "";
-        if(trim($_REQUEST["status"]) != "")
-        {
+        if (trim($_REQUEST["status"]) != "") {
             $status = str_replace("'", "''", $_REQUEST["status"]);
 
-            if($group == "" && $keywords == "")
+            if ($group == "" && $keywords == "") {
                 $status = "where status='$status'";
-            else
+            } else {
                 $status = "and status='$status'";
+            }
         }
 
         $sort = "order by username asc";
-        if(trim($_REQUEST["sort"]) != "user_asc")
-        {
-            switch($_REQUEST["sort"])
-            {
+        if (trim($_REQUEST["sort"]) != "user_asc") {
+            switch ($_REQUEST["sort"]) {
                 case "user_desc":
                     $sort = "order by username desc";
                     break;
@@ -152,7 +138,7 @@ row: 0
         $parameters["action"] = Jaris\Uri::url(Jaris\Uri::get());
         $parameters["method"] = "get";
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "name" => "keywords",
             "label" => t("Keywords:"),
@@ -162,14 +148,14 @@ row: 0
                 "",
             "placeholder" => t("username, e-mail, ip..."),
             "inline" => true
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "select",
             "name" => "group",
             "label" => t("Group:"),
             "value" => array_merge(
-                array(t("All") => ""),
+                [t("All") => ""],
                 $groups_array
             ),
             "selected" => isset($_REQUEST["group"]) ?
@@ -177,14 +163,14 @@ row: 0
                 :
                 "",
             "inline" => true
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "select",
             "name" => "status",
             "label" => t("Status:"),
             "value" => array_merge(
-                array(t("All") => ""),
+                [t("All") => ""],
                 $status_array
             ),
             "selected" => isset($_REQUEST["status"]) ?
@@ -192,37 +178,37 @@ row: 0
                 :
                 "",
             "inline" => true
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "select",
             "name" => "sort",
             "label" => t("Sorting:"),
-            "value" => array(
+            "value" => [
                 t("Username Ascending") => "user_asc",
                 t("Username Descending") => "user_desc",
                 t("Registration Date Ascending") => "register_asc",
                 t("Registration Date Descending") => "register_desc"
-            ),
+            ],
             "selected" => isset($_REQUEST["sort"]) ?
                 $_REQUEST["sort"]
                 :
                 "",
             "inline" => true
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "other",
             "html_code" => "<div></div>"
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnSave",
             "value" => t("Filter")
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "name" => t("Filter Results"),
             "fields" => $fields,
             "collapsible" => true,
@@ -233,13 +219,12 @@ row: 0
                 true
                 :
                 false
-        );
+        ];
 
         print Jaris\Forms::generate($parameters, $fieldset);
 
-        $status_captions = array();
-        foreach($status_array as $caption => $id)
-        {
+        $status_captions = [];
+        foreach ($status_array as $caption => $id) {
             $status_captions[$id] = $caption;
         }
 
@@ -267,11 +252,11 @@ row: 0
             "admin/users/list",
             "",
             30,
-            array(
+            [
                 "group" => $_REQUEST["group"],
                 "status" => $_REQUEST["status"],
                 "sort" => $_REQUEST["sort"]
-            )
+            ]
         );
 
         print "<table class=\"navigation-list navigation-list-hover\">";
@@ -287,8 +272,7 @@ row: 0
 
         print "<tbody>";
 
-        foreach($users as $username)
-        {
+        foreach ($users as $username) {
             $username = $username["username"];
             $user_data = Jaris\Users::get($username);
 
@@ -299,7 +283,7 @@ row: 0
             print "<td>" . $user_data["email"] . "</td>";
 
             print "<td>";
-            print ($status_captions[$user_data["status"]] != "" ?
+            print($status_captions[$user_data["status"]] != "" ?
                 $status_captions[$user_data["status"]] : t("Active"));
             print "</td>";
 
@@ -309,12 +293,12 @@ row: 0
 
             $edit_url = Jaris\Uri::url(
                 "admin/users/edit",
-                array("username" => $username)
+                ["username" => $username]
             );
 
             $delete_url = Jaris\Uri::url(
                 "admin/users/delete",
-                array("username" => $username)
+                ["username" => $username]
             );
 
             print "<td>" .
@@ -335,12 +319,12 @@ row: 0
             "admin/users/list",
             "",
             30,
-            array(
+            [
                 "group" => $_REQUEST["group"],
                 "keywords" => $_REQUEST["keywords"],
                 "status" => $_REQUEST["status"],
                 "sort" => $_REQUEST["sort"]
-            )
+            ]
         );
     ?>
     field;

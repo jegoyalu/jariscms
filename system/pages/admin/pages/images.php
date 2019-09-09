@@ -19,15 +19,13 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("view_images"));
+        Jaris\Authentication::protectedPage(["view_images"]);
 
-        if(!isset($_REQUEST["uri"]))
-        {
+        if (!isset($_REQUEST["uri"])) {
             Jaris\Uri::go("");
         }
 
-        if(!Jaris\Pages::userIsOwner($_REQUEST["uri"]))
-        {
+        if (!Jaris\Pages::userIsOwner($_REQUEST["uri"])) {
             Jaris\Authentication::protectedPage();
         }
     ?>
@@ -88,69 +86,61 @@ row: 0
 
         $image_count = count(Jaris\Pages\Images::getList($_REQUEST["uri"], false));
 
-        if($maximum_images == "0")
-        {
+        if ($maximum_images == "0") {
             Jaris\View::addMessage(t("Image uploads not permitted for this content type."));
-        }
-        elseif($image_count >= $maximum_images && $maximum_images != "-1")
-        {
+        } elseif ($image_count >= $maximum_images && $maximum_images != "-1") {
             Jaris\View::addMessage(t("Maximum image uploads reached."));
         }
 
-        $arguments = array(
+        $arguments = [
             "uri" => $_REQUEST["uri"]
-        );
+        ];
 
         //Tabs
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
                 "edit_content",
                 Jaris\Authentication::currentUserGroup()
             )
-        )
-        {
+        ) {
             Jaris\View::addTab(t("Edit"), "admin/pages/edit", $arguments);
         }
 
         Jaris\View::addTab(t("View"), $_REQUEST["uri"]);
 
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
                 "view_content_blocks",
                 Jaris\Authentication::currentUserGroup()
             )
-        )
-        {
+        ) {
             Jaris\View::addTab(t("Blocks"), "admin/pages/blocks", $arguments);
         }
 
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
                 "view_images",
                 Jaris\Authentication::currentUserGroup()
             )
-        )
-        {
+        ) {
             Jaris\View::addTab(t("Images"), "admin/pages/images", $arguments);
         }
 
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
                 "view_files",
                 Jaris\Authentication::currentUserGroup()
             )
-        )
-        {
+        ) {
             Jaris\View::addTab(t("Files"), "admin/pages/files", $arguments);
         }
 
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
                 "translate_languages",
                 Jaris\Authentication::currentUserGroup()
             )
-        )
-        {
+        ) {
             Jaris\View::addTab(
                 t("Translate"),
                 "admin/pages/translate",
@@ -158,13 +148,12 @@ row: 0
             );
         }
 
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
                 "delete_content",
                 Jaris\Authentication::currentUserGroup()
             )
-        )
-        {
+        ) {
             Jaris\View::addTab(
                 t("Delete"),
                 "admin/pages/delete",
@@ -172,15 +161,13 @@ row: 0
             );
         }
 
-        if($maximum_images == "-1" || $image_count < $maximum_images)
-        {
-            if(
+        if ($maximum_images == "-1" || $image_count < $maximum_images) {
+            if (
                 Jaris\Authentication::groupHasPermission(
                     "add_images",
                     Jaris\Authentication::currentUserGroup()
                 )
-            )
-            {
+            ) {
                 Jaris\View::addTab(
                     t("Add Image"),
                     "admin/pages/images/add",
@@ -190,20 +177,18 @@ row: 0
             }
         }
 
-        if(
+        if (
             isset($_REQUEST["btnSave"]) &&
             Jaris\Authentication::groupHasPermission(
                 "edit_images",
                 Jaris\Authentication::currentUserGroup()
             )
-        )
-        {
+        ) {
             $image_count = count($_REQUEST["id"]);
 
             $saved = true;
 
-            for($i = 0; $i < $image_count; $i++)
-            {
+            for ($i = 0; $i < $image_count; $i++) {
                 $image_id = intval($_REQUEST["id"][$i]);
 
                 $image_data = Jaris\Pages\Images::get(
@@ -214,34 +199,27 @@ row: 0
                 $image_data["description"] = $_REQUEST["description"][$i];
                 $image_data["order"] = $i;
 
-                if($_REQUEST["disabled"][$i])
-                {
+                if ($_REQUEST["disabled"][$i]) {
                     $image_data["disabled"] = true;
-                }
-                elseif(isset($image_data["disabled"]))
-                {
+                } elseif (isset($image_data["disabled"])) {
                     unset($image_data["disabled"]);
                 }
 
-                if(
+                if (
                     !Jaris\Pages\Images::edit(
                         $image_id,
                         $image_data,
                         $arguments["uri"]
                     )
-                )
-                {
+                ) {
                     $saved = false;
                     break;
                 }
             }
 
-            if($saved)
-            {
+            if ($saved) {
                 Jaris\View::addMessage(t("Your changes have been saved."));
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(
                     Jaris\System::errorMessage("write_error_data"),
                     "error"
@@ -249,15 +227,12 @@ row: 0
             }
 
             Jaris\Uri::go("admin/pages/images", $arguments);
-        }
-        elseif(isset($_REQUEST["btnCancel"]))
-        {
+        } elseif (isset($_REQUEST["btnCancel"])) {
             Jaris\Uri::go("admin/pages/images", $arguments);
         }
 
 
-        if($images = Jaris\Pages\Images::getList($arguments["uri"], false))
-        {
+        if ($images = Jaris\Pages\Images::getList($arguments["uri"], false)) {
             print "<form id=\"images-select\" method=\"post\" "
                 . "action=\"" . Jaris\Uri::url("admin/pages/images/delete-selected")
                 . "\">\n"
@@ -299,13 +274,12 @@ row: 0
             print "<td>" . t("Description") . "</td>\n";
             print "<td>" . t("Disabled") . "</td>\n";
 
-            if(
+            if (
                 Jaris\Authentication::groupHasPermission(
                     "delete_images",
                     Jaris\Authentication::currentUserGroup()
                 )
-            )
-            {
+            ) {
                 print "<td>" . t("Operation") . "</td>\n";
             }
 
@@ -316,15 +290,13 @@ row: 0
 
             print "<tbody>\n";
 
-            foreach($images as $id => $fields)
-            {
-                if($fields['order'] == "")
-                {
+            foreach ($images as $id => $fields) {
+                if ($fields['order'] == "") {
                     $fields['order'] = 0;
                 }
 
                 print "<tr>";
-                $image_size = array("w" => "100");
+                $image_size = ["w" => "100"];
 
                 print "<td>";
                 print "<a class=\"sort-handle\"></a>";
@@ -355,8 +327,7 @@ row: 0
                 print "</td>";
 
                 $disabled_checked = "";
-                if(isset($fields["disabled"]))
-                {
+                if (isset($fields["disabled"])) {
                     $disabled_checked .= "checked=\"checked\"";
                 }
 
@@ -365,18 +336,17 @@ row: 0
                     . "</td>"
                 ;
 
-                if(
+                if (
                     Jaris\Authentication::groupHasPermission(
                         "delete_images",
                         Jaris\Authentication::currentUserGroup()
                     )
-                )
-                {
+                ) {
                     print "<td>";
                     print "<a href=\"" .
                         Jaris\Uri::url(
                             "admin/pages/images/delete",
-                            array("uri" => $_REQUEST["uri"], "id" => $id)
+                            ["uri" => $_REQUEST["uri"], "id" => $id]
                         ) . "\">" . t("Delete") .
                         "</a>"
                     ;
@@ -395,13 +365,12 @@ row: 0
 
             print "</table>";
 
-            if(
+            if (
                 Jaris\Authentication::groupHasPermission(
                     "edit_images",
                     Jaris\Authentication::currentUserGroup()
                 )
-            )
-            {
+            ) {
                 print "<input type=\"submit\" name=\"btnSave\" "
                     . "value=\"" . t("Save") . "\" /> &nbsp"
                 ;
@@ -412,22 +381,17 @@ row: 0
             }
 
             print "</form>";
-        }
-        else
-        {
-            if(
+        } else {
+            if (
                 Jaris\Authentication::groupHasPermission(
                     "add_images",
                     Jaris\Authentication::currentUserGroup()
                 )
-            )
-            {
+            ) {
                 Jaris\View::addMessage(
                     t("No images available click Add Image to create one.")
                 );
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(t("No images available."));
             }
         }

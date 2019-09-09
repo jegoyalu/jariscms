@@ -14,7 +14,8 @@
  * @package Minify
  * @author Stephen Clay <steve@mrclay.org>
  */
-class Minify_Controller_Version1 extends Minify_Controller_Base {
+class Minify_Controller_Version1 extends Minify_Controller_Base
+{
 
     /**
      * Set up groups of files as sources
@@ -23,7 +24,8 @@ class Minify_Controller_Version1 extends Minify_Controller_Base {
      * @return array Minify options
      *
      */
-    public function setupSources($options) {
+    public function setupSources($options)
+    {
         // PHP insecure by default: realpath() and other FS functions can't handle null bytes.
         if (isset($_GET['files'])) {
             $_GET['files'] = str_replace("\x00", '', (string)$_GET['files']);
@@ -65,7 +67,7 @@ class Minify_Controller_Version1 extends Minify_Controller_Base {
             . DIRECTORY_SEPARATOR;
         $prependAbsPaths = $_SERVER['DOCUMENT_ROOT'];
 
-        $goodFiles = array();
+        $goodFiles = [];
         $hasBadSource = false;
 
         $allowDirs = isset($options['allowDirs'])
@@ -79,12 +81,11 @@ class Minify_Controller_Version1 extends Minify_Controller_Base {
             $file = realpath($file);
             // don't allow unsafe or duplicate files
             if (parent::_fileIsSafe($file, $allowDirs)
-                && !in_array($file, $goodFiles))
-            {
+                && !in_array($file, $goodFiles)) {
                 $goodFiles[] = $file;
-                $srcOptions = array(
+                $srcOptions = [
                     'filepath' => $file
-                );
+                ];
                 $this->sources[] = new Minify_Source($srcOptions);
             } else {
                 $hasBadSource = true;
@@ -92,7 +93,7 @@ class Minify_Controller_Version1 extends Minify_Controller_Base {
             }
         }
         if ($hasBadSource) {
-            $this->sources = array();
+            $this->sources = [];
         }
         if (! MINIFY_REWRITE_CSS_URLS) {
             $options['rewriteCssUris'] = false;
@@ -102,13 +103,13 @@ class Minify_Controller_Version1 extends Minify_Controller_Base {
 
     private static function _setupDefines()
     {
-        $defaults = array(
+        $defaults = [
             'MINIFY_BASE_DIR' => realpath($_SERVER['DOCUMENT_ROOT'])
             ,'MINIFY_ENCODING' => 'utf-8'
             ,'MINIFY_MAX_FILES' => 16
             ,'MINIFY_REWRITE_CSS_URLS' => true
             ,'MINIFY_USE_CACHE' => true
-        );
+        ];
         foreach ($defaults as $const => $val) {
             if (! defined($const)) {
                 define($const, $val);
@@ -116,4 +117,3 @@ class Minify_Controller_Version1 extends Minify_Controller_Base {
         }
     }
 }
-

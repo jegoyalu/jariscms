@@ -57,8 +57,7 @@ print "<h1>" . t("Income and Expenses Report") . "</h1>";
 
 $months = array_flip(Jaris\Date::getMonths());
 
-if($_REQUEST["month"])
-{
+if ($_REQUEST["month"]) {
     print "<strong>";
     print t("Month:");
     print "</strong> ";
@@ -66,8 +65,7 @@ if($_REQUEST["month"])
     print $months[$_REQUEST["month"]];
 }
 
-if($_REQUEST["year"])
-{
+if ($_REQUEST["year"]) {
     print " <strong>";
     print t("Year:");
     print "</strong> ";
@@ -75,15 +73,13 @@ if($_REQUEST["year"])
     print $_REQUEST["year"];
 }
 
-if(!isset($_REQUEST["month"]) && !isset($_REQUEST["year"]))
-{
+if (!isset($_REQUEST["month"]) && !isset($_REQUEST["year"])) {
     print "<strong>";
     print t("All time report");
     print "</strong> ";
 }
 
-if(true)
-{
+if (true) {
     print "<hr />";
 
     $categories = church_accounting_category_list();
@@ -103,9 +99,8 @@ if(true)
     print "</thead>";
 
     print "<tbody>";
-    $results_data = array();
-    foreach($categories as $cat_id=>$cat_name)
-    {
+    $results_data = [];
+    foreach ($categories as $cat_id=>$cat_name) {
         $result = Jaris\Sql::query(
             "select sum(total) as grand_total "
             . "from church_accounting_income "
@@ -122,8 +117,7 @@ if(true)
 
     arsort($results_data);
 
-    foreach($results_data as $cat_name=>$grand_total)
-    {
+    foreach ($results_data as $cat_name=>$grand_total) {
         print "<tr>";
 
         print "<td>" . t($cat_name) . "</td>";
@@ -163,9 +157,8 @@ if(true)
     print "</thead>";
 
     print "<tbody>";
-    $results_data = array();
-    foreach($categories as $cat_id=>$cat_name)
-    {
+    $results_data = [];
+    foreach ($categories as $cat_id=>$cat_name) {
         $result = Jaris\Sql::query(
             "select sum(total) as grand_total "
             . "from church_accounting_expenses "
@@ -182,8 +175,7 @@ if(true)
 
     arsort($results_data);
 
-    foreach($results_data as $cat_name=>$grand_total)
-    {
+    foreach ($results_data as $cat_name=>$grand_total) {
         print "<tr>";
 
         print "<td>" . t($cat_name) . "</td>";

@@ -19,22 +19,21 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("view_input_formats"));
+        Jaris\Authentication::protectedPage(["view_input_formats"]);
 
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
                 "add_input_formats",
                 Jaris\Authentication::currentUserGroup()
             )
-        )
-        {
+        ) {
             Jaris\View::addTab(
                 t("Create Input Format"),
                 "admin/input-formats/add"
             );
         }
 
-        $input_formats_array = array();
+        $input_formats_array = [];
         $input_formats_array = Jaris\InputFormats::getList();
 
         print "<table class=\"types-list\">\n";
@@ -44,7 +43,7 @@ row: 0
         print "<td>" . t("Name") . "</td>\n";
         print "<td>" . t("Description") . "</td>\n";
 
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
                 "edit_input_formats",
                 Jaris\Authentication::currentUserGroup()
@@ -53,15 +52,13 @@ row: 0
                 "delete_input_formats",
                 Jaris\Authentication::currentUserGroup()
             )
-        )
-        {
+        ) {
             print "<td>" . t("Operation") . "</td>\n";
         }
 
         print "</tr></thead>\n";
 
-        foreach($input_formats_array as $machine_name => $fields)
-        {
+        foreach ($input_formats_array as $machine_name => $fields) {
             print "<tr>\n";
 
             print "<td>" . t($fields["name"]) . "</td>\n";
@@ -69,18 +66,18 @@ row: 0
 
             $edit_url = Jaris\Uri::url(
                 "admin/input-formats/edit",
-                array("input_format" => $machine_name)
+                ["input_format" => $machine_name]
             );
 
             $delete_url = Jaris\Uri::url(
                 "admin/input-formats/delete",
-                array("input_format" => $machine_name)
+                ["input_format" => $machine_name]
             );
 
             $edit_text = t("Edit");
             $delete_text = t("Delete");
 
-            if(
+            if (
                 Jaris\Authentication::groupHasPermission(
                     "edit_input_formats",
                     Jaris\Authentication::currentUserGroup()
@@ -89,26 +86,23 @@ row: 0
                     "delete_input_formats",
                     Jaris\Authentication::currentUserGroup()
                 )
-            )
-            {
+            ) {
                 print "<td>";
-                if(
+                if (
                     Jaris\Authentication::groupHasPermission(
                         "edit_input_formats",
                         Jaris\Authentication::currentUserGroup()
                     )
-                )
-                {
+                ) {
                     print "<a href=\"$edit_url\">$edit_text</a>&nbsp;";
                 }
 
-                if(
+                if (
                     Jaris\Authentication::groupHasPermission(
                         "delete_input_formats",
                         Jaris\Authentication::currentUserGroup()
                     )
-                )
-                {
+                ) {
                     print "<a href=\"$delete_url\">$delete_text</a>";
                 }
                 print "</td>\n";
@@ -119,8 +113,7 @@ row: 0
 
         print "</table>\n";
 
-        if(count($input_formats_array) <= 0)
-        {
+        if (count($input_formats_array) <= 0) {
             Jaris\View::addMessage(t("No custom input formats available."));
         }
     ?>

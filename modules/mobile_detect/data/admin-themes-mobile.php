@@ -17,10 +17,9 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("edit_settings"));
+        Jaris\Authentication::protectedPage(["edit_settings"]);
 
-        if(isset($_REQUEST["btnSave"]))
-        {
+        if (isset($_REQUEST["btnSave"])) {
             Jaris\Settings::save(
                 "mobile_theme",
                 $_REQUEST["theme"] . "/mobile",
@@ -50,44 +49,37 @@ row: 0
 
         $current_theme = Jaris\Settings::get("mobile_theme", "mobile_detect");
 
-        $mobile_themes = array();
+        $mobile_themes = [];
         $themes = Jaris\Themes::getList();
 
-        foreach($themes as $theme_path => $theme_info)
-        {
-            if(
+        foreach ($themes as $theme_path => $theme_info) {
+            if (
                 file_exists(Jaris\Themes::directory($theme_path) . "mobile/info.php")
-            )
-            {
+            ) {
                 $mobile_themes[$theme_path] = $theme_info;
             }
         }
 
-        if(count($mobile_themes) <= 0)
-        {
+        if (count($mobile_themes) <= 0) {
             Jaris\View::addMessage(t("None of the current themes has mobile support."));
         }
 
         //Used to print the theme preview
         $base_url = Jaris\Site::$base_url;
 
-        foreach($mobile_themes as $theme_path => $theme_info)
-        {
+        foreach ($mobile_themes as $theme_path => $theme_info) {
             $alt = t("Preview not available");
             $title = t("View theme info.");
-            $more_url = Jaris\Uri::url("admin/themes/view", array("path" => $theme_path));
+            $more_url = Jaris\Uri::url("admin/themes/view", ["path" => $theme_path]);
             $thumbnail = $base_url . "/" . Jaris\Themes::directory($theme_path) . "preview.png";
             $selected = $current_theme == $theme_path . "/mobile" ? "checked=\"checked\"" : "";
 
             print "<tr>\n";
-            if($theme_info != null)
-            {
+            if ($theme_info != null) {
                 print "<td><a title=\"$title\" href=\"$more_url\"><img alt=\"$alt\" src=\"$thumbnail\" /></a></td>\n";
                 print "<td>" . t($theme_info['name']) . "</td>\n";
                 print "<td><input $selected type=\"radio\" name=\"theme\" value=\"$theme_path\" /></td>\n";
-            }
-            else
-            {
+            } else {
                 print "<td><img alt=\"$alt\" src=\"$thumbnail\" /></td>\n";
                 print "<td>$theme_path</td>\n" .
                     print "<td><input $selected type=\"radio\" name=\"theme\" value=\"$theme_path\" /></td>\n";

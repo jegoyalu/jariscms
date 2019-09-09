@@ -17,4 +17,3 @@ $theme["author"] = "Yaritza Luyando";
 $theme["email"] = "yluyando@jegoyalu.com";
 $theme["website"] = "http://www.jegoyalu.com";
 $theme["developer"] = "Jefferson González <jgonzalez@jegoyalu.com>";
-?>

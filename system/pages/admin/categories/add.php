@@ -20,14 +20,13 @@ row: 0
     field: content
     <?php
         Jaris\Authentication::protectedPage(
-            array("view_categories", "add_categories")
+    ["view_categories", "add_categories"]
         );
 
-        if(
+        if (
             isset($_REQUEST["btnSave"]) &&
             !Jaris\Forms::requiredFieldEmpty("add-category")
-        )
-        {
+        ) {
             $fields["name"] = $_REQUEST["name"];
             $fields["description"] = $_REQUEST["description"];
             $fields["multiple"] = $_REQUEST["multiple"];
@@ -37,8 +36,7 @@ row: 0
 
             $message = Jaris\Categories::add($_REQUEST["machine_name"], $fields);
 
-            if($message == "true")
-            {
+            if ($message == "true") {
                 Jaris\View::addMessage(
                     t("The category has been successfully created.")
                 );
@@ -47,20 +45,16 @@ row: 0
 
                 Jaris\Logger::info(
                     "Added category '{machine_name}'.",
-                    array(
+                    [
                         "machine_name" => $_REQUEST["machine_name"]
-                    )
+                    ]
                 );
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage($message, "error");
             }
 
             Jaris\Uri::go("admin/categories");
-        }
-        elseif(isset($_REQUEST["btnCancel"]))
-        {
+        } elseif (isset($_REQUEST["btnCancel"])) {
             Jaris\Uri::go("admin/categories");
         }
 
@@ -69,7 +63,7 @@ row: 0
         $parameters["action"] = Jaris\Uri::url("admin/categories/add");
         $parameters["method"] = "post";
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "value" => isset($_REQUEST["machine_name"]) ?
                 $_REQUEST["machine_name"] : "",
@@ -78,9 +72,9 @@ row: 0
             "id" => "machine_name",
             "required" => true,
             "description" => t("A readable machine name, like for example: my-category.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "value" => isset($_REQUEST["name"]) ?
                 $_REQUEST["name"] : "",
@@ -89,9 +83,9 @@ row: 0
             "id" => "name",
             "required" => true,
             "description" => t("A human readable name like for example: My Category.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "value" => isset($_REQUEST["description"]) ?
                 $_REQUEST["description"] : "",
@@ -100,62 +94,62 @@ row: 0
             "id" => "description",
             "required" => true,
             "description" => t("A brief description of the category.")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
-        $fields_multiple[] = array(
+        $fields_multiple[] = [
             "type" => "checkbox",
             "name" => "multiple",
             "label" => t("Enable multiple selection?:"),
             "id" => "multiple"
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "fields" => $fields_multiple,
             "name" => t("Multiple")
-        );
+        ];
 
-        $fields_sorting[] = array(
+        $fields_sorting[] = [
             "type" => "checkbox",
             "name" => "sorting",
             "label" => t("Enable subcategory name sorting?:"),
             "id" => "sorting"
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "fields" => $fields_sorting,
             "name" => t("Subcategory sorting"),
             "description" => t("To enable or disable automatic sorting.")
-        );
+        ];
 
-        $fields_block[] = array(
+        $fields_block[] = [
             "type" => "checkbox",
             "name" => "display_subcategories",
             "label" => t("Display subcategories?:"),
             "description" => t("Display all the subcategories on the generated menu, otherwise it will display only the root subcategories."),
             "id" => "display_subcategories"
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "fields" => $fields_block,
             "name" => t("Block options"),
             "description" => t("Options that apply to the generated menu block for this category.")
-        );
+        ];
 
-        $fields_submit[] = array(
+        $fields_submit[] = [
             "type" => "submit",
             "name" => "btnSave",
             "value" => t("Save")
-        );
+        ];
 
-        $fields_submit[] = array(
+        $fields_submit[] = [
             "type" => "submit",
             "name" => "btnCancel",
             "value" => t("Cancel")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields_submit);
+        $fieldset[] = ["fields" => $fields_submit];
 
         print Jaris\Forms::generate($parameters, $fieldset);
     ?>

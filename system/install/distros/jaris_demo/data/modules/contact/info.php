@@ -67,5 +67,3 @@ Version 1.0 - Date 26/06/2011
     * Initial module creation
 
 **/
-
-?>

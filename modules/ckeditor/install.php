@@ -17,8 +17,7 @@ function ckeditor_install()
                 "admin/settings/ckeditor",
                 "ckeditor"
             )
-        ) . "\">" . t("Configure Now") . "</a>")
+        ) . "\">" . t("Configure Now") . "</a>"
+    )
     ;
 }
-
-?>

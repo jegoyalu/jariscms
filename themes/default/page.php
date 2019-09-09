@@ -46,12 +46,9 @@
             <?php
                 $en_active="";
                 $en_active="";
-                if(get_current_language() == "en")
-                {
+                if (get_current_language() == "en") {
                     $en_active .= 'class="active"';
-                }
-                else
-                {
+                } else {
                     $es_active .= 'class="active"';
                 }
             ?>
@@ -67,16 +64,16 @@
         </div>
         <div class="account">
             <a href="<?php print $base_url ?>/admin/user">
-            <?php if(!is_user_logged()){ ?>
+            <?php if (!is_user_logged()) { ?>
                 <div><?php print t("Sign-in") ?></div>
                 <div><?php print t("Your Account") ?></div>
-            <?php } else{ ?>
+            <?php } else { ?>
                 <div><?php print t("Hello,") ?></div>
                 <div><?php print get_user_data(current_user())["name"] ?></div>
             <?php } ?>
             </a>
         </div>
-        <?php if(is_module_installed("ecommerce")){ ?>
+        <?php if (is_module_installed("ecommerce")) { ?>
         <div class="cart">
             <a title="cart" href="<?php print $base_url ?>/cart">
                 <span>
@@ -113,22 +110,22 @@
     </tr>
 </table>
 
-<?php if($header){ ?>
+<?php if ($header) { ?>
 <div id="header-blocks">
     <?php echo $header; ?>
 </div>
 <?php } ?>
 
-<?php if($center){ ?>
+<?php if ($center) { ?>
 <div id="center-blocks">
     <?php echo $center; ?>
 </div>
 <?php } ?>
 
-<?php if((get_uri() != "home" && get_uri() != get_setting("home_page", "main")) || is_admin_logged()){ ?>
+<?php if ((get_uri() != "home" && get_uri() != get_setting("home_page", "main")) || is_admin_logged()) { ?>
 <table id="content">
     <tr>
-        <?php if($left){ ?>
+        <?php if ($left) { ?>
         <td id="left-blocks" class="left">
             <?php echo $left; ?>
         </td>
@@ -137,22 +134,22 @@
         <td class="center">
             <h1><?php print $content_title; ?></h1>
 
-            <?php if($breadcrumb){?>
+            <?php if ($breadcrumb) {?>
             <div id="breadcrumb"><?php print $breadcrumb; ?></div>
             <?php } ?>
 
-            <?php if($messages){?>
+            <?php if ($messages) {?>
             <div id="messages"><?php print $messages; ?></div>
             <?php } ?>
 
-            <?php if($tabs){?>
+            <?php if ($tabs) {?>
             <div id="tabs-menu"><?php print $tabs; ?></div>
             <?php } ?>
 
             <?php print $content; ?>
         </td>
 
-        <?php if($right){ ?>
+        <?php if ($right) { ?>
         <td id="right-blocks" class="right">
             <?php echo $right; ?>
         </td>
@@ -161,7 +158,7 @@
 </table>
 <?php } ?>
 
-<?php if($footer){ ?>
+<?php if ($footer) { ?>
 <div id="footer-blocks">
     <div class="container">
         <?php echo $footer; ?>

@@ -19,17 +19,13 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("edit_settings"));
+        Jaris\Authentication::protectedPage(["edit_settings"]);
 
-        if(isset($_REQUEST["btnSave"]))
-        {
-            if(Jaris\Settings::save("display_rule", $_REQUEST["display_rule"], "jquery-lightbox"))
-            {
+        if (isset($_REQUEST["btnSave"])) {
+            if (Jaris\Settings::save("display_rule", $_REQUEST["display_rule"], "jquery-lightbox")) {
                 Jaris\Settings::save("pages", $_REQUEST["pages"], "jquery-lightbox");
                 Jaris\View::addMessage(t("Your changes have been saved."));
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(Jaris\System::errorMessage("write_error_data"));
             }
 
@@ -51,23 +47,23 @@ row: 0
         $display_rules[t("Display in all pages except the listed ones.")] = "all_except_listed";
         $display_rules[t("Just display on the listed pages.")] = "just_listed";
 
-        $fields_pages[] = array(
+        $fields_pages[] = [
             "type" => "radio",
             "checked" => $lightbox_settings["display_rule"],
             "name" => "display_rule",
             "id" => "display_rule",
             "value" => $display_rules
-        );
+        ];
 
-        $fields_pages[] = array("type" => "uriarea", "name" => "pages", "label" => t("Pages:"), "id" => "pages", "value" => $lightbox_settings["pages"]);
+        $fields_pages[] = ["type" => "uriarea", "name" => "pages", "label" => t("Pages:"), "id" => "pages", "value" => $lightbox_settings["pages"]];
 
-        $fieldset[] = array("fields" => $fields_pages, "name" => "Pages to display", "description" => t("List of uri's seperated by comma (,). Also supports the wildcard (*), for example: my-section/*"));
+        $fieldset[] = ["fields" => $fields_pages, "name" => "Pages to display", "description" => t("List of uri's seperated by comma (,). Also supports the wildcard (*), for example: my-section/*")];
 
-        $fields[] = array("type" => "submit", "name" => "btnSave", "value" => t("Save"));
+        $fields[] = ["type" => "submit", "name" => "btnSave", "value" => t("Save")];
 
-        $fields[] = array("type" => "submit", "name" => "btnCancel", "value" => t("Cancel"));
+        $fields[] = ["type" => "submit", "name" => "btnCancel", "value" => t("Cancel")];
 
-        $fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
         print Jaris\Forms::generate($parameters, $fieldset);
     ?>

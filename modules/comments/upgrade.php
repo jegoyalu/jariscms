@@ -13,8 +13,7 @@
 function comments_upgrade()
 {
     //Adds the notification field if not present on comments table
-    if(Jaris\Sql::dbExists("comments"))
-    {
+    if (Jaris\Sql::dbExists("comments")) {
         $db = Jaris\Sql::open("comments");
         Jaris\Sql::turbo($db);
 
@@ -22,8 +21,7 @@ function comments_upgrade()
 
         $data = Jaris\Sql::fetchArray($result);
 
-        if(!isset($data["notification"]))
-        {
+        if (!isset($data["notification"])) {
             $db_new = Jaris\Sql::open("comments_new");
             Jaris\Sql::turbo($db_new);
 
@@ -53,8 +51,7 @@ function comments_upgrade()
             $data["notification"] = 1;
             Jaris\Sql::insertArrayToTable("comments", $data, $db_new);
 
-            while($data = Jaris\Sql::fetchArray($result))
-            {
+            while ($data = Jaris\Sql::fetchArray($result)) {
                 $data["notification"] = 1;
                 Jaris\Sql::insertArrayToTable("comments", $data, $db_new);
             }
@@ -68,13 +65,9 @@ function comments_upgrade()
                 Jaris\Site::dataDir() . "sqlite/comments_new",
                 Jaris\Site::dataDir() . "sqlite/comments"
             );
-        }
-        else
-        {
+        } else {
             unset($result);
             Jaris\Sql::close($db);
         }
     }
 }
-
-?>

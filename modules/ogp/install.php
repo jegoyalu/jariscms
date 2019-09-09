@@ -17,5 +17,3 @@ function ogp_install()
         "\">" . t("Open Graph Settings") . "</a>"
     );
 }
-
-?>

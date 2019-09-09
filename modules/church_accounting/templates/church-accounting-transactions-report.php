@@ -77,10 +77,9 @@
 
 <?php
 
-if(
+if (
     ($day > 0 && $month > 0 && $year > 0)
-)
-{
+) {
     print "<hr />";
 
     $months = array_flip(Jaris\Date::getMonths());
@@ -98,7 +97,7 @@ if(
     $total_expenses = 0.00;
 
     $view_tither = Jaris\Authentication::userHasPermissions(
-        array("manage_tithers_church_accounting"),
+        ["manage_tithers_church_accounting"],
         Jaris\Authentication::currentUser()
     );
 
@@ -135,41 +134,32 @@ if(
         $db_expenses
     );
 
-    $types_total = array();
+    $types_total = [];
 
-    while($data = Jaris\Sql::fetchArray($result_income))
-    {
+    while ($data = Jaris\Sql::fetchArray($result_income)) {
         $prepared_by = "<div>";
-        if(trim($data["prepared_by"]) != "")
-        {
+        if (trim($data["prepared_by"]) != "") {
             $user_data = Jaris\Users::get($data["prepared_by"]);
 
             $prepared_by .= "<b>" . t("Prepared by:") . "</b> ";
 
-            if($user_data)
-            {
+            if ($user_data) {
                 $prepared_by .= $user_data["name"];
-            }
-            else
-            {
+            } else {
                 $prepared_by .= $data["prepared_by"];
             }
 
             $prepared_by .= " ";
         }
 
-        if(trim($data["verified_by"]) != "")
-        {
+        if (trim($data["verified_by"]) != "") {
             $user_data = Jaris\Users::get($data["verified_by"]);
 
             $prepared_by .= "<b>" . t("Verified by:") . "</b> ";
 
-            if($user_data)
-            {
+            if ($user_data) {
                 $prepared_by .= $user_data["name"];
-            }
-            else
-            {
+            } else {
                 $prepared_by .= $data["verified_by"];
             }
         }
@@ -186,8 +176,7 @@ if(
         ;
 
         print "<td>";
-        if($view_tither)
-        {
+        if ($view_tither) {
             $tither_data = church_accounting_tither_get($data["tither"]);
             print "<strong>"
                 . $tither_data["first_name"] . " "
@@ -207,39 +196,30 @@ if(
         print "</tr>";
     }
 
-    while($data = Jaris\Sql::fetchArray($result_expenses))
-    {
+    while ($data = Jaris\Sql::fetchArray($result_expenses)) {
         $prepared_by = "<div>";
-        if(trim($data["prepared_by"]) != "")
-        {
+        if (trim($data["prepared_by"]) != "") {
             $user_data = Jaris\Users::get($data["prepared_by"]);
 
             $prepared_by .= "<b>" . t("Prepared by:") . "</b> ";
 
-            if($user_data)
-            {
+            if ($user_data) {
                 $prepared_by .= $user_data["name"];
-            }
-            else
-            {
+            } else {
                 $prepared_by .= $data["prepared_by"];
             }
 
             $prepared_by .= " ";
         }
 
-        if(trim($data["verified_by"]) != "")
-        {
+        if (trim($data["verified_by"]) != "") {
             $user_data = Jaris\Users::get($data["verified_by"]);
 
             $prepared_by .= "<b>" . t("Verified by:") . "</b> ";
 
-            if($user_data)
-            {
+            if ($user_data) {
                 $prepared_by .= $user_data["name"];
-            }
-            else
-            {
+            } else {
                 $prepared_by .= $data["verified_by"];
             }
         }
@@ -267,8 +247,7 @@ if(
 
         $data["checks"] = unserialize($data["checks"]);
 
-        if(count($data["checks"]) > 0)
-        {
+        if (count($data["checks"]) > 0) {
             print "<h3>" . t("Checks") . "</h3>";
             print "<table class=\"report-table\">";
             print "<thead>";
@@ -280,8 +259,7 @@ if(
             print "</thead>";
 
             print "<tbody>";
-            foreach($data["checks"] as $check)
-            {
+            foreach ($data["checks"] as $check) {
                 print "<tr>";
                 print "<td>" . $check["number"] . "</td>";
                 print "<td>" . $check["paid_to"] . "</td>";
@@ -294,9 +272,8 @@ if(
 
         $data["items_data"] = unserialize($data["items_data"]);
 
-        if(count($data["items_data"]) > 0)
-        {
-           print "<h3>" . t("Items") . "</h3>";
+        if (count($data["items_data"]) > 0) {
+            print "<h3>" . t("Items") . "</h3>";
             print "<table class=\"report-table\">";
             print "<thead>";
             print "<tr>";
@@ -306,8 +283,7 @@ if(
             print "</thead>";
 
             print "<tbody>";
-            foreach($data["items_data"] as $item)
-            {
+            foreach ($data["items_data"] as $item) {
                 print "<tr>";
                 print "<td>" . $item["description"] . "</td>";
                 print '<td>$' . number_format($item["amount"], 2, ".", ",") . "</td>";
@@ -335,8 +311,7 @@ if(
     print '<td>$' . number_format($total_income, 2, ".", ",") . "</td>";
     print "</tr>";
 
-    foreach($types_total as $type_name => $type_total)
-    {
+    foreach ($types_total as $type_name => $type_total) {
         print "<tr>";
         print "<td></td>";
         print "<td style=\"text-align: right\">"
@@ -369,11 +344,9 @@ if(
 
     Jaris\Sql::close($db_income);
     Jaris\Sql::close($db_expenses);
-}
-elseif(
+} elseif (
     ($month > 0 && $year > 0)
-)
-{
+) {
     print "<hr />";
 
     $months = array_flip(Jaris\Date::getMonths());
@@ -405,8 +378,7 @@ elseif(
 
     print "<tbody>";
 
-    for($day=1; $day<=31; $day++)
-    {
+    for ($day=1; $day<=31; $day++) {
         $result_income = Jaris\Sql::query(
             "select * "
             . "from church_accounting_income "
@@ -423,39 +395,30 @@ elseif(
 
         $day_total = 0;
 
-        while($data = Jaris\Sql::fetchArray($result_income))
-        {
+        while ($data = Jaris\Sql::fetchArray($result_income)) {
             $prepared_by = "<div>";
-            if(trim($data["prepared_by"]) != "")
-            {
+            if (trim($data["prepared_by"]) != "") {
                 $user_data = Jaris\Users::get($data["prepared_by"]);
 
                 $prepared_by .= "<b>" . t("Prepared by:") . "</b> ";
 
-                if($user_data)
-                {
+                if ($user_data) {
                     $prepared_by .= $user_data["name"];
-                }
-                else
-                {
+                } else {
                     $prepared_by .= $data["prepared_by"];
                 }
 
                 $prepared_by .= " ";
             }
 
-            if(trim($data["verified_by"]) != "")
-            {
+            if (trim($data["verified_by"]) != "") {
                 $user_data = Jaris\Users::get($data["verified_by"]);
 
                 $prepared_by .= "<b>" . t("Verified by:") . "</b> ";
 
-                if($user_data)
-                {
+                if ($user_data) {
                     $prepared_by .= $user_data["name"];
-                }
-                else
-                {
+                } else {
                     $prepared_by .= $data["verified_by"];
                 }
             }
@@ -467,34 +430,29 @@ elseif(
             $total_income += $data["total"];
 
             $edit_url = "";
-            if($data["is_tithe"])
-            {
+            if ($data["is_tithe"]) {
                 $edit_url .= Jaris\Uri::url(
                     Jaris\Modules::getPageUri(
                         "admin/church-accounting/income/tithes/edit",
                         "church_accounting"
                     ),
-                    array("id"=>$data["id"])
+                    ["id"=>$data["id"]]
                 );
-            }
-            elseif(intval($income_data["tither"]) > 0)
-            {
+            } elseif (intval($income_data["tither"]) > 0) {
                 $edit_url .= Jaris\Uri::url(
                     Jaris\Modules::getPageUri(
                         "admin/church-accounting/income/tither-offerings/edit",
                         "church_accounting"
                     ),
-                    array("id"=>$data["id"])
+                    ["id"=>$data["id"]]
                 );
-            }
-            else
-            {
+            } else {
                 $edit_url .= Jaris\Uri::url(
                     Jaris\Modules::getPageUri(
                         "admin/church-accounting/income/offerings/edit",
                         "church_accounting"
                     ),
-                    array("id"=>$data["id"])
+                    ["id"=>$data["id"]]
                 );
             }
 
@@ -524,8 +482,7 @@ elseif(
             print "</tr>";
         }
 
-        if($day_total > 0)
-        {
+        if ($day_total > 0) {
             print "<tr>";
             print "<td></td>";
             print "<td></td>";
@@ -540,39 +497,30 @@ elseif(
 
         $day_total = 0;
 
-        while($data = Jaris\Sql::fetchArray($result_expenses))
-        {
+        while ($data = Jaris\Sql::fetchArray($result_expenses)) {
             $prepared_by = "<div>";
-            if(trim($data["prepared_by"]) != "")
-            {
+            if (trim($data["prepared_by"]) != "") {
                 $user_data = Jaris\Users::get($data["prepared_by"]);
 
                 $prepared_by .= "<b>" . t("Prepared by:") . "</b> ";
 
-                if($user_data)
-                {
+                if ($user_data) {
                     $prepared_by .= $user_data["name"];
-                }
-                else
-                {
+                } else {
                     $prepared_by .= $data["prepared_by"];
                 }
 
                 $prepared_by .= " ";
             }
 
-            if(trim($data["verified_by"]) != "")
-            {
+            if (trim($data["verified_by"]) != "") {
                 $user_data = Jaris\Users::get($data["verified_by"]);
 
                 $prepared_by .= "<b>" . t("Verified by:") . "</b> ";
 
-                if($user_data)
-                {
+                if ($user_data) {
                     $prepared_by .= $user_data["name"];
-                }
-                else
-                {
+                } else {
                     $prepared_by .= $data["verified_by"];
                 }
             }
@@ -588,7 +536,7 @@ elseif(
                     "admin/church-accounting/expenses/edit",
                     "church_accounting"
                 ),
-                array("id"=>$data["id"])
+                ["id"=>$data["id"]]
             );
 
             print "<td>"
@@ -610,8 +558,7 @@ elseif(
 
             $data["checks"] = unserialize($data["checks"]);
 
-            if(count($data["checks"]) > 0)
-            {
+            if (count($data["checks"]) > 0) {
                 print "<h3>" . t("Checks") . "</h3>";
                 print "<table class=\"report-table\">";
                 print "<thead>";
@@ -623,8 +570,7 @@ elseif(
                 print "</thead>";
 
                 print "<tbody>";
-                foreach($data["checks"] as $check)
-                {
+                foreach ($data["checks"] as $check) {
                     print "<tr>";
                     print "<td>" . $check["number"] . "</td>";
                     print "<td>" . $check["paid_to"] . "</td>";
@@ -637,9 +583,8 @@ elseif(
 
             $data["items_data"] = unserialize($data["items_data"]);
 
-            if(count($data["items_data"]) > 0)
-            {
-               print "<h3>" . t("Items") . "</h3>";
+            if (count($data["items_data"]) > 0) {
+                print "<h3>" . t("Items") . "</h3>";
                 print "<table class=\"report-table\">";
                 print "<thead>";
                 print "<tr>";
@@ -649,8 +594,7 @@ elseif(
                 print "</thead>";
 
                 print "<tbody>";
-                foreach($data["items_data"] as $item)
-                {
+                foreach ($data["items_data"] as $item) {
                     print "<tr>";
                     print "<td>" . $item["description"] . "</td>";
                     print '<td>$' . number_format($item["amount"], 2, ".", ",") . "</td>";
@@ -671,8 +615,7 @@ elseif(
             print "</tr>";
         }
 
-        if($day_total > 0)
-        {
+        if ($day_total > 0) {
             print "<tr>";
             print "<td></td>";
             print "<td></td>";

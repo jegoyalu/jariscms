@@ -17,21 +17,17 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("manage_categories_church_accounting"));
+        Jaris\Authentication::protectedPage(["manage_categories_church_accounting"]);
 
-        if(isset($_REQUEST["action"]))
-        {
-            if($_REQUEST["action"] == "add")
-            {
+        if (isset($_REQUEST["action"])) {
+            if ($_REQUEST["action"] == "add") {
                 church_accounting_category_add($_REQUEST["label"]);
-            }
-            elseif($_REQUEST["action"] == "edit")
-            {
-                foreach($_REQUEST["id"] as $index=>$id)
-                {
+            } elseif ($_REQUEST["action"] == "edit") {
+                foreach ($_REQUEST["id"] as $index=>$id) {
                     // Skip tithe, other category.
-                    if($id == 1 || $id == 4)
+                    if ($id == 1 || $id == 4) {
                         continue;
+                    }
 
                     church_accounting_category_edit(
                         $id,
@@ -53,36 +49,35 @@ row: 0
         );
         $parameters["method"] = "post";
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "hidden",
             "name" => "action",
             "value" => "add"
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "label" => t("Label:"),
             "name" => "label"
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnAdd",
             "value" => t("Add")
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "name" => t("Add Category"),
             "fields" => $fields,
             "collapsible" => true,
             "collapsed" => count($elements) > 0
-        );
+        ];
 
         print Jaris\Forms::generate($parameters, $fieldset);
 
         // List elements
-        if(is_array($elements) && count($elements) > 0)
-        {
+        if (is_array($elements) && count($elements) > 0) {
             print '<form action="'.Jaris\Uri::url(Jaris\Uri::get()).'" method="POST">';
             print '<input type="hidden" name="action" value="edit" />';
             print "<table class=\"navigation-list\">";
@@ -94,13 +89,13 @@ row: 0
             print "</thead>";
 
             print "<tbody>";
-            foreach($elements as $id=>$label)
-            {
+            foreach ($elements as $id=>$label) {
                 print "<tr>";
 
                 $readonly = "";
-                if($id == 1 || $id == 4)
+                if ($id == 1 || $id == 4) {
                     $readonly .= "readonly";
+                }
 
                 print "<td>";
                 print '<input type="hidden" name="id[]" value="'.$id.'" />';
@@ -112,12 +107,11 @@ row: 0
                         "admin/settings/church-accounting/categories/income/delete",
                         "church_accounting"
                     ),
-                    array("id"=>$id)
+                    ["id"=>$id]
                 );
 
                 print "<td>";
-                if($id > 13)
-                {
+                if ($id > 13) {
                     print '<a href="'.$delete_url.'">'.t("Delete").'</a>';
                 }
                 print "</td>";

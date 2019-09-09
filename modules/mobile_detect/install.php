@@ -18,5 +18,3 @@ function mobile_detect_install()
         t("Themes Configuration") . "</a>"
     );
 }
-
-?>

@@ -6,7 +6,8 @@
  * @package Minify
  * @author Stephen Clay <steve@mrclay.org>
  */
-class Minify_DebugDetector {
+class Minify_DebugDetector
+{
     public static function shouldDebugRequest($cookie, $get, $requestUri)
     {
         if (isset($get['debug'])) {
@@ -15,7 +16,7 @@ class Minify_DebugDetector {
         if (! empty($cookie['minifyDebug'])) {
             foreach (preg_split('/\\s+/', $cookie['minifyDebug']) as $debugUri) {
                 $pattern = '@' . preg_quote($debugUri, '@') . '@i';
-                $pattern = str_replace(array('\\*', '\\?'), array('.*', '.'), $pattern);
+                $pattern = str_replace(['\\*', '\\?'], ['.*', '.'], $pattern);
                 if (preg_match($pattern, $requestUri)) {
                     return true;
                 }

@@ -20,11 +20,10 @@ row: 0
     field: content
     <?php
         Jaris\Authentication::protectedPage(
-            array("view_menus", "edit_menu_items")
+    ["view_menus", "edit_menu_items"]
         );
 
-        if(!isset($_REQUEST["id"]) || !isset($_REQUEST["menu"]))
-        {
+        if (!isset($_REQUEST["id"]) || !isset($_REQUEST["menu"])) {
             Jaris\Uri::go("admin/menus");
         }
 
@@ -35,13 +34,11 @@ row: 0
             $_REQUEST["menu"]
         );
 
-        if(
+        if (
             isset($_REQUEST["btnSave"]) &&
             !Jaris\Forms::requiredFieldEmpty("edit-menu-item")
-        )
-        {
-            if(trim($_REQUEST["url"]) == "")
-            {
+        ) {
+            if (trim($_REQUEST["url"]) == "") {
                 $_REQUEST["url"] = Jaris\Uri::fromText($_REQUEST["title"]);
             }
 
@@ -57,18 +54,16 @@ row: 0
 
             //Checks if client is trying to move a root parent menu
             //to its own submenu and makes subs menu root menu
-            if($fields["parent"] == "root" && $_REQUEST["parent"] != "root")
-            {
+            if ($fields["parent"] == "root" && $_REQUEST["parent"] != "root") {
                 $new_parent_item = Jaris\Menus::getItem(
                     intval($_REQUEST["parent"]),
                     $_REQUEST["menu"]
                 );
 
-                if(
+                if (
                     "" . $new_parent_item["parent"] . "" ==
                     "" . $_REQUEST["id"] . ""
-                )
-                {
+                ) {
                     $new_parent_item["parent"] = "root";
 
                     Jaris\Menus::editItem(
@@ -81,14 +76,13 @@ row: 0
 
             $fields["parent"] = $_REQUEST["parent"];
 
-            if(
+            if (
                 Jaris\Menus::editItem(
                     $item_id,
                     $_REQUEST["menu"],
                     $fields
                 )
-            )
-            {
+            ) {
                 Jaris\View::addMessage(
                     t("The menu item was successfully edited.")
                 );
@@ -97,14 +91,12 @@ row: 0
 
                 Jaris\Logger::info(
                     "Edited menu item '{title}' from '{machine_name}'.",
-                    array(
+                    [
                         "title" => $fields["title"],
                         "machine_name" => $_REQUEST["menu"]
-                    )
+                    ]
                 );
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(
                     Jaris\System::errorMessage("write_error_data"),
                     "error"
@@ -112,9 +104,7 @@ row: 0
             }
 
             Jaris\Uri::go("admin/menus");
-        }
-        elseif(isset($_REQUEST["btnCancel"]))
-        {
+        } elseif (isset($_REQUEST["btnCancel"])) {
             Jaris\Uri::go("admin/menus");
         }
 
@@ -122,10 +112,8 @@ row: 0
 
         $menu_items_array = Jaris\Menus::getItemsList($_REQUEST["menu"]);
 
-        foreach($menu_items_array as $id => $items)
-        {
-            if($id != $item_id)
-            {
+        foreach ($menu_items_array as $id => $items) {
+            if ($id != $item_id) {
                 $menus[$items["title"]] = "$id";
             }
         }
@@ -135,51 +123,51 @@ row: 0
         $parameters["action"] = Jaris\Uri::url("admin/menus/edit-item");
         $parameters["method"] = "post";
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "hidden",
             "name" => "id",
             "value" => $item_id
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "hidden",
             "name" => "menu",
             "value" => $_REQUEST["menu"]
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "name" => "title",
             "label" => t("Title:"),
             "id" => "title",
             "value" => $current_menu_data["title"],
             "required" => true
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "uri",
             "name" => "url",
             "label" => t("Url:"),
             "id" => "url",
             "value" => $current_menu_data["url"],
             "description" => t("The relative path to access a page, for example: section/page, section or the full url like http://domain.com/section. Leave empty to auto-generate.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "name" => "description",
             "label" => t("Description:"),
             "id" => "description",
             "value" => $current_menu_data["description"],
             "description" => t("Small descriptive popup shown to user on mouse over.")
-        );
+        ];
 
         $targets[t("New Window")] = "_blank";
         $targets[t("Current Window")] = "_self";
         $targets[t("Parent frameset")] = "_parent";
         $targets[t("Full body of window")] = "_top";
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "select",
             "value" => $targets,
             "selected" => isset($_REQUEST["target"]) ?
@@ -189,58 +177,58 @@ row: 0
             "name" => "target",
             "label" => t("Target:"),
             "id" => "target"
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "select",
             "name" => "parent",
             "selected" => trim($current_menu_data["parent"]),
             "label" => t("Parent:"),
             "id" => "parent",
             "value" => $menus
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
-        $fields_expanded[] = array(
+        $fields_expanded[] = [
             "type" => "checkbox",
             "name" => "expanded",
             "label" => t("Show item elements?:"),
             "id" => "expanded",
             "checked" => $current_menu_data["expanded"]
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "fields" => $fields_expanded,
             "name" => t("Expanded")
-        );
+        ];
 
-        $fields_disabled[] = array(
+        $fields_disabled[] = [
             "type" => "checkbox",
             "name" => "disabled",
             "label" => t("Disable item?:"),
             "id" => "disabled",
             "checked" => $current_menu_data["disabled"]
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "fields" => $fields_disabled,
             "name" => t("Disabled")
-        );
+        ];
 
-        $fields_submit[] = array(
+        $fields_submit[] = [
             "type" => "submit",
             "name" => "btnSave",
             "value" => t("Save")
-        );
+        ];
 
-        $fields_submit[] = array(
+        $fields_submit[] = [
             "type" => "submit",
             "name" => "btnCancel",
             "value" => t("Cancel")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields_submit);
+        $fieldset[] = ["fields" => $fields_submit];
 
         print "<h3>" . t("Menu:") . " " . t($_REQUEST["menu"]) . "</h3>";
 

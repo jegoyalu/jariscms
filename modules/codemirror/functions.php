@@ -14,43 +14,39 @@ $display_codemirror_on_current_page = false;
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\Forms::SIGNAL_GENERATE_FORM,
-    function(&$parameters, &$fieldsets)
-    {
+    function (&$parameters, &$fieldsets) {
         global $display_codemirror_on_current_page;
 
         $textarea_id = unserialize(Jaris\Settings::get("teaxtarea_id", "codemirror"));
         $forms_to_display = unserialize(Jaris\Settings::get("forms", "codemirror"));
         $groups = unserialize(Jaris\Settings::get("groups", "codemirror"));
 
-        if(!is_array($textarea_id))
-            $textarea_id = array();
-        if(!is_array($forms_to_display))
-            $forms_to_display = array();
-        if(!is_array($groups))
-            $groups = array();
-
-        if(!$textarea_id[Jaris\Authentication::currentUserGroup()])
-        {
-            $textarea_id[Jaris\Authentication::currentUserGroup()] = "content, return";
+        if (!is_array($textarea_id)) {
+            $textarea_id = [];
         }
-        else
-        {
+        if (!is_array($forms_to_display)) {
+            $forms_to_display = [];
+        }
+        if (!is_array($groups)) {
+            $groups = [];
+        }
+
+        if (!$textarea_id[Jaris\Authentication::currentUserGroup()]) {
+            $textarea_id[Jaris\Authentication::currentUserGroup()] = "content, return";
+        } else {
             $textarea_id[Jaris\Authentication::currentUserGroup()] = explode(
                 ",",
                 $textarea_id[Jaris\Authentication::currentUserGroup()]
             );
         }
 
-        if(!$forms_to_display[Jaris\Authentication::currentUserGroup()])
-        {
+        if (!$forms_to_display[Jaris\Authentication::currentUserGroup()]) {
             $forms_to_display[Jaris\Authentication::currentUserGroup()] =
                 "add-page,edit-page,translate-page,"
                 . "add-page-block,block-page-edit,add-block,"
                 . "block-edit,add-page-block-page"
             ;
-        }
-        else
-        {
+        } else {
             $forms_to_display[Jaris\Authentication::currentUserGroup()] = explode(
                 ",",
                 $forms_to_display[Jaris\Authentication::currentUserGroup()]
@@ -58,19 +54,15 @@ Jaris\Signals\SignalHandler::listenWithParams(
         }
 
         //Check if current user is on one of the groups that can use the editor
-        if(!$groups[Jaris\Authentication::currentUserGroup()])
-        {
+        if (!$groups[Jaris\Authentication::currentUserGroup()]) {
             return;
         }
 
-        foreach($forms_to_display[Jaris\Authentication::currentUserGroup()] as $form_name)
-        {
+        foreach ($forms_to_display[Jaris\Authentication::currentUserGroup()] as $form_name) {
             $form_name = trim($form_name);
 
-            if($parameters["name"] == $form_name)
-            {
-                foreach($textarea_id[Jaris\Authentication::currentUserGroup()] as $id)
-                {
+            if ($parameters["name"] == $form_name) {
+                foreach ($textarea_id[Jaris\Authentication::currentUserGroup()] as $id) {
                     $id = trim($id);
 
                     $full_id = $parameters["name"] . "-" . $id;
@@ -96,36 +88,29 @@ Jaris\Signals\SignalHandler::listenWithParams(
                     var editor = new CodeMirrorUI(textarea,uiOptions,codeMirrorOptions);
                     </script>';
 
-                    $fields = array();
+                    $fields = [];
 
-                    foreach($fieldsets as $fieldsets_index => $fieldset_fields)
-                    {
-                        $fields = array();
+                    foreach ($fieldsets as $fieldsets_index => $fieldset_fields) {
+                        $fields = [];
 
-                        foreach($fieldset_fields["fields"] as $fields_index => $values)
-                        {
-                            if($values["type"] == "textarea" && $values["id"] == $id)
-                            {
+                        foreach ($fieldset_fields["fields"] as $fields_index => $values) {
+                            if ($values["type"] == "textarea" && $values["id"] == $id) {
                                 $values["class"] = "codemirror";
                                 $fields[] = $values;
-                                $fields[] = array("type" => "other", "html_code" => $editor);
+                                $fields[] = ["type" => "other", "html_code" => $editor];
 
-                                $new_fields = array();
+                                $new_fields = [];
 
-                                foreach($fieldset_fields["fields"] as $check_index => $field_data)
-                                {
+                                foreach ($fieldset_fields["fields"] as $check_index => $field_data) {
                                     //Copy new fields to the position of replaced textarea with codemirror
-                                    if($check_index == $fields_index)
-                                    {
-                                        foreach($fields as $field)
-                                        {
+                                    if ($check_index == $fields_index) {
+                                        foreach ($fields as $field) {
                                             $new_fields[] = $field;
                                         }
                                     }
 
                                     //Copy the other fields on the fieldset
-                                    else
-                                    {
+                                    else {
                                         $new_fields[] = $field_data;
                                     }
                                 }
@@ -152,12 +137,10 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\System::SIGNAL_GET_SYSTEM_STYLES,
-    function(&$styles)
-    {
+    function (&$styles) {
         global $display_codemirror_on_current_page;
 
-        if($display_codemirror_on_current_page)
-        {
+        if ($display_codemirror_on_current_page) {
             $styles[] = Jaris\Uri::url(
                 Jaris\Modules::directory("codemirror")
                     . "codemirror-3.0/lib/codemirror.css"
@@ -173,12 +156,10 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\System::SIGNAL_GET_SYSTEM_SCRIPTS,
-    function(&$scripts)
-    {
+    function (&$scripts) {
         global $display_codemirror_on_current_page;
 
-        if($display_codemirror_on_current_page)
-        {
+        if ($display_codemirror_on_current_page) {
             $scripts[] = Jaris\Uri::url(
                 Jaris\Modules::directory("codemirror")
                     . "codemirror-3.0/lib/codemirror.js"
@@ -234,17 +215,15 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\View::SIGNAL_THEME_TABS,
-    function(&$tabs_array)
-    {
-        if(Jaris\Uri::get() == "admin/settings")
-        {
-            $tabs_array[0][t("Codemirror Editor")] = array(
+    function (&$tabs_array) {
+        if (Jaris\Uri::get() == "admin/settings") {
+            $tabs_array[0][t("Codemirror Editor")] = [
                 "uri" => Jaris\Modules::getPageUri(
                     "admin/settings/codemirror",
                     "codemirror"
                 ),
-                "arguments" => array()
-            );
+                "arguments" => []
+            ];
         }
     }
 );

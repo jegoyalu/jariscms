@@ -34,17 +34,16 @@ row: 0
     </script>
 
     <?php
-        Jaris\Authentication::protectedPage(array("edit_content"));
+        Jaris\Authentication::protectedPage(["edit_content"]);
 
         Jaris\View::addSystemScript("jquery-ui/jquery.ui.js");
         Jaris\View::addSystemScript("jquery-ui/jquery.ui.touch-punch.min.js");
 
-        if(!Jaris\Pages::userIsOwner($_REQUEST["uri"]))
-        {
+        if (!Jaris\Pages::userIsOwner($_REQUEST["uri"])) {
             Jaris\Authentication::protectedPage();
         }
 
-        $arguments = array("uri" => $_REQUEST["uri"]);
+        $arguments = ["uri" => $_REQUEST["uri"]];
 
         Jaris\View::addTab(
             t("Fields"),
@@ -60,29 +59,23 @@ row: 0
         );
 
         //Tabs
-        if(Jaris\Authentication::groupHasPermission("edit_content", Jaris\Authentication::currentUserGroup()))
-        {
+        if (Jaris\Authentication::groupHasPermission("edit_content", Jaris\Authentication::currentUserGroup())) {
             Jaris\View::addTab(t("Edit"), "admin/pages/edit", $arguments);
         }
         Jaris\View::addTab(t("View"), $_REQUEST["uri"]);
-        if(Jaris\Authentication::groupHasPermission("view_content_blocks", Jaris\Authentication::currentUserGroup()))
-        {
+        if (Jaris\Authentication::groupHasPermission("view_content_blocks", Jaris\Authentication::currentUserGroup())) {
             Jaris\View::addTab(t("Blocks"), "admin/pages/blocks", $arguments);
         }
-        if(Jaris\Authentication::groupHasPermission("view_images", Jaris\Authentication::currentUserGroup()))
-        {
+        if (Jaris\Authentication::groupHasPermission("view_images", Jaris\Authentication::currentUserGroup())) {
             Jaris\View::addTab(t("Images"), "admin/pages/images", $arguments);
         }
-        if(Jaris\Authentication::groupHasPermission("view_files", Jaris\Authentication::currentUserGroup()))
-        {
+        if (Jaris\Authentication::groupHasPermission("view_files", Jaris\Authentication::currentUserGroup())) {
             Jaris\View::addTab(t("Files"), "admin/pages/files", $arguments);
         }
-        if(Jaris\Authentication::groupHasPermission("translate_languages", Jaris\Authentication::currentUserGroup()))
-        {
+        if (Jaris\Authentication::groupHasPermission("translate_languages", Jaris\Authentication::currentUserGroup())) {
             Jaris\View::addTab(t("Translate"), "admin/pages/translate", $arguments);
         }
-        if(Jaris\Authentication::groupHasPermission("delete_content", Jaris\Authentication::currentUserGroup()))
-        {
+        if (Jaris\Authentication::groupHasPermission("delete_content", Jaris\Authentication::currentUserGroup())) {
             Jaris\View::addTab(t("Delete"), "admin/pages/delete", $arguments);
         }
     ?>
@@ -93,12 +86,10 @@ row: 0
         <input type="hidden" name="uri" value="<?php print $_REQUEST["uri"] ?>" />
 
     <?php
-        if(isset($_REQUEST["btnSave"]))
-        {
+        if (isset($_REQUEST["btnSave"])) {
             $saved = true;
 
-            for($i = 0; $i < count($_REQUEST["id"]); $i++)
-            {
+            for ($i = 0; $i < count($_REQUEST["id"]); $i++) {
                 $new_field_data = contact_get_field_data(
                     $_REQUEST["id"][$i],
                     $_REQUEST["uri"]
@@ -106,45 +97,38 @@ row: 0
 
                 $new_field_data["position"] = $i;
 
-                if(
+                if (
                     !contact_edit_field(
                         $_REQUEST["id"][$i],
                         $new_field_data,
                         $_REQUEST["uri"]
                     )
-                )
-                {
+                ) {
                     $saved = false;
                     break;
                 }
             }
 
-            if($saved)
-            {
+            if ($saved) {
                 Jaris\View::addMessage(t("Your changes have been saved."));
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(Jaris\System::errorMessage("write_error_data"), "error");
             }
 
             Jaris\Uri::go(
                 Jaris\Modules::getPageUri("admin/pages/contact-form/fields", "contact"),
-                array("uri" => $_REQUEST["uri"])
+                ["uri" => $_REQUEST["uri"]]
             );
         }
 
         $fields_array = contact_get_fields($_REQUEST["uri"]);
 
-        if(!$fields_array)
-        {
+        if (!$fields_array) {
             print "<h3>" .
                 t("No fields available click on Add Field to create one.") .
                 "</h3>"
             ;
-        }
-        else
-        {
+        } else {
             print "<table class=\"types-list\">\n";
 
             print "<thead><tr>\n";
@@ -158,8 +142,7 @@ row: 0
 
             print "<tbody>\n";
 
-            foreach($fields_array as $id => $fields)
-            {
+            foreach ($fields_array as $id => $fields) {
                 print "<tr>\n";
 
                 print "<td>" .
@@ -177,7 +160,7 @@ row: 0
                         "admin/pages/contact-form/fields/edit",
                         "contact"
                     ),
-                    array("id" => $id, "uri" => $_REQUEST["uri"])
+                    ["id" => $id, "uri" => $_REQUEST["uri"]]
                 );
 
                 $delete_url = Jaris\Uri::url(
@@ -185,7 +168,7 @@ row: 0
                         "admin/pages/contact-form/fields/delete",
                         "contact"
                     ),
-                    array("id" => $id, "uri" => $_REQUEST["uri"])
+                    ["id" => $id, "uri" => $_REQUEST["uri"]]
                 );
 
                 $edit_text = t("Edit");

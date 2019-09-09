@@ -18,16 +18,14 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("add_content"));
+        Jaris\Authentication::protectedPage(["add_content"]);
 
-        if(empty($_REQUEST["type"]))
-        {
+        if (empty($_REQUEST["type"])) {
             $_REQUEST["type"] = "";
         }
 
         $type = "";
-        if(trim($_REQUEST["type"]) != "")
-        {
+        if (trim($_REQUEST["type"]) != "") {
             $type = str_replace("'", "''", $_REQUEST["type"]);
             $type = "and type='$type'";
         }
@@ -46,12 +44,10 @@ row: 0
 
         print "<option value=\"\">" . t("All") . "</option>\n";
 
-        foreach($types_array as $machine_name => $type_data)
-        {
+        foreach ($types_array as $machine_name => $type_data) {
             $selected = "";
 
-            if($_REQUEST["type"] == $machine_name)
-            {
+            if ($_REQUEST["type"] == $machine_name) {
                 $selected = "selected=\"selected\"";
             }
 
@@ -64,8 +60,7 @@ row: 0
 
         $page = 1;
 
-        if(isset($_REQUEST["page"]))
-        {
+        if (isset($_REQUEST["page"])) {
             $page = $_REQUEST["page"];
         }
 
@@ -94,7 +89,7 @@ row: 0
             "admin/user/content",
             "",
             20,
-            array("type" => $_REQUEST["type"])
+            ["type" => $_REQUEST["type"]]
         );
 
         print "<table class=\"navigation-list\">";
@@ -105,7 +100,7 @@ row: 0
         print "<td>" . t("Dates") . "</td>";
         print "<td>" . t("Type") . "</td>";
 
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
                 "edit_content",
                 Jaris\Authentication::currentUserGroup()
@@ -114,16 +109,14 @@ row: 0
                 "delete_content",
                 Jaris\Authentication::currentUserGroup()
             )
-        )
-        {
+        ) {
             print "<td>" . t("Operation") . "</td>";
         }
 
         print "</tr>";
         print "</thead>";
 
-        foreach($pages as $data)
-        {
+        foreach ($pages as $data) {
             $page_data = Jaris\Pages::get($data["uri"]);
             $type_data = Jaris\Types::get($page_data["type"]);
             $type = $page_data["type"] ? t($type_data["name"]) : t("system");
@@ -133,20 +126,21 @@ row: 0
             $images = Jaris\Pages\Images::getList($data['uri']);
             $image_url = '';
 
-            foreach($images as $image)
-            {
+            foreach ($images as $image) {
                 $image_url = Jaris\Uri::url(
-                    "image/{$data['uri']}/{$image['name']}", array("w" => 100)
+                    "image/{$data['uri']}/{$image['name']}",
+                    ["w" => 100]
                 );
             }
 
-            if($image_url)
+            if ($image_url) {
                 print "<td><a href=\"" .
                     Jaris\Uri::url($data["uri"]) .
                     "\"><img src=\"$image_url\" /></a></td>"
                 ;
-            else
+            } else {
                 print "<td></td>";
+            }
 
             print "<td><a href=\"" .
                 Jaris\Uri::url($data["uri"]) . "\">" .
@@ -161,10 +155,10 @@ row: 0
 
             print "<td>" . $type . "</td>";
 
-            $edit_url = Jaris\Uri::url("admin/pages/edit", array("uri" => $data["uri"]));
-            $delete_url = Jaris\Uri::url("admin/pages/delete", array("uri" => $data["uri"]));
+            $edit_url = Jaris\Uri::url("admin/pages/edit", ["uri" => $data["uri"]]);
+            $delete_url = Jaris\Uri::url("admin/pages/delete", ["uri" => $data["uri"]]);
 
-            if(
+            if (
                 Jaris\Authentication::groupHasPermission(
                     "edit_content",
                     Jaris\Authentication::currentUserGroup()
@@ -173,25 +167,22 @@ row: 0
                     "delete_content",
                     Jaris\Authentication::currentUserGroup()
                 )
-            )
-            {
+            ) {
                 print "<td>";
-                if(
+                if (
                     Jaris\Authentication::groupHasPermission(
                         "edit_content",
                         Jaris\Authentication::currentUserGroup()
                     )
-                )
-                {
+                ) {
                     print "<a href=\"$edit_url\">" . t("Edit") . "</a> <br />";
                 }
-                if(
+                if (
                     Jaris\Authentication::groupHasPermission(
                         "delete_content",
                         Jaris\Authentication::currentUserGroup()
                     )
-                )
-                {
+                ) {
                     print "<a href=\"$delete_url\">" . t("Delete") . "</a>";
                 }
                 print "</td>";
@@ -208,7 +199,7 @@ row: 0
             "admin/user/content",
             "",
             20,
-            array("type" => $_REQUEST["type"])
+            ["type" => $_REQUEST["type"]]
         );
     ?>
     field;

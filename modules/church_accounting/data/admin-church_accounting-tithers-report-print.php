@@ -17,12 +17,11 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("view_income_church_accounting"));
+        Jaris\Authentication::protectedPage(["view_income_church_accounting"]);
 
         $tither_data = church_accounting_tither_get($_REQUEST["id"]);
 
-        if(!is_array($tither_data))
-        {
+        if (!is_array($tither_data)) {
             Jaris\Uri::go(
                 Jaris\Modules::getPageUri(
                     "admin/church-accounting/tithers",
@@ -32,35 +31,33 @@ row: 0
         }
 
         $month =  0;
-        if(trim($_REQUEST["month"]) != "")
-        {
+        if (trim($_REQUEST["month"]) != "") {
             $month = intval($_REQUEST["month"]);
             $options[] = "month=$month";
         }
 
         $year =  0;
-        if(trim($_REQUEST["year"]) != "")
-        {
+        if (trim($_REQUEST["year"]) != "") {
             $year = intval($_REQUEST["year"]);
             $options[] = "year=$year";
         }
 
         $where = "";
-        if(count($options) > 0)
-        {
+        if (count($options) > 0) {
             $where = " and " . implode(" and ", $options);
         }
 
         $theme = Jaris\Site::$theme;
 
         ob_start();
-        if(file_exists(Jaris\Themes::directory($theme) . "church-accounting-tither-report-print.php"))
+        if (file_exists(Jaris\Themes::directory($theme) . "church-accounting-tither-report-print.php")) {
             include(Jaris\Themes::directory($theme) . "church-accounting-tither-report-print.php");
-        else
+        } else {
             include(
                 Jaris\Modules::directory("church_accounting")
                 . "templates/church-accounting-tither-report-print.php"
             );
+        }
         $output = ob_get_contents();
         ob_end_clean();
 

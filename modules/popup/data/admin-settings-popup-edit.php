@@ -17,10 +17,9 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("edit_settings"));
+        Jaris\Authentication::protectedPage(["edit_settings"]);
 
-        if(!isset($_REQUEST["id"]))
-        {
+        if (!isset($_REQUEST["id"])) {
             Jaris\Uri::go(
                 Jaris\Modules::getPageUri(
                     "admin/settings/popup",
@@ -29,13 +28,12 @@ row: 0
             );
         }
 
-        if(
+        if (
             isset($_REQUEST["btnSave"])
             &&
             !Jaris\Forms::requiredFieldEmpty("popup-edit")
-        )
-        {
-            $data = array(
+        ) {
+            $data = [
                 "description" => $_REQUEST["description"],
                 "message" => $_REQUEST["message"],
                 "condition" => $_REQUEST["condition"],
@@ -45,20 +43,17 @@ row: 0
                 "groups" => serialize($_REQUEST["groups"]),
                 "display_rule" => $_REQUEST["display_rule"],
                 "pages" => $_REQUEST["pages"]
-            );
+            ];
 
-            if(
+            if (
                 Jaris\Data::edit(
                     $_REQUEST["id"],
                     $data,
                     Jaris\Site::dataDir() . "settings/popup.php"
                 )
-            )
-            {
+            ) {
                 Jaris\View::addMessage(t("Your changes have been saved."));
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(
                     Jaris\System::errorMessage("write_error_data")
                 );
@@ -84,143 +79,143 @@ row: 0
         );
         $parameters["method"] = "post";
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "hidden",
             "name" => "id",
             "value" => $_REQUEST["id"]
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "name" => "description",
             "label" => t("Description:"),
             "value" => $popup_data["description"],
             "required" => true,
             "description" => t("A description of the popup for your reference.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "textarea",
             "name" => "message",
             "label" => t("Message:"),
             "value" => $popup_data["message"],
             "required" => true,
             "description" => t("The message that will appear on the popup. Can be a mix of html and php code.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "textarea",
             "name" => "condition",
             "label" => t("Condition:"),
             "value" => $popup_data["condition"],
             "description" => t("A condition expressed as php code that should return true if the popup message should be displayed or false otherwise. Eg: &lt;?php if(true){return true;} else{return false;} ?&gt;")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
-        $fields_options[] = array(
+        $fields_options[] = [
             "type" => "text",
             "name" => "delay",
             "label" => t("Delay:"),
             "value" => intval($popup_data["delay"]),
             "inline" => true,
             "description" => t("A delay in seconds to display the popup.")
-        );
+        ];
 
-        $fields_options[] = array(
+        $fields_options[] = [
             "type" => "radio",
             "name" => "onmouseleave",
             "label" => t("On Mouse Leave:"),
-            "value" => array(
+            "value" => [
                 t("Enable") => true,
                 t("Disable") => false
-            ),
+            ],
             "inline" => true,
             "checked" => $popup_data["onmouseleave"],
             "description" => t("Only display the popup when the mouse leaves the window.")
-        );
+        ];
 
-        $fields_options[] = array(
+        $fields_options[] = [
             "type" => "radio",
             "name" => "display_once",
             "label" => t("Display Once:"),
-            "value" => array(
+            "value" => [
                 t("Enable") => true,
                 t("Disable") => false
-            ),
+            ],
             "inline" => true,
             "checked" => $popup_data["display_once"],
             "description" => t("Only display the popup once.")
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "fields" => $fields_options,
             "name" => t("Popup Options")
-        );
+        ];
 
-        $fields_users_access[] = array(
+        $fields_users_access[] = [
             "type" => "other",
             "html_code" => "<p>"
                 . t("Select the groups that can see this popup. Don't select anything to display the popup to everyone.")
                 . "</p>"
-        );
+        ];
 
         $fields_users_access = array_merge(
             $fields_users_access,
             Jaris\Groups::generateFields(
                 $popup_data["groups"],
                 "groups",
-                array(),
+                [],
                 true
             )
         );
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "fields" => $fields_users_access,
             "name" => t("Users Access"),
             "collapsed" => false,
             "collapsible" => true
-        );
+        ];
 
         $display_rules[t("Display in all pages except the listed ones.")] = "all_except_listed";
         $display_rules[t("Just display on the listed pages.")] = "just_listed";
 
-        $fields_pages[] = array(
+        $fields_pages[] = [
             "type" => "radio",
             "checked" => isset($popup_data["display_rule"]) ?
                 $popup_data["display_rule"] : "just_listed",
             "name" => "display_rule",
             "id" => "display_rule",
             "value" => $display_rules
-        );
+        ];
 
-        $fields_pages[] = array(
+        $fields_pages[] = [
             "type" => "uriarea",
             "name" => "pages",
             "label" => t("Pages:"),
             "id" => "pages",
             "value" => $popup_data["pages"]
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "fields" => $fields_pages,
             "name" => t("Pages to display"),
             "description" => t("List of uri's seperated by comma (,). Also supports the wildcard (*), for example: my-section/*")
-        );
+        ];
 
-        $fields_submit[] = array(
+        $fields_submit[] = [
             "type" => "submit",
             "name" => "btnSave",
             "value" => t("Save")
-        );
+        ];
 
-        $fields_submit[] = array(
+        $fields_submit[] = [
             "type" => "submit",
             "name" => "btnCancel",
             "value" => t("Cancel")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields_submit);
+        $fieldset[] = ["fields" => $fields_submit];
 
         print Jaris\Forms::generate($parameters, $fieldset);
     ?>

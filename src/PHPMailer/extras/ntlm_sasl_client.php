@@ -15,7 +15,7 @@ define("SASL_CONTINUE", 1);
 
 class ntlm_sasl_client_class
 {
-    public $credentials = array();
+    public $credentials = [];
     public $state = SASL_NTLM_STATE_START;
 
     public function initialize(&$client)
@@ -23,10 +23,10 @@ class ntlm_sasl_client_class
         if (!function_exists($function = "mcrypt_encrypt")
             || !function_exists($function = "mhash")
         ) {
-            $extensions = array(
+            $extensions = [
                 "mcrypt_encrypt" => "mcrypt",
                 "mhash" => "mhash"
-            );
+            ];
             $client->error = "the extension " . $extensions[$function] .
                 " required by the NTLM SASL client class is not available in this PHP configuration";
             return (0);
@@ -141,13 +141,13 @@ class ntlm_sasl_client_class
             $client->error = "NTLM authentication state is not at the start";
             return (SASL_FAIL);
         }
-        $this->credentials = array(
+        $this->credentials = [
             "user" => "",
             "password" => "",
             "realm" => "",
             "workstation" => ""
-        );
-        $defaults = array();
+        ];
+        $defaults = [];
         $status = $client->GetCredentials($this->credentials, $defaults, $interactions);
         if ($status == SASL_CONTINUE) {
             $this->state = SASL_NTLM_STATE_IDENTIFY_DOMAIN;

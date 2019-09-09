@@ -17,13 +17,12 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("export_content_importer"));
+        Jaris\Authentication::protectedPage(["export_content_importer"]);
 
-        if(
+        if (
             isset($_REQUEST["btnExport"]) &&
             !Jaris\Forms::requiredFieldEmpty("exporting-options-importer")
-        )
-        {
+        ) {
             //Disables execution time and enables unlimited
             //execution time
             set_time_limit(0);
@@ -51,16 +50,14 @@ row: 0
 
             $exported_pages = 0;
             $header_row = false;
-            $column_names = array();
+            $column_names = [];
 
             $categories = Jaris\Categories::getList($_REQUEST["type"]);
             $type_fields = Jaris\Fields::getList($_REQUEST["type"]);
 
-            while($data = Jaris\Sql::fetchArray($result))
-            {
-                $page_data = array();
-                if($_REQUEST["language_code"] != "en")
-                {
+            while ($data = Jaris\Sql::fetchArray($result)) {
+                $page_data = [];
+                if ($_REQUEST["language_code"] != "en") {
                     $page_data = Jaris\Pages::get(
                         $data["uri"],
                         $_REQUEST["language_code"]
@@ -69,27 +66,24 @@ row: 0
 
                 $columns = unserialize($data["data"]);
 
-                foreach($type_fields as $field_id => $field_data)
-                {
-                    if(!isset($columns[$field_data["variable_name"]]))
-                    {
+                foreach ($type_fields as $field_id => $field_data) {
+                    if (!isset($columns[$field_data["variable_name"]])) {
                         $columns[$field_data["variable_name"]] = "";
                     }
                 }
 
-                if(!$header_row)
-                {
-                    $row = array();
+                if (!$header_row) {
+                    $row = [];
                     $row[] = "uri";
 
-                    foreach($columns as $name=>$value)
-                    {
-                        if($name == "views")
+                    foreach ($columns as $name=>$value) {
+                        if ($name == "views") {
                             continue;
-                        elseif($name == "last_edit_by")
+                        } elseif ($name == "last_edit_by") {
                             continue;
-                        elseif($name == "last_edit_date")
+                        } elseif ($name == "last_edit_date") {
                             continue;
+                        }
 
                         $row[] = $name;
                         $column_names[] = $name;
@@ -100,50 +94,34 @@ row: 0
                     $header_row = true;
                 }
 
-                $row = array();
+                $row = [];
                 $row[] = $data["uri"];
 
-                foreach($column_names as $name)
-                {
+                foreach ($column_names as $name) {
                     $value = $columns[$name];
 
-                    if($name == "views")
-                    {
+                    if ($name == "views") {
                         continue;
-                    }
-                    elseif($name == "last_edit_by")
-                    {
+                    } elseif ($name == "last_edit_by") {
                         continue;
-                    }
-                    elseif($name == "last_edit_date")
-                    {
+                    } elseif ($name == "last_edit_date") {
                         continue;
-                    }
-                    elseif($name == "users" || $name == "groups")
-                    {
-                        if(is_array($value))
-                        {
+                    } elseif ($name == "users" || $name == "groups") {
+                        if (is_array($value)) {
                             $value = implode(",", $value);
                         }
-                    }
-                    elseif($name == "categories")
-                    {
-                        if(is_array($value))
-                        {
-                            $categories_list = array();
+                    } elseif ($name == "categories") {
+                        if (is_array($value)) {
+                            $categories_list = [];
 
-                            foreach($value as $machine_name => $values)
-                            {
+                            foreach ($value as $machine_name => $values) {
                                 $sub_categories = Jaris\Categories::getSubcategories(
                                     $machine_name
                                 );
 
-                                foreach($values as $value_id)
-                                {
-                                    foreach($sub_categories as $sub_id=>$sub_data)
-                                    {
-                                        if($value_id == $sub_id)
-                                        {
+                                foreach ($values as $value_id) {
+                                    foreach ($sub_categories as $sub_id=>$sub_data) {
+                                        if ($value_id == $sub_id) {
                                             $categories_list[] = $sub_data["title"];
 
                                             break;
@@ -154,17 +132,11 @@ row: 0
 
                             $value = implode(",", $categories_list);
                         }
-                    }
-                    elseif($_REQUEST["language_code"] != "en")
-                    {
-                        if($name == "title")
-                        {
+                    } elseif ($_REQUEST["language_code"] != "en") {
+                        if ($name == "title") {
                             $value = $page_data["title"];
-                        }
-                        elseif($name == "content")
-                        {
-                            if($_REQUEST["strip_html"])
-                            {
+                        } elseif ($name == "content") {
+                            if ($_REQUEST["strip_html"]) {
                                 $value = preg_replace(
                                     "/(\n|\r\n|\n\n)+/",
                                     "\n",
@@ -172,15 +144,11 @@ row: 0
                                         $page_data["content"]
                                     )
                                 );
-                            }
-                            else
-                            {
+                            } else {
                                 $value = $page_data["content"];
                             }
                         }
-                    }
-                    elseif($name == "content" && $_REQUEST["strip_html"])
-                    {
+                    } elseif ($name == "content" && $_REQUEST["strip_html"]) {
                         $value = preg_replace(
                             "/(\n|\r\n|\n\n)+/",
                             "\n",
@@ -204,13 +172,12 @@ row: 0
 
             Jaris\Uri::go(
                 Jaris\Modules::getPageUri("admin/pages/export", "importer"),
-                array("action"=>"view-download", "file"=>$csv_filename)
+                ["action"=>"view-download", "file"=>$csv_filename]
             );
         }
 
         // Export options form
-        if(!isset($_REQUEST["action"]))
-        {
+        if (!isset($_REQUEST["action"])) {
             Jaris\Forms::deleteUploads();
 
             $parameters["name"] = "exporting-options-importer";
@@ -220,68 +187,67 @@ row: 0
             );
             $parameters["method"] = "post";
 
-            $text_fields[] = array(
+            $text_fields[] = [
                 "type" => "text",
                 "name" => "delimeter",
                 "label" => t("Delimiter:"),
                 "value" => ",",
                 "required" => true,
                 "description" => t("The character used to seperate fields on the csv file.")
-            );
+            ];
 
-            $text_fields[] = array(
+            $text_fields[] = [
                 "type" => "text",
                 "name" => "enclosure",
                 "label" => t("Enclosure:"),
                 "value" => '"',
                 "description" => t("The character used to enclose fields on the csv file.")
-            );
+            ];
 
-            $fieldset[] = array(
+            $fieldset[] = [
                 "name" => t("CSV File Options"),
                 "fields" => $text_fields,
                 "collapsible" => true,
                 "collapsed" => true
-            );
+            ];
 
             $types_list = Jaris\Types::getList();
-            $types = array();
+            $types = [];
 
-            foreach($types_list as $machine_name=>$type_data)
-            {
+            foreach ($types_list as $machine_name=>$type_data) {
                 $types[t($type_data["name"])] = $machine_name;
             }
 
             $languages = array_flip(Jaris\Language::getInstalled());
 
-            $option_fields[] = array(
+            $option_fields[] = [
                 "type" => "select",
                 "name" => "language_code",
                 "label" => t("Language:"),
                 "value" => $languages,
                 "selected" => "en",
                 "description" => t("In which language to export the content.")
-            );
+            ];
 
-            $option_fields[] = array(
+            $option_fields[] = [
                 "type" => "select",
                 "name" => "type",
                 "label" => t("Type:"),
                 "value" => $types,
                 "description" => t("Type of content to export into the csv file.")
-            );
+            ];
 
-            $option_fields[] = array(
+            $option_fields[] = [
                 "type" => "other",
                 "html_code" => "<br />"
-            );
+            ];
 
-            $option_fields[] = array(
+            $option_fields[] = [
                 "type" => "checkbox",
                 "name" => "strip_html",
                 "label" => t("Remove html code from the content?"),
                 "description" => t("Enabling this option will remove all html tags and styling of the content, leaving only a plain text.")
-            );
+            ];
 
             /*$option_fields[] = array(
                 "type" => "text",
@@ -297,37 +263,36 @@ row: 0
                 "description" => t("Relative path to directory which contains all files. Example: resources/files")
             );*/
 
-            $fieldset[] = array(
+            $fieldset[] = [
                 "name" => t("Export Options"),
                 "fields" => $option_fields,
                 "collapsible" => true,
                 "collapsed" => false
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "other",
                 "html_code" => "<p>"
                     .t("Before proceeding to export please take into account that the process can take a huge amount of time.")
                     ."</p>"
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "submit",
                 "name" => "btnExport",
                 "value" => t("Export")
-            );
+            ];
 
-            $fieldset[] = array("fields" => $fields);
+            $fieldset[] = ["fields" => $fields];
 
             print Jaris\Forms::generate($parameters, $fieldset);
         }
 
         // Display the download link.
-        if(isset($_REQUEST["action"]) && $_REQUEST["action"] == "view-download")
-        {
+        if (isset($_REQUEST["action"]) && $_REQUEST["action"] == "view-download") {
             $url = Jaris\Uri::url(
                 Jaris\Modules::getPageUri("admin/pages/export", "importer"),
-                array("action"=>"download", "file"=>$_REQUEST["file"])
+                ["action"=>"download", "file"=>$_REQUEST["file"]]
             );
 
             print '<a href="'.$url.'">'
@@ -337,8 +302,7 @@ row: 0
         }
 
         // Start download
-        if(isset($_REQUEST["action"]) && $_REQUEST["action"] == "download")
-        {
+        if (isset($_REQUEST["action"]) && $_REQUEST["action"] == "download") {
             Jaris\FileSystem::printFile(
                 Jaris\Users::getUploadsPath(Jaris\Authentication::currentUser()) . $_REQUEST["file"],
                 $_REQUEST["file"],

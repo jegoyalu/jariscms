@@ -31,5 +31,3 @@ function rss_install()
         ) . "\">" . t("Goto the Rss Selector Page") . "</a>"
     );
 }
-
-?>

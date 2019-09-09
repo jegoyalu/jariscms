@@ -33,28 +33,26 @@ row: 0
     </style>
 
     <?php
-        Jaris\Authentication::protectedPage(array("edit_settings"));
+        Jaris\Authentication::protectedPage(["edit_settings"]);
 
         $classes = unserialize(Jaris\Settings::get("teaxtarea_id", "simplemde"));
         $forms_to_display = unserialize(Jaris\Settings::get("forms", "simplemde"));
         $groups = unserialize(Jaris\Settings::get("groups", "simplemde"));
         $disable_editor = unserialize(Jaris\Settings::get("disable_editor", "simplemde"));
 
-        if(isset($_REQUEST["btnSave"], $_REQUEST["group"]))
-        {
+        if (isset($_REQUEST["btnSave"], $_REQUEST["group"])) {
             $classes[$_REQUEST["group"]] = $_REQUEST["teaxtarea_id"];
             $forms_to_display[$_REQUEST["group"]] = $_REQUEST["forms"];
             $groups[$_REQUEST["group"]] = $_REQUEST["groups"];
             $disable_editor[$_REQUEST["group"]] = $_REQUEST["disable_editor"];
 
-            if(
+            if (
                 Jaris\Settings::save(
                     "teaxtarea_id",
                     serialize($classes),
                     "simplemde"
                 )
-            )
-            {
+            ) {
                 Jaris\Settings::save(
                     "forms",
                     serialize($forms_to_display),
@@ -74,9 +72,7 @@ row: 0
                 );
 
                 Jaris\View::addMessage(t("Your changes have been saved."));
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(
                     Jaris\System::errorMessage("write_error_data")
                 );
@@ -111,8 +107,7 @@ row: 0
         $groups_list = Jaris\Groups::getList();
         $groups_list[] = "guest";
 
-        foreach($groups_list as $group)
-        {
+        foreach ($groups_list as $group) {
             $group_data = Jaris\Groups::get($group);
 
             print "<tr>\n";
@@ -130,7 +125,7 @@ row: 0
                     "admin/settings/simplemde",
                     "simplemde"
                 ),
-                array("group" => $group)
+                ["group" => $group]
             );
 
             print "<td>\n";
@@ -144,8 +139,7 @@ row: 0
 
         print "<br />";
 
-        if(isset($_REQUEST["group"]))
-        {
+        if (isset($_REQUEST["group"])) {
             $parameters["name"] = "simplemde-settings";
             $parameters["class"] = "simplemde-settings";
             $parameters["action"] = Jaris\Uri::url(
@@ -156,22 +150,22 @@ row: 0
             );
             $parameters["method"] = "post";
 
-            $fields_enable_simplemde[] = array(
+            $fields_enable_simplemde[] = [
                 "type" => "other",
                 "html_code" => "<br />"
-            );
+            ];
 
-            $fields_enable_simplemde[] = array(
+            $fields_enable_simplemde[] = [
                 "type" => "checkbox",
                 "checked" => $groups[$_REQUEST["group"]],
                 "name" => "groups",
                 "label" => t("Enable simplemde?"),
                 "id" => "groups"
-            );
+            ];
 
-            $fieldset[] = array("fields" => $fields_enable_simplemde);
+            $fieldset[] = ["fields" => $fields_enable_simplemde];
 
-            $fields_pages[] = array(
+            $fields_pages[] = [
                 "type" => "textarea",
                 "name" => "teaxtarea_id",
                 "label" => t("Textarea Id:"),
@@ -179,9 +173,9 @@ row: 0
                 "value" => $classes[$_REQUEST["group"]] ?
                     $classes[$_REQUEST["group"]] : "content,pre_content,sub_content",
                 "description" => t("List of textarea id's seperated by comma (,).")
-            );
+            ];
 
-            $fields_pages[] = array(
+            $fields_pages[] = [
                 "type" => "textarea",
                 "name" => "forms",
                 "label" => t("Form names:"),
@@ -206,48 +200,48 @@ row: 0
                     . "realty-add-listing,realty-edit-listing,"
                     . "animated-blocks-add,animated-blocks-edit,"
                     . "listing-blocks-add,listing-blocks-edit"
-            );
+            ];
 
-            $fieldset[] = array(
+            $fieldset[] = [
                 "fields" => $fields_pages,
                 "name" => "Forms to display",
                 "description" => t("List of form names seperated by comma (,).")
-            );
+            ];
 
-            $fields_disable_editor[] = array(
+            $fields_disable_editor[] = [
                 "type" => "other",
                 "html_code" => "<br />"
-            );
+            ];
 
-            $fields_disable_editor[] = array(
+            $fields_disable_editor[] = [
                 "type" => "checkbox",
                 "checked" => $disable_editor[$_REQUEST["group"]],
                 "name" => "disable_editor",
                 "label" => t("Show disable editor button?"),
                 "id" => "disable_editor"
-            );
+            ];
 
-            $fieldset[] = array("fields" => $fields_disable_editor);
+            $fieldset[] = ["fields" => $fields_disable_editor];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "hidden",
                 "name" => "group",
                 "value" => $_REQUEST["group"]
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "submit",
                 "name" => "btnSave",
                 "value" => t("Save")
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "submit",
                 "name" => "btnCancel",
                 "value" => t("Cancel")
-            );
+            ];
 
-            $fieldset[] = array("fields" => $fields);
+            $fieldset[] = ["fields" => $fields];
 
             $group_data = Jaris\Groups::get($_REQUEST["group"]);
 

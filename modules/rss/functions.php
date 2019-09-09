@@ -12,8 +12,7 @@
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\View::SIGNAL_GET_META_TAGS,
-    function(&$meta_tags)
-    {
+    function (&$meta_tags) {
         $title = t(Jaris\Settings::get("title", "main"));
 
         $meta_tags .= "<link rel=\"alternate\" title=\"RSS - $title\" href=\"" .
@@ -25,17 +24,15 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\View::SIGNAL_THEME_TABS,
-    function(&$tabs_array)
-    {
-        if(Jaris\Uri::get() == "admin/settings")
-        {
-            $tabs_array[0][t("RSS")] = array(
+    function (&$tabs_array) {
+        if (Jaris\Uri::get() == "admin/settings") {
+            $tabs_array[0][t("RSS")] = [
                 "uri" => Jaris\Modules::getPageUri(
                     "admin/settings/rss",
                     "rss"
                 ),
-                "arguments" => array()
-            );
+                "arguments" => []
+            ];
         }
     }
 );

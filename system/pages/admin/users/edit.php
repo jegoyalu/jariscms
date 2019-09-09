@@ -19,12 +19,9 @@ row: 0
             Jaris\Authentication::currentUser() : $_REQUEST["username"]
         ;
 
-        if(Jaris\Authentication::currentUser() != $username)
-        {
+        if (Jaris\Authentication::currentUser() != $username) {
             print t("Edit User");
-        }
-        else
-        {
+        } else {
             print t("My Account Details");
         }
     ?>
@@ -32,8 +29,7 @@ row: 0
 
     field: content
     <?php
-        if(!Jaris\Authentication::isUserLogged())
-        {
+        if (!Jaris\Authentication::isUserLogged()) {
             Jaris\Authentication::protectedPage();
         }
 
@@ -41,13 +37,10 @@ row: 0
             Jaris\Authentication::currentUser() : $_REQUEST["username"]
         ;
 
-        if(trim($username) == "")
-        {
+        if (trim($username) == "") {
             $username = Jaris\Authentication::currentUser();
-        }
-        elseif(Jaris\Authentication::currentUser() != $username)
-        {
-            Jaris\Authentication::protectedPage(array("edit_users"));
+        } elseif (Jaris\Authentication::currentUser() != $username) {
+            Jaris\Authentication::protectedPage(["edit_users"]);
         }
 
         $personal_text_lenght = Jaris\Settings::get(
@@ -59,41 +52,36 @@ row: 0
             $personal_text_lenght : 300
         ;
 
-        if(
+        if (
             isset($_REQUEST["btnSave"])
             &&
             !Jaris\Forms::requiredFieldEmpty("edit-user")
-        )
-        {
+        ) {
             $current_editor = Jaris\Users::get(
                 Jaris\Authentication::currentUser()
             );
 
             $fields = Jaris\Users::get($username);
 
-            if(isset($fields["superadmin"]) && $fields["superadmin"])
-            {
-                if(
+            if (isset($fields["superadmin"]) && $fields["superadmin"]) {
+                if (
                     !isset($current_editor["superadmin"])
                     ||
                     !$current_editor["superadmin"]
-                )
-                {
+                ) {
                     Jaris\View::addMessage(
                         t("This account can only be edited by a super admin.")
                     );
 
                     Jaris\Uri::go(
                         "admin/users/edit",
-                        array("username"=>$username)
+                        ["username"=>$username]
                     );
                 }
             }
 
-            if(trim($fields["email"]) != trim($_REQUEST["email"]))
-            {
-                if(!Jaris\Forms::validEmail($_REQUEST["email"]))
-                {
+            if (trim($fields["email"]) != trim($_REQUEST["email"])) {
+                if (!Jaris\Forms::validEmail($_REQUEST["email"])) {
                     Jaris\View::addMessage(
                         t("The email you entered is not a valid one."),
                         "error"
@@ -101,14 +89,13 @@ row: 0
 
                     Jaris\Uri::go(
                         "admin/users/edit",
-                        array("username"=>$username)
+                        ["username"=>$username]
                     );
                 }
 
                 $other_user = Jaris\Users::getByEmail($_REQUEST["email"]);
 
-                if($other_user)
-                {
+                if ($other_user) {
                     Jaris\View::addMessage(
                         t("The email you entered already has a registered account associated to it."),
                         "error"
@@ -116,7 +103,7 @@ row: 0
 
                     Jaris\Uri::go(
                         "admin/users/edit",
-                        array("username"=>$username)
+                        ["username"=>$username]
                     );
                 }
             }
@@ -133,7 +120,9 @@ row: 0
             );
 
             $fields["birth_date"] = mktime(
-                0, 0, 0,
+                0,
+                0,
+                0,
                 intval($_REQUEST["month"]),
                 intval($_REQUEST["day"]),
                 intval($_REQUEST["year"])
@@ -141,13 +130,12 @@ row: 0
 
             $previous_user_status = $fields["status"];
 
-            if(
+            if (
                 Jaris\Authentication::groupHasPermission(
                     "edit_users",
                     Jaris\Authentication::currentUserGroup()
                 )
-            )
-            {
+            ) {
                 $fields["group"] = $_REQUEST["group"] ?
                     $_REQUEST["group"]
                     :
@@ -163,20 +151,16 @@ row: 0
 
             $error = false;
 
-            if(
+            if (
                 isset($_REQUEST["password_new"])
                 &&
                 trim($_REQUEST["password_new"]) != ""
-            )
-            {
-                if(
+            ) {
+                if (
                     strlen($_REQUEST["password_new"]) >= 6
-                )
-                {
+                ) {
                     $fields["password"] = crypt($_REQUEST["password_new"]);
-                }
-                else
-                {
+                } else {
                     Jaris\View::addMessage(
                         t("The Password should be at least 6 characters long."),
                         "error"
@@ -186,28 +170,24 @@ row: 0
                 }
             }
 
-            if(
+            if (
                 Jaris\Authentication::groupHasPermission(
                     "select_user_theme",
                     Jaris\Authentication::currentUserGroup()
                 )
-            )
-            {
+            ) {
                 $themes = Jaris\Themes::getList();
-                if(isset($themes[$_REQUEST["theme"]]))
-                {
+                if (isset($themes[$_REQUEST["theme"]])) {
                     $fields["theme"] = $_REQUEST["theme"];
                 }
             }
 
-            if(!$error)
-            {
+            if (!$error) {
                 $message = "";
 
                 $fields = array_map(
-                    function($value){
-                        if(!is_array($value))
-                        {
+                    function ($value) {
+                        if (!is_array($value)) {
                             return trim($value);
                         }
                         return $value;
@@ -215,20 +195,17 @@ row: 0
                     $fields
                 );
 
-                if(
+                if (
                     Jaris\Settings::get("user_picture", "main") &&
                     isset($_FILES["picture"]["tmp_name"])
-                )
-                {
+                ) {
                     $message = Jaris\Users::edit(
                         $username,
                         $fields["group"],
                         $fields,
                         $_FILES["picture"]
                     );
-                }
-                else
-                {
+                } else {
                     $message = Jaris\Users::edit(
                         $username,
                         $fields["group"],
@@ -236,8 +213,7 @@ row: 0
                     );
                 }
 
-                if($message == "true")
-                {
+                if ($message == "true") {
                     Jaris\View::addMessage(
                         t("Your changes have been successfully saved.")
                     );
@@ -246,25 +222,23 @@ row: 0
 
                     Jaris\Logger::info(
                         "Edited user '{username}'.",
-                        array(
+                        [
                             "username" => $username
-                        )
+                        ]
                     );
 
-                    if(
+                    if (
                         Jaris\Authentication::groupHasPermission(
                             "edit_users",
                             Jaris\Authentication::currentUserGroup()
                         )
-                    )
-                    {
+                    ) {
                         //Send notification email to user if account was activated
-                        if(
+                        if (
                             $previous_user_status == "0" &&
                             $_REQUEST["status"] == "1"
-                        )
-                        {
-                            $to = array();
+                        ) {
+                            $to = [];
                             $to[$fields["name"]] = $fields["email"];
 
                             $login_link = Jaris\Uri::url("admin/user");
@@ -286,9 +260,7 @@ row: 0
                             );
                         }
                     }
-                }
-                else
-                {
+                } else {
                     Jaris\View::addMessage(
                         Jaris\System::errorMessage("write_error_data"),
                         "error"
@@ -296,39 +268,32 @@ row: 0
                 }
             }
 
-            if(
+            if (
                 $_REQUEST["password_new"] != ""
                 &&
                 strlen($_REQUEST["password_new"]) >= 6
                 &&
                 Jaris\Authentication::currentUser() == $username
-            )
-            {
+            ) {
                 Jaris\View::addMessage(
                     t("Please login again using your new password.")
                 );
 
-                Jaris\Uri::go("admin/user", array("username" => $fields["email"]));
+                Jaris\Uri::go("admin/user", ["username" => $fields["email"]]);
             }
 
-            Jaris\Uri::go("admin/users/edit", array("username" => $username));
-        }
-        elseif(isset($_REQUEST["btnCancel"]))
-        {
-            if(Jaris\Authentication::isAdminLogged())
-            {
+            Jaris\Uri::go("admin/users/edit", ["username" => $username]);
+        } elseif (isset($_REQUEST["btnCancel"])) {
+            if (Jaris\Authentication::isAdminLogged()) {
                 Jaris\Uri::go("admin/users/list");
-            }
-            else
-            {
+            } else {
                 Jaris\Uri::go("admin/user");
             }
         }
 
         $arguments["username"] = $username;
 
-        if(Jaris\Authentication::isAdminLogged())
-        {
+        if (Jaris\Authentication::isAdminLogged()) {
             Jaris\View::addTab(
                 t("Devices"),
                 "admin/users/devices",
@@ -336,13 +301,12 @@ row: 0
             );
         }
 
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
                 "delete_users",
                 Jaris\Authentication::currentUserGroup()
             )
-        )
-        {
+        ) {
             Jaris\View::addTab(
                 t("Delete"),
                 "admin/users/delete",
@@ -360,13 +324,13 @@ row: 0
         $parameters["method"] = "post";
         $parameters["enctype"] = "multipart/form-data";
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "hidden",
             "name" => "username",
             "value" => $username
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "limit" => 65,
             "value" => isset($_REQUEST["full_name"]) ?
@@ -378,9 +342,9 @@ row: 0
             "id" => "full_name",
             "required" => true,
             "description" => t("The name that others can see.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "textarea",
             "limit" => $personal_text_lenght,
             "value" => isset($_REQUEST["personal_text"]) ?
@@ -396,9 +360,9 @@ row: 0
             "label" => t("Personal text:"),
             "id" => "personal_text",
             "description" => t("Writing displayed on your profile page.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "value" => isset($_REQUEST["email"]) ?
                 $_REQUEST["email"]
@@ -409,9 +373,9 @@ row: 0
             "id" => "email",
             "required" => true,
             "description" => t("The email used in case you forgot your password or to contact you.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "password",
             "name" => "password_new",
             "label" => t("New password:"),
@@ -422,9 +386,9 @@ row: 0
                 "",
             "reveal" => true,
             "description" => t("You can enter a new password to change actual one.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "value" => isset($_REQUEST["website"]) ?
                 $_REQUEST["website"]
@@ -439,15 +403,15 @@ row: 0
             "label" => t("Website:"),
             "id" => "website",
             "description" => t("Corporate or personal website.")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
         //Gender Fields
         $gender[t("Male")] = "m";
         $gender[t("Female")] = "f";
 
-        $gender_fields[] = array(
+        $gender_fields[] = [
             "type" => "radio",
             "name" => "gender",
             "id" => "gender",
@@ -462,12 +426,12 @@ row: 0
                     $user_data["gender"]
                 ),
             "required" => true
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "name" => t("Gender"),
             "fields" => $gender_fields
-        );
+        ];
 
         $user_data["birth_date"] = empty($user_data["birth_date"]) ?
             0 : $user_data["birth_date"]
@@ -478,7 +442,7 @@ row: 0
         $year = date("Y", $user_data["birth_date"]);
 
         //Birthdate fields
-        $birth_date_fields[] = array(
+        $birth_date_fields[] = [
             "type" => "select",
             "name" => "day",
             "label" => t("Day:"),
@@ -491,9 +455,9 @@ row: 0
                 $day,
             "required" => true,
             "inline" => true
-        );
+        ];
 
-        $birth_date_fields[] = array(
+        $birth_date_fields[] = [
             "type" => "select",
             "name" => "month",
             "label" => t("Month:"),
@@ -506,9 +470,9 @@ row: 0
                 $month,
             "required" => true,
             "inline" => true
-        );
+        ];
 
-        $birth_date_fields[] = array(
+        $birth_date_fields[] = [
             "type" => "select",
             "name" => "year",
             "label" => t("Year:"),
@@ -521,60 +485,56 @@ row: 0
                 $year,
             "required" => true,
             "inline" => true
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "name" => t("Birth date"),
             "fields" => $birth_date_fields
-        );
+        ];
 
         //If user pictures are activated enable user to change or choose a pic.
-        if(Jaris\Settings::get("user_picture", "main"))
-        {
-            if($picture = Jaris\Users::getPicturePath($username))
-            {
+        if (Jaris\Settings::get("user_picture", "main")) {
+            if ($picture = Jaris\Users::getPicturePath($username)) {
                 $image_src = Jaris\Uri::url("image/user/$username");
                 $code = "<div class=\"edit-user-picture\">\n";
                 $code .= "<img src=\"$image_src\" />\n";
                 $code .= "</div>\n";
 
-                $fields_picture[] = array(
+                $fields_picture[] = [
                     "type" => "other",
                     "html_code" => $code
-                );
+                ];
             }
 
             $size = null;
 
-            if(!($size = Jaris\Settings::get("user_picture_size", "main")))
-            {
+            if (!($size = Jaris\Settings::get("user_picture_size", "main"))) {
                 $size = "150x150";
             }
 
-            $fields_picture[] = array(
+            $fields_picture[] = [
                 "id" => "picture",
                 "type" => "file",
                 "name" => "picture",
                 "valid_types" => "gif,jpg,jpeg,png",
                 "description" => t("A picture displayed in user post, comments, etc. Maximun size of:")
                     . "&nbsp;" . $size
-            );
+            ];
 
-            $fieldset[] = array(
+            $fieldset[] = [
                 "name" => t("Picture"),
                 "fields" => $fields_picture
-            );
+            ];
         }
 
         //Display user group and status selector if user has permissions
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
                 "edit_users",
                 Jaris\Authentication::currentUserGroup()
             )
-        )
-        {
-            $fields_extra[] = array(
+        ) {
+            $fields_extra[] = [
                 "type" => "select",
                 "name" => "group",
                 "label" => t("Group:"),
@@ -585,9 +545,9 @@ row: 0
                     :
                     $user_data["group"],
                 "description" => t("The group where the user belongs.")
-            );
+            ];
 
-            $fields_extra[] = array(
+            $fields_extra[] = [
                 "type" => "select",
                 "name" => "status",
                 "label" => t("Status:"),
@@ -598,19 +558,18 @@ row: 0
                     :
                     $user_data["status"],
                 "description" => t("The account status of this user.")
-            );
+            ];
 
-            $fieldset[] = array("fields" => $fields_extra);
+            $fieldset[] = ["fields" => $fields_extra];
         }
 
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
                 "select_user_theme",
                 Jaris\Authentication::currentUserGroup()
             )
-        )
-        {
-            $fields_submit[] = array(
+        ) {
+            $fields_submit[] = [
                 "type" => "select",
                 "name" => "theme",
                 "label" => t("Theme:"),
@@ -620,26 +579,25 @@ row: 0
                     :
                     $user_data["theme"],
                 "description" => t("The theme for the site.")
-            );
+            ];
         }
 
-        $fields_submit[] = array(
+        $fields_submit[] = [
             "type" => "submit",
             "name" => "btnSave",
             "value" => t("Save")
-        );
+        ];
 
-        $fields_submit[] = array(
+        $fields_submit[] = [
             "type" => "submit",
             "name" => "btnCancel",
             "value" => t("Cancel")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields_submit);
+        $fieldset[] = ["fields" => $fields_submit];
 
         print "<div style=\"display: flex; justify-content: space-between; flex-wrap: wrap;\">";
-        if(!empty($user_data["ip_address"]))
-        {
+        if (!empty($user_data["ip_address"])) {
             print "<div style=\"padding: 7px;\">"
                 . "<strong>"
                 . t("Username:")

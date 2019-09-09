@@ -20,11 +20,10 @@ row: 0
     field: content
     <?php
         Jaris\Authentication::protectedPage(
-            array("view_menus", "delete_menu_items")
+    ["view_menus", "delete_menu_items"]
         );
 
-        if(!isset($_REQUEST["id"]) || !isset($_REQUEST["menu"]))
-        {
+        if (!isset($_REQUEST["id"]) || !isset($_REQUEST["menu"])) {
             Jaris\Uri::go("admin/menus");
         }
 
@@ -35,24 +34,20 @@ row: 0
             $_REQUEST["menu"]
         );
 
-        if(isset($_REQUEST["btnYes"]))
-        {
-            if(Jaris\Menus::deleteItem($id, $_REQUEST["menu"]))
-            {
+        if (isset($_REQUEST["btnYes"])) {
+            if (Jaris\Menus::deleteItem($id, $_REQUEST["menu"])) {
                 Jaris\View::addMessage(t("Menu item successfully deleted."));
 
                 t("Deleted menu item '{title}' from '{machine_name}'.");
 
                 Jaris\Logger::info(
                     "Deleted menu item '{title}' from '{machine_name}'.",
-                    array(
+                    [
                         "title" => $menu_data["title"],
                         "machine_name" => $_REQUEST["menu"]
-                    )
+                    ]
                 );
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(
                     Jaris\System::errorMessage("write_error_data"),
                     "error"
@@ -60,9 +55,7 @@ row: 0
             }
 
             Jaris\Uri::go("admin/menus");
-        }
-        elseif(isset($_REQUEST["btnNo"]))
-        {
+        } elseif (isset($_REQUEST["btnNo"])) {
             Jaris\Uri::go("admin/menus");
         }
     ?>

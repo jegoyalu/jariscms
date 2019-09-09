@@ -19,5 +19,3 @@ function backgrounds_install()
         "\">" . t("Add Backgrounds Now") . "</a>"
     );
 }
-
-?>

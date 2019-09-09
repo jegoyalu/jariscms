@@ -24,5 +24,3 @@ function terms_generator_install()
         . "</a>"
     );
 }
-
-?>

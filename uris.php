@@ -14,8 +14,7 @@ require 'src/Autoloader.php';
 Jaris\Autoloader::register();
 
 //Include backward compatible functions if include dir exists
-if(file_exists("include/forms.php"))
-{
+if (file_exists("include/forms.php")) {
     require 'src/DeprecatedFunctions.php';
 }
 
@@ -34,12 +33,10 @@ Jaris\System::checkIfNotInstalled();
 //Check if site status is online to continue
 Jaris\Site::checkIfOffline();
 
-if(!isset($_REQUEST["type"]) || $_REQUEST["type"] == "uris")
-{
+if (!isset($_REQUEST["type"]) || $_REQUEST["type"] == "uris") {
     $query = Jaris\Uri::fromText($_REQUEST["query"], true);
 
-    if(Jaris\Sql::dbExists("search_engine"))
-    {
+    if (Jaris\Sql::dbExists("search_engine")) {
         $db = Jaris\Sql::open("search_engine");
 
         $select = "select uri, haspermission(groups, '" .
@@ -48,52 +45,42 @@ if(!isset($_REQUEST["type"]) || $_REQUEST["type"] == "uris")
 
         $result = Jaris\Sql::query($select, $db);
 
-        $list = array();
+        $list = [];
 
-        while($data = Jaris\Sql::fetchArray($result))
-        {
+        while ($data = Jaris\Sql::fetchArray($result)) {
             $list[] = $data["uri"];
         }
 
-        print json_encode(array("query" => $query, "suggestions" => $list));
+        print json_encode(["query" => $query, "suggestions" => $list]);
+    } else {
+        print json_encode(["query" => $query, "suggestions" => []]);
     }
-    else
-    {
-        print json_encode(array("query" => $query, "suggestions" => array()));
-    }
-}
-elseif(
+} elseif (
     $_REQUEST["type"] == "users" &&
     Jaris\Authentication::groupHasPermission(
-        "autocomplete_users", Jaris\Authentication::currentUserGroup()
+        "autocomplete_users",
+        Jaris\Authentication::currentUserGroup()
     )
-)
-{
+) {
     $query = Jaris\Users::formatUsername($_REQUEST["query"]);
 
-    if(Jaris\Sql::dbExists("users"))
-    {
+    if (Jaris\Sql::dbExists("users")) {
         $db = Jaris\Sql::open("users");
 
         $select = "select username from users where username like '{$query}%' limit 0,20";
 
         $result = Jaris\Sql::query($select, $db);
 
-        $list = array();
+        $list = [];
 
-        while($data = Jaris\Sql::fetchArray($result))
-        {
+        while ($data = Jaris\Sql::fetchArray($result)) {
             $list[] = $data["username"];
         }
 
-        print json_encode(array("query" => $query, "suggestions" => $list));
+        print json_encode(["query" => $query, "suggestions" => $list]);
+    } else {
+        print json_encode(["query" => $query, "suggestions" => []]);
     }
-    else
-    {
-        print json_encode(array("query" => $query, "suggestions" => array()));
-    }
-}
-else
-{
-    print json_encode(array("query" => $_REQUEST["query"], "suggestions" => array()));
+} else {
+    print json_encode(["query" => $_REQUEST["query"], "suggestions" => []]);
 }

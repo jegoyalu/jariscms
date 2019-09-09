@@ -43,13 +43,14 @@ use BadMethodCallException;
  * @author Steve Clay <steve@mrclay.org>
  * @license http://www.opensource.org/licenses/mit-license.php  MIT License
  */
-class Arg {
+class Arg
+{
     /**
      * @return array
      */
     public function getDefaultSpec()
     {
-        return array(
+        return [
             'mayHaveValue' => false,
             'mustHaveValue' => false,
             'assertFile' => false,
@@ -58,13 +59,13 @@ class Arg {
             'assertWritable' => false,
             'useAsInfile' => false,
             'useAsOutfile' => false,
-        );
+        ];
     }
 
     /**
      * @var array
      */
-    protected $spec = array();
+    protected $spec = [];
 
     /**
      * @var bool
@@ -154,7 +155,7 @@ class Arg {
      * @return Arg
      * @throws BadMethodCallException
      */
-    public function __call($name, array $args = array())
+    public function __call($name, array $args = [])
     {
         if (array_key_exists($name, $this->spec)) {
             $this->spec[$name] = true;

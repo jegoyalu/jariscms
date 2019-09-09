@@ -23,5 +23,3 @@ function jquery_lightbox_install()
         ) . "\">" . t("Configure Now") . "</a>"
     );
 }
-
-?>

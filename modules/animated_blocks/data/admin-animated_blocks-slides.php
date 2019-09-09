@@ -19,10 +19,9 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("edit_blocks"));
+        Jaris\Authentication::protectedPage(["edit_blocks"]);
 
-        if(!isset($_REQUEST["id"]) || empty($_REQUEST["position"]))
-        {
+        if (!isset($_REQUEST["id"]) || empty($_REQUEST["position"])) {
             Jaris\Uri::go("");
         }
 
@@ -42,7 +41,7 @@ row: 0
             width: auto;
         }
     </style>
-    <?php if(!isset($_REQUEST["view"])){ ?>
+    <?php if (!isset($_REQUEST["view"])) { ?>
     <script>
         $(document).ready(function() {
             var fixHelper = function(e, ui) {
@@ -60,7 +59,7 @@ row: 0
         });
     </script>
     <?php } ?>
-    <?php if(isset($_REQUEST["view"]) && ($_REQUEST["view"] == "add" || $_REQUEST["view"] == "edit")){ ?>
+    <?php if (isset($_REQUEST["view"]) && ($_REQUEST["view"] == "add" || $_REQUEST["view"] == "edit")) { ?>
     <script>
         $(document).ready(function() {
             $('input[name="slide_type"]').change(function(){
@@ -100,7 +99,7 @@ row: 0
                 "admin/animated-blocks/edit",
                 "animated_blocks"
             ),
-            array("id" => $_REQUEST["id"], "position" => $_REQUEST["position"])
+            ["id" => $_REQUEST["id"], "position" => $_REQUEST["position"]]
         );
 
         Jaris\View::addTab(
@@ -109,7 +108,7 @@ row: 0
                 "admin/animated-blocks/settings",
                 "animated_blocks"
             ),
-            array("id" => $_REQUEST["id"], "position" => $_REQUEST["position"])
+            ["id" => $_REQUEST["id"], "position" => $_REQUEST["position"]]
         );
 
         Jaris\View::addTab(
@@ -118,49 +117,43 @@ row: 0
                 "admin/animated-blocks/slides",
                 "animated_blocks"
             ),
-            array("id" => $_REQUEST["id"], "position" => $_REQUEST["position"])
+            ["id" => $_REQUEST["id"], "position" => $_REQUEST["position"]]
         );
 
         Jaris\View::addTab(
             t("Delete"),
             "admin/blocks/delete",
-            array("id" => $_REQUEST["id"], "position" => $_REQUEST["position"])
+            ["id" => $_REQUEST["id"], "position" => $_REQUEST["position"]]
         );
 
         Jaris\View::addTab(t("Blocks"), "admin/blocks");
 
-        if($_REQUEST["action"] == "add")
-        {
-            if(
+        if ($_REQUEST["action"] == "add") {
+            if (
                 isset($_REQUEST["btnSave"])
-            )
-            {
+            ) {
                 //empty form session data
                 Jaris\Forms::requiredFieldEmpty("add-slide");
 
                 $required = false;
 
-                if(
+                if (
                     $_REQUEST["slide_type"] == "uri" &&
                     trim($_REQUEST["slide_uri"]) == ""
-                )
-                {
+                ) {
                     $required = true;
-                }
-                elseif(
+                } elseif (
                     $_REQUEST["slide_type"] == "image" &&
                     (
-                    empty($_FILES["image"]) ||
+                        empty($_FILES["image"]) ||
                     empty($_FILES["image"]["name"])
                     )
-                )
-                {
+                ) {
                     $required = true;
                 }
 
-                if(!$required)
-                {
-                    $slide_data = array(
+                if (!$required) {
+                    $slide_data = [
                         "type" => $_REQUEST["slide_type"],
                         "uri" => $_REQUEST["slide_type"] == "uri" ?
                             $_REQUEST["slide_uri"] : "",
@@ -175,10 +168,9 @@ row: 0
                         "title" => $_REQUEST["title"],
                         "description" => $_REQUEST["description"],
                         "order" => "0"
-                    );
+                    ];
 
-                    if($_REQUEST["slide_type"] == "image")
-                    {
+                    if ($_REQUEST["slide_type"] == "image") {
                         chmod(
                             Jaris\Files::get(
                                 $slide_data["image"],
@@ -214,38 +206,32 @@ row: 0
                             "admin/animated-blocks/slides",
                             "animated_blocks"
                         ),
-                        array(
+                        [
                             "id" => $_REQUEST["id"],
                             "position" => $_REQUEST["position"]
-                        )
+                        ]
                     );
-                }
-                else
-                {
+                } else {
                     Jaris\View::addMessage(t("Please provide the required fields."), "error");
                 }
-            }
-            else
-            {
+            } else {
                 Jaris\Uri::go(
                     Jaris\Modules::getPageUri(
                         "admin/animated-blocks/slides",
                         "animated_blocks"
                     ),
-                    array(
+                    [
                         "id" => $_REQUEST["id"],
                         "position" => $_REQUEST["position"]
-                    )
+                    ]
                 );
             }
         }
 
-        if($_REQUEST["action"] == "edit")
-        {
-            if(
+        if ($_REQUEST["action"] == "edit") {
+            if (
                 isset($_REQUEST["btnSave"])
-            )
-            {
+            ) {
                 //empty form session data
                 Jaris\Forms::requiredFieldEmpty("edit-slide");
 
@@ -257,22 +243,19 @@ row: 0
                     ["image"]
                 ;
 
-                if(
+                if (
                     $_REQUEST["slide_type"] == "uri" &&
                     trim($_REQUEST["slide_uri"]) == ""
-                )
-                {
+                ) {
                     $required = true;
-                }
-                elseif(
+                } elseif (
                     $_REQUEST["slide_type"] == "image" &&
                     (
-                    empty($_FILES["image"]) ||
+                        empty($_FILES["image"]) ||
                     empty($_FILES["image"]["name"])
                     ) &&
                     trim($current_image) == ""
-                )
-                {
+                ) {
                     $required = true;
                 }
 
@@ -281,28 +264,23 @@ row: 0
                     ["type"]
                 ;
 
-                if(
+                if (
                     $_REQUEST["slide_type"] == "uri" &&
                     $current_type == "image"
-                )
-                {
-                    if($_REQUEST["slide_uri"] != $current_image)
-                    {
+                ) {
+                    if ($_REQUEST["slide_uri"] != $current_image) {
                         Jaris\Files::delete(
                             $current_image,
                             "animated_blocks"
                         );
-                    }
-                    else
-                    {
+                    } else {
                         $_REQUEST["slide_type"] = "image";
                         $prevent_edit = true;
                     }
                 }
 
-                if(!$required && !$prevent_edit)
-                {
-                    $block_data["content"][$_REQUEST["slide_id"]] = array(
+                if (!$required && !$prevent_edit) {
+                    $block_data["content"][$_REQUEST["slide_id"]] = [
                         "type" => $_REQUEST["slide_type"],
                         "uri" => $_REQUEST["slide_type"] == "uri" ?
                             $_REQUEST["slide_uri"] : $current_image,
@@ -311,14 +289,13 @@ row: 0
                         "title" => $_REQUEST["title"],
                         "description" => $_REQUEST["description"],
                         "order" => $_REQUEST["order"]
-                    );
+                    ];
 
-                    if(
+                    if (
                         $_REQUEST["slide_type"] == "image" &&
                         !empty($_FILES["image"]) &&
                         !empty($_FILES["image"]["name"])
-                    )
-                    {
+                    ) {
                         $block_data["content"]
                             [$_REQUEST["slide_id"]]
                             ["image"] = Jaris\Files::addUpload(
@@ -365,37 +342,29 @@ row: 0
                             "admin/animated-blocks/slides",
                             "animated_blocks"
                         ),
-                        array(
+                        [
                             "id" => $_REQUEST["id"],
                             "position" => $_REQUEST["position"]
-                        )
+                        ]
                     );
-                }
-                elseif($required)
-                {
+                } elseif ($required) {
                     Jaris\View::addMessage(t("Please provide the required fields."), "error");
                 }
-            }
-            else
-            {
+            } else {
                 Jaris\Uri::go(
                     Jaris\Modules::getPageUri(
                         "admin/animated-blocks/slides",
                         "animated_blocks"
                     ),
-                    array(
+                    [
                         "id" => $_REQUEST["id"],
                         "position" => $_REQUEST["position"]
-                    )
+                    ]
                 );
             }
-        }
-        else if($_REQUEST["action"] == "delete")
-        {
-            if(isset($_REQUEST["btnYes"]))
-            {
-                if($block_data["content"][$_REQUEST["slide_id"]]["type"] == "image")
-                {
+        } elseif ($_REQUEST["action"] == "delete") {
+            if (isset($_REQUEST["btnYes"])) {
+                if ($block_data["content"][$_REQUEST["slide_id"]]["type"] == "image") {
                     Jaris\Files::delete(
                         $block_data["content"][$_REQUEST["slide_id"]]["image"],
                         "animated_blocks"
@@ -415,32 +384,26 @@ row: 0
                         "admin/animated-blocks/slides",
                         "animated_blocks"
                     ),
-                    array(
+                    [
                         "id" => $_REQUEST["id"],
                         "position" => $_REQUEST["position"]
-                    )
+                    ]
                 );
-            }
-            else
-            {
+            } else {
                 Jaris\Uri::go(
                     Jaris\Modules::getPageUri(
                         "admin/animated-blocks/slides",
                         "animated_blocks"
                     ),
-                    array(
+                    [
                         "id" => $_REQUEST["id"],
                         "position" => $_REQUEST["position"]
-                    )
+                    ]
                 );
             }
-        }
-        else if($_REQUEST["action"] == "update")
-        {
-            if(isset($_REQUEST["btnSave"]))
-            {
-                foreach($_REQUEST["slide"] as $index => $slide)
-                {
+        } elseif ($_REQUEST["action"] == "update") {
+            if (isset($_REQUEST["btnSave"])) {
+                foreach ($_REQUEST["slide"] as $index => $slide) {
                     $block_data["content"][$slide]["order"] = $index;
                 }
 
@@ -455,29 +418,26 @@ row: 0
                         "admin/animated-blocks/slides",
                         "animated_blocks"
                     ),
-                    array(
+                    [
                         "id" => $_REQUEST["id"],
                         "position" => $_REQUEST["position"]
-                    )
+                    ]
                 );
-            }
-            else
-            {
+            } else {
                 Jaris\Uri::go(
                     Jaris\Modules::getPageUri(
                         "admin/animated-blocks/slides",
                         "animated_blocks"
                     ),
-                    array(
+                    [
                         "id" => $_REQUEST["id"],
                         "position" => $_REQUEST["position"]
-                    )
+                    ]
                 );
             }
         }
 
-        if($_REQUEST["view"] == "add")
-        {
+        if ($_REQUEST["view"] == "add") {
             $parameters["name"] = "add-slide";
             $parameters["class"] = "add-slide";
             $parameters["action"] = Jaris\Uri::url(
@@ -488,96 +448,94 @@ row: 0
             );
             $parameters["method"] = "post";
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "hidden",
                 "name" => "action",
                 "value" => "add"
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "hidden",
                 "name" => "id",
                 "value" => $_REQUEST["id"]
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "hidden",
                 "name" => "position",
                 "value" => $_REQUEST["position"]
-            );
+            ];
 
             //Slideshow type
             $slide_type[t("Uri")] = "uri";
             $slide_type[t("Image Upload")] = "image";
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "radio",
                 "name" => "slide_type",
                 "id" => "slide_type",
                 "value" => $slide_type,
                 "checked" => isset($_REQUEST["slide_type"]) ?
                     $_REQUEST["slide_type"] : "image"
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "uri",
                 "name" => "slide_uri",
                 "label" => t("Uri:"),
                 "id" => "slide_uri",
                 "description" => t("The uri of the slide, image or content.")
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "file",
                 "name" => "image",
                 "label" => t("Image:"),
                 "id" => "image",
                 "valid_types" => "gif,jpg,jpeg,png",
                 "description" => t("An image to display.")
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "uri",
                 "name" => "link",
                 "label" => t("Link:"),
                 "id" => "link",
                 "description" => t("A link added over the slide.")
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "text",
                 "name" => "title",
                 "label" => t("Title:"),
                 "id" => "title",
                 "description" => t("Optional title for the slide.")
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "textarea",
                 "name" => "description",
                 "label" => t("Description:"),
                 "id" => "slide_description",
                 "description" => t("Optional description for the slide.")
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "submit",
                 "name" => "btnSave",
                 "value" => t("Save")
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "submit",
                 "name" => "btnCancel",
                 "value" => t("Cancel")
-            );
+            ];
 
-            $fieldset[] = array("fields" => $fields);
+            $fieldset[] = ["fields" => $fields];
 
             print Jaris\Forms::generate($parameters, $fieldset);
-        }
-        else if($_REQUEST["view"] == "edit")
-        {
+        } elseif ($_REQUEST["view"] == "edit") {
             $parameters["name"] = "edit-slide";
             $parameters["class"] = "edit-slide";
             $parameters["action"] = Jaris\Uri::url(
@@ -588,35 +546,35 @@ row: 0
             );
             $parameters["method"] = "post";
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "hidden",
                 "name" => "action",
                 "value" => "edit"
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "hidden",
                 "name" => "id",
                 "value" => $_REQUEST["id"]
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "hidden",
                 "name" => "position",
                 "value" => $_REQUEST["position"]
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "hidden",
                 "name" => "slide_id",
                 "value" => $_REQUEST["slide_id"]
-            );
+            ];
 
             //Slideshow type
             $slide_type[t("Uri")] = "uri";
             $slide_type[t("Image Upload")] = "image";
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "radio",
                 "name" => "slide_type",
                 "id" => "slide_type",
@@ -625,7 +583,7 @@ row: 0
                     $_REQUEST["slide_type"]
                     :
                     $block_data["content"][$_REQUEST["slide_id"]]["type"]
-            );
+            ];
 
             $current_slide_type = isset($_REQUEST["slide_type"]) ?
                 $_REQUEST["slide_type"]
@@ -633,14 +591,14 @@ row: 0
                 $block_data["content"][$_REQUEST["slide_id"]]["type"]
             ;
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "uri",
                 "name" => "slide_uri",
                 "label" => t("Uri:"),
                 "id" => "slide_uri",
                 "value" => $block_data["content"][$_REQUEST["slide_id"]]["uri"],
                 "description" => t("The uri of the slide, image or content.")
-            );
+            ];
 
             $image_url = Jaris\Uri::url(
                 Jaris\Files::get(
@@ -649,9 +607,8 @@ row: 0
                 )
             );
 
-            if($current_slide_type == "image")
-            {
-                $fields[] = array(
+            if ($current_slide_type == "image") {
+                $fields[] = [
                     "type" => "other",
                     "html_code" => "<div id=\"slide-current-image\" style=\"margin-top: 10px;\">"
                         . "<strong>" . t("Current image:") . "</strong>"
@@ -660,72 +617,70 @@ row: 0
                         . "<img width=\"300px\" src=\"" . $image_url . "\" />"
                         . "</a>"
                         . "</div>"
-                );
+                ];
             }
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "file",
                 "name" => "image",
                 "label" => t("New image:"),
                 "id" => "image",
                 "valid_types" => "gif,jpg,jpeg,png",
                 "description" => t("An image to display.")
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "uri",
                 "name" => "link",
                 "label" => t("Link:"),
                 "id" => "link",
                 "value" => $block_data["content"][$_REQUEST["slide_id"]]["link"],
                 "description" => t("A link added over the slide.")
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "text",
                 "name" => "title",
                 "label" => t("Title:"),
                 "id" => "title",
                 "value" => $block_data["content"][$_REQUEST["slide_id"]]["title"],
                 "description" => t("Optional title for the slide.")
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "textarea",
                 "name" => "description",
                 "label" => t("Description:"),
                 "value" => $block_data["content"][$_REQUEST["slide_id"]]["description"],
                 "id" => "slide_description",
                 "description" => t("Optional description for the slide.")
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "text",
                 "name" => "order",
                 "label" => t("Order:"),
                 "id" => "order",
                 "value" => $block_data["content"][$_REQUEST["slide_id"]]["order"],
                 "description" => t("Numerical value to indicate the order in which the slide is displayed.")
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "submit",
                 "name" => "btnSave",
                 "value" => t("Save")
-            );
+            ];
 
-            $fields[] = array(
+            $fields[] = [
                 "type" => "submit",
                 "name" => "btnCancel",
                 "value" => t("Cancel")
-            );
+            ];
 
-            $fieldset[] = array("fields" => $fields);
+            $fieldset[] = ["fields" => $fields];
 
             print Jaris\Forms::generate($parameters, $fieldset);
-        }
-        else if($_REQUEST["view"] == "delete")
-        {
+        } elseif ($_REQUEST["view"] == "delete") {
             print "<form class=\"group-delete\" method=\"post\" action=\"" . Jaris\Uri::url(Jaris\Modules::getPageUri("admin/animated-blocks/slides", "animated_blocks")) . "\">
                 <input type=\"hidden\" name=\"id\" value=\"" . $_REQUEST["id"] . "\" />
                 <input type=\"hidden\" name=\"position\" value=\"" . $_REQUEST["position"] . "\" />
@@ -738,28 +693,25 @@ row: 0
                 <input class=\"form-submit\" type=\"submit\" name=\"btnYes\" value=\"" . t("Yes") . "\" />
                 <input class=\"form-submit\" type=\"submit\" name=\"btnNo\" value=\"" . t("No") . "\" />
                 </form>";
-        }
-        else
-        {
+        } else {
             Jaris\View::addTab(
                 t("Add Slide"),
                 Jaris\Modules::getPageUri(
                     "admin/animated-blocks/slides",
                     "animated_blocks"
                 ),
-                array(
+                [
                     "view" => "add",
                     "id" => $_REQUEST["id"],
                     "position" => $_REQUEST["position"]
-                ),
+                ],
                 1
             );
 
-            if(is_array($block_data["content"]) && count($block_data["content"]) > 0)
-            {
+            if (is_array($block_data["content"]) && count($block_data["content"]) > 0) {
                 $block_data["content"] = Jaris\Data::sort($block_data["content"], "order");
 
-                print "<form class=\"slides\" method=\"post\" action=\"" . Jaris\Uri::url(Jaris\Modules::getPageUri("admin/animated-blocks/slides", "animated_blocks"), array("action" => "update", "id" => $_REQUEST["id"], "position" => $_REQUEST["position"])) . "\" >";
+                print "<form class=\"slides\" method=\"post\" action=\"" . Jaris\Uri::url(Jaris\Modules::getPageUri("admin/animated-blocks/slides", "animated_blocks"), ["action" => "update", "id" => $_REQUEST["id"], "position" => $_REQUEST["position"]]) . "\" >";
                 print "<input type=\"hidden\" name=\"id\" value=\"" . $_REQUEST["id"] . "\" />";
                 print "<input type=\"hidden\" name=\"position\" value=\"" . $_REQUEST["position"] . "\" />";
                 print "<table class=\"slides-list\">\n";
@@ -774,8 +726,7 @@ row: 0
 
                 print "<tbody>\n";
 
-                foreach($block_data["content"] as $id => $fields)
-                {
+                foreach ($block_data["content"] as $id => $fields) {
                     print "<tr>\n";
 
                     print "<td>";
@@ -796,12 +747,12 @@ row: 0
                             "admin/animated-blocks/slides",
                             "animated_blocks"
                         ),
-                        array(
+                        [
                             "view" => "edit",
                             "id" => $_REQUEST["id"],
                             "position" => $_REQUEST["position"],
                             "slide_id" => $id
-                        )
+                        ]
                     );
 
                     $edit_text = t("Edit");
@@ -811,12 +762,12 @@ row: 0
                             "admin/animated-blocks/slides",
                             "animated_blocks"
                         ),
-                        array(
+                        [
                             "view" => "delete",
                             "id" => $_REQUEST["id"],
                             "position" => $_REQUEST["position"],
                             "slide_id" => $id
-                        )
+                        ]
                     );
 
                     $delete_text = t("Delete");
@@ -836,9 +787,7 @@ row: 0
                 print "<input type=\"submit\" name=\"btnSave\" value=\"" . t("Save") . "\" /> &nbsp";
                 print "<input type=\"submit\" name=\"btnCancel\" value=\"" . t("Cancel") . "\" />";
                 print "</form>";
-            }
-            else
-            {
+            } else {
                 print t("No slides available");
             }
         }

@@ -15,5 +15,3 @@ function google_translate_uninstall()
     //Remove shopping cart block
     Jaris\Blocks::deleteByField("block_name", "google_translate_block");
 }
-
-?>

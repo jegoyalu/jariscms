@@ -12,13 +12,12 @@
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\System::SIGNAL_GET_SYSTEM_SCRIPTS,
-    function(&$scripts)
-    {
-        if(Jaris\Authentication::isUserLogged())
-        {
+    function (&$scripts) {
+        if (Jaris\Authentication::isUserLogged()) {
             $scripts[] = Jaris\Uri::url(
                 Jaris\Modules::getPageUri(
-                    "script/control-menu", "control_menu"
+                    "script/control-menu",
+                    "control_menu"
                 )
             );
         }
@@ -27,10 +26,8 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\System::SIGNAL_GET_SYSTEM_STYLES,
-    function(&$styles)
-    {
-        if(Jaris\Authentication::isUserLogged())
-        {
+    function (&$styles) {
+        if (Jaris\Authentication::isUserLogged()) {
             $styles[] = Jaris\Uri::url(
                 Jaris\Modules::getPageUri(
                     Jaris\Modules::directory("control_menu")
@@ -51,17 +48,15 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\View::SIGNAL_THEME_TABS,
-    function(&$tabs_array)
-    {
-        if(Jaris\Uri::get() == "admin/settings")
-        {
-            $tabs_array[0][t("Control Menu")] = array(
+    function (&$tabs_array) {
+        if (Jaris\Uri::get() == "admin/settings") {
+            $tabs_array[0][t("Control Menu")] = [
                 "uri" => Jaris\Modules::getPageUri(
                     "admin/settings/control-menu",
                     "control_menu"
                 ),
-                "arguments" => array()
-            );
+                "arguments" => []
+            ];
         }
     }
 );

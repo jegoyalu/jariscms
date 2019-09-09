@@ -19,25 +19,21 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("edit_settings"));
+        Jaris\Authentication::protectedPage(["edit_settings"]);
 
-        $info = array();
+        $info = [];
 
-        if(isset($_REQUEST["path"]))
-        {
+        if (isset($_REQUEST["path"])) {
             $info = Jaris\Themes::get($_REQUEST["path"]);
-        }
-        else
-        {
+        } else {
             Jaris\Uri::go("admin/themes");
         }
 
-        if(Jaris\Themes::directory($_REQUEST["path"]) != "themes/{$_REQUEST["path"]}/")
-        {
+        if (Jaris\Themes::directory($_REQUEST["path"]) != "themes/{$_REQUEST["path"]}/") {
             Jaris\View::addTab(
                 "Delete",
                 "admin/themes/delete",
-                array("path" => $_REQUEST["path"])
+                ["path" => $_REQUEST["path"]]
             );
         }
     ?>
@@ -70,7 +66,7 @@ row: 0
                     <?php print $info["email"] ?>
                 </a>
             </div>
-            <?php if(!empty($info["developer"])){ ?>
+            <?php if (!empty($info["developer"])) { ?>
             <div>
                 <span class="label"><?php print t("Developer:") ?></span>
                 <?php print htmlspecialchars($info["developer"]) ?>
@@ -86,13 +82,12 @@ row: 0
     </div>
 
     <?php
-        if(
+        if (
             file_exists(
                 Jaris\Themes::directory($_REQUEST["path"])
                     . "settings.php"
             )
-        )
-        {
+        ) {
             print "<hr />";
 
             print "<h3>" . t("Theme Settings") . "</h3>";

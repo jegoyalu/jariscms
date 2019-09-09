@@ -18,109 +18,107 @@ row: 0
     field: content
     <?php
         Jaris\Api::init(
-            array(
-                "add" => array(
+    [
+                "add" => [
                     "description" => "Adds images to existing page.",
-                    "parameters" => array(
+                    "parameters" => [
                         "uri" => "Uri of the page.",
-                        "images" => array(
+                        "images" => [
                             "description" => "Images array each element with the following fields:",
-                            "elements" => array(
+                            "elements" => [
                                 "name" => "File name of the image.",
                                 "description" => "Short description of the image.",
                                 "data" => "Gzipped base64 encoded binary data of the image."
-                            )
-                        )
-                    ),
-                    "parameters_required" => array(
+                            ]
+                        ]
+                    ],
+                    "parameters_required" => [
                         "uri",
                         "images"
-                    ),
-                    "response" => array(
+                    ],
+                    "response" => [
                         "images" => "List of image names that where added."
-                    ),
-                    "errors" => array(
+                    ],
+                    "errors" => [
                         "1010" => "Failed to add the images.",
                         "1020" => "The page does not exists."
-                    ),
+                    ],
                     "permissions" => "add_page_image_core"
-                ),
-                "edit" => array(
+                ],
+                "edit" => [
                     "description" => "Edit images description from existing page.",
-                    "parameters" => array(
+                    "parameters" => [
                         "uri" => "Uri of the page.",
-                        "images" => array(
+                        "images" => [
                             "description" => "Images array each element with the following fields:",
-                            "elements" => array(
+                            "elements" => [
                                 "id" => "Numerical id of the image.",
                                 "name" => "File name of the image.",
                                 "description" => "Short description of the image."
-                            )
-                        )
-                    ),
-                    "parameters_required" => array(
+                            ]
+                        ]
+                    ],
+                    "parameters_required" => [
                         "uri",
                         "images"
-                    ),
-                    "response" => array(
+                    ],
+                    "response" => [
                         "images" => "List of image names that where added."
-                    ),
-                    "errors" => array(
+                    ],
+                    "errors" => [
                         "1020" => "The page does not exists.",
                         "1040" => "Failed to edit the images.",
-                    ),
+                    ],
                     "permissions" => "edit_page_image_core"
-                ),
-                "delete" => array(
+                ],
+                "delete" => [
                     "description" => "Delete existing images from a page.",
-                    "parameters" => array(
+                    "parameters" => [
                         "uri" => "Uri of the page.",
-                        "images" => array(
+                        "images" => [
                             "description" => "Array of images to delete with one of the following fields:",
-                            "elements" => array(
+                            "elements" => [
                                 "id" => "Numerical id of the image.",
                                 "name" => "Name of image file."
-                            )
-                        )
-                    ),
-                    "parameters_required" => array(
+                            ]
+                        ]
+                    ],
+                    "parameters_required" => [
                         "uri",
                         "images"
-                    ),
-                    "errors" => array(
+                    ],
+                    "errors" => [
                         "1020" => "The page does not exists.",
                         "1030" => "Failed to delete the images."
-                    ),
+                    ],
                     "permissions" => "delete_page_image_core"
-                ),
-                "get" => array(
+                ],
+                "get" => [
                     "description" => "Get list of page images.",
-                    "response" => array(
+                    "response" => [
                         "uri" => "Uri or path of page.",
-                        "images" => array(
+                        "images" => [
                             "description" => "Array of images with the following fields.",
-                            "elements" => array(
+                            "elements" => [
                                 "id" => "Numerical id of the image.",
                                 "name" => "Name of image file.",
                                 "description" => "Short description of the image.",
                                 "url" => "Url where image can be downloaded."
-                            )
-                        )
-                    ),
-                    "errors" => array(
+                            ]
+                        ]
+                    ],
+                    "errors" => [
                         "1020" => "Page does not exists."
-                    ),
+                    ],
                     "permissions" => "get_page_image_core"
-                )
-            )
+                ]
+            ]
         );
 
         $action = Jaris\Api::getAction();
 
-        if($action == "add")
-        {
-            if(!Jaris\Pages::get($_REQUEST["uri"]))
-            {
+        if ($action == "add") {
+            if (!Jaris\Pages::get($_REQUEST["uri"])) {
                 Jaris\Api::sendErrorResponse(
                     1020,
                     "The page does not exists."
@@ -129,19 +127,17 @@ row: 0
 
             $_REQUEST["images"] = Jaris\Api::decodeParam("images");
 
-            if(!is_array($_REQUEST["images"]))
-            {
+            if (!is_array($_REQUEST["images"])) {
                 Jaris\Api::sendErrorResponse(
                     1010,
                     "Failed to add the images.",
                 );
             }
 
-            $images_added_list = array();
+            $images_added_list = [];
 
-            foreach($_REQUEST["images"] as $image_data)
-            {
-                $image_array = array();
+            foreach ($_REQUEST["images"] as $image_data) {
+                $image_array = [];
 
                 $image_path = Jaris\Site::dataDir()
                     . Jaris\Users::generatePassword()
@@ -161,7 +157,7 @@ row: 0
 
                 $file_name = "";
 
-                if(
+                if (
                     Jaris\Pages\Images::add(
                         $image_data,
                         $image_data["description"] ?? "",
@@ -170,25 +166,18 @@ row: 0
                     )
                     !=
                     "true"
-                )
-                {
-                    if(file_exists($image_path))
-                    {
+                ) {
+                    if (file_exists($image_path)) {
                         unlink($image_path);
                     }
-                }
-                else
-                {
+                } else {
                     $images_added_list[] = $file_name;
                 }
             }
 
             Jaris\Api::addResponse("images", $images_added_list);
-        }
-        elseif($action == "edit")
-        {
-            if(!Jaris\Pages::get($_REQUEST["uri"]))
-            {
+        } elseif ($action == "edit") {
+            if (!Jaris\Pages::get($_REQUEST["uri"])) {
                 Jaris\Api::sendErrorResponse(
                     1020,
                     "The page does not exists."
@@ -197,50 +186,43 @@ row: 0
 
             $_REQUEST["images"] = Jaris\Api::decodeParam("images");
 
-            if(!is_array($_REQUEST["images"]))
-            {
+            if (!is_array($_REQUEST["images"])) {
                 Jaris\Api::sendErrorResponse(
                     1040,
                     "Failed to edit the images.",
                 );
             }
 
-            $images_edited_list = array();
+            $images_edited_list = [];
 
-            foreach($_REQUEST["images"] as $image_details)
-            {
-                $image_data = array();
+            foreach ($_REQUEST["images"] as $image_details) {
+                $image_data = [];
                 $by_id = false;
                 $by_name = false;
 
-                if(isset($image_details["id"]))
-                {
+                if (isset($image_details["id"])) {
                     $image_data = Jaris\Pages\Images::get(
                         $image_details["id"],
                         $_REQUEST["uri"]
                     );
 
-                    if($image_data)
-                    {
+                    if ($image_data) {
                         $by_id = true;
                     }
                 }
 
-                if(!$image_data && isset($image_details["name"]))
-                {
+                if (!$image_data && isset($image_details["name"])) {
                     $image_data = Jaris\Pages\Images::getByName(
                         $image_details["name"],
                         $_REQUEST["uri"]
                     );
 
-                    if($image_data)
-                    {
+                    if ($image_data) {
                         $by_name = true;
                     }
                 }
 
-                if(!$image_data)
-                {
+                if (!$image_data) {
                     // We skip unexistant image
                     continue;
                 }
@@ -255,16 +237,13 @@ row: 0
 
                 $message = "";
 
-                if($by_id)
-                {
+                if ($by_id) {
                     $message = Jaris\Pages\Images::edit(
                         $image_details["id"],
                         $image_data,
                         $_REQUEST["uri"]
                     );
-                }
-                elseif($by_name)
-                {
+                } elseif ($by_name) {
                     $message = Jaris\Pages\Images::editByName(
                         $image_details["name"],
                         $image_data,
@@ -272,22 +251,18 @@ row: 0
                     );
                 }
 
-                if(
+                if (
                     $message
                     ==
                     "true"
-                )
-                {
+                ) {
                     $images_edited_list[] = $file_name;
                 }
             }
 
             Jaris\Api::addResponse("images", $images_edited_list);
-        }
-        elseif($action == "delete")
-        {
-            if(!Jaris\Pages::get($_REQUEST["uri"]))
-            {
+        } elseif ($action == "delete") {
+            if (!Jaris\Pages::get($_REQUEST["uri"])) {
                 Jaris\Api::sendErrorResponse(
                     1020,
                     "The page does not exists."
@@ -296,38 +271,30 @@ row: 0
 
             $_REQUEST["images"] = Jaris\Api::decodeParam("images");
 
-            if(!is_array($_REQUEST["images"]))
-            {
+            if (!is_array($_REQUEST["images"])) {
                 Jaris\Api::sendErrorResponse(
                     1040,
                     "Failed to edit the images.",
                 );
             }
 
-            $images_edited_list = array();
+            $images_edited_list = [];
 
-            foreach($_REQUEST["images"] as $image_details)
-            {
-                if(!empty($image_details["id"]))
-                {
+            foreach ($_REQUEST["images"] as $image_details) {
+                if (!empty($image_details["id"])) {
                     Jaris\Pages\Images::delete(
                         $image_details["id"],
                         $_REQUEST["uri"]
                     );
-                }
-                elseif(!empty($image_details["name"]))
-                {
+                } elseif (!empty($image_details["name"])) {
                     Jaris\Pages\Images::deleteByName(
                         $image_details["name"],
                         $_REQUEST["uri"]
                     );
                 }
             }
-        }
-        elseif($action == "get")
-        {
-            if(!Jaris\Pages::get($_REQUEST["uri"]))
-            {
+        } elseif ($action == "get") {
+            if (!Jaris\Pages::get($_REQUEST["uri"])) {
                 Jaris\Api::sendErrorResponse(
                     1020,
                     "The page does not exists."
@@ -335,10 +302,9 @@ row: 0
             }
 
             $images = Jaris\Pages\Images::getList($_REQUEST["uri"], false);
-            $images_list = array();
+            $images_list = [];
 
-            foreach($images as $image_id => $image_data)
-            {
+            foreach ($images as $image_id => $image_data) {
                 $image_data["id"] = $image_id;
                 $image_data["url"] = Jaris\Uri::url(
                     "image/".$_REQUEST["uri"]."/".$image_data["name"]

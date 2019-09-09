@@ -18,11 +18,10 @@ row: 0
     field: content
     <?php
         Jaris\Authentication::protectedPage(
-            array("manage_groups_church_attendance")
+    ["manage_groups_church_attendance"]
         );
 
-        if($_REQUEST["id"] < 6)
-        {
+        if ($_REQUEST["id"] < 6) {
             Jaris\View::addMessage(
                 t("You can not delete the predefined groups."),
                 "error"
@@ -38,8 +37,7 @@ row: 0
 
         $element_data = church_attendance_group_get($_REQUEST["id"]);
 
-        if(isset($_REQUEST["btnYes"]))
-        {
+        if (isset($_REQUEST["btnYes"])) {
             church_attendance_group_delete($element_data["id"]);
 
             church_attendance_member_move_to_other($element_data["id"]);
@@ -52,9 +50,7 @@ row: 0
                     "church_attendance"
                 )
             );
-        }
-        elseif(isset($_REQUEST["btnNo"]))
-        {
+        } elseif (isset($_REQUEST["btnNo"])) {
             Jaris\Uri::go(
                 Jaris\Modules::getPageUri(
                     "admin/settings/church-attendance/groups",

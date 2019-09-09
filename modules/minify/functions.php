@@ -9,16 +9,14 @@
  */
 use Jaris\Signals;
 
-
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\View::SIGNAL_THEME_STYLES,
-    function(&$styles, &$styles_code)
-    {
+    function (&$styles, &$styles_code) {
         $base_url = Jaris\Site::$base_url;
 
         $base_url_path = str_replace(
-            array("https://", "http://" . $_SERVER["HTTP_HOST"]),
-            array("http://", ""),
+            ["https://", "http://" . $_SERVER["HTTP_HOST"]],
+            ["http://", ""],
             $base_url
         );
 
@@ -31,26 +29,21 @@ Jaris\Signals\SignalHandler::listenWithParams(
         $last_styles_code = "";
         $cache_file = Jaris\Files::getDir("minify");
         $cache_files = "";
-        $files = array();
+        $files = [];
 
-        foreach($styles as $url)
-        {
+        foreach ($styles as $url) {
             // Strip theme version information
             $url = current(explode("?v=", $url));
 
             $file = str_replace($main_url, "", $url);
 
-            if(file_exists($file))
-            {
+            if (file_exists($file)) {
                 $cache_files .= $file . "-";
                 $files[] = $file;
-            }
-            else
-            {
+            } else {
                 $url_parse = parse_url($url);
 
-                if(isset($base_url_parse["path"]))
-                {
+                if (isset($base_url_parse["path"])) {
                     $url_parse["path"] = trim(
                         str_replace(
                             $base_url_parse["path"],
@@ -68,20 +61,17 @@ Jaris\Signals\SignalHandler::listenWithParams(
                     . "_" . Jaris\Authentication::currentUserGroup() . ".css"
                 ;
 
-                if(file_exists($page_path) && !file_exists($output))
-                {
-                    $request_copy = array();
+                if (file_exists($page_path) && !file_exists($output)) {
+                    $request_copy = [];
 
-                    if($url_parse["query"])
-                    {
+                    if ($url_parse["query"]) {
                         $request_copy = $_REQUEST;
 
                         unset($_REQUEST);
 
                         $parameters = explode("&", $url_parse["query"]);
 
-                        foreach($parameters as $parameter_data)
-                        {
+                        foreach ($parameters as $parameter_data) {
                             $parameter = explode("=", $parameter_data);
 
                             $_REQUEST[$parameter[0]] = $parameter[1];
@@ -98,8 +88,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
                         Jaris\System::evalPHP($page_data["content"])
                     );
 
-                    if($url_parse["query"])
-                    {
+                    if ($url_parse["query"]) {
                         $_REQUEST = $request_copy;
                     }
                 }
@@ -113,8 +102,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
             $cache_files . Jaris\Authentication::currentUserGroup()
         ) . ".css";
 
-        if(!file_exists($cache_file))
-        {
+        if (!file_exists($cache_file)) {
             file_put_contents(
                 $cache_file,
 
@@ -139,8 +127,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
         $i = count($styles);
         $count = count($styles_array);
 
-        for($i; $i<$count; $i++)
-        {
+        for ($i; $i<$count; $i++) {
             $styles_code .= $styles_array[$i] . "\n";
         }
     }
@@ -148,13 +135,12 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\View::SIGNAL_THEME_SCRIPTS,
-    function(&$scripts, &$scripts_code)
-    {
+    function (&$scripts, &$scripts_code) {
         $base_url = Jaris\Site::$base_url;
 
         $base_url_path = str_replace(
-            array("https://", "http://" . $_SERVER["HTTP_HOST"]),
-            array("http://", ""),
+            ["https://", "http://" . $_SERVER["HTTP_HOST"]],
+            ["http://", ""],
             $base_url
         );
 
@@ -167,36 +153,31 @@ Jaris\Signals\SignalHandler::listenWithParams(
         $last_scripts_codes = "";
         $cache_file = Jaris\Files::getDir("minify");
         $cache_files = "";
-        $files = array();
+        $files = [];
 
-        foreach($scripts as $url)
-        {
+        foreach ($scripts as $url) {
             // Strip theme version information
             $url = current(explode("?v=", $url));
 
             $file = str_replace($main_url, "", $url);
 
-            if(
+            if (
                 file_exists($file) &&
                 strpos($url, "jscolor.js") === false &&
                 strpos($url, "ckeditor.js") === false &&
                 strpos($url, "simplemde.min.js") === false
-            )
-            {
+            ) {
                 $files[] = $file;
                 $cache_files .= $file . "-";
-            }
-            elseif(
+            } elseif (
                 strpos($url, "jscolor.js") === false &&
                 strpos($url, "ckeditor.js") === false &&
                 strpos($url, "simplemde.min.js") === false &&
                 strpos($url, $main_url) !== false
-            )
-            {
+            ) {
                 $url_parse = parse_url($url);
 
-                if(isset($base_url_parse["path"]))
-                {
+                if (isset($base_url_parse["path"])) {
                     $url_parse["path"] = trim(
                         str_replace(
                             $base_url_parse["path"],
@@ -216,20 +197,17 @@ Jaris\Signals\SignalHandler::listenWithParams(
                     . "_" . Jaris\Authentication::currentUserGroup() . ".js"
                 ;
 
-                if(file_exists($page_path) && !file_exists($output))
-                {
-                    $request_copy = array();
+                if (file_exists($page_path) && !file_exists($output)) {
+                    $request_copy = [];
 
-                    if($url_parse["query"])
-                    {
+                    if ($url_parse["query"]) {
                         $request_copy = $_REQUEST;
 
                         unset($_REQUEST);
 
                         $parameters = explode("&", $url_parse["query"]);
 
-                        foreach($parameters as $parameter_data)
-                        {
+                        foreach ($parameters as $parameter_data) {
                             $parameter = explode("=", $parameter_data);
 
                             $_REQUEST[$parameter[0]] = $parameter[1];
@@ -246,17 +224,14 @@ Jaris\Signals\SignalHandler::listenWithParams(
                         Jaris\System::evalPHP($page_data["content"])
                     );
 
-                    if($url_parse["query"])
-                    {
+                    if ($url_parse["query"]) {
                         $_REQUEST = $request_copy;
                     }
                 }
 
                 $files[] = $output;
                 $cache_files .= $output . "-";
-            }
-            else //Add scripts with arguments normally
-            {
+            } else { //Add scripts with arguments normally
                 $last_scripts_codes .= "<script type=\"text/javascript\" src=\"$url\"></script>\n";
             }
         }
@@ -265,8 +240,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
             $cache_files . Jaris\Authentication::currentUserGroup()
         ) . ".js";
 
-        if(!file_exists($cache_file))
-        {
+        if (!file_exists($cache_file)) {
             file_put_contents(
                 $cache_file,
 
@@ -287,8 +261,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
         $i = count($scripts);
         $count = count($scripts_array);
 
-        for($i; $i<$count; $i++)
-        {
+        for ($i; $i<$count; $i++) {
             $scripts_code .= $scripts_array[$i] . "\n";
         }
     }
@@ -296,25 +269,22 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\View::SIGNAL_THEME_TABS,
-    function(&$tabs_array)
-    {
-        if(Jaris\Uri::get() == "admin/settings")
-        {
-            $tabs_array[0][t("Clear Minify Cache")] = array(
+    function (&$tabs_array) {
+        if (Jaris\Uri::get() == "admin/settings") {
+            $tabs_array[0][t("Clear Minify Cache")] = [
                 "uri" => Jaris\Modules::getPageUri(
                     "admin/settings/minify/clear-cache",
                     "minify"
                 ),
-                "arguments" => array()
-            );
+                "arguments" => []
+            ];
         }
     }
 );
 
 Signals\SignalHandler::listenWithParams(
     Jaris\System::SIGNAL_SAVE_PAGE_TO_CACHE,
-    function(&$uri, &$page_data, &$content)
-    {
+    function (&$uri, &$page_data, &$content) {
         $content = minify_html($content);
     },
     1000
@@ -324,8 +294,7 @@ function minify_html($html)
 {
     static $is_loaded = false;
 
-    if(!$is_loaded)
-    {
+    if (!$is_loaded) {
         $path = Jaris\Modules::directory("minify");
         require_once $path . "tiny-html-minifier/tiny-html-minifier.php";
         $is_loaded = true;
@@ -338,8 +307,7 @@ function minify_js_or_css($files)
 {
     static $is_loaded = false;
 
-    if(!$is_loaded)
-    {
+    if (!$is_loaded) {
         $path = Jaris\Modules::directory("minify");
         require_once $path . "min/lib/Minify/Loader.php";
         Minify_Loader::register();
@@ -349,10 +317,10 @@ function minify_js_or_css($files)
 
     Minify::$isDocRootSet = true;
 
-    $options = array(
+    $options = [
         "bubbleCssImports" => "",
         "maxAge" => 1800
-    );
+    ];
 
     return Minify::combine($files, $options);
 }

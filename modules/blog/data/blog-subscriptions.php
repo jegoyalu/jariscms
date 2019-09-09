@@ -15,18 +15,14 @@ exit;
 row: 0
     field: title
     <?php
-        if($user_data = Jaris\Users::get($_REQUEST["user"]))
-        {
+        if ($user_data = Jaris\Users::get($_REQUEST["user"])) {
             $blog_data = blog_get_from_db($_REQUEST["user"]);
             $title = $_REQUEST["user"];
-            if($blog_data["title"])
-            {
+            if ($blog_data["title"]) {
                 $title = $blog_data["title"];
             }
             print t("Blog subscriptions of") . " " . $title;
-        }
-        else
-        {
+        } else {
             print t("My Blog Subscriptions");
         }
     ?>
@@ -35,38 +31,37 @@ row: 0
     field: content
     <?php
         Jaris\View::addStyle(
-            Jaris\Modules::directory("blog") . "styles/list.css"
+        Jaris\Modules::directory("blog") . "styles/list.css"
         );
 
         $user = "";
         $user_nagivation = "";
 
-        if(isset($_REQUEST["user"]))
-        {
+        if (isset($_REQUEST["user"])) {
             $user_nagivation = $_REQUEST["user"];
             $user_data = Jaris\Users::get($_REQUEST["user"]);
-            if(
+            if (
                 $user_data
                 &&
                 Jaris\Authentication::hasTypeAccess(
                     "blog",
                     $user_data["group"]
                 )
-            )
-            {
+            ) {
                 $user = $_REQUEST["user"];
                 $user = str_replace("'", "''", $user);
 
-                if(
+                if (
                     Jaris\Authentication::groupHasPermission(
-                        "add_content", $user_data["group"]
+                        "add_content",
+                        $user_data["group"]
                     )
-                )
-                {
+                ) {
                     Jaris\View::addTab(
                         t("Blog"),
                         Jaris\Modules::getPageUri(
-                            "blog/user", "blog"
+                            "blog/user",
+                            "blog"
                         ) . "/" . $_REQUEST["user"]
                     );
                 }
@@ -77,28 +72,23 @@ row: 0
                         "blog/subscriptions",
                         "blog"
                     ),
-                    array("user"=>$_REQUEST["user"])
+                    ["user"=>$_REQUEST["user"]]
                 );
-            }
-            else
-            {
+            } else {
                 Jaris\Uri::go("");
             }
-        }
-        else
-        {
-            if(
+        } else {
+            if (
                 Jaris\Authentication::isUserLogged()
                 &&
                 Jaris\Authentication::hasTypeAccess(
                     "blog",
                     Jaris\Authentication::currentUserGroup()
                 )
-            )
-            {
+            ) {
                 $user = Jaris\Authentication::currentUser();
 
-                if(
+                if (
                     Jaris\Authentication::groupHasPermission(
                         "add_content",
                         Jaris\Authentication::currentUserGroup()
@@ -108,8 +98,7 @@ row: 0
                         "blog",
                         Jaris\Authentication::currentUserGroup()
                     )
-                )
-                {
+                ) {
                     Jaris\View::addTab(
                         t("View Blog"),
                         Jaris\Modules::getPageUri("blog/user", "blog")
@@ -124,7 +113,7 @@ row: 0
                     Jaris\View::addTab(
                         t("New Post"),
                         "admin/pages/add",
-                        array("type"=>"blog")
+                        ["type"=>"blog"]
                     );
                 }
 
@@ -132,17 +121,14 @@ row: 0
                     t("Subscriptions"),
                     Jaris\Modules::getPageUri("blog/subscriptions", "blog")
                 );
-            }
-            else
-            {
+            } else {
                 Jaris\Uri::go("");
             }
         }
 
         $page = 1;
 
-        if(isset($_REQUEST["page"]))
-        {
+        if (isset($_REQUEST["page"])) {
             $page = $_REQUEST["page"];
         }
 
@@ -161,7 +147,7 @@ row: 0
             . "</h2>"
         ;
 
-        $blogs = array();
+        $blogs = [];
         $blogs = Jaris\Sql::getDataList(
             "blog_subscriptions",
             "subscriptions",
@@ -170,16 +156,12 @@ row: 0
             "where subscriber='$user' order by created_timestamp desc"
         );
 
-        foreach($blogs as $data)
-        {
+        foreach ($blogs as $data) {
             $user_data = Jaris\Users::get($data["user"]);
 
-            if($user_data["picture"])
-            {
+            if ($user_data["picture"]) {
                 $poster = Jaris\Uri::url("image/user/" . $data["user"]);
-            }
-            else
-            {
+            } else {
                 $poster = Jaris\Uri::url(
                     Jaris\Modules::directory("blog")
                         . "images/no-picture.png"
@@ -188,8 +170,7 @@ row: 0
 
             $title = $data["user"];
             $blog_data = blog_get_from_db($data["user"]);
-            if($blog_data["title"])
-            {
+            if ($blog_data["title"]) {
                 $title = $blog_data["title"];
             }
 
@@ -224,7 +205,7 @@ row: 0
             "blog/subscriptions",
             "blog",
             20,
-            array("user"=>$user_nagivation)
+            ["user"=>$user_nagivation]
         );
     ?>
     field;

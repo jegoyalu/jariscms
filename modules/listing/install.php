@@ -21,5 +21,3 @@ function listing_install()
 
     Jaris\Types::add("listing", $new_type);
 }
-
-?>

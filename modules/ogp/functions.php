@@ -20,37 +20,32 @@ function ogp_meta_tags_generate($uri, $page_data)
     $title = "";
     $description = "";
 
-    if($page_data["is_system"])
-    {
+    if ($page_data["is_system"]) {
         $title .= trim(
             Jaris\Util::stripHTMLTags(
                 Jaris\System::evalPHP($page_data["title"])
             )
         );
-    }
-    else
-    {
+    } else {
         $title .= isset($page_data["meta_title"]) && trim($page_data["meta_title"]) != "" ?
             trim(str_replace("\n", " ", Jaris\Util::stripHTMLTags($page_data["meta_title"])))
             :
             trim(str_replace("\n", " ", Jaris\Util::stripHTMLTags($page_data["title"])))
         ;
 
-        if(trim($page_data["description"]) != "")
-        {
+        if (trim($page_data["description"]) != "") {
             $description .= trim(
                 str_replace(
-                    array("\n", '"'),
-                    array(" ", "'"),
-                    $page_data["description"])
+                    ["\n", '"'],
+                    [" ", "'"],
+                    $page_data["description"]
+                )
             );
-        }
-        else
-        {
+        } else {
             $description .= trim(
                 str_replace(
-                    array("\n", '"'),
-                    array(" ", "'"),
+                    ["\n", '"'],
+                    [" ", "'"],
                     Jaris\Util::contentPreview($page_data["content"], 40)
                 )
             );
@@ -66,8 +61,7 @@ function ogp_meta_tags_generate($uri, $page_data)
         //. '<meta property="og:locale" content="'.Jaris\Language::getCurrent().'" />' . "\n"
     ;
 
-    if($description != "")
-    {
+    if ($description != "") {
         $meta_tags .= '<meta property="og:description" content="'.$description.'" />'
             . "\n"
         ;
@@ -76,10 +70,10 @@ function ogp_meta_tags_generate($uri, $page_data)
     // Add image meta tag if at least 1 image is available
     $images = Jaris\Pages\Images::getList($uri);
 
-    if($images)
-    {
+    if ($images) {
         $generate_static = Jaris\Settings::get(
-            "image_static_serving", "main"
+            "image_static_serving",
+            "main"
         );
 
         $first_image = true;
@@ -89,18 +83,16 @@ function ogp_meta_tags_generate($uri, $page_data)
         $image_count = 0;
         $image_max_count = intval($ogp_settings["image_count"] ?? 1);
 
-        foreach($images as $image)
-        {
-            $arguments = array();
+        foreach ($images as $image) {
+            $arguments = [];
 
-            if($first_image)
-            {
-                $arguments = array(
+            if ($first_image) {
+                $arguments = [
                     "w"=>$ogp_settings["image_width"] ?? 498,
                     "h"=>$ogp_settings["image_height"] ?? 375,
                     "ar"=>$ogp_settings["image_keep_aspect"] ?? 1,
                     "bg"=>"ffffff"
-                );
+                ];
 
                 $image_static = Jaris\Images::getStaticName(
                     Jaris\Uri::url(
@@ -112,8 +104,7 @@ function ogp_meta_tags_generate($uri, $page_data)
                 // If a 200x200 static image doesn't exists already
                 // we proceed to create one, we do this check
                 // to speed up the tags generation.
-                if($image_static == "")
-                {
+                if ($image_static == "") {
                     ogp_image_create_cache(
                         "image/".$uri."/".$image["name"],
                         $ogp_settings["image_width"] ?? 498,
@@ -121,9 +112,7 @@ function ogp_meta_tags_generate($uri, $page_data)
                         boolval($ogp_settings["image_keep_aspect"] ?? true)
                     );
                 }
-            }
-            elseif($generate_static)
-            {
+            } elseif ($generate_static) {
                 $image_static = Jaris\Images::getStaticName(
                     Jaris\Uri::url(
                         "image/".$uri."/".$image["name"]
@@ -133,8 +122,7 @@ function ogp_meta_tags_generate($uri, $page_data)
                 // If a 200x200 static image doesn't exists already
                 // we proceed to create one, we do this check
                 // to speed up the tags generation.
-                if($image_static == "")
-                {
+                if ($image_static == "") {
                     ogp_image_create_cache(
                         "image/".$uri."/".$image["name"]
                     );
@@ -146,12 +134,10 @@ function ogp_meta_tags_generate($uri, $page_data)
                 $arguments
             );
 
-            if($first_image)
-            {
+            if ($first_image) {
                 $image_static = Jaris\Images::getStaticName($image_url);
 
-                if($image_static != "")
-                {
+                if ($image_static != "") {
                     $image_url = $image_static;
                 }
 
@@ -164,21 +150,17 @@ function ogp_meta_tags_generate($uri, $page_data)
 
             $image_count++;
 
-            if($image_count >= $image_max_count)
-            {
+            if ($image_count >= $image_max_count) {
                 break; // exit after first image
             }
         }
-    }
-    else
-    {
+    } else {
         $ogp_settings = Jaris\Settings::getAll("ogp");
 
-        if(
+        if (
             isset($ogp_settings["current_image"]) &&
             trim($ogp_settings["current_image"]) != ""
-        )
-        {
+        ) {
             $image = Jaris\Uri::url(
                 Jaris\Files::get(
                     $ogp_settings["current_image"],
@@ -189,13 +171,10 @@ function ogp_meta_tags_generate($uri, $page_data)
             $meta_tags .= '<meta property="og:image" content="'.$image.'" />'
                 . "\n"
             ;
-        }
-        else
-        {
+        } else {
             $theme_path = Jaris\Themes::directory($theme);
 
-            if(file_exists($theme_path . "images/logo.png"))
-            {
+            if (file_exists($theme_path . "images/logo.png")) {
                 $image = Jaris\Uri::url(
                     $theme_path . "images/logo.png"
                 );
@@ -203,9 +182,7 @@ function ogp_meta_tags_generate($uri, $page_data)
                 $meta_tags .= '<meta property="og:image" content="'.$image.'" />'
                     . "\n"
                 ;
-            }
-            elseif(file_exists($theme_path . "images/logo.jpg"))
-            {
+            } elseif (file_exists($theme_path . "images/logo.jpg")) {
                 $image = Jaris\Uri::url(
                     $theme_path . "images/logo.jpg"
                 );
@@ -221,26 +198,26 @@ function ogp_meta_tags_generate($uri, $page_data)
 }
 
 function ogp_image_create_cache(
-    $image_uri, $width=200, $height=200, $ar=false, $bg="ffffff"
-)
-{
+    $image_uri,
+    $width=200,
+    $height=200,
+    $ar=false,
+    $bg="ffffff"
+) {
     $image_url = "";
 
     // Generate image url
-    if($width > 0)
-    {
+    if ($width > 0) {
         $image_url .= Jaris\Uri::url(
             $image_uri,
-            array(
+            [
                 "w"=>$width,
                 "h"=>$height,
                 "ar"=>$ar,
                 "bg"=>$bg,
-            )
+            ]
         );
-    }
-    else
-    {
+    } else {
         $image_url .= Jaris\Uri::url(
             $image_uri
         );
@@ -251,8 +228,7 @@ function ogp_image_create_cache(
         false
     );
 
-    if(file_exists($image_cache_name))
-    {
+    if (file_exists($image_cache_name)) {
         return;
     }
 
@@ -260,19 +236,16 @@ function ogp_image_create_cache(
     $image = Jaris\Images::get(Jaris\Uri::getImagePath($image_uri), $width, $height, $ar, $bg);
 
     // Preparations to statically store the image
-    if(!is_dir(Jaris\Files::getDir("static_image")))
-    {
+    if (!is_dir(Jaris\Files::getDir("static_image"))) {
         Jaris\FileSystem::makeDir(Jaris\Files::getDir("static_image"), 0755, true);
     }
 
     // Store the image statically
-    switch($image["mime"])
-    {
+    switch ($image["mime"]) {
         case "image/jpeg":
             $image_quality = Jaris\Settings::get("image_compression_quality", "main");
 
-            if($image_quality == "" || $image_quality == null)
-            {
+            if ($image_quality == "" || $image_quality == null) {
                 $image_quality = 100;
             }
 
@@ -305,8 +278,7 @@ function ogp_image_create_cache(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\View::SIGNAL_GET_META_TAGS,
-    function(&$meta_tags)
-    {
+    function (&$meta_tags) {
         $page_data = Jaris\Site::$page_data;
 
         $meta_tags .= ogp_meta_tags_generate(Jaris\Uri::get(), $page_data[0]);
@@ -315,8 +287,7 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\System::SIGNAL_SAVE_PAGE_TO_CACHE,
-    function(&$uri, &$page_data, &$content)
-    {
+    function (&$uri, &$page_data, &$content) {
         $base_url = Jaris\Site::$base_url;
 
         // Re-establish the full url of each element on the generated
@@ -324,36 +295,38 @@ Jaris\Signals\SignalHandler::listenWithParams(
         // by the system save_page_to_cache() function.
 
         $base_url_path = str_replace(
-            array("https://", "http://" . $_SERVER["HTTP_HOST"]),
-            array("http://", ""),
+            ["https://", "http://" . $_SERVER["HTTP_HOST"]],
+            ["http://", ""],
             $base_url
         );
 
         $meta_tags = ogp_meta_tags_generate($uri, $page_data);
 
         $meta_tags_relative = str_replace(
-            $base_url, $base_url_path, $meta_tags
+            $base_url,
+            $base_url_path,
+            $meta_tags
         );
 
         $content = str_replace(
-            $meta_tags_relative, $meta_tags, $content
+            $meta_tags_relative,
+            $meta_tags,
+            $content
         );
     }
 );
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\View::SIGNAL_THEME_TABS,
-    function(&$tabs_array)
-    {
-        if(Jaris\Uri::get() == "admin/settings")
-        {
-            $tabs_array[0][t("Open Graph")] = array(
+    function (&$tabs_array) {
+        if (Jaris\Uri::get() == "admin/settings") {
+            $tabs_array[0][t("Open Graph")] = [
                 "uri" => Jaris\Modules::getPageUri(
                     "admin/settings/ogp",
                     "ogp"
                 ),
-                "arguments" => array()
-            );
+                "arguments" => []
+            ];
         }
     }
 );

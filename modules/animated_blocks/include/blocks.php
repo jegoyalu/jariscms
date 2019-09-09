@@ -44,8 +44,7 @@ function animated_blocks_get_settings($block_data)
 {
     $block_data["effects"] = unserialize($block_data["effects"]);
 
-    if(is_array($block_data["effects"]))
-    {
+    if (is_array($block_data["effects"])) {
         return $block_data["effects"];
     }
 
@@ -129,13 +128,10 @@ function animated_blocks_print_block($id, $position)
 
     $slides = unserialize($block_data["content"]);
 
-    if(is_array($slides))
-    {
+    if (is_array($slides)) {
         $slides = Jaris\Data::sort($slides, "order");
-    }
-    else
-    {
-        $slides = array();
+    } else {
+        $slides = [];
     }
 
     $settings = animated_blocks_get_settings($block_data);
@@ -147,7 +143,7 @@ function animated_blocks_print_block($id, $position)
             "animated-blocks/style",
             "animated_blocks"
         ),
-        array("id" => $id, "position" => $position)
+        ["id" => $id, "position" => $position]
     );
 
     Jaris\View::addScript(
@@ -155,24 +151,21 @@ function animated_blocks_print_block($id, $position)
             "animated-blocks/script",
             "animated_blocks"
         ),
-        array("id" => $id, "position" => $position)
+        ["id" => $id, "position" => $position]
     );
 
     print Jaris\System::evalPHP($block_data["pre_content"]);
 
-    if(is_array($slides))
-    {
+    if (is_array($slides)) {
         //Display pager on top
-        if($settings["display_pager"] && $settings["pager_position"] == "top")
-        {
+        if ($settings["display_pager"] && $settings["pager_position"] == "top") {
             print "<div id=\"{$animated_block_id}-pager\"></div>";
         }
 
         print "<div id=\"$animated_block_id_container\">";
         print "<div id=\"$animated_block_id\">";
 
-        foreach($slides as $slide)
-        {
+        foreach ($slides as $slide) {
             $is_article = false;
             $is_plain_image = false;
 
@@ -181,36 +174,27 @@ function animated_blocks_print_block($id, $position)
             $description = "";
 
             $uri_parts = explode("/", $slide["uri"]);
-            if(trim($uri_parts[0]) == "image" || $slide["type"] == "image")
-            {
-                if($slide["type"] == "image")
-                {
+            if (trim($uri_parts[0]) == "image" || $slide["type"] == "image") {
+                if ($slide["type"] == "image") {
                     $image_url = Jaris\Files::get(
                         $slide["image"],
                         "animated_blocks"
                     );
 
                     $is_plain_image = true;
-                }
-                else
-                {
+                } else {
                     $image_url = $slide["uri"];
                 }
 
                 $title = trim($slide["title"]);
                 $description = Jaris\System::evalPHP($slide["description"]);
-            }
-            elseif("" . strpos($uri_parts[0], "http:") . "" != "")
-            {
+            } elseif ("" . strpos($uri_parts[0], "http:") . "" != "") {
                 $image_url = $slide["uri"];
                 $title = trim($slide["title"]);
                 $description = Jaris\System::evalPHP($slide["description"]);
-            }
-            elseif(file_exists(Jaris\Pages::getPath($slide["uri"])))
-            {
+            } elseif (file_exists(Jaris\Pages::getPath($slide["uri"]))) {
                 $is_article = true;
-                if($settings["auto_info"])
-                {
+                if ($settings["auto_info"]) {
                     $data = Jaris\Pages::get(
                         $slide["uri"],
                         Jaris\Language::getCurrent()
@@ -225,9 +209,7 @@ function animated_blocks_print_block($id, $position)
                         intval($settings["description_word_count"]),
                         true
                     );
-                }
-                else
-                {
+                } else {
                     $title = trim($slide["title"]);
                     $description = $description = Jaris\System::evalPHP(
                         $slide["description"]
@@ -237,14 +219,11 @@ function animated_blocks_print_block($id, $position)
                 $image_list = Jaris\Pages\Images::getList($slide["uri"]);
                 $image_list = Jaris\Data::sort($image_list, "order");
 
-                foreach($image_list as $id => $data)
-                {
+                foreach ($image_list as $id => $data) {
                     $image_url = "image/" . $slide["uri"] . "/$id";
                     break;
                 }
-            }
-            else
-            {
+            } else {
                 $is_plain_image = true;
 
                 $image_url = $slide["uri"];
@@ -253,52 +232,47 @@ function animated_blocks_print_block($id, $position)
             }
 
             $width = $settings["image_as_background"] ?
-                str_replace(array("auto", "px"), "", $settings["width"])
+                str_replace(["auto", "px"], "", $settings["width"])
                 :
-                str_replace(array("auto", "px"), "", $settings["image_width"])
+                str_replace(["auto", "px"], "", $settings["image_width"])
             ;
 
             $height = $settings["image_as_background"] ?
-                str_replace(array("auto", "px"), "", $settings["height"])
+                str_replace(["auto", "px"], "", $settings["height"])
                 :
-                str_replace(array("auto", "px"), "", $settings["image_height"])
+                str_replace(["auto", "px"], "", $settings["image_height"])
             ;
 
             $image_url = $is_plain_image ?
                 Jaris\Uri::url($image_url)
                 :
-                Jaris\Uri::url($image_url, array("w" => $width, "h" => $height))
+                Jaris\Uri::url($image_url, ["w" => $width, "h" => $height])
             ;
 
-            if($settings["image_as_background"])
-            {
+            if ($settings["image_as_background"]) {
                 print "<div class=\"animated-block-slide\" style=\"background: transparent url(" . $image_url . ") no-repeat left top\">";
-            }
-            else
-            {
+            } else {
                 print "<div class=\"animated-block-slide\">";
             }
 
-            if($slide["link"])
+            if ($slide["link"]) {
                 print '<a class="animated-block-link" href="'.Jaris\Uri::url($slide["link"]).'">';
+            }
 
-            if($title != "" || $description != "")
-            {
+            if ($title != "" || $description != "") {
                 print "<div class=\"animated-block-content\">";
                 print "</div>";
 
                 print "<div class=\"animated-block-content-container\">";
                 print "<div class=\"animated-block-title\">";
 
-                if($is_article)
-                {
+                if ($is_article) {
                     print "<a href=\"" . Jaris\Uri::url($slide["uri"]) . "\">";
                 }
 
                 print $title;
 
-                if($is_article)
-                {
+                if ($is_article) {
                     print "</a>";
                 }
 
@@ -310,23 +284,21 @@ function animated_blocks_print_block($id, $position)
                 print "</div>";
             }
 
-            if(!$settings["image_as_background"])
-            {
+            if (!$settings["image_as_background"]) {
                 print "<div class=\"animated-block-image\">";
-                if($is_article)
-                {
+                if ($is_article) {
                     print "<a href=\"" . Jaris\Uri::url($slide["uri"]) . "\">";
                 }
                 print "<img style=\"width: {$width}px; height: {$height}px\" src=\"" . $image_url . "\" />";
-                if($is_article)
-                {
+                if ($is_article) {
                     print "</a>";
                 }
                 print "</div>";
             }
 
-            if($slide["link"])
+            if ($slide["link"]) {
                 print '</a>';
+            }
 
             print "</div>";
         }
@@ -334,8 +306,7 @@ function animated_blocks_print_block($id, $position)
         print "</div>";
 
         //Next and previous buttons
-        if($settings["display_navigation"])
-        {
+        if ($settings["display_navigation"]) {
             print "
             <a id=\"{$animated_block_id}-prev\" title=\"" . t("Previous") . "\">
                 <div>&lt;</div>
@@ -348,13 +319,10 @@ function animated_blocks_print_block($id, $position)
         print "</div>";
 
         //Display pager on bottom
-        if($settings["display_pager"] && $settings["pager_position"] == "bottom")
-        {
+        if ($settings["display_pager"] && $settings["pager_position"] == "bottom") {
             print "<div id=\"{$animated_block_id}-pager\"></div>";
         }
     }
 
     print Jaris\System::evalPHP($block_data["sub_content"]);
 }
-
-?>

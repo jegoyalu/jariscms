@@ -12,35 +12,31 @@
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\View::SIGNAL_THEME_CONTENT,
-    function(&$content, &$content_title, &$content_data)
-    {
-        if($content_data["input_format"] == "markdown")
-        {
+    function (&$content, &$content_title, &$content_data) {
+        if ($content_data["input_format"] == "markdown") {
             require_once(
-                Jaris\Modules::directory("markdown") 
+                Jaris\Modules::directory("markdown")
                     . "phpmarkdown/markdown.php"
             );
 
-            $content = "<div class=\"markdown\">" 
-                . Markdown($content) 
+            $content = "<div class=\"markdown\">"
+                . Markdown($content)
                 . "</div>"
             ;
 
-            $result = array();
+            $result = [];
 
-            if(
+            if (
                 preg_match_all(
                     '/src="([a-zA-Z0-9\-\_\?\=\&\;\+\.\/ ]+)"/',
                     $content,
                     $result
                 )
-            )
-            {
-                $search = array();
-                $replace = array();
+            ) {
+                $search = [];
+                $replace = [];
 
-                foreach($result[0] as $position => $src)
-                {
+                foreach ($result[0] as $position => $src) {
                     $search[] = $src;
                     $replace[] = 'src="' . Jaris\Uri::url($result[1][$position]) . '"';
                 }
@@ -48,19 +44,17 @@ Jaris\Signals\SignalHandler::listenWithParams(
                 $content = str_replace($search, $replace, $content);
             }
 
-            if(
+            if (
                 preg_match_all(
                     '/href="([a-zA-Z0-9\-\_\?\=\&\;\+\.\/ ]+)"/',
                     $content,
                     $result
                 )
-            )
-            {
-                $search = array();
-                $replace = array();
+            ) {
+                $search = [];
+                $replace = [];
 
-                foreach($result[0] as $position => $src)
-                {
+                foreach ($result[0] as $position => $src) {
                     $search[] = $src;
                     $replace[] = 'href="' . Jaris\Uri::url($result[1][$position]) . '"';
                 }

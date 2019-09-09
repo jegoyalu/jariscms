@@ -31,7 +31,8 @@
  * @author Stephen Clay <steve@mrclay.org>
  * @author Elan Ruusamäe <glen@delfi.ee>
  */
-class Minify_ClosureCompiler {
+class Minify_ClosureCompiler
+{
 
     /**
      * Filepath of the Closure Compiler jar file. This must be set before
@@ -66,7 +67,7 @@ class Minify_ClosureCompiler {
      *
      * @return string
      */
-    public static function minify($js, $options = array())
+    public static function minify($js, $options = [])
     {
         self::_prepare();
         if (! ($tmpFile = tempnam(self::$tempDir, 'cc_'))) {
@@ -84,10 +85,10 @@ class Minify_ClosureCompiler {
     private static function _getCmd($userOptions, $tmpFile)
     {
         $o = array_merge(
-            array(
+            [
                 'charset' => 'utf-8',
                 'compilation_level' => 'SIMPLE_OPTIMIZATIONS',
-            ),
+            ],
             $userOptions
         );
         $cmd = self::$javaExecutable . ' -jar ' . escapeshellarg(self::$jarFile)
@@ -95,7 +96,7 @@ class Minify_ClosureCompiler {
                 ? " --charset {$o['charset']}"
                 : '');
 
-        foreach (array('compilation_level') as $opt) {
+        foreach (['compilation_level'] as $opt) {
             if ($o[$opt]) {
                 $cmd .= " --{$opt} ". escapeshellarg($o[$opt]);
             }

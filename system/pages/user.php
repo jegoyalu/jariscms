@@ -16,28 +16,24 @@ row: 0
         $username = empty($_REQUEST["username"]) ? "" : $_REQUEST["username"];
         $user_data = Jaris\Users::get($username);
 
-        if(!$user_data)
-        {
+        if (!$user_data) {
             Jaris\Site::setHTTPStatus(404);
             print t("Profile not found");
-        }
-        elseif(
+        } elseif (
             !Jaris\Settings::get("user_profiles_public", "main") &&
             !Jaris\Authentication::isUserLogged()
-        )
-        {
+        ) {
             Jaris\View::addMessage(
                 t("In order to view other people profiles you need to login.")
             );
 
-            Jaris\Uri::go("admin/user", array("return" => Jaris\Uri::get()));
-        }
-        else
-        {
-            if($user_data["name"])
+            Jaris\Uri::go("admin/user", ["return" => Jaris\Uri::get()]);
+        } else {
+            if ($user_data["name"]) {
                 print $user_data["name"];
-            else
+            } else {
                 print $username;
+            }
         }
     ?>
     field;
@@ -47,12 +43,9 @@ row: 0
         $username = empty($_REQUEST["username"]) ? "" : $_REQUEST["username"];
         $user_data = Jaris\Users::get($username);
 
-        if(!$user_data)
-        {
+        if (!$user_data) {
             print t("The given username does not exist.");
-        }
-        else
-        {
+        } else {
             //Age
             $t = time();
 
@@ -67,10 +60,11 @@ row: 0
             //Gender
             $gender = "";
 
-            if($user_data["gender"] == "m")
+            if ($user_data["gender"] == "m") {
                 $gender = t("Male");
-            else
+            } else {
                 $gender = t("Female");
+            }
 
             //Personal text
             $personal_text = str_replace(
@@ -106,8 +100,7 @@ row: 0
             $latest_post .= "</tr>";
             $latest_post .= "</thead>";
 
-            foreach($pages as $data)
-            {
+            foreach ($pages as $data) {
                 $page_data = Jaris\Pages::get($data["uri"]);
 
                 $latest_post .= "<tr>";
@@ -132,15 +125,14 @@ row: 0
 
             ob_start();
 
-            if(
+            if (
                 file_exists(
                     $theme = Jaris\View::userProfileTemplate(
                         $user_data["group"],
                         $username
                     )
                 )
-            )
-            {
+            ) {
                 include($theme);
             }
 

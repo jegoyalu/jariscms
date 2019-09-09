@@ -38,5 +38,3 @@ function polls_install()
 
     Jaris\Blocks::add($block, "none");
 }
-
-?>

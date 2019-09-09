@@ -17,39 +17,33 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("view_types", "edit_types"));
+        Jaris\Authentication::protectedPage(["view_types", "edit_types"]);
 
         //Get exsiting settings or defualt ones if main settings table doesn't exist
         $comment_settings = comments_get_settings($_REQUEST["type"]);
 
-        if(isset($_REQUEST["btnSave"]))
-        {
+        if (isset($_REQUEST["btnSave"])) {
             $data["enabled"] = $_REQUEST["enabled"];
             $data["ordering"] = $_REQUEST["ordering"];
             $data["replies"] = $_REQUEST["replies"];
             $data["maximun_characters"] = $_REQUEST["maximun_characters"];
 
             //Check if write is possible and continue to write settings
-            if(Jaris\Settings::save($_REQUEST["type"], serialize($data), "comments"))
-            {
+            if (Jaris\Settings::save($_REQUEST["type"], serialize($data), "comments")) {
                 Jaris\View::addMessage(t("Your comment settings have been successfully saved."));
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(Jaris\System::errorMessage("write_error_data"), "error");
             }
 
-            Jaris\Uri::go("admin/types/edit", array("type" => $_REQUEST["type"]));
-        }
-        elseif(isset($_REQUEST["btnCancel"]))
-        {
-            Jaris\Uri::go("admin/types/edit", array("type" => $_REQUEST["type"]));
+            Jaris\Uri::go("admin/types/edit", ["type" => $_REQUEST["type"]]);
+        } elseif (isset($_REQUEST["btnCancel"])) {
+            Jaris\Uri::go("admin/types/edit", ["type" => $_REQUEST["type"]]);
         }
 
         Jaris\View::addTab(
             t("Edit Type"),
             "admin/types/edit",
-            array("type" => $_REQUEST["type"])
+            ["type" => $_REQUEST["type"]]
         );
 
         $parameters["name"] = "edit-comments-settings";
@@ -59,27 +53,27 @@ row: 0
         );
         $parameters["method"] = "post";
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "hidden",
             "name" => "type",
             "value" => $_REQUEST["type"]
-        );
+        ];
 
         $enabled[t("Enable")] = true;
         $enabled[t("Disable")] = false;
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "radio",
             "name" => "enabled",
             "id" => "enabled",
             "value" => $enabled,
             "checked" => $comment_settings["enabled"]
-        );
+        ];
 
         $ordering[t("Ascending")] = "asc";
         $ordering[t("Descending")] = "desc";
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "radio",
             "label" => "Ordering",
             "name" => "ordering",
@@ -89,12 +83,12 @@ row: 0
                 $comment_settings["ordering"]
                 :
                 "asc"
-        );
+        ];
 
         $replies[t("Cascade")] = "cascade";
         $replies[t("Linear")] = "linear";
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "radio",
             "label" => "Replies Display Mode",
             "name" => "replies",
@@ -105,30 +99,30 @@ row: 0
                 :
                 "cascade",
             "description" => t("Cascade is slower but easier to associate with original comment while linear is faster but harder to read.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "name" => "maximun_characters",
             "label" => t("Maximun characters:"),
             "id" => "maximun_characters",
             "value" => $comment_settings["maximun_characters"],
             "description" => t("The maximun characters allowed per user post.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnSave",
             "value" => t("Save")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnCancel",
             "value" => t("Cancel")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
         print Jaris\Forms::generate($parameters, $fieldset);
     ?>

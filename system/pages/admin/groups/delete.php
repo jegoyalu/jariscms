@@ -20,43 +20,36 @@ row: 0
     field: content
     <?php
         Jaris\Authentication::protectedPage(
-            array("view_groups", "delete_groups")
+    ["view_groups", "delete_groups"]
         );
 
-        if(!isset($_REQUEST["group"]))
-        {
+        if (!isset($_REQUEST["group"])) {
             Jaris\Uri::go("admin/groups");
         }
 
         $group_data = Jaris\Groups::get($_REQUEST["group"]);
 
-        if(isset($_REQUEST["btnYes"]))
-        {
+        if (isset($_REQUEST["btnYes"])) {
             $message = Jaris\Groups::delete($_REQUEST["group"]);
 
-            if($message == "true")
-            {
+            if ($message == "true") {
                 Jaris\View::addMessage(t("Group successfully deleted."));
 
                 t("Deleted group '{machine_name}'.");
 
                 Jaris\Logger::info(
                     "Deleted group '{machine_name}'.",
-                    array(
+                    [
                         "machine_name" => $_REQUEST["group"]
-                    )
+                    ]
                 );
-            }
-            else
-            {
+            } else {
                 //An error ocurred so display the error message
                 Jaris\View::addMessage($message, "error");
             }
 
             Jaris\Uri::go("admin/groups");
-        }
-        elseif(isset($_REQUEST["btnNo"]))
-        {
+        } elseif (isset($_REQUEST["btnNo"])) {
             Jaris\Uri::go("admin/groups");
         }
     ?>

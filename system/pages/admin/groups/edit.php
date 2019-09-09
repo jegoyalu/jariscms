@@ -20,65 +20,56 @@ row: 0
     field: content
     <?php
         Jaris\Authentication::protectedPage(
-            array("view_groups", "edit_groups")
+    ["view_groups", "edit_groups"]
         );
 
-        if(!isset($_REQUEST["group"]))
-        {
+        if (!isset($_REQUEST["group"])) {
             Jaris\Uri::go("admin/groups");
         }
 
-        if(
+        if (
             isset($_REQUEST["btnSave"]) &&
             !Jaris\Forms::requiredFieldEmpty("edit-group")
-        )
-        {
+        ) {
             $fields["name"] = $_REQUEST["name"];
             $fields["description"] = $_REQUEST["description"];
 
             $error = false;
 
-            if(
+            if (
                 $_REQUEST["new_group_name"] == "" ||
                 $_REQUEST["name"] == "" ||
                 $_REQUEST["description"] == ""
-            )
-            {
+            ) {
                 $error = true;
                 Jaris\View::addMessage(t("You need to provide all the fields"), "error");
             }
 
-            if(!$error)
-            {
+            if (!$error) {
                 $message = Jaris\Groups::edit(
                     $_REQUEST["group"],
                     $fields,
                     $_REQUEST["new_group_name"]
                 );
 
-                if($message == "true")
-                {
+                if ($message == "true") {
                     Jaris\View::addMessage(t("Your changes have been saved."));
 
                     t("Edited group '{machine_name}'.");
 
                     Jaris\Logger::info(
                         "Edited group '{machine_name}'.",
-                        array(
+                        [
                             "machine_name" => $_REQUEST["group"]
-                        )
+                        ]
                     );
-                }
-                else
-                {
+                } else {
                     Jaris\View::addMessage($message, "error");
                 }
 
                 Jaris\Uri::go("admin/groups");
             }
-        }
-        elseif(isset($_REQUEST["btnCancel"]))
-        {
+        } elseif (isset($_REQUEST["btnCancel"])) {
             Jaris\Uri::go("admin/groups");
         }
 
@@ -89,13 +80,13 @@ row: 0
         $parameters["action"] = Jaris\Uri::url("admin/groups/edit");
         $parameters["method"] = "post";
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "hidden",
             "value" => $_REQUEST["group"],
             "name" => "group"
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "value" => $_REQUEST["group"],
             "name" => "new_group_name",
@@ -103,9 +94,9 @@ row: 0
             "id" => "new_group_name",
             "required" => true,
             "description" => t("A readable machine name, like for example: my-group.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "value" => $group_data["name"],
             "name" => "name",
@@ -113,9 +104,9 @@ row: 0
             "id" => "name",
             "required" => true,
             "description" => t("A human readable name like for example: My Group.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "text",
             "value" => $group_data["description"],
             "name" => "description",
@@ -123,21 +114,21 @@ row: 0
             "id" => "description",
             "required" => true,
             "description" => t("A brief description of the group.")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnSave",
             "value" => t("Save")
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "submit",
             "name" => "btnCancel",
             "value" => t("Cancel")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
         print Jaris\Forms::generate($parameters, $fieldset);
     ?>

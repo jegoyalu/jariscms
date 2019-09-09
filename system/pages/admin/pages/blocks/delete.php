@@ -19,19 +19,17 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("delete_content_blocks"));
+        Jaris\Authentication::protectedPage(["delete_content_blocks"]);
 
-        if(
+        if (
             !isset($_REQUEST["uri"]) ||
             !isset($_REQUEST["id"]) ||
             !isset($_REQUEST["position"])
-        )
-        {
+        ) {
             Jaris\Uri::go("");
         }
 
-        if(!Jaris\Pages::userIsOwner($_REQUEST["uri"]))
-        {
+        if (!Jaris\Pages::userIsOwner($_REQUEST["uri"])) {
             Jaris\Authentication::protectedPage();
         }
 
@@ -43,20 +41,16 @@ row: 0
             $_REQUEST["uri"]
         );
 
-        if(isset($_REQUEST["btnYes"]))
-        {
-            if(
+        if (isset($_REQUEST["btnYes"])) {
+            if (
                 Jaris\Blocks::delete(
                     $block_id,
                     $_REQUEST["position"],
                     $_REQUEST["uri"]
                 )
-            )
-            {
+            ) {
                 Jaris\View::addMessage(t("Block successfully deleted."));
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(
                     Jaris\System::errorMessage("write_error_data"),
                     "error"
@@ -65,14 +59,12 @@ row: 0
 
             Jaris\Uri::go(
                 "admin/pages/blocks",
-                array("uri" => $_REQUEST["uri"])
+                ["uri" => $_REQUEST["uri"]]
             );
-        }
-        elseif(isset($_REQUEST["btnNo"]))
-        {
+        } elseif (isset($_REQUEST["btnNo"])) {
             Jaris\Uri::go(
                 "admin/pages/blocks",
-                array("uri" => $_REQUEST["uri"])
+                ["uri" => $_REQUEST["uri"]]
             );
         }
     ?>

@@ -12,8 +12,7 @@
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\Groups::SIGNAL_SET_GROUP_PERMISSION,
-    function(&$permissions, &$group)
-    {
+    function (&$permissions, &$group) {
         $options["view_income_church_accounting"] = t("View Income");
         $options["add_income_church_accounting"] = t("Add Income");
         $options["edit_income_church_accounting"] = t("Edit Income");
@@ -33,20 +32,18 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\System::SIGNAL_GENERATE_ADMIN_PAGE,
-    function(&$sections)
-    {
+    function (&$sections) {
         $group = Jaris\Authentication::currentUserGroup();
 
-        $content = array();
+        $content = [];
 
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
-                "add_income_church_accounting", 
+                "add_income_church_accounting",
                 $group
             )
-        )
-        {
-            $content[] = array(
+        ) {
+            $content[] = [
                 "title" => t("Add offerings"),
                 "url" => Jaris\Uri::url(
                     Jaris\Modules::getPageUri(
@@ -55,17 +52,16 @@ Jaris\Signals\SignalHandler::listenWithParams(
                     )
                 ),
                 "description" => t("Add offerings and thites.")
-            );
+            ];
         }
 
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
-                "add_income_church_accounting", 
+                "add_income_church_accounting",
                 $group
             )
-        )
-        {
-            $content[] = array(
+        ) {
+            $content[] = [
                 "title" => t("Add tithes"),
                 "url" => Jaris\Uri::url(
                     Jaris\Modules::getPageUri(
@@ -74,17 +70,16 @@ Jaris\Signals\SignalHandler::listenWithParams(
                     )
                 ),
                 "description" => t("Add offerings and thites.")
-            );
+            ];
         }
 
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
-                "view_income_church_accounting", 
+                "view_income_church_accounting",
                 $group
             )
-        )
-        {
-            $content[] = array(
+        ) {
+            $content[] = [
                 "title" => t("View all income"),
                 "url" => Jaris\Uri::url(
                     Jaris\Modules::getPageUri(
@@ -93,17 +88,16 @@ Jaris\Signals\SignalHandler::listenWithParams(
                     )
                 ),
                 "description" => t("View or manage existing income.")
-            );
+            ];
         }
 
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
-                "add_expenses_church_accounting", 
+                "add_expenses_church_accounting",
                 $group
             )
-        )
-        {
-            $content[] = array(
+        ) {
+            $content[] = [
                 "title" => t("Add expenses"),
                 "url" => Jaris\Uri::url(
                     Jaris\Modules::getPageUri(
@@ -112,17 +106,16 @@ Jaris\Signals\SignalHandler::listenWithParams(
                     )
                 ),
                 "description" => t("Add expenses on rent, materials, etc...")
-            );
+            ];
         }
 
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
-                "view_expenses_church_accounting", 
+                "view_expenses_church_accounting",
                 $group
             )
-        )
-        {
-            $content[] = array(
+        ) {
+            $content[] = [
                 "title" => t("View all expenses"),
                 "url" => Jaris\Uri::url(
                     Jaris\Modules::getPageUri(
@@ -131,17 +124,16 @@ Jaris\Signals\SignalHandler::listenWithParams(
                     )
                 ),
                 "description" => t("View or manage existing expenses.")
-            );
+            ];
         }
 
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
-                "manage_tithers_church_accounting", 
+                "manage_tithers_church_accounting",
                 $group
             )
-        )
-        {
-            $content[] = array(
+        ) {
+            $content[] = [
                 "title" => t("Manage tithers"),
                 "url" => Jaris\Uri::url(
                     Jaris\Modules::getPageUri(
@@ -150,17 +142,16 @@ Jaris\Signals\SignalHandler::listenWithParams(
                     )
                 ),
                 "description" => t("View or manage tithers.")
-            );
+            ];
         }
 
-        if(
+        if (
             Jaris\Authentication::groupHasPermission(
-                "manage_categories_church_accounting", 
+                "manage_categories_church_accounting",
                 $group
             )
-        )
-        {
-            $content[] = array(
+        ) {
+            $content[] = [
                 "title" => t("Manage income categories"),
                 "url" => Jaris\Uri::url(
                     Jaris\Modules::getPageUri(
@@ -169,9 +160,9 @@ Jaris\Signals\SignalHandler::listenWithParams(
                     )
                 ),
                 "description" => t("View or manage income categories.")
-            );
+            ];
 
-            $content[] = array(
+            $content[] = [
                 "title" => t("Manage expense categories"),
                 "url" => Jaris\Uri::url(
                     Jaris\Modules::getPageUri(
@@ -180,16 +171,15 @@ Jaris\Signals\SignalHandler::listenWithParams(
                     )
                 ),
                 "description" => t("View or manage expense categories.")
-            );
+            ];
         }
 
-        if(count($content) > 0)
-        {
-            $new_section[] = array(
+        if (count($content) > 0) {
+            $new_section[] = [
                 "class" => "church-accounting",
                 "title" => t("Church Accounting"),
                 "sub_sections" => $content
-            );
+            ];
 
             $original_sections = $sections;
 
@@ -200,15 +190,12 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\View::SIGNAL_PAGE_TEMPLATE,
-    function(&$page, &$template_path)
-    {
+    function (&$page, &$template_path) {
         $theme = Jaris\Site::$theme;
         $default_template = Jaris\Themes::directory($theme) . "page.php";
 
-        if($template_path == $default_template)
-        {
-            if(Jaris\Uri::get() == "church-accounting-something")
-            {
+        if ($template_path == $default_template) {
+            if (Jaris\Uri::get() == "church-accounting-something") {
                 $template_path = Jaris\Modules::directory("church_accounting") . "templates/page-empty.php";
             }
         }
@@ -217,15 +204,12 @@ Jaris\Signals\SignalHandler::listenWithParams(
 
 Jaris\Signals\SignalHandler::listenWithParams(
     Jaris\View::SIGNAL_CONTENT_TEMPLATE,
-    function(&$page, &$type, &$template_path)
-    {
+    function (&$page, &$type, &$template_path) {
         $theme = Jaris\Site::$theme;
         $default_template = Jaris\Themes::directory($theme) . "content.php";
 
-        if($template_path == $default_template)
-        {
-            if(Jaris\Uri::get() == "church-accounting-something")
-            {
+        if ($template_path == $default_template) {
+            if (Jaris\Uri::get() == "church-accounting-something") {
                 $template_path = Jaris\Modules::directory("church_accounting") . "templates/content-empty.php";
             }
         }

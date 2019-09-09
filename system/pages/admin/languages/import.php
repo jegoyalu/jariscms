@@ -20,34 +20,30 @@ row: 0
     field: content
     <?php
         Jaris\Authentication::protectedPage(
-            array("view_languages", "edit_languages")
+    ["view_languages", "edit_languages"]
         );
 
         //Prevent importing non existing language code
-        if(!isset($_REQUEST["code"]))
-        {
+        if (!isset($_REQUEST["code"])) {
             Jaris\Uri::go("admin/languages");
         }
 
         $lang_code = $_REQUEST["code"];
 
-        if(
+        if (
             !isset($_REQUEST["btnUpload"]) &&
             !isset($_REQUEST["btnCancel"])
-        )
-        {
+        ) {
             Jaris\View::addMessage(
                 t("Here you can update language strings by uploading a po translation file.")
             );
         }
 
-        if(
+        if (
             isset($_REQUEST["btnUpload"]) &&
             !Jaris\Forms::requiredFieldEmpty("language-import")
-        )
-        {
-            if("" . stristr($_FILES["po_file"]["type"], ".po") . "" == "")
-            {
+        ) {
+            if ("" . stristr($_FILES["po_file"]["type"], ".po") . "" == "") {
                 $main_file = Jaris\Site::dataDir() . "language/strings.po";
 
                 $language_file = Jaris\Site::dataDir() .
@@ -59,24 +55,19 @@ row: 0
 
                 //First update empty strings pot file
                 $empty_strings = Jaris\Language::poParse($main_file);
-                foreach($new_strings as $original => $translation)
-                {
-                    if(!isset($empty_strings[$original]))
-                    {
+                foreach ($new_strings as $original => $translation) {
+                    if (!isset($empty_strings[$original])) {
                         $empty_strings[$original] = "";
                     }
                 }
 
                 Jaris\Language::poWrite($empty_strings, $main_file);
 
-                if($_REQUEST["option"] == "insert_new")
-                {
+                if ($_REQUEST["option"] == "insert_new") {
                     $count_new = 0;
                     $language_strings = Jaris\Language::poParse($language_file);
-                    foreach($new_strings as $original => $translation)
-                    {
-                        if(!isset($language_strings[$original]))
-                        {
+                    foreach ($new_strings as $original => $translation) {
+                        if (!isset($language_strings[$original])) {
                             $language_strings[$original] = $translation;
                             $count_new++;
                         }
@@ -89,21 +80,15 @@ row: 0
                         " <b>$count_new</b> " .
                         t("new strings")
                     );
-                }
-                elseif($_REQUEST["option"] == "update_all")
-                {
+                } elseif ($_REQUEST["option"] == "update_all") {
                     $count_new = 0;
                     $count_updated = 0;
                     $language_strings = Jaris\Language::poParse($language_file);
-                    foreach($new_strings as $original => $translation)
-                    {
-                        if(!isset($language_strings[$original]))
-                        {
+                    foreach ($new_strings as $original => $translation) {
+                        if (!isset($language_strings[$original])) {
                             $language_strings[$original] = $translation;
                             $count_new++;
-                        }
-                        else
-                        {
+                        } else {
                             $language_strings[$original] = $translation;
                             $count_updated++;
                         }
@@ -123,19 +108,17 @@ row: 0
 
                     Jaris\Logger::info(
                         "Imported strings for language '{code}'.",
-                        array(
+                        [
                             "code" => $_REQUEST["code"]
-                        )
+                        ]
                     );
                 }
 
                 Jaris\Uri::go(
                     "admin/languages/edit",
-                    array("code" => $lang_code)
+                    ["code" => $lang_code]
                 );
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(
                     t("The uploaded file is not supported."),
                     "error"
@@ -143,13 +126,11 @@ row: 0
 
                 Jaris\Uri::go(
                     "admin/languages/import",
-                    array("code" => $lang_code)
+                    ["code" => $lang_code]
                 );
             }
-        }
-        elseif(isset($_REQUEST["btnCancel"]))
-        {
-            Jaris\Uri::go("admin/languages/edit", array("code" => $lang_code));
+        } elseif (isset($_REQUEST["btnCancel"])) {
+            Jaris\Uri::go("admin/languages/edit", ["code" => $lang_code]);
         }
 
         $parameters["name"] = "language-import";
@@ -158,54 +139,54 @@ row: 0
         $parameters["method"] = "post";
         $parameters["enctype"] = "multipart/form-data";
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "hidden",
             "name" => "code",
             "value" => $lang_code
-        );
+        ];
 
-        $fields[] = array(
+        $fields[] = [
             "type" => "file",
             "label" => t("PO file:"),
             "name" => "po_file",
             "id" => "po_file",
             "valid_types" => "po",
             "description" => t("A po translation file to import into current translations.")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields);
+        $fieldset[] = ["fields" => $fields];
 
         $options[t("Just insert new strings")] = "insert_new";
         $options[t("Update and insert new strings")] = "update_all";
 
-        $options_fields[] = array(
+        $options_fields[] = [
             "type" => "radio",
             "name" => "option",
             "id" => "option",
             "value" => $options,
             "checked" => "insert_new"
-        );
+        ];
 
-        $fieldset[] = array(
+        $fieldset[] = [
             "name" => t("Import method"),
             "fields" => $options_fields,
             "collapsible" => true,
             "collapsed" => false
-        );
+        ];
 
-        $fields_submit[] = array(
+        $fields_submit[] = [
             "type" => "submit",
             "name" => "btnUpload",
             "value" => t("Upload")
-        );
+        ];
 
-        $fields_submit[] = array(
+        $fields_submit[] = [
             "type" => "submit",
             "name" => "btnCancel",
             "value" => t("Cancel")
-        );
+        ];
 
-        $fieldset[] = array("fields" => $fields_submit);
+        $fieldset[] = ["fields" => $fields_submit];
 
         print Jaris\Forms::generate($parameters, $fieldset);
     ?>

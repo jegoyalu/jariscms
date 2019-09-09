@@ -2,32 +2,28 @@
     // The HTMLDiff module uses some MediWiki functions (which are defined in http://svn.wikimedia.org/viewvc/mediawiki/trunk/phase3/includes/GlobalFunctions.php?view=markup&pathrev=58267)
     // This file creates dummy functions so that the HTMLDiff module works without them
 
-    if(!function_exists("wfProfileIn"))
-    {
+    if (!function_exists("wfProfileIn")) {
         function wfProfileIn($method)
         {
             // Debugging function, is called at the beginning of some methods
         }
     }
 
-    if(!function_exists("wfProfileOut"))
-    {
+    if (!function_exists("wfProfileOut")) {
         function wfProfileOut($method)
         {
             // Debugging function, is called at the end of some methods
         }
     }
 
-    if(!function_exists("wfDebug"))
-    {
+    if (!function_exists("wfDebug")) {
         function wfDebug($msg)
         {
             // Debugging function
         }
     }
 
-    if(!function_exists("wfMsg"))
-    {
+    if (!function_exists("wfMsg")) {
         function wfMsg($key)
         {
             // Looks up a localised message in MediaWiki
@@ -35,8 +31,7 @@
         }
     }
 
-    if(!function_exists("wfMsgExt"))
-    {
+    if (!function_exists("wfMsgExt")) {
         function wfMsgExt($key, $options)
         {
             // Looks up some localised message in MediaWiki
@@ -49,8 +44,7 @@
         }
     }
 
-    if(!function_exists("wfEmptyMsg"))
-    {
+    if (!function_exists("wfEmptyMsg")) {
         function wfEmptyMsg($msg, $wfMsgOut)
         {
             // $msg is $key for wfMsgExt, $wfMsgOut is wfMsgExt($key). Returns true when wfMsgExt could not find a message with that
@@ -60,8 +54,7 @@
         }
     }
 
-    if(!function_exists("wfUrlProtocols"))
-    {
+    if (!function_exists("wfUrlProtocols")) {
         function wfUrlProtocols()
         {
             return "http:\\/\\/|https:\\/\\/|ftp:\\/\\/|irc:\\/\\/|gopher:\\/\\/|telnet:\\/\\/|nntp:\\/\\/|worldwind:\\/\\/|mailto:|news:|svn:\\/\\/|git:\\/\\/|mms:\\/\\/";

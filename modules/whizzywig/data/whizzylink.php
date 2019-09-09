@@ -22,32 +22,27 @@ row: 0
         ;
 
         //Check if current user is on one of the groups that can use the editor
-        if($groups)
-        {
+        if ($groups) {
             $user_is_in_group = false;
-            foreach($groups as $machine_name => $value)
-            {
-                if(
+            foreach ($groups as $machine_name => $value) {
+                if (
                     Jaris\Authentication::currentUserGroup() == $machine_name
                     &&
                     $value
-                )
-                {
+                ) {
                     $user_is_in_group = true;
                     break;
                 }
             }
 
-            if(!Jaris\Authentication::isAdminLogged() && !$user_is_in_group)
-            {
+            if (!Jaris\Authentication::isAdminLogged() && !$user_is_in_group) {
                 exit;
             }
         }
 
         $rtnfield = "lf_url";
 
-        if($_REQUEST['element_id'])
-        {
+        if ($_REQUEST['element_id']) {
             $rtnfield = "lf_url" . $_REQUEST['element_id'];
         }
 
@@ -85,10 +80,8 @@ row: 0
         $files = Jaris\Pages\Files::getList($uri);
         $flist = "";
 
-        if($files)
-        {
-            foreach($files as $file)
-            {
+        if ($files) {
+            foreach ($files as $file) {
                 $url = Jaris\Uri::url("file/$uri/{$file['name']}");
 
                 $flist .= "<div style='float:left;width:20em'>"
@@ -99,9 +92,7 @@ row: 0
                 ;
             }
             echo $flist;
-        }
-        else
-        {
+        } else {
             print "<h2>" . t("No files available.") . "</h2>";
         }
         ?>

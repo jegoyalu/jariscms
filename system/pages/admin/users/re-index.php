@@ -19,7 +19,7 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("edit_users"));
+        Jaris\Authentication::protectedPage(["edit_users"]);
 
         Jaris\View::addTab(t("Navigation View"), "admin/users");
         Jaris\View::addTab(t("List View"), "admin/users/list");
@@ -29,15 +29,15 @@ row: 0
 
         Jaris\View::addTab(
             t("Re-index Users List"),
-            "admin/users/re-index", array(), 1
+            "admin/users/re-index",
+            [],
+            1
         );
 
-        if(isset($_REQUEST["btnYes"]))
-        {
+        if (isset($_REQUEST["btnYes"])) {
             ini_set('max_execution_time', '0');
 
-            if(users_reindex_sqlite())
-            {
+            if (users_reindex_sqlite()) {
                 Jaris\View::addMessage(
                     t("Indexation of users database completed.")
                 );
@@ -47,9 +47,7 @@ row: 0
                 Jaris\Logger::info(
                     "Re-indexed users database."
                 );
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(
                     Jaris\System::errorMessage("write_error_data"),
                     "error"
@@ -57,24 +55,20 @@ row: 0
             }
 
             Jaris\Uri::go("admin/users/list");
-        }
-        elseif(isset($_REQUEST["btnNo"]))
-        {
+        } elseif (isset($_REQUEST["btnNo"])) {
             Jaris\Uri::go("admin/users/list");
         }
 
         function users_reindex_sqlite()
         {
-            if(Jaris\Sql::dbExists("users"))
-            {
+            if (Jaris\Sql::dbExists("users")) {
                 unlink(Jaris\Site::dataDir() . "sqlite/users");
             }
 
             //Recreate database and table
             $db = Jaris\Sql::open("users");
 
-            if(!$db)
-            {
+            if (!$db) {
                 return false;
             }
 

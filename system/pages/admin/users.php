@@ -19,13 +19,12 @@ row: 0
 
     field: content
     <?php
-        if(
+        if (
             !Jaris\Authentication::groupHasPermission(
                 "view_users",
                 Jaris\Authentication::currentUserGroup()
             )
-        )
-        {
+        ) {
             Jaris\Uri::go("admin/user");
         }
 
@@ -35,9 +34,8 @@ row: 0
         Jaris\View::addTab(t("Groups"), "admin/groups");
         Jaris\View::addTab(t("Export"), "admin/users/export");
 
-        $directories = array();
-        if(isset($_REQUEST["uri"]))
-        {
+        $directories = [];
+        if (isset($_REQUEST["uri"])) {
             Jaris\View::addMessage(
                 t("You are currently navigating:") . " " . $_REQUEST["uri"],
                 "normal"
@@ -46,59 +44,47 @@ row: 0
             $directories = Jaris\Util::directoryBrowser(
                 Jaris\Site::dataDir() . "users/" . $_REQUEST["uri"]
             );
-        }
-        else
-        {
+        } else {
             $directories = Jaris\Util::directoryBrowser(Jaris\Site::dataDir() . "users");
         }
 
-        if(count($directories) > 0)
-        {
+        if (count($directories) > 0) {
             $navigation = Jaris\Util::generateBrowserNavigation(
                 $directories,
                 Jaris\Site::dataDir() . "users"
             );
 
-            $groups = array();
-            $alphabet = array();
-            $pages = array();
+            $groups = [];
+            $alphabet = [];
+            $pages = [];
 
-            foreach($navigation as $link)
-            {
-                if($link["type"] == "section")
-                {
+            foreach ($navigation as $link) {
+                if ($link["type"] == "section") {
                     $groups[] = $link;
                 }
             }
 
-            foreach($navigation as $link)
-            {
-                if($link["type"] == "alphabet")
-                {
+            foreach ($navigation as $link) {
+                if ($link["type"] == "alphabet") {
                     $alphabet[] = $link;
                 }
             }
 
-            foreach($navigation as $link)
-            {
-                if($link["type"] == "page")
-                {
+            foreach ($navigation as $link) {
+                if ($link["type"] == "page") {
                     $pages[] = $link;
                 }
             }
 
             //Display Data
-            if(count($groups) > 0)
-            {
+            if (count($groups) > 0) {
                 print "<h3>" . t("Groups") . "</h3>";
                 print "<ul>";
-                foreach($groups as $link)
-                {
-                    if($link["type"] == "section")
-                    {
+                foreach ($groups as $link) {
+                    if ($link["type"] == "section") {
                         $url = Jaris\Uri::url(
                             "admin/users",
-                            array("uri" => $link['path'])
+                            ["uri" => $link['path']]
                         );
 
                         print "<li><a href=\"$url\">{$link['current']}</a></li>";
@@ -107,17 +93,14 @@ row: 0
                 print "</ul>";
             }
 
-            if(count($alphabet) > 0)
-            {
+            if (count($alphabet) > 0) {
                 print "<h3>" . t("Alphabetical") . "</h3>";
                 print "<fieldset>";
-                foreach($alphabet as $link)
-                {
-                    if($link["type"] == "alphabet")
-                    {
+                foreach ($alphabet as $link) {
+                    if ($link["type"] == "alphabet") {
                         $url = Jaris\Uri::url(
                             "admin/users",
-                            array("uri" => $link['path'])
+                            ["uri" => $link['path']]
                         );
 
                         print "<a href=\"$url\">{$link['current']}</a> &nbsp;";
@@ -126,19 +109,16 @@ row: 0
                 print "</fieldset>";
             }
 
-            if(count($pages) > 0)
-            {
+            if (count($pages) > 0) {
                 print "<h3>" . t("Users") . "</h3>";
                 print "<ul>";
-                foreach($pages as $link)
-                {
-                    if($link["type"] == "page")
-                    {
+                foreach ($pages as $link) {
+                    if ($link["type"] == "page") {
                         $uri = Jaris\Uri::getFromPath($link['path']);
 
                         $url = Jaris\Uri::url(
                             "admin/users/edit",
-                            array("username" => $uri)
+                            ["username" => $uri]
                         );
 
                         print "<li><a href=\"$url\">{$link['current']}</a></li>";

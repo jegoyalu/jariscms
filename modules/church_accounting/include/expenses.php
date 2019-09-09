@@ -18,37 +18,30 @@ function church_accounting_expense_add($data)
         $data["total"] : 0.00
     ;
 
-    if(!is_array($data["checks"]))
-    {
-        $data["checks"] = array();
+    if (!is_array($data["checks"])) {
+        $data["checks"] = [];
     }
 
-    if(is_array($data["items_data"]))
-    {
-        foreach($data["items_data"] as $item)
-        {
+    if (is_array($data["items_data"])) {
+        foreach ($data["items_data"] as $item) {
             $total += floatval($item["amount"]);
         }
-    }
-    else
-    {
-        $data["items_data"] = array();
+    } else {
+        $data["items_data"] = [];
     }
 
-    if(is_array($data["attachments"]))
-    {
-        $attachments = array();
-        foreach($data["attachments"] as $file)
-        {
+    if (is_array($data["attachments"])) {
+        $attachments = [];
+        foreach ($data["attachments"] as $file) {
             $attachments[] = church_accounting_attachments_add(
-                $file, intval($data['month']), intval($data['year'])
+                $file,
+                intval($data['month']),
+                intval($data['year'])
             );
         }
         $data["attachments"] = $attachments;
-    }
-    else
-    {
-        $data["attachments"] = array();
+    } else {
+        $data["attachments"] = [];
     }
 
     $total = number_format($total, 2, ".", "");
@@ -111,44 +104,34 @@ function church_accounting_expense_edit($id, $data)
         $data["total"] : 0.00
     ;
 
-    if(!is_array($data["checks"]))
-    {
-        $data["checks"] = array();
+    if (!is_array($data["checks"])) {
+        $data["checks"] = [];
     }
 
-    if(is_array($data["items_data"]))
-    {
-        foreach($data["items_data"] as $item)
-        {
+    if (is_array($data["items_data"])) {
+        foreach ($data["items_data"] as $item) {
             $total += floatval($item["amount"]);
         }
-    }
-    else
-    {
-        $data["items_data"] = array();
+    } else {
+        $data["items_data"] = [];
     }
 
-    if(is_array($data["attachments"]))
-    {
-        $attachments = array();
-        foreach($data["attachments"] as $file)
-        {
-            if(is_array($file))
-            {
+    if (is_array($data["attachments"])) {
+        $attachments = [];
+        foreach ($data["attachments"] as $file) {
+            if (is_array($file)) {
                 $attachments[] = church_accounting_attachments_add(
-                    $file, intval($data['month']), intval($data['year'])
+                    $file,
+                    intval($data['month']),
+                    intval($data['year'])
                 );
-            }
-            else
-            {
+            } else {
                 $attachments[] = $file;
             }
         }
         $data["attachments"] = $attachments;
-    }
-    else
-    {
-        $data["attachments"] = array();
+    } else {
+        $data["attachments"] = [];
     }
 
     $total = number_format($total, 2, ".", "");

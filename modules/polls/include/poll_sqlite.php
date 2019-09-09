@@ -10,8 +10,7 @@
 
 function polls_sqlite_add($uri, $date)
 {
-    if(!Jaris\Sql::dbExists("polls"))
-    {
+    if (!Jaris\Sql::dbExists("polls")) {
         $db = Jaris\Sql::open("polls");
         Jaris\Sql::query("create table polls (uri text, date text)", $db);
         Jaris\Sql::close($db);
@@ -24,8 +23,7 @@ function polls_sqlite_add($uri, $date)
 
 function polls_sqlite_delete($uri)
 {
-    if(Jaris\Sql::dbExists("polls"))
-    {
+    if (Jaris\Sql::dbExists("polls")) {
         $db = Jaris\Sql::open("polls");
         Jaris\Sql::query("delete from polls where uri = '$uri'", $db);
         Jaris\Sql::close($db);
@@ -37,33 +35,27 @@ function polls_print_polls_navigation($polls_count, $page, $amount = 30)
     $page_count = 0;
     $remainder_pages = 0;
 
-    if($polls_count <= $amount)
-    {
+    if ($polls_count <= $amount) {
         $page_count = 1;
-    }
-    else
-    {
+    } else {
         $page_count = floor($polls_count / $amount);
         $remainder_pages = $polls_count % $amount;
 
-        if($remainder_pages > 0)
-        {
+        if ($remainder_pages > 0) {
             $page_count++;
         }
     }
 
     //In case someone is trying a page out of range or not print if only one page
-    if($page > $page_count || $page < 0 || $page_count == 1)
-    {
+    if ($page > $page_count || $page < 0 || $page_count == 1) {
         return false;
     }
 
     print "<div class=\"navigation\">\n";
-    if($page != 1)
-    {
+    if ($page != 1) {
         $previous_page = Jaris\Uri::url(
             Jaris\Modules::getPageUri("admin/polls", "polls"),
-            array("page" => $page - 1)
+            ["page" => $page - 1]
         );
 
         $previous_text = t("Previous");
@@ -73,30 +65,25 @@ function polls_print_polls_navigation($polls_count, $page, $amount = 30)
     $start_page = $page;
     $end_page = $page + 10;
 
-    for($start_page; $start_page < $end_page && $start_page <= $page_count; $start_page++)
-    {
+    for ($start_page; $start_page < $end_page && $start_page <= $page_count; $start_page++) {
         $text = t($start_page);
 
-        if($start_page > $page || $start_page < $page)
-        {
+        if ($start_page > $page || $start_page < $page) {
             $url = Jaris\Uri::url(
                 Jaris\Modules::getPageUri("admin/polls", "polls"),
-                array("page" => $start_page)
+                ["page" => $start_page]
             );
 
             print "<a class=\"page\" href=\"$url\">$text</a>";
-        }
-        else
-        {
+        } else {
             print "<a class=\"current-page page\">$text</a>";
         }
     }
 
-    if($page < $page_count)
-    {
+    if ($page < $page_count) {
         $next_page = Jaris\Uri::url(
             Jaris\Modules::getPageUri("admin/polls", "polls"),
-            array("page" => $page + 1)
+            ["page" => $page + 1]
         );
 
         $next_text = t("Next");
@@ -109,38 +96,31 @@ function polls_get_polls($page = 0, $limit = 30)
 {
     $db = null;
     $page *= $limit;
-    $polls = array();
+    $polls = [];
 
-    if(Jaris\Sql::dbExists("polls"))
-    {
+    if (Jaris\Sql::dbExists("polls")) {
         $db = Jaris\Sql::open("polls");
 
         $result = Jaris\Sql::query(
             "select uri from polls order by date desc limit $page, $limit",
             $db
         );
-    }
-    else
-    {
+    } else {
         return $polls;
     }
 
-    $fields = array();
+    $fields = [];
 
-    if($fields = Jaris\Sql::fetchArray($result))
-    {
+    if ($fields = Jaris\Sql::fetchArray($result)) {
         $polls[] = $fields["uri"];
 
-        while($fields = Jaris\Sql::fetchArray($result))
-        {
+        while ($fields = Jaris\Sql::fetchArray($result)) {
             $polls[] = $fields["uri"];
         }
 
         Jaris\Sql::close($db);
         return $polls;
-    }
-    else
-    {
+    } else {
         Jaris\Sql::close($db);
         return $polls;
     }
@@ -148,8 +128,7 @@ function polls_get_polls($page = 0, $limit = 30)
 
 function polls_count_polls()
 {
-    if(Jaris\Sql::dbExists("polls"))
-    {
+    if (Jaris\Sql::dbExists("polls")) {
         $db = Jaris\Sql::open("polls");
 
         $result = Jaris\Sql::query(
@@ -162,11 +141,7 @@ function polls_count_polls()
         Jaris\Sql::close($db);
 
         return $count["polls_count"];
-    }
-    else
-    {
+    } else {
         return 0;
     }
 }
-
-?>

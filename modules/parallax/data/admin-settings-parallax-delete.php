@@ -17,33 +17,30 @@ row: 0
 
     field: content
     <?php
-        Jaris\Authentication::protectedPage(array("edit_settings"));
+        Jaris\Authentication::protectedPage(["edit_settings"]);
 
         $parallax_settings = Jaris\Settings::getAll("parallax");
         $backgrounds = unserialize($parallax_settings["parallax_backgrounds"]);
 
         $background = $backgrounds[intval($_REQUEST["id"])];
 
-        if(isset($_REQUEST["btnYes"]))
-        {
+        if (isset($_REQUEST["btnYes"])) {
             unset($backgrounds[intval($_REQUEST["id"])]);
 
-            if(
+            if (
                 Jaris\Settings::save(
                     "parallax_backgrounds",
                     serialize($backgrounds),
                     "parallax"
                 )
-            )
-            {
+            ) {
                 Jaris\Files::delete($background["image"], "parallax");
 
                 Jaris\View::addMessage(t("Parallax successfully deleted."));
-            }
-            else
-            {
+            } else {
                 Jaris\View::addMessage(
-                    Jaris\System::errorMessage("write_error_data"), "error"
+                    Jaris\System::errorMessage("write_error_data"),
+                    "error"
                 );
             }
 
@@ -53,9 +50,7 @@ row: 0
                     "parallax"
                 )
             );
-        }
-        elseif(isset($_REQUEST["btnNo"]))
-        {
+        } elseif (isset($_REQUEST["btnNo"])) {
             Jaris\Uri::go(
                 Jaris\Modules::getPageUri(
                     "admin/settings/parallax",

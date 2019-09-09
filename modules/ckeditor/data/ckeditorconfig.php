@@ -17,27 +17,22 @@ row: 0
 
     field: content
     <?php
-        if(empty($_REQUEST["group"]))
-        {
+        if (empty($_REQUEST["group"])) {
             exit;
         }
 
         $config = unserialize(Jaris\Settings::get("toolbar_items", "ckeditor"));
 
         $site_css = Jaris\Settings::get("use_site_css", "ckeditor");
-        if(!empty($site_css))
-        {
+        if (!empty($site_css)) {
             $site_css = unserialize($site_css);
-        }
-        else
-        {
-            $site_css = array();
+        } else {
+            $site_css = [];
         }
 
         $output = "";
 
-        if(empty($config[$_REQUEST["group"]]))
-        {
+        if (empty($config[$_REQUEST["group"]])) {
             $output .= "CKEDITOR.editorConfig = function( config ) {
             	config.toolbarGroups = [
             		{ name: 'styles', groups: [ 'styles' ] },
@@ -58,25 +53,21 @@ row: 0
 
             	config.removeButtons = 'Font,HiddenField,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,CreateDiv,Language,BidiRtl,BidiLtr,Save,NewPage,Preview,Print,About,TextColor,BGColor,Flash,Smiley,Iframe,PageBreak,Scayt';
             };//end";
-        }
-        else
-        {
+        } else {
             $output .= trim($config[$_REQUEST["group"]]) . "//end";
         }
 
         $content_css = "";
-        if(
-            isset($site_css[$_REQUEST["group"]]) 
-            && 
+        if (
+            isset($site_css[$_REQUEST["group"]])
+            &&
             $site_css[$_REQUEST["group"]]
-        )
-        {
+        ) {
             $theme_path = trim(
-                parse_url(Jaris\Site::$theme_path)["path"], 
+                parse_url(Jaris\Site::$theme_path)["path"],
                 "/"
             );
-            if(file_exists($theme_path . "/style.css"))
-            {
+            if (file_exists($theme_path . "/style.css")) {
                 $css = Jaris\Uri::url($theme_path . "/style.css");
                 $content_css .= "config.contentsCss = '$css';\n        ";
             }
@@ -87,7 +78,7 @@ row: 0
             "    config.allowedContent = true;\n        "
                 . "config.protectedSource.push( /<\?[\s\S]*?\?>/g );\n        "
                 . $content_css
-                . "// PHP code\n};", 
+                . "// PHP code\n};",
             $output
         );
     ?>

@@ -9,14 +9,14 @@ row: 0
 
 	field: content
 		<?php
-		$block_data = Jaris\Blocks::get($_REQUEST["id"], $_REQUEST["position"]);
-		$settings = animated_blocks_get_settings($block_data);
-		$id = "animated-block-{$_REQUEST['position']}-{$_REQUEST['id']}";
-		$container = "animated-block-container-{$_REQUEST['position']}-{$_REQUEST['id']}";
-		$prev_id = $id . "-prev";
-		$next_id = $id . "-next";
-		$pager_id = $id . "-pager";
-		    ?>
+        $block_data = Jaris\Blocks::get($_REQUEST["id"], $_REQUEST["position"]);
+        $settings = animated_blocks_get_settings($block_data);
+        $id = "animated-block-{$_REQUEST['position']}-{$_REQUEST['id']}";
+        $container = "animated-block-container-{$_REQUEST['position']}-{$_REQUEST['id']}";
+        $prev_id = $id . "-prev";
+        $next_id = $id . "-next";
+        $pager_id = $id . "-pager";
+            ?>
 		    /*<style>*/
 		    #<?php print $container ?>
 		    {
@@ -32,8 +32,7 @@ row: 0
 		    {
 		border:  <?php print $settings["border_style"] ?> <?php print $settings["border_width"] ?> #<?php print $settings["border_color"] ?>;
 		
-		<?php if(!$settings["background_transparent"])
-		{ ?>;
+		<?php if (!$settings["background_transparent"]) { ?>;
 		    background-color: #<?php print $settings["background_color"] ?>;
 		<?php } ?>;
 		    }
@@ -77,7 +76,7 @@ row: 0
 		padding:   <?php print $settings["description_padding"] ?>;
 		    }
 		
-		<?php if($settings["display_pager"]){ ?>
+		<?php if ($settings["display_pager"]) { ?>
 		
 		    #<?php print $pager_id ?>
 		    {
@@ -107,7 +106,7 @@ row: 0
 		
 		<?php } ?>
 		
-		<?php if(!$settings["image_as_background"]){ ?>
+		<?php if (!$settings["image_as_background"]) { ?>
 		
 		    #<?php print $id ?> .animated-block-image
 		    {
@@ -119,7 +118,7 @@ row: 0
 		
 		<?php } ?>
 		
-		<?php if($settings["display_navigation"]){ ?>
+		<?php if ($settings["display_navigation"]) { ?>
 		    #<?php print $prev_id ?>
 		    {
 		float: left;
